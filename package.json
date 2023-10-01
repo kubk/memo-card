@@ -1,0 +1,43 @@
+{
+  "name": "memo-card",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "tsc && vite build",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "dev:frontend:start": "vite",
+    "dev:api:start": "npx wrangler pages dev /functions",
+    "dev:api:tunnel": "ssh -R 80:localhost:8788 serveo.net",
+    "dev:frontend:tunnel": "ssh -R 80:localhost:5173 serveo.net",
+    "test:api": "npx vitest --dir functions/",
+    "test:frontend": "npx vitest --dir src/",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@twa-dev/sdk": "^6.9.0",
+    "axios": "^1.5.1",
+    "framer-motion": "^10.16.4",
+    "prettier": "^3.0.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "zod": "^3.22.2"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20231002.0",
+    "@peculiar/webcrypto": "^1.4.3",
+    "@types/node": "^20.8.0",
+    "@types/react": "^18.2.15",
+    "@types/react-dom": "^18.2.7",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "@vitejs/plugin-react": "^4.0.3",
+    "eslint": "^8.45.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.3",
+    "typescript": "^5.0.2",
+    "vite": "^4.4.5",
+    "vitest": "^0.34.6",
+    "wrangler": "^3.10.1"
+  }
+}
