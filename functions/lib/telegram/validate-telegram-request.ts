@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const userSchema = z
+const userTelegramSchema = z
   .object({
     id: z.number(),
     first_name: z.string(),
@@ -15,6 +15,8 @@ const userSchema = z
     languageCode: result.language_code,
     username: result.username,
   }));
+
+export type UserTelegramType = z.infer<typeof userTelegramSchema>;
 
 /**
  * The function is responsible for validating and parsing data coming from the Telegram web.
@@ -67,7 +69,7 @@ export async function validateTelegramRequest(
     .join("");
 
   if (computedHash === queryStringObject["hash"]) {
-    return userSchema.parse(JSON.parse(queryStringObject['user']));
+    return userTelegramSchema.parse(JSON.parse(queryStringObject["user"]));
   }
 
   return null;

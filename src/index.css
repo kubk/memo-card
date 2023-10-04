@@ -12,15 +12,33 @@
 body {
   margin: 0;
   display: flex;
-  place-items: center;
-  min-width: 320px;
+  flex-direction: column;
   min-height: 100vh;
+  padding: 0 16px 0 16px;
+  position: relative;
+  color: var(--tg-theme-text-color);
 }
 
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-  font-family: sans-serif;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+i,
+p,
+input,
+select,
+textarea {
+  color: var(--tg-theme-text-color);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  padding: 0;
+  margin: 0;
 }

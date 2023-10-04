@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { validateTelegramRequest } from "./validate-telegram-request.ts";
 import { Crypto } from "@peculiar/webcrypto";
+
 const crypto = new Crypto();
 
 const validate = validateTelegramRequest;

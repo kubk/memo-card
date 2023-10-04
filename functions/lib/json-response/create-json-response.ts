@@ -1,13 +1,5 @@
-import { ZodType } from "zod";
-
-export const createJsonResponse = <T>(
-  schema: ZodType<T>,
-  data: T,
-  status = 200,
-) => {
-  const result = schema.parse(data);
-
-  return new Response(JSON.stringify(result), {
+export const createJsonResponse = <T>(data: T, status = 200) => {
+  return new Response(JSON.stringify(data), {
     headers: {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
