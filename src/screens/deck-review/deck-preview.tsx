@@ -103,9 +103,9 @@ export const DeckPreview = observer(() => {
           Come back later for more.
         </Hint>
       )}
-      <div className={css({ display: "flex", gap: 16 })}>
-        <ShareDeckButton deckId={deck.id} defaultShareId={deck.share_id} />
-        {deckListStore.myId && deck.author_id === deckListStore.myId && (
+      {deckListStore.myId && deck.author_id === deckListStore.myId ? (
+        <div className={css({ display: "flex", gap: 16 })}>
+          <ShareDeckButton deckId={deck.id} defaultShareId={deck.share_id} />
           <Button
             icon={"mdi-pencil"}
             onClick={() => {
@@ -114,8 +114,8 @@ export const DeckPreview = observer(() => {
           >
             Edit
           </Button>
-        )}
-      </div>
+        </div>
+      ) : null}
     </div>
   );
 });
