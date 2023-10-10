@@ -4,6 +4,7 @@ import { trimEnd } from "../../lib/string/trim.ts";
 import WebApp from "@twa-dev/sdk";
 import { Button } from "../../ui/button.tsx";
 import { shareDeckRequest } from "../../api/api.ts";
+import { copyToClipboard } from "./copy-to-clipboard.tsx";
 
 type Props = {
   deckId: number;
@@ -19,7 +20,12 @@ export const ShareDeckButton = (props: Props) => {
       const botUrl = import.meta.env.VITE_BOT_APP_URL;
       assert(botUrl);
       const finalUrl = `${trimEnd(botUrl, "/")}?startapp=${shareId}`;
-      await navigator.clipboard.writeText(finalUrl);
+      try {
+        await copyToClipboard(finalUrl);
+      } catch (e) {
+        console.log("Unable to copy", e);
+        return;
+      }
 
       WebApp.showConfirm(
         "The link has been copied to your clipboard. Close the app, then choose who you'd like to share it with. 😊",
