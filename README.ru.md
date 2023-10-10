@@ -1,6 +1,5 @@
 <p align="center">
-  <img height="300" src="https://github.com/kubk/memo-card/assets/22447849/86b74163-b684-4e98-8b66-296766164601"/>
-</p>
+<img height="300" src="https://github.com/kubk/memo-card/assets/22447849/80102965-16e1-4d72-8afc-02519a440743"/></p>
 
 <p align="center">
   Available in: <a href="./README.md">English</a>, <a href="./README.ru.md">Русский</a>, <a href="./README.ua.md">Українська</a>
