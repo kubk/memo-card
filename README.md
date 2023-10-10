@@ -1,5 +1,5 @@
 <p align="center">
-  <img height="300" src="https://github.com/kubk/memo-card/assets/22447849/86b74163-b684-4e98-8b66-296766164601"/>
+<img height="300" src="https://github.com/kubk/memo-card/assets/22447849/80102965-16e1-4d72-8afc-02519a440743"/>
 </p>
 
 <p align="center">
