@@ -34,8 +34,6 @@ export const DeckPreview = observer(() => {
       }
 
       reviewStore.startDeckReview(deckListStore.selectedDeck.cardsToReview);
-
-      WebApp.expand();
     };
     WebApp.MainButton.onClick(onClick);
 

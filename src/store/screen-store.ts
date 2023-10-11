@@ -34,7 +34,6 @@ export class ScreenStore {
   navigateToDeckForm(deckFormId?: number) {
     this.screen = Screen.DeckForm;
     this.deckFormId = deckFormId;
-    WebApp.expand();
   }
 
   get isDeckScreen() {
