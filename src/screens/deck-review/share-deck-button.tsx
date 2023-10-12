@@ -13,6 +13,7 @@ type Props = {
 
 export const ShareDeckButton = (props: Props) => {
   const [isLoading, setIsLoading] = useState(false);
+  // Usually it's an antipattern, but since props.defaultShareId never gets updated, it's ok for now
   const [shareId, setShareId] = useState(props.defaultShareId);
 
   const onClick = async () => {
