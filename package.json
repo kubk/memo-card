@@ -22,6 +22,7 @@
     "@types/luxon": "^3.3.2",
     "colord": "^2.9.3",
     "framer-motion": "^10.16.4",
+    "grammy": "^1.19.1",
     "just-throttle": "^4.2.0",
     "luxon": "^3.4.3",
     "mobx": "^6.10.2",
