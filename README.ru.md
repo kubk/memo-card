@@ -69,3 +69,12 @@ Cloudflare Pages — хороший выбор для создания мини-
 
 Данные, полученные через Mini App, [должны проверяться](https://core.telegram.org/bots/webapps#testing-mini-apps) для предотвращения несанкционированного доступа.
 В этом приложении реализация основана на [Web Crypto API](https://developers.cloudflare.com/workers/runtime-apis/web-crypto/). Cloudflare Workers работают в уникальной среде, которая не является ни браузером в привычном понимании, ни традиционной серверной средой, как Node.js. Функции работают в сети Cloudflare, и их среда выполнения напоминает Service Worker веб-браузера. Именно поэтому мы должны использовать Web Crypto API для проверки данных, полученных через Mini App. В этом приложении данные пользователя [передаются через заголовки HTTP](https://github.com/kubk/memo-card/blob/main/src/lib/request/request.ts#L17) и [проверяются](https://github.com/kubk/memo-card/blob/main/functions/lib/telegram/validate-telegram-request.ts#L26) при каждом API-запросе.
+
+### Telegram webhook
+
+Чтобы бот отвечал на сообщения пользователей в чате, настройте веб-хук:
+
+- Dev: `curl "https://api.telegram.org/bot<DEV_BOT_TOKEN>/setWebhook?url=<ngrok_domain>/api/bot?token=DEV_BOT_TOKEN"`
+- Prod: `curl "https://api.telegram.org/bot<PROD_BOT_TOKEN>/setWebhook?url=<prod_domain>/bot?token=PROD_BOT_TOKEN"`
+- 
+Обратите внимание, что для продакшена используется `/bot?token=`, тогда как для разработки - `/api/bot?token=` из-за прокси-сервера, настроенного для разработки через конфигурацию Vite.
