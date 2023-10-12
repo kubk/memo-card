@@ -68,3 +68,12 @@ To set up the database do these steps:
 
 The data received via the Mini App [must be validated](https://core.telegram.org/bots/webapps#testing-mini-apps) to prevent unauthorized access.
 In this application the implementation is based on [Web Crypto API](https://developers.cloudflare.com/workers/runtime-apis/web-crypto/). Cloudflare Workers operate in a unique environment that isn't exactly a browser, but it's also not a traditional server-side setting like Node.js. They run on Cloudflare's edge network, and their execution environment resembles that of a web browser's Service Worker. That's why we should use Web Crypto API to validate data received via the Mini App. In this application, the user’s data is [passed via HTTP headers](https://github.com/kubk/memo-card/blob/main/src/lib/request/request.ts#L17) and is [validated](https://github.com/kubk/memo-card/blob/main/functions/lib/telegram/validate-telegram-request.ts#L26) on each API request.
+
+### Telegram webhook
+
+To set up the bot to respond to user messages in chat, configure the webhook:
+
+- Dev: `curl "https://api.telegram.org/bot<DEV_BOT_TOKEN>/setWebhook?url=<ngrok_domain>/api/bot?token=DEV_BOT_TOKEN"`
+- Prod: `curl "https://api.telegram.org/bot<PROD_BOT_TOKEN>/setWebhook?url=<prod_domain>/bot?token=PROD_BOT_TOKEN"`
+- 
+Note that for the production environment, the endpoint is `/bot?token=`, while for development it's `/api/bot?token=` due to the proxy server configured for development via the Vite configuration.
