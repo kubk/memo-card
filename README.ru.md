@@ -1,6 +1,5 @@
 <p align="center">
-<img height="300" src="https://github.com/kubk/memo-card/assets/22447849/80102965-16e1-4d72-8afc-02519a440743"/></p>
-
+<img height="400" src="https://github.com/kubk/memo-card/assets/22447849/31956f52-950d-4cd9-a238-aa2b9271d429"/></p>
 <p align="center">
   Available in: <a href="./README.md">English</a>, <a href="./README.ru.md">Русский</a>, <a href="./README.ua.md">Українська</a>
 </p>
@@ -76,5 +75,5 @@ Cloudflare Pages — хороший выбор для создания мини-
 
 - Dev: `curl "https://api.telegram.org/bot<DEV_BOT_TOKEN>/setWebhook?url=<ngrok_domain>/api/bot?token=DEV_BOT_TOKEN"`
 - Prod: `curl "https://api.telegram.org/bot<PROD_BOT_TOKEN>/setWebhook?url=<prod_domain>/bot?token=PROD_BOT_TOKEN"`
-- 
+ 
 Обратите внимание, что для продакшена используется `/bot?token=`, тогда как для разработки - `/api/bot?token=` из-за прокси-сервера, настроенного для разработки через конфигурацию Vite.
