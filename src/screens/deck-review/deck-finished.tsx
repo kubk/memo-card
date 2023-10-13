@@ -7,6 +7,7 @@ import { random } from "../../lib/array/random.ts";
 import WebApp from "@twa-dev/sdk";
 import { useMount } from "../../lib/react/use-mount.ts";
 import { screenStore } from "../../store/screen-store.ts";
+import { useMainButton } from "../../lib/telegram/use-main-button.tsx";
 
 const encouragingMessages = [
   "Consistency is the key to mastery, and each step you take brings you closer to your learning goals",
@@ -21,22 +22,14 @@ export const DeckFinished = observer(() => {
   const reviewStore = useReviewStore();
 
   useMount(() => {
-    WebApp.MainButton.show();
-    WebApp.MainButton.setText("Go back");
     WebApp.MainButton.showProgress();
-    const onClick = () => {
-      screenStore.navigateToMain();
-    };
-    WebApp.MainButton.onClick(onClick);
-
     reviewStore.submit().finally(() => {
       WebApp.MainButton.hideProgress();
     });
+  });
 
-    return () => {
-      WebApp.MainButton.hide();
-      WebApp.MainButton.offClick(onClick);
-    };
+  useMainButton("Go back", () => {
+    screenStore.navigateToMain();
   });
 
   return (
