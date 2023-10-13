@@ -1,5 +1,5 @@
 <p align="center">
-<img height="300" src="https://github.com/kubk/memo-card/assets/22447849/80102965-16e1-4d72-8afc-02519a440743"/>
+<img height="400" src="https://github.com/kubk/memo-card/assets/22447849/31956f52-950d-4cd9-a238-aa2b9271d429"/>
 </p>
 
 <p align="center">
@@ -75,5 +75,5 @@ To set up the bot to respond to user messages in chat, configure the webhook:
 
 - Dev: `curl "https://api.telegram.org/bot<DEV_BOT_TOKEN>/setWebhook?url=<ngrok_domain>/api/bot?token=DEV_BOT_TOKEN"`
 - Prod: `curl "https://api.telegram.org/bot<PROD_BOT_TOKEN>/setWebhook?url=<prod_domain>/bot?token=PROD_BOT_TOKEN"`
-- 
+ 
 Note that for the production environment, the endpoint is `/bot?token=`, while for development it's `/api/bot?token=` due to the proxy server configured for development via the Vite configuration.
