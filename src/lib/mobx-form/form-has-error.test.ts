@@ -1,6 +1,6 @@
 import { expect, test } from "vitest";
 import { TextField } from "./mobx-form.ts";
-import { isFormValid } from "./form-has-error.ts";
+import { isFormEmpty, isFormTouched, isFormValid } from "./form-has-error.ts";
 import { validators } from "./validator.ts";
 
 test("isFormTouchedAndHasError", () => {
@@ -37,4 +37,32 @@ test("isFormTouchedAndHasError", () => {
 
   f.b[0].onChange("");
   expect(isFormValid(f)).toBeFalsy();
+});
+
+test("is form dirty", () => {
+  const f = {
+    a: new TextField("a", validators.required()),
+    b: [new TextField("b", validators.required()), new TextField("d")],
+  };
+
+  expect(isFormTouched(f)).toBeFalsy();
+
+  f.a.onChange("");
+  expect(isFormTouched(f)).toBeTruthy();
+});
+
+test("is form empty", () => {
+  const f = {
+    a: new TextField("a", validators.required()),
+    b: [new TextField("b", validators.required()), new TextField("d")],
+  };
+
+  expect(isFormEmpty(f)).toBeFalsy();
+
+  f.a.onChange("");
+  f.b[0].onChange("");
+  expect(isFormEmpty(f)).toBeFalsy();
+
+  f.b[1].onChange("");
+  expect(isFormEmpty(f)).toBeTruthy();
 });

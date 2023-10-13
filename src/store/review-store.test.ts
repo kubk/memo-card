@@ -41,9 +41,9 @@ vi.mock("./deck-list-store.ts", () => {
   return {
     deckListStore: {
       load: () => {},
-    }
-  }
-})
+    },
+  };
+});
 
 describe("card form store", () => {
   afterEach(() => {

@@ -2,27 +2,33 @@ import { TextField } from "./mobx-form.ts";
 
 type Form = Record<string, unknown>;
 
-const isFieldTouchedAndHasError = (field: TextField<unknown>) =>
-  field.isTouched && !!field.error;
-
-const isArrayTouchedAndHasError = (arr: TextField<unknown>[]) => {
-  return arr.some(isFieldTouchedAndHasError);
+const walkAndCheck = (
+  check: (field: TextField<unknown>) => boolean,
+  iterateArray: "some" | "every",
+) => {
+  return (form: Form) => {
+    return Object.values(form)[iterateArray]((value) => {
+      if (value instanceof TextField) {
+        return check(value);
+      }
+      if (Array.isArray(value)) {
+        return value[iterateArray](check);
+      }
+      return false;
+    });
+  };
 };
 
-const isFormTouchedAndHasError = (form: Form) => {
-  return Object.values(form).some((value) => {
-    if (value instanceof TextField) {
-      return isFieldTouchedAndHasError(value);
-    }
-    if (Array.isArray(value)) {
-      return isArrayTouchedAndHasError(value);
-    }
-    return false;
-  });
-};
+export const isFormTouchedAndHasError = walkAndCheck(
+  (field) => field.isTouched && !!field.error,
+  "some",
+);
+
+export const isFormTouched = walkAndCheck((field) => field.isTouched, "some");
+export const isFormEmpty = walkAndCheck((field) => !field.value, "every");
 
 export const formTouchAll = (form: Form) => {
-  Object.values(form).some((value) => {
+  Object.values(form).forEach((value) => {
     if (value instanceof TextField) {
       value.touch();
     }

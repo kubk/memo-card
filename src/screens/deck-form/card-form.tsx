@@ -6,8 +6,12 @@ import { Input } from "../../ui/input.tsx";
 import React from "react";
 import { useMainButton } from "../../lib/telegram/use-main-button.tsx";
 import { useDeckFormStore } from "../../store/deck-form-store-context.tsx";
-import { BackIcon } from "./back-icon.tsx";
 import WebApp from "@twa-dev/sdk";
+import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
+import {
+  isFormEmpty,
+  isFormTouched,
+} from "../../lib/mobx-form/form-has-error.ts";
 
 export const CardForm = observer(() => {
   const deckFormStore = useDeckFormStore();
@@ -16,6 +20,19 @@ export const CardForm = observer(() => {
 
   useMainButton("Save", () => {
     deckFormStore.saveCardForm();
+  });
+
+  useBackButton(() => {
+    if (isFormEmpty(cardForm)) {
+      deckFormStore.quitCardForm();
+      return;
+    }
+
+    WebApp.showConfirm("Quit editing card without saving?", (confirmed) => {
+      if (confirmed) {
+        deckFormStore.quitCardForm();
+      }
+    });
   });
 
   return (
@@ -28,18 +45,6 @@ export const CardForm = observer(() => {
         position: "relative",
       })}
     >
-      <BackIcon
-        onClick={() => {
-          WebApp.showConfirm(
-            "Quit editing card without saving?",
-            (confirmed) => {
-              if (confirmed) {
-                deckFormStore.quitCardForm();
-              }
-            },
-          );
-        }}
-      />
       <h3 className={css({ textAlign: "center" })}>Add card</h3>
       <Label text={"Title"}>
         <Input {...cardForm.front.props} rows={7} type={"textarea"} />

@@ -9,9 +9,13 @@ import React from "react";
 import { useMainButton } from "../../lib/telegram/use-main-button.tsx";
 import { useDeckFormStore } from "../../store/deck-form-store-context.tsx";
 import { screenStore } from "../../store/screen-store.ts";
-import { BackIcon } from "./back-icon.tsx";
 import { assert } from "../../lib/typescript/assert.ts";
 import { useMount } from "../../lib/react/use-mount.ts";
+import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
+import {
+  isFormEmpty,
+  isFormTouched,
+} from "../../lib/mobx-form/form-has-error.ts";
 
 export const DeckForm = observer(() => {
   const deckFormStore = useDeckFormStore();
@@ -22,6 +26,7 @@ export const DeckForm = observer(() => {
 
   useMainButton("Save", () => {
     assert(deckFormStore.form);
+
     if (deckFormStore.form.cards.length === 0) {
       WebApp.showAlert("Please add at least 1 card to create a deck");
       return;
@@ -30,6 +35,20 @@ export const DeckForm = observer(() => {
       () => WebApp.MainButton.showProgress(),
       () => WebApp.MainButton.hideProgress(),
     );
+  });
+
+  useBackButton(() => {
+    assert(deckFormStore.form);
+    if (isFormEmpty(deckFormStore.form) || !isFormTouched(deckFormStore.form)) {
+      screenStore.navigateToMain();
+      return;
+    }
+
+    WebApp.showConfirm("Cancel adding deck and quit?", (confirmed) => {
+      if (confirmed) {
+        screenStore.navigateToMain();
+      }
+    });
   });
 
   if (!deckFormStore.form) {
@@ -46,15 +65,6 @@ export const DeckForm = observer(() => {
         marginBottom: 16,
       })}
     >
-      <BackIcon
-        onClick={() => {
-          WebApp.showConfirm("Cancel adding deck and quit?", (confirmed) => {
-            if (confirmed) {
-              screenStore.navigateToMain();
-            }
-          });
-        }}
-      />
       <h3 className={css({ textAlign: "center" })}>
         {screenStore.deckFormId ? "Edit deck" : "Add deck"}
       </h3>

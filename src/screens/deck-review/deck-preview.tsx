@@ -1,47 +1,38 @@
 import { observer } from "mobx-react-lite";
 import { deckListStore } from "../../store/deck-list-store.ts";
 import { assert } from "../../lib/typescript/assert.ts";
-import { css, cx } from "@emotion/css";
+import { css } from "@emotion/css";
 import { theme } from "../../ui/theme.tsx";
-import WebApp from "@twa-dev/sdk";
-import { motion } from "framer-motion";
-import { whileTap } from "../../ui/animations.ts";
 import React from "react";
 import { useReviewStore } from "../../store/review-store-context.tsx";
-import { useMount } from "../../lib/react/use-mount.ts";
 import { Screen, screenStore } from "../../store/screen-store.ts";
 import { Hint } from "../../ui/hint.tsx";
 import { Button } from "../../ui/button.tsx";
 import { ShareDeckButton } from "./share-deck-button.tsx";
+import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
+import { useMainButton } from "../../lib/telegram/use-main-button.tsx";
 
 export const DeckPreview = observer(() => {
   const reviewStore = useReviewStore();
   const deck = deckListStore.selectedDeck;
   assert(deck);
 
-  useMount(() => {
-    if (!deck.cardsToReview.length && screenStore.screen === Screen.DeckMine) {
-      return;
-    }
+  useBackButton(() => {
+    screenStore.navigateToMain();
+  });
 
-    WebApp.MainButton.show();
-    WebApp.MainButton.setText("Review deck");
-    const onClick = () => {
+  useMainButton(
+    "Review deck",
+    () => {
       assert(deckListStore.selectedDeck);
-
       if (screenStore.screen === Screen.DeckPublic) {
         deckListStore.addDeckToMine(deckListStore.selectedDeck.id);
       }
 
       reviewStore.startDeckReview(deckListStore.selectedDeck.cardsToReview);
-    };
-    WebApp.MainButton.onClick(onClick);
-
-    return () => {
-      WebApp.MainButton.hide();
-      WebApp.MainButton.offClick(onClick);
-    };
-  });
+    },
+    () => !deck.cardsToReview.length && screenStore.screen === Screen.DeckMine,
+  );
 
   return (
     <div
@@ -67,21 +58,6 @@ export const DeckPreview = observer(() => {
             textAlign: "center",
           })}
         >
-          <motion.i
-            whileTap={whileTap}
-            onClick={() => {
-              screenStore.navigateToMain();
-            }}
-            className={cx(
-              "mdi mdi-chevron-left mdi-24px",
-              css({
-                position: "absolute",
-                left: -5,
-                top: 9,
-                cursor: "pointer",
-              }),
-            )}
-          />
           <h3 className={css({ paddingTop: 12 })}>{deck.name}</h3>
         </div>
         <div>
@@ -101,7 +77,9 @@ export const DeckPreview = observer(() => {
           Come back later for more.
         </Hint>
       )}
-      {deckListStore.myId && deck.author_id === deckListStore.myId ? (
+      {deckListStore.myId &&
+      deck.author_id === deckListStore.myId &&
+      screenStore.screen !== Screen.DeckPublic ? (
         <div className={css({ display: "flex", gap: 16 })}>
           <ShareDeckButton deckId={deck.id} defaultShareId={deck.share_id} />
           <Button
