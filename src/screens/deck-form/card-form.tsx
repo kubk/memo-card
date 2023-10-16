@@ -8,10 +8,7 @@ import { useMainButton } from "../../lib/telegram/use-main-button.tsx";
 import { useDeckFormStore } from "../../store/deck-form-store-context.tsx";
 import WebApp from "@twa-dev/sdk";
 import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
-import {
-  isFormEmpty,
-  isFormTouched,
-} from "../../lib/mobx-form/form-has-error.ts";
+import { isFormEmpty } from "../../lib/mobx-form/form-has-error.ts";
 
 export const CardForm = observer(() => {
   const deckFormStore = useDeckFormStore();
