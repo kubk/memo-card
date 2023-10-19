@@ -7,10 +7,10 @@ import { z } from "zod";
 
 export const userDbSchema = z.object({
   id: z.number(),
-  first_name: z.string().optional(),
-  last_name: z.string().optional(),
-  language_code: z.string().optional(),
-  username: z.string().optional(),
+  first_name: z.string().optional().nullable(),
+  last_name: z.string().optional().nullable(),
+  language_code: z.string().optional().nullable(),
+  username: z.string().optional().nullable(),
 });
 
 export type UserDbType = z.infer<typeof userDbSchema>;
