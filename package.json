@@ -33,7 +33,7 @@
     "react-dom": "^18.2.0",
     "react-lines-ellipsis": "^0.15.3",
     "short-unique-id": "^5.0.3",
-    "zod": "^3.22.2"
+    "zod": "^3.22.3"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20231002.0",
