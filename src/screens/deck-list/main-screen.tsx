@@ -125,17 +125,19 @@ export const MainScreen = observer(() => {
       </div>
 
       <h2 className={css({ margin: 0, padding: 0 })}>News and updates</h2>
-      <Button
-        icon={"mdi-call-made"}
-        onClick={() => {
-          const channelLink = import.meta.env.VITE_CHANNEL_LINK;
-          assert(channelLink);
+      <div className={css({ paddingBottom: 16 })}>
+        <Button
+          icon={"mdi-call-made"}
+          onClick={() => {
+            const channelLink = import.meta.env.VITE_CHANNEL_LINK;
+            assert(channelLink);
 
-          WebApp.openTelegramLink(channelLink);
-        }}
-      >
-        Telegram channel
-      </Button>
+            WebApp.openTelegramLink(channelLink);
+          }}
+        >
+          Telegram channel
+        </Button>
+      </div>
     </div>
   );
 });
