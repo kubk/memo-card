@@ -84,6 +84,7 @@ export const DeckPreview = observer(() => {
           <ShareDeckButton deckId={deck.id} defaultShareId={deck.share_id} />
           <Button
             icon={"mdi-pencil"}
+            outline
             onClick={() => {
               screenStore.navigateToDeckForm(deck.id);
             }}

@@ -6,7 +6,6 @@ import { useDeckFormStore } from "../../store/deck-form-store-context.tsx";
 
 export const DeckFormScreen = observer(() => {
   const deckFormStore = useDeckFormStore();
-
   if (deckFormStore.cardFormIndex !== undefined) {
     return <CardForm />;
   }

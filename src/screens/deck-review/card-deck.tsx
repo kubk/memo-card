@@ -11,6 +11,8 @@ import { useReviewStore } from "../../store/review-store-context.tsx";
 import { Button } from "../../ui/button.tsx";
 import { screenStore } from "../../store/screen-store.ts";
 import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
+import { useHotkeys } from "react-hotkeys-hook";
+import WebApp from "@twa-dev/sdk";
 
 const rotateBorder = 80;
 
@@ -79,6 +81,24 @@ export const CardDeck = observer(() => {
     500,
     { leading: true },
   );
+
+  useHotkeys("1", () => {
+    if (reviewStore.currentCard?.isOpened) {
+      onLeft();
+    }
+  });
+
+  useHotkeys("2", () => {
+    if (reviewStore.currentCard?.isOpened) {
+      onRight();
+    }
+  });
+
+  useHotkeys("enter", () => {
+    if (!reviewStore.currentCard?.isOpened) {
+      reviewStore.open();
+    }
+  });
 
   return (
     <div

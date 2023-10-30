@@ -57,6 +57,7 @@ export const ShareDeckButton = (props: Props) => {
       icon={isLoading ? "mdi-loading mdi-spin" : "mdi-share"}
       disabled={isLoading}
       onClick={onClick}
+      outline
     >
       {shareId ? "Copy share link" : "Get share link"}
     </Button>
