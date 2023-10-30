@@ -4,7 +4,6 @@ import { trimEnd } from "../../lib/string/trim.ts";
 import WebApp from "@twa-dev/sdk";
 import { Button } from "../../ui/button.tsx";
 import { shareDeckRequest } from "../../api/api.ts";
-import { copyToClipboard } from "./copy-to-clipboard.tsx";
 
 type Props = {
   deckId: number;
@@ -20,22 +19,9 @@ export const ShareDeckButton = (props: Props) => {
     if (shareId) {
       const botUrl = import.meta.env.VITE_BOT_APP_URL;
       assert(botUrl);
-      const finalUrl = `${trimEnd(botUrl, "/")}?startapp=${shareId}`;
-      try {
-        await copyToClipboard(finalUrl);
-      } catch (e) {
-        console.log("Unable to copy", e);
-        return;
-      }
-
-      WebApp.showConfirm(
-        "The link has been copied to your clipboard. Close the app, then choose who you'd like to share it with. 😊",
-        (confirmed) => {
-          if (confirmed) {
-            WebApp.close();
-          }
-        },
-      );
+      const botUrlWithDeckId = `${trimEnd(botUrl, "/")}?startapp=${shareId}`;
+      const shareUrl = `https://t.me/share/url?text=&url=${botUrlWithDeckId}`
+      WebApp.openTelegramLink(shareUrl);
     } else {
       setIsLoading(true);
 
@@ -59,7 +45,7 @@ export const ShareDeckButton = (props: Props) => {
       onClick={onClick}
       outline
     >
-      {shareId ? "Copy share link" : "Get share link"}
+      {shareId ? "Share" : "Get share link"}
     </Button>
   );
 };
