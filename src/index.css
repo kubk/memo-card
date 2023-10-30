@@ -16,6 +16,7 @@ body {
   min-height: 100vh;
   padding: 0 16px 0 16px;
   position: relative;
+  background: var(--tg-theme-bg-color);
   color: var(--tg-theme-text-color);
 }
 
