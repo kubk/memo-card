@@ -11,7 +11,7 @@ export const App = observer(() => {
   return (
     <div>
       {screenStore.screen === Screen.Main && <MainScreen />}
-      {screenStore.isDeckScreen && (
+      {screenStore.isDeckPreviewScreen && (
         <ReviewStoreProvider>
           <DeckScreen />
         </ReviewStoreProvider>

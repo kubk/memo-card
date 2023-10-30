@@ -42,7 +42,7 @@ export class ScreenStore {
     this.cardQuickAddDeckId = deckId;
   }
 
-  get isDeckScreen() {
+  get isDeckPreviewScreen() {
     return this.screen === Screen.DeckPublic || this.screen === Screen.DeckMine;
   }
 }
