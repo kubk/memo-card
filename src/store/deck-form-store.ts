@@ -1,13 +1,20 @@
 import { TextField } from "../lib/mobx-form/mobx-form.ts";
 import { validators } from "../lib/mobx-form/validator.ts";
-import { makeAutoObservable } from "mobx";
-import { formTouchAll, isFormValid } from "../lib/mobx-form/form-has-error.ts";
+import { action, makeAutoObservable } from "mobx";
+import {
+  formTouchAll,
+  isFormEmpty,
+  isFormTouched,
+  isFormValid,
+} from "../lib/mobx-form/form-has-error.ts";
 import { assert } from "../lib/typescript/assert.ts";
 import { upsertDeckRequest } from "../api/api.ts";
 import { screenStore } from "./screen-store.ts";
 import { deckListStore } from "./deck-list-store.ts";
+import { showConfirm } from "../lib/telegram/show-confirm.ts";
+import { showAlert } from "../lib/telegram/show-alert.ts";
 
-type CardForm = {
+export type CardFormType = {
   front: TextField<string>;
   back: TextField<string>;
   id?: number;
@@ -16,10 +23,10 @@ type CardForm = {
 type DeckFormType = {
   title: TextField<string>;
   description: TextField<string>;
-  cards: CardForm[];
+  cards: CardFormType[];
 };
 
-const createDeckTitleField = (value: string) => {
+export const createDeckTitleField = (value: string) => {
   return new TextField(
     value,
     validators.required("The deck title is required"),
@@ -33,6 +40,7 @@ const createCardSideField = (value: string) => {
 export class DeckFormStore {
   cardFormIndex?: number;
   form?: DeckFormType;
+  isSending = false;
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
@@ -92,6 +100,43 @@ export class DeckFormStore {
     this.cardFormIndex = undefined;
   }
 
+  async onCardBack() {
+    assert(this.cardForm);
+    if (isFormEmpty(this.cardForm)) {
+      this.quitCardForm();
+      return;
+    }
+
+    const confirmed = await showConfirm("Quit editing card without saving?");
+    if (confirmed) {
+      this.quitCardForm();
+    }
+  }
+
+  async onDeckBack() {
+    assert(this.form);
+    if (isFormEmpty(this.form) || !isFormTouched(this.form)) {
+      screenStore.navigateToMain();
+      return;
+    }
+
+    const confirmed = await showConfirm("Cancel adding deck and quit?");
+
+    if (confirmed) {
+      screenStore.navigateToMain();
+    }
+  }
+
+  onDeckSave() {
+    assert(this.form);
+
+    if (this.form.cards.length === 0) {
+      showAlert("Please add at least 1 card to create a deck");
+      return;
+    }
+    this.saveDeckForm();
+  }
+
   quitCardForm() {
     assert(this.cardFormIndex !== undefined);
     assert(this.form);
@@ -99,13 +144,13 @@ export class DeckFormStore {
     this.cardFormIndex = undefined;
   }
 
-  saveDeckForm(onSend?: () => void, onFinish?: () => void) {
+  saveDeckForm() {
     assert(this.form);
     formTouchAll(this.form);
     if (!isFormValid(this.form)) {
       return;
     }
-    onSend?.();
+    this.isSending = true;
 
     return upsertDeckRequest({
       id: screenStore.deckFormId,
@@ -122,9 +167,11 @@ export class DeckFormStore {
       .then(() => {
         screenStore.navigateToMain();
       })
-      .finally(() => {
-        onFinish?.();
-      });
+      .finally(
+        action(() => {
+          this.isSending = false;
+        }),
+      );
   }
 
   get isSaveCardButtonActive() {

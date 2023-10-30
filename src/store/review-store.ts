@@ -1,5 +1,5 @@
 import { CardFormStore, CardState } from "./card-form-store.ts";
-import { makeAutoObservable } from "mobx";
+import { action, makeAutoObservable } from "mobx";
 import { DeckCardDbType } from "../../functions/db/deck/decks-with-cards-schema.ts";
 import { assert } from "../lib/typescript/assert.ts";
 import { reviewCardsRequest } from "../api/api.ts";
@@ -19,6 +19,8 @@ export class ReviewStore {
 
   result: ReviewResult = { forgotIds: [], rememberIds: [] };
   initialCardCount?: number;
+
+  isReviewSending = false;
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
@@ -110,6 +112,8 @@ export class ReviewStore {
       return;
     }
 
+    this.isReviewSending = true;
+
     const cards: Array<{ id: number; outcome: ReviewOutcome }> = [
       ...this.result.forgotIds.map((forgotId) => ({
         id: forgotId,
@@ -123,8 +127,14 @@ export class ReviewStore {
 
     return reviewCardsRequest({
       cards,
-    }).then(() => {
-      deckListStore.load();
-    });
+    })
+      .then(() => {
+        deckListStore.load();
+      })
+      .finally(
+        action(() => {
+          this.isReviewSending = false;
+        }),
+      );
   }
 }

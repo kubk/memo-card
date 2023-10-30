@@ -1,17 +1,18 @@
 import { makeAutoObservable } from "mobx";
-import WebApp from "@twa-dev/sdk";
 
 export enum Screen {
   Main = "main",
   DeckMine = "deckMine",
   DeckPublic = "deckPublic",
   DeckForm = "deckForm",
+  CardQuickAddForm = "cardQuickAddForm",
 }
 
 export class ScreenStore {
   screen = Screen.Main;
   deckId?: number;
   deckFormId?: number;
+  cardQuickAddDeckId?: number;
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
@@ -34,6 +35,11 @@ export class ScreenStore {
   navigateToDeckForm(deckFormId?: number) {
     this.screen = Screen.DeckForm;
     this.deckFormId = deckFormId;
+  }
+
+  navigateToQuickCardAdd(deckId: number) {
+    this.screen = Screen.CardQuickAddForm;
+    this.cardQuickAddDeckId = deckId;
   }
 
   get isDeckScreen() {

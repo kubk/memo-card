@@ -1,0 +1,38 @@
+import { TextField } from "../../lib/mobx-form/mobx-form.ts";
+import { observer } from "mobx-react-lite";
+import { css } from "@emotion/css";
+import { Label } from "../../ui/label.tsx";
+import { Input } from "../../ui/input.tsx";
+import React from "react";
+
+type Props = {
+  cardForm: {
+    front: TextField<string>;
+    back: TextField<string>;
+    id?: number;
+  };
+};
+export const CardFormView = observer((props: Props) => {
+  const { cardForm } = props;
+
+  return (
+    <div
+      className={css({
+        display: "flex",
+        flexDirection: "column",
+        gap: 6,
+        marginBottom: 16,
+        position: "relative",
+      })}
+    >
+      <h3 className={css({ textAlign: "center" })}>Add card</h3>
+      <Label text={"Title"}>
+        <Input {...cardForm.front.props} rows={7} type={"textarea"} />
+      </Label>
+
+      <Label text={"Description"}>
+        <Input {...cardForm.back.props} rows={7} type={"textarea"} />
+      </Label>
+    </div>
+  );
+});

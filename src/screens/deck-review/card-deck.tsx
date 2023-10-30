@@ -12,7 +12,6 @@ import { Button } from "../../ui/button.tsx";
 import { screenStore } from "../../store/screen-store.ts";
 import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
 import { useHotkeys } from "react-hotkeys-hook";
-import WebApp from "@twa-dev/sdk";
 
 const rotateBorder = 80;
 

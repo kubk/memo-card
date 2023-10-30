@@ -77,9 +77,7 @@ export const DeckPreview = observer(() => {
           Come back later for more.
         </Hint>
       )}
-      {deckListStore.myId &&
-      deck.author_id === deckListStore.myId &&
-      screenStore.screen !== Screen.DeckPublic ? (
+      {deckListStore.myId && deck.author_id === deckListStore.myId ? (
         <div className={css({ display: "flex", gap: 16 })}>
           <ShareDeckButton deckId={deck.id} defaultShareId={deck.share_id} />
           <Button

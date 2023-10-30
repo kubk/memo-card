@@ -5,6 +5,7 @@ import WebApp from "@twa-dev/sdk";
 import { Button } from "../../ui/button.tsx";
 import { shareDeckRequest } from "../../api/api.ts";
 import { copyToClipboard } from "./copy-to-clipboard.tsx";
+import { showConfirm } from "../../lib/telegram/show-confirm.ts";
 
 type Props = {
   deckId: number;
@@ -28,14 +29,12 @@ export const ShareDeckButton = (props: Props) => {
         return;
       }
 
-      WebApp.showConfirm(
+      const confirmed = await showConfirm(
         "The link has been copied to your clipboard. Close the app, then choose who you'd like to share it with. 😊",
-        (confirmed) => {
-          if (confirmed) {
-            WebApp.close();
-          }
-        },
       );
+      if (confirmed) {
+        WebApp.close();
+      }
     } else {
       setIsLoading(true);
 
