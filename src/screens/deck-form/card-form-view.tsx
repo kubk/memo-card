@@ -4,13 +4,10 @@ import { css } from "@emotion/css";
 import { Label } from "../../ui/label.tsx";
 import { Input } from "../../ui/input.tsx";
 import React from "react";
+import { CardFormType } from "../../store/deck-form-store.ts";
 
 type Props = {
-  cardForm: {
-    front: TextField<string>;
-    back: TextField<string>;
-    id?: number;
-  };
+  cardForm: CardFormType;
 };
 export const CardFormView = observer((props: Props) => {
   const { cardForm } = props;
