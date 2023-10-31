@@ -14,12 +14,14 @@ import { useHotkeys } from "react-hotkeys-hook";
 
 const rotateBorder = 80;
 
-export const CardDeck = observer(() => {
+export const Review = observer(() => {
   const reviewStore = useReviewStore();
   const [frontCardX, setFrontCardX] = useState(0);
   const [isRotateAnimating, setIsRotateAnimating] = useState(false);
 
-  useBackButton(reviewStore.submit);
+  useBackButton(() => {
+    reviewStore.submit();
+  });
 
   const x = useMotionValue(0);
   const scaleBelowCard = useTransform(

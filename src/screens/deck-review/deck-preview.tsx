@@ -17,7 +17,9 @@ export const DeckPreview = observer(() => {
   const deck = deckListStore.selectedDeck;
   assert(deck);
 
-  useBackButton(screenStore.navigateToMain);
+  useBackButton(() => {
+    screenStore.navigateToMain();
+  });
 
   useMainButton(
     "Review deck",
@@ -63,6 +65,23 @@ export const DeckPreview = observer(() => {
           </h4>
           <span>{deck.cardsToReview.length}</span>
         </div>
+
+        <div className={css({ display: "flex", gap: 16 })}>
+          <ShareDeckButton deckId={deck.id} defaultShareId={deck.share_id} />
+          {deckListStore.myId && deck.author_id === deckListStore.myId ? (
+            <Button
+              icon={"mdi-pencil"}
+              outline
+              mainColor={theme.textColor}
+              transparent
+              onClick={() => {
+                screenStore.navigateToDeckForm(deck.id);
+              }}
+            >
+              Edit
+            </Button>
+          ) : null}
+        </div>
       </div>
       {deck.cardsToReview.length === 0 && (
         <Hint>
@@ -70,20 +89,6 @@ export const DeckPreview = observer(() => {
           Come back later for more.
         </Hint>
       )}
-      {deckListStore.myId && deck.author_id === deckListStore.myId ? (
-        <div className={css({ display: "flex", gap: 16 })}>
-          <ShareDeckButton deckId={deck.id} defaultShareId={deck.share_id} />
-          <Button
-            icon={"mdi-pencil"}
-            outline
-            onClick={() => {
-              screenStore.navigateToDeckForm(deck.id);
-            }}
-          >
-            Edit
-          </Button>
-        </div>
-      ) : null}
     </div>
   );
 });

@@ -9,8 +9,12 @@ import { useTelegramProgress } from "../../lib/telegram/use-telegram-progress.ts
 export const QuickAddCardForm = observer(() => {
   const [quickAddCardStore] = useState(() => new QuickAddCardFormStore());
 
-  useMainButton("Save", quickAddCardStore.onSave);
-  useBackButton(quickAddCardStore.onBack);
+  useMainButton("Save", () => {
+    quickAddCardStore.onSave();
+  });
+  useBackButton(() => {
+    quickAddCardStore.onBack();
+  });
   useTelegramProgress(() => quickAddCardStore.isSending);
 
   return <CardFormView cardForm={quickAddCardStore.form} />;

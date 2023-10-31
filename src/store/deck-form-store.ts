@@ -120,8 +120,7 @@ export class DeckFormStore {
       return;
     }
 
-    const confirmed = await showConfirm("Cancel adding deck and quit?");
-
+    const confirmed = await showConfirm("Stop adding deck and quit?");
     if (confirmed) {
       screenStore.navigateToMain();
     }

@@ -4,6 +4,7 @@ import { trimEnd } from "../../lib/string/trim.ts";
 import WebApp from "@twa-dev/sdk";
 import { Button } from "../../ui/button.tsx";
 import { shareDeckRequest } from "../../api/api.ts";
+import { theme } from "../../ui/theme.tsx";
 
 type Props = {
   deckId: number;
@@ -41,11 +42,13 @@ export const ShareDeckButton = (props: Props) => {
   return (
     <Button
       icon={isLoading ? "mdi-loading mdi-spin" : "mdi-share"}
+      mainColor={theme.textColor}
       disabled={isLoading}
       onClick={onClick}
+      transparent
       outline
     >
-      {shareId ? "Share" : "Get share link"}
+      {shareId ? "Share deck" : "Get share link"}
     </Button>
   );
 };

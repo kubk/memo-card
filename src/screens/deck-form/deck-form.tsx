@@ -15,9 +15,15 @@ import { useTelegramProgress } from "../../lib/telegram/use-telegram-progress.ts
 export const DeckForm = observer(() => {
   const deckFormStore = useDeckFormStore();
 
-  useMount(deckFormStore.loadForm);
-  useMainButton("Save", deckFormStore.onDeckSave);
-  useBackButton(deckFormStore.onDeckBack);
+  useMount(() => {
+    deckFormStore.loadForm();
+  });
+  useMainButton("Save", () => {
+    deckFormStore.onDeckSave();
+  });
+  useBackButton(() => {
+    deckFormStore.onDeckBack();
+  });
   useTelegramProgress(() => deckFormStore.isSending);
 
   if (!deckFormStore.form) {

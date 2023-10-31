@@ -110,6 +110,7 @@ export class ReviewStore {
 
   async submit() {
     if (!this.hasResult) {
+      screenStore.navigateToMain();
       return;
     }
 

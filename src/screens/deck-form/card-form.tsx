@@ -11,8 +11,12 @@ export const CardForm = observer(() => {
   const cardForm = deckFormStore.cardForm;
   assert(cardForm);
 
-  useMainButton("Save", deckFormStore.saveCardForm);
-  useBackButton(deckFormStore.onCardBack);
+  useMainButton("Save", () => {
+    deckFormStore.saveCardForm();
+  });
+  useBackButton(() => {
+    deckFormStore.onCardBack();
+  });
 
   return <CardFormView cardForm={cardForm} />;
 });
