@@ -4,11 +4,11 @@ import WebApp from "@twa-dev/sdk";
 export const useMainButton = (
   text: string,
   onClick: () => void,
-  skipIf?: () => boolean,
+  condition?: () => boolean,
 ) => {
   useMount(() => {
-    if (skipIf !== undefined) {
-      if (skipIf()) {
+    if (condition !== undefined) {
+      if (!condition()) {
         return;
       }
     }

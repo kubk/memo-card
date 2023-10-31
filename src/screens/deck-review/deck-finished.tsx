@@ -21,12 +21,8 @@ const encouragingMessages = [
 export const DeckFinished = observer(() => {
   const reviewStore = useReviewStore();
 
-  useMount(() => {
-    reviewStore.submit();
-  });
-
+  useMount(reviewStore.submit);
   useTelegramProgress(() => reviewStore.isReviewSending);
-
   useMainButton("Go back", screenStore.navigateToMain);
 
   return (

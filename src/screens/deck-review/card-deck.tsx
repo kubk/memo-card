@@ -20,10 +20,7 @@ export const CardDeck = observer(() => {
   const [frontCardX, setFrontCardX] = useState(0);
   const [isRotateAnimating, setIsRotateAnimating] = useState(false);
 
-  useBackButton(() => {
-    reviewStore.submit();
-    screenStore.navigateToMain();
-  });
+  useBackButton(reviewStore.submit);
 
   const x = useMotionValue(0);
   const scaleBelowCard = useTransform(

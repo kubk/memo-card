@@ -5,6 +5,7 @@ import { assert } from "../lib/typescript/assert.ts";
 import { reviewCardsRequest } from "../api/api.ts";
 import { ReviewOutcome } from "../../functions/services/review-card.ts";
 import { deckListStore } from "./deck-list-store.ts";
+import { screenStore } from "./screen-store.ts";
 
 type ReviewResult = {
   forgotIds: number[];
@@ -130,6 +131,7 @@ export class ReviewStore {
     })
       .then(() => {
         deckListStore.load();
+        screenStore.navigateToMain();
       })
       .finally(
         action(() => {

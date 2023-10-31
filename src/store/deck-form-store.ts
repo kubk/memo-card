@@ -134,17 +134,7 @@ export class DeckFormStore {
       showAlert("Please add at least 1 card to create a deck");
       return;
     }
-    this.saveDeckForm();
-  }
 
-  quitCardForm() {
-    assert(this.cardFormIndex !== undefined);
-    assert(this.form);
-    this.form.cards.splice(this.cardFormIndex, 1);
-    this.cardFormIndex = undefined;
-  }
-
-  saveDeckForm() {
     assert(this.form);
     formTouchAll(this.form);
     if (!isFormValid(this.form)) {
@@ -156,13 +146,11 @@ export class DeckFormStore {
       id: screenStore.deckFormId,
       title: this.form.title.value,
       description: this.form.description.value,
-      cards: this.form.cards.map((card) => {
-        return {
-          id: card.id,
-          front: card.front.value,
-          back: card.back.value,
-        };
-      }),
+      cards: this.form.cards.map((card) => ({
+        id: card.id,
+        front: card.front.value,
+        back: card.back.value,
+      })),
     })
       .then(() => {
         screenStore.navigateToMain();
@@ -172,6 +160,13 @@ export class DeckFormStore {
           this.isSending = false;
         }),
       );
+  }
+
+  quitCardForm() {
+    assert(this.cardFormIndex !== undefined);
+    assert(this.form);
+    this.form.cards.splice(this.cardFormIndex, 1);
+    this.cardFormIndex = undefined;
   }
 
   get isSaveCardButtonActive() {

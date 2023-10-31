@@ -20,7 +20,7 @@ export const ShareDeckButton = (props: Props) => {
       const botUrl = import.meta.env.VITE_BOT_APP_URL;
       assert(botUrl);
       const botUrlWithDeckId = `${trimEnd(botUrl, "/")}?startapp=${shareId}`;
-      const shareUrl = `https://t.me/share/url?text=&url=${botUrlWithDeckId}`
+      const shareUrl = `https://t.me/share/url?text=&url=${botUrlWithDeckId}`;
       WebApp.openTelegramLink(shareUrl);
     } else {
       setIsLoading(true);

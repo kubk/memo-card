@@ -5,7 +5,7 @@ import { css } from "@emotion/css";
 import { theme } from "../../ui/theme.tsx";
 import React from "react";
 import { useReviewStore } from "../../store/review-store-context.tsx";
-import { Screen, screenStore } from "../../store/screen-store.ts";
+import { screenStore } from "../../store/screen-store.ts";
 import { Hint } from "../../ui/hint.tsx";
 import { Button } from "../../ui/button.tsx";
 import { ShareDeckButton } from "./share-deck-button.tsx";
@@ -17,21 +17,14 @@ export const DeckPreview = observer(() => {
   const deck = deckListStore.selectedDeck;
   assert(deck);
 
-  useBackButton(() => {
-    screenStore.navigateToMain();
-  });
+  useBackButton(screenStore.navigateToMain);
 
   useMainButton(
     "Review deck",
     () => {
-      assert(deckListStore.selectedDeck);
-      if (screenStore.screen === Screen.DeckPublic) {
-        deckListStore.addDeckToMine(deckListStore.selectedDeck.id);
-      }
-
-      reviewStore.startDeckReview(deckListStore.selectedDeck.cardsToReview);
+      deckListStore.startReview(reviewStore);
     },
-    () => !deck.cardsToReview.length && screenStore.screen === Screen.DeckMine,
+    () => deckListStore.canReview,
   );
 
   return (
