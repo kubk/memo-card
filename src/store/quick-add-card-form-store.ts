@@ -35,7 +35,7 @@ export class QuickAddCardFormStore {
       deckId: screenStore.cardQuickAddDeckId,
       card: {
         back: this.form.back.value,
-        front: this.form.back.value,
+        front: this.form.front.value,
       },
     })
       .then(() => {
