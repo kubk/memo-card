@@ -22,7 +22,6 @@ export class QuickAddCardFormStore {
   }
 
   onSave() {
-    console.log("onSave");
     formTouchAll(this.form);
     if (!isFormValid(this.form)) {
       return;
