@@ -18,6 +18,7 @@ import {
   ShareDeckResponse,
 } from "../../functions/share-deck.ts";
 import { GetSharedDeckResponse } from "../../functions/get-shared-deck.ts";
+import { AddCardRequest, AddCardResponse } from "../../functions/add-card.ts";
 
 export const healthRequest = () => {
   return request<HealthResponse>("/health");
@@ -53,6 +54,10 @@ export const upsertDeckRequest = (body: UpsertDeckRequest) => {
     "POST",
     body,
   );
+};
+
+export const addCardRequest = (body: AddCardRequest) => {
+  return request<AddCardResponse, AddCardRequest>("/add-card", "POST", body);
 };
 
 export const shareDeckRequest = (body: ShareDeckRequest) => {

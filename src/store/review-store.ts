@@ -1,10 +1,11 @@
 import { CardFormStore, CardState } from "./card-form-store.ts";
-import { makeAutoObservable } from "mobx";
+import { action, makeAutoObservable } from "mobx";
 import { DeckCardDbType } from "../../functions/db/deck/decks-with-cards-schema.ts";
 import { assert } from "../lib/typescript/assert.ts";
 import { reviewCardsRequest } from "../api/api.ts";
 import { ReviewOutcome } from "../../functions/services/review-card.ts";
 import { deckListStore } from "./deck-list-store.ts";
+import { screenStore } from "./screen-store.ts";
 
 type ReviewResult = {
   forgotIds: number[];
@@ -19,6 +20,8 @@ export class ReviewStore {
 
   result: ReviewResult = { forgotIds: [], rememberIds: [] };
   initialCardCount?: number;
+
+  isReviewSending = false;
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
@@ -107,8 +110,11 @@ export class ReviewStore {
 
   async submit() {
     if (!this.hasResult) {
+      screenStore.navigateToMain();
       return;
     }
+
+    this.isReviewSending = true;
 
     const cards: Array<{ id: number; outcome: ReviewOutcome }> = [
       ...this.result.forgotIds.map((forgotId) => ({
@@ -123,8 +129,15 @@ export class ReviewStore {
 
     return reviewCardsRequest({
       cards,
-    }).then(() => {
-      deckListStore.load();
-    });
+    })
+      .then(() => {
+        deckListStore.load();
+        screenStore.navigateToMain();
+      })
+      .finally(
+        action(() => {
+          this.isReviewSending = false;
+        }),
+      );
   }
 }

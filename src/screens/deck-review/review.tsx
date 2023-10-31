@@ -9,21 +9,18 @@ import { CardState } from "../../store/card-form-store.ts";
 import { ProgressBar } from "../../ui/progress-bar.tsx";
 import { useReviewStore } from "../../store/review-store-context.tsx";
 import { Button } from "../../ui/button.tsx";
-import { screenStore } from "../../store/screen-store.ts";
 import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
 import { useHotkeys } from "react-hotkeys-hook";
-import WebApp from "@twa-dev/sdk";
 
 const rotateBorder = 80;
 
-export const CardDeck = observer(() => {
+export const Review = observer(() => {
   const reviewStore = useReviewStore();
   const [frontCardX, setFrontCardX] = useState(0);
   const [isRotateAnimating, setIsRotateAnimating] = useState(false);
 
   useBackButton(() => {
     reviewStore.submit();
-    screenStore.navigateToMain();
   });
 
   const x = useMotionValue(0);

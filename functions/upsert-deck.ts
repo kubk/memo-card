@@ -11,6 +11,7 @@ import { createJsonResponse } from "./lib/json-response/create-json-response.ts"
 import { deckSchema } from "./db/deck/decks-with-cards-schema.ts";
 import { addDeckToMineDb } from "./db/deck/add-deck-to-mine-db.ts";
 import { createForbiddenRequestResponse } from "./lib/json-response/create-forbidden-request-response.ts";
+import { canEditDeck } from "./db/deck/can-edit-deck.ts";
 
 const requestSchema = z.object({
   id: z.number().nullable().optional(),
@@ -42,22 +43,13 @@ export const onRequestPost = handleError(async ({ request, env }) => {
 
   // Check user can edit the deck
   if (input.data.id) {
-    const canEditDeckResult = await db
-      .from(tables.deck)
-      .select()
-      .eq("author_id", user.id)
-      .eq("id", input.data.id);
-
-    if (canEditDeckResult.error) {
-      throw new DatabaseException(canEditDeckResult.error);
-    }
-
-    if (!canEditDeckResult.data) {
+    const result = await canEditDeck(envSafe, input.data.id, user.id);
+    if (!result) {
       return createForbiddenRequestResponse();
     }
   }
 
-  const createDeckResult = await db
+  const upsertDeckResult = await db
     .from(tables.deck)
     .upsert({
       id: input.data.id ? input.data.id : undefined,
@@ -68,18 +60,19 @@ export const onRequestPost = handleError(async ({ request, env }) => {
     })
     .select();
 
-  if (createDeckResult.error) {
-    throw new DatabaseException(createDeckResult.error);
+  if (upsertDeckResult.error) {
+    throw new DatabaseException(upsertDeckResult.error);
   }
 
-  const newDeckArray = z.array(deckSchema).parse(createDeckResult.data);
+  // Supabase returns an array as a result of upsert, that's why it gets validated against an array here
+  const upsertedDecks = z.array(deckSchema).parse(upsertDeckResult.data);
 
   const updateCardsResult = await db.from(tables.deckCard).upsert(
     input.data.cards
       .filter((card) => card.id)
       .map((card) => ({
         id: card.id,
-        deck_id: newDeckArray[0].id,
+        deck_id: upsertedDecks[0].id,
         front: card.front,
         back: card.back,
       })),
@@ -93,7 +86,7 @@ export const onRequestPost = handleError(async ({ request, env }) => {
     input.data.cards
       .filter((card) => !card.id)
       .map((card) => ({
-        deck_id: newDeckArray[0].id,
+        deck_id: upsertedDecks[0].id,
         front: card.front,
         back: card.back,
       })),
@@ -106,7 +99,7 @@ export const onRequestPost = handleError(async ({ request, env }) => {
   if (!input.data.id) {
     await addDeckToMineDb(envSafe, {
       user_id: user.id,
-      deck_id: newDeckArray[0].id,
+      deck_id: upsertedDecks[0].id,
     });
   }
 

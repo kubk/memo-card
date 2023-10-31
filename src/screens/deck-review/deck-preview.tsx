@@ -5,7 +5,7 @@ import { css } from "@emotion/css";
 import { theme } from "../../ui/theme.tsx";
 import React from "react";
 import { useReviewStore } from "../../store/review-store-context.tsx";
-import { Screen, screenStore } from "../../store/screen-store.ts";
+import { screenStore } from "../../store/screen-store.ts";
 import { Hint } from "../../ui/hint.tsx";
 import { Button } from "../../ui/button.tsx";
 import { ShareDeckButton } from "./share-deck-button.tsx";
@@ -24,14 +24,9 @@ export const DeckPreview = observer(() => {
   useMainButton(
     "Review deck",
     () => {
-      assert(deckListStore.selectedDeck);
-      if (screenStore.screen === Screen.DeckPublic) {
-        deckListStore.addDeckToMine(deckListStore.selectedDeck.id);
-      }
-
-      reviewStore.startDeckReview(deckListStore.selectedDeck.cardsToReview);
+      deckListStore.startReview(reviewStore);
     },
-    () => !deck.cardsToReview.length && screenStore.screen === Screen.DeckMine,
+    () => deckListStore.canReview,
   );
 
   return (
@@ -70,6 +65,23 @@ export const DeckPreview = observer(() => {
           </h4>
           <span>{deck.cardsToReview.length}</span>
         </div>
+
+        <div className={css({ display: "flex", gap: 16 })}>
+          <ShareDeckButton deckId={deck.id} defaultShareId={deck.share_id} />
+          {deckListStore.myId && deck.author_id === deckListStore.myId ? (
+            <Button
+              icon={"mdi-pencil"}
+              outline
+              mainColor={theme.textColor}
+              transparent
+              onClick={() => {
+                screenStore.navigateToDeckForm(deck.id);
+              }}
+            >
+              Edit
+            </Button>
+          ) : null}
+        </div>
       </div>
       {deck.cardsToReview.length === 0 && (
         <Hint>
@@ -77,22 +89,6 @@ export const DeckPreview = observer(() => {
           Come back later for more.
         </Hint>
       )}
-      {deckListStore.myId &&
-      deck.author_id === deckListStore.myId &&
-      screenStore.screen !== Screen.DeckPublic ? (
-        <div className={css({ display: "flex", gap: 16 })}>
-          <ShareDeckButton deckId={deck.id} defaultShareId={deck.share_id} />
-          <Button
-            icon={"mdi-pencil"}
-            outline
-            onClick={() => {
-              screenStore.navigateToDeckForm(deck.id);
-            }}
-          >
-            Edit
-          </Button>
-        </div>
-      ) : null}
     </div>
   );
 });

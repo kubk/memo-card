@@ -4,10 +4,10 @@ import { Modal } from "../../ui/modal.tsx";
 import { css } from "@emotion/css";
 import { useReviewStore } from "../../store/review-store-context.tsx";
 import { random } from "../../lib/array/random.ts";
-import WebApp from "@twa-dev/sdk";
 import { useMount } from "../../lib/react/use-mount.ts";
 import { screenStore } from "../../store/screen-store.ts";
 import { useMainButton } from "../../lib/telegram/use-main-button.tsx";
+import { useTelegramProgress } from "../../lib/telegram/use-telegram-progress.tsx";
 
 const encouragingMessages = [
   "Consistency is the key to mastery, and each step you take brings you closer to your learning goals",
@@ -22,15 +22,12 @@ export const DeckFinished = observer(() => {
   const reviewStore = useReviewStore();
 
   useMount(() => {
-    WebApp.MainButton.showProgress();
-    reviewStore.submit().finally(() => {
-      WebApp.MainButton.hideProgress();
-    });
+    reviewStore.submit();
   });
-
   useMainButton("Go back", () => {
     screenStore.navigateToMain();
   });
+  useTelegramProgress(() => reviewStore.isReviewSending);
 
   return (
     <Modal marginTop={"32px"}>

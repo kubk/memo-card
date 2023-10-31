@@ -10,6 +10,7 @@ import { DeckWithCardsDbType } from "../../functions/db/deck/decks-with-cards-sc
 import { Screen, screenStore } from "./screen-store.ts";
 import { CardToReviewDbType } from "../../functions/db/deck/get-cards-to-review-db.ts";
 import { assert } from "../lib/typescript/assert.ts";
+import { ReviewStore } from "./review-store.ts";
 
 export type DeckWithCardsWithReviewType = DeckWithCardsDbType & {
   cardsToReview: DeckWithCardsDbType["deck_card"];
@@ -82,12 +83,34 @@ export class DeckListStore {
       );
   }
 
+  get canReview() {
+    const deck = this.selectedDeck;
+    assert(deck);
+
+    return (
+      deck.cardsToReview.length > 0 || screenStore.screen === Screen.DeckPublic
+    );
+  }
+
+  startReview(reviewStore: ReviewStore) {
+    if (!this.canReview) {
+      return;
+    }
+
+    assert(deckListStore.selectedDeck);
+    if (screenStore.screen === Screen.DeckPublic) {
+      deckListStore.addDeckToMine(deckListStore.selectedDeck.id);
+    }
+
+    reviewStore.startDeckReview(deckListStore.selectedDeck.cardsToReview);
+  }
+
   addDeckToMine(deckId: number) {
     return addDeckToMineRequest({
       deckId,
     })
       .then(() => {
-        deckListStore.load();
+        this.load();
       })
       .catch((error) => {
         console.error(error);
