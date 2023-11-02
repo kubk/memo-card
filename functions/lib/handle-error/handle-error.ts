@@ -13,11 +13,18 @@ const reportErrorToTelegram = (error: unknown, env: unknown) => {
     return;
   }
 
+  const errorData = {
+    message: (error as Error)?.message,
+    name: (error as Error)?.name,
+    stack: (error as Error)?.stack,
+    ...Object.getOwnPropertyNames(error),
+  }
+
   const bot = new Bot(envSafe.data.BOT_ERROR_REPORTING_TOKEN);
   return bot.api
     .sendMessage(
       envSafe.data.BOT_ERROR_REPORTING_USER_ID,
-      JSON.stringify(error, Object.getOwnPropertyNames(error)),
+      JSON.stringify(errorData, null, 2),
     )
     .catch((error) => console.error("Telegram error report failed:", error));
 };
