@@ -11,6 +11,7 @@ import { Screen, screenStore } from "./screen-store.ts";
 import { CardToReviewDbType } from "../../functions/db/deck/get-cards-to-review-db.ts";
 import { assert } from "../lib/typescript/assert.ts";
 import { ReviewStore } from "./review-store.ts";
+import { reportClientError } from "../lib/rollbar/rollbar.tsx";
 
 export type DeckWithCardsWithReviewType = DeckWithCardsDbType & {
   cardsToReview: DeckWithCardsDbType["deck_card"];
@@ -73,7 +74,9 @@ export class DeckListStore {
         }),
       )
       .catch((e) => {
-        console.error(e);
+        reportClientError("Error while retrieving shared deck: ", e, {
+          shareId,
+        });
       })
       .finally(
         action(() => {
@@ -113,7 +116,9 @@ export class DeckListStore {
         this.load();
       })
       .catch((error) => {
-        console.error(error);
+        reportClientError("Error while adding deck to mine. ", error, {
+          deckId,
+        });
       });
   }
 
