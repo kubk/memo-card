@@ -17,6 +17,8 @@ const reportErrorToTelegram = (error: unknown, env: unknown) => {
     message: (error as Error)?.message,
     name: (error as Error)?.name,
     stack: (error as Error)?.stack,
+    isDatabaseException: error && error instanceof DatabaseException,
+    isZodError: error && error instanceof ZodError,
     ...Object.getOwnPropertyNames(error),
   }
 
