@@ -74,7 +74,7 @@ export class DeckListStore {
         }),
       )
       .catch((e) => {
-        reportClientError("Error while retrieving shared deck: ", e, {
+        reportClientError("Error while retrieving shared deck", e, {
           shareId,
         });
       })
@@ -116,7 +116,7 @@ export class DeckListStore {
         this.load();
       })
       .catch((error) => {
-        reportClientError("Error while adding deck to mine. ", error, {
+        reportClientError("Error while adding deck to mine", error, {
           deckId,
         });
       });

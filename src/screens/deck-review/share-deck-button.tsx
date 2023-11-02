@@ -32,8 +32,8 @@ export const ShareDeckButton = (props: Props) => {
           deckId: props.deckId,
         });
         setShareId(result.shareId);
-      } catch (e: any) {
-        reportClientError("Error while sharing deck: ", e);
+      } catch (e) {
+        reportClientError("Error while sharing deck", e);
       } finally {
         setIsLoading(false);
       }
