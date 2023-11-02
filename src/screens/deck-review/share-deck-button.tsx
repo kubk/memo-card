@@ -5,7 +5,7 @@ import WebApp from "@twa-dev/sdk";
 import { Button } from "../../ui/button.tsx";
 import { shareDeckRequest } from "../../api/api.ts";
 import { theme } from "../../ui/theme.tsx";
-import { reportClientError } from "../../lib/rollbar/rollbar.tsx";
+import { reportHandledError } from "../../lib/rollbar/rollbar.tsx";
 
 type Props = {
   deckId: number;
@@ -33,7 +33,7 @@ export const ShareDeckButton = (props: Props) => {
         });
         setShareId(result.shareId);
       } catch (e) {
-        reportClientError("Error while sharing deck", e);
+        reportHandledError("Error while sharing deck", e);
       } finally {
         setIsLoading(false);
       }
