@@ -132,7 +132,6 @@ export class ReviewStore {
     })
       .then(() => {
         deckListStore.load();
-        screenStore.navigateToMain();
       })
       .finally(
         action(() => {

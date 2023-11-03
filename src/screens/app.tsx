@@ -6,10 +6,12 @@ import { Screen, screenStore } from "../store/screen-store.ts";
 import { DeckFormScreen } from "./deck-form/deck-form-screen.tsx";
 import { DeckFormStoreProvider } from "../store/deck-form-store-context.tsx";
 import { QuickAddCardForm } from "./deck-form/quick-add-card-form.tsx";
+import { VersionWarning } from "./shared/version-warning.tsx";
 
 export const App = observer(() => {
   return (
     <div>
+      <VersionWarning />
       {screenStore.screen === Screen.Main && <MainScreen />}
       {screenStore.isDeckPreviewScreen && (
         <ReviewStoreProvider>

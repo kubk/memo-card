@@ -1,4 +1,3 @@
-import { assert } from "../lib/typescript/assert.ts";
 import { colord } from "colord";
 
 const cssVarToValue = (cssProperty: string) => {
@@ -6,7 +5,10 @@ const cssVarToValue = (cssProperty: string) => {
   const result = getComputedStyle(document.documentElement).getPropertyValue(
     cssPropertyClean,
   );
-  assert(result, "Variable " + cssPropertyClean + " is not available");
+  if (!result) {
+    console.warn("Variable " + cssPropertyClean + " is not available");
+    return "#00000";
+  }
   return result;
 };
 

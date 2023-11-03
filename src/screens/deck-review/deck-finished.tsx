@@ -15,7 +15,18 @@ const encouragingMessages = [
   "Keep up the momentum, and see you in the next review!",
   "While you've made it through all the cards for now, remember that the magic of spaced repetition means you'll see these words pop up in the future.",
   "It's all part of ensuring these nuggets of knowledge stick with you for the long run.",
-  "Keep up the fantastic work, and we'll see you in the next review!",
+  "Each review session carves the knowledge deeper into your memory. Well done for pushing through!",
+  "Every review strengthens your neural connections. You're not just learning; you're growing!",
+  "Remember, every great mind, from artists to scientists, spent time reviewing and honing their craft. You're on the right track!",
+  "You're fueling your future self with every review. Imagine where you'll be a year from now!",
+  "As the saying goes, 'Repetition is the mother of learning.' You're embracing this wisdom with every session.",
+  "Your commitment today is the foundation for mastery tomorrow. Keep it up!",
+  "Learning is like building a castle brick by brick. Every review adds another stone to your fortress of knowledge.",
+  "Every moment spent in review today saves hours of re-learning in the future. You're on the fast track!",
+  "Remember, the mightiest of trees grow from constant nurturing. Your knowledge is no different. Keep watering your learning tree!",
+  "You're not just revisiting information; you're turning it into a part of who you are. Well done!",
+  "With every review, you're stepping further away from forgetting and closer to internalizing. Great job!",
+  "Just think of the compounded knowledge you're amassing with every review. Your future self thanks you!",
 ];
 
 export const DeckFinished = observer(() => {
