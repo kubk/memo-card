@@ -9,10 +9,11 @@ export const request = async <Output, Input = object>(
   body?: Input,
 ): Promise<Output> => {
   const endpoint = `${trimEnd(baseUrl, "/")}/${trimStart(path, "/")}`;
+  const bodyAsString = body ? JSON.stringify(body) : undefined;
 
   const response = await fetch(endpoint, {
     method,
-    body: body ? JSON.stringify(body) : undefined,
+    body: bodyAsString,
     headers: {
       hash: WebApp.initData,
     },
@@ -23,6 +24,6 @@ export const request = async <Output, Input = object>(
   throw new Error(
     `Non-successful status: ${
       response.status
-    }. Endpoint: ${endpoint}. Error: ${await response.text()}`,
+    }. Endpoint: ${endpoint}. Request body: ${bodyAsString}. Error: ${await response.text()}`,
   );
 };
