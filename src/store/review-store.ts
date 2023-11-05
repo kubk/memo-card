@@ -80,7 +80,9 @@ export class ReviewStore {
     assert(currentCardIdx !== -1);
     this.cardsToReview.splice(currentCardIdx, 1);
     if (currentCard.state === CardState.Forget) {
-      this.result.forgotIds.push(currentCard.id);
+      if (!this.result.forgotIds.includes(currentCard.id)) {
+        this.result.forgotIds.push(currentCard.id);
+      }
       currentCard.close();
       this.cardsToReview.push(currentCard);
     }
