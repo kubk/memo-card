@@ -23,11 +23,11 @@ export const CardFormView = observer((props: Props) => {
     >
       <h3 className={css({ textAlign: "center" })}>Add card</h3>
       <Label text={"Front"}>
-        <Input {...cardForm.front.props} rows={7} type={"textarea"} />
+        <Input {...cardForm.front.props} rows={5} type={"textarea"} />
       </Label>
 
       <Label text={"Back"}>
-        <Input {...cardForm.back.props} rows={7} type={"textarea"} />
+        <Input {...cardForm.back.props} rows={5} type={"textarea"} />
       </Label>
     </div>
   );
