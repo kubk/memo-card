@@ -110,15 +110,18 @@ export class ReviewStore {
     return this.result.forgotIds.length || this.result.rememberIds.length;
   }
 
-  async submit() {
+  submitUnfinished() {
+    screenStore.navigateToMain();
+
     if (!this.hasResult) {
-      screenStore.navigateToMain();
       return;
     }
 
-    this.isReviewSending = true;
+    return reviewCardsRequest({ cards: this.cardsToSend });
+  }
 
-    const cards: Array<{ id: number; outcome: ReviewOutcome }> = [
+  get cardsToSend(): Array<{ id: number; outcome: ReviewOutcome }> {
+    return [
       ...this.result.forgotIds.map((forgotId) => ({
         id: forgotId,
         outcome: "wrong" as const,
@@ -128,17 +131,20 @@ export class ReviewStore {
         outcome: "correct" as const,
       })),
     ];
+  }
 
-    return reviewCardsRequest({
-      cards,
-    })
-      .then(() => {
-        deckListStore.load();
-      })
-      .finally(
-        action(() => {
-          this.isReviewSending = false;
-        }),
-      );
+  async submitFinished() {
+    if (!this.hasResult) {
+      screenStore.navigateToMain();
+      return;
+    }
+
+    this.isReviewSending = true;
+
+    return reviewCardsRequest({ cards: this.cardsToSend }).finally(
+      action(() => {
+        this.isReviewSending = false;
+      }),
+    );
   }
 }

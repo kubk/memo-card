@@ -180,42 +180,42 @@ describe("card form store", () => {
     expect(reviewStore.nextCard).toBeFalsy();
   });
 
-  it('hit wrong many times', () => {
+  it("hit wrong many times", () => {
     const reviewStore = new ReviewStore();
     reviewStore.startDeckReview(deckCardsMock);
     expect(reviewStore.isFinished).toBeFalsy();
 
-    reviewStore.open()
+    reviewStore.open();
     reviewStore.changeState(CardState.Forget);
 
-    reviewStore.open()
+    reviewStore.open();
     reviewStore.changeState(CardState.Forget);
 
-    reviewStore.open()
+    reviewStore.open();
     reviewStore.changeState(CardState.Forget);
 
-    reviewStore.open()
+    reviewStore.open();
     reviewStore.changeState(CardState.Forget);
 
-    reviewStore.open()
+    reviewStore.open();
     reviewStore.changeState(CardState.Forget);
 
-    reviewStore.open()
+    reviewStore.open();
     reviewStore.changeState(CardState.Forget);
 
-    expect(reviewStore.result.forgotIds).toHaveLength(3)
-    expect(reviewStore.result.rememberIds).toHaveLength(0)
+    expect(reviewStore.result.forgotIds).toHaveLength(3);
+    expect(reviewStore.result.rememberIds).toHaveLength(0);
 
-    reviewStore.open()
+    reviewStore.open();
     reviewStore.changeState(CardState.Remember);
 
-    reviewStore.open()
+    reviewStore.open();
     reviewStore.changeState(CardState.Remember);
 
-    reviewStore.open()
+    reviewStore.open();
     reviewStore.changeState(CardState.Remember);
 
-    expect(reviewStore.result.forgotIds).toHaveLength(3)
-    expect(reviewStore.result.rememberIds).toHaveLength(0)
-  })
+    expect(reviewStore.result.forgotIds).toHaveLength(3);
+    expect(reviewStore.result.rememberIds).toHaveLength(0);
+  });
 });

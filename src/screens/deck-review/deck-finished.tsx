@@ -33,7 +33,7 @@ export const DeckFinished = observer(() => {
   const reviewStore = useReviewStore();
 
   useMount(() => {
-    reviewStore.submit();
+    reviewStore.submitFinished();
   });
   useMainButton("Go back", () => {
     screenStore.navigateToMain();

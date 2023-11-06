@@ -20,7 +20,7 @@ export const Review = observer(() => {
   const [isRotateAnimating, setIsRotateAnimating] = useState(false);
 
   useBackButton(() => {
-    reviewStore.submit();
+    reviewStore.submitUnfinished();
   });
 
   const x = useMotionValue(0);
