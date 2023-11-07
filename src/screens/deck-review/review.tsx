@@ -34,17 +34,6 @@ export const Review = observer(() => {
     [-rotateBorder, 0, rotateBorder],
     [theme.dangerLight, theme.secondaryBgColorComputed, theme.successLight],
   );
-  const opacityFrontCard = useTransform(
-    x,
-    [
-      -rotateBorder * 5,
-      -rotateBorder * 3.5,
-      0,
-      rotateBorder * 3.5,
-      rotateBorder * 5,
-    ],
-    [0, 1, 1, 1, 0],
-  );
   const rotateFrontCard = useTransform(
     x,
     [-rotateBorder, 0, rotateBorder],
@@ -140,7 +129,6 @@ export const Review = observer(() => {
               zIndex: 1,
               backgroundColor: backgroundColorFrontCard,
               rotate: rotateFrontCard,
-              opacity: opacityFrontCard,
             }}
             animate={{
               x: frontCardX,
