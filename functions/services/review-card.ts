@@ -17,9 +17,12 @@ export const reviewCard = (
   const easeFactor = 2.5;
 
   if (reviewOutcome === "correct") {
+    if (interval === 0) {
+      interval = 0.16;
+    }
     interval *= easeFactor;
   } else if (reviewOutcome === "wrong") {
-    interval = 0.4;
+    interval = 0;
   }
 
   const nextReviewDate = now.plus({ day: interval });
