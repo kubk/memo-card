@@ -9,26 +9,30 @@ export type Result = {
 
 export type ReviewOutcome = "correct" | "wrong";
 
+const easeFactor = 2.5;
+const startInterval = 0.4;
+
 export const reviewCard = (
   now: DateTime,
-  interval: number,
+  interval: number | undefined,
   reviewOutcome: ReviewOutcome,
 ): Result => {
-  const easeFactor = 2.5;
+  let calculatedInterval = interval === undefined ? startInterval : interval;
 
   if (reviewOutcome === "correct") {
-    if (interval === 0) {
-      interval = 0.16;
+    if (calculatedInterval === 0) {
+      calculatedInterval = startInterval;
+    } else {
+      calculatedInterval *= easeFactor;
     }
-    interval *= easeFactor;
   } else if (reviewOutcome === "wrong") {
-    interval = 0;
+    calculatedInterval = 0;
   }
 
-  const nextReviewDate = now.plus({ day: interval });
+  const nextReviewDate = now.plus({ day: calculatedInterval });
 
   return {
     nextReviewDate,
-    interval: parseFloat(interval.toFixed(2)),
+    interval: parseFloat(calculatedInterval.toFixed(2)),
   };
 };

@@ -5,9 +5,9 @@ import { DateTime } from "luxon";
 // For comparison: https://github.com/open-spaced-repetition/fsrs4anki/wiki/Compare-Anki's-built-in-scheduler-and-FSRS
 test("hit yes all the time", () => {
   let date = DateTime.fromSQL("2021-05-20 10:00:00");
-  let interval = 0.4;
+  let interval = undefined;
 
-  const intervals = [interval];
+  const intervals: number[] = [];
   const dateIntervals = [];
 
   for (let i = 0; i < 4; i++) {
@@ -23,7 +23,7 @@ test("hit yes all the time", () => {
     date = nextReviewDate;
   }
 
-  expect(intervals).toEqual([0.4, 1, 2.5, 6.25, 15.63]);
+  expect(intervals).toEqual([1, 2.5, 6.25, 15.63]);
   expect(
     dateIntervals.map((dateInterval) => dateInterval.milliseconds),
   ).toEqual([
@@ -41,7 +41,7 @@ test("hit yes all the time", () => {
 test("forgetting resets interval", () => {
   const date = DateTime.fromSQL("2021-05-20 10:00:00");
 
-  const { interval: newInterval1 } = reviewCard(date, 0.4, "correct");
+  const { interval: newInterval1 } = reviewCard(date, undefined, "correct");
   expect(newInterval1).toBe(1);
 
   const { interval: newInterval2 } = reviewCard(date, 1, "wrong");

@@ -53,10 +53,9 @@ export const onRequestPost = handleError(async ({ env, request }) => {
     .from(tables.cardReview)
     .upsert(
       input.data.cards.map((card) => {
-        const existingReview = existingReviews.find(
+        const previousInterval = existingReviews.find(
           (review) => review.card_id === card.id,
-        );
-        const previousInterval = existingReview?.interval ?? 0.4;
+        )?.interval;
 
         return {
           user_id: user.id,
