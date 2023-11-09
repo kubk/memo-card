@@ -18,6 +18,7 @@ const requestSchema = z.object({
       outcome: z.enum(["correct", "wrong"]),
     }),
   ),
+  isInterrupted: z.boolean().optional(),
 });
 
 export type ReviewCardsRequest = z.infer<typeof requestSchema>;
@@ -57,11 +58,18 @@ export const onRequestPost = handleError(async ({ env, request }) => {
           (review) => review.card_id === card.id,
         )?.interval;
 
+        const reviewResult = reviewCard(
+          now,
+          previousInterval,
+          card.outcome,
+          input.data.isInterrupted,
+        );
+
         return {
           user_id: user.id,
           card_id: card.id,
           last_review_date: now.toJSDate(),
-          interval: reviewCard(now, previousInterval, card.outcome).interval,
+          interval: reviewResult.interval,
         };
       }),
     )

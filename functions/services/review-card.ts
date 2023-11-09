@@ -16,6 +16,7 @@ export const reviewCard = (
   now: DateTime,
   interval: number | undefined,
   reviewOutcome: ReviewOutcome,
+  isInterrupted = false,
 ): Result => {
   let calculatedInterval = interval === undefined ? startInterval : interval;
 
@@ -26,7 +27,7 @@ export const reviewCard = (
       calculatedInterval *= easeFactor;
     }
   } else if (reviewOutcome === "wrong") {
-    calculatedInterval = 0;
+    calculatedInterval = isInterrupted ? 0 : startInterval;
   }
 
   const nextReviewDate = now.plus({ day: calculatedInterval });

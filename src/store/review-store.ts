@@ -5,6 +5,7 @@ import { assert } from "../lib/typescript/assert.ts";
 import { reviewCardsRequest } from "../api/api.ts";
 import { ReviewOutcome } from "../../functions/services/review-card.ts";
 import { screenStore } from "./screen-store.ts";
+import { deckListStore } from "./deck-list-store.ts";
 
 type ReviewResult = {
   forgotIds: number[];
@@ -70,7 +71,10 @@ export class ReviewStore {
 
   changeState(cardState: CardState) {
     const currentCard = this.currentCard;
-    assert(currentCard, "currentCard should not be null while changing state in review");
+    assert(
+      currentCard,
+      "currentCard should not be null while changing state in review",
+    );
     currentCard.changeState(cardState);
 
     const currentCardIdx = this.cardsToReview.findIndex(
@@ -116,7 +120,7 @@ export class ReviewStore {
       return;
     }
 
-    return reviewCardsRequest({ cards: this.cardsToSend });
+    return reviewCardsRequest({ cards: this.cardsToSend, isInterrupted: true });
   }
 
   get cardsToSend(): Array<{ id: number; outcome: ReviewOutcome }> {
@@ -142,6 +146,7 @@ export class ReviewStore {
 
     return reviewCardsRequest({ cards: this.cardsToSend }).finally(
       action(() => {
+        deckListStore.load();
         this.isReviewSending = false;
       }),
     );

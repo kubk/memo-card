@@ -12,5 +12,11 @@ export default defineConfig({
         rewrite: (path) => path.replace(/^\/api/, ''),
       },
     }
-  }
+  },
+  // @ts-expect-error
+  test: {
+    coverage: {
+      reporter: ['text'],
+    },
+  },
 })
