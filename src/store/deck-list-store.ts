@@ -88,7 +88,7 @@ export class DeckListStore {
 
   get canReview() {
     const deck = this.selectedDeck;
-    assert(deck);
+    assert(deck, "canReview requires a deck to be selected");
 
     return (
       deck.cardsToReview.length > 0 || screenStore.screen === Screen.DeckPublic
@@ -100,7 +100,7 @@ export class DeckListStore {
       return;
     }
 
-    assert(deckListStore.selectedDeck);
+    assert(deckListStore.selectedDeck, "No selected deck for review");
     if (screenStore.screen === Screen.DeckPublic) {
       deckListStore.addDeckToMine(deckListStore.selectedDeck.id);
     }

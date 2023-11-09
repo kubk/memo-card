@@ -130,7 +130,7 @@ export const MainScreen = observer(() => {
           icon={"mdi-call-made"}
           onClick={() => {
             const channelLink = import.meta.env.VITE_CHANNEL_LINK;
-            assert(channelLink);
+            assert(channelLink, "Channel link env variable is empty");
 
             WebApp.openTelegramLink(channelLink);
           }}

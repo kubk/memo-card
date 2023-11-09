@@ -20,7 +20,7 @@ export const ShareDeckButton = (props: Props) => {
   const onClick = async () => {
     if (shareId) {
       const botUrl = import.meta.env.VITE_BOT_APP_URL;
-      assert(botUrl);
+      assert(botUrl, "Bot URL is not set");
       const botUrlWithDeckId = `${trimEnd(botUrl, "/")}?startapp=${shareId}`;
       const shareUrl = `https://t.me/share/url?text=&url=${botUrlWithDeckId}`;
       WebApp.openTelegramLink(shareUrl);

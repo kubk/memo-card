@@ -14,6 +14,6 @@ export const DeckFormStoreProvider = (props: { children: ReactNode }) => {
 
 export const useDeckFormStore = () => {
   const store = useContext(Context);
-  assert(store);
+  assert(store, "DeckFormStoreProvider not found");
   return store;
 };

@@ -27,7 +27,7 @@ export class CardFormStore {
   }
 
   changeState(state: CardState) {
-    assert(this.isOpened);
+    assert(this.isOpened, "The card should be opened before changing state");
     this.state = state;
   }
 }

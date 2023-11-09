@@ -9,7 +9,7 @@ import { CardFormView } from "./card-form-view.tsx";
 export const CardForm = observer(() => {
   const deckFormStore = useDeckFormStore();
   const cardForm = deckFormStore.cardForm;
-  assert(cardForm);
+  assert(cardForm, "Card should not be empty before editing");
 
   useMainButton("Save", () => {
     deckFormStore.saveCardForm();

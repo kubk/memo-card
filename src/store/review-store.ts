@@ -64,19 +64,19 @@ export class ReviewStore {
 
   open() {
     const currentCard = this.currentCard;
-    assert(currentCard);
+    assert(currentCard, "Current card should not be empty");
     currentCard.open();
   }
 
   changeState(cardState: CardState) {
     const currentCard = this.currentCard;
-    assert(currentCard);
+    assert(currentCard, "currentCard should not be null while changing state in review");
     currentCard.changeState(cardState);
 
     const currentCardIdx = this.cardsToReview.findIndex(
       (card) => card.id === currentCard.id,
     );
-    assert(currentCardIdx !== -1);
+    assert(currentCardIdx !== -1, "currentCardIdx is empty");
     this.cardsToReview.splice(currentCardIdx, 1);
     if (currentCard.state === CardState.Forget) {
       if (!this.result.forgotIds.includes(currentCard.id)) {

@@ -55,7 +55,7 @@ export class DeckFormStore {
       const deck = deckListStore.myDecks.find(
         (myDeck) => myDeck.id === screenStore.deckFormId,
       );
-      assert(deck);
+      assert(deck, "Deck not found in deckListStore");
       this.form = {
         title: createDeckTitleField(deck.name),
         description: new TextField(deck.description ?? ""),
@@ -81,7 +81,7 @@ export class DeckFormStore {
   }
 
   openNewCardForm() {
-    assert(this.form);
+    assert(this.form, 'openNewCardForm: form is empty');
     this.cardFormIndex = this.form.cards.length;
     this.form.cards.push({
       front: createCardSideField(""),
@@ -101,7 +101,7 @@ export class DeckFormStore {
   }
 
   async onCardBack() {
-    assert(this.cardForm);
+    assert(this.cardForm, 'onCardBack: cardForm is empty');
     if (isFormEmpty(this.cardForm)) {
       this.quitCardForm();
       return;
@@ -114,7 +114,7 @@ export class DeckFormStore {
   }
 
   async onDeckBack() {
-    assert(this.form);
+    assert(this.form, 'onDeckBack: form is empty');
     if (isFormEmpty(this.form) || !isFormTouched(this.form)) {
       screenStore.navigateToMain();
       return;
@@ -127,14 +127,13 @@ export class DeckFormStore {
   }
 
   onDeckSave() {
-    assert(this.form);
+    assert(this.form, 'onDeckSave: form is empty');
 
     if (this.form.cards.length === 0) {
       showAlert("Please add at least 1 card to create a deck");
       return;
     }
 
-    assert(this.form);
     formTouchAll(this.form);
     if (!isFormValid(this.form)) {
       return;
@@ -162,8 +161,8 @@ export class DeckFormStore {
   }
 
   quitCardForm() {
-    assert(this.cardFormIndex !== undefined);
-    assert(this.form);
+    assert(this.cardFormIndex !== undefined, 'quitCardForm: cardFormIndex is empty');
+    assert(this.form, 'quitCardForm: form is empty');
     this.form.cards.splice(this.cardFormIndex, 1);
     this.cardFormIndex = undefined;
   }
