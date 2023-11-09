@@ -14,6 +14,6 @@ export const ReviewStoreProvider = (props: { children: ReactNode }) => {
 
 export const useReviewStore = () => {
   const store = useContext(Context);
-  assert(store);
+  assert(store, "ReviewStoreProvider not found");
   return store;
 };

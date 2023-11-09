@@ -15,7 +15,7 @@ import { useMainButton } from "../../lib/telegram/use-main-button.tsx";
 export const DeckPreview = observer(() => {
   const reviewStore = useReviewStore();
   const deck = deckListStore.selectedDeck;
-  assert(deck);
+  assert(deck, "Deck should not be empty before preview");
 
   useBackButton(() => {
     screenStore.navigateToMain();
