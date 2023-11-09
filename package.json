@@ -10,7 +10,9 @@
     "dev:api:start": "npx wrangler pages dev /functions --compatibility-date=2023-09-22",
     "dev:tunnel": "../ngrok http --domain=causal-magpie-closing.ngrok-free.app 5173",
     "test:api": "npx vitest --dir functions/",
+    "test:api:coverage:": "npx vitest run --dir functions/ --coverage",
     "test:frontend": "npx vitest --dir src/",
+    "test:frontend:coverage": "npx vitest run --dir src/ --coverage",
     "prod:api:logs": "npx wrangler pages deployment tail",
     "prod:deploy": "npx wrangler pages publish functions --project-name=memo-card"
   },
@@ -45,6 +47,7 @@
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
     "@vitejs/plugin-react": "^4.0.3",
+    "@vitest/coverage-v8": "^0.34.6",
     "eslint": "^8.45.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
