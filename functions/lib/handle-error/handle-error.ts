@@ -17,10 +17,11 @@ const reportErrorToTelegram = (error: unknown, env: unknown) => {
     message: (error as Error)?.message,
     name: (error as Error)?.name,
     stack: (error as Error)?.stack,
-    databaseException: error && error instanceof DatabaseException ? error.error : null,
+    databaseException:
+      error && error instanceof DatabaseException ? error.error : null,
     zodError: error && error instanceof ZodError ? error.issues : null,
-    error: JSON.stringify(error, null, 2)
-  }
+    error: JSON.stringify(error, null, 2),
+  };
 
   const bot = new Bot(envSafe.data.BOT_ERROR_REPORTING_TOKEN);
   return bot.api

@@ -27,7 +27,10 @@ export class QuickAddCardFormStore {
       return;
     }
 
-    assert(screenStore.cardQuickAddDeckId, "cardQuickAddDeckId should not be empty");
+    assert(
+      screenStore.cardQuickAddDeckId,
+      "cardQuickAddDeckId should not be empty",
+    );
 
     this.isSending = true;
 
