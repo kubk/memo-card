@@ -32,7 +32,7 @@ export const onRequestPost = handleError(async ({ env, request }) => {
   const db = getDatabase(envSafe);
 
   const getDeckQuery = await db
-    .from('deck')
+    .from("deck")
     .select()
     .eq("id", input.data.deckId)
     .not("share_id", "is", null);
@@ -52,7 +52,7 @@ export const onRequestPost = handleError(async ({ env, request }) => {
   const shareId = new ShortUniqueId({ length: 10 }).rnd();
 
   const { error } = await db
-    .from('deck')
+    .from("deck")
     .update({ share_id: shareId })
     .eq("id", input.data.deckId);
 

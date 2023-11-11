@@ -41,7 +41,7 @@ export const onRequestPost = handleError(async ({ request, env }) => {
   const db = getDatabase(envSafe);
   const { data } = input;
 
-  const createCardsResult = await db.from('deck_card').insert({
+  const createCardsResult = await db.from("deck_card").insert({
     deck_id: data.deckId,
     front: data.card.front,
     back: data.card.back,

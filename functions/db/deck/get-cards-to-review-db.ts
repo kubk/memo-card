@@ -18,7 +18,7 @@ export const getCardsToReviewDb = async (
 ): Promise<CardToReviewDbType[]> => {
   const db = getDatabase(env);
 
-  const result = await db.rpc('get_cards_to_review', {
+  const result = await db.rpc("get_cards_to_review", {
     usr_id: userId,
   });
 
