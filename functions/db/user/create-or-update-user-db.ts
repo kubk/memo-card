@@ -1,5 +1,4 @@
 import { getDatabase } from "../get-database.ts";
-import { tables } from "../tables.ts";
 import { UserTelegramType } from "../../lib/telegram/validate-telegram-request.ts";
 import { EnvType } from "../../env/env-schema.ts";
 import { DatabaseException } from "../database-exception.ts";
@@ -22,14 +21,14 @@ export const createOrUpdateUserDb = async (
   const db = getDatabase(env);
 
   const { data, error } = await db
-    .from(tables.user)
+    .from("user")
     .upsert({
       id: user.id,
       first_name: user.firstName,
       last_name: user.lastName,
       language_code: user.languageCode,
       username: user.username,
-      last_used: new Date(),
+      last_used: new Date().toISOString(),
     })
     .select();
 

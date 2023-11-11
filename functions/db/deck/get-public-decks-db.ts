@@ -1,6 +1,5 @@
 import { EnvType } from "../../env/env-schema.ts";
 import { getDatabase } from "../get-database.ts";
-import { tables } from "../tables.ts";
 import { DatabaseException } from "../database-exception.ts";
 import {
   decksWithCardsSchema,
@@ -13,7 +12,7 @@ export const getPublicDecksDb = async (
   const db = getDatabase(env);
 
   const { data, error } = await db
-    .from(tables.deck)
+    .from("deck")
     .select("*,deck_card!deck_card_deck_id_fkey(*)")
     .eq("is_public", true)
     .limit(20);

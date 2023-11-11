@@ -6,7 +6,6 @@ import { z } from "zod";
 import { canEditDeck } from "./db/deck/can-edit-deck.ts";
 import { envSchema } from "./env/env-schema.ts";
 import { getDatabase } from "./db/get-database.ts";
-import { tables } from "./db/tables.ts";
 import { DatabaseException } from "./db/database-exception.ts";
 import { createForbiddenRequestResponse } from "./lib/json-response/create-forbidden-request-response.ts";
 import { createJsonResponse } from "./lib/json-response/create-json-response.ts";
@@ -42,7 +41,7 @@ export const onRequestPost = handleError(async ({ request, env }) => {
   const db = getDatabase(envSafe);
   const { data } = input;
 
-  const createCardsResult = await db.from(tables.deckCard).insert({
+  const createCardsResult = await db.from("deck_card").insert({
     deck_id: data.deckId,
     front: data.card.front,
     back: data.card.back,

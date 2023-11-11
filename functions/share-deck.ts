@@ -6,7 +6,6 @@ import { createAuthFailedResponse } from "./lib/json-response/create-auth-failed
 import { createBadRequestResponse } from "./lib/json-response/create-bad-request-response.ts";
 import { envSchema } from "./env/env-schema.ts";
 import { getDatabase } from "./db/get-database.ts";
-import { tables } from "./db/tables.ts";
 import { DatabaseException } from "./db/database-exception.ts";
 import { createJsonResponse } from "./lib/json-response/create-json-response.ts";
 
@@ -33,7 +32,7 @@ export const onRequestPost = handleError(async ({ env, request }) => {
   const db = getDatabase(envSafe);
 
   const getDeckQuery = await db
-    .from(tables.deck)
+    .from("deck")
     .select()
     .eq("id", input.data.deckId)
     .not("share_id", "is", null);
@@ -53,7 +52,7 @@ export const onRequestPost = handleError(async ({ env, request }) => {
   const shareId = new ShortUniqueId({ length: 10 }).rnd();
 
   const { error } = await db
-    .from(tables.deck)
+    .from("deck")
     .update({ share_id: shareId })
     .eq("id", input.data.deckId);
 

@@ -1,6 +1,5 @@
 import { EnvType } from "../../env/env-schema.ts";
 import { getDatabase } from "../get-database.ts";
-import { databaseFunctions } from "../tables.ts";
 import { DatabaseException } from "../database-exception.ts";
 import { z } from "zod";
 
@@ -19,7 +18,7 @@ export const getCardsToReviewDb = async (
 ): Promise<CardToReviewDbType[]> => {
   const db = getDatabase(env);
 
-  const result = await db.rpc(databaseFunctions.getCardsToReview, {
+  const result = await db.rpc("get_cards_to_review", {
     usr_id: userId,
   });
 

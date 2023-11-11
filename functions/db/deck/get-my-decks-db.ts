@@ -1,6 +1,5 @@
 import { EnvType } from "../../env/env-schema.ts";
 import { getDatabase } from "../get-database.ts";
-import { databaseFunctions, tables } from "../tables.ts";
 import { DatabaseException } from "../database-exception.ts";
 import {
   decksWithCardsSchema,
@@ -14,7 +13,7 @@ export const getMyDecksDb = async (
 ): Promise<DeckWithCardsDbType[]> => {
   const db = getDatabase(env);
 
-  const getUserDeckIdsResult = await db.rpc(databaseFunctions.getUserDecks, {
+  const getUserDeckIdsResult = await db.rpc("get_user_decks_deck_id", {
     usr_id: userId,
   });
 
@@ -32,7 +31,7 @@ export const getMyDecksDb = async (
     .parse(getUserDeckIdsResult.data);
 
   const { data, error } = await db
-    .from(tables.deck)
+    .from("deck")
     .select("*, deck_card!deck_card_deck_id_fkey(*)")
     .in("id", deckIds);
 
