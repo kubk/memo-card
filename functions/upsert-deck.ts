@@ -5,7 +5,6 @@ import { createAuthFailedResponse } from "./lib/json-response/create-auth-failed
 import { createBadRequestResponse } from "./lib/json-response/create-bad-request-response.ts";
 import { envSchema } from "./env/env-schema.ts";
 import { getDatabase } from "./db/get-database.ts";
-import { tables } from "./db/tables.ts";
 import { DatabaseException } from "./db/database-exception.ts";
 import { createJsonResponse } from "./lib/json-response/create-json-response.ts";
 import { deckSchema } from "./db/deck/decks-with-cards-schema.ts";
@@ -50,7 +49,7 @@ export const onRequestPost = handleError(async ({ request, env }) => {
   }
 
   const upsertDeckResult = await db
-    .from(tables.deck)
+    .from('deck')
     .upsert({
       id: input.data.id ? input.data.id : undefined,
       author_id: user.id,
@@ -67,11 +66,11 @@ export const onRequestPost = handleError(async ({ request, env }) => {
   // Supabase returns an array as a result of upsert, that's why it gets validated against an array here
   const upsertedDecks = z.array(deckSchema).parse(upsertDeckResult.data);
 
-  const updateCardsResult = await db.from(tables.deckCard).upsert(
+  const updateCardsResult = await db.from('deck_card').upsert(
     input.data.cards
       .filter((card) => card.id)
       .map((card) => ({
-        id: card.id,
+        id: card.id ?? undefined,
         deck_id: upsertedDecks[0].id,
         front: card.front,
         back: card.back,
@@ -82,7 +81,7 @@ export const onRequestPost = handleError(async ({ request, env }) => {
     throw new DatabaseException(updateCardsResult.error);
   }
 
-  const createCardsResult = await db.from(tables.deckCard).insert(
+  const createCardsResult = await db.from('deck_card').insert(
     input.data.cards
       .filter((card) => !card.id)
       .map((card) => ({

@@ -3,7 +3,6 @@ import { createJsonResponse } from "./lib/json-response/create-json-response.ts"
 import { createBadRequestResponse } from "./lib/json-response/create-bad-request-response.ts";
 import { envSchema } from "./env/env-schema.ts";
 import { getDatabase } from "./db/get-database.ts";
-import { tables } from "./db/tables.ts";
 import { DatabaseException } from "./db/database-exception.ts";
 import { createNotFoundResponse } from "./lib/json-response/create-not-found-response.ts";
 import {
@@ -28,7 +27,7 @@ export const onRequest = handleError(async ({ env, request }) => {
   const db = getDatabase(envSafe);
 
   const result = await db
-    .from(tables.deck)
+    .from('deck')
     .select("*, deck_card!deck_card_deck_id_fkey(*)")
     .eq("share_id", shareId);
 

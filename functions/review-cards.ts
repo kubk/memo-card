@@ -5,7 +5,6 @@ import { z } from "zod";
 import { createBadRequestResponse } from "./lib/json-response/create-bad-request-response.ts";
 import { envSchema } from "./env/env-schema.ts";
 import { getDatabase } from "./db/get-database.ts";
-import { tables } from "./db/tables.ts";
 import { reviewCard } from "./services/review-card.ts";
 import { DateTime } from "luxon";
 import { DatabaseException } from "./db/database-exception.ts";
@@ -36,7 +35,7 @@ export const onRequestPost = handleError(async ({ env, request }) => {
   const db = getDatabase(envSafe);
 
   const { data: existingReviews, error } = await db
-    .from(tables.cardReview)
+    .from("card_review")
     .select("card_id, interval")
     .eq("user_id", user.id)
     .in(
@@ -51,7 +50,7 @@ export const onRequestPost = handleError(async ({ env, request }) => {
   const now = DateTime.now();
 
   const upsertReviewsResult = await db
-    .from(tables.cardReview)
+    .from("card_review")
     .upsert(
       input.data.cards.map((card) => {
         const previousInterval = existingReviews.find(
@@ -68,7 +67,7 @@ export const onRequestPost = handleError(async ({ env, request }) => {
         return {
           user_id: user.id,
           card_id: card.id,
-          last_review_date: now.toJSDate(),
+          last_review_date: now.toJSDate().toISOString(),
           interval: reviewResult.interval,
         };
       }),

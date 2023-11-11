@@ -1,6 +1,6 @@
-import { expect, test } from "vitest";
-import { reviewCard } from "./review-card.ts";
-import { DateTime } from "luxon";
+import {expect, test} from "vitest";
+import {reviewCard} from "./review-card.ts";
+import {DateTime} from "luxon";
 
 // For comparison: https://github.com/open-spaced-repetition/fsrs4anki/wiki/Compare-Anki's-built-in-scheduler-and-FSRS
 test("hit yes all the time", () => {
