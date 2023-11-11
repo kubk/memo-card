@@ -4,7 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "build": "tsc && vite build",
+    "build": "vite build",
+    "typecheck": "npx tsc",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "dev:frontend:start": "vite",
     "dev:api:start": "npx wrangler pages dev /functions --compatibility-date=2023-09-22",
@@ -14,7 +15,8 @@
     "test:frontend": "npx vitest --dir src/",
     "test:frontend:coverage": "npx vitest run --dir src/ --coverage",
     "prod:api:logs": "npx wrangler pages deployment tail",
-    "prod:deploy": "npx wrangler pages publish functions --project-name=memo-card"
+    "prod:deploy": "npx wrangler pages publish functions --project-name=memo-card",
+    "generate-db-types": "export $(cat .dev.vars | xargs) && npx supabase gen types typescript --db-url postgresql://postgres:$DB_PASS@$DB_HOST:5432/$DB_NAME >./functions/db/databaseTypes.ts"
   },
   "dependencies": {
     "@emotion/css": "^11.11.2",
@@ -36,6 +38,7 @@
     "react-hotkeys-hook": "^4.4.1",
     "react-lines-ellipsis": "^0.15.3",
     "short-unique-id": "^5.0.3",
+    "supabase": "^1.110.1",
     "zod": "^3.22.3"
   },
   "devDependencies": {
