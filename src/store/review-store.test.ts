@@ -58,6 +58,7 @@ describe("card form store", () => {
       [
         CardFormStore {
           "back": "Время",
+          "example": null,
           "front": "time",
           "id": 3,
           "isOpened": false,
@@ -65,6 +66,7 @@ describe("card form store", () => {
         },
         CardFormStore {
           "back": "Год",
+          "example": null,
           "front": "year",
           "id": 4,
           "isOpened": false,
@@ -72,6 +74,7 @@ describe("card form store", () => {
         },
         CardFormStore {
           "back": "Дорога",
+          "example": null,
           "front": "way",
           "id": 5,
           "isOpened": false,
@@ -89,6 +92,7 @@ describe("card form store", () => {
       [
         CardFormStore {
           "back": "Год",
+          "example": null,
           "front": "year",
           "id": 4,
           "isOpened": false,
@@ -96,6 +100,7 @@ describe("card form store", () => {
         },
         CardFormStore {
           "back": "Дорога",
+          "example": null,
           "front": "way",
           "id": 5,
           "isOpened": false,
@@ -113,6 +118,7 @@ describe("card form store", () => {
       [
         CardFormStore {
           "back": "Дорога",
+          "example": null,
           "front": "way",
           "id": 5,
           "isOpened": false,
@@ -120,6 +126,7 @@ describe("card form store", () => {
         },
         CardFormStore {
           "back": "Год",
+          "example": null,
           "front": "year",
           "id": 4,
           "isOpened": false,

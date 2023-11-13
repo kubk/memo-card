@@ -3,7 +3,7 @@ import { getUser } from "./services/get-user.ts";
 import { createAuthFailedResponse } from "./lib/json-response/create-auth-failed-response.ts";
 import { createBadRequestResponse } from "./lib/json-response/create-bad-request-response.ts";
 import { z } from "zod";
-import { canEditDeck } from "./db/deck/can-edit-deck.ts";
+import { getDeckByIdAndAuthorId } from "./db/deck/get-deck-by-id-and-author-id.ts";
 import { envSchema } from "./env/env-schema.ts";
 import { getDatabase } from "./db/get-database.ts";
 import { DatabaseException } from "./db/database-exception.ts";
@@ -16,6 +16,7 @@ const requestSchema = z.object({
     front: z.string(),
     back: z.string(),
     id: z.number().nullable().optional(),
+    example: z.string().nullable().optional(),
   }),
 });
 
@@ -33,7 +34,11 @@ export const onRequestPost = handleError(async ({ request, env }) => {
 
   const envSafe = envSchema.parse(env);
 
-  const canEdit = await canEditDeck(envSafe, input.data.deckId, user.id);
+  const canEdit = await getDeckByIdAndAuthorId(
+    envSafe,
+    input.data.deckId,
+    user.id,
+  );
   if (!canEdit) {
     return createForbiddenRequestResponse();
   }
@@ -45,6 +50,7 @@ export const onRequestPost = handleError(async ({ request, env }) => {
     deck_id: data.deckId,
     front: data.card.front,
     back: data.card.back,
+    example: data.card.example,
   });
 
   if (createCardsResult.error) {

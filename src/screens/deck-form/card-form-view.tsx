@@ -8,6 +8,7 @@ import { CardFormType } from "../../store/deck-form-store.ts";
 type Props = {
   cardForm: CardFormType;
 };
+
 export const CardFormView = observer((props: Props) => {
   const { cardForm } = props;
 
@@ -22,12 +23,16 @@ export const CardFormView = observer((props: Props) => {
       })}
     >
       <h3 className={css({ textAlign: "center" })}>Add card</h3>
-      <Label text={"Front"}>
+      <Label text={"Front"} isRequired>
         <Input {...cardForm.front.props} rows={5} type={"textarea"} />
       </Label>
 
-      <Label text={"Back"}>
+      <Label text={"Back"} isRequired>
         <Input {...cardForm.back.props} rows={5} type={"textarea"} />
+      </Label>
+
+      <Label text={"Example / Note"}>
+        <Input {...cardForm.example.props} rows={3} type={"textarea"} />
       </Label>
     </div>
   );

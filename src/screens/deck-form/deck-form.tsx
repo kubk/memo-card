@@ -43,7 +43,7 @@ export const DeckForm = observer(() => {
       <h3 className={css({ textAlign: "center" })}>
         {screenStore.deckFormId ? "Edit deck" : "Add deck"}
       </h3>
-      <Label text={"Title"}>
+      <Label text={"Title"} isRequired>
         <Input {...deckFormStore.form.title.props} />
       </Label>
 

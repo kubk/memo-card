@@ -14,6 +14,7 @@ export class CardFormStore {
     public id: number,
     public front: string,
     public back: string,
+    public example: string | null = null,
   ) {
     makeAutoObservable(this, {}, { autoBind: true });
   }

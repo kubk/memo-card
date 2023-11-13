@@ -28,5 +28,4 @@ export const deckWithCardsSchema = deckSchema.merge(
 export const decksWithCardsSchema = z.array(deckWithCardsSchema);
 
 export type DeckWithCardsDbType = z.infer<typeof deckWithCardsSchema>;
-export type DeckDbType = z.infer<typeof deckSchema>;
 export type DeckCardDbType = z.infer<typeof deckCard>;
