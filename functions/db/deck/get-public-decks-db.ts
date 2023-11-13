@@ -15,6 +15,7 @@ export const getPublicDecksDb = async (
     .from("deck")
     .select("*,deck_card!deck_card_deck_id_fkey(*)")
     .eq("is_public", true)
+    .order('id', { ascending: false })
     .limit(20);
 
   if (error) {

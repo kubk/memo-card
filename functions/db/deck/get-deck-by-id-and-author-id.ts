@@ -2,7 +2,7 @@ import { EnvType } from "../../env/env-schema.ts";
 import { getDatabase } from "../get-database.ts";
 import { DatabaseException } from "../database-exception.ts";
 
-export const canEditDeck = async (
+export const getDeckByIdAndAuthorId = async (
   envSafe: EnvType,
   deckId: number,
   userId: number,
@@ -19,5 +19,5 @@ export const canEditDeck = async (
     throw new DatabaseException(canEditDeckResult.error);
   }
 
-  return !!canEditDeckResult.data;
+  return canEditDeckResult.data.length ? canEditDeckResult.data[0] : null;
 };

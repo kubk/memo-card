@@ -7,7 +7,7 @@ export const HorizontalDivider = () => {
     <div
       className={css({
         width: "100%",
-        margin: "4px 0",
+        margin: "8px 0",
         height: 1,
         background: theme.hintColor,
       })}

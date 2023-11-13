@@ -10,8 +10,9 @@ import { createJsonResponse } from "./lib/json-response/create-json-response.ts"
 import { deckSchema } from "./db/deck/decks-with-cards-schema.ts";
 import { addDeckToMineDb } from "./db/deck/add-deck-to-mine-db.ts";
 import { createForbiddenRequestResponse } from "./lib/json-response/create-forbidden-request-response.ts";
-import { canEditDeck } from "./db/deck/can-edit-deck.ts";
+import { getDeckByIdAndAuthorId } from "./db/deck/get-deck-by-id-and-author-id.ts";
 import { shortUniqueId } from "./lib/short-unique-id/short-unique-id.ts";
+import { Database } from "./db/databaseTypes.ts";
 
 const requestSchema = z.object({
   id: z.number().nullable().optional(),
@@ -21,6 +22,7 @@ const requestSchema = z.object({
     z.object({
       front: z.string(),
       back: z.string(),
+      example: z.string().nullable().optional(),
       id: z.number().nullable().optional(),
     }),
   ),
@@ -28,6 +30,8 @@ const requestSchema = z.object({
 
 export type UpsertDeckRequest = z.infer<typeof requestSchema>;
 export type UpsertDeckResponse = null;
+
+type InsertDeckDatabaseType = Database["public"]["Tables"]["deck"]["Insert"];
 
 export const onRequestPost = handleError(async ({ request, env }) => {
   const user = await getUser(request, env);
@@ -41,25 +45,30 @@ export const onRequestPost = handleError(async ({ request, env }) => {
   const envSafe = envSchema.parse(env);
   const db = getDatabase(envSafe);
 
-  // Check user can edit the deck
+  const upsertDataDynamic: Pick<InsertDeckDatabaseType, 'share_id' | 'is_public'> = {}
+
+  // Is edit
   if (input.data.id) {
-    const result = await canEditDeck(envSafe, input.data.id, user.id);
-    if (!result) {
+    const databaseDeck = await getDeckByIdAndAuthorId(envSafe, input.data.id, user.id);
+    if (!databaseDeck) {
       return createForbiddenRequestResponse();
     }
+    // https://github.com/orgs/supabase/discussions/3447
+    upsertDataDynamic.share_id = databaseDeck.share_id;
+    upsertDataDynamic.is_public = databaseDeck.is_public;
+  } else {
+    upsertDataDynamic.share_id = shortUniqueId();
+    upsertDataDynamic.is_public = false;
   }
 
-  const upsertDeckResult = await db
-    .from("deck")
-    .upsert({
-      id: input.data.id ? input.data.id : undefined,
-      author_id: user.id,
-      share_id: input.data.id ? undefined : shortUniqueId(),
-      name: input.data.title,
-      description: input.data.description,
-      is_public: false,
-    })
-    .select();
+  const upsertData: InsertDeckDatabaseType = Object.assign({
+    id: input.data.id ? input.data.id : undefined,
+    author_id: user.id,
+    name: input.data.title,
+    description: input.data.description,
+  }, upsertDataDynamic);
+
+  const upsertDeckResult = await db.from("deck").upsert(upsertData).select();
 
   if (upsertDeckResult.error) {
     throw new DatabaseException(upsertDeckResult.error);
@@ -74,6 +83,7 @@ export const onRequestPost = handleError(async ({ request, env }) => {
       .map((card) => ({
         id: card.id ?? undefined,
         deck_id: upsertedDecks[0].id,
+        example: card.example,
         front: card.front,
         back: card.back,
       })),
@@ -88,6 +98,7 @@ export const onRequestPost = handleError(async ({ request, env }) => {
       .filter((card) => !card.id)
       .map((card) => ({
         deck_id: upsertedDecks[0].id,
+        example: card.example,
         front: card.front,
         back: card.back,
       })),

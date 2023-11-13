@@ -5,7 +5,7 @@ import {
   formTouchAll,
   isFormEmpty,
   isFormTouched,
-  isFormValid,
+  isFormValid
 } from "../lib/mobx-form/form-has-error.ts";
 import { assert } from "../lib/typescript/assert.ts";
 import { upsertDeckRequest } from "../api/api.ts";
@@ -17,6 +17,7 @@ import { showAlert } from "../lib/telegram/show-alert.ts";
 export type CardFormType = {
   front: TextField<string>;
   back: TextField<string>;
+  example: TextField<string>;
   id?: number;
 };
 
@@ -39,6 +40,7 @@ const createCardSideField = (value: string) => {
 
 export class DeckFormStore {
   cardFormIndex?: number;
+  cardFormType?: "new" | "edit";
   form?: DeckFormType;
   isSending = false;
 
@@ -63,6 +65,7 @@ export class DeckFormStore {
           id: card.id,
           front: createCardSideField(card.front),
           back: createCardSideField(card.back),
+          example: new TextField(card.example || ""),
         })),
       };
     } else {
@@ -83,14 +86,17 @@ export class DeckFormStore {
   openNewCardForm() {
     assert(this.form, "openNewCardForm: form is empty");
     this.cardFormIndex = this.form.cards.length;
+    this.cardFormType = "new";
     this.form.cards.push({
       front: createCardSideField(""),
       back: createCardSideField(""),
+      example: new TextField(""),
     });
   }
 
   editCardForm(i: number) {
     this.cardFormIndex = i;
+    this.cardFormType = "edit";
   }
 
   saveCardForm() {
@@ -98,11 +104,12 @@ export class DeckFormStore {
       return;
     }
     this.cardFormIndex = undefined;
+    this.cardFormType = undefined;
   }
 
   async onCardBack() {
     assert(this.cardForm, "onCardBack: cardForm is empty");
-    if (isFormEmpty(this.cardForm)) {
+    if (isFormEmpty(this.cardForm) || !isFormTouched(this.cardForm)) {
       this.quitCardForm();
       return;
     }
@@ -148,6 +155,7 @@ export class DeckFormStore {
         id: card.id,
         front: card.front.value,
         back: card.back.value,
+        example: card.example.value,
       })),
     })
       .then(() => {
@@ -166,8 +174,11 @@ export class DeckFormStore {
       "quitCardForm: cardFormIndex is empty",
     );
     assert(this.form, "quitCardForm: form is empty");
-    this.form.cards.splice(this.cardFormIndex, 1);
+    if (this.cardFormType === "new") {
+      this.form.cards.splice(this.cardFormIndex, 1);
+    }
     this.cardFormIndex = undefined;
+    this.cardFormType = undefined;
   }
 
   get isSaveCardButtonActive() {

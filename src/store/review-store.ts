@@ -33,7 +33,7 @@ export class ReviewStore {
     }
     decks.forEach((card) => {
       this.cardsToReview.push(
-        new CardFormStore(card.id, card.front, card.back),
+        new CardFormStore(card.id, card.front, card.back, card.example),
       );
     });
     this.initialCardCount = this.cardsToReview.length;

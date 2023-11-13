@@ -45,6 +45,13 @@ export const Card = observer(({ card, style, animate }: Props) => {
         <div>{card.front}</div>
         {card.isOpened ? <HorizontalDivider /> : null}
         {card.isOpened ? <div>{card.back}</div> : null}
+        {card.isOpened && card.example ? (
+          <div
+            className={css({ fontWeight: 400, fontSize: 14, paddingTop: 8 })}
+          >
+            {card.example}
+          </div>
+        ) : null}
       </span>
     </motion.div>
   );

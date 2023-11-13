@@ -23,6 +23,10 @@ export class TextField<T> {
     this.isTouched = true;
   }
 
+  unTouch() {
+    this.isTouched = false;
+  }
+
   get props() {
     return {
       value: this.value,
