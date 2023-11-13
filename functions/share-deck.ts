@@ -8,6 +8,7 @@ import { envSchema } from "./env/env-schema.ts";
 import { getDatabase } from "./db/get-database.ts";
 import { DatabaseException } from "./db/database-exception.ts";
 import { createJsonResponse } from "./lib/json-response/create-json-response.ts";
+import { shortUniqueId } from "./lib/short-unique-id/short-unique-id.ts";
 
 const requestSchema = z.object({
   deckId: z.number(),
@@ -49,7 +50,7 @@ export const onRequestPost = handleError(async ({ env, request }) => {
     );
   }
 
-  const shareId = new ShortUniqueId({ length: 10 }).rnd();
+  const shareId = shortUniqueId();
 
   const { error } = await db
     .from("deck")
