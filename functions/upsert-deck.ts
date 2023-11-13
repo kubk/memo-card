@@ -13,6 +13,7 @@ import { createForbiddenRequestResponse } from "./lib/json-response/create-forbi
 import { getDeckByIdAndAuthorId } from "./db/deck/get-deck-by-id-and-author-id.ts";
 import { shortUniqueId } from "./lib/short-unique-id/short-unique-id.ts";
 import { Database } from "./db/databaseTypes.ts";
+import { assert } from "./lib/typescript/assert.ts";
 
 const requestSchema = z.object({
   id: z.number().nullable().optional(),
@@ -45,10 +46,7 @@ export const onRequestPost = handleError(async ({ request, env }) => {
   const envSafe = envSchema.parse(env);
   const db = getDatabase(envSafe);
 
-  const upsertDataDynamic: Pick<
-    InsertDeckDatabaseType,
-    "share_id" | "is_public"
-  > = {};
+  const upsertDataDynamic: { share_id?: string; is_public?: boolean } = {};
 
   // Is edit
   if (input.data.id) {
@@ -67,16 +65,17 @@ export const onRequestPost = handleError(async ({ request, env }) => {
     upsertDataDynamic.share_id = shortUniqueId();
     upsertDataDynamic.is_public = false;
   }
+  assert(upsertDataDynamic.share_id !== undefined);
+  assert(upsertDataDynamic.is_public !== undefined);
 
-  const upsertData: InsertDeckDatabaseType = Object.assign(
-    {
-      id: input.data.id ? input.data.id : undefined,
-      author_id: user.id,
-      name: input.data.title,
-      description: input.data.description,
-    },
-    upsertDataDynamic,
-  );
+  const upsertData: InsertDeckDatabaseType = {
+    id: input.data.id ? input.data.id : undefined,
+    author_id: user.id,
+    name: input.data.title,
+    description: input.data.description,
+    share_id: upsertDataDynamic.share_id,
+    is_public: upsertDataDynamic.is_public,
+  };
 
   const upsertDeckResult = await db.from("deck").upsert(upsertData).select();
 

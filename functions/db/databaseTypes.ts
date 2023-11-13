@@ -54,7 +54,7 @@ export interface Database {
           id: number
           is_public: boolean
           name: string
-          share_id: string | null
+          share_id: string
         }
         Insert: {
           author_id?: number | null
@@ -63,7 +63,7 @@ export interface Database {
           id?: number
           is_public?: boolean
           name: string
-          share_id?: string | null
+          share_id: string
         }
         Update: {
           author_id?: number | null
@@ -72,7 +72,7 @@ export interface Database {
           id?: number
           is_public?: boolean
           name?: string
-          share_id?: string | null
+          share_id?: string
         }
         Relationships: [
           {
@@ -147,6 +147,7 @@ export interface Database {
           first_name: string | null
           id: number
           is_admin: boolean
+          is_remind_enabled: boolean
           language_code: string | null
           last_name: string | null
           last_reminded_date: string | null
@@ -158,6 +159,7 @@ export interface Database {
           first_name?: string | null
           id?: number
           is_admin?: boolean
+          is_remind_enabled?: boolean
           language_code?: string | null
           last_name?: string | null
           last_reminded_date?: string | null
@@ -169,6 +171,7 @@ export interface Database {
           first_name?: string | null
           id?: number
           is_admin?: boolean
+          is_remind_enabled?: boolean
           language_code?: string | null
           last_name?: string | null
           last_reminded_date?: string | null
