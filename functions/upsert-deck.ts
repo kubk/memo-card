@@ -11,6 +11,7 @@ import { deckSchema } from "./db/deck/decks-with-cards-schema.ts";
 import { addDeckToMineDb } from "./db/deck/add-deck-to-mine-db.ts";
 import { createForbiddenRequestResponse } from "./lib/json-response/create-forbidden-request-response.ts";
 import { canEditDeck } from "./db/deck/can-edit-deck.ts";
+import { shortUniqueId } from "./lib/short-unique-id/short-unique-id.ts";
 
 const requestSchema = z.object({
   id: z.number().nullable().optional(),
@@ -53,6 +54,7 @@ export const onRequestPost = handleError(async ({ request, env }) => {
     .upsert({
       id: input.data.id ? input.data.id : undefined,
       author_id: user.id,
+      share_id: input.data.id ? undefined : shortUniqueId(),
       name: input.data.title,
       description: input.data.description,
       is_public: false,
