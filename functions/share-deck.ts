@@ -1,6 +1,5 @@
 import { handleError } from "./lib/handle-error/handle-error.ts";
 import { z } from "zod";
-import ShortUniqueId from "short-unique-id";
 import { getUser } from "./services/get-user.ts";
 import { createAuthFailedResponse } from "./lib/json-response/create-auth-failed-response.ts";
 import { createBadRequestResponse } from "./lib/json-response/create-bad-request-response.ts";
