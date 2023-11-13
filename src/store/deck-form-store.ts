@@ -5,7 +5,7 @@ import {
   formTouchAll,
   isFormEmpty,
   isFormTouched,
-  isFormValid
+  isFormValid,
 } from "../lib/mobx-form/form-has-error.ts";
 import { assert } from "../lib/typescript/assert.ts";
 import { upsertDeckRequest } from "../api/api.ts";

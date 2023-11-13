@@ -34,7 +34,7 @@ export const getMyDecksDb = async (
     .from("deck")
     .select("*, deck_card!deck_card_deck_id_fkey(*)")
     .in("id", deckIds)
-    .order('id', { ascending: false });
+    .order("id", { ascending: false });
 
   if (error) {
     throw new DatabaseException(error);

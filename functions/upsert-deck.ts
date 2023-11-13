@@ -45,11 +45,18 @@ export const onRequestPost = handleError(async ({ request, env }) => {
   const envSafe = envSchema.parse(env);
   const db = getDatabase(envSafe);
 
-  const upsertDataDynamic: Pick<InsertDeckDatabaseType, 'share_id' | 'is_public'> = {}
+  const upsertDataDynamic: Pick<
+    InsertDeckDatabaseType,
+    "share_id" | "is_public"
+  > = {};
 
   // Is edit
   if (input.data.id) {
-    const databaseDeck = await getDeckByIdAndAuthorId(envSafe, input.data.id, user.id);
+    const databaseDeck = await getDeckByIdAndAuthorId(
+      envSafe,
+      input.data.id,
+      user.id,
+    );
     if (!databaseDeck) {
       return createForbiddenRequestResponse();
     }
@@ -61,12 +68,15 @@ export const onRequestPost = handleError(async ({ request, env }) => {
     upsertDataDynamic.is_public = false;
   }
 
-  const upsertData: InsertDeckDatabaseType = Object.assign({
-    id: input.data.id ? input.data.id : undefined,
-    author_id: user.id,
-    name: input.data.title,
-    description: input.data.description,
-  }, upsertDataDynamic);
+  const upsertData: InsertDeckDatabaseType = Object.assign(
+    {
+      id: input.data.id ? input.data.id : undefined,
+      author_id: user.id,
+      name: input.data.title,
+      description: input.data.description,
+    },
+    upsertDataDynamic,
+  );
 
   const upsertDeckResult = await db.from("deck").upsert(upsertData).select();
 

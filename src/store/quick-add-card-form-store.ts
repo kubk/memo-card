@@ -2,8 +2,9 @@ import { CardFormType, createDeckTitleField } from "./deck-form-store.ts";
 import { action, makeAutoObservable } from "mobx";
 import {
   formTouchAll,
-  isFormEmpty, isFormTouched,
-  isFormValid
+  isFormEmpty,
+  isFormTouched,
+  isFormValid,
 } from "../lib/mobx-form/form-has-error.ts";
 import { screenStore } from "./screen-store.ts";
 import { showConfirm } from "../lib/telegram/show-confirm.ts";
@@ -15,7 +16,7 @@ export class QuickAddCardFormStore {
   form: CardFormType = {
     back: createDeckTitleField(""),
     front: createDeckTitleField(""),
-    example: new TextField(''),
+    example: new TextField(""),
   };
   isSending = false;
 

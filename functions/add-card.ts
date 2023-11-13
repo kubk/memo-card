@@ -34,7 +34,11 @@ export const onRequestPost = handleError(async ({ request, env }) => {
 
   const envSafe = envSchema.parse(env);
 
-  const canEdit = await getDeckByIdAndAuthorId(envSafe, input.data.deckId, user.id);
+  const canEdit = await getDeckByIdAndAuthorId(
+    envSafe,
+    input.data.deckId,
+    user.id,
+  );
   if (!canEdit) {
     return createForbiddenRequestResponse();
   }

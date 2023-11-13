@@ -61,9 +61,7 @@ export const DeckPreview = observer(() => {
           <div>{deck.description}</div>
         </div>
         <div className={css({ display: "flex", gap: 4 })}>
-          <h4>
-            Cards available to review:{" "}
-          </h4>
+          <h4>Cards available to review: </h4>
           <span>{deck.cardsToReview.length}</span>
         </div>
         <div className={css({ display: "flex", gap: 4 })}>
