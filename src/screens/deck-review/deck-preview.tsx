@@ -68,7 +68,7 @@ export const DeckPreview = observer(() => {
         </div>
 
         <div className={css({ display: "flex", gap: 16 })}>
-          <ShareDeckButton deckId={deck.id} defaultShareId={deck.share_id} />
+          <ShareDeckButton deckId={deck.id} shareId={deck.share_id} />
           {deckListStore.myId && deck.author_id === deckListStore.myId ? (
             <Button
               icon={"mdi-pencil"}
