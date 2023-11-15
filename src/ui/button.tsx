@@ -3,6 +3,7 @@ import React, { useMemo } from "react";
 import { colord } from "colord";
 import { reset } from "./reset.ts";
 import { theme } from "./theme.tsx";
+import { isDarkTheme } from "../lib/color-scheme/is-dark-theme.tsx";
 
 type Props = {
   mainColor?: string;
@@ -70,7 +71,9 @@ export const Button = (props: Props) => {
         }),
         outline &&
           css({
-            backgroundColor: parsedColor.lighten(0.4).toHex(),
+            backgroundColor: parsedColor
+              .lighten(isDarkTheme() ? 0.2 : 0.4)
+              .toHex(),
             color: mainColor,
             ":hover": noPseudoClasses
               ? undefined

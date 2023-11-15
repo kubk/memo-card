@@ -3,6 +3,8 @@ import { assert } from "../../lib/typescript/assert.ts";
 import { trimEnd } from "../../lib/string/trim.ts";
 import WebApp from "@twa-dev/sdk";
 import { Button } from "../../ui/button.tsx";
+import { theme } from "../../ui/theme.tsx";
+import { isDarkTheme } from "../../lib/color-scheme/is-dark-theme.tsx";
 
 type Props = {
   deckId: number;

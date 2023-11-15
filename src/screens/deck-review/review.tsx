@@ -11,6 +11,7 @@ import { useReviewStore } from "../../store/review-store-context.tsx";
 import { Button } from "../../ui/button.tsx";
 import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
 import { useHotkeys } from "react-hotkeys-hook";
+import { isDarkTheme } from "../../lib/color-scheme/is-dark-theme.tsx";
 
 const rotateBorder = 80;
 
