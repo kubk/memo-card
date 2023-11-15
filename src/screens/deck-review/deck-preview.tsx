@@ -11,7 +11,6 @@ import { Button } from "../../ui/button.tsx";
 import { ShareDeckButton } from "./share-deck-button.tsx";
 import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
 import { useMainButton } from "../../lib/telegram/use-main-button.tsx";
-import { isDarkTheme } from "../../lib/color-scheme/is-dark-theme.tsx";
 
 export const DeckPreview = observer(() => {
   const reviewStore = useReviewStore();
