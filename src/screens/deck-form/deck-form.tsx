@@ -64,7 +64,7 @@ export const DeckForm = observer(() => {
           className={css({
             cursor: "pointer",
             backgroundColor: theme.secondaryBgColor,
-            borderRadius: 8,
+            borderRadius: theme.borderRadius,
             padding: 12,
           })}
         >

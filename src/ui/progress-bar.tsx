@@ -11,7 +11,7 @@ export const ProgressBar = ({ value, max }: Props) => {
       className={css({
         width: "100%",
         backgroundColor: theme.secondaryBgColor,
-        borderRadius: 8,
+        borderRadius: theme.borderRadius,
         position: "relative",
         overflow: "hidden",
       })}
