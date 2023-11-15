@@ -35,6 +35,7 @@ export const DeckPreview = observer(() => {
         display: "flex",
         flexDirection: "column",
         gap: 16,
+        paddingTop: 12,
       })}
     >
       <div
@@ -42,8 +43,8 @@ export const DeckPreview = observer(() => {
           display: "flex",
           flexDirection: "column",
           gap: 16,
-          borderRadius: 8,
-          padding: "8px 12px",
+          borderRadius: theme.borderRadius,
+          padding: "8px 16px",
           paddingBottom: 12,
           background: theme.secondaryBgColor,
         })}
@@ -74,9 +75,8 @@ export const DeckPreview = observer(() => {
           {deckListStore.myId && deck.author_id === deckListStore.myId ? (
             <Button
               icon={"mdi-pencil"}
+              noPseudoClasses
               outline
-              mainColor={theme.textColor}
-              transparent
               onClick={() => {
                 screenStore.navigateToDeckForm(deck.id);
               }}

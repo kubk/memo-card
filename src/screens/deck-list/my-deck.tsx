@@ -27,7 +27,7 @@ export const MyDeck = observer((props: Props) => {
         alignItems: "center",
         cursor: "pointer",
         gap: 4,
-        borderRadius: 8,
+        borderRadius: theme.borderRadius,
         padding: 12,
         background: theme.secondaryBgColor,
       })}

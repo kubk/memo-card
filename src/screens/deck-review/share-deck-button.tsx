@@ -22,13 +22,7 @@ export const ShareDeckButton = (props: Props) => {
   };
 
   return (
-    <Button
-      icon={"mdi-share"}
-      mainColor={theme.textColor}
-      onClick={onClick}
-      transparent
-      outline
-    >
+    <Button icon={"mdi-share"} noPseudoClasses outline onClick={onClick}>
       Share deck
     </Button>
   );

@@ -11,7 +11,7 @@ export const DeckLoading = () => {
         justifyContent: "space-between",
         cursor: "pointer",
         gap: 4,
-        borderRadius: 8,
+        borderRadius: theme.borderRadius,
         padding: "13px 12px",
         background: theme.secondaryBgColor,
       })}

@@ -7,7 +7,7 @@ import { theme } from "./theme.tsx";
 type Props = {
   mainColor?: string;
   outline?: boolean;
-  transparent?: boolean;
+  noPseudoClasses?: boolean;
   icon?: string;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
@@ -18,6 +18,7 @@ export const Button = (props: Props) => {
     outline,
     children,
     icon,
+    noPseudoClasses,
     ...restProps
   } = props;
 
@@ -36,17 +37,17 @@ export const Button = (props: Props) => {
           alignItems: "center",
           backgroundColor: mainColor,
           cursor: "pointer",
-          ":hover": props.transparent
+          ":hover": noPseudoClasses
             ? undefined
             : {
                 backgroundColor: parsedColor.darken(0.1).toHex(),
               },
-          ":focus": props.transparent
+          ":focus": noPseudoClasses
             ? undefined
             : {
                 boxShadow: `0 0 0 0.2rem ${parsedColor.alpha(0.4).toHex()}`,
               },
-          ":active": props.transparent
+          ":active": noPseudoClasses
             ? undefined
             : {
                 backgroundColor: parsedColor.darken(0.1).toHex(),
@@ -69,17 +70,15 @@ export const Button = (props: Props) => {
         }),
         outline &&
           css({
-            backgroundColor: props.transparent
-              ? "rgba(0,0,0,0)"
-              : theme.bgColor,
+            backgroundColor: parsedColor.lighten(0.4).toHex(),
             color: mainColor,
-            transform: "scale(0.98)",
-            outline: `1px solid ${mainColor}`,
-            ":hover": props.transparent
+            ":hover": noPseudoClasses
               ? undefined
               : {
-                  backgroundColor: parsedColor.darken(0.08).toHex(),
-                  color: theme.bgColor,
+                  backgroundColor: parsedColor
+                    .lighten(0.4)
+                    .darken(0.08)
+                    .toHex(),
                 },
           }),
         className,
