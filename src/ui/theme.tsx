@@ -15,12 +15,17 @@ const cssVarToValue = (cssProperty: string) => {
 const secondaryBgColor = "var(--tg-theme-secondary-bg-color)";
 const buttonColor = "var(--tg-theme-button-color)";
 const buttonTextColor = "var(--tg-theme-button-text-color)";
+const bgColor = "var(--tg-theme-bg-color)";
+const textColor = "var(--tg-theme-text-color)";
+const hintColor = "var(--tg-theme-hint-color)";
+const linkColor = "var(--tg-theme-link-color)";
 
 export const theme = {
-  bgColor: "var(--tg-theme-bg-color)",
-  textColor: "var(--tg-theme-text-color)",
-  hintColor: "var(--tg-theme-hint-color)",
-  linkColor: "var(--tg-theme-link-color)",
+  bgColor,
+  textColor,
+  hintColor,
+  hintColorComputed: cssVarToValue(hintColor),
+  linkColor,
   buttonColor,
   buttonTextColor,
   secondaryBgColor,
@@ -35,5 +40,5 @@ export const theme = {
   danger: "#fc2025",
   dangerLight: colord("#fc2025").alpha(0.4).toHex(),
 
-  borderRadius: 8,
+  borderRadius: 12,
 };

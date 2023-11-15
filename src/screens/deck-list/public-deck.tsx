@@ -20,7 +20,7 @@ export const PublicDeck = observer((props: Props) => {
         display: "flex",
         flexDirection: "column",
         gap: 4,
-        borderRadius: 8,
+        borderRadius: theme.borderRadius,
         padding: 12,
         cursor: "pointer",
         background: theme.secondaryBgColor,

@@ -12,6 +12,7 @@ import { Button } from "../../ui/button.tsx";
 import { DeckLoading } from "./deck-loading.tsx";
 import WebApp from "@twa-dev/sdk";
 import { assert } from "../../lib/typescript/assert.ts";
+import { ListHeader } from "../../ui/list-header.tsx";
 
 export const MainScreen = observer(() => {
   useMount(() => {
@@ -37,11 +38,8 @@ export const MainScreen = observer(() => {
 
   return (
     <div className={css({ display: "flex", flexDirection: "column", gap: 12 })}>
-      <h2 className={css({ margin: 0, padding: 0, paddingTop: 4 })}>
-        My decks
-      </h2>
-
       <div>
+        <ListHeader text={"My decks"} />
         <div
           className={css({
             display: "flex",
@@ -96,47 +94,51 @@ export const MainScreen = observer(() => {
         </div>
       </div>
 
-      <h2 className={css({ margin: 0, padding: 0 })}>Public decks</h2>
-      <div
-        className={css({
-          display: "flex",
-          flexDirection: "column",
-          gap: 6,
-        })}
-      >
-        {deckListStore.myInfo?.state === "fulfilled" &&
-        !deckListStore.publicDecks.length ? (
-          <Hint>
-            Wow! 🌟 You've added them all! There are no more public decks left
-            to discover.
-          </Hint>
-        ) : null}
+      <div>
+        <ListHeader text={"Public decks"} />
+        <div
+          className={css({
+            display: "flex",
+            flexDirection: "column",
+            gap: 6,
+          })}
+        >
+          {deckListStore.myInfo?.state === "fulfilled" &&
+          !deckListStore.publicDecks.length ? (
+            <Hint>
+              Wow! 🌟 You've added them all! There are no more public decks left
+              to discover.
+            </Hint>
+          ) : null}
 
-        {deckListStore.myInfo?.state === "fulfilled" ? (
-          <>
-            {deckListStore.publicDecks.map((deck) => (
-              <PublicDeck key={deck.id} deck={deck} />
-            ))}
-          </>
-        ) : null}
+          {deckListStore.myInfo?.state === "fulfilled" ? (
+            <>
+              {deckListStore.publicDecks.map((deck) => (
+                <PublicDeck key={deck.id} deck={deck} />
+              ))}
+            </>
+          ) : null}
 
-        {deckListStore.myInfo?.state === "pending" &&
-          [1, 2, 3].map((i) => <DeckLoading key={i} />)}
+          {deckListStore.myInfo?.state === "pending" &&
+            [1, 2, 3].map((i) => <DeckLoading key={i} />)}
+        </div>
       </div>
 
-      <h2 className={css({ margin: 0, padding: 0 })}>News and updates</h2>
-      <div className={css({ paddingBottom: 16 })}>
-        <Button
-          icon={"mdi-call-made"}
-          onClick={() => {
-            const channelLink = import.meta.env.VITE_CHANNEL_LINK;
-            assert(channelLink, "Channel link env variable is empty");
+      <div>
+        <ListHeader text={"News and updates"} />
+        <div className={css({ paddingBottom: 16 })}>
+          <Button
+            icon={"mdi-call-made"}
+            onClick={() => {
+              const channelLink = import.meta.env.VITE_CHANNEL_LINK;
+              assert(channelLink, "Channel link env variable is empty");
 
-            WebApp.openTelegramLink(channelLink);
-          }}
-        >
-          Telegram channel
-        </Button>
+              WebApp.openTelegramLink(channelLink);
+            }}
+          >
+            Telegram channel
+          </Button>
+        </div>
       </div>
     </div>
   );
