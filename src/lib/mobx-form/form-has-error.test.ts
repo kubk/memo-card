@@ -1,5 +1,5 @@
 import { expect, test } from "vitest";
-import { TextField } from "./mobx-form.ts";
+import { BooleanField, TextField } from "./mobx-form.ts";
 import { isFormEmpty, isFormTouched, isFormValid } from "./form-has-error.ts";
 import { validators } from "./validator.ts";
 
@@ -48,6 +48,17 @@ test("is form dirty", () => {
   expect(isFormTouched(f)).toBeFalsy();
 
   f.a.onChange("");
+  expect(isFormTouched(f)).toBeTruthy();
+});
+
+test("is boolean form dirty", () => {
+  const f = {
+    a: new BooleanField(false),
+  };
+
+  expect(isFormTouched(f)).toBeFalsy();
+
+  f.a.toggle();
   expect(isFormTouched(f)).toBeTruthy();
 });
 

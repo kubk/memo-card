@@ -1,14 +1,14 @@
-import { TextField } from "./mobx-form.ts";
+import { BooleanField, TextField } from "./mobx-form.ts";
 
 type Form = Record<string, unknown>;
 
 const walkAndCheck = (
-  check: (field: TextField<unknown>) => boolean,
+  check: (field: TextField<unknown> | BooleanField) => boolean,
   iterateArray: "some" | "every",
 ) => {
   return (form: Form) => {
     return Object.values(form)[iterateArray]((value) => {
-      if (value instanceof TextField) {
+      if (value instanceof TextField || value instanceof BooleanField) {
         return check(value);
       }
       if (Array.isArray(value)) {
