@@ -153,6 +153,7 @@ export const MainScreen = observer(() => {
       <div>
         <Button
           icon={"mdi-cog"}
+          disabled={deckListStore.myInfo?.state !== "fulfilled"}
           onClick={() => {
             screenStore.navigateToUserSettings();
           }}

@@ -73,7 +73,7 @@ export class UserSettingsStore {
 
     const [hour, minute] = this.form.time.value.split(":");
 
-    userSettingsRequest({
+    const body = {
       isRemindNotifyEnabled: this.form.isRemindNotifyEnabled.value,
       remindNotificationTime: DateTime.local()
         .set({
@@ -83,8 +83,14 @@ export class UserSettingsStore {
         })
         .toUTC()
         .toString(),
-    })
+    };
+
+    userSettingsRequest(body)
       .then(() => {
+        deckListStore.updateSettings({
+          is_remind_enabled: body.isRemindNotifyEnabled,
+          last_reminded_date: body.remindNotificationTime,
+        });
         this.goToMain();
       })
       .finally(

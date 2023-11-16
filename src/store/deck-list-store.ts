@@ -12,6 +12,7 @@ import { CardToReviewDbType } from "../../functions/db/deck/get-cards-to-review-
 import { assert } from "../lib/typescript/assert.ts";
 import { ReviewStore } from "./review-store.ts";
 import { reportHandledError } from "../lib/rollbar/rollbar.tsx";
+import { UserDbType } from "../../functions/db/user/create-or-update-user-db.ts";
 
 export type DeckWithCardsWithReviewType = DeckWithCardsDbType & {
   cardsToReview: DeckWithCardsDbType["deck_card"];
@@ -38,6 +39,11 @@ export class DeckListStore {
     } else {
       this.myInfo = fromPromise(myInfoRequest());
     }
+  }
+
+  updateSettings(body: Pick<UserDbType, 'is_remind_enabled' | 'last_reminded_date'>) {
+    assert(this.myInfo?.state === 'fulfilled');
+    Object.assign(this.myInfo.value.user, body);
   }
 
   async loadSharedDeck(shareId?: string) {
