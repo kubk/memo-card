@@ -5,12 +5,7 @@ import { screenStore } from "../../store/screen-store.ts";
 import { ListHeader } from "../../ui/list-header.tsx";
 import { css } from "@emotion/css";
 import { theme } from "../../ui/theme.tsx";
-import { deckListStore } from "../../store/deck-list-store.ts";
-import { DateTime } from "luxon";
-import { assert } from "../../lib/typescript/assert.ts";
-import { UserSettingsScreen } from "../../store/user-settings-store.tsx";
 import { useUserSettingsStore } from "../../store/user-settings-store-context.tsx";
-import { formatTime } from "./generate-time-range.tsx";
 
 export const UserSettings = observer(() => {
   const userSettingsStore = useUserSettingsStore();
