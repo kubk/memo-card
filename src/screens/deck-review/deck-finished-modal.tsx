@@ -1,14 +1,14 @@
 import React, { ReactNode } from "react";
 import { motion } from "framer-motion";
 import { css } from "@emotion/css";
-import { theme } from "./theme.tsx";
+import { theme } from "../../ui/theme.tsx";
 
 type Props = {
   children: ReactNode;
   marginTop?: string;
 };
 
-export const Modal = (props: Props) => {
+export const DeckFinishedModal = (props: Props) => {
   const { children } = props;
   const marginTop = props.marginTop || "200px";
 

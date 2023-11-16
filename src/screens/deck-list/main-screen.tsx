@@ -13,6 +13,7 @@ import { DeckLoading } from "./deck-loading.tsx";
 import WebApp from "@twa-dev/sdk";
 import { assert } from "../../lib/typescript/assert.ts";
 import { ListHeader } from "../../ui/list-header.tsx";
+import { range } from "../../lib/array/range.ts";
 
 export const MainScreen = observer(() => {
   useMount(() => {
@@ -37,7 +38,14 @@ export const MainScreen = observer(() => {
   }
 
   return (
-    <div className={css({ display: "flex", flexDirection: "column", gap: 12 })}>
+    <div
+      className={css({
+        display: "flex",
+        flexDirection: "column",
+        gap: 12,
+        paddingBottom: 16,
+      })}
+    >
       <div>
         <ListHeader text={"My decks"} />
         <div
@@ -48,7 +56,9 @@ export const MainScreen = observer(() => {
           })}
         >
           {deckListStore.myInfo?.state === "pending" &&
-            [1, 2, 3].map((i) => <DeckLoading key={i} />)}
+            range(deckListStore.skeletonLoaderData.myDecksCount).map((i) => (
+              <DeckLoading key={i} />
+            ))}
           {deckListStore.myInfo?.state === "fulfilled"
             ? deckListStore.myDecks.map((deck) => {
                 return <MyDeck key={deck.id} deck={deck} />;
@@ -120,25 +130,35 @@ export const MainScreen = observer(() => {
           ) : null}
 
           {deckListStore.myInfo?.state === "pending" &&
-            [1, 2, 3].map((i) => <DeckLoading key={i} />)}
+            range(deckListStore.skeletonLoaderData.publicCount).map((i) => (
+              <DeckLoading key={i} />
+            ))}
         </div>
       </div>
 
       <div>
         <ListHeader text={"News and updates"} />
-        <div className={css({ paddingBottom: 16 })}>
-          <Button
-            icon={"mdi-call-made"}
-            onClick={() => {
-              const channelLink = import.meta.env.VITE_CHANNEL_LINK;
-              assert(channelLink, "Channel link env variable is empty");
+        <Button
+          icon={"mdi-call-made"}
+          onClick={() => {
+            const channelLink = import.meta.env.VITE_CHANNEL_LINK;
+            assert(channelLink, "Channel link env variable is empty");
 
-              WebApp.openTelegramLink(channelLink);
-            }}
-          >
-            Telegram channel
-          </Button>
-        </div>
+            WebApp.openTelegramLink(channelLink);
+          }}
+        >
+          Telegram channel
+        </Button>
+      </div>
+      <div>
+        <Button
+          icon={"mdi-cog"}
+          onClick={() => {
+            screenStore.navigateToUserSettings();
+          }}
+        >
+          Settings
+        </Button>
       </div>
     </div>
   );

@@ -7,6 +7,9 @@ import { DeckFormScreen } from "./deck-form/deck-form-screen.tsx";
 import { DeckFormStoreProvider } from "../store/deck-form-store-context.tsx";
 import { QuickAddCardForm } from "./deck-form/quick-add-card-form.tsx";
 import { VersionWarning } from "./shared/version-warning.tsx";
+import React from "react";
+import { UserSettingsStoreProvider } from "../store/user-settings-store-context.tsx";
+import { UserSettingsMain } from "./user-settings/user-settings-main.tsx";
 
 export const App = observer(() => {
   return (
@@ -24,6 +27,11 @@ export const App = observer(() => {
         </DeckFormStoreProvider>
       )}
       {screenStore.screen === Screen.CardQuickAddForm && <QuickAddCardForm />}
+      {screenStore.screen === Screen.UserSettings && (
+        <UserSettingsStoreProvider>
+          <UserSettingsMain />
+        </UserSettingsStoreProvider>
+      )}
     </div>
   );
 });

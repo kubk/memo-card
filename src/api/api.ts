@@ -15,6 +15,10 @@ import {
 } from "../../functions/upsert-deck.ts";
 import { GetSharedDeckResponse } from "../../functions/get-shared-deck.ts";
 import { AddCardRequest, AddCardResponse } from "../../functions/add-card.ts";
+import {
+  UserSettingsRequest,
+  UserSettingsResponse,
+} from "../../functions/user-settings.ts";
 
 export const healthRequest = () => {
   return request<HealthResponse>("/health");
@@ -32,6 +36,14 @@ export const addDeckToMineRequest = (body: AddDeckToMineRequest) => {
   return request<AddDeckToMineResponse, AddDeckToMineRequest>(
     "/add-deck-to-mine",
     "POST",
+    body,
+  );
+};
+
+export const userSettingsRequest = (body: UserSettingsRequest) => {
+  return request<UserSettingsResponse, UserSettingsRequest>(
+    "/user-settings",
+    "PUT",
     body,
   );
 };

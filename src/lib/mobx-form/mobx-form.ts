@@ -1,4 +1,5 @@
-import { makeAutoObservable } from "mobx";
+import { action, makeAutoObservable } from "mobx";
+import { text } from "stream/consumers";
 
 export class TextField<T> {
   isTouched = false;
@@ -31,6 +32,48 @@ export class TextField<T> {
     return {
       value: this.value,
       onChange: this.onChange,
+      onBlur: this.touch,
+      error: this.error,
+      isTouched: this.isTouched,
+    };
+  }
+}
+
+export class BooleanField {
+  isTouched = false;
+
+  constructor(
+    public value: boolean,
+    public validate?: (value: any) => string | undefined,
+  ) {
+    makeAutoObservable(this, { validate: false }, { autoBind: true });
+  }
+
+  setValue(value: boolean) {
+    this.value = value;
+    this.isTouched = true;
+  }
+
+  toggle() {
+    this.setValue(!this.value);
+  }
+
+  get error() {
+    return this.validate?.(this.value);
+  }
+
+  touch() {
+    this.isTouched = true;
+  }
+
+  unTouch() {
+    this.isTouched = false;
+  }
+
+  get props() {
+    return {
+      value: this.value,
+      toggle: this.toggle,
       onBlur: this.touch,
       error: this.error,
       isTouched: this.isTouched,

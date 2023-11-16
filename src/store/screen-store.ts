@@ -6,6 +6,7 @@ export enum Screen {
   DeckPublic = "deckPublic",
   DeckForm = "deckForm",
   CardQuickAddForm = "cardQuickAddForm",
+  UserSettings = "userSettings",
 }
 
 export class ScreenStore {
@@ -40,6 +41,10 @@ export class ScreenStore {
   navigateToQuickCardAdd(deckId: number) {
     this.screen = Screen.CardQuickAddForm;
     this.cardQuickAddDeckId = deckId;
+  }
+
+  navigateToUserSettings() {
+    this.screen = Screen.UserSettings;
   }
 
   get isDeckPreviewScreen() {

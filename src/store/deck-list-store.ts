@@ -1,4 +1,4 @@
-import { action, makeAutoObservable, when } from "mobx";
+import { action, autorun, makeAutoObservable, when } from "mobx";
 import { fromPromise, IPromiseBasedObservable } from "mobx-utils";
 import {
   addDeckToMineRequest,
@@ -12,6 +12,12 @@ import { CardToReviewDbType } from "../../functions/db/deck/get-cards-to-review-
 import { assert } from "../lib/typescript/assert.ts";
 import { ReviewStore } from "./review-store.ts";
 import { reportHandledError } from "../lib/rollbar/rollbar.tsx";
+import WebApp from "@twa-dev/sdk";
+import { getCloudValue, setCloudValue } from "../lib/telegram/cloud-storage.ts";
+import {
+  getSkeletonLoaderData,
+  persistSkeletonLoaderData,
+} from "./skeleton-loader-data.ts";
 
 export type DeckWithCardsWithReviewType = DeckWithCardsDbType & {
   cardsToReview: DeckWithCardsDbType["deck_card"];
@@ -21,6 +27,7 @@ export class DeckListStore {
   myInfo?: IPromiseBasedObservable<MyInfoResponse>;
   isSharedDeckLoading = false;
   isSharedDeckLoaded = false;
+  skeletonLoaderData = { publicCount: 3, myDecksCount: 3 };
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });

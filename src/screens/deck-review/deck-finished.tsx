@@ -1,6 +1,6 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
-import { Modal } from "../../ui/modal.tsx";
+import { DeckFinishedModal } from "./deck-finished-modal.tsx";
 import { css } from "@emotion/css";
 import { useReviewStore } from "../../store/review-store-context.tsx";
 import { random } from "../../lib/array/random.ts";
@@ -41,7 +41,7 @@ export const DeckFinished = observer(() => {
   useTelegramProgress(() => reviewStore.isReviewSending);
 
   return (
-    <Modal marginTop={"32px"}>
+    <DeckFinishedModal marginTop={"32px"}>
       <div
         className={css({
           display: "flex",
@@ -53,6 +53,6 @@ export const DeckFinished = observer(() => {
 
         <p>{random(encouragingMessages)} 😊</p>
       </div>
-    </Modal>
+    </DeckFinishedModal>
   );
 });

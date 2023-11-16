@@ -10,6 +10,8 @@ export const userDbSchema = z.object({
   last_name: z.string().optional().nullable(),
   language_code: z.string().optional().nullable(),
   username: z.string().optional().nullable(),
+  is_remind_enabled: z.boolean(),
+  last_reminded_date: z.string().nullable(),
 });
 
 export type UserDbType = z.infer<typeof userDbSchema>;
