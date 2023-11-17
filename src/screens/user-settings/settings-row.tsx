@@ -12,8 +12,9 @@ export const SettingsRow = observer((props: Props) => {
       className={css({
         backgroundColor: theme.secondaryBgColor,
         borderRadius: theme.borderRadius,
-        height: 40,
-        padding: "0px 12px",
+        height: 48,
+        boxSizing: 'border-box',
+        padding: 12,
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",

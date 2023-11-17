@@ -1,6 +1,5 @@
 import { observer } from "mobx-react-lite";
 import { deckListStore } from "../../store/deck-list-store.ts";
-import { assert } from "../../lib/typescript/assert.ts";
 import { css } from "@emotion/css";
 import { theme } from "../../ui/theme.tsx";
 import React from "react";
@@ -14,8 +13,6 @@ import { useMainButton } from "../../lib/telegram/use-main-button.tsx";
 
 export const DeckPreview = observer(() => {
   const reviewStore = useReviewStore();
-  const deck = deckListStore.selectedDeck;
-  assert(deck, "Deck should not be empty before preview");
 
   useBackButton(() => {
     screenStore.go({ type: "main" });
@@ -28,6 +25,11 @@ export const DeckPreview = observer(() => {
     },
     () => deckListStore.canReview,
   );
+
+  const deck = deckListStore.selectedDeck;
+  if (!deck) {
+    return null;
+  }
 
   return (
     <div

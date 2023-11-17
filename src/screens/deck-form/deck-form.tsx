@@ -12,6 +12,7 @@ import { useMount } from "../../lib/react/use-mount.ts";
 import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
 import { useTelegramProgress } from "../../lib/telegram/use-telegram-progress.tsx";
 import { assert } from "../../lib/typescript/assert.ts";
+import { useMacTabNavigationFix } from "../useMacTabNavigationFix.tsx";
 
 export const DeckForm = observer(() => {
   const deckFormStore = useDeckFormStore();
@@ -28,6 +29,7 @@ export const DeckForm = observer(() => {
     deckFormStore.onDeckBack();
   });
   useTelegramProgress(() => deckFormStore.isSending);
+  useMacTabNavigationFix();
 
   if (!deckFormStore.form) {
     return null;

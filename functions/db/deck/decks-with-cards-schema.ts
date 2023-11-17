@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const deckCard = z.object({
+export const deckCardSchema = z.object({
   id: z.number(),
   created_at: z.string(),
   deck_id: z.number(),
@@ -21,11 +21,11 @@ export const deckSchema = z.object({
 
 export const deckWithCardsSchema = deckSchema.merge(
   z.object({
-    deck_card: z.array(deckCard),
+    deck_card: z.array(deckCardSchema),
   }),
 );
 
 export const decksWithCardsSchema = z.array(deckWithCardsSchema);
 
 export type DeckWithCardsDbType = z.infer<typeof deckWithCardsSchema>;
-export type DeckCardDbType = z.infer<typeof deckCard>;
+export type DeckCardDbType = z.infer<typeof deckCardSchema>;

@@ -11,6 +11,8 @@ import { showConfirm } from "../lib/telegram/show-confirm.ts";
 import { addCardRequest } from "../api/api.ts";
 import { assert } from "../lib/typescript/assert.ts";
 import { TextField } from "../lib/mobx-form/mobx-form.ts";
+import { AddCardRequest } from "../../functions/add-card.ts";
+import { deckListStore } from "./deck-list-store.ts";
 
 export class QuickAddCardFormStore {
   form: CardFormType = {
@@ -35,16 +37,19 @@ export class QuickAddCardFormStore {
 
     this.isSending = true;
 
-    return addCardRequest({
+    const body: AddCardRequest = {
       deckId: screen.cardQuickAddDeckId,
       card: {
         back: this.form.back.value,
         front: this.form.front.value,
         example: this.form.example.value,
       },
-    })
+    };
+
+    return addCardRequest(body)
       .then(() => {
         screenStore.back();
+        deckListStore.load();
       })
       .finally(
         action(() => {

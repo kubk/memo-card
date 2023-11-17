@@ -142,7 +142,6 @@ export class DeckListStore {
     }
 
     const decksToSearch = this.myInfo.value.myDecks.concat(this.publicDecks);
-
     const deck = decksToSearch.find((deck) => deck.id === screen.deckId);
     if (!deck) {
       return null;
@@ -188,7 +187,7 @@ export class DeckListStore {
     );
   }
 
-  updateSettings(
+  optimisticUpdateSettings(
     body: Pick<UserDbType, "is_remind_enabled" | "last_reminded_date">,
   ) {
     assert(this.myInfo?.state === "fulfilled");
