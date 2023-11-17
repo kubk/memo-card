@@ -15,6 +15,7 @@ export class CardFormStore {
     public front: string,
     public back: string,
     public example: string | null = null,
+    public deckName?: string,
   ) {
     makeAutoObservable(this, {}, { autoBind: true });
   }

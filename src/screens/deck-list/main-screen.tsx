@@ -136,31 +136,35 @@ export const MainScreen = observer(() => {
         </div>
       </div>
 
-      <div>
-        <ListHeader text={"News and updates"} />
-        <Button
-          icon={"mdi-call-made"}
-          onClick={() => {
-            const channelLink = import.meta.env.VITE_CHANNEL_LINK;
-            assert(channelLink, "Channel link env variable is empty");
+      {deckListStore.myInfo?.state === "fulfilled" && (
+        <>
+          <div>
+            <ListHeader text={"News and updates"} />
+            <Button
+              icon={"mdi-call-made"}
+              onClick={() => {
+                const channelLink = import.meta.env.VITE_CHANNEL_LINK;
+                assert(channelLink, "Channel link env variable is empty");
 
-            WebApp.openTelegramLink(channelLink);
-          }}
-        >
-          Telegram channel
-        </Button>
-      </div>
-      <div>
-        <Button
-          icon={"mdi-cog"}
-          disabled={deckListStore.myInfo?.state !== "fulfilled"}
-          onClick={() => {
-            screenStore.navigateToUserSettings();
-          }}
-        >
-          Settings
-        </Button>
-      </div>
+                WebApp.openTelegramLink(channelLink);
+              }}
+            >
+              Telegram channel
+            </Button>
+          </div>
+          <div>
+            <Button
+              icon={"mdi-cog"}
+              disabled={deckListStore.myInfo?.state !== "fulfilled"}
+              onClick={() => {
+                screenStore.navigateToUserSettings();
+              }}
+            >
+              Settings
+            </Button>
+          </div>
+        </>
+      )}
     </div>
   );
 });

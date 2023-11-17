@@ -5,10 +5,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { whileTap } from "../../ui/animations.ts";
 import { screenStore } from "../../store/screen-store.ts";
-import {
-  deckListStore,
-  DeckWithCardsWithReviewType,
-} from "../../store/deck-list-store.ts";
+import { DeckWithCardsWithReviewType } from "../../store/deck-list-store.ts";
 
 type Props = { deck: DeckWithCardsWithReviewType };
 
@@ -42,31 +39,12 @@ export const MyDeck = observer((props: Props) => {
         {deck.name}
       </div>
       <div
-        onClick={(event) => {
-          if (deckListStore.myId && deck.author_id === deckListStore.myId) {
-            event.stopPropagation();
-            screenStore.navigateToQuickCardAdd(deck.id);
-          }
-        }}
         className={css({
-          display: "flex",
-          paddingLeft: 8,
-          gap: 8,
-          alignItems: "center",
+          color: theme.success,
+          fontWeight: 600,
         })}
       >
-        {deckListStore.myId && deck.author_id === deckListStore.myId ? (
-          <span className={css({ position: "relative", top: -1 })}>+</span>
-        ) : null}
-
-        <span
-          className={css({
-            color: theme.success,
-            fontWeight: 600,
-          })}
-        >
-          {deck.cardsToReview.length}
-        </span>
+        {deck.cardsToReview.length}
       </div>
     </motion.div>
   );

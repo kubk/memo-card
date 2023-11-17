@@ -27,13 +27,19 @@ export class ReviewStore {
     makeAutoObservable(this, {}, { autoBind: true });
   }
 
-  startDeckReview(decks: DeckCardDbType[]) {
-    if (!decks.length) {
+  startDeckReview(deckCards: DeckCardDbType[], deckName: string) {
+    if (!deckCards.length) {
       return;
     }
-    decks.forEach((card) => {
+    deckCards.forEach((card) => {
       this.cardsToReview.push(
-        new CardFormStore(card.id, card.front, card.back, card.example),
+        new CardFormStore(
+          card.id,
+          card.front,
+          card.back,
+          card.example,
+          deckName,
+        ),
       );
     });
     this.initialCardCount = this.cardsToReview.length;

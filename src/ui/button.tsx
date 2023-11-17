@@ -10,6 +10,7 @@ type Props = {
   outline?: boolean;
   noPseudoClasses?: boolean;
   icon?: string;
+  column?: boolean;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 export const Button = (props: Props) => {
@@ -20,6 +21,7 @@ export const Button = (props: Props) => {
     children,
     icon,
     noPseudoClasses,
+    column,
     ...restProps
   } = props;
 
@@ -32,8 +34,9 @@ export const Button = (props: Props) => {
         reset.button,
         css({
           display: "flex",
+          flexDirection: column ? 'column' : undefined,
           width: "100%",
-          gap: 8,
+          gap: column ? 0 : 8,
           justifyContent: "center",
           alignItems: "center",
           backgroundColor: mainColor,
@@ -72,7 +75,7 @@ export const Button = (props: Props) => {
         outline &&
           css({
             backgroundColor: parsedColor
-              .lighten(isDarkTheme() ? 0.2 : 0.4)
+              .lighten(isDarkTheme() ? 0.35 : 0.4)
               .toHex(),
             color: mainColor,
             ":hover": noPseudoClasses

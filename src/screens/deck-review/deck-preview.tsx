@@ -61,20 +61,45 @@ export const DeckPreview = observer(() => {
           <h4 className={css({ paddingBottom: 4 })}>Description</h4>
           <div>{deck.description}</div>
         </div>
-        <div className={css({ display: "flex", gap: 4 })}>
-          <h4>Cards available to review: </h4>
-          <span>{deck.cardsToReview.length}</span>
-        </div>
-        <div className={css({ display: "flex", gap: 4 })}>
-          <h4 className={css({ paddingBottom: 4 })}>Total cards: </h4>
-          <span>{deck.deck_card.length}</span>
+        <div
+          className={css({
+            display: "flex",
+            gap: 4,
+            flexDirection: "column",
+            borderTop: `1px solid ${theme.dividerColor}`,
+            paddingTop: 8,
+          })}
+        >
+          <div className={css({ display: "flex", gap: 4 })}>
+            <span>Cards to review: </span>
+            <h4 className={css({ color: theme.success })}>
+              {deck.cardsToReview.length}
+            </h4>
+          </div>
+          <div className={css({ display: "flex", gap: 4 })}>
+            <span>Total cards: </span>
+            <h4>{deck.deck_card.length}</h4>
+          </div>
         </div>
 
         <div className={css({ display: "flex", gap: 16 })}>
-          <ShareDeckButton deckId={deck.id} shareId={deck.share_id} />
           {deckListStore.myId && deck.author_id === deckListStore.myId ? (
             <Button
-              icon={"mdi-pencil"}
+              column
+              icon={"mdi-plus-circle mdi-24px"}
+              noPseudoClasses
+              outline
+              onClick={() => {
+                screenStore.navigateToQuickCardAdd(deck.id);
+              }}
+            >
+              Add card
+            </Button>
+          ) : null}
+          {deckListStore.myId && deck.author_id === deckListStore.myId ? (
+            <Button
+              column
+              icon={"mdi-pencil-circle mdi-24px"}
               noPseudoClasses
               outline
               onClick={() => {
@@ -84,6 +109,13 @@ export const DeckPreview = observer(() => {
               Edit
             </Button>
           ) : null}
+
+          <ShareDeckButton
+            column={
+              deckListStore.myId ? deck.author_id === deckListStore.myId : false
+            }
+            shareId={deck.share_id}
+          />
         </div>
       </div>
       {deck.cardsToReview.length === 0 && (
