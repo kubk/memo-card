@@ -7,7 +7,7 @@
     "dev:frontend:start": "vite",
     "dev:api:start": "npx wrangler pages dev /functions --compatibility-date=2023-09-22",
     "dev:tunnel": "../ngrok http --domain=causal-magpie-closing.ngrok-free.app 5173",
-    "build": "vite build",
+    "build": "cp index.build.html index.html && vite build",
     "typecheck": "npx tsc",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "test:api": "npx vitest --dir functions/",

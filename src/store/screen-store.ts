@@ -1,54 +1,36 @@
 import { makeAutoObservable } from "mobx";
 
-export enum Screen {
-  Main = "main",
-  DeckMine = "deckMine",
-  DeckPublic = "deckPublic",
-  DeckForm = "deckForm",
-  CardQuickAddForm = "cardQuickAddForm",
-  UserSettings = "userSettings",
-}
+type Route =
+  | { type: "main" }
+  | { type: "deckMine"; deckId: number }
+  | { type: "deckPublic"; deckId: number }
+  | { type: "deckForm"; deckId?: number }
+  | { type: "cardQuickAddForm"; deckId: number }
+  | { type: "userSettings" };
 
 export class ScreenStore {
-  screen = Screen.Main;
-  deckId?: number;
-  deckFormId?: number;
-  cardQuickAddDeckId?: number;
+  history: Route[] = [{ type: "main" }];
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
   }
 
-  navigateToMain() {
-    this.screen = Screen.Main;
+  go(historyData: Route) {
+    this.history.push(historyData);
   }
 
-  navigateToMineDeck(deckId: number) {
-    this.deckId = deckId;
-    this.screen = Screen.DeckMine;
+  back() {
+    if (this.history.length > 1) {
+      this.history.pop();
+    }
   }
 
-  navigateToPublicDeck(deckId: number) {
-    this.deckId = deckId;
-    this.screen = Screen.DeckPublic;
-  }
-
-  navigateToDeckForm(deckFormId?: number) {
-    this.screen = Screen.DeckForm;
-    this.deckFormId = deckFormId;
-  }
-
-  navigateToQuickCardAdd(deckId: number) {
-    this.screen = Screen.CardQuickAddForm;
-    this.cardQuickAddDeckId = deckId;
-  }
-
-  navigateToUserSettings() {
-    this.screen = Screen.UserSettings;
+  get screen(): Route {
+    return this.history[this.history.length - 1];
   }
 
   get isDeckPreviewScreen() {
-    return this.screen === Screen.DeckPublic || this.screen === Screen.DeckMine;
+    return this.screen.type === "deckPublic" || this.screen.type === "deckMine";
   }
 }
 

@@ -26,7 +26,7 @@ export const PublicDeck = observer((props: Props) => {
         background: theme.secondaryBgColor,
       })}
       onClick={() => {
-        screenStore.navigateToPublicDeck(deck.id);
+        screenStore.go({ type: "deckPublic", deckId: deck.id });
       }}
     >
       <div

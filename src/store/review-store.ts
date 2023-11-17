@@ -120,7 +120,7 @@ export class ReviewStore {
   }
 
   submitUnfinished() {
-    screenStore.navigateToMain();
+    screenStore.go({ type: "main" });
 
     if (!this.hasResult) {
       return;
@@ -144,7 +144,7 @@ export class ReviewStore {
 
   async submitFinished() {
     if (!this.hasResult) {
-      screenStore.navigateToMain();
+      screenStore.go({ type: "main" });
       return;
     }
 

@@ -11,9 +11,13 @@ import { screenStore } from "../../store/screen-store.ts";
 import { useMount } from "../../lib/react/use-mount.ts";
 import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
 import { useTelegramProgress } from "../../lib/telegram/use-telegram-progress.tsx";
+import { assert } from "../../lib/typescript/assert.ts";
+import { useMacTabNavigationFix } from "../../lib/keyboard/useMacTabNavigationFix.tsx";
 
 export const DeckForm = observer(() => {
   const deckFormStore = useDeckFormStore();
+  const screen = screenStore.screen;
+  assert(screen.type === "deckForm");
 
   useMount(() => {
     deckFormStore.loadForm();
@@ -25,6 +29,7 @@ export const DeckForm = observer(() => {
     deckFormStore.onDeckBack();
   });
   useTelegramProgress(() => deckFormStore.isSending);
+  useMacTabNavigationFix();
 
   if (!deckFormStore.form) {
     return null;
@@ -41,15 +46,15 @@ export const DeckForm = observer(() => {
       })}
     >
       <h3 className={css({ textAlign: "center" })}>
-        {screenStore.deckFormId ? "Edit deck" : "Add deck"}
+        {screen.deckId ? "Edit deck" : "Add deck"}
       </h3>
       <Label text={"Title"} isRequired>
-        <Input {...deckFormStore.form.title.props} />
+        <Input field={deckFormStore.form.title} />
       </Label>
 
       <Label text={"Description"}>
         <Input
-          {...deckFormStore.form.description.props}
+          field={deckFormStore.form.description}
           rows={5}
           type={"textarea"}
         />

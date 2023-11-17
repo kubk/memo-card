@@ -1,6 +1,5 @@
 import { observer } from "mobx-react-lite";
 import { deckListStore } from "../../store/deck-list-store.ts";
-import { assert } from "../../lib/typescript/assert.ts";
 import { css } from "@emotion/css";
 import { theme } from "../../ui/theme.tsx";
 import React from "react";
@@ -14,11 +13,9 @@ import { useMainButton } from "../../lib/telegram/use-main-button.tsx";
 
 export const DeckPreview = observer(() => {
   const reviewStore = useReviewStore();
-  const deck = deckListStore.selectedDeck;
-  assert(deck, "Deck should not be empty before preview");
 
   useBackButton(() => {
-    screenStore.navigateToMain();
+    screenStore.go({ type: "main" });
   });
 
   useMainButton(
@@ -29,6 +26,11 @@ export const DeckPreview = observer(() => {
     () => deckListStore.canReview,
   );
 
+  const deck = deckListStore.selectedDeck;
+  if (!deck) {
+    return null;
+  }
+
   return (
     <div
       className={css({
@@ -36,6 +38,7 @@ export const DeckPreview = observer(() => {
         flexDirection: "column",
         gap: 16,
         paddingTop: 12,
+        paddingBottom: 12,
       })}
     >
       <div
@@ -90,7 +93,10 @@ export const DeckPreview = observer(() => {
               noPseudoClasses
               outline
               onClick={() => {
-                screenStore.navigateToQuickCardAdd(deck.id);
+                screenStore.go({
+                  type: "cardQuickAddForm",
+                  deckId: deck.id,
+                });
               }}
             >
               Add card
@@ -103,7 +109,7 @@ export const DeckPreview = observer(() => {
               noPseudoClasses
               outline
               onClick={() => {
-                screenStore.navigateToDeckForm(deck.id);
+                screenStore.go({ type: "deckForm", deckId: deck.id });
               }}
             >
               Edit
