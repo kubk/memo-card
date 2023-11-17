@@ -30,15 +30,13 @@ export class QuickAddCardFormStore {
       return;
     }
 
-    assert(
-      screenStore.cardQuickAddDeckId,
-      "cardQuickAddDeckId should not be empty",
-    );
+    const screen = screenStore.screen;
+    assert(screen.type === 'cardQuickAddForm')
 
     this.isSending = true;
 
     return addCardRequest({
-      deckId: screenStore.cardQuickAddDeckId,
+      deckId: screen.cardQuickAddDeckId,
       card: {
         back: this.form.back.value,
         front: this.form.front.value,
@@ -46,7 +44,7 @@ export class QuickAddCardFormStore {
       },
     })
       .then(() => {
-        screenStore.navigateToMain();
+        screenStore.back();
       })
       .finally(
         action(() => {
@@ -57,13 +55,13 @@ export class QuickAddCardFormStore {
 
   async onBack() {
     if (isFormEmpty(this.form) || !isFormTouched(this.form)) {
-      screenStore.navigateToMain();
+      screenStore.back();
       return;
     }
 
     const confirmed = await showConfirm("Quit editing card without saving?");
     if (confirmed) {
-      screenStore.navigateToMain();
+      screenStore.back();
     }
   }
 }

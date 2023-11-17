@@ -36,7 +36,7 @@ export const DeckFinished = observer(() => {
     reviewStore.submitFinished();
   });
   useMainButton("Go back", () => {
-    screenStore.navigateToMain();
+    screenStore.go({ type: 'main' });
   });
   useTelegramProgress(() => reviewStore.isReviewSending);
 

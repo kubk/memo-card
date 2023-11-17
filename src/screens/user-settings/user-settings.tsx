@@ -11,7 +11,7 @@ export const UserSettings = observer(() => {
   const userSettingsStore = useUserSettingsStore();
 
   useBackButton(() => {
-    screenStore.navigateToMain();
+    screenStore.back();
   });
 
   return (

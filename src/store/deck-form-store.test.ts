@@ -7,7 +7,10 @@ import { assert } from "../lib/typescript/assert.ts";
 vi.mock("./screen-store", () => {
   return {
     screenStore: {
-      deckFormId: 1,
+      screen: {
+        type: "deckForm",
+        deckFormId: 1,
+      }
     },
   };
 });

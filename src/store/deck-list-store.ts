@@ -7,7 +7,7 @@ import {
 } from "../api/api.ts";
 import { MyInfoResponse } from "../../functions/my-info.ts";
 import { DeckWithCardsDbType } from "../../functions/db/deck/decks-with-cards-schema.ts";
-import { Screen, screenStore } from "./screen-store.ts";
+import { screenStore } from "./screen-store.ts";
 import { CardToReviewDbType } from "../../functions/db/deck/get-cards-to-review-db.ts";
 import { assert } from "../lib/typescript/assert.ts";
 import { ReviewStore } from "./review-store.ts";
@@ -58,7 +58,7 @@ export class DeckListStore {
               (myDeck) => myDeck.id === sharedDeck.deck.id,
             )
           ) {
-            screenStore.navigateToMineDeck(sharedDeck.deck.id);
+            screenStore.go({ type: "deckMine", deckId: sharedDeck.deck.id });
             return;
           }
 
@@ -67,12 +67,12 @@ export class DeckListStore {
               (publicDeck) => publicDeck.id === sharedDeck.deck.id,
             )
           ) {
-            screenStore.navigateToPublicDeck(sharedDeck.deck.id);
+            screenStore.go({ type: "deckPublic", deckId: sharedDeck.deck.id });
             return;
           }
 
           this.myInfo.value.publicDecks.push(sharedDeck.deck);
-          screenStore.navigateToPublicDeck(sharedDeck.deck.id);
+          screenStore.go({ type: "deckPublic", deckId: sharedDeck.deck.id });
         }),
       )
       .catch((e) => {
@@ -93,7 +93,7 @@ export class DeckListStore {
     assert(deck, "canReview requires a deck to be selected");
 
     return (
-      deck.cardsToReview.length > 0 || screenStore.screen === Screen.DeckPublic
+      deck.cardsToReview.length > 0 || screenStore.screen.type === 'deckPublic'
     );
   }
 
@@ -103,11 +103,14 @@ export class DeckListStore {
     }
 
     assert(deckListStore.selectedDeck, "No selected deck for review");
-    if (screenStore.screen === Screen.DeckPublic) {
+    if (screenStore.screen.type === 'deckPublic') {
       deckListStore.addDeckToMine(deckListStore.selectedDeck.id);
     }
 
-    reviewStore.startDeckReview(deckListStore.selectedDeck.cardsToReview, deckListStore.selectedDeck.name);
+    reviewStore.startDeckReview(
+      deckListStore.selectedDeck.cardsToReview,
+      deckListStore.selectedDeck.name,
+    );
   }
 
   addDeckToMine(deckId: number) {
@@ -132,19 +135,21 @@ export class DeckListStore {
   }
 
   get selectedDeck(): DeckWithCardsWithReviewType | null {
-    if (!screenStore.deckId || this.myInfo?.state !== "fulfilled") {
+    const screen = screenStore.screen;
+    assert(screen.type === 'deckPublic' || screen.type === 'deckMine')
+    if (!screen.deckId || this.myInfo?.state !== "fulfilled") {
       return null;
     }
 
     const decksToSearch = this.myInfo.value.myDecks.concat(this.publicDecks);
 
-    const deck = decksToSearch.find((deck) => deck.id === screenStore.deckId);
+    const deck = decksToSearch.find((deck) => deck.id === screen.deckId);
     if (!deck) {
       return null;
     }
 
     const cardsToReview =
-      screenStore.screen === Screen.DeckPublic
+      screen.type === 'deckPublic'
         ? deck.deck_card
         : getCardsToReview(deck, this.myInfo.value.cardsToReview);
 
@@ -183,8 +188,10 @@ export class DeckListStore {
     );
   }
 
-  updateSettings(body: Pick<UserDbType, 'is_remind_enabled' | 'last_reminded_date'>) {
-    assert(this.myInfo?.state === 'fulfilled');
+  updateSettings(
+    body: Pick<UserDbType, "is_remind_enabled" | "last_reminded_date">,
+  ) {
+    assert(this.myInfo?.state === "fulfilled");
     Object.assign(this.myInfo.value.user, body);
   }
 }

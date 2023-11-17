@@ -18,7 +18,7 @@ export const DeckPreview = observer(() => {
   assert(deck, "Deck should not be empty before preview");
 
   useBackButton(() => {
-    screenStore.navigateToMain();
+    screenStore.go({ type: 'main' });
   });
 
   useMainButton(
@@ -36,6 +36,7 @@ export const DeckPreview = observer(() => {
         flexDirection: "column",
         gap: 16,
         paddingTop: 12,
+        paddingBottom: 12,
       })}
     >
       <div
@@ -90,7 +91,7 @@ export const DeckPreview = observer(() => {
               noPseudoClasses
               outline
               onClick={() => {
-                screenStore.navigateToQuickCardAdd(deck.id);
+                screenStore.go({ type: 'cardQuickAddForm', cardQuickAddDeckId: deck.id });
               }}
             >
               Add card
@@ -103,7 +104,7 @@ export const DeckPreview = observer(() => {
               noPseudoClasses
               outline
               onClick={() => {
-                screenStore.navigateToDeckForm(deck.id);
+                screenStore.go({ type: 'deckForm', deckFormId: deck.id });
               }}
             >
               Edit
