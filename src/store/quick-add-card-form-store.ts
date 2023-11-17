@@ -1,8 +1,4 @@
-import {
-  CardFormType,
-  createCardSideField,
-  createDeckTitleField,
-} from "./deck-form-store.ts";
+import { CardFormType, createCardSideField } from "./deck-form-store.ts";
 import { action, makeAutoObservable } from "mobx";
 import {
   formTouchAll,
