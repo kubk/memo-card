@@ -11,8 +11,6 @@ import { Button } from "../../ui/button.tsx";
 import { ShareDeckButton } from "./share-deck-button.tsx";
 import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
 import { useMainButton } from "../../lib/telegram/use-main-button.tsx";
-import { trimEnd } from "../../lib/string/trim.ts";
-import WebApp from "@twa-dev/sdk";
 
 export const DeckPreview = observer(() => {
   const reviewStore = useReviewStore();

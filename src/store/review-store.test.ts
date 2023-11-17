@@ -52,12 +52,13 @@ describe("card form store", () => {
 
   it("basic", () => {
     const reviewStore = new ReviewStore();
-    reviewStore.startDeckReview(deckCardsMock);
+    reviewStore.startDeckReview(deckCardsMock, '');
     expect(reviewStore.isFinished).toBeFalsy();
     expect(reviewStore.cardsToReview).toMatchInlineSnapshot(`
       [
         CardFormStore {
           "back": "Время",
+          "deckName": "",
           "example": null,
           "front": "time",
           "id": 3,
@@ -66,6 +67,7 @@ describe("card form store", () => {
         },
         CardFormStore {
           "back": "Год",
+          "deckName": "",
           "example": null,
           "front": "year",
           "id": 4,
@@ -74,6 +76,7 @@ describe("card form store", () => {
         },
         CardFormStore {
           "back": "Дорога",
+          "deckName": "",
           "example": null,
           "front": "way",
           "id": 5,
@@ -92,6 +95,7 @@ describe("card form store", () => {
       [
         CardFormStore {
           "back": "Год",
+          "deckName": "",
           "example": null,
           "front": "year",
           "id": 4,
@@ -100,6 +104,7 @@ describe("card form store", () => {
         },
         CardFormStore {
           "back": "Дорога",
+          "deckName": "",
           "example": null,
           "front": "way",
           "id": 5,
@@ -118,6 +123,7 @@ describe("card form store", () => {
       [
         CardFormStore {
           "back": "Дорога",
+          "deckName": "",
           "example": null,
           "front": "way",
           "id": 5,
@@ -126,6 +132,7 @@ describe("card form store", () => {
         },
         CardFormStore {
           "back": "Год",
+          "deckName": "",
           "example": null,
           "front": "year",
           "id": 4,
@@ -150,7 +157,7 @@ describe("card form store", () => {
 
   it("current next", () => {
     const reviewStore = new ReviewStore();
-    reviewStore.startDeckReview(deckCardsMock);
+    reviewStore.startDeckReview(deckCardsMock, '');
     expect(reviewStore.isFinished).toBeFalsy();
 
     expect(reviewStore.currentCard?.id).toEqual(3);
@@ -189,7 +196,7 @@ describe("card form store", () => {
 
   it("hit wrong many times", () => {
     const reviewStore = new ReviewStore();
-    reviewStore.startDeckReview(deckCardsMock);
+    reviewStore.startDeckReview(deckCardsMock, '');
     expect(reviewStore.isFinished).toBeFalsy();
 
     reviewStore.open();

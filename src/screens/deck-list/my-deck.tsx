@@ -5,10 +5,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { whileTap } from "../../ui/animations.ts";
 import { screenStore } from "../../store/screen-store.ts";
-import {
-  deckListStore,
-  DeckWithCardsWithReviewType,
-} from "../../store/deck-list-store.ts";
+import { DeckWithCardsWithReviewType } from "../../store/deck-list-store.ts";
 
 type Props = { deck: DeckWithCardsWithReviewType };
 
