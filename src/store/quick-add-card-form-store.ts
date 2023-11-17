@@ -1,4 +1,8 @@
-import { CardFormType, createDeckTitleField } from "./deck-form-store.ts";
+import {
+  CardFormType,
+  createCardSideField,
+  createDeckTitleField,
+} from "./deck-form-store.ts";
 import { action, makeAutoObservable } from "mobx";
 import {
   formTouchAll,
@@ -16,8 +20,8 @@ import { deckListStore } from "./deck-list-store.ts";
 
 export class QuickAddCardFormStore {
   form: CardFormType = {
-    back: createDeckTitleField(""),
-    front: createDeckTitleField(""),
+    back: createCardSideField(""),
+    front: createCardSideField(""),
     example: new TextField(""),
   };
   isSending = false;

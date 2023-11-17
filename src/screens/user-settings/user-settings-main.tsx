@@ -13,6 +13,8 @@ import { theme } from "../../ui/theme.tsx";
 import { Select } from "../../ui/select.tsx";
 import { Hint } from "../../ui/hint.tsx";
 import { css } from "@emotion/css";
+import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
+import { screenStore } from "../../store/screen-store.ts";
 
 export const timeRanges = generateTimeRange();
 
@@ -28,6 +30,9 @@ export const UserSettingsMain = observer(() => {
     () => userSettingsStore.isSaveVisible,
   );
 
+  useBackButton(() => {
+    screenStore.go({ type: "main" });
+  });
   useTelegramProgress(() => userSettingsStore.isSending);
 
   if (deckListStore.myInfo?.state !== "fulfilled") {
@@ -83,10 +88,7 @@ export const UserSettingsMain = observer(() => {
           </SettingsRow>
         )}
 
-        <Hint>
-          ⭐ Daily reminders help you keep up with your reviews, making it
-          easier for you to remember the information
-        </Hint>
+        <Hint>⭐ Daily reminders will help you remember to repeat cards</Hint>
       </div>
     </div>
   );

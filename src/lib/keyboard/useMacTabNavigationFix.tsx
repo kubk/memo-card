@@ -28,7 +28,11 @@ export const useMacTabNavigationFix = () => {
             // Shift + Tab was pressed
             // @ts-expect-error
             inputs[currentIndex - 1].focus();
-          } else if (!event.shiftKey && currentIndex >= 0 && currentIndex < inputs.length - 1) {
+          } else if (
+            !event.shiftKey &&
+            currentIndex >= 0 &&
+            currentIndex < inputs.length - 1
+          ) {
             // Only Tab was pressed
             // @ts-expect-error
             inputs[currentIndex + 1].focus();

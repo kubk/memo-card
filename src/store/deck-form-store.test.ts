@@ -9,7 +9,7 @@ vi.mock("./screen-store", () => {
     screenStore: {
       screen: {
         type: "deckForm",
-        deckFormId: 1,
+        deckId: 1,
       },
     },
   };

@@ -1,21 +1,20 @@
 import { ChangeEvent } from "react";
 import { css } from "@emotion/css";
 import { theme } from "./theme.tsx";
+import { TextField } from "../lib/mobx-form/mobx-form.ts";
+import { observer } from "mobx-react-lite";
 
 interface Props {
-  value: string;
   placeholder?: string;
-  onChange: (value: string) => void;
   type?: "input" | "textarea";
-  isTouched?: boolean;
-  onBlur: () => void;
-  error?: string;
+  field: TextField<string>;
   rows?: number;
 }
 
-export const Input = (props: Props) => {
-  const { onChange, value, placeholder, type, rows, isTouched, error, onBlur } =
-    props;
+export const Input = observer((props: Props) => {
+  const { field, placeholder, type, rows } = props;
+  const { onChange, value, isTouched, error, onBlur } = field.props;
+
   const handleInputChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
@@ -58,4 +57,4 @@ export const Input = (props: Props) => {
       ) : null}
     </div>
   );
-};
+});

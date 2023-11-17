@@ -3,7 +3,7 @@ import { css } from "@emotion/css";
 import { theme } from "../../ui/theme.tsx";
 
 export const VersionWarning = () => {
-  if (WebApp.isVersionAtLeast('6.1')) {
+  if (WebApp.isVersionAtLeast("6.1")) {
     return null;
   }
 

@@ -12,7 +12,7 @@ import { useMount } from "../../lib/react/use-mount.ts";
 import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
 import { useTelegramProgress } from "../../lib/telegram/use-telegram-progress.tsx";
 import { assert } from "../../lib/typescript/assert.ts";
-import { useMacTabNavigationFix } from "../useMacTabNavigationFix.tsx";
+import { useMacTabNavigationFix } from "../../lib/keyboard/useMacTabNavigationFix.tsx";
 
 export const DeckForm = observer(() => {
   const deckFormStore = useDeckFormStore();
@@ -49,12 +49,12 @@ export const DeckForm = observer(() => {
         {screen.deckId ? "Edit deck" : "Add deck"}
       </h3>
       <Label text={"Title"} isRequired>
-        <Input {...deckFormStore.form.title.props} />
+        <Input field={deckFormStore.form.title} />
       </Label>
 
       <Label text={"Description"}>
         <Input
-          {...deckFormStore.form.description.props}
+          field={deckFormStore.form.description}
           rows={5}
           type={"textarea"}
         />
