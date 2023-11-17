@@ -5,12 +5,12 @@ import WebApp from "@twa-dev/sdk";
 import { Button } from "../../ui/button.tsx";
 
 type Props = {
-  deckId: number;
   shareId?: string | null;
+  column?: boolean;
 };
 
 export const ShareDeckButton = (props: Props) => {
-  const { shareId } = props;
+  const { shareId, column } = props;
 
   const onClick = async () => {
     const botUrl = import.meta.env.VITE_BOT_APP_URL;
@@ -21,8 +21,14 @@ export const ShareDeckButton = (props: Props) => {
   };
 
   return (
-    <Button icon={"mdi-share"} noPseudoClasses outline onClick={onClick}>
-      Share deck
+    <Button
+      column={column}
+      icon={"mdi-share-circle mdi-24px"}
+      noPseudoClasses
+      outline
+      onClick={onClick}
+    >
+      Share
     </Button>
   );
 };

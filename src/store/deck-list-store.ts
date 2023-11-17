@@ -41,11 +41,6 @@ export class DeckListStore {
     }
   }
 
-  updateSettings(body: Pick<UserDbType, 'is_remind_enabled' | 'last_reminded_date'>) {
-    assert(this.myInfo?.state === 'fulfilled');
-    Object.assign(this.myInfo.value.user, body);
-  }
-
   async loadSharedDeck(shareId?: string) {
     if (!shareId || this.isSharedDeckLoaded) {
       return;
@@ -112,7 +107,7 @@ export class DeckListStore {
       deckListStore.addDeckToMine(deckListStore.selectedDeck.id);
     }
 
-    reviewStore.startDeckReview(deckListStore.selectedDeck.cardsToReview);
+    reviewStore.startDeckReview(deckListStore.selectedDeck.cardsToReview, deckListStore.selectedDeck.name);
   }
 
   addDeckToMine(deckId: number) {
@@ -186,6 +181,11 @@ export class DeckListStore {
       this.myDecks.length > 0 &&
       this.myDecks.every((deck) => deck.cardsToReview.length === 0)
     );
+  }
+
+  updateSettings(body: Pick<UserDbType, 'is_remind_enabled' | 'last_reminded_date'>) {
+    assert(this.myInfo?.state === 'fulfilled');
+    Object.assign(this.myInfo.value.user, body);
   }
 }
 

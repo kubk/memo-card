@@ -99,11 +99,11 @@ export const Review = observer(() => {
       })}
     >
       <div
-        style={{
+        className={css({
           width: cardSize,
           position: "absolute",
           top: 8,
-        }}
+        })}
       >
         {reviewStore.initialCardCount && (
           <ProgressBar
@@ -113,6 +113,17 @@ export const Review = observer(() => {
             max={reviewStore.initialCardCount}
           />
         )}
+      </div>
+      <div
+        className={css({
+          position: "absolute",
+          top: 41,
+          fontSize: 14,
+          whiteSpace: "nowrap",
+          color: theme.hintColor,
+        })}
+      >
+        {reviewStore.currentCard?.deckName}
       </div>
       <div
         className={css({
