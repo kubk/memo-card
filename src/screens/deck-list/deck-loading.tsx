@@ -12,7 +12,7 @@ export const DeckLoading = () => {
         cursor: "pointer",
         gap: 4,
         borderRadius: theme.borderRadius,
-        padding: "13px 12px",
+        padding: "14px 12px",
         background: theme.secondaryBgColor,
       })}
     >

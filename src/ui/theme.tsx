@@ -39,7 +39,7 @@ export const theme = {
   successLight: colord("#2ecb47").alpha(0.4).toHex(),
   danger: "#fc2025",
   dangerLight: colord("#fc2025").alpha(0.4).toHex(),
-  dividerColor: '#ccc',
+  dividerColor: "#ccc",
 
   borderRadius: 12,
 };

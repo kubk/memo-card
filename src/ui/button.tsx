@@ -34,7 +34,7 @@ export const Button = (props: Props) => {
         reset.button,
         css({
           display: "flex",
-          flexDirection: column ? 'column' : undefined,
+          flexDirection: column ? "column" : undefined,
           width: "100%",
           gap: column ? 0 : 8,
           justifyContent: "center",

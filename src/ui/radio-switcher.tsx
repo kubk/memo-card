@@ -5,7 +5,6 @@ import { theme } from "./theme.tsx";
 const config = {
   colors: {
     blueLight: theme.success,
-    grayLight: "#98a9bc",
     grayLightExtra: "#e8ecef",
     white: "#fff",
   },
@@ -59,7 +58,7 @@ export const RadioSwitcher = (props: Props) => {
             justifyContent: "center",
             alignItems: "center",
             position: "absolute",
-            backgroundColor: config.colors.grayLight,
+            backgroundColor: config.colors.white,
             boxShadow: "0 0 8px rgba(56, 0, 107, 0.16)",
             width: config.cursorSize,
             height: config.cursorSize,
@@ -71,7 +70,6 @@ export const RadioSwitcher = (props: Props) => {
           }),
           isOn &&
             css({
-              backgroundColor: config.colors.white,
               left: `calc(100% - ${config.cursorSize}px - 4px)`,
             }),
         )}

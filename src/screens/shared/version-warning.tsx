@@ -3,7 +3,7 @@ import { css } from "@emotion/css";
 import { theme } from "../../ui/theme.tsx";
 
 export const VersionWarning = () => {
-  if (WebApp.version !== "6.0") {
+  if (WebApp.isVersionAtLeast("6.1")) {
     return null;
   }
 
@@ -28,7 +28,7 @@ export const VersionWarning = () => {
           fontSize: 12,
         })}
       >
-        Please update your Telegram to ensure stable functioning of this bot.
+        Please update your Telegram to ensure stable functioning of this app.
       </div>
     </div>
   );

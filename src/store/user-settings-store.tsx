@@ -6,15 +6,11 @@ import { DateTime } from "luxon";
 import { formatTime } from "../screens/user-settings/generate-time-range.tsx";
 import { isFormTouched } from "../lib/mobx-form/form-has-error.ts";
 import { userSettingsRequest } from "../api/api.ts";
-
-export enum UserSettingsScreen {
-  UserReviewSettings = "userReviewSettings",
-}
+import { screenStore } from "./screen-store.ts";
 
 const DEFAULT_TIME = "12:00";
 
 export class UserSettingsStore {
-  screen?: UserSettingsScreen;
   form?: {
     isRemindNotifyEnabled: BooleanField;
     time: TextField<string>;
@@ -43,28 +39,8 @@ export class UserSettingsStore {
     };
   }
 
-  goToUserReviewSettings() {
-    this.screen = UserSettingsScreen.UserReviewSettings;
-  }
-
-  goToMain() {
-    this.screen = undefined;
-  }
-
   get isSaveVisible() {
     return !!this.form && isFormTouched(this.form);
-  }
-
-  get notifyTimePreview() {
-    if (!this.form) {
-      return null;
-    }
-
-    if (!this.form.isRemindNotifyEnabled.value) {
-      return "Off";
-    }
-
-    return this.form?.time?.value || "Not set";
   }
 
   submit() {
@@ -87,11 +63,11 @@ export class UserSettingsStore {
 
     userSettingsRequest(body)
       .then(() => {
-        deckListStore.updateSettings({
+        deckListStore.optimisticUpdateSettings({
           is_remind_enabled: body.isRemindNotifyEnabled,
           last_reminded_date: body.remindNotificationTime,
         });
-        this.goToMain();
+        screenStore.go({ type: "main" });
       })
       .finally(
         action(() => {

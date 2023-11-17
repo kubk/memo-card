@@ -52,7 +52,7 @@ describe("card form store", () => {
 
   it("basic", () => {
     const reviewStore = new ReviewStore();
-    reviewStore.startDeckReview(deckCardsMock, '');
+    reviewStore.startDeckReview(deckCardsMock, "");
     expect(reviewStore.isFinished).toBeFalsy();
     expect(reviewStore.cardsToReview).toMatchInlineSnapshot(`
       [
@@ -157,7 +157,7 @@ describe("card form store", () => {
 
   it("current next", () => {
     const reviewStore = new ReviewStore();
-    reviewStore.startDeckReview(deckCardsMock, '');
+    reviewStore.startDeckReview(deckCardsMock, "");
     expect(reviewStore.isFinished).toBeFalsy();
 
     expect(reviewStore.currentCard?.id).toEqual(3);
@@ -196,7 +196,7 @@ describe("card form store", () => {
 
   it("hit wrong many times", () => {
     const reviewStore = new ReviewStore();
-    reviewStore.startDeckReview(deckCardsMock, '');
+    reviewStore.startDeckReview(deckCardsMock, "");
     expect(reviewStore.isFinished).toBeFalsy();
 
     reviewStore.open();

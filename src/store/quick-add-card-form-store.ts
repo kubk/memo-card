@@ -1,4 +1,4 @@
-import { CardFormType, createDeckTitleField } from "./deck-form-store.ts";
+import { CardFormType, createCardSideField } from "./deck-form-store.ts";
 import { action, makeAutoObservable } from "mobx";
 import {
   formTouchAll,
@@ -11,11 +11,13 @@ import { showConfirm } from "../lib/telegram/show-confirm.ts";
 import { addCardRequest } from "../api/api.ts";
 import { assert } from "../lib/typescript/assert.ts";
 import { TextField } from "../lib/mobx-form/mobx-form.ts";
+import { AddCardRequest } from "../../functions/add-card.ts";
+import { deckListStore } from "./deck-list-store.ts";
 
 export class QuickAddCardFormStore {
   form: CardFormType = {
-    back: createDeckTitleField(""),
-    front: createDeckTitleField(""),
+    back: createCardSideField(""),
+    front: createCardSideField(""),
     example: new TextField(""),
   };
   isSending = false;
@@ -30,23 +32,24 @@ export class QuickAddCardFormStore {
       return;
     }
 
-    assert(
-      screenStore.cardQuickAddDeckId,
-      "cardQuickAddDeckId should not be empty",
-    );
+    const screen = screenStore.screen;
+    assert(screen.type === "cardQuickAddForm");
 
     this.isSending = true;
 
-    return addCardRequest({
-      deckId: screenStore.cardQuickAddDeckId,
+    const body: AddCardRequest = {
+      deckId: screen.deckId,
       card: {
         back: this.form.back.value,
         front: this.form.front.value,
         example: this.form.example.value,
       },
-    })
+    };
+
+    return addCardRequest(body)
       .then(() => {
-        screenStore.navigateToMain();
+        screenStore.back();
+        deckListStore.load();
       })
       .finally(
         action(() => {
@@ -57,13 +60,13 @@ export class QuickAddCardFormStore {
 
   async onBack() {
     if (isFormEmpty(this.form) || !isFormTouched(this.form)) {
-      screenStore.navigateToMain();
+      screenStore.back();
       return;
     }
 
     const confirmed = await showConfirm("Quit editing card without saving?");
     if (confirmed) {
-      screenStore.navigateToMain();
+      screenStore.back();
     }
   }
 }

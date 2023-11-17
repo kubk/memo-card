@@ -74,7 +74,7 @@ export const MainScreen = observer(() => {
                   color: theme.linkColor,
                 })}
                 onClick={() => {
-                  screenStore.navigateToDeckForm();
+                  screenStore.go({ type: "deckForm" });
                 }}
               >
                 create one
@@ -88,7 +88,7 @@ export const MainScreen = observer(() => {
             <Button
               icon={"mdi-plus"}
               onClick={() => {
-                screenStore.navigateToDeckForm();
+                screenStore.go({ type: "deckForm" });
               }}
             >
               Add deck
@@ -157,7 +157,7 @@ export const MainScreen = observer(() => {
               icon={"mdi-cog"}
               disabled={deckListStore.myInfo?.state !== "fulfilled"}
               onClick={() => {
-                screenStore.navigateToUserSettings();
+                screenStore.go({ type: "userSettings" });
               }}
             >
               Settings

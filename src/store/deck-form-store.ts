@@ -34,7 +34,7 @@ export const createDeckTitleField = (value: string) => {
   );
 };
 
-const createCardSideField = (value: string) => {
+export const createCardSideField = (value: string) => {
   return new TextField(value, validators.required());
 };
 
@@ -53,9 +53,12 @@ export class DeckFormStore {
       return;
     }
 
-    if (screenStore.deckFormId) {
+    const screen = screenStore.screen;
+    assert(screen.type === "deckForm");
+
+    if (screen.deckId) {
       const deck = deckListStore.myDecks.find(
-        (myDeck) => myDeck.id === screenStore.deckFormId,
+        (myDeck) => myDeck.id === screen.deckId,
       );
       assert(deck, "Deck not found in deckListStore");
       this.form = {
@@ -123,13 +126,13 @@ export class DeckFormStore {
   async onDeckBack() {
     assert(this.form, "onDeckBack: form is empty");
     if (isFormEmpty(this.form) || !isFormTouched(this.form)) {
-      screenStore.navigateToMain();
+      screenStore.back();
       return;
     }
 
     const confirmed = await showConfirm("Stop adding deck and quit?");
     if (confirmed) {
-      screenStore.navigateToMain();
+      screenStore.back();
     }
   }
 
@@ -147,8 +150,11 @@ export class DeckFormStore {
     }
     this.isSending = true;
 
+    const screen = screenStore.screen;
+    assert(screen.type === "deckForm");
+
     return upsertDeckRequest({
-      id: screenStore.deckFormId,
+      id: screen.deckId,
       title: this.form.title.value,
       description: this.form.description.value,
       cards: this.form.cards.map((card) => ({
@@ -159,7 +165,7 @@ export class DeckFormStore {
       })),
     })
       .then(() => {
-        screenStore.navigateToMain();
+        screenStore.go({ type: "main" });
       })
       .finally(
         action(() => {
