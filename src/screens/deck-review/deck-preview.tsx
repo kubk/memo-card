@@ -95,7 +95,7 @@ export const DeckPreview = observer(() => {
               onClick={() => {
                 screenStore.go({
                   type: "cardQuickAddForm",
-                  cardQuickAddDeckId: deck.id,
+                  deckId: deck.id,
                 });
               }}
             >
@@ -109,7 +109,7 @@ export const DeckPreview = observer(() => {
               noPseudoClasses
               outline
               onClick={() => {
-                screenStore.go({ type: "deckForm", deckFormId: deck.id });
+                screenStore.go({ type: "deckForm", deckId: deck.id });
               }}
             >
               Edit

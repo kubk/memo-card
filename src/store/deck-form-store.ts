@@ -56,9 +56,9 @@ export class DeckFormStore {
     const screen = screenStore.screen;
     assert(screen.type === "deckForm");
 
-    if (screen.deckFormId) {
+    if (screen.deckId) {
       const deck = deckListStore.myDecks.find(
-        (myDeck) => myDeck.id === screen.deckFormId,
+        (myDeck) => myDeck.id === screen.deckId,
       );
       assert(deck, "Deck not found in deckListStore");
       this.form = {
@@ -154,7 +154,7 @@ export class DeckFormStore {
     assert(screen.type === "deckForm");
 
     return upsertDeckRequest({
-      id: screen.deckFormId,
+      id: screen.deckId,
       title: this.form.title.value,
       description: this.form.description.value,
       cards: this.form.cards.map((card) => ({

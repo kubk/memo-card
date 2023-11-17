@@ -4,10 +4,8 @@ type Route =
   | { type: "main" }
   | { type: "deckMine"; deckId: number }
   | { type: "deckPublic"; deckId: number }
-  // TODO: rename to deck id
-  | { type: "deckForm"; deckFormId?: number }
-  // TODO: rename to deck id
-  | { type: "cardQuickAddForm"; cardQuickAddDeckId: number }
+  | { type: "deckForm"; deckId?: number }
+  | { type: "cardQuickAddForm"; deckId: number }
   | { type: "userSettings" };
 
 export class ScreenStore {

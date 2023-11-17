@@ -38,7 +38,7 @@ export class QuickAddCardFormStore {
     this.isSending = true;
 
     const body: AddCardRequest = {
-      deckId: screen.cardQuickAddDeckId,
+      deckId: screen.deckId,
       card: {
         back: this.form.back.value,
         front: this.form.front.value,
