@@ -18,7 +18,7 @@ export const DeckPreview = observer(() => {
   assert(deck, "Deck should not be empty before preview");
 
   useBackButton(() => {
-    screenStore.go({ type: 'main' });
+    screenStore.go({ type: "main" });
   });
 
   useMainButton(
@@ -91,7 +91,10 @@ export const DeckPreview = observer(() => {
               noPseudoClasses
               outline
               onClick={() => {
-                screenStore.go({ type: 'cardQuickAddForm', cardQuickAddDeckId: deck.id });
+                screenStore.go({
+                  type: "cardQuickAddForm",
+                  cardQuickAddDeckId: deck.id,
+                });
               }}
             >
               Add card
@@ -104,7 +107,7 @@ export const DeckPreview = observer(() => {
               noPseudoClasses
               outline
               onClick={() => {
-                screenStore.go({ type: 'deckForm', deckFormId: deck.id });
+                screenStore.go({ type: "deckForm", deckFormId: deck.id });
               }}
             >
               Edit

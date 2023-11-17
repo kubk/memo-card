@@ -32,10 +32,7 @@ export class ScreenStore {
   }
 
   get isDeckPreviewScreen() {
-    return (
-      this.screen.type === "deckPublic" ||
-      this.screen.type === "deckMine"
-    );
+    return this.screen.type === "deckPublic" || this.screen.type === "deckMine";
   }
 }
 

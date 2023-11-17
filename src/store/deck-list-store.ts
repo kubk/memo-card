@@ -93,7 +93,7 @@ export class DeckListStore {
     assert(deck, "canReview requires a deck to be selected");
 
     return (
-      deck.cardsToReview.length > 0 || screenStore.screen.type === 'deckPublic'
+      deck.cardsToReview.length > 0 || screenStore.screen.type === "deckPublic"
     );
   }
 
@@ -103,7 +103,7 @@ export class DeckListStore {
     }
 
     assert(deckListStore.selectedDeck, "No selected deck for review");
-    if (screenStore.screen.type === 'deckPublic') {
+    if (screenStore.screen.type === "deckPublic") {
       deckListStore.addDeckToMine(deckListStore.selectedDeck.id);
     }
 
@@ -136,7 +136,7 @@ export class DeckListStore {
 
   get selectedDeck(): DeckWithCardsWithReviewType | null {
     const screen = screenStore.screen;
-    assert(screen.type === 'deckPublic' || screen.type === 'deckMine')
+    assert(screen.type === "deckPublic" || screen.type === "deckMine");
     if (!screen.deckId || this.myInfo?.state !== "fulfilled") {
       return null;
     }
@@ -149,7 +149,7 @@ export class DeckListStore {
     }
 
     const cardsToReview =
-      screen.type === 'deckPublic'
+      screen.type === "deckPublic"
         ? deck.deck_card
         : getCardsToReview(deck, this.myInfo.value.cardsToReview);
 

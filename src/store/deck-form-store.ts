@@ -54,7 +54,7 @@ export class DeckFormStore {
     }
 
     const screen = screenStore.screen;
-    assert(screen.type === 'deckForm')
+    assert(screen.type === "deckForm");
 
     if (screen.deckFormId) {
       const deck = deckListStore.myDecks.find(
@@ -151,7 +151,7 @@ export class DeckFormStore {
     this.isSending = true;
 
     const screen = screenStore.screen;
-    assert(screen.type === 'deckForm')
+    assert(screen.type === "deckForm");
 
     return upsertDeckRequest({
       id: screen.deckFormId,
@@ -165,7 +165,7 @@ export class DeckFormStore {
       })),
     })
       .then(() => {
-        screenStore.go({ type: 'main' });
+        screenStore.go({ type: "main" });
       })
       .finally(
         action(() => {

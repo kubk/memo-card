@@ -10,7 +10,7 @@ vi.mock("./screen-store", () => {
       screen: {
         type: "deckForm",
         deckFormId: 1,
-      }
+      },
     },
   };
 });

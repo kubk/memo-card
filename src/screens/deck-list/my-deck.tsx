@@ -16,7 +16,7 @@ export const MyDeck = observer((props: Props) => {
     <motion.div
       whileTap={whileTap}
       onClick={() => {
-        screenStore.go({ type: 'deckMine', deckId: deck.id });
+        screenStore.go({ type: "deckMine", deckId: deck.id });
       }}
       className={css({
         display: "flex",

@@ -31,7 +31,7 @@ export class QuickAddCardFormStore {
     }
 
     const screen = screenStore.screen;
-    assert(screen.type === 'cardQuickAddForm')
+    assert(screen.type === "cardQuickAddForm");
 
     this.isSending = true;
 

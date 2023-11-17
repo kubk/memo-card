@@ -16,7 +16,7 @@ import { assert } from "../../lib/typescript/assert.ts";
 export const DeckForm = observer(() => {
   const deckFormStore = useDeckFormStore();
   const screen = screenStore.screen;
-  assert(screen.type === 'deckForm')
+  assert(screen.type === "deckForm");
 
   useMount(() => {
     deckFormStore.loadForm();
