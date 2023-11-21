@@ -17,25 +17,8 @@ import { range } from "../../lib/array/range.ts";
 
 export const MainScreen = observer(() => {
   useMount(() => {
-    deckListStore.load();
-    deckListStore.loadSharedDeck(WebApp.initDataUnsafe.start_param);
+    deckListStore.loadFirstTime(WebApp.initDataUnsafe.start_param);
   });
-
-  if (deckListStore.isSharedDeckLoading) {
-    return (
-      <div
-        className={css({
-          display: "flex",
-          height: "100vh",
-          backgroundColor: theme.bgColor,
-          alignItems: "center",
-          justifyContent: "center",
-        })}
-      >
-        <i className={"mdi mdi-loading mdi-spin mdi-48px"} />
-      </div>
-    );
-  }
 
   return (
     <div

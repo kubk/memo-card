@@ -6,8 +6,11 @@ import { motion } from "framer-motion";
 import { whileTap } from "../../ui/animations.ts";
 import { screenStore } from "../../store/screen-store.ts";
 import { DeckWithCardsWithReviewType } from "../../store/deck-list-store.ts";
+import { CardsToReviewCount } from "./cards-to-review-count.tsx";
 
-type Props = { deck: DeckWithCardsWithReviewType };
+type Props = {
+  deck: DeckWithCardsWithReviewType;
+};
 
 export const MyDeck = observer((props: Props) => {
   const { deck } = props;
@@ -40,11 +43,19 @@ export const MyDeck = observer((props: Props) => {
       </div>
       <div
         className={css({
-          color: theme.success,
-          fontWeight: 600,
+          display: "flex",
+          justifyContent: "space-between",
+          gap: 10,
         })}
       >
-        {deck.cardsToReview.length}
+        <CardsToReviewCount
+          items={deck.cardsToReview.filter((card) => card.type === "repeat")}
+          color={theme.orange}
+        />
+        <CardsToReviewCount
+          items={deck.cardsToReview.filter((card) => card.type === "new")}
+          color={theme.success}
+        />
       </div>
     </motion.div>
   );
