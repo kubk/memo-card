@@ -16,7 +16,8 @@
     "test:frontend:coverage": "npx vitest run --dir src/ --coverage",
     "prod:api:logs": "npx wrangler pages deployment tail",
     "prod:deploy": "npx wrangler pages publish functions --project-name=memo-card",
-    "generate-db-types": "export $(cat .dev.vars | xargs) && npx supabase gen types typescript --db-url postgresql://postgres:$DB_PASS@$DB_HOST:5432/$DB_NAME >./functions/db/databaseTypes.ts"
+    "db:backup": "export $(cat .dev.vars | xargs) && pg_dump postgresql://postgres:$DB_PASS@$DB_HOST:5432/$DB_NAME > dump.sql",
+    "generate-db-types": "docker info > /dev/null 2>&1 && export $(cat .dev.vars | xargs) && npx supabase gen types typescript --db-url postgresql://postgres:$DB_PASS@$DB_HOST:5432/$DB_NAME >./functions/db/databaseTypes.ts"
   },
   "pre-commit": [
     "lint",
