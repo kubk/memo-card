@@ -19,6 +19,10 @@ import {
   UserSettingsRequest,
   UserSettingsResponse,
 } from "../../functions/user-settings.ts";
+import {
+  RemoveDeckFromMineRequest,
+  RemoveDeckFromMineResponse,
+} from "../../functions/remove-deck-from-mine.ts";
 
 export const healthRequest = () => {
   return request<HealthResponse>("/health");
@@ -66,4 +70,12 @@ export const upsertDeckRequest = (body: UpsertDeckRequest) => {
 
 export const addCardRequest = (body: AddCardRequest) => {
   return request<AddCardResponse, AddCardRequest>("/add-card", "POST", body);
+};
+
+export const removeDeckFromMine = (body: RemoveDeckFromMineRequest) => {
+  return request<RemoveDeckFromMineResponse, RemoveDeckFromMineRequest>(
+    "/remove-deck-from-mine",
+    "POST",
+    body,
+  );
 };

@@ -16,7 +16,7 @@ export const userDbSchema = z.object({
 
 export type UserDbType = z.infer<typeof userDbSchema>;
 
-export const createOrUpdateUserDb = async (
+export const upsertUserDb = async (
   env: EnvType,
   user: UserTelegramType,
 ): Promise<UserDbType> => {

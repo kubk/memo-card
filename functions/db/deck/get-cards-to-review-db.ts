@@ -6,6 +6,7 @@ import { z } from "zod";
 const cardToReviewSchema = z.object({
   id: z.number(),
   deck_id: z.number(),
+  type: z.enum(["new", "repeat"]),
 });
 
 const schema = z.array(cardToReviewSchema);

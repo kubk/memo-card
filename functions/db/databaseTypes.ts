@@ -223,13 +223,7 @@ export interface Database {
         Returns: {
           id: number
           deck_id: number
-        }[]
-      }
-      get_review_counts_per_user: {
-        Args: Record<PropertyKey, never>
-        Returns: {
-          user_id: number
-          review_count: number
+          type: string
         }[]
       }
       get_user_decks_deck_id: {

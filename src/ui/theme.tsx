@@ -38,6 +38,7 @@ export const theme = {
   success: "#2ecb47",
   successLight: colord("#2ecb47").alpha(0.4).toHex(),
   danger: "#fc2025",
+  orange: "#FF9F0A",
   dangerLight: colord("#fc2025").alpha(0.4).toHex(),
   dividerColor: "#ccc",
 

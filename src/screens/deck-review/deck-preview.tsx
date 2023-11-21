@@ -6,10 +6,11 @@ import React from "react";
 import { useReviewStore } from "../../store/review-store-context.tsx";
 import { screenStore } from "../../store/screen-store.ts";
 import { Hint } from "../../ui/hint.tsx";
-import { Button } from "../../ui/button.tsx";
 import { ShareDeckButton } from "./share-deck-button.tsx";
 import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
 import { useMainButton } from "../../lib/telegram/use-main-button.tsx";
+import { showConfirm } from "../../lib/telegram/show-confirm.ts";
+import { ButtonSideAligned } from "../../ui/button-side-aligned.tsx";
 
 export const DeckPreview = observer(() => {
   const reviewStore = useReviewStore();
@@ -74,9 +75,18 @@ export const DeckPreview = observer(() => {
           })}
         >
           <div className={css({ display: "flex", gap: 4 })}>
-            <span>Cards to review: </span>
+            <span>Cards to repeat: </span>
+            <h4 className={css({ color: theme.orange })}>
+              {
+                deck.cardsToReview.filter((card) => card.type === "repeat")
+                  .length
+              }
+            </h4>
+          </div>
+          <div className={css({ display: "flex", gap: 4 })}>
+            <span>New cards: </span>
             <h4 className={css({ color: theme.success })}>
-              {deck.cardsToReview.length}
+              {deck.cardsToReview.filter((card) => card.type === "new").length}
             </h4>
           </div>
           <div className={css({ display: "flex", gap: 4 })}>
@@ -85,12 +95,16 @@ export const DeckPreview = observer(() => {
           </div>
         </div>
 
-        <div className={css({ display: "flex", gap: 16 })}>
+        <div
+          className={css({
+            gap: 16,
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(100px, 1fr))",
+          })}
+        >
           {deckListStore.myId && deck.author_id === deckListStore.myId ? (
-            <Button
-              column
+            <ButtonSideAligned
               icon={"mdi-plus-circle mdi-24px"}
-              noPseudoClasses
               outline
               onClick={() => {
                 screenStore.go({
@@ -100,28 +114,36 @@ export const DeckPreview = observer(() => {
               }}
             >
               Add card
-            </Button>
+            </ButtonSideAligned>
           ) : null}
           {deckListStore.myId && deck.author_id === deckListStore.myId ? (
-            <Button
-              column
+            <ButtonSideAligned
               icon={"mdi-pencil-circle mdi-24px"}
-              noPseudoClasses
               outline
               onClick={() => {
                 screenStore.go({ type: "deckForm", deckId: deck.id });
               }}
             >
               Edit
-            </Button>
+            </ButtonSideAligned>
+          ) : null}
+          {screenStore.screen.type === "deckMine" ? (
+            <ButtonSideAligned
+              icon={"mdi-delete-circle mdi-24px"}
+              outline
+              onClick={() => {
+                showConfirm(
+                  "Are you sure to remove the deck from your collection? This action can't be undone",
+                ).then(() => {
+                  deckListStore.removeDeck();
+                });
+              }}
+            >
+              Delete
+            </ButtonSideAligned>
           ) : null}
 
-          <ShareDeckButton
-            column={
-              deckListStore.myId ? deck.author_id === deckListStore.myId : false
-            }
-            shareId={deck.share_id}
-          />
+          <ShareDeckButton shareId={deck.share_id} />
         </div>
       </div>
       {deck.cardsToReview.length === 0 && (
