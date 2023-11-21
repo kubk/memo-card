@@ -6,8 +6,8 @@ import { envSchema } from "./env/env-schema.ts";
 import { createBadRequestResponse } from "./lib/json-response/create-bad-request-response.ts";
 import { createJsonResponse } from "./lib/json-response/create-json-response.ts";
 import { removeDeckFromMineDb } from "./db/deck/remove-deck-from-mine-db.ts";
-import { getDeckByIdAndAuthorId } from "./db/deck/get-deck-by-id-and-author-id.ts";
 import { createForbiddenRequestResponse } from "./lib/json-response/create-forbidden-request-response.ts";
+import { isUserDeckExists } from "./db/deck/is-user-deck-exists.ts";
 
 const requestSchema = z.object({
   deckId: z.number(),
@@ -26,12 +26,11 @@ export const onRequestPost = handleError(async ({ env, request }) => {
 
   const envSafe = envSchema.parse(env);
 
-  const canEdit = await getDeckByIdAndAuthorId(
-    envSafe,
-    input.data.deckId,
-    user.id,
-  );
-  if (!canEdit) {
+  const userDeckExists = await isUserDeckExists(envSafe, {
+    user_id: user.id,
+    deck_id: input.data.deckId,
+  });
+  if (!userDeckExists) {
     return createForbiddenRequestResponse();
   }
 
