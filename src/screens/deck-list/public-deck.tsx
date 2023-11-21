@@ -8,7 +8,9 @@ import { motion } from "framer-motion";
 import { DeckWithCardsDbType } from "../../../functions/db/deck/decks-with-cards-schema.ts";
 import { screenStore } from "../../store/screen-store.ts";
 
-type Props = { deck: DeckWithCardsDbType };
+type Props = {
+  deck: DeckWithCardsDbType;
+};
 
 export const PublicDeck = observer((props: Props) => {
   const { deck } = props;

@@ -3,7 +3,10 @@ import React, { ReactNode } from "react";
 import { css } from "@emotion/css";
 import { theme } from "../../ui/theme.tsx";
 
-type Props = { children: ReactNode; onClick?: () => void };
+type Props = {
+  children: ReactNode;
+  onClick?: () => void;
+};
 
 export const SettingsRow = observer((props: Props) => {
   return (

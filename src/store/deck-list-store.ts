@@ -1,21 +1,25 @@
-import { action, makeAutoObservable, when } from "mobx";
+import { action, makeAutoObservable, runInAction, when } from "mobx";
 import { fromPromise, IPromiseBasedObservable } from "mobx-utils";
 import {
   addDeckToMineRequest,
   getSharedDeckRequest,
   myInfoRequest,
+  removeDeckFromMine,
 } from "../api/api.ts";
 import { MyInfoResponse } from "../../functions/my-info.ts";
-import { DeckWithCardsDbType } from "../../functions/db/deck/decks-with-cards-schema.ts";
+import {
+  DeckCardDbType,
+  DeckWithCardsDbType,
+} from "../../functions/db/deck/decks-with-cards-schema.ts";
 import { screenStore } from "./screen-store.ts";
 import { CardToReviewDbType } from "../../functions/db/deck/get-cards-to-review-db.ts";
 import { assert } from "../lib/typescript/assert.ts";
 import { ReviewStore } from "./review-store.ts";
 import { reportHandledError } from "../lib/rollbar/rollbar.tsx";
-import { UserDbType } from "../../functions/db/user/create-or-update-user-db.ts";
+import { UserDbType } from "../../functions/db/user/upsert-user-db.ts";
 
 export type DeckWithCardsWithReviewType = DeckWithCardsDbType & {
-  cardsToReview: DeckWithCardsDbType["deck_card"];
+  cardsToReview: Array<DeckCardDbType & { type: "new" | "repeat" }>;
 };
 
 export class DeckListStore {
@@ -23,6 +27,8 @@ export class DeckListStore {
   isSharedDeckLoading = false;
   isSharedDeckLoaded = false;
   skeletonLoaderData = { publicCount: 3, myDecksCount: 3 };
+
+  isDeckRemoving = false;
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
@@ -39,6 +45,11 @@ export class DeckListStore {
     } else {
       this.myInfo = fromPromise(myInfoRequest());
     }
+  }
+
+  loadFirstTime(shareId?: string) {
+    this.load();
+    this.loadSharedDeck(shareId);
   }
 
   async loadSharedDeck(shareId?: string) {
@@ -149,7 +160,7 @@ export class DeckListStore {
 
     const cardsToReview =
       screen.type === "deckPublic"
-        ? deck.deck_card
+        ? deck.deck_card.map((card) => ({ ...card, type: "new" as const }))
         : getCardsToReview(deck, this.myInfo.value.cardsToReview);
 
     return {
@@ -187,6 +198,26 @@ export class DeckListStore {
     );
   }
 
+  async removeDeck() {
+    const deck = this.selectedDeck;
+    if (!deck) {
+      return;
+    }
+
+    this.isDeckRemoving = true;
+
+    try {
+      await removeDeckFromMine({ deckId: deck.id });
+      this.myInfo = fromPromise(myInfoRequest());
+    } catch (e) {
+      reportHandledError(`Unable to remove deck ${deck.id}`, e);
+    } finally {
+      runInAction(() => {
+        this.isDeckRemoving = false;
+      });
+    }
+  }
+
   optimisticUpdateSettings(
     body: Pick<UserDbType, "is_remind_enabled" | "last_reminded_date">,
   ) {
@@ -199,11 +230,20 @@ const getCardsToReview = (
   deck: DeckWithCardsDbType,
   cardsToReview: CardToReviewDbType[],
 ) => {
-  const cardsToReviewIds = cardsToReview
-    .filter((card) => card.deck_id === deck.id)
-    .map((card) => card.id);
+  const map = new Map<number, "new" | "repeat">();
 
-  return deck.deck_card.filter((card) => cardsToReviewIds.includes(card.id));
+  cardsToReview.forEach((cardToReview) => {
+    if (cardToReview.deck_id == deck.id) {
+      map.set(cardToReview.id, cardToReview.type);
+    }
+  });
+
+  return deck.deck_card
+    .filter((card) => map.has(card.id))
+    .map((card) => ({
+      ...card,
+      type: map.get(card.id)!,
+    }));
 };
 
 export const deckListStore = new DeckListStore();

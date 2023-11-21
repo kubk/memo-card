@@ -2,15 +2,14 @@ import React from "react";
 import { assert } from "../../lib/typescript/assert.ts";
 import { trimEnd } from "../../lib/string/trim.ts";
 import WebApp from "@twa-dev/sdk";
-import { Button } from "../../ui/button.tsx";
+import { ButtonSideAligned } from "../../ui/button-side-aligned.tsx";
 
 type Props = {
   shareId?: string | null;
-  column?: boolean;
 };
 
 export const ShareDeckButton = (props: Props) => {
-  const { shareId, column } = props;
+  const { shareId } = props;
 
   const onClick = async () => {
     const botUrl = import.meta.env.VITE_BOT_APP_URL;
@@ -21,14 +20,12 @@ export const ShareDeckButton = (props: Props) => {
   };
 
   return (
-    <Button
-      column={column}
+    <ButtonSideAligned
       icon={"mdi-share-circle mdi-24px"}
-      noPseudoClasses
       outline
       onClick={onClick}
     >
       Share
-    </Button>
+    </ButtonSideAligned>
   );
 };

@@ -14,27 +14,15 @@ import WebApp from "@twa-dev/sdk";
 import { assert } from "../../lib/typescript/assert.ts";
 import { ListHeader } from "../../ui/list-header.tsx";
 import { range } from "../../lib/array/range.ts";
+import { FullScreenLoader } from "./full-screen-loader.tsx";
 
 export const MainScreen = observer(() => {
   useMount(() => {
-    deckListStore.load();
-    deckListStore.loadSharedDeck(WebApp.initDataUnsafe.start_param);
+    deckListStore.loadFirstTime(WebApp.initDataUnsafe.start_param);
   });
 
   if (deckListStore.isSharedDeckLoading) {
-    return (
-      <div
-        className={css({
-          display: "flex",
-          height: "100vh",
-          backgroundColor: theme.bgColor,
-          alignItems: "center",
-          justifyContent: "center",
-        })}
-      >
-        <i className={"mdi mdi-loading mdi-spin mdi-48px"} />
-      </div>
-    );
+    return <FullScreenLoader />;
   }
 
   return (

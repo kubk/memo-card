@@ -1,9 +1,6 @@
 import { envSchema } from "../env/env-schema.ts";
 import { validateTelegramRequest } from "../lib/telegram/validate-telegram-request.ts";
-import {
-  createOrUpdateUserDb,
-  UserDbType,
-} from "../db/user/create-or-update-user-db.ts";
+import { upsertUserDb, UserDbType } from "../db/user/upsert-user-db.ts";
 
 export const getUser = async (
   request: Request,
@@ -21,5 +18,5 @@ export const getUser = async (
     return null;
   }
 
-  return createOrUpdateUserDb(envSafe, result);
+  return upsertUserDb(envSafe, result);
 };
