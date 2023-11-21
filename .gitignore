@@ -24,3 +24,5 @@ dist-ssr
 *.sw?
 ngrok
 .dev.vars
+
+dumper/dump.sql
