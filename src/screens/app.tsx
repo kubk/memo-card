@@ -10,8 +10,14 @@ import { VersionWarning } from "./shared/version-warning.tsx";
 import React from "react";
 import { UserSettingsStoreProvider } from "../store/user-settings-store-context.tsx";
 import { UserSettingsMain } from "./user-settings/user-settings-main.tsx";
+import { deckListStore } from "../store/deck-list-store.ts";
+import { FullScreenLoader } from "./deck-list/full-screen-loader.tsx";
 
 export const App = observer(() => {
+  if (deckListStore.isSharedDeckLoading || deckListStore.isDeckRemoving) {
+    return <FullScreenLoader />;
+  }
+
   return (
     <div>
       <VersionWarning />

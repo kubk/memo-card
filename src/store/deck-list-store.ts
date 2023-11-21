@@ -208,6 +208,7 @@ export class DeckListStore {
 
     try {
       await removeDeckFromMine({ deckId: deck.id });
+      screenStore.go({ type: "main" });
       this.myInfo = fromPromise(myInfoRequest());
     } catch (e) {
       reportHandledError(`Unable to remove deck ${deck.id}`, e);
