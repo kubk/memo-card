@@ -18,6 +18,10 @@
     "prod:deploy": "npx wrangler pages publish functions --project-name=memo-card",
     "generate-db-types": "export $(cat .dev.vars | xargs) && npx supabase gen types typescript --db-url postgresql://postgres:$DB_PASS@$DB_HOST:5432/$DB_NAME >./functions/db/databaseTypes.ts"
   },
+  "pre-commit": [
+    "lint",
+    "typecheck"
+  ],
   "dependencies": {
     "@emotion/css": "^11.11.2",
     "@mdi/font": "^5.9.55",
@@ -54,6 +58,7 @@
     "eslint": "^8.45.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
+    "pre-commit": "^1.2.2",
     "prettier": "^3.0.3",
     "typescript": "^5.0.2",
     "vite": "^4.4.5",
