@@ -34,6 +34,11 @@ export class DeckListStore {
     makeAutoObservable(this, {}, { autoBind: true });
   }
 
+  loadFirstTime(shareId?: string) {
+    this.load();
+    this.loadSharedDeck(shareId);
+  }
+
   load() {
     // Stale-while-revalidate approach
     if (this.myInfo) {
@@ -45,11 +50,6 @@ export class DeckListStore {
     } else {
       this.myInfo = fromPromise(myInfoRequest());
     }
-  }
-
-  loadFirstTime(shareId?: string) {
-    this.load();
-    this.loadSharedDeck(shareId);
   }
 
   async loadSharedDeck(shareId?: string) {
@@ -244,7 +244,9 @@ const getCardsToReview = (
     .map((card) => ({
       ...card,
       type: map.get(card.id)!,
-    }));
+    }))
+    .slice()
+    .sort((card) => (card.type === "repeat" ? -1 : 1));
 };
 
 export const deckListStore = new DeckListStore();
