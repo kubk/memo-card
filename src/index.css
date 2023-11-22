@@ -10,6 +10,24 @@
   -webkit-text-size-adjust: 100%;
 }
 
+.fixed-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+}
+
+.scrollable-content {
+  height: 100%;
+  overflow-y: scroll;
+  transform: translate3d(0, 0, 0);
+  -webkit-overflow-scrolling: touch;
+
+  padding: 0 16px 0 16px;
+}
+
 body {
   margin: 0;
   display: flex;

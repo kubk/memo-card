@@ -12,6 +12,7 @@ import { UserSettingsStoreProvider } from "../store/user-settings-store-context.
 import { UserSettingsMain } from "./user-settings/user-settings-main.tsx";
 import { deckListStore } from "../store/deck-list-store.ts";
 import { FullScreenLoader } from "./deck-list/full-screen-loader.tsx";
+import { PreventTelegramSwipeDownClosingIos } from "../lib/telegram/preventTelegramSwipeDownClosing.tsx";
 
 export const App = observer(() => {
   if (deckListStore.isSharedDeckLoading || deckListStore.isDeckRemoving) {
@@ -34,9 +35,11 @@ export const App = observer(() => {
       )}
       {screenStore.screen.type === "cardQuickAddForm" && <QuickAddCardForm />}
       {screenStore.screen.type === "userSettings" && (
-        <UserSettingsStoreProvider>
-          <UserSettingsMain />
-        </UserSettingsStoreProvider>
+        <PreventTelegramSwipeDownClosingIos withScroll={false}>
+          <UserSettingsStoreProvider>
+            <UserSettingsMain />
+          </UserSettingsStoreProvider>
+        </PreventTelegramSwipeDownClosingIos>
       )}
     </div>
   );
