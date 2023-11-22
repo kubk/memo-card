@@ -12,7 +12,7 @@ import { UserSettingsStoreProvider } from "../store/user-settings-store-context.
 import { UserSettingsMain } from "./user-settings/user-settings-main.tsx";
 import { deckListStore } from "../store/deck-list-store.ts";
 import { FullScreenLoader } from "./deck-list/full-screen-loader.tsx";
-import { PreventTelegramSwipeDownClosingIos } from "../lib/telegram/preventTelegramSwipeDownClosing.tsx";
+import { PreventTelegramSwipeDownClosingIos } from "../lib/telegram/prevent-telegram-swipe-down-closing.tsx";
 
 export const App = observer(() => {
   if (deckListStore.isSharedDeckLoading || deckListStore.isDeckRemoving) {
