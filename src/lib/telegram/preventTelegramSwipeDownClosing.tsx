@@ -1,11 +1,12 @@
 // @ts-nocheck
 import React, { ReactNode, useEffect } from "react";
-import WebApp from "@twa-dev/sdk";
 
 function throttle(func, limit) {
   let inThrottle;
   return function () {
+    // eslint-disable-next-line
     const args = arguments;
+    // eslint-disable-next-line
     const context = this;
     if (!inThrottle) {
       func.apply(context, args);
@@ -41,6 +42,11 @@ export const PreventTelegramSwipeDownClosing = (props: Props) => {
     }, 100);
 
     scrollableElement.addEventListener("touchmove", onTouchMove, false);
+
+    return () => {
+      scrollableElement.removeEventListener("touchMove", onTouchMove, false);
+    };
+    // eslint-disable-next-line
   }, []);
 
   if (!condition) {
@@ -61,7 +67,10 @@ export const PreventTelegramSwipeDownClosingIos = (props: {
   withScroll: boolean;
 }) => {
   return (
-    <PreventTelegramSwipeDownClosing condition={isMobileIos} withScroll={props.withScroll}>
+    <PreventTelegramSwipeDownClosing
+      condition={isMobileIos}
+      withScroll={props.withScroll}
+    >
       {props.children}
     </PreventTelegramSwipeDownClosing>
   );
