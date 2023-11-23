@@ -22,20 +22,32 @@ export const App = observer(() => {
   return (
     <div>
       <VersionWarning />
-      {screenStore.screen.type === "main" && <MainScreen />}
+      {screenStore.screen.type === "main" && (
+        <PreventTelegramSwipeDownClosingIos>
+          <MainScreen />
+        </PreventTelegramSwipeDownClosingIos>
+      )}
       {screenStore.isDeckPreviewScreen && (
-        <ReviewStoreProvider>
-          <DeckScreen />
-        </ReviewStoreProvider>
+        <PreventTelegramSwipeDownClosingIos>
+          <ReviewStoreProvider>
+            <DeckScreen />
+          </ReviewStoreProvider>
+        </PreventTelegramSwipeDownClosingIos>
       )}
       {screenStore.screen.type === "deckForm" && (
-        <DeckFormStoreProvider>
-          <DeckFormScreen />
-        </DeckFormStoreProvider>
+        <PreventTelegramSwipeDownClosingIos>
+          <DeckFormStoreProvider>
+            <DeckFormScreen />
+          </DeckFormStoreProvider>
+        </PreventTelegramSwipeDownClosingIos>
       )}
-      {screenStore.screen.type === "cardQuickAddForm" && <QuickAddCardForm />}
+      {screenStore.screen.type === "cardQuickAddForm" && (
+        <PreventTelegramSwipeDownClosingIos>
+          <QuickAddCardForm />
+        </PreventTelegramSwipeDownClosingIos>
+      )}
       {screenStore.screen.type === "userSettings" && (
-        <PreventTelegramSwipeDownClosingIos withScroll={false}>
+        <PreventTelegramSwipeDownClosingIos>
           <UserSettingsStoreProvider>
             <UserSettingsMain />
           </UserSettingsStoreProvider>
