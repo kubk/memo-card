@@ -14,11 +14,11 @@ import { deckListStore } from "../store/deck-list-store.ts";
 import { FullScreenLoader } from "./deck-list/full-screen-loader.tsx";
 import {
   PreventTelegramSwipeDownClosingIos,
-  usePreventTelegramSwipeDownAndroid
+  useRestoreFullScreenExpand
 } from "../lib/telegram/prevent-telegram-swipe-down-closing.tsx";
 
 export const App = observer(() => {
-  usePreventTelegramSwipeDownAndroid();
+  useRestoreFullScreenExpand();
 
   if (deckListStore.isSharedDeckLoading || deckListStore.isDeckRemoving) {
     return <FullScreenLoader />;
