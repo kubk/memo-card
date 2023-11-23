@@ -1,31 +1,15 @@
-// @ts-nocheck
 import React, { ReactNode, useEffect, useRef } from "react";
 import WebApp from "@twa-dev/sdk";
 import { css } from "@emotion/css";
-
-function throttle(func, limit) {
-  let inThrottle;
-  return function () {
-    // eslint-disable-next-line
-    const args = arguments;
-    // eslint-disable-next-line
-    const context = this;
-    if (!inThrottle) {
-      func.apply(context, args);
-      inThrottle = true;
-      setTimeout(() => (inThrottle = false), limit);
-    }
-  };
-}
+import { throttle } from "../throttle/throttle.ts";
 
 type Props = {
   condition: boolean;
   children: ReactNode;
-  withScroll: boolean;
 };
 
 export const PreventTelegramSwipeDownClosing = (props: Props) => {
-  const { condition, children, withScroll } = props;
+  const { condition, children } = props;
   const ref = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -33,8 +17,13 @@ export const PreventTelegramSwipeDownClosing = (props: Props) => {
       return;
     }
     const scrollableElement = ref.current;
+    if (!scrollableElement) {
+      return;
+    }
 
-    const onTouchMove = throttle((e) => {
+    const onTouchMove = throttle((e: MouseEvent) => {
+      const withScroll = (ref.current?.scrollHeight || 0) > window.innerHeight;
+
       if (withScroll) {
         requestAnimationFrame(() => {
           e.preventDefault();
@@ -85,13 +74,9 @@ export const PreventTelegramSwipeDownClosing = (props: Props) => {
 
 export const PreventTelegramSwipeDownClosingIos = (props: {
   children: ReactNode;
-  withScroll: boolean;
 }) => {
   return (
-    <PreventTelegramSwipeDownClosing
-      condition={WebApp.platform === "ios"}
-      withScroll={props.withScroll}
-    >
+    <PreventTelegramSwipeDownClosing condition={WebApp.platform === "ios"}>
       {props.children}
     </PreventTelegramSwipeDownClosing>
   );
