@@ -5,6 +5,7 @@ import { deckListStore } from "../../store/deck-list-store.ts";
 import { DeckFinished } from "./deck-finished.tsx";
 import { Review } from "./review.tsx";
 import React from "react";
+import { Hint } from "../../ui/hint.tsx";
 
 export const RepeatAllScreen = observer(() => {
   const reviewStore = useReviewStore();
@@ -19,5 +20,12 @@ export const RepeatAllScreen = observer(() => {
     return <Review />;
   }
 
-  return null;
+  return (
+    <div>
+      <Hint>
+        Amazing work! 🌟 You've repeated all the cards for today. Come back
+        later for more.
+      </Hint>
+    </div>
+  );
 });
