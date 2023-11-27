@@ -73,6 +73,10 @@ export class ReviewStore {
         });
     });
 
+    if (!this.cardsToReview.length) {
+      return;
+    }
+
     this.initialCardCount = this.cardsToReview.length;
     this.currentCardId = this.cardsToReview[0].id;
     if (this.cardsToReview.length > 1) {
