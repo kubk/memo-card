@@ -22,7 +22,7 @@ export const DeckPreview = observer(() => {
   useMainButton(
     "Review deck",
     () => {
-      deckListStore.startReview(reviewStore);
+      deckListStore.startDeckReview(reviewStore);
     },
     () => deckListStore.canReview,
   );

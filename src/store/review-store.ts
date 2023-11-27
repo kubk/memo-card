@@ -5,7 +5,10 @@ import { assert } from "../lib/typescript/assert.ts";
 import { reviewCardsRequest } from "../api/api.ts";
 import { ReviewOutcome } from "../../functions/services/review-card.ts";
 import { screenStore } from "./screen-store.ts";
-import { deckListStore } from "./deck-list-store.ts";
+import {
+  deckListStore,
+  DeckWithCardsWithReviewType,
+} from "./deck-list-store.ts";
 
 type ReviewResult = {
   forgotIds: number[];
@@ -42,6 +45,34 @@ export class ReviewStore {
         ),
       );
     });
+    this.initialCardCount = this.cardsToReview.length;
+    this.currentCardId = this.cardsToReview[0].id;
+    if (this.cardsToReview.length > 1) {
+      this.nextCardId = this.cardsToReview[1].id;
+    }
+  }
+
+  startAllRepeatReview(myDecks: DeckWithCardsWithReviewType[]) {
+    if (!myDecks.length) {
+      return;
+    }
+
+    myDecks.forEach((deck) => {
+      deck.cardsToReview
+        .filter((card) => card.type === "repeat")
+        .forEach((card) => {
+          this.cardsToReview.push(
+            new CardFormStore(
+              card.id,
+              card.front,
+              card.back,
+              card.example,
+              deck.name,
+            ),
+          );
+        });
+    });
+
     this.initialCardCount = this.cardsToReview.length;
     this.currentCardId = this.cardsToReview[0].id;
     if (this.cardsToReview.length > 1) {

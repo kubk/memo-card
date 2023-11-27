@@ -1,4 +1,4 @@
-import { action, makeAutoObservable, runInAction, when } from "mobx";
+import { action, makeAutoObservable, when } from "mobx";
 import { fromPromise, IPromiseBasedObservable } from "mobx-utils";
 import {
   addDeckToMineRequest,
@@ -18,14 +18,23 @@ import { ReviewStore } from "./review-store.ts";
 import { reportHandledError } from "../lib/rollbar/rollbar.tsx";
 import { UserDbType } from "../../functions/db/user/upsert-user-db.ts";
 
+export enum StartParamType {
+  RepeatAll = "repeat_all",
+}
+
 export type DeckWithCardsWithReviewType = DeckWithCardsDbType & {
   cardsToReview: Array<DeckCardDbType & { type: "new" | "repeat" }>;
 };
 
 export class DeckListStore {
   myInfo?: IPromiseBasedObservable<MyInfoResponse>;
+
   isSharedDeckLoading = false;
   isSharedDeckLoaded = false;
+
+  isReviewAllLoading = false;
+  isReviewAllLoaded = false;
+
   skeletonLoaderData = { publicCount: 3, myDecksCount: 3 };
 
   isDeckRemoving = false;
@@ -34,9 +43,9 @@ export class DeckListStore {
     makeAutoObservable(this, {}, { autoBind: true });
   }
 
-  loadFirstTime(shareId?: string) {
+  loadFirstTime(startParam?: string) {
     this.load();
-    this.loadSharedDeck(shareId);
+    this.handleStartParam(startParam);
   }
 
   load() {
@@ -52,51 +61,76 @@ export class DeckListStore {
     }
   }
 
-  async loadSharedDeck(shareId?: string) {
-    if (!shareId || this.isSharedDeckLoaded) {
+  async handleStartParam(startParam?: string) {
+    if (!startParam) {
       return;
     }
 
-    this.isSharedDeckLoading = true;
-    await when(() => this.myInfo?.state === "fulfilled");
+    if (startParam === StartParamType.RepeatAll) {
+      if (this.isReviewAllLoaded) {
+        return;
+      }
 
-    getSharedDeckRequest(shareId)
-      .then(
-        action((sharedDeck) => {
-          assert(this.myInfo?.state === "fulfilled");
-          if (
-            this.myInfo.value.myDecks.find(
-              (myDeck) => myDeck.id === sharedDeck.deck.id,
-            )
-          ) {
-            screenStore.go({ type: "deckMine", deckId: sharedDeck.deck.id });
-            return;
-          }
+      this.isReviewAllLoading = true;
+      when(() => this.myInfo?.state === "fulfilled")
+        .then(() => {
+          screenStore.go({ type: "reviewAll" });
+        })
+        .finally(
+          action(() => {
+            this.isReviewAllLoading = false;
+            this.isReviewAllLoaded = true;
+          }),
+        );
+    } else {
+      if (this.isSharedDeckLoaded) {
+        return;
+      }
 
-          if (
-            this.publicDecks.find(
-              (publicDeck) => publicDeck.id === sharedDeck.deck.id,
-            )
-          ) {
+      this.isSharedDeckLoading = true;
+      await when(() => this.myInfo?.state === "fulfilled");
+
+      getSharedDeckRequest(startParam)
+        .then(
+          action((sharedDeck) => {
+            assert(this.myInfo?.state === "fulfilled");
+            if (
+              this.myInfo.value.myDecks.find(
+                (myDeck) => myDeck.id === sharedDeck.deck.id,
+              )
+            ) {
+              screenStore.go({ type: "deckMine", deckId: sharedDeck.deck.id });
+              return;
+            }
+
+            if (
+              this.publicDecks.find(
+                (publicDeck) => publicDeck.id === sharedDeck.deck.id,
+              )
+            ) {
+              screenStore.go({
+                type: "deckPublic",
+                deckId: sharedDeck.deck.id,
+              });
+              return;
+            }
+
+            this.myInfo.value.publicDecks.push(sharedDeck.deck);
             screenStore.go({ type: "deckPublic", deckId: sharedDeck.deck.id });
-            return;
-          }
-
-          this.myInfo.value.publicDecks.push(sharedDeck.deck);
-          screenStore.go({ type: "deckPublic", deckId: sharedDeck.deck.id });
-        }),
-      )
-      .catch((e) => {
-        reportHandledError("Error while retrieving shared deck", e, {
-          shareId,
-        });
-      })
-      .finally(
-        action(() => {
-          this.isSharedDeckLoading = false;
-          this.isSharedDeckLoaded = true;
-        }),
-      );
+          }),
+        )
+        .catch((e) => {
+          reportHandledError("Error while retrieving shared deck", e, {
+            shareId: startParam,
+          });
+        })
+        .finally(
+          action(() => {
+            this.isSharedDeckLoading = false;
+            this.isSharedDeckLoaded = true;
+          }),
+        );
+    }
   }
 
   get canReview() {
@@ -108,7 +142,7 @@ export class DeckListStore {
     );
   }
 
-  startReview(reviewStore: ReviewStore) {
+  startDeckReview(reviewStore: ReviewStore) {
     if (!this.canReview) {
       return;
     }
@@ -198,7 +232,7 @@ export class DeckListStore {
     );
   }
 
-  async removeDeck() {
+  removeDeck() {
     const deck = this.selectedDeck;
     if (!deck) {
       return;
@@ -206,17 +240,21 @@ export class DeckListStore {
 
     this.isDeckRemoving = true;
 
-    try {
-      await removeDeckFromMine({ deckId: deck.id });
-      screenStore.go({ type: "main" });
-      this.myInfo = fromPromise(myInfoRequest());
-    } catch (e) {
-      reportHandledError(`Unable to remove deck ${deck.id}`, e);
-    } finally {
-      runInAction(() => {
-        this.isDeckRemoving = false;
-      });
-    }
+    removeDeckFromMine({ deckId: deck.id })
+      .then(
+        action(() => {
+          screenStore.go({ type: "main" });
+          this.myInfo = fromPromise(myInfoRequest());
+        }),
+      )
+      .catch((e) => {
+        reportHandledError(`Unable to remove deck ${deck.id}`, e);
+      })
+      .finally(
+        action(() => {
+          this.isDeckRemoving = false;
+        }),
+      );
   }
 
   optimisticUpdateSettings(
