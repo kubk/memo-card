@@ -6,7 +6,7 @@ import { DeckFinished } from "./deck-finished.tsx";
 import { Review } from "./review.tsx";
 import React from "react";
 
-export const ReviewAllScreen = observer(() => {
+export const RepeatAllScreen = observer(() => {
   const reviewStore = useReviewStore();
 
   useMount(() => {
@@ -14,7 +14,7 @@ export const ReviewAllScreen = observer(() => {
   });
 
   if (reviewStore.isFinished) {
-    return <DeckFinished />;
+    return <DeckFinished type={"repeat_all"} />;
   } else if (reviewStore.currentCardId) {
     return <Review />;
   }

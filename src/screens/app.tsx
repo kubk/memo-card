@@ -16,7 +16,7 @@ import {
   PreventTelegramSwipeDownClosingIos,
   useRestoreFullScreenExpand,
 } from "../lib/telegram/prevent-telegram-swipe-down-closing.tsx";
-import { ReviewAllScreen } from "./deck-review/review-all-screen.tsx";
+import { RepeatAllScreen } from "./deck-review/repeat-all-screen.tsx";
 
 export const App = observer(() => {
   useRestoreFullScreenExpand();
@@ -47,7 +47,7 @@ export const App = observer(() => {
       {screenStore.screen.type === "reviewAll" && (
         <PreventTelegramSwipeDownClosingIos>
           <ReviewStoreProvider>
-            <ReviewAllScreen />
+            <RepeatAllScreen />
           </ReviewStoreProvider>
         </PreventTelegramSwipeDownClosingIos>
       )}

@@ -26,7 +26,12 @@ const encouragingMessages = [
   "Just think of the compounded knowledge you're getting with every review. Your future self thanks you!",
 ];
 
-export const DeckFinished = observer(() => {
+type Props = {
+  type: "deck" | "repeat_all";
+};
+
+export const DeckFinished = observer((props: Props) => {
+  const { type } = props;
   const reviewStore = useReviewStore();
 
   useMount(() => {
@@ -46,7 +51,11 @@ export const DeckFinished = observer(() => {
           alignItems: "center",
         })}
       >
-        <p>You have finished this deck for now 🎉</p>
+        <p>
+          {type === "deck"
+            ? `You have finished this deck for now 🎉`
+            : `You have repeated all the cards for today 🎉`}
+        </p>
 
         <p>{random(encouragingMessages)} 😊</p>
       </div>
