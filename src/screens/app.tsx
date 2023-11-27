@@ -14,13 +14,18 @@ import { deckListStore } from "../store/deck-list-store.ts";
 import { FullScreenLoader } from "./deck-list/full-screen-loader.tsx";
 import {
   PreventTelegramSwipeDownClosingIos,
-  useRestoreFullScreenExpand
+  useRestoreFullScreenExpand,
 } from "../lib/telegram/prevent-telegram-swipe-down-closing.tsx";
+import { RepeatAllScreen } from "./deck-review/repeat-all-screen.tsx";
 
 export const App = observer(() => {
   useRestoreFullScreenExpand();
 
-  if (deckListStore.isSharedDeckLoading || deckListStore.isDeckRemoving) {
+  if (
+    deckListStore.isSharedDeckLoading ||
+    deckListStore.isDeckRemoving ||
+    deckListStore.isReviewAllLoading
+  ) {
     return <FullScreenLoader />;
   }
 
@@ -36,6 +41,13 @@ export const App = observer(() => {
         <PreventTelegramSwipeDownClosingIos>
           <ReviewStoreProvider>
             <DeckScreen />
+          </ReviewStoreProvider>
+        </PreventTelegramSwipeDownClosingIos>
+      )}
+      {screenStore.screen.type === "reviewAll" && (
+        <PreventTelegramSwipeDownClosingIos>
+          <ReviewStoreProvider>
+            <RepeatAllScreen />
           </ReviewStoreProvider>
         </PreventTelegramSwipeDownClosingIos>
       )}
