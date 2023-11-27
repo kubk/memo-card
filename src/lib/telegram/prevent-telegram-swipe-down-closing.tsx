@@ -85,7 +85,7 @@ export const PreventTelegramSwipeDownClosingIos = (props: {
 // A hacky way to force expand app back whenever user pull app down
 export const useRestoreFullScreenExpand = () => {
   useEffect(() => {
-    if (WebApp.platform !== "android" && WebApp.platform !== 'ios') {
+    if (WebApp.platform !== "android" && WebApp.platform !== "ios") {
       return;
     }
     const onViewPortChanged = () => {

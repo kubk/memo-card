@@ -2,7 +2,7 @@
 
 export function throttle(func, limit) {
   let inThrottle;
-  return function() {
+  return function () {
     // eslint-disable-next-line
     const args = arguments;
     // eslint-disable-next-line
