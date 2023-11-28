@@ -22,8 +22,12 @@ export enum StartParamType {
   RepeatAll = "repeat_all",
 }
 
+export type DeckCardDbTypeWithType = DeckCardDbType & {
+  type: "new" | "repeat";
+};
+
 export type DeckWithCardsWithReviewType = DeckWithCardsDbType & {
-  cardsToReview: Array<DeckCardDbType & { type: "new" | "repeat" }>;
+  cardsToReview: DeckCardDbTypeWithType[];
 };
 
 export class DeckListStore {
@@ -153,8 +157,8 @@ export class DeckListStore {
     }
 
     reviewStore.startDeckReview(
-      deckListStore.selectedDeck.cardsToReview,
-      deckListStore.selectedDeck.name,
+      deckListStore.selectedDeck,
+      this.user?.is_speaking_card_enabled ?? false,
     );
   }
 
@@ -172,11 +176,15 @@ export class DeckListStore {
       });
   }
 
-  get myId() {
+  get user() {
     if (this.myInfo?.state !== "fulfilled") {
       return null;
     }
-    return this.myInfo.value.user.id;
+    return this.myInfo.value.user;
+  }
+
+  get myId() {
+    return this.user?.id;
   }
 
   get selectedDeck(): DeckWithCardsWithReviewType | null {
@@ -257,9 +265,7 @@ export class DeckListStore {
       );
   }
 
-  optimisticUpdateSettings(
-    body: Pick<UserDbType, "is_remind_enabled" | "last_reminded_date">,
-  ) {
+  optimisticUpdateSettings(body: Partial<UserDbType>) {
     assert(this.myInfo?.state === "fulfilled");
     Object.assign(this.myInfo.value.user, body);
   }

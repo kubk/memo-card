@@ -11,7 +11,10 @@ export const RepeatAllScreen = observer(() => {
   const reviewStore = useReviewStore();
 
   useMount(() => {
-    reviewStore.startAllRepeatReview(deckListStore.myDecks);
+    reviewStore.startAllRepeatReview(
+      deckListStore.myDecks,
+      deckListStore.user?.is_speaking_card_enabled ?? false,
+    );
   });
 
   if (reviewStore.isFinished) {

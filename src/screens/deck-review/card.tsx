@@ -3,7 +3,7 @@ import { css } from "@emotion/css";
 import React from "react";
 import { theme } from "../../ui/theme.tsx";
 import { observer } from "mobx-react-lite";
-import { CardFormStore } from "../../store/card-form-store.ts";
+import { CardUnderReviewStore } from "../../store/card-under-review-store.ts";
 import { HorizontalDivider } from "../../ui/horizontal-divider.tsx";
 
 export const cardSize = 310;
@@ -11,7 +11,7 @@ export const cardSize = 310;
 type FramerMotionProps = Pick<MotionProps, "style" | "animate" | "initial">;
 
 type Props = {
-  card: CardFormStore;
+  card: CardUnderReviewStore;
 } & FramerMotionProps;
 
 export const Card = observer(({ card, style, animate }: Props) => {

@@ -11,10 +11,10 @@ import { SettingsRow } from "./settings-row.tsx";
 import { RadioSwitcher } from "../../ui/radio-switcher.tsx";
 import { theme } from "../../ui/theme.tsx";
 import { Select } from "../../ui/select.tsx";
-import { Hint } from "../../ui/hint.tsx";
 import { css } from "@emotion/css";
 import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
 import { screenStore } from "../../store/screen-store.ts";
+import { HintTransparent } from "../../ui/hint-transparent.tsx";
 
 export const timeRanges = generateTimeRange();
 
@@ -43,11 +43,12 @@ export const UserSettingsMain = observer(() => {
     return null;
   }
 
-  const { isRemindNotifyEnabled, time } = userSettingsStore.form;
+  const { isRemindNotifyEnabled, isSpeakingCardsEnabled, time } =
+    userSettingsStore.form;
 
   return (
     <div>
-      <ListHeader text={"Review notification settings"} />
+      <ListHeader text={"Settings"} />
 
       <div
         className={css({
@@ -57,7 +58,7 @@ export const UserSettingsMain = observer(() => {
         })}
       >
         <SettingsRow>
-          <span>Notifications</span>
+          <span>Review notifications</span>
           <span
             className={css({
               transform: "translateY(3px)",
@@ -88,7 +89,28 @@ export const UserSettingsMain = observer(() => {
           </SettingsRow>
         )}
 
-        <Hint>⭐ Daily reminders will help you remember to repeat cards</Hint>
+        <HintTransparent>
+          Daily reminders help you remember to repeat cards
+        </HintTransparent>
+
+        <SettingsRow>
+          <span>Speaking cards</span>
+          <span
+            className={css({
+              transform: "translateY(3px)",
+              position: "relative",
+            })}
+          >
+            <RadioSwitcher
+              isOn={isSpeakingCardsEnabled.value}
+              onToggle={isSpeakingCardsEnabled.toggle}
+            />
+          </span>
+        </SettingsRow>
+
+        <HintTransparent>
+          Play spoken audio for each flashcard to enhance pronunciation
+        </HintTransparent>
       </div>
     </div>
   );
