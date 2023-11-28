@@ -5,21 +5,23 @@ import { theme } from "./theme.tsx";
 
 type Props = { children: ReactNode };
 
-export const Hint = (props: Props) => {
+export const HintTransparent = (props: Props) => {
+  const { children } = props;
+
   return (
     <p
       className={cx(
         reset.p,
         css({
           fontSize: 14,
-          padding: "8px 12px",
+          padding: "0 12px",
+          marginTop: -4,
           borderRadius: theme.borderRadius,
           color: theme.hintColor,
-          backgroundColor: theme.secondaryBgColor,
         }),
       )}
     >
-      {props.children}
+      {children}
     </p>
   );
 };

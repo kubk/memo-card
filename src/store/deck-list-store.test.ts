@@ -15,6 +15,7 @@ vi.mock("../api/api.ts", () => {
           language_code: "uk",
           last_name: "Testov",
           last_reminded_date: null,
+          is_speaking_card_enabled: false,
           username: "test",
         },
         cardsToReview: [
@@ -33,6 +34,8 @@ vi.mock("../api/api.ts", () => {
             share_id: "1",
             author_id: 1,
             description: "",
+            speak_locale: null,
+            speak_field: null,
             deck_card: [
               {
                 id: 1,
@@ -76,6 +79,8 @@ vi.mock("../api/api.ts", () => {
             share_id: "2",
             author_id: 1,
             description: "",
+            speak_locale: null,
+            speak_field: null,
             deck_card: [
               {
                 id: 4,

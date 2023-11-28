@@ -7,12 +7,14 @@ import { formatTime } from "../screens/user-settings/generate-time-range.tsx";
 import { isFormTouched } from "../lib/mobx-form/form-has-error.ts";
 import { userSettingsRequest } from "../api/api.ts";
 import { screenStore } from "./screen-store.ts";
+import { UserSettingsRequest } from "../../functions/user-settings.ts";
 
 const DEFAULT_TIME = "12:00";
 
 export class UserSettingsStore {
   form?: {
     isRemindNotifyEnabled: BooleanField;
+    isSpeakingCardsEnabled: BooleanField;
     time: TextField<string>;
   };
   isSending = false;
@@ -31,6 +33,9 @@ export class UserSettingsStore {
 
     this.form = {
       isRemindNotifyEnabled: new BooleanField(userInfo.is_remind_enabled),
+      isSpeakingCardsEnabled: new BooleanField(
+        !!userInfo.is_speaking_card_enabled,
+      ),
       time: new TextField(
         remindDate
           ? formatTime(remindDate.hour, remindDate.minute)
@@ -49,8 +54,9 @@ export class UserSettingsStore {
 
     const [hour, minute] = this.form.time.value.split(":");
 
-    const body = {
+    const body: UserSettingsRequest = {
       isRemindNotifyEnabled: this.form.isRemindNotifyEnabled.value,
+      isSpeakingCardEnabled: this.form.isSpeakingCardsEnabled.value,
       remindNotificationTime: DateTime.local()
         .set({
           hour: parseInt(hour),
@@ -66,6 +72,7 @@ export class UserSettingsStore {
         deckListStore.optimisticUpdateSettings({
           is_remind_enabled: body.isRemindNotifyEnabled,
           last_reminded_date: body.remindNotificationTime,
+          is_speaking_card_enabled: body.isSpeakingCardEnabled,
         });
         screenStore.go({ type: "main" });
       })

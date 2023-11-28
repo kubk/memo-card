@@ -17,6 +17,8 @@ export const deckSchema = z.object({
   description: z.string().nullable(),
   share_id: z.string().nullable(),
   is_public: z.boolean(),
+  speak_locale: z.string().nullable(),
+  speak_field: z.string().nullable(),
 });
 
 export const deckWithCardsSchema = deckSchema.merge(

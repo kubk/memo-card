@@ -1,9 +1,12 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { CardState } from "./card-form-store.ts";
+import { CardState, CardUnderReviewStore } from "./card-under-review-store.ts";
 import { ReviewStore } from "./review-store.ts";
-import { DeckCardDbType } from "../../functions/db/deck/decks-with-cards-schema.ts";
+import {
+  DeckCardDbTypeWithType,
+  DeckWithCardsWithReviewType,
+} from "./deck-list-store.ts";
 
-const deckCardsMock: DeckCardDbType[] = [
+const deckCardsMock: DeckCardDbTypeWithType[] = [
   {
     id: 3,
     deck_id: 1,
@@ -11,6 +14,7 @@ const deckCardsMock: DeckCardDbType[] = [
     example: null,
     front: "time",
     back: "Время",
+    type: "repeat",
   },
   {
     id: 4,
@@ -19,6 +23,7 @@ const deckCardsMock: DeckCardDbType[] = [
     example: null,
     front: "year",
     back: "Год",
+    type: "repeat",
   },
   {
     id: 5,
@@ -27,8 +32,23 @@ const deckCardsMock: DeckCardDbType[] = [
     example: null,
     front: "way",
     back: "Дорога",
+    type: "repeat",
   },
 ];
+
+const deckMock: DeckWithCardsWithReviewType = {
+  id: 1,
+  name: "English",
+  description: "English words",
+  deck_card: deckCardsMock,
+  cardsToReview: deckCardsMock,
+  speak_field: null,
+  speak_locale: null,
+  created_at: "2023-10-06T02:13:20.985Z",
+  author_id: 1,
+  share_id: null,
+  is_public: false,
+};
 
 vi.mock("../api/api.ts", () => {
   return {
@@ -45,6 +65,16 @@ vi.mock("./deck-list-store.ts", () => {
   };
 });
 
+const cardToSnapshot = (card: CardUnderReviewStore) => ({
+  back: card.back,
+  deckName: card.deckName,
+  example: card.example,
+  front: card.front,
+  id: card.id,
+  isOpened: card.isOpened,
+  state: card.state,
+});
+
 describe("card form store", () => {
   afterEach(() => {
     vi.clearAllMocks();
@@ -52,31 +82,33 @@ describe("card form store", () => {
 
   it("basic", () => {
     const reviewStore = new ReviewStore();
-    reviewStore.startDeckReview(deckCardsMock, "");
+    reviewStore.startDeckReview(deckMock);
     expect(reviewStore.isFinished).toBeFalsy();
-    expect(reviewStore.cardsToReview).toMatchInlineSnapshot(`
+
+    expect(reviewStore.cardsToReview.map(cardToSnapshot))
+      .toMatchInlineSnapshot(`
       [
-        CardFormStore {
+        {
           "back": "Время",
-          "deckName": "",
+          "deckName": "English",
           "example": null,
           "front": "time",
           "id": 3,
           "isOpened": false,
           "state": undefined,
         },
-        CardFormStore {
+        {
           "back": "Год",
-          "deckName": "",
+          "deckName": "English",
           "example": null,
           "front": "year",
           "id": 4,
           "isOpened": false,
           "state": undefined,
         },
-        CardFormStore {
+        {
           "back": "Дорога",
-          "deckName": "",
+          "deckName": "English",
           "example": null,
           "front": "way",
           "id": 5,
@@ -91,20 +123,21 @@ describe("card form store", () => {
     reviewStore.changeState(CardState.Remember);
 
     expect(reviewStore.isFinished).toBeFalsy();
-    expect(reviewStore.cardsToReview).toMatchInlineSnapshot(`
+    expect(reviewStore.cardsToReview.map(cardToSnapshot))
+      .toMatchInlineSnapshot(`
       [
-        CardFormStore {
+        {
           "back": "Год",
-          "deckName": "",
+          "deckName": "English",
           "example": null,
           "front": "year",
           "id": 4,
           "isOpened": false,
           "state": undefined,
         },
-        CardFormStore {
+        {
           "back": "Дорога",
-          "deckName": "",
+          "deckName": "English",
           "example": null,
           "front": "way",
           "id": 5,
@@ -119,20 +152,21 @@ describe("card form store", () => {
     reviewStore.changeState(CardState.Forget);
 
     expect(reviewStore.isFinished).toBeFalsy();
-    expect(reviewStore.cardsToReview).toMatchInlineSnapshot(`
+    expect(reviewStore.cardsToReview.map(cardToSnapshot))
+      .toMatchInlineSnapshot(`
       [
-        CardFormStore {
+        {
           "back": "Дорога",
-          "deckName": "",
+          "deckName": "English",
           "example": null,
           "front": "way",
           "id": 5,
           "isOpened": false,
           "state": undefined,
         },
-        CardFormStore {
+        {
           "back": "Год",
-          "deckName": "",
+          "deckName": "English",
           "example": null,
           "front": "year",
           "id": 4,
@@ -157,7 +191,7 @@ describe("card form store", () => {
 
   it("current next", () => {
     const reviewStore = new ReviewStore();
-    reviewStore.startDeckReview(deckCardsMock, "");
+    reviewStore.startDeckReview(deckMock);
     expect(reviewStore.isFinished).toBeFalsy();
 
     expect(reviewStore.currentCard?.id).toEqual(3);
@@ -196,7 +230,7 @@ describe("card form store", () => {
 
   it("hit wrong many times", () => {
     const reviewStore = new ReviewStore();
-    reviewStore.startDeckReview(deckCardsMock, "");
+    reviewStore.startDeckReview(deckMock);
     expect(reviewStore.isFinished).toBeFalsy();
 
     reviewStore.open();

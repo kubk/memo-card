@@ -148,6 +148,7 @@ export interface Database {
           id: number
           is_admin: boolean
           is_remind_enabled: boolean
+          is_speaking_card_enabled: boolean | null
           language_code: string | null
           last_name: string | null
           last_reminded_date: string | null
@@ -160,6 +161,7 @@ export interface Database {
           id?: number
           is_admin?: boolean
           is_remind_enabled?: boolean
+          is_speaking_card_enabled?: boolean | null
           language_code?: string | null
           last_name?: string | null
           last_reminded_date?: string | null
@@ -172,6 +174,7 @@ export interface Database {
           id?: number
           is_admin?: boolean
           is_remind_enabled?: boolean
+          is_speaking_card_enabled?: boolean | null
           language_code?: string | null
           last_name?: string | null
           last_reminded_date?: string | null
@@ -235,6 +238,15 @@ export interface Database {
         }[]
       }
       get_users_with_review_to_notify: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          user_id: number
+          review_count: number
+          last_reminded_date: string
+          is_admin: boolean
+        }[]
+      }
+      get_users_with_review_to_notify_backup: {
         Args: Record<PropertyKey, never>
         Returns: {
           user_id: number

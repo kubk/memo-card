@@ -11,6 +11,7 @@ import { Database } from "./db/databaseTypes.ts";
 
 const requestSchema = z.object({
   isRemindNotifyEnabled: z.boolean(),
+  isSpeakingCardEnabled: z.boolean().optional(),
   remindNotificationTime: z.string(),
 });
 
@@ -36,6 +37,9 @@ export const onRequestPut = handleError(async ({ request, env }) => {
     is_remind_enabled: input.data.isRemindNotifyEnabled,
     last_reminded_date: input.data.remindNotificationTime,
   };
+  if (input.data.isSpeakingCardEnabled !== undefined) {
+    updateBody.is_speaking_card_enabled = input.data.isSpeakingCardEnabled;
+  }
 
   const db = getDatabase(envSafe);
   const { error } = await db.from("user").update(updateBody).eq("id", user.id);

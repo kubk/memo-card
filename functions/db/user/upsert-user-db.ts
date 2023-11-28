@@ -11,6 +11,7 @@ export const userDbSchema = z.object({
   language_code: z.string().optional().nullable(),
   username: z.string().optional().nullable(),
   is_remind_enabled: z.boolean(),
+  is_speaking_card_enabled: z.boolean().nullable(),
   last_reminded_date: z.string().nullable(),
 });
 
