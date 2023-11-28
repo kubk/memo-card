@@ -2,7 +2,9 @@ import { css } from "@emotion/css";
 import { theme } from "./theme.tsx";
 import React from "react";
 
-export const ListHeader = (props: { text: string }) => {
+type Props = { text: string };
+
+export const ListHeader = (props: Props) => {
   return (
     <h5
       className={css({

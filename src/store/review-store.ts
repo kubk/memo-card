@@ -1,6 +1,5 @@
-import { CardFormStore, CardState } from "./card-form-store.ts";
+import { CardState, CardUnderReviewStore } from "./card-under-review-store.ts";
 import { action, makeAutoObservable } from "mobx";
-import { DeckCardDbType } from "../../functions/db/deck/decks-with-cards-schema.ts";
 import { assert } from "../lib/typescript/assert.ts";
 import { reviewCardsRequest } from "../api/api.ts";
 import { ReviewOutcome } from "../../functions/services/review-card.ts";
@@ -16,7 +15,7 @@ type ReviewResult = {
 };
 
 export class ReviewStore {
-  cardsToReview: CardFormStore[] = [];
+  cardsToReview: CardUnderReviewStore[] = [];
   currentCardId?: number;
   // For UI purposes
   nextCardId?: number;
@@ -25,34 +24,36 @@ export class ReviewStore {
   initialCardCount?: number;
 
   isReviewSending = false;
+  isSpeakingCards = false;
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
   }
 
-  startDeckReview(deckCards: DeckCardDbType[], deckName: string) {
-    if (!deckCards.length) {
+  startDeckReview(
+    deck: DeckWithCardsWithReviewType,
+    isSpeakingCards?: boolean,
+  ) {
+    if (!deck.cardsToReview.length) {
       return;
     }
-    deckCards.forEach((card) => {
-      this.cardsToReview.push(
-        new CardFormStore(
-          card.id,
-          card.front,
-          card.back,
-          card.example,
-          deckName,
-        ),
-      );
+    deck.cardsToReview.forEach((card) => {
+      this.cardsToReview.push(new CardUnderReviewStore(card, deck));
     });
+
     this.initialCardCount = this.cardsToReview.length;
     this.currentCardId = this.cardsToReview[0].id;
     if (this.cardsToReview.length > 1) {
       this.nextCardId = this.cardsToReview[1].id;
     }
+
+    this.isSpeakingCards = !!isSpeakingCards;
   }
 
-  startAllRepeatReview(myDecks: DeckWithCardsWithReviewType[]) {
+  startAllRepeatReview(
+    myDecks: DeckWithCardsWithReviewType[],
+    isSpeakingCards?: boolean,
+  ) {
     if (!myDecks.length) {
       return;
     }
@@ -61,15 +62,7 @@ export class ReviewStore {
       deck.cardsToReview
         .filter((card) => card.type === "repeat")
         .forEach((card) => {
-          this.cardsToReview.push(
-            new CardFormStore(
-              card.id,
-              card.front,
-              card.back,
-              card.example,
-              deck.name,
-            ),
-          );
+          this.cardsToReview.push(new CardUnderReviewStore(card, deck));
         });
     });
 
@@ -82,6 +75,8 @@ export class ReviewStore {
     if (this.cardsToReview.length > 1) {
       this.nextCardId = this.cardsToReview[1].id;
     }
+
+    this.isSpeakingCards = !!isSpeakingCards;
   }
 
   get currentCard() {
@@ -108,6 +103,9 @@ export class ReviewStore {
     const currentCard = this.currentCard;
     assert(currentCard, "Current card should not be empty");
     currentCard.open();
+    if (this.isSpeakingCards) {
+      currentCard.speak();
+    }
   }
 
   changeState(cardState: CardState) {

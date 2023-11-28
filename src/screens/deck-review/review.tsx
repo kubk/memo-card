@@ -5,7 +5,7 @@ import { observer } from "mobx-react-lite";
 import { css } from "@emotion/css";
 import { theme } from "../../ui/theme.tsx";
 import throttle from "just-throttle";
-import { CardState } from "../../store/card-form-store.ts";
+import { CardState } from "../../store/card-under-review-store.ts";
 import { ProgressBar } from "../../ui/progress-bar.tsx";
 import { useReviewStore } from "../../store/review-store-context.tsx";
 import { Button } from "../../ui/button.tsx";

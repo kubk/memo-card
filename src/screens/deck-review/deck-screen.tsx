@@ -9,7 +9,7 @@ export const DeckScreen = observer(() => {
   const reviewStore = useReviewStore();
 
   if (reviewStore.isFinished) {
-    return <DeckFinished type={'deck'} />;
+    return <DeckFinished type={"deck"} />;
   } else if (reviewStore.currentCardId) {
     return <Review />;
   }
