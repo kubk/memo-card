@@ -124,6 +124,7 @@ describe("deck list store", () => {
 
     expect(deckListStore.myId).toBe(111);
     expect(deckListStore.publicDecks).toHaveLength(0);
+    expect(deckListStore.newCardsCount).toBe(3);
     expect(deckListStore.selectedDeck?.cardsToReview).toMatchInlineSnapshot(`
       [
         {

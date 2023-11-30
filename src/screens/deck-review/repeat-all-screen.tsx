@@ -18,7 +18,12 @@ export const RepeatAllScreen = observer(() => {
   });
 
   if (reviewStore.isFinished) {
-    return <DeckFinished type={"repeat_all"} />;
+    return (
+      <DeckFinished
+        type={"repeat_all"}
+        newCardsCount={deckListStore.newCardsCount}
+      />
+    );
   } else if (reviewStore.currentCardId) {
     return <Review />;
   }

@@ -240,6 +240,14 @@ export class DeckListStore {
     );
   }
 
+  get newCardsCount() {
+    return this.myDecks.reduce((acc, deck) => {
+      return (
+        acc + deck.cardsToReview.filter((card) => card.type === "new").length
+      );
+    }, 0);
+  }
+
   removeDeck() {
     const deck = this.selectedDeck;
     if (!deck) {

@@ -8,6 +8,7 @@ import { useMount } from "../../lib/react/use-mount.ts";
 import { screenStore } from "../../store/screen-store.ts";
 import { useMainButton } from "../../lib/telegram/use-main-button.tsx";
 import { useTelegramProgress } from "../../lib/telegram/use-telegram-progress.tsx";
+import { theme } from "../../ui/theme.tsx";
 
 const encouragingMessages = [
   "Consistency is the key to mastery, and each step you take brings you closer to your learning goals",
@@ -28,10 +29,11 @@ const encouragingMessages = [
 
 type Props = {
   type: "deck" | "repeat_all";
+  newCardsCount?: number;
 };
 
 export const DeckFinished = observer((props: Props) => {
-  const { type } = props;
+  const { type, newCardsCount } = props;
   const reviewStore = useReviewStore();
 
   useMount(() => {
@@ -56,8 +58,24 @@ export const DeckFinished = observer((props: Props) => {
             ? `You have finished this deck for now 🎉`
             : `You have repeated all the cards for today 🎉`}
         </p>
-
-        <p>{random(encouragingMessages)} 😊</p>
+        {type === "repeat_all" && newCardsCount && newCardsCount > 1 ? (
+          <p>
+            Want more? You have{" "}
+            <span
+              className={css({
+                color: theme.linkColor,
+              })}
+              onClick={() => {
+                screenStore.go({ type: "main" });
+              }}
+            >
+              {newCardsCount}
+            </span>{" "}
+            new cards to study
+          </p>
+        ) : (
+          <p>{random(encouragingMessages)} 😊</p>
+        )}
       </div>
     </DeckFinishedModal>
   );
