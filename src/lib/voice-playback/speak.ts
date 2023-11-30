@@ -1,7 +1,4 @@
-import {
-  reportHandledError,
-  reportHandledErrorOnce
-} from "../rollbar/rollbar.tsx";
+import { reportHandledErrorOnce } from "../rollbar/rollbar.tsx";
 
 export enum SpeakLanguageEnum {
   AmericanEnglish = "en-US",
