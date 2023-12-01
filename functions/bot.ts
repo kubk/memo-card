@@ -14,7 +14,7 @@ export const onRequestPost: PagesFunction = handleError(
     const bot = new Bot(envSafe.BOT_TOKEN);
     bot.command("start", (ctx) =>
       ctx.reply(
-        `Improve your memory with spaced repetition. Learn languages, history or other subjects with the proven flashcard method. Click "Open Bot" 👇`,
+        `Improve your memory with spaced repetition. Learn languages, history or other subjects with the proven flashcard method. Click "MemoCard" 👇`,
       ),
     );
 
