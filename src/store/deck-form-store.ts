@@ -13,6 +13,7 @@ import { screenStore } from "./screen-store.ts";
 import { deckListStore } from "./deck-list-store.ts";
 import { showConfirm } from "../lib/telegram/show-confirm.ts";
 import { showAlert } from "../lib/telegram/show-alert.ts";
+import { fuzzySearch } from "../lib/string/fuzzy-search.ts";
 
 export type CardFormType = {
   front: TextField<string>;
@@ -43,9 +44,47 @@ export class DeckFormStore {
   cardFormType?: "new" | "edit";
   form?: DeckFormType;
   isSending = false;
+  isCardList = false;
+  cardFilter = new TextField("");
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
+  }
+
+  goToCardList() {
+    this.isCardList = true;
+  }
+
+  quitCardList() {
+    this.isCardList = false;
+  }
+
+  get filteredCards() {
+    if (!this.form) {
+      return [];
+    }
+
+    if (this.cardFilter.value) {
+      const filterLowerCased = this.cardFilter.value.toLowerCase();
+      return this.form.cards.filter((card) => {
+        return (
+          fuzzySearch(filterLowerCased, card.front.value.toLowerCase()) ||
+          fuzzySearch(filterLowerCased, card.back.value.toLowerCase())
+        );
+      });
+    }
+
+    return this.form.cards;
+  }
+
+  get deckFormScreen() {
+    if (this.cardFormIndex !== undefined) {
+      return "cardForm";
+    }
+    if (this.isCardList) {
+      return "cardList";
+    }
+    return "deckForm";
   }
 
   loadForm() {

@@ -13,7 +13,7 @@ export const Label = (props: Props) => {
     <label
       className={css({ display: "flex", flexDirection: "column", gap: 4 })}
     >
-      <span>
+      <span className={css({ marginLeft: 12 })}>
         {props.text}
         {props.isRequired && (
           <span
