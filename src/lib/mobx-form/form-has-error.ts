@@ -5,6 +5,7 @@ type Form = Record<string, unknown>;
 const walkAndCheck = (
   check: (field: TextField<unknown> | BooleanField) => boolean,
   iterateArray: "some" | "every",
+  defaultValue = false,
 ) => {
   return (form: Form) => {
     return Object.values(form)[iterateArray]((value) => {
@@ -14,7 +15,10 @@ const walkAndCheck = (
       if (Array.isArray(value)) {
         return value[iterateArray](check);
       }
-      return false;
+      if (typeof value === 'object' && value !== null) {
+        return Object.values(value)[iterateArray](walkAndCheck(check, iterateArray, defaultValue));
+      }
+      return defaultValue;
     });
   };
 };
@@ -25,6 +29,8 @@ export const isFormTouchedAndHasError = walkAndCheck(
 );
 
 export const isFormTouched = walkAndCheck((field) => field.isTouched, "some");
+export const isFormValid = walkAndCheck((field) => !field.error, "every", true);
+export const isFormTouchedAndValid = walkAndCheck(field => field.isTouched && !field.error, "some");
 export const isFormEmpty = walkAndCheck((field) => !field.value, "every");
 
 export const formTouchAll = (form: Form) => {
@@ -38,5 +44,3 @@ export const formTouchAll = (form: Form) => {
     return false;
   });
 };
-
-export const isFormValid = (form: Form) => !isFormTouchedAndHasError(form);

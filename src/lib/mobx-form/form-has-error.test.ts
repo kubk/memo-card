@@ -1,15 +1,20 @@
 import { expect, test } from "vitest";
 import { BooleanField, TextField } from "./mobx-form.ts";
-import { isFormEmpty, isFormTouched, isFormValid } from "./form-has-error.ts";
+import {
+  isFormEmpty,
+  isFormTouched,
+  isFormTouchedAndValid,
+  isFormValid,
+} from "./form-has-error.ts";
 import { validators } from "./validator.ts";
 
 test("isFormTouchedAndHasError", () => {
-  expect(
-    isFormValid({
-      a: new TextField("a"),
-      b: new TextField("b"),
-    }),
-  ).toBeTruthy();
+  const f1 = {
+    a: new TextField("a"),
+    b: new TextField("b"),
+  };
+  expect(isFormValid(f1)).toBeTruthy();
+  expect(isFormTouchedAndValid(f1)).toBeFalsy();
 
   expect(
     isFormValid({
@@ -18,25 +23,28 @@ test("isFormTouchedAndHasError", () => {
     }),
   ).toBeTruthy();
 
-  const f = {
+  const f2 = {
     a: new TextField("a", validators.required()),
     b: [new TextField("b", validators.required()), new TextField("d")],
   };
 
-  f.a.touch();
-  expect(isFormValid(f)).toBeTruthy();
+  f2.a.touch();
+  expect(isFormValid(f2)).toBeTruthy();
+  expect(isFormTouchedAndValid(f2)).toBeTruthy();
 
-  f.a.onChange("");
-  expect(isFormValid(f)).toBeFalsy();
+  f2.a.onChange("");
+  expect(isFormValid(f2)).toBeFalsy();
+  expect(isFormTouchedAndValid(f2)).toBeFalsy();
 
-  f.a.onChange("smth");
-  expect(isFormValid(f)).toBeTruthy();
+  f2.a.onChange("smth");
+  expect(isFormValid(f2)).toBeTruthy();
+  expect(isFormTouchedAndValid(f2)).toBeTruthy();
 
-  f.b[0].touch();
-  expect(isFormValid(f)).toBeTruthy();
+  f2.b[0].touch();
+  expect(isFormTouchedAndValid(f2)).toBeTruthy();
 
-  f.b[0].onChange("");
-  expect(isFormValid(f)).toBeFalsy();
+  f2.b[0].onChange("");
+  expect(isFormTouchedAndValid(f2)).toBeTruthy();
 });
 
 test("is form dirty", () => {
@@ -49,6 +57,17 @@ test("is form dirty", () => {
 
   f.a.onChange("");
   expect(isFormTouched(f)).toBeTruthy();
+});
+
+test("is form invalid by default", () => {
+  const f = {
+    a: new TextField("", validators.required()),
+  };
+
+  expect(isFormValid(f)).toBeFalsy();
+
+  f.a.onChange("1");
+  expect(isFormValid(f)).toBeTruthy();
 });
 
 test("is boolean form dirty", () => {
@@ -77,3 +96,43 @@ test("is form empty", () => {
   f.b[1].onChange("");
   expect(isFormEmpty(f)).toBeTruthy();
 });
+
+test('very nested form - only fields', () => {
+  const f = {
+    a: new TextField("a", validators.required()),
+    b: {
+      c: {
+        d: new TextField("d", validators.required()),
+      },
+    },
+  };
+
+  expect(isFormValid(f)).toBeTruthy();
+  expect(isFormTouched(f)).toBeFalsy()
+
+  f.b.c.d.onChange('');
+
+  expect(isFormTouched(f)).toBeTruthy()
+  expect(isFormValid(f)).toBeFalsy();
+})
+
+test('very nested form - any fields', () => {
+  const f = {
+    a: new TextField("a", validators.required()),
+    num: 12,
+    b: {
+      c: {
+        d: new TextField("d", validators.required()),
+        k: null,
+      },
+    },
+  };
+
+  expect(isFormValid(f)).toBeTruthy();
+  expect(isFormTouched(f)).toBeFalsy()
+
+  f.b.c.d.onChange('');
+
+  expect(isFormTouched(f)).toBeTruthy()
+  expect(isFormValid(f)).toBeFalsy();
+})

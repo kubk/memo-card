@@ -8,30 +8,27 @@ export const useMainButton = (
   onClick: () => void,
   condition?: () => boolean,
 ) => {
-  let hideMainButton: () => void;
+  const hideMainButton = () => {
+    WebApp.MainButton.hide();
+    WebApp.MainButton.offClick(onClick);
+    WebApp.MainButton.hideProgress();
+  };
 
   useMount(() => {
     const stopAutoRun = autorun(() => {
-      if (condition !== undefined) {
-        if (!condition()) {
-          return;
-        }
+      if (condition !== undefined && !condition()) {
+        hideMainButton();
+        return;
       }
 
       WebApp.MainButton.show();
       WebApp.MainButton.setText(text);
       WebApp.MainButton.onClick(onClick);
-
-      hideMainButton = () => {
-        WebApp.MainButton.hide();
-        WebApp.MainButton.offClick(onClick);
-        WebApp.MainButton.hideProgress();
-      };
     });
 
     return () => {
       stopAutoRun();
-      hideMainButton?.();
+      hideMainButton();
     };
   });
 

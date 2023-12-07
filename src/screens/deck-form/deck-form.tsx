@@ -2,8 +2,6 @@ import { observer } from "mobx-react-lite";
 import { css } from "@emotion/css";
 import { Label } from "../../ui/label.tsx";
 import { Input } from "../../ui/input.tsx";
-import { theme } from "../../ui/theme.tsx";
-import { Button } from "../../ui/button.tsx";
 import React from "react";
 import { useMainButton } from "../../lib/telegram/use-main-button.tsx";
 import { useDeckFormStore } from "../../store/deck-form-store-context.tsx";
@@ -12,6 +10,8 @@ import { useMount } from "../../lib/react/use-mount.ts";
 import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
 import { useTelegramProgress } from "../../lib/telegram/use-telegram-progress.tsx";
 import { assert } from "../../lib/typescript/assert.ts";
+import { SettingsRow } from "../user-settings/settings-row.tsx";
+import { Button } from "../../ui/button.tsx";
 
 export const DeckForm = observer(() => {
   const deckFormStore = useDeckFormStore();
@@ -21,9 +21,13 @@ export const DeckForm = observer(() => {
   useMount(() => {
     deckFormStore.loadForm();
   });
-  useMainButton("Save", () => {
-    deckFormStore.onDeckSave();
-  });
+  useMainButton(
+    "Save",
+    () => {
+      deckFormStore.onDeckSave();
+    },
+    () => deckFormStore.isDeckSaveButtonVisible,
+  );
   useBackButton(() => {
     deckFormStore.onDeckBack();
   });
@@ -58,25 +62,25 @@ export const DeckForm = observer(() => {
         />
       </Label>
 
-      {deckFormStore.form.cards.map((cardForm, i) => (
-        <div
+      {deckFormStore.form.cards.length > 0 && (
+        <SettingsRow
           onClick={() => {
-            deckFormStore.editCardForm(i);
+            deckFormStore.goToCardList();
           }}
-          key={i}
-          className={css({
-            cursor: "pointer",
-            backgroundColor: theme.secondaryBgColor,
-            borderRadius: theme.borderRadius,
-            padding: 12,
-          })}
         >
-          <div>{cardForm.front.value}</div>
-          <div className={css({ color: theme.hintColor })}>
-            {cardForm.back.value}
-          </div>
-        </div>
-      ))}
+          <span>Cards</span>
+          <span>{deckFormStore.form.cards.length}</span>
+        </SettingsRow>
+      )}
+
+      {/*<SettingsRow>*/}
+      {/*  <span>Speaking cards</span>*/}
+      {/*</SettingsRow>*/}
+      {/*<HintTransparent>*/}
+      {/*  Play spoken audio for each flashcard to enhance pronunciation*/}
+      {/*</HintTransparent>*/}
+
+      {/*<div className={css({ marginTop: 18 })}/>*/}
 
       <Button
         onClick={() => {
