@@ -12,6 +12,7 @@ import { useTelegramProgress } from "../../lib/telegram/use-telegram-progress.ts
 import { assert } from "../../lib/typescript/assert.ts";
 import { SettingsRow } from "../user-settings/settings-row.tsx";
 import { Button } from "../../ui/button.tsx";
+import { HintTransparent } from "../../ui/hint-transparent.tsx";
 
 export const DeckForm = observer(() => {
   const deckFormStore = useDeckFormStore();
@@ -72,6 +73,15 @@ export const DeckForm = observer(() => {
           <span>{deckFormStore.form.cards.length}</span>
         </SettingsRow>
       )}
+
+      <SettingsRow>
+        <span>Speaking cards</span>
+      </SettingsRow>
+      <HintTransparent>
+        Play spoken audio for each flashcard to enhance pronunciation
+      </HintTransparent>
+
+      <div className={css({ marginTop: 18 })}/>
 
       <Button
         onClick={() => {
