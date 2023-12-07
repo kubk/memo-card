@@ -7,13 +7,19 @@ import { envSchema } from "./env/env-schema.ts";
 import { getDatabase } from "./db/get-database.ts";
 import { DatabaseException } from "./db/database-exception.ts";
 import { createJsonResponse } from "./lib/json-response/create-json-response.ts";
-import { deckSchema } from "./db/deck/decks-with-cards-schema.ts";
+import {
+  deckSchema,
+  deckWithCardsSchema
+} from "./db/deck/decks-with-cards-schema.ts";
 import { addDeckToMineDb } from "./db/deck/add-deck-to-mine-db.ts";
 import { createForbiddenRequestResponse } from "./lib/json-response/create-forbidden-request-response.ts";
 import { getDeckByIdAndAuthorId } from "./db/deck/get-deck-by-id-and-author-id.ts";
 import { shortUniqueId } from "./lib/short-unique-id/short-unique-id.ts";
 import { Database } from "./db/databaseTypes.ts";
 import { assert } from "./lib/typescript/assert.ts";
+import {
+  getDeckWithCardsById
+} from "./db/deck/get-deck-with-cards-by-id-db.ts";
 
 const requestSchema = z.object({
   id: z.number().nullable().optional(),
@@ -30,7 +36,7 @@ const requestSchema = z.object({
 });
 
 export type UpsertDeckRequest = z.infer<typeof requestSchema>;
-export type UpsertDeckResponse = null;
+export type UpsertDeckResponse = z.infer<typeof deckWithCardsSchema>;
 
 type InsertDeckDatabaseType = Database["public"]["Tables"]["deck"]["Insert"];
 
@@ -77,21 +83,23 @@ export const onRequestPost = handleError(async ({ request, env }) => {
     is_public: upsertDataDynamic.is_public,
   };
 
-  const upsertDeckResult = await db.from("deck").upsert(upsertData).select();
+  const upsertDeckResult = await db.from("deck").upsert(upsertData)
+    .select()
+    .single();
 
   if (upsertDeckResult.error) {
     throw new DatabaseException(upsertDeckResult.error);
   }
 
   // Supabase returns an array as a result of upsert, that's why it gets validated against an array here
-  const upsertedDecks = z.array(deckSchema).parse(upsertDeckResult.data);
+  const upsertedDeck = deckSchema.parse(upsertDeckResult.data);
 
   const updateCardsResult = await db.from("deck_card").upsert(
     input.data.cards
       .filter((card) => card.id)
       .map((card) => ({
         id: card.id ?? undefined,
-        deck_id: upsertedDecks[0].id,
+        deck_id: upsertedDeck.id,
         example: card.example,
         front: card.front,
         back: card.back,
@@ -106,7 +114,7 @@ export const onRequestPost = handleError(async ({ request, env }) => {
     input.data.cards
       .filter((card) => !card.id)
       .map((card) => ({
-        deck_id: upsertedDecks[0].id,
+        deck_id: upsertedDeck.id,
         example: card.example,
         front: card.front,
         back: card.back,
@@ -120,9 +128,9 @@ export const onRequestPost = handleError(async ({ request, env }) => {
   if (!input.data.id) {
     await addDeckToMineDb(envSafe, {
       user_id: user.id,
-      deck_id: upsertedDecks[0].id,
+      deck_id: upsertedDeck.id,
     });
   }
 
-  return createJsonResponse<UpsertDeckResponse>(null, 200);
+  return createJsonResponse<UpsertDeckResponse>(await getDeckWithCardsById(envSafe, upsertedDeck.id), 200);
 });
