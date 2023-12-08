@@ -13,11 +13,12 @@ export const getDeckByIdAndAuthorId = async (
     .from("deck")
     .select()
     .eq("author_id", userId)
-    .eq("id", deckId);
+    .eq("id", deckId)
+    .single();
 
   if (canEditDeckResult.error) {
     throw new DatabaseException(canEditDeckResult.error);
   }
 
-  return canEditDeckResult.data.length ? canEditDeckResult.data[0] : null;
+  return canEditDeckResult.data ?? null;
 };

@@ -1,23 +1,18 @@
 import { reportHandledErrorOnce } from "../rollbar/rollbar.tsx";
 
 export enum SpeakLanguageEnum {
-  AmericanEnglish = "en-US",
+  USEnglish = "en-US",
   Italian = "it-IT",
   Swedish = "sv-SE",
-  CanadianFrench = "fr-CA",
   Malay = "ms-MY",
   German = "de-DE",
-  BritishEnglish = "en-GB",
+  UKEnglish = "en-GB",
   Hebrew = "he-IL",
-  AustralianEnglish = "en-AU",
   Indonesian = "id-ID",
   French = "fr-FR",
   Bulgarian = "bg-BG",
   Spanish = "es-ES",
-  MexicanSpanish = "es-MX",
   Finnish = "fi-FI",
-  BrazilianPortuguese = "pt-BR",
-  BelgianDutch = "nl-BE",
   Japanese = "ja-JP",
   Romanian = "ro-RO",
   Portuguese = "pt-PT",
@@ -26,14 +21,12 @@ export enum SpeakLanguageEnum {
   Slovak = "sk-SK",
   Hindi = "hi-IN",
   Ukrainian = "uk-UA",
-  MainlandChinaChinese = "zh-CN",
+  Chinese = "zh-CN",
   Vietnamese = "vi-VN",
-  ModernStandardArabic = "ar-001",
-  TaiwaneseChinese = "zh-TW",
+  Arabic = "ar-001",
   Greek = "el-GR",
   Russian = "ru-RU",
   Danish = "da-DK",
-  HongKongChinese = "zh-HK",
   Hungarian = "hu-HU",
   Dutch = "nl-NL",
   Turkish = "tr-TR",
@@ -41,6 +34,16 @@ export enum SpeakLanguageEnum {
   Polish = "pl-PL",
   Czech = "cs-CZ",
 }
+
+export const languageKeyToHuman = (str: string): string => {
+  if (str === "UKEnglish") {
+    return "UK English";
+  }
+  if (str === "USEnglish") {
+    return "US English";
+  }
+  return str.replace(/([A-Z])/g, " $1").trim();
+};
 
 export const speak = (text: string, language: SpeakLanguageEnum) => {
   const isSpeechSynthesisSupported =
