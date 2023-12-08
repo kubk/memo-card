@@ -9,7 +9,7 @@ import { DatabaseException } from "./db/database-exception.ts";
 import { createJsonResponse } from "./lib/json-response/create-json-response.ts";
 import {
   deckSchema,
-  deckWithCardsSchema
+  deckWithCardsSchema,
 } from "./db/deck/decks-with-cards-schema.ts";
 import { addDeckToMineDb } from "./db/deck/add-deck-to-mine-db.ts";
 import { createForbiddenRequestResponse } from "./lib/json-response/create-forbidden-request-response.ts";
@@ -17,14 +17,14 @@ import { getDeckByIdAndAuthorId } from "./db/deck/get-deck-by-id-and-author-id.t
 import { shortUniqueId } from "./lib/short-unique-id/short-unique-id.ts";
 import { Database } from "./db/databaseTypes.ts";
 import { assert } from "./lib/typescript/assert.ts";
-import {
-  getDeckWithCardsById
-} from "./db/deck/get-deck-with-cards-by-id-db.ts";
+import { getDeckWithCardsById } from "./db/deck/get-deck-with-cards-by-id-db.ts";
 
 const requestSchema = z.object({
   id: z.number().nullable().optional(),
   title: z.string(),
   description: z.string().nullable().optional(),
+  speakLocale: z.string().nullable().optional(),
+  speakField: z.string().nullable().optional(),
   cards: z.array(
     z.object({
       front: z.string(),
@@ -39,6 +39,7 @@ export type UpsertDeckRequest = z.infer<typeof requestSchema>;
 export type UpsertDeckResponse = z.infer<typeof deckWithCardsSchema>;
 
 type InsertDeckDatabaseType = Database["public"]["Tables"]["deck"]["Insert"];
+type DeckRow = Database["public"]["Tables"]["deck"]["Row"];
 
 export const onRequestPost = handleError(async ({ request, env }) => {
   const user = await getUser(request, env);
@@ -51,12 +52,10 @@ export const onRequestPost = handleError(async ({ request, env }) => {
 
   const envSafe = envSchema.parse(env);
   const db = getDatabase(envSafe);
+  let databaseDeck: DeckRow | null = null;
 
-  const upsertDataDynamic: { share_id?: string; is_public?: boolean } = {};
-
-  // Is edit
   if (input.data.id) {
-    const databaseDeck = await getDeckByIdAndAuthorId(
+    databaseDeck = await getDeckByIdAndAuthorId(
       envSafe,
       input.data.id,
       user.id,
@@ -64,26 +63,23 @@ export const onRequestPost = handleError(async ({ request, env }) => {
     if (!databaseDeck) {
       return createForbiddenRequestResponse();
     }
-    // https://github.com/orgs/supabase/discussions/3447
-    upsertDataDynamic.share_id = databaseDeck.share_id;
-    upsertDataDynamic.is_public = databaseDeck.is_public;
-  } else {
-    upsertDataDynamic.share_id = shortUniqueId();
-    upsertDataDynamic.is_public = false;
   }
-  assert(upsertDataDynamic.share_id !== undefined);
-  assert(upsertDataDynamic.is_public !== undefined);
 
+  // prettier-ignore
   const upsertData: InsertDeckDatabaseType = {
     id: input.data.id ? input.data.id : undefined,
     author_id: user.id,
     name: input.data.title,
     description: input.data.description,
-    share_id: upsertDataDynamic.share_id,
-    is_public: upsertDataDynamic.is_public,
+    share_id: input.data.id && databaseDeck ? databaseDeck.share_id : shortUniqueId(),
+    is_public: input.data.id && databaseDeck ? databaseDeck.is_public : false,
+    speak_field: input.data.speakField,
+    speak_locale: input.data.speakLocale,
   };
 
-  const upsertDeckResult = await db.from("deck").upsert(upsertData)
+  const upsertDeckResult = await db
+    .from("deck")
+    .upsert(upsertData)
     .select()
     .single();
 
@@ -132,5 +128,8 @@ export const onRequestPost = handleError(async ({ request, env }) => {
     });
   }
 
-  return createJsonResponse<UpsertDeckResponse>(await getDeckWithCardsById(envSafe, upsertedDeck.id), 200);
+  return createJsonResponse<UpsertDeckResponse>(
+    await getDeckWithCardsById(envSafe, upsertedDeck.id),
+    200,
+  );
 });

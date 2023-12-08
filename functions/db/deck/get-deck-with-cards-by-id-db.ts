@@ -3,10 +3,7 @@ import { deckWithCardsSchema } from "./decks-with-cards-schema.ts";
 import { EnvType } from "../../env/env-schema.ts";
 import { getDatabase } from "../get-database.ts";
 
-export const getDeckWithCardsById = async (
-  env: EnvType,
-  deckId: number,
-) => {
+export const getDeckWithCardsById = async (env: EnvType, deckId: number) => {
   const db = getDatabase(env);
 
   const { data, error } = await db
@@ -20,5 +17,5 @@ export const getDeckWithCardsById = async (
     throw new DatabaseException(error);
   }
 
-  return deckWithCardsSchema.parse(data)
-}
+  return deckWithCardsSchema.parse(data);
+};

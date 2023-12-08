@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { theme } from "./theme.tsx";
 import { css } from "@emotion/css";
 

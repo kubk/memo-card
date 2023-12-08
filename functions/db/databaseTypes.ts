@@ -55,6 +55,8 @@ export interface Database {
           is_public: boolean
           name: string
           share_id: string
+          speak_field: string | null
+          speak_locale: string | null
         }
         Insert: {
           author_id?: number | null
@@ -64,6 +66,8 @@ export interface Database {
           is_public?: boolean
           name: string
           share_id: string
+          speak_field?: string | null
+          speak_locale?: string | null
         }
         Update: {
           author_id?: number | null
@@ -73,6 +77,8 @@ export interface Database {
           is_public?: boolean
           name?: string
           share_id?: string
+          speak_field?: string | null
+          speak_locale?: string | null
         }
         Relationships: [
           {

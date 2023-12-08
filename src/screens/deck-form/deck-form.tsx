@@ -12,6 +12,16 @@ import { useTelegramProgress } from "../../lib/telegram/use-telegram-progress.ts
 import { assert } from "../../lib/typescript/assert.ts";
 import { SettingsRow } from "../user-settings/settings-row.tsx";
 import { Button } from "../../ui/button.tsx";
+import { HintTransparent } from "../../ui/hint-transparent.tsx";
+import { RadioSwitcher } from "../../ui/radio-switcher.tsx";
+import { Select } from "../../ui/select.tsx";
+import { enumEntries } from "../../lib/typescript/enum-values.ts";
+import {
+  languageKeyToHuman,
+  SpeakLanguageEnum,
+} from "../../lib/voice-playback/speak.ts";
+import { DeckSpeakFieldEnum } from "../../../functions/db/deck/decks-with-cards-schema.ts";
+import { theme } from "../../ui/theme.tsx";
 
 export const DeckForm = observer(() => {
   const deckFormStore = useDeckFormStore();
@@ -57,7 +67,7 @@ export const DeckForm = observer(() => {
       <Label text={"Description"}>
         <Input
           field={deckFormStore.form.description}
-          rows={5}
+          rows={3}
           type={"textarea"}
         />
       </Label>
@@ -73,14 +83,63 @@ export const DeckForm = observer(() => {
         </SettingsRow>
       )}
 
-      {/*<SettingsRow>*/}
-      {/*  <span>Speaking cards</span>*/}
-      {/*</SettingsRow>*/}
-      {/*<HintTransparent>*/}
-      {/*  Play spoken audio for each flashcard to enhance pronunciation*/}
-      {/*</HintTransparent>*/}
+      <SettingsRow>
+        <span>Speaking cards</span>
+        <RadioSwitcher
+          isOn={deckFormStore.form.isSpeakingCardsEnabled.value}
+          onToggle={deckFormStore.toggleIsSpeakingCardEnabled}
+        />
+      </SettingsRow>
+      {deckFormStore.form.isSpeakingCardsEnabled.value ? (
+        <div
+          className={css({
+            display: "flex",
+            justifyContent: "space-between",
+            marginLeft: 12,
+            marginRight: 12,
+          })}
+        >
+          <div>
+            <div className={css({ fontSize: 14, color: theme.hintColor })}>
+              Voice language
+            </div>
+            {deckFormStore.form.speakingCardsLocale.value ? (
+              <Select<string>
+                value={deckFormStore.form.speakingCardsLocale.value}
+                onChange={deckFormStore.form.speakingCardsLocale.onChange}
+                options={enumEntries(SpeakLanguageEnum).map(([name, key]) => ({
+                  value: key,
+                  label: languageKeyToHuman(name),
+                }))}
+              />
+            ) : null}
+          </div>
 
-      {/*<div className={css({ marginTop: 18 })}/>*/}
+          <div>
+            <div className={css({ fontSize: 14, color: theme.hintColor })}>
+              Speak field
+            </div>
+            {deckFormStore.form.speakingCardsField.value ? (
+              <Select<DeckSpeakFieldEnum>
+                value={deckFormStore.form.speakingCardsField.value}
+                onChange={deckFormStore.form.speakingCardsField.onChange}
+                options={[
+                  { value: "front", label: "Front side" },
+                  { value: "back", label: "Back side" },
+                ]}
+              />
+            ) : null}
+          </div>
+        </div>
+      ) : (
+        <>
+          <HintTransparent>
+            Play spoken audio for each flashcard to enhance pronunciation
+          </HintTransparent>
+        </>
+      )}
+
+      <div className={css({ marginTop: 18 })} />
 
       <Button
         onClick={() => {

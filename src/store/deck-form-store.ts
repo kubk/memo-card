@@ -1,4 +1,4 @@
-import { TextField } from "../lib/mobx-form/mobx-form.ts";
+import { BooleanField, TextField } from "../lib/mobx-form/mobx-form.ts";
 import { validators } from "../lib/mobx-form/validator.ts";
 import { action, makeAutoObservable } from "mobx";
 import {
@@ -13,7 +13,11 @@ import { deckListStore } from "./deck-list-store.ts";
 import { showConfirm } from "../lib/telegram/show-confirm.ts";
 import { showAlert } from "../lib/telegram/show-alert.ts";
 import { fuzzySearch } from "../lib/string/fuzzy-search.ts";
-import { DeckWithCardsDbType } from "../../functions/db/deck/decks-with-cards-schema.ts";
+import {
+  DeckSpeakFieldEnum,
+  DeckWithCardsDbType,
+} from "../../functions/db/deck/decks-with-cards-schema.ts";
+import { SpeakLanguageEnum } from "../lib/voice-playback/speak.ts";
 
 export type CardFormType = {
   front: TextField<string>;
@@ -27,6 +31,9 @@ type DeckFormType = {
   title: TextField<string>;
   description: TextField<string>;
   cards: CardFormType[];
+  isSpeakingCardsEnabled: BooleanField;
+  speakingCardsLocale: TextField<string | null>;
+  speakingCardsField: TextField<DeckSpeakFieldEnum | null>;
 };
 
 export const createDeckTitleField = (value: string) => {
@@ -48,6 +55,10 @@ const createUpdateForm = (
     id: id,
     title: createDeckTitleField(deck.name),
     description: new TextField(deck.description ?? ""),
+    // prettier-ignore
+    isSpeakingCardsEnabled: new BooleanField(Boolean(deck.speak_locale && deck.speak_field)),
+    speakingCardsLocale: new TextField(deck.speak_locale),
+    speakingCardsField: new TextField(deck.speak_field),
     cards: deck.deck_card.map((card) => ({
       id: card.id,
       front: createCardSideField(card.front),
@@ -114,13 +125,20 @@ export class DeckFormStore {
         title: createDeckTitleField(""),
         description: new TextField(""),
         cards: [],
+        isSpeakingCardsEnabled: new BooleanField(false),
+        speakingCardsLocale: new TextField(null),
+        speakingCardsField: new TextField(null),
       };
     }
   }
 
   get isDeckSaveButtonVisible() {
     return Boolean(
-      (this.form?.description.isTouched || this.form?.title.isTouched) &&
+      (this.form?.description.isTouched ||
+        this.form?.title.isTouched ||
+        this.form?.isSpeakingCardsEnabled.isTouched ||
+        this.form?.speakingCardsField.isTouched ||
+        this.form?.speakingCardsLocale.isTouched) &&
         this.form?.cards.length > 0,
     );
   }
@@ -196,6 +214,26 @@ export class DeckFormStore {
 
   get isSortAsc() {
     return this.cardFilter.sortDirection.value === "asc";
+  }
+
+  toggleIsSpeakingCardEnabled() {
+    if (!this.form) return;
+    const { isSpeakingCardsEnabled, speakingCardsLocale, speakingCardsField } =
+      this.form;
+
+    if (isSpeakingCardsEnabled.value) {
+      isSpeakingCardsEnabled.setValue(false);
+      speakingCardsField.onChange(null);
+      speakingCardsLocale.onChange(null);
+    } else {
+      isSpeakingCardsEnabled.setValue(true);
+      if (speakingCardsField.value === null) {
+        speakingCardsField.onChange("front");
+      }
+      if (speakingCardsLocale.value === null) {
+        speakingCardsLocale.onChange(SpeakLanguageEnum.USEnglish);
+      }
+    }
   }
 
   get cardForm() {
@@ -286,6 +324,8 @@ export class DeckFormStore {
     }
     this.isSending = true;
 
+    // Avoid sending huge collections on every save
+    // Only new and touched cards are sent to the server
     const newCards = this.form.cards.filter((card) => !card.id);
     const touchedCards = this.form.cards.filter(
       (card) => !!(card.id && isFormTouched(card)),
@@ -297,6 +337,8 @@ export class DeckFormStore {
       title: this.form.title.value,
       description: this.form.description.value,
       cards: cardsToSend,
+      speakLocale: this.form.speakingCardsLocale.value,
+      speakField: this.form.speakingCardsField.value,
     })
       .then((response) => {
         this.form = createUpdateForm(response.id, response);
