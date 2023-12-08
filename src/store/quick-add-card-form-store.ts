@@ -3,7 +3,7 @@ import { action, makeAutoObservable } from "mobx";
 import {
   isFormEmpty,
   isFormTouched,
-  isFormValid
+  isFormValid,
 } from "../lib/mobx-form/form-has-error.ts";
 import { screenStore } from "./screen-store.ts";
 import { showConfirm } from "../lib/telegram/show-confirm.ts";
