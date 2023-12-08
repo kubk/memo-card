@@ -2,18 +2,22 @@ import React from "react";
 import { theme } from "./theme.tsx";
 import { css } from "@emotion/css";
 
-type Option = {
+type Option<T extends string | number> = {
   label: string;
-  value: string;
+  value: T;
 };
 
-type Props = {
+type Props<T extends string | number> = {
   value: string;
-  onChange: (newValue: string) => void;
-  options: Option[];
+  onChange: (newValue: T) => void;
+  options: Option<T>[];
 };
 
-export const Select = ({ value, onChange, options }: Props) => {
+export const Select = <T extends string | number>({
+  value,
+  onChange,
+  options,
+}: Props<T>) => {
   return (
     <select
       className={css({
@@ -27,7 +31,7 @@ export const Select = ({ value, onChange, options }: Props) => {
         color: theme.linkColor,
       })}
       value={value}
-      onChange={(e) => onChange(e.target.value)}
+      onChange={(e) => onChange(e.target.value as T)}
     >
       {options.map((option) => (
         <option key={option.value} value={option.value}>

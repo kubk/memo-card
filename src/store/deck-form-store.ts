@@ -66,13 +66,20 @@ const cardFormToApi = (card: CardFormType) => {
   };
 };
 
+export type CardFilterSortBy = "createdAt" | "frontAlpha" | "backAlpha";
+export type CardFilterDirection = "desc" | "asc";
+
 export class DeckFormStore {
   cardFormIndex?: number;
   cardFormType?: "new" | "edit";
   form?: DeckFormType;
   isSending = false;
   isCardList = false;
-  cardFilter = new TextField("");
+  cardFilter = {
+    text: new TextField(""),
+    sortBy: new TextField<CardFilterSortBy>("createdAt"),
+    sortDirection: new TextField<CardFilterDirection>("desc"),
+  };
 
   get isDeckSaveButtonVisible() {
     return Boolean(
@@ -104,17 +111,41 @@ export class DeckFormStore {
       return [];
     }
 
-    if (this.cardFilter.value) {
-      const filterLowerCased = this.cardFilter.value.toLowerCase();
-      return this.form.cards.filter((card) => {
-        return (
-          fuzzySearch(filterLowerCased, card.front.value.toLowerCase()) ||
-          fuzzySearch(filterLowerCased, card.back.value.toLowerCase())
-        );
-      });
-    }
+    return this.form.cards
+      .filter((card) => {
+        if (this.cardFilter.text.value) {
+          const textFilter = this.cardFilter.text.value.toLowerCase();
+          return (
+            fuzzySearch(textFilter, card.front.value.toLowerCase()) ||
+            fuzzySearch(textFilter, card.back.value.toLowerCase())
+          );
+        }
+        return true;
+      })
+      .sort((a, b) => {
+        if (this.cardFilter.sortBy.value === "frontAlpha") {
+          return this.cardFilter.sortDirection.value === "desc"
+            ? b.front.value.localeCompare(a.front.value)
+            : a.front.value.localeCompare(b.front.value);
+        }
+        if (this.cardFilter.sortBy.value === "backAlpha") {
+          return this.cardFilter.sortDirection.value === "desc"
+            ? b.back.value.localeCompare(a.back.value)
+            : a.back.value.localeCompare(b.back.value);
+        }
+        if (this.cardFilter.sortBy.value === "createdAt") {
+          if (this.cardFilter.sortDirection.value === "desc") {
+            if (!b.id) return -1;
+            if (!a.id) return 1;
+            return b.id - a.id;
+          }
+          if (!b.id) return 1;
+          if (!a.id) return -1;
+          return a.id - b.id;
+        }
 
-    return this.form.cards;
+        return this.cardFilter.sortBy.value satisfies never;
+      });
   }
 
   get deckFormScreen() {

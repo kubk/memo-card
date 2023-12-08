@@ -1,4 +1,8 @@
-export const reportHandledError = (description: string, e?: any, info?: any) => {
+export const reportHandledError = (
+  description: string,
+  e?: any,
+  info?: any,
+) => {
   console.error(e);
   // @ts-ignore
   Rollbar.error(description, e, info);
@@ -6,7 +10,11 @@ export const reportHandledError = (description: string, e?: any, info?: any) => 
 
 let reported = false;
 
-export const reportHandledErrorOnce = (description: string, e?: any, info?: any) => {
+export const reportHandledErrorOnce = (
+  description: string,
+  e?: any,
+  info?: any,
+) => {
   if (reported) {
     return;
   }
@@ -15,4 +23,3 @@ export const reportHandledErrorOnce = (description: string, e?: any, info?: any)
   // @ts-ignore
   Rollbar.error(description, e, info);
 };
-
