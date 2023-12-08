@@ -1,4 +1,4 @@
-import { BooleanField, TextField } from "../lib/mobx-form/mobx-form.ts";
+import { TextField } from "../lib/mobx-form/mobx-form.ts";
 import { validators } from "../lib/mobx-form/validator.ts";
 import { action, makeAutoObservable } from "mobx";
 import {
@@ -31,7 +31,6 @@ type DeckFormType = {
   title: TextField<string>;
   description: TextField<string>;
   cards: CardFormType[];
-  isSpeakingCardsEnabled: BooleanField;
   speakingCardsLocale: TextField<string | null>;
   speakingCardsField: TextField<DeckSpeakFieldEnum | null>;
 };
@@ -55,8 +54,6 @@ const createUpdateForm = (
     id: id,
     title: createDeckTitleField(deck.name),
     description: new TextField(deck.description ?? ""),
-    // prettier-ignore
-    isSpeakingCardsEnabled: new BooleanField(Boolean(deck.speak_locale && deck.speak_field)),
     speakingCardsLocale: new TextField(deck.speak_locale),
     speakingCardsField: new TextField(deck.speak_field),
     cards: deck.deck_card.map((card) => ({
@@ -125,7 +122,6 @@ export class DeckFormStore {
         title: createDeckTitleField(""),
         description: new TextField(""),
         cards: [],
-        isSpeakingCardsEnabled: new BooleanField(false),
         speakingCardsLocale: new TextField(null),
         speakingCardsField: new TextField(null),
       };
@@ -136,7 +132,6 @@ export class DeckFormStore {
     return Boolean(
       (this.form?.description.isTouched ||
         this.form?.title.isTouched ||
-        this.form?.isSpeakingCardsEnabled.isTouched ||
         this.form?.speakingCardsField.isTouched ||
         this.form?.speakingCardsLocale.isTouched) &&
         this.form?.cards.length > 0,
@@ -218,22 +213,22 @@ export class DeckFormStore {
 
   toggleIsSpeakingCardEnabled() {
     if (!this.form) return;
-    const { isSpeakingCardsEnabled, speakingCardsLocale, speakingCardsField } =
-      this.form;
+    const { speakingCardsLocale, speakingCardsField } = this.form;
 
-    if (isSpeakingCardsEnabled.value) {
-      isSpeakingCardsEnabled.setValue(false);
-      speakingCardsField.onChange(null);
+    if (speakingCardsLocale.value && speakingCardsField.value) {
       speakingCardsLocale.onChange(null);
+      speakingCardsField.onChange(null);
     } else {
-      isSpeakingCardsEnabled.setValue(true);
-      if (speakingCardsField.value === null) {
-        speakingCardsField.onChange("front");
-      }
-      if (speakingCardsLocale.value === null) {
-        speakingCardsLocale.onChange(SpeakLanguageEnum.USEnglish);
-      }
+      speakingCardsLocale.onChange(SpeakLanguageEnum.USEnglish);
+      speakingCardsField.onChange("front");
     }
+  }
+
+  get isSpeakingCardEnabled() {
+    return (
+      !!this.form?.speakingCardsLocale.value &&
+      !!this.form?.speakingCardsField.value
+    );
   }
 
   get cardForm() {

@@ -86,11 +86,11 @@ export const DeckForm = observer(() => {
       <SettingsRow>
         <span>Speaking cards</span>
         <RadioSwitcher
-          isOn={deckFormStore.form.isSpeakingCardsEnabled.value}
+          isOn={deckFormStore.isSpeakingCardEnabled}
           onToggle={deckFormStore.toggleIsSpeakingCardEnabled}
         />
       </SettingsRow>
-      {deckFormStore.form.isSpeakingCardsEnabled.value ? (
+      {deckFormStore.isSpeakingCardEnabled ? (
         <div
           className={css({
             display: "flex",
