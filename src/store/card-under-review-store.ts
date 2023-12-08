@@ -1,6 +1,9 @@
 import { makeAutoObservable } from "mobx";
 import { assert } from "../lib/typescript/assert.ts";
-import { DeckCardDbType } from "../../functions/db/deck/decks-with-cards-schema.ts";
+import {
+  DeckCardDbType,
+  DeckSpeakFieldEnum,
+} from "../../functions/db/deck/decks-with-cards-schema.ts";
 import { DeckWithCardsWithReviewType } from "./deck-list-store.ts";
 import { speak, SpeakLanguageEnum } from "../lib/voice-playback/speak.ts";
 import { isEnumValid } from "../lib/typescript/is-enum-valid.ts";
@@ -10,11 +13,6 @@ export enum CardState {
   Forget = "forget",
 }
 
-export enum DeckSpeakField {
-  Front = "front",
-  Back = "back",
-}
-
 export class CardUnderReviewStore {
   id: number;
   front: string;
@@ -22,7 +20,7 @@ export class CardUnderReviewStore {
   example: string | null = null;
   deckName?: string;
   deckSpeakLocale: string | null = null;
-  deckSpeakField: string | null = null;
+  deckSpeakField: DeckSpeakFieldEnum | null = null;
 
   isOpened = false;
   state?: CardState;
@@ -56,10 +54,7 @@ export class CardUnderReviewStore {
     if (!this.deckSpeakLocale || !this.deckSpeakField) {
       return;
     }
-    if (
-      !isEnumValid(this.deckSpeakField, DeckSpeakField) ||
-      !isEnumValid(this.deckSpeakLocale, SpeakLanguageEnum)
-    ) {
+    if (!isEnumValid(this.deckSpeakLocale, SpeakLanguageEnum)) {
       return;
     }
 

@@ -13,11 +13,9 @@ type Props<T extends string | number> = {
   options: Option<T>[];
 };
 
-export const Select = <T extends string | number>({
-  value,
-  onChange,
-  options,
-}: Props<T>) => {
+export const Select = <T extends string | number>(props: Props<T>) => {
+  const { value, onChange, options } = props;
+
   return (
     <select
       className={css({
