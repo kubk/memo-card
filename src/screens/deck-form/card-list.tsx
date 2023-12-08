@@ -90,7 +90,7 @@ export const CardList = observer(() => {
       {deckFormStore.filteredCards.map((cardForm, i) => (
         <div
           onClick={() => {
-            deckFormStore.editCardForm(i);
+            deckFormStore.editCardFormById(cardForm.id);
           }}
           key={i}
           className={css({
