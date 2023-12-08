@@ -81,71 +81,8 @@ export class DeckFormStore {
     sortDirection: new TextField<CardFilterDirection>("desc"),
   };
 
-  get isDeckSaveButtonVisible() {
-    return Boolean(
-      (this.form?.description.isTouched || this.form?.title.isTouched) &&
-        this.form?.cards.length > 0,
-    );
-  }
-
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
-  }
-
-  goToCardList() {
-    if (!this.form) {
-      return;
-    }
-    if (!isFormValid(this.form)) {
-      return;
-    }
-    this.isCardList = true;
-  }
-
-  quitCardList() {
-    this.isCardList = false;
-  }
-
-  get filteredCards() {
-    if (!this.form) {
-      return [];
-    }
-
-    return this.form.cards
-      .filter((card) => {
-        if (this.cardFilter.text.value) {
-          const textFilter = this.cardFilter.text.value.toLowerCase();
-          return (
-            fuzzySearch(textFilter, card.front.value.toLowerCase()) ||
-            fuzzySearch(textFilter, card.back.value.toLowerCase())
-          );
-        }
-        return true;
-      })
-      .sort((a, b) => {
-        if (this.cardFilter.sortBy.value === "frontAlpha") {
-          return this.cardFilter.sortDirection.value === "desc"
-            ? b.front.value.localeCompare(a.front.value)
-            : a.front.value.localeCompare(b.front.value);
-        }
-        if (this.cardFilter.sortBy.value === "backAlpha") {
-          return this.cardFilter.sortDirection.value === "desc"
-            ? b.back.value.localeCompare(a.back.value)
-            : a.back.value.localeCompare(b.back.value);
-        }
-        if (this.cardFilter.sortBy.value === "createdAt") {
-          if (this.cardFilter.sortDirection.value === "desc") {
-            if (!b.id) return -1;
-            if (!a.id) return 1;
-            return b.id - a.id;
-          }
-          if (!b.id) return 1;
-          if (!a.id) return -1;
-          return a.id - b.id;
-        }
-
-        return this.cardFilter.sortBy.value satisfies never;
-      });
   }
 
   get deckFormScreen() {
@@ -179,6 +116,86 @@ export class DeckFormStore {
         cards: [],
       };
     }
+  }
+
+  get isDeckSaveButtonVisible() {
+    return Boolean(
+      (this.form?.description.isTouched || this.form?.title.isTouched) &&
+        this.form?.cards.length > 0,
+    );
+  }
+
+  goToCardList() {
+    if (!this.form) {
+      return;
+    }
+    if (!isFormValid(this.form)) {
+      return;
+    }
+    this.isCardList = true;
+  }
+
+  quitCardList() {
+    this.isCardList = false;
+  }
+
+  get filteredCards() {
+    if (!this.form) {
+      return [];
+    }
+
+    return this.form.cards
+      .filter((card) => {
+        if (this.cardFilter.text.value) {
+          const textFilter = this.cardFilter.text.value.toLowerCase();
+          return (
+            fuzzySearch(textFilter, card.front.value.toLowerCase()) ||
+            fuzzySearch(textFilter, card.back.value.toLowerCase())
+          );
+        }
+        return true;
+      })
+      .sort((a, b) => {
+        const aFront = a.front.value.toLowerCase();
+        const bFront = b.front.value.toLowerCase();
+        const aBack = a.back.value.toLowerCase();
+        const bBack = b.back.value.toLowerCase();
+
+        if (this.cardFilter.sortBy.value === "frontAlpha") {
+          return this.cardFilter.sortDirection.value === "desc"
+            ? bFront.localeCompare(aFront)
+            : aFront.localeCompare(bFront);
+        }
+        if (this.cardFilter.sortBy.value === "backAlpha") {
+          return this.cardFilter.sortDirection.value === "desc"
+            ? bBack.localeCompare(aBack)
+            : aBack.localeCompare(bBack);
+        }
+        if (this.cardFilter.sortBy.value === "createdAt") {
+          if (this.cardFilter.sortDirection.value === "desc") {
+            if (!b.id) return -1;
+            if (!a.id) return 1;
+            return b.id - a.id;
+          }
+          if (!b.id) return 1;
+          if (!a.id) return -1;
+          return a.id - b.id;
+        }
+
+        return this.cardFilter.sortBy.value satisfies never;
+      });
+  }
+
+  changeSort(sortBy: CardFilterSortBy) {
+    if (this.cardFilter.sortBy.value === sortBy) {
+      this.cardFilter.sortDirection.onChange(this.isSortAsc ? "desc" : "asc");
+    } else {
+      this.cardFilter.sortBy.onChange(sortBy);
+    }
+  }
+
+  get isSortAsc() {
+    return this.cardFilter.sortDirection.value === "asc";
   }
 
   get cardForm() {
