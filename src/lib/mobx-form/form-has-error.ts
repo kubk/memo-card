@@ -15,8 +15,10 @@ const walkAndCheck = (
       if (Array.isArray(value)) {
         return value[iterateArray](check);
       }
-      if (typeof value === 'object' && value !== null) {
-        return Object.values(value)[iterateArray](walkAndCheck(check, iterateArray, defaultValue));
+      if (typeof value === "object" && value !== null) {
+        return Object.values(value)[iterateArray](
+          walkAndCheck(check, iterateArray, defaultValue),
+        );
       }
       return defaultValue;
     });
@@ -30,7 +32,10 @@ export const isFormTouchedAndHasError = walkAndCheck(
 
 export const isFormTouched = walkAndCheck((field) => field.isTouched, "some");
 export const isFormValid = walkAndCheck((field) => !field.error, "every", true);
-export const isFormTouchedAndValid = walkAndCheck(field => field.isTouched && !field.error, "some");
+export const isFormTouchedAndValid = walkAndCheck(
+  (field) => field.isTouched && !field.error,
+  "some",
+);
 export const isFormEmpty = walkAndCheck((field) => !field.value, "every");
 
 export const formTouchAll = (form: Form) => {

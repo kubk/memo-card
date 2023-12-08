@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { DeckFormStore } from "./deck-form-store.ts";
+import { CardFormType, DeckFormStore } from "./deck-form-store.ts";
 import { DeckCardDbType } from "../../functions/db/deck/decks-with-cards-schema.ts";
 import { type DeckWithCardsWithReviewType } from "./deck-list-store.ts";
 import { assert } from "../lib/typescript/assert.ts";
@@ -225,5 +225,41 @@ describe("deck form store", () => {
     store.quitCardForm();
 
     expect(store.form.cards).toHaveLength(3);
+  });
+
+  it("sorting", () => {
+    const store = new DeckFormStore();
+    store.loadForm();
+    assert(store.form);
+    expect(store.form.cards).toHaveLength(3);
+
+    const cardToId = (card: CardFormType) => card.id;
+
+    expect(store.filteredCards.map(cardToId)).toEqual([5, 4, 3]);
+
+    store.cardFilter.sortDirection.onChange("asc");
+
+    expect(store.filteredCards.map(cardToId)).toEqual([3, 4, 5]);
+
+    store.cardFilter.sortBy.onChange("frontAlpha");
+
+    expect(store.filteredCards.map(cardToId)).toEqual([3, 5, 4]);
+
+    store.cardFilter.sortDirection.onChange("desc");
+
+    expect(store.filteredCards.map(cardToId)).toEqual([4, 5, 3]);
+
+    store.openNewCardForm();
+
+    expect(store.filteredCards.map(cardToId)).toEqual([4, 5, 3, undefined]);
+
+    store.cardFilter.sortBy.onChange("createdAt");
+    store.cardFilter.sortDirection.onChange("asc");
+
+    expect(store.filteredCards.map(cardToId)).toEqual([undefined, 3, 4, 5]);
+
+    store.cardFilter.sortDirection.onChange("desc");
+
+    expect(store.filteredCards.map(cardToId)).toEqual([5, 4, 3, undefined]);
   });
 });

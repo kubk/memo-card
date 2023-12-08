@@ -97,7 +97,7 @@ test("is form empty", () => {
   expect(isFormEmpty(f)).toBeTruthy();
 });
 
-test('very nested form - only fields', () => {
+test("very nested form - only fields", () => {
   const f = {
     a: new TextField("a", validators.required()),
     b: {
@@ -108,15 +108,15 @@ test('very nested form - only fields', () => {
   };
 
   expect(isFormValid(f)).toBeTruthy();
-  expect(isFormTouched(f)).toBeFalsy()
+  expect(isFormTouched(f)).toBeFalsy();
 
-  f.b.c.d.onChange('');
+  f.b.c.d.onChange("");
 
-  expect(isFormTouched(f)).toBeTruthy()
+  expect(isFormTouched(f)).toBeTruthy();
   expect(isFormValid(f)).toBeFalsy();
-})
+});
 
-test('very nested form - any fields', () => {
+test("very nested form - any fields", () => {
   const f = {
     a: new TextField("a", validators.required()),
     num: 12,
@@ -129,10 +129,10 @@ test('very nested form - any fields', () => {
   };
 
   expect(isFormValid(f)).toBeTruthy();
-  expect(isFormTouched(f)).toBeFalsy()
+  expect(isFormTouched(f)).toBeFalsy();
 
-  f.b.c.d.onChange('');
+  f.b.c.d.onChange("");
 
-  expect(isFormTouched(f)).toBeTruthy()
+  expect(isFormTouched(f)).toBeTruthy();
   expect(isFormValid(f)).toBeFalsy();
-})
+});
