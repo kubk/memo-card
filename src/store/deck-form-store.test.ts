@@ -227,7 +227,7 @@ describe("deck form store", () => {
     expect(store.form.cards).toHaveLength(3);
   });
 
-  it("sorting", () => {
+  it("sorting - filtering cards", () => {
     const store = new DeckFormStore();
     store.loadForm();
     assert(store.form);
@@ -261,5 +261,22 @@ describe("deck form store", () => {
     store.cardFilter.sortDirection.onChange("desc");
 
     expect(store.filteredCards.map(cardToId)).toEqual([5, 4, 3, undefined]);
+  });
+
+  it("sorting - toggling direction & change sortBy field", () => {
+    const store = new DeckFormStore();
+
+    store.cardFilter.sortBy.onChange("createdAt");
+    store.cardFilter.sortDirection.onChange("asc");
+
+    store.changeSort("createdAt");
+
+    expect(store.cardFilter.sortBy.value).toEqual("createdAt");
+    expect(store.cardFilter.sortDirection.value).toEqual("desc");
+
+    store.changeSort("frontAlpha");
+
+    expect(store.cardFilter.sortBy.value).toEqual("frontAlpha");
+    expect(store.cardFilter.sortDirection.value).toEqual("desc");
   });
 });

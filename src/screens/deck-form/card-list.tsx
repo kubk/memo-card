@@ -32,7 +32,7 @@ export const CardList = observer(() => {
         marginBottom: 16,
       })}
     >
-      <h4 className={css({ textAlign: "center" })}>Cards</h4>
+      <h3 className={css({ textAlign: "center" })}>Cards</h3>
       {deckFormStore.form.cards.length > 1 && (
         <>
           <Input
@@ -63,8 +63,6 @@ export const CardList = observer(() => {
             ].map((item, i) => {
               const isSelected =
                 deckFormStore.cardFilter.sortBy.value === item.fieldName;
-              const isAsc =
-                deckFormStore.cardFilter.sortDirection.value === "asc";
 
               return (
                 <button
@@ -73,22 +71,16 @@ export const CardList = observer(() => {
                     reset.button,
                     css({
                       color: isSelected ? theme.linkColor : undefined,
+                      cursor: "pointer",
                       fontSize: 16,
                     }),
                   )}
                   onClick={() => {
-                    if (
-                      deckFormStore.cardFilter.sortBy.value === item.fieldName
-                    ) {
-                      deckFormStore.cardFilter.sortDirection.onChange(
-                        isAsc ? "desc" : "asc",
-                      );
-                    } else {
-                      deckFormStore.cardFilter.sortBy.onChange(item.fieldName);
-                    }
+                    deckFormStore.changeSort(item.fieldName);
                   }}
                 >
-                  {item.label} {isSelected ? (isAsc ? "↓" : "↑") : null}
+                  {item.label}{" "}
+                  {isSelected ? (deckFormStore.isSortAsc ? "↓" : "↑") : null}
                 </button>
               );
             })}
