@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import { theme } from "./theme.tsx";
 import { css } from "@emotion/css";
 
@@ -13,11 +13,9 @@ type Props<T extends string | number> = {
   options: Option<T>[];
 };
 
-export const Select = <T extends string | number>({
-  value,
-  onChange,
-  options,
-}: Props<T>) => {
+export const Select = <T extends string | number>(props: Props<T>) => {
+  const { value, onChange, options } = props;
+
   return (
     <select
       className={css({

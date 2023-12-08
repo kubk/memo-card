@@ -16,7 +16,6 @@ import { createForbiddenRequestResponse } from "./lib/json-response/create-forbi
 import { getDeckByIdAndAuthorId } from "./db/deck/get-deck-by-id-and-author-id.ts";
 import { shortUniqueId } from "./lib/short-unique-id/short-unique-id.ts";
 import { Database } from "./db/databaseTypes.ts";
-import { assert } from "./lib/typescript/assert.ts";
 import { getDeckWithCardsById } from "./db/deck/get-deck-with-cards-by-id-db.ts";
 
 const requestSchema = z.object({
