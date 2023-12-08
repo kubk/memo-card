@@ -219,9 +219,19 @@ export class DeckFormStore {
     });
   }
 
-  editCardForm(i: number) {
+  editCardFormByIndex(i: number) {
     this.cardFormIndex = i;
     this.cardFormType = "edit";
+  }
+
+  editCardFormById(cardId?: number) {
+    if (!cardId || !this.form) {
+      return;
+    }
+    const cardIndex = this.form.cards.findIndex((card) => card.id === cardId);
+    if (cardIndex !== -1) {
+      this.editCardFormByIndex(cardIndex);
+    }
   }
 
   saveCardForm() {

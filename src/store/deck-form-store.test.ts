@@ -135,7 +135,7 @@ describe("deck form store", () => {
 
     expect(mocks.upsertDeckRequest.mock.calls).toHaveLength(1);
 
-    store.editCardForm(3);
+    store.editCardFormByIndex(3);
     assert(store.cardForm);
 
     expect(isFormValid(store.cardForm)).toBeFalsy();
@@ -167,18 +167,18 @@ describe("deck form store", () => {
     assert(store.form);
     expect(store.form.cards).toHaveLength(3);
 
-    store.editCardForm(0);
+    store.editCardFormByIndex(0);
     assert(store.cardForm);
 
     store.cardForm.front.onChange("2 (edited)");
     store.cardForm.back.onChange("2 (edited)");
 
-    store.editCardForm(1);
+    store.editCardFormByIndex(1);
     store.cardForm.front.onChange("3 (edited)");
     store.cardForm.back.onChange("3 (edited)");
 
     store.openNewCardForm();
-    store.editCardForm(3);
+    store.editCardFormByIndex(3);
 
     store.cardForm.front.onChange("1 (new)");
     store.cardForm.back.onChange("1 (new)");
@@ -221,7 +221,7 @@ describe("deck form store", () => {
 
     expect(store.form.cards).toHaveLength(3);
 
-    store.editCardForm(2);
+    store.editCardFormByIndex(2);
     store.quitCardForm();
 
     expect(store.form.cards).toHaveLength(3);
