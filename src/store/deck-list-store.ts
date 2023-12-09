@@ -218,8 +218,9 @@ export class DeckListStore {
     const deckIndex = this.myInfo.value.myDecks.findIndex(
       (myDeck) => myDeck.id === deck.id,
     );
-    assert(deckIndex !== -1, "Deck not found in myDecks");
-    this.myInfo.value.myDecks[deckIndex] = deck;
+    if (deckIndex !== -1) {
+      this.myInfo.value.myDecks[deckIndex] = deck;
+    }
   }
 
   get publicDecks() {
