@@ -73,13 +73,12 @@ test("difficult to remember card", () => {
     "wrong",
     "correct",
     "wrong",
-    "wrong",
     "correct",
     "correct",
     "correct",
   ]);
 
-  expect(intervals).toEqual([0.4, 0.94, 0.4, 0.4, 0.86, 1.94, 4.56]);
+  expect(intervals).toEqual([0.4, 0.94, 0.4, 0.92, 2.21, 5.53]);
 });
 
 test("forgetting resets interval - non interrupted", () => {
