@@ -211,6 +211,17 @@ export class DeckListStore {
     };
   }
 
+  replaceDeck(deck: DeckWithCardsDbType) {
+    if (this.myInfo?.state !== "fulfilled") {
+      return;
+    }
+    const deckIndex = this.myInfo.value.myDecks.findIndex(
+      (myDeck) => myDeck.id === deck.id,
+    );
+    assert(deckIndex !== -1, "Deck not found in myDecks");
+    this.myInfo.value.myDecks[deckIndex] = deck;
+  }
+
   get publicDecks() {
     if (this.myInfo?.state !== "fulfilled") {
       return [];
