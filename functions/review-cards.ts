@@ -9,6 +9,7 @@ import { reviewCard } from "./services/review-card.ts";
 import { DateTime } from "luxon";
 import { DatabaseException } from "./db/database-exception.ts";
 import { createJsonResponse } from "./lib/json-response/create-json-response.ts";
+import { Database } from "./db/databaseTypes.ts";
 
 const requestSchema = z.object({
   cards: z.array(
@@ -36,7 +37,7 @@ export const onRequestPost = handleError(async ({ env, request }) => {
 
   const { data: existingReviews, error } = await db
     .from("card_review")
-    .select("card_id, interval")
+    .select("card_id, interval, ease_factor")
     .eq("user_id", user.id)
     .in(
       "card_id",
@@ -52,15 +53,16 @@ export const onRequestPost = handleError(async ({ env, request }) => {
   const upsertReviewsResult = await db
     .from("card_review")
     .upsert(
-      input.data.cards.map((card) => {
-        const previousInterval = existingReviews.find(
+      input.data.cards.map((card): Database['public']['Tables']['card_review']['Insert'] => {
+        const previousReview = existingReviews.find(
           (review) => review.card_id === card.id,
-        )?.interval;
+        );
 
         const reviewResult = reviewCard(
           now,
-          previousInterval,
+          previousReview?.interval,
           card.outcome,
+          previousReview?.ease_factor,
           input.data.isInterrupted,
         );
 
@@ -68,6 +70,7 @@ export const onRequestPost = handleError(async ({ env, request }) => {
           user_id: user.id,
           card_id: card.id,
           last_review_date: now.toJSDate().toISOString(),
+          ease_factor: reviewResult.easeFactor,
           interval: reviewResult.interval,
         };
       }),

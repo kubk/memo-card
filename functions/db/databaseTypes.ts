@@ -13,6 +13,7 @@ export interface Database {
         Row: {
           card_id: number
           created_at: string
+          ease_factor: number
           interval: number
           last_review_date: string
           user_id: number
@@ -20,6 +21,7 @@ export interface Database {
         Insert: {
           card_id: number
           created_at?: string
+          ease_factor?: number
           interval: number
           last_review_date?: string
           user_id: number
@@ -27,6 +29,7 @@ export interface Database {
         Update: {
           card_id?: number
           created_at?: string
+          ease_factor?: number
           interval?: number
           last_review_date?: string
           user_id?: number
