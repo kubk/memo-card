@@ -84,6 +84,7 @@ vi.mock("./deck-list-store.ts", () => {
 
   return {
     deckListStore: {
+      replaceDeck: () => {},
       myDecks: [
         {
           id: 1,
