@@ -81,7 +81,9 @@ export const Review = observer(() => {
   });
 
   useHotkeys("enter", () => {
-    if (!reviewStore.currentCard?.isOpened) {
+    if (reviewStore.currentCard?.isOpened) {
+      onRight();
+    } else {
       reviewStore.open();
     }
   });
