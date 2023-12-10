@@ -19,6 +19,7 @@ export class CardUnderReviewStore {
   back: string;
   example: string | null = null;
   deckName?: string;
+  deckId?: number;
   deckSpeakLocale: string | null = null;
   deckSpeakField: DeckSpeakFieldEnum | null = null;
 
@@ -31,6 +32,7 @@ export class CardUnderReviewStore {
     this.back = card.back;
     this.example = card.example;
     this.deckName = deck.name;
+    this.deckId = deck.id;
     this.deckSpeakLocale = deck.speak_locale;
     this.deckSpeakField = deck.speak_field;
 

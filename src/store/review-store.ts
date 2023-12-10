@@ -8,6 +8,7 @@ import {
   deckListStore,
   DeckWithCardsWithReviewType,
 } from "./deck-list-store.ts";
+import { shuffleArray } from "../lib/array/shuffle-array.ts";
 
 type ReviewResult = {
   forgotIds: number[];
@@ -37,10 +38,12 @@ export class ReviewStore {
     if (!deck.cardsToReview.length) {
       return;
     }
-    deck.cardsToReview.forEach((card) => {
-      this.cardsToReview.push(new CardUnderReviewStore(card, deck));
-    });
+    const cardsToReview = deck.cardsToReview.map(
+      (card) => new CardUnderReviewStore(card, deck),
+    );
+    shuffleArray(cardsToReview);
 
+    this.cardsToReview = cardsToReview;
     this.initialCardCount = this.cardsToReview.length;
     this.currentCardId = this.cardsToReview[0].id;
     if (this.cardsToReview.length > 1) {
@@ -59,11 +62,13 @@ export class ReviewStore {
     }
 
     myDecks.forEach((deck) => {
-      deck.cardsToReview
+      const cardsToRepeat = deck.cardsToReview
         .filter((card) => card.type === "repeat")
-        .forEach((card) => {
-          this.cardsToReview.push(new CardUnderReviewStore(card, deck));
-        });
+        .map((card) => new CardUnderReviewStore(card, deck));
+
+      shuffleArray(cardsToRepeat);
+
+      this.cardsToReview.push(...cardsToRepeat);
     });
 
     if (!this.cardsToReview.length) {

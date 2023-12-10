@@ -65,6 +65,14 @@ vi.mock("./deck-list-store.ts", () => {
   };
 });
 
+vi.mock('../lib/array/shuffle-array.ts', () => {
+  return {
+    shuffleArray: (array: unknown[]) => {
+      return array;
+    },
+  };
+})
+
 const cardToSnapshot = (card: CardUnderReviewStore) => ({
   back: card.back,
   deckName: card.deckName,
