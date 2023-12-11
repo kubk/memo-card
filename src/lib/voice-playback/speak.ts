@@ -14,6 +14,7 @@ export enum SpeakLanguageEnum {
   Japanese = "ja-JP",
   Romanian = "ro-RO",
   Portuguese = "pt-PT",
+  BrazilianPortuguese = "pt-BR",
   Thai = "th-TH",
   Croatian = "hr-HR",
   Slovak = "sk-SK",
@@ -43,11 +44,11 @@ export const languageKeyToHuman = (str: string): string => {
   return str.replace(/([A-Z])/g, " $1").trim();
 };
 
-export const speak = (text: string, language: SpeakLanguageEnum) => {
-  const isSpeechSynthesisSupported =
-    "speechSynthesis" in window &&
-    typeof SpeechSynthesisUtterance !== "undefined";
+export const isSpeechSynthesisSupported =
+  "speechSynthesis" in window &&
+  typeof SpeechSynthesisUtterance !== "undefined";
 
+export const speak = (text: string, language: SpeakLanguageEnum) => {
   if (!isSpeechSynthesisSupported) {
     return;
   }
