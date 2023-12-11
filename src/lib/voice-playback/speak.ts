@@ -1,5 +1,3 @@
-import { reportHandledErrorOnce } from "../rollbar/rollbar.tsx";
-
 export enum SpeakLanguageEnum {
   USEnglish = "en-US",
   Italian = "it-IT",
@@ -51,9 +49,6 @@ export const speak = (text: string, language: SpeakLanguageEnum) => {
     typeof SpeechSynthesisUtterance !== "undefined";
 
   if (!isSpeechSynthesisSupported) {
-    reportHandledErrorOnce(
-      `Speech synthesis is not supported in this browser. Browser info: ${navigator.userAgent}`,
-    );
     return;
   }
 
