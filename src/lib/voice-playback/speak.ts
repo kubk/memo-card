@@ -1,5 +1,3 @@
-import { reportHandledErrorOnce } from "../rollbar/rollbar.tsx";
-
 export enum SpeakLanguageEnum {
   USEnglish = "en-US",
   Italian = "it-IT",
@@ -16,6 +14,7 @@ export enum SpeakLanguageEnum {
   Japanese = "ja-JP",
   Romanian = "ro-RO",
   Portuguese = "pt-PT",
+  BrazilianPortuguese = "pt-BR",
   Thai = "th-TH",
   Croatian = "hr-HR",
   Slovak = "sk-SK",
@@ -45,15 +44,12 @@ export const languageKeyToHuman = (str: string): string => {
   return str.replace(/([A-Z])/g, " $1").trim();
 };
 
-export const speak = (text: string, language: SpeakLanguageEnum) => {
-  const isSpeechSynthesisSupported =
-    "speechSynthesis" in window &&
-    typeof SpeechSynthesisUtterance !== "undefined";
+export const isSpeechSynthesisSupported =
+  "speechSynthesis" in window &&
+  typeof SpeechSynthesisUtterance !== "undefined";
 
+export const speak = (text: string, language: SpeakLanguageEnum) => {
   if (!isSpeechSynthesisSupported) {
-    reportHandledErrorOnce(
-      `Speech synthesis is not supported in this browser. Browser info: ${navigator.userAgent}`,
-    );
     return;
   }
 

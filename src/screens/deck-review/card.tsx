@@ -5,6 +5,7 @@ import { theme } from "../../ui/theme.tsx";
 import { observer } from "mobx-react-lite";
 import { CardUnderReviewStore } from "../../store/card-under-review-store.ts";
 import { HorizontalDivider } from "../../ui/horizontal-divider.tsx";
+import { CardSpeaker } from "./card-speaker.tsx";
 
 export const cardSize = 310;
 
@@ -42,9 +43,15 @@ export const Card = observer(({ card, style, animate }: Props) => {
           color: theme.textColor,
         })}
       >
-        <div>{card.front}</div>
+        <div>
+          {card.front} <CardSpeaker card={card} type={"front"} />
+        </div>
         {card.isOpened ? <HorizontalDivider /> : null}
-        {card.isOpened ? <div>{card.back}</div> : null}
+        {card.isOpened ? (
+          <div>
+            {card.back} <CardSpeaker card={card} type={"back"} />
+          </div>
+        ) : null}
         {card.isOpened && card.example ? (
           <div
             className={css({ fontWeight: 400, fontSize: 14, paddingTop: 8 })}
