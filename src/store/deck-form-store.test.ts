@@ -116,6 +116,12 @@ vi.mock("../api/api.ts", () => {
   };
 });
 
+vi.mock("../lib/voice-playback/speak.ts", async () => {
+  return {
+    speak: () => {},
+  };
+});
+
 describe("deck form store", () => {
   afterEach(() => {
     vi.clearAllMocks();
