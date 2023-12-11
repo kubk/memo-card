@@ -337,7 +337,7 @@ export class DeckFormStore {
     })
       .then((response) => {
         this.form = createUpdateForm(response.id, response);
-        deckListStore.replaceDeck(response)
+        deckListStore.replaceDeck(response);
       })
       .finally(
         action(() => {

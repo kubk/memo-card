@@ -25,7 +25,11 @@ export class CardUnderReviewStore {
   isOpened = false;
   state?: CardState;
 
-  constructor(card: DeckCardDbType, deck: DeckWithCardsWithReviewType) {
+  constructor(
+    card: DeckCardDbType,
+    deck: DeckWithCardsWithReviewType,
+    public isSpeakingCardsEnabledSettings: boolean,
+  ) {
     this.id = card.id;
     this.front = card.front;
     this.back = card.back;
@@ -51,7 +55,7 @@ export class CardUnderReviewStore {
   }
 
   speak() {
-    if (!this.deckSpeakLocale || !this.deckSpeakField) {
+    if (!this.isSpeakingCardsEnabledSettings || !this.deckSpeakLocale || !this.deckSpeakField) {
       return;
     }
     if (!isEnumValid(this.deckSpeakLocale, SpeakLanguageEnum)) {

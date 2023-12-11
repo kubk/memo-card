@@ -24,7 +24,6 @@ export class ReviewStore {
   initialCardCount?: number;
 
   isReviewSending = false;
-  isSpeakingCards = false;
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
@@ -32,13 +31,13 @@ export class ReviewStore {
 
   startDeckReview(
     deck: DeckWithCardsWithReviewType,
-    isSpeakingCards?: boolean,
+    isSpeakingCardsEnabledSettings?: boolean,
   ) {
     if (!deck.cardsToReview.length) {
       return;
     }
     deck.cardsToReview.forEach((card) => {
-      this.cardsToReview.push(new CardUnderReviewStore(card, deck));
+      this.cardsToReview.push(new CardUnderReviewStore(card, deck, !!isSpeakingCardsEnabledSettings));
     });
 
     this.initialCardCount = this.cardsToReview.length;
@@ -46,13 +45,11 @@ export class ReviewStore {
     if (this.cardsToReview.length > 1) {
       this.nextCardId = this.cardsToReview[1].id;
     }
-
-    this.isSpeakingCards = !!isSpeakingCards;
   }
 
   startAllRepeatReview(
     myDecks: DeckWithCardsWithReviewType[],
-    isSpeakingCards?: boolean,
+    isSpeakingCardsEnabledSettings?: boolean,
   ) {
     if (!myDecks.length) {
       return;
@@ -62,7 +59,7 @@ export class ReviewStore {
       deck.cardsToReview
         .filter((card) => card.type === "repeat")
         .forEach((card) => {
-          this.cardsToReview.push(new CardUnderReviewStore(card, deck));
+          this.cardsToReview.push(new CardUnderReviewStore(card, deck, !!isSpeakingCardsEnabledSettings));
         });
     });
 
@@ -75,8 +72,6 @@ export class ReviewStore {
     if (this.cardsToReview.length > 1) {
       this.nextCardId = this.cardsToReview[1].id;
     }
-
-    this.isSpeakingCards = !!isSpeakingCards;
   }
 
   get currentCard() {
@@ -103,9 +98,7 @@ export class ReviewStore {
     const currentCard = this.currentCard;
     assert(currentCard, "Current card should not be empty");
     currentCard.open();
-    if (this.isSpeakingCards) {
-      currentCard.speak();
-    }
+    currentCard.speak();
   }
 
   changeState(cardState: CardState) {

@@ -9,5 +9,5 @@ export function enumValues<E extends EnumLike>(enumObject: E): E[keyof E][] {
 export function enumEntries<E extends EnumLike>(
   enumObject: E,
 ): [keyof E, E[keyof E]][] {
-  return Object.entries(enumObject) as any
+  return Object.entries(enumObject) as any;
 }
