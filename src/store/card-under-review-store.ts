@@ -55,7 +55,11 @@ export class CardUnderReviewStore {
   }
 
   speak() {
-    if (!this.isSpeakingCardsEnabledSettings || !this.deckSpeakLocale || !this.deckSpeakField) {
+    if (
+      !this.isSpeakingCardsEnabledSettings ||
+      !this.deckSpeakLocale ||
+      !this.deckSpeakField
+    ) {
       return;
     }
     if (!isEnumValid(this.deckSpeakLocale, SpeakLanguageEnum)) {

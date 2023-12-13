@@ -11,13 +11,16 @@ import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
 import { useMainButton } from "../../lib/telegram/use-main-button.tsx";
 import { showConfirm } from "../../lib/telegram/show-confirm.ts";
 import { ButtonSideAligned } from "../../ui/button-side-aligned.tsx";
+import { useTelegramProgress } from "../../lib/telegram/use-telegram-progress.tsx";
 
 export const DeckPreview = observer(() => {
   const reviewStore = useReviewStore();
 
   useBackButton(() => {
-    screenStore.go({ type: "main" });
+    screenStore.back();
   });
+
+  useTelegramProgress(() => deckListStore.isDeckCardsLoading);
 
   useMainButton(
     "Review deck",
@@ -65,35 +68,40 @@ export const DeckPreview = observer(() => {
           <h4 className={css({ paddingBottom: 4 })}>Description</h4>
           <div>{deck.description}</div>
         </div>
-        <div
-          className={css({
-            display: "flex",
-            gap: 4,
-            flexDirection: "column",
-            borderTop: `1px solid ${theme.dividerColor}`,
-            paddingTop: 8,
-          })}
-        >
-          <div className={css({ display: "flex", gap: 4 })}>
-            <span>Cards to repeat: </span>
-            <h4 className={css({ color: theme.orange })}>
-              {
-                deck.cardsToReview.filter((card) => card.type === "repeat")
-                  .length
-              }
-            </h4>
+        {!deckListStore.isDeckCardsLoading && (
+          <div
+            className={css({
+              display: "flex",
+              gap: 4,
+              flexDirection: "column",
+              borderTop: `1px solid ${theme.dividerColor}`,
+              paddingTop: 8,
+            })}
+          >
+            <div className={css({ display: "flex", gap: 4 })}>
+              <span>Cards to repeat: </span>
+              <h4 className={css({ color: theme.orange })}>
+                {
+                  deck.cardsToReview.filter((card) => card.type === "repeat")
+                    .length
+                }
+              </h4>
+            </div>
+            <div className={css({ display: "flex", gap: 4 })}>
+              <span>New cards: </span>
+              <h4 className={css({ color: theme.success })}>
+                {
+                  deck.cardsToReview.filter((card) => card.type === "new")
+                    .length
+                }
+              </h4>
+            </div>
+            <div className={css({ display: "flex", gap: 4 })}>
+              <span>Total cards: </span>
+              <h4>{deck.deck_card.length}</h4>
+            </div>
           </div>
-          <div className={css({ display: "flex", gap: 4 })}>
-            <span>New cards: </span>
-            <h4 className={css({ color: theme.success })}>
-              {deck.cardsToReview.filter((card) => card.type === "new").length}
-            </h4>
-          </div>
-          <div className={css({ display: "flex", gap: 4 })}>
-            <span>Total cards: </span>
-            <h4>{deck.deck_card.length}</h4>
-          </div>
-        </div>
+        )}
 
         <div
           className={css({

@@ -35,11 +35,7 @@ export const UserSettingsMain = observer(() => {
   });
   useTelegramProgress(() => userSettingsStore.isSending);
 
-  if (deckListStore.myInfo?.state !== "fulfilled") {
-    return null;
-  }
-
-  if (!userSettingsStore.form) {
+  if (!deckListStore.myInfo || !userSettingsStore.form) {
     return null;
   }
 

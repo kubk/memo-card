@@ -1,3 +1,5 @@
+import { camelCaseToHuman } from "../string/camel-case-to-human.ts";
+
 export enum SpeakLanguageEnum {
   USEnglish = "en-US",
   Italian = "it-IT",
@@ -41,7 +43,7 @@ export const languageKeyToHuman = (str: string): string => {
   if (str === "USEnglish") {
     return "US English";
   }
-  return str.replace(/([A-Z])/g, " $1").trim();
+  return camelCaseToHuman(str);
 };
 
 export const isSpeechSynthesisSupported =

@@ -13,6 +13,7 @@ const mapUpsertDeckRequestToResponse = (
   input: UpsertDeckRequest,
 ): UpsertDeckResponse => ({
   id: input.id || 9999,
+  available_in: null,
   description: input.description ?? null,
   created_at: new Date().toISOString(),
   name: input.title,

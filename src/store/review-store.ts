@@ -37,7 +37,9 @@ export class ReviewStore {
       return;
     }
     deck.cardsToReview.forEach((card) => {
-      this.cardsToReview.push(new CardUnderReviewStore(card, deck, !!isSpeakingCardsEnabledSettings));
+      this.cardsToReview.push(
+        new CardUnderReviewStore(card, deck, !!isSpeakingCardsEnabledSettings),
+      );
     });
 
     this.initialCardCount = this.cardsToReview.length;
@@ -59,7 +61,13 @@ export class ReviewStore {
       deck.cardsToReview
         .filter((card) => card.type === "repeat")
         .forEach((card) => {
-          this.cardsToReview.push(new CardUnderReviewStore(card, deck, !!isSpeakingCardsEnabledSettings));
+          this.cardsToReview.push(
+            new CardUnderReviewStore(
+              card,
+              deck,
+              !!isSpeakingCardsEnabledSettings,
+            ),
+          );
         });
     });
 

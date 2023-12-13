@@ -23,6 +23,8 @@ import {
   RemoveDeckFromMineRequest,
   RemoveDeckFromMineResponse,
 } from "../../functions/remove-deck-from-mine.ts";
+import { DeckCatalogResponse } from "../../functions/catalog-decks.ts";
+import { DeckWithCardsResponse } from "../../functions/deck-with-cards.ts";
 
 export const healthRequest = () => {
   return request<HealthResponse>("/health");
@@ -78,4 +80,12 @@ export const removeDeckFromMine = (body: RemoveDeckFromMineRequest) => {
     "POST",
     body,
   );
+};
+
+export const apiDeckCatalog = () => {
+  return request<DeckCatalogResponse>("/catalog-decks");
+};
+
+export const apiDeckWithCards = (deckId: number) => {
+  return request<DeckWithCardsResponse>(`/deck-with-cards?deck_id=${deckId}`);
 };

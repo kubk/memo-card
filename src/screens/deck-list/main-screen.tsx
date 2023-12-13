@@ -1,6 +1,6 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
-import { css } from "@emotion/css";
+import { css, cx } from "@emotion/css";
 import { PublicDeck } from "./public-deck.tsx";
 import { MyDeck } from "./my-deck.tsx";
 import { deckListStore } from "../../store/deck-list-store.ts";
@@ -14,6 +14,7 @@ import WebApp from "@twa-dev/sdk";
 import { assert } from "../../lib/typescript/assert.ts";
 import { ListHeader } from "../../ui/list-header.tsx";
 import { range } from "../../lib/array/range.ts";
+import { reset } from "../../ui/reset.ts";
 
 export const MainScreen = observer(() => {
   useMount(() => {
@@ -38,18 +39,17 @@ export const MainScreen = observer(() => {
             gap: 6,
           })}
         >
-          {deckListStore.myInfo?.state === "pending" &&
+          {deckListStore.isMyInfoLoading &&
             range(deckListStore.skeletonLoaderData.myDecksCount).map((i) => (
               <DeckLoading key={i} />
             ))}
-          {deckListStore.myInfo?.state === "fulfilled"
+          {deckListStore.myInfo
             ? deckListStore.myDecks.map((deck) => {
                 return <MyDeck key={deck.id} deck={deck} />;
               })
             : null}
 
-          {deckListStore.myInfo?.state === "fulfilled" &&
-          !deckListStore.myDecks.length ? (
+          {deckListStore.myInfo && !deckListStore.myDecks.length ? (
             <Hint>
               You don't have any personal deck yet. Feel free to{" "}
               <span
@@ -66,8 +66,7 @@ export const MainScreen = observer(() => {
             </Hint>
           ) : null}
 
-          {deckListStore.myInfo?.state === "fulfilled" &&
-          deckListStore.myDecks.length > 0 ? (
+          {deckListStore.myInfo && deckListStore.myDecks.length > 0 ? (
             <Button
               icon={"mdi-plus"}
               onClick={() => {
@@ -96,30 +95,40 @@ export const MainScreen = observer(() => {
             gap: 6,
           })}
         >
-          {deckListStore.myInfo?.state === "fulfilled" &&
-          !deckListStore.publicDecks.length ? (
-            <Hint>
-              Wow! 🌟 You've added them all! There are no more public decks left
-              to discover.
-            </Hint>
-          ) : null}
-
-          {deckListStore.myInfo?.state === "fulfilled" ? (
+          {deckListStore.myInfo ? (
             <>
-              {deckListStore.publicDecks.map((deck) => (
+              {deckListStore.publicDecksToDisplay.map((deck) => (
                 <PublicDeck key={deck.id} deck={deck} />
               ))}
+              <button
+                className={cx(
+                  reset.button,
+                  css({
+                    marginTop: 6,
+                    color: theme.linkColor,
+                    fontSize: 16,
+                  }),
+                )}
+                onClick={() => {
+                  screenStore.go({ type: "deckCatalog" });
+                }}
+              >
+                <i
+                  className={cx(css({ color: "inherit" }), "mdi mdi-magnify")}
+                />{" "}
+                Explore more decks
+              </button>
             </>
           ) : null}
 
-          {deckListStore.myInfo?.state === "pending" &&
+          {deckListStore.isMyInfoLoading &&
             range(deckListStore.skeletonLoaderData.publicCount).map((i) => (
               <DeckLoading key={i} />
             ))}
         </div>
       </div>
 
-      {deckListStore.myInfo?.state === "fulfilled" && (
+      {deckListStore.myInfo && (
         <>
           <div>
             <ListHeader text={"News and updates"} />
@@ -138,7 +147,6 @@ export const MainScreen = observer(() => {
           <div>
             <Button
               icon={"mdi-cog"}
-              disabled={deckListStore.myInfo?.state !== "fulfilled"}
               onClick={() => {
                 screenStore.go({ type: "userSettings" });
               }}

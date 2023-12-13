@@ -17,6 +17,8 @@ import {
   useRestoreFullScreenExpand,
 } from "../lib/telegram/prevent-telegram-swipe-down-closing.tsx";
 import { RepeatAllScreen } from "./deck-review/repeat-all-screen.tsx";
+import { DeckCatalog } from "./deck-catalog/deck-catalog.tsx";
+import { DeckCatalogStoreContextProvider } from "../store/deck-catalog-store-context.tsx";
 
 export const App = observer(() => {
   useRestoreFullScreenExpand();
@@ -68,6 +70,13 @@ export const App = observer(() => {
           <UserSettingsStoreProvider>
             <UserSettingsMain />
           </UserSettingsStoreProvider>
+        </PreventTelegramSwipeDownClosingIos>
+      )}
+      {screenStore.screen.type === "deckCatalog" && (
+        <PreventTelegramSwipeDownClosingIos>
+          <DeckCatalogStoreContextProvider>
+            <DeckCatalog />
+          </DeckCatalogStoreContextProvider>
         </PreventTelegramSwipeDownClosingIos>
       )}
     </div>

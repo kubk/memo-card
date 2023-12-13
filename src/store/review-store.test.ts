@@ -48,6 +48,7 @@ const deckMock: DeckWithCardsWithReviewType = {
   author_id: 1,
   share_id: null,
   is_public: false,
+  available_in: null,
 };
 
 vi.mock("../api/api.ts", () => {
