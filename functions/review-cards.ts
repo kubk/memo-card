@@ -53,27 +53,29 @@ export const onRequestPost = handleError(async ({ env, request }) => {
   const upsertReviewsResult = await db
     .from("card_review")
     .upsert(
-      input.data.cards.map((card): Database['public']['Tables']['card_review']['Insert'] => {
-        const previousReview = existingReviews.find(
-          (review) => review.card_id === card.id,
-        );
+      input.data.cards.map(
+        (card): Database["public"]["Tables"]["card_review"]["Insert"] => {
+          const previousReview = existingReviews.find(
+            (review) => review.card_id === card.id,
+          );
 
-        const reviewResult = reviewCard(
-          now,
-          previousReview?.interval,
-          card.outcome,
-          previousReview?.ease_factor,
-          input.data.isInterrupted,
-        );
+          const reviewResult = reviewCard(
+            now,
+            previousReview?.interval,
+            card.outcome,
+            previousReview?.ease_factor,
+            input.data.isInterrupted,
+          );
 
-        return {
-          user_id: user.id,
-          card_id: card.id,
-          last_review_date: now.toJSDate().toISOString(),
-          ease_factor: reviewResult.easeFactor,
-          interval: reviewResult.interval,
-        };
-      }),
+          return {
+            user_id: user.id,
+            card_id: card.id,
+            last_review_date: now.toJSDate().toISOString(),
+            ease_factor: reviewResult.easeFactor,
+            interval: reviewResult.interval,
+          };
+        },
+      ),
     )
     .select();
 

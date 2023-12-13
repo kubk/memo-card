@@ -7,6 +7,7 @@ export const reset = {
     outline: 0,
     color: "inherit",
     fontFamily: "inherit",
+    cursor: "pointer",
     backgroundColor: "transparent",
     "&:focus": {
       outline: "none",
