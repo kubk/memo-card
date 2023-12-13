@@ -12,6 +12,7 @@ import { useMainButton } from "../../lib/telegram/use-main-button.tsx";
 import { showConfirm } from "../../lib/telegram/show-confirm.ts";
 import { ButtonSideAligned } from "../../ui/button-side-aligned.tsx";
 import { useTelegramProgress } from "../../lib/telegram/use-telegram-progress.tsx";
+import { apiDuplicateDeckRequest } from "../../api/api.ts";
 
 export const DeckPreview = observer(() => {
   const reviewStore = useReviewStore();
@@ -124,6 +125,21 @@ export const DeckPreview = observer(() => {
               Add card
             </ButtonSideAligned>
           ) : null}
+          {deckListStore.user?.is_admin && (
+            <ButtonSideAligned
+              icon={"mdi-content-duplicate mdi-24px"}
+              outline
+              onClick={() => {
+                showConfirm("Are you sure to copy this deck?").then(() => {
+                  apiDuplicateDeckRequest(deck.id).then(() => {
+                    screenStore.go({ type: "main" });
+                  });
+                });
+              }}
+            >
+              Copy
+            </ButtonSideAligned>
+          )}
           {deckListStore.myId && deck.author_id === deckListStore.myId ? (
             <ButtonSideAligned
               icon={"mdi-pencil-circle mdi-24px"}
