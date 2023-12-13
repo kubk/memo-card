@@ -15,26 +15,7 @@ import { range } from "../../lib/array/range.ts";
 import { DeckLoading } from "../deck-list/deck-loading.tsx";
 import { NoDecksMatchingFilters } from "./no-decks-matching-filters.tsx";
 import { deckListStore } from "../../store/deck-list-store.ts";
-
-function DeckAddedLabel() {
-  return (
-    <div
-      className={css({
-        position: "absolute",
-        right: 0,
-        top: 0,
-        fontSize: 14,
-        fontStyle: "normal",
-        padding: "0 8px",
-        borderRadius: theme.borderRadius,
-        border: "1px solid " + theme.linkColor,
-        color: theme.linkColor,
-      })}
-    >
-      ADDED
-    </div>
-  );
-}
+import { DeckAddedLabel } from "./deck-added-label.tsx";
 
 export const DeckCatalog = observer(() => {
   const store = useDeckCatalogStore();

@@ -32,7 +32,7 @@ export const DeckPreview = observer(() => {
 
   const deck = deckListStore.selectedDeck;
   if (!deck) {
-    return <div>No deck found</div>;
+    return null;
   }
 
   return (
