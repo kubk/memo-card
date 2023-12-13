@@ -50,7 +50,10 @@ export class CardUnderReviewStore {
   }
 
   changeState(state: CardState) {
-    assert(this.isOpened, "The card should be opened before changing state");
+    assert(
+      this.isOpened,
+      `The card should be opened before changing state. Card id: ${this.id}`,
+    );
     this.state = state;
   }
 
