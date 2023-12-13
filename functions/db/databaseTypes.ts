@@ -52,6 +52,7 @@ export interface Database {
       deck: {
         Row: {
           author_id: number | null
+          available_in: string | null
           created_at: string
           description: string | null
           id: number
@@ -63,6 +64,7 @@ export interface Database {
         }
         Insert: {
           author_id?: number | null
+          available_in?: string | null
           created_at?: string
           description?: string | null
           id?: number
@@ -74,6 +76,7 @@ export interface Database {
         }
         Update: {
           author_id?: number | null
+          available_in?: string | null
           created_at?: string
           description?: string | null
           id?: number
@@ -236,6 +239,23 @@ export interface Database {
           id: number
           deck_id: number
           type: string
+        }[]
+      }
+      get_unadded_public_decks: {
+        Args: {
+          user_id: number
+        }
+        Returns: {
+          author_id: number | null
+          available_in: string | null
+          created_at: string
+          description: string | null
+          id: number
+          is_public: boolean
+          name: string
+          share_id: string
+          speak_field: string | null
+          speak_locale: string | null
         }[]
       }
       get_user_decks_deck_id: {

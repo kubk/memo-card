@@ -1,7 +1,7 @@
 import { action, makeAutoObservable, when } from "mobx";
-import { fromPromise, IPromiseBasedObservable } from "mobx-utils";
 import {
   addDeckToMineRequest,
+  apiDeckWithCards,
   getSharedDeckRequest,
   myInfoRequest,
   removeDeckFromMine,
@@ -31,7 +31,8 @@ export type DeckWithCardsWithReviewType = DeckWithCardsDbType & {
 };
 
 export class DeckListStore {
-  myInfo?: IPromiseBasedObservable<MyInfoResponse>;
+  myInfo?: MyInfoResponse;
+  isMyInfoLoading = false;
 
   isSharedDeckLoading = false;
   isSharedDeckLoaded = false;
@@ -43,6 +44,8 @@ export class DeckListStore {
 
   isDeckRemoving = false;
 
+  isDeckCardsLoading = false;
+
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
   }
@@ -53,16 +56,22 @@ export class DeckListStore {
   }
 
   load() {
-    // Stale-while-revalidate approach
-    if (this.myInfo) {
-      myInfoRequest().then(
+    if (!this.myInfo) {
+      // Stale-while-revalidate approach
+      this.isMyInfoLoading = true;
+    }
+
+    myInfoRequest()
+      .then(
         action((result) => {
-          this.myInfo = fromPromise(Promise.resolve(result));
+          this.myInfo = result;
+        }),
+      )
+      .finally(
+        action(() => {
+          this.isMyInfoLoading = false;
         }),
       );
-    } else {
-      this.myInfo = fromPromise(myInfoRequest());
-    }
   }
 
   async handleStartParam(startParam?: string) {
@@ -76,7 +85,7 @@ export class DeckListStore {
       }
 
       this.isReviewAllLoading = true;
-      when(() => this.myInfo?.state === "fulfilled")
+      when(() => !!this.myInfo)
         .then(() => {
           screenStore.go({ type: "reviewAll" });
         })
@@ -92,35 +101,30 @@ export class DeckListStore {
       }
 
       this.isSharedDeckLoading = true;
-      await when(() => this.myInfo?.state === "fulfilled");
+      await when(() => !!this.myInfo);
 
       getSharedDeckRequest(startParam)
         .then(
-          action((sharedDeck) => {
-            assert(this.myInfo?.state === "fulfilled");
-            if (
-              this.myInfo.value.myDecks.find(
-                (myDeck) => myDeck.id === sharedDeck.deck.id,
-              )
-            ) {
-              screenStore.go({ type: "deckMine", deckId: sharedDeck.deck.id });
+          action(({ deck }) => {
+            assert(this.myInfo);
+            if (this.myInfo.myDecks.find((myDeck) => myDeck.id === deck.id)) {
+              screenStore.go({ type: "deckMine", deckId: deck.id });
               return;
             }
 
             if (
-              this.publicDecks.find(
-                (publicDeck) => publicDeck.id === sharedDeck.deck.id,
-              )
+              this.publicDecks.find((publicDeck) => publicDeck.id === deck.id)
             ) {
+              this.replaceDeck(deck);
               screenStore.go({
                 type: "deckPublic",
-                deckId: sharedDeck.deck.id,
+                deckId: deck.id,
               });
               return;
             }
 
-            this.myInfo.value.publicDecks.push(sharedDeck.deck);
-            screenStore.go({ type: "deckPublic", deckId: sharedDeck.deck.id });
+            this.myInfo.publicDecks.push(deck);
+            screenStore.go({ type: "deckPublic", deckId: deck.id });
           }),
         )
         .catch((e) => {
@@ -177,24 +181,44 @@ export class DeckListStore {
   }
 
   get user() {
-    if (this.myInfo?.state !== "fulfilled") {
-      return null;
-    }
-    return this.myInfo.value.user;
+    return this.myInfo?.user ?? null;
   }
 
   get myId() {
     return this.user?.id;
   }
 
+  openDeckFromCatalog(deck: DeckWithCardsDbType, isMine: boolean) {
+    assert(this.myInfo);
+    if (isMine) {
+      screenStore.go({ type: "deckMine", deckId: deck.id });
+      return;
+    }
+    if (!this.publicDecks.find((publicDeck) => publicDeck.id === deck.id)) {
+      this.myInfo.publicDecks.push(deck);
+    }
+    screenStore.go({ type: "deckPublic", deckId: deck.id });
+
+    this.isDeckCardsLoading = true;
+    apiDeckWithCards(deck.id)
+      .then((deckWithCards) => {
+        this.replaceDeck(deckWithCards);
+      })
+      .finally(
+        action(() => {
+          this.isDeckCardsLoading = false;
+        }),
+      );
+  }
+
   get selectedDeck(): DeckWithCardsWithReviewType | null {
     const screen = screenStore.screen;
     assert(screen.type === "deckPublic" || screen.type === "deckMine");
-    if (!screen.deckId || this.myInfo?.state !== "fulfilled") {
+    if (!screen.deckId || !this.myInfo) {
       return null;
     }
 
-    const decksToSearch = this.myInfo.value.myDecks.concat(this.publicDecks);
+    const decksToSearch = this.myInfo.myDecks.concat(this.publicDecks);
     const deck = decksToSearch.find((deck) => deck.id === screen.deckId);
     if (!deck) {
       return null;
@@ -203,7 +227,7 @@ export class DeckListStore {
     const cardsToReview =
       screen.type === "deckPublic"
         ? deck.deck_card.map((card) => ({ ...card, type: "new" as const }))
-        : getCardsToReview(deck, this.myInfo.value.cardsToReview);
+        : getCardsToReview(deck, this.myInfo.cardsToReview);
 
     return {
       ...deck,
@@ -212,34 +236,46 @@ export class DeckListStore {
   }
 
   replaceDeck(deck: DeckWithCardsDbType) {
-    if (this.myInfo?.state !== "fulfilled") {
+    if (!this.myInfo) {
       return;
     }
-    const deckIndex = this.myInfo.value.myDecks.findIndex(
+    const deckMineIndex = this.myInfo.myDecks.findIndex(
       (myDeck) => myDeck.id === deck.id,
     );
-    if (deckIndex !== -1) {
-      this.myInfo.value.myDecks[deckIndex] = deck;
+    if (deckMineIndex !== -1) {
+      this.myInfo.myDecks[deckMineIndex] = deck;
+      return;
+    }
+
+    const deckPublicIndex = this.myInfo.publicDecks.findIndex(
+      (publicDeck) => publicDeck.id === deck.id,
+    );
+    if (deckPublicIndex !== -1) {
+      this.myInfo.publicDecks[deckPublicIndex] = deck;
     }
   }
 
   get publicDecks() {
-    if (this.myInfo?.state !== "fulfilled") {
+    if (!this.myInfo) {
       return [];
     }
-    const myDeckIds = this.myInfo.value.myDecks.map((deck) => deck.id);
-    return this.myInfo.value.publicDecks.filter(
+    const myDeckIds = this.myInfo.myDecks.map((deck) => deck.id);
+    return this.myInfo.publicDecks.filter(
       (publicDeck) => !myDeckIds.includes(publicDeck.id),
     );
   }
 
+  get publicDecksToDisplay() {
+    return this.publicDecks.slice(0, 3);
+  }
+
   get myDecks(): DeckWithCardsWithReviewType[] {
-    if (this.myInfo?.state !== "fulfilled") {
+    if (!this.myInfo) {
       return [];
     }
-    const cardsToReview = this.myInfo.value.cardsToReview;
+    const cardsToReview = this.myInfo.cardsToReview;
 
-    return this.myInfo.value.myDecks.map((deck) => ({
+    return this.myInfo.myDecks.map((deck) => ({
       ...deck,
       cardsToReview: getCardsToReview(deck, cardsToReview),
     }));
@@ -272,7 +308,11 @@ export class DeckListStore {
       .then(
         action(() => {
           screenStore.go({ type: "main" });
-          this.myInfo = fromPromise(myInfoRequest());
+          myInfoRequest().then(
+            action((result) => {
+              this.myInfo = result;
+            }),
+          );
         }),
       )
       .catch((e) => {
@@ -286,8 +326,8 @@ export class DeckListStore {
   }
 
   optimisticUpdateSettings(body: Partial<UserDbType>) {
-    assert(this.myInfo?.state === "fulfilled");
-    Object.assign(this.myInfo.value.user, body);
+    assert(this.myInfo, "myInfo is not loaded in optimisticUpdateSettings");
+    Object.assign(this.myInfo.user, body);
   }
 }
 

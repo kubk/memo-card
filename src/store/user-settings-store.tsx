@@ -24,9 +24,9 @@ export class UserSettingsStore {
   }
 
   async load() {
-    await when(() => deckListStore.myInfo?.state === "fulfilled");
-    assert(deckListStore.myInfo?.state === "fulfilled");
-    const userInfo = deckListStore.myInfo.value.user;
+    await when(() => !!deckListStore.myInfo);
+    assert(deckListStore.myInfo);
+    const userInfo = deckListStore.myInfo.user;
     const remindDate = userInfo.last_reminded_date
       ? DateTime.fromISO(userInfo.last_reminded_date)
       : null;

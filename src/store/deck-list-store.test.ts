@@ -29,6 +29,7 @@ vi.mock("../api/api.ts", () => {
           {
             id: 1,
             created_at: "",
+            available_in: null,
             name: "Deck 1",
             is_public: false,
             share_id: "1",
@@ -74,6 +75,7 @@ vi.mock("../api/api.ts", () => {
           {
             id: 2,
             created_at: "",
+            available_in: null,
             name: "Deck 2",
             is_public: false,
             share_id: "2",
@@ -120,7 +122,7 @@ describe("deck list store", () => {
   test("test 1", async () => {
     deckListStore.load();
 
-    await when(() => deckListStore.myInfo?.state === "fulfilled");
+    await when(() => !!deckListStore.myInfo);
 
     expect(deckListStore.myId).toBe(111);
     expect(deckListStore.publicDecks).toHaveLength(0);

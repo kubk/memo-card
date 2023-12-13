@@ -7,6 +7,7 @@ type Route =
   | { type: "deckForm"; deckId?: number }
   | { type: "reviewAll" }
   | { type: "cardQuickAddForm"; deckId: number }
+  | { type: "deckCatalog" }
   | { type: "userSettings" };
 
 export class ScreenStore {

@@ -23,7 +23,6 @@ export const reviewCard = (
   easeFactor: number | undefined = startEaseFactor,
   isInterrupted = false,
 ): Result => {
-
   if (reviewOutcome === "correct") {
     interval = interval === 0 ? startInterval : interval * easeFactor;
     easeFactor = Math.min(easeFactor + easeFactorIncrement, startEaseFactor);
