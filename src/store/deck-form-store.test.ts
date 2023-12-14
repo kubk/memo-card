@@ -83,18 +83,23 @@ vi.mock("./deck-list-store.ts", () => {
     },
   ];
 
+  const myDecks = [
+    {
+      id: 1,
+      cardsToReview: deckCardsMock.slice(0, 2),
+      share_id: null,
+      deck_card: deckCardsMock,
+      name: "Test",
+    },
+  ] as DeckWithCardsWithReviewType[];
+
   return {
     deckListStore: {
       replaceDeck: () => {},
-      myDecks: [
-        {
-          id: 1,
-          cardsToReview: deckCardsMock.slice(0, 2),
-          share_id: null,
-          deck_card: deckCardsMock,
-          name: "Test",
-        },
-      ] as DeckWithCardsWithReviewType[],
+      searchDeckById: (id: number) => {
+        return myDecks.find((deck) => deck.id === id);
+      },
+      myDecks: myDecks
     },
   };
 });
