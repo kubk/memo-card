@@ -1,4 +1,4 @@
-import { EnvType } from "../../env/env-schema.ts";
+import { EnvSafe } from "../../env/env-schema.ts";
 import { getDatabase } from "../get-database.ts";
 import { DatabaseException } from "../database-exception.ts";
 import {
@@ -7,7 +7,7 @@ import {
 } from "./decks-with-cards-schema.ts";
 
 export const getCatalogDecksDb = async (
-  env: EnvType,
+  env: EnvSafe,
 ): Promise<DeckWithCardsDbType[]> => {
   const db = getDatabase(env);
 

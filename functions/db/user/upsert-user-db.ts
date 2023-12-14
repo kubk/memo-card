@@ -1,6 +1,6 @@
 import { getDatabase } from "../get-database.ts";
 import { UserTelegramType } from "../../lib/telegram/validate-telegram-request.ts";
-import { EnvType } from "../../env/env-schema.ts";
+import { EnvSafe } from "../../env/env-schema.ts";
 import { DatabaseException } from "../database-exception.ts";
 import { z } from "zod";
 
@@ -19,7 +19,7 @@ export const userDbSchema = z.object({
 export type UserDbType = z.infer<typeof userDbSchema>;
 
 export const upsertUserDb = async (
-  env: EnvType,
+  env: EnvSafe,
   user: UserTelegramType,
 ): Promise<UserDbType> => {
   const db = getDatabase(env);

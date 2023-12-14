@@ -1,15 +1,17 @@
-import { EnvType } from "../../env/env-schema.ts";
+import { EnvSafe } from "../../env/env-schema.ts";
 import { getDatabase } from "../get-database.ts";
 import { DatabaseException } from "../database-exception.ts";
 import { z } from "zod";
 
-const categorySchema = z.object({
+export const categorySchema = z.object({
   id: z.string(),
   name: z.string(),
   logo: z.string().nullable(),
 });
 
-export const getAllCategoriesDb = async (env: EnvType) => {
+export type DeckCategoryDb = z.infer<typeof categorySchema>;
+
+export const getAllCategoriesDb = async (env: EnvSafe) => {
   const db = getDatabase(env);
 
   const { data: categories, error: categoriesError } = await db

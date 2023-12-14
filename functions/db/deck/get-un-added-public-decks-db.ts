@@ -1,9 +1,9 @@
-import { EnvType } from "../../env/env-schema.ts";
+import { EnvSafe } from "../../env/env-schema.ts";
 import { getDatabase } from "../get-database.ts";
 import { DatabaseException } from "../database-exception.ts";
 import { decksWithCardsSchema } from "./decks-with-cards-schema.ts";
 
-export const getUnAddedPublicDecksDb = async (env: EnvType, userId: number) => {
+export const getUnAddedPublicDecksDb = async (env: EnvSafe, userId: number) => {
   const db = getDatabase(env);
 
   const { data, error } = await db.rpc("get_unadded_public_decks", {

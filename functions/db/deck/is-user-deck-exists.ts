@@ -1,9 +1,9 @@
-import { EnvType } from "../../env/env-schema.ts";
+import { EnvSafe } from "../../env/env-schema.ts";
 import { getDatabase } from "../get-database.ts";
 import { DatabaseException } from "../database-exception.ts";
 
 export const isUserDeckExists = async (
-  envSafe: EnvType,
+  envSafe: EnvSafe,
   body: { user_id: number; deck_id: number },
 ) => {
   const db = getDatabase(envSafe);
