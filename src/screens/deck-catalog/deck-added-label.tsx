@@ -13,6 +13,7 @@ export const DeckAddedLabel = () => {
         fontStyle: "normal",
         padding: "0 8px",
         borderRadius: theme.borderRadius,
+        backgroundColor: theme.secondaryBgColor,
         border: "1px solid " + theme.linkColor,
         color: theme.linkColor,
       })}

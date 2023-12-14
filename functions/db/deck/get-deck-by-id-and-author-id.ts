@@ -6,15 +6,17 @@ export const getDeckByIdAndAuthorId = async (
   envSafe: EnvType,
   deckId: number,
   userId: number,
+  isAdmin: boolean,
 ) => {
   const db = getDatabase(envSafe);
 
-  const canEditDeckResult = await db
-    .from("deck")
-    .select()
-    .eq("author_id", userId)
-    .eq("id", deckId)
-    .single();
+  let query = db.from("deck").select().eq("id", deckId);
+
+  if (!isAdmin) {
+    query = query.eq("author_id", userId);
+  }
+
+  const canEditDeckResult = await query.single();
 
   if (canEditDeckResult.error) {
     throw new DatabaseException(canEditDeckResult.error);

@@ -13,6 +13,7 @@ export const userDbSchema = z.object({
   is_remind_enabled: z.boolean(),
   is_speaking_card_enabled: z.boolean().nullable(),
   last_reminded_date: z.string().nullable(),
+  is_admin: z.boolean(),
 });
 
 export type UserDbType = z.infer<typeof userDbSchema>;

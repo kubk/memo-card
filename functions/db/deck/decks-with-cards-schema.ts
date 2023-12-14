@@ -27,6 +27,13 @@ export const deckWithCardsSchema = deckSchema.merge(
   z.object({
     deck_card: z.array(deckCardSchema),
     available_in: z.string().nullable(),
+    deck_category: z
+      .object({
+        name: z.string(),
+        logo: z.string().nullable(),
+      })
+      .nullable()
+      .optional(),
   }),
 );
 

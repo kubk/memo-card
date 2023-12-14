@@ -25,6 +25,7 @@ import {
 } from "../../functions/remove-deck-from-mine.ts";
 import { DeckCatalogResponse } from "../../functions/catalog-decks.ts";
 import { DeckWithCardsResponse } from "../../functions/deck-with-cards.ts";
+import { CopyDeckResponse } from "../../functions/duplicate-deck.ts";
 
 export const healthRequest = () => {
   return request<HealthResponse>("/health");
@@ -44,6 +45,10 @@ export const addDeckToMineRequest = (body: AddDeckToMineRequest) => {
     "POST",
     body,
   );
+};
+
+export const apiDuplicateDeckRequest = (deckId: number) => {
+  return request<CopyDeckResponse>(`/duplicate-deck?deck_id=${deckId}`, "POST");
 };
 
 export const userSettingsRequest = (body: UserSettingsRequest) => {

@@ -47,7 +47,14 @@ export class DeckListStore {
   isDeckCardsLoading = false;
 
   constructor() {
-    makeAutoObservable(this, {}, { autoBind: true });
+    makeAutoObservable(
+      this,
+      {
+        canEditDeck: false,
+        searchDeckById: false,
+      },
+      { autoBind: true },
+    );
   }
 
   loadFirstTime(startParam?: string) {
@@ -188,6 +195,15 @@ export class DeckListStore {
     return this.user?.id;
   }
 
+  canEditDeck(deck: DeckWithCardsWithReviewType) {
+    const isAdmin = this.user?.is_admin ?? false;
+    if (isAdmin) {
+      return true;
+    }
+
+    return deckListStore.myId && deck.author_id === deckListStore.myId;
+  }
+
   openDeckFromCatalog(deck: DeckWithCardsDbType, isMine: boolean) {
     assert(this.myInfo);
     if (isMine) {
@@ -211,6 +227,14 @@ export class DeckListStore {
       );
   }
 
+  searchDeckById(deckId: number) {
+    if (!this.myInfo) {
+      return null;
+    }
+    const decksToSearch = this.myInfo.myDecks.concat(this.publicDecks);
+    return decksToSearch.find((deck) => deck.id === deckId);
+  }
+
   get selectedDeck(): DeckWithCardsWithReviewType | null {
     const screen = screenStore.screen;
     assert(screen.type === "deckPublic" || screen.type === "deckMine");
@@ -218,8 +242,7 @@ export class DeckListStore {
       return null;
     }
 
-    const decksToSearch = this.myInfo.myDecks.concat(this.publicDecks);
-    const deck = decksToSearch.find((deck) => deck.id === screen.deckId);
+    const deck = this.searchDeckById(screen.deckId);
     if (!deck) {
       return null;
     }
