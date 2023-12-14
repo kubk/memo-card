@@ -5,6 +5,7 @@ import React from "react";
 export const DeckAddedLabel = () => {
   return (
     <div
+      title={'This deck is on your list'}
       className={css({
         position: "absolute",
         right: 0,
