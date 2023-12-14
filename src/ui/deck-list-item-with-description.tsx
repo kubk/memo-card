@@ -5,7 +5,7 @@ import { css } from "@emotion/css";
 import { theme } from "./theme.tsx";
 import LinesEllipsis from "react-lines-ellipsis";
 import React from "react";
-import { DeckAvailableInFlag } from "./deck-available-in-flag.tsx";
+import { DeckCategoryLogo } from "./deck-category-logo.tsx";
 
 type Props = {
   deck: {
@@ -45,7 +45,7 @@ export const DeckListItemWithDescription = observer((props: Props) => {
         })}
       >
         {deck.deck_category?.logo ? (
-          <DeckAvailableInFlag
+          <DeckCategoryLogo
             logo={deck.deck_category.logo}
             categoryName={deck.deck_category.name}
           />
