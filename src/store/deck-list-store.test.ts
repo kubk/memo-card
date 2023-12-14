@@ -38,6 +38,8 @@ vi.mock("../api/api.ts", () => {
             description: "",
             speak_locale: null,
             speak_field: null,
+            category_id: null,
+            deck_category: null,
             deck_card: [
               {
                 id: 1,
@@ -84,6 +86,8 @@ vi.mock("../api/api.ts", () => {
             description: "",
             speak_locale: null,
             speak_field: null,
+            deck_category: null,
+            category_id: null,
             deck_card: [
               {
                 id: 4,

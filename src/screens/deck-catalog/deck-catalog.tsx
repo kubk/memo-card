@@ -39,7 +39,7 @@ export const DeckCatalog = observer(() => {
     >
       <h3 className={css({ textAlign: "center" })}>Deck Catalog</h3>
       <div className={css({ display: "flex", gap: 4 })}>
-        <div className={css({ color: theme.hintColor })}>Available in:</div>
+        <div className={css({ color: theme.hintColor })}>Available in</div>
         <Select<LanguageFilter>
           value={store.filters.language.value}
           onChange={store.filters.language.onChange}
@@ -47,6 +47,25 @@ export const DeckCatalog = observer(() => {
             value: key,
             label: name === "Any" ? "Any language" : camelCaseToHuman(name),
           }))}
+        />
+      </div>
+
+      <div className={css({ display: "flex", gap: 4 })}>
+        <div className={css({ color: theme.hintColor })}>Category</div>
+        <Select
+          value={store.filters.categoryId.value}
+          onChange={store.filters.categoryId.onChange}
+          isLoading={store.categories?.state === "pending"}
+          options={
+            store.categories?.state === "fulfilled"
+              ? [{ value: "", label: "Any" }].concat(
+                  store.categories.value.categories.map((category) => ({
+                    value: category.id,
+                    label: category.name,
+                  })),
+                )
+              : []
+          }
         />
       </div>
 

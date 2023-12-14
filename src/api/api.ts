@@ -26,6 +26,7 @@ import {
 import { DeckCatalogResponse } from "../../functions/catalog-decks.ts";
 import { DeckWithCardsResponse } from "../../functions/deck-with-cards.ts";
 import { CopyDeckResponse } from "../../functions/duplicate-deck.ts";
+import { DeckCategoryResponse } from "../../functions/deck-categories.ts";
 
 export const healthRequest = () => {
   return request<HealthResponse>("/health");
@@ -93,4 +94,8 @@ export const apiDeckCatalog = () => {
 
 export const apiDeckWithCards = (deckId: number) => {
   return request<DeckWithCardsResponse>(`/deck-with-cards?deck_id=${deckId}`);
+};
+
+export const apiDeckCategories = () => {
+  return request<DeckCategoryResponse>("/deck-categories");
 };
