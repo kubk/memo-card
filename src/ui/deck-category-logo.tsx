@@ -18,18 +18,16 @@ type Props = { logo: string; categoryName: string };
 
 export const DeckCategoryLogo = (props: Props) => {
   const { logo, categoryName } = props;
+  const title = `Deck category is ${categoryName}`;
 
   if (supportsEmojiFlag) {
-    return logo;
+    return <span title={title}>{logo}</span>;
   }
 
   const replacedFlag = replaceFlagEmojiOnWindows(logo);
 
   return (
-    <span
-      className={css({ marginRight: 6 })}
-      title={`Deck category is ${categoryName}`}
-    >
+    <span className={css({ marginRight: 6 })} title={title}>
       {replacedFlag ? (
         <img
           src={`https://flagcdn.com/16x12/${replacedFlag}.png`}

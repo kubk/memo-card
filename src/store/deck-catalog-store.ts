@@ -21,7 +21,7 @@ export class DeckCatalogStore {
   decks?: IPromiseBasedObservable<DeckCatalogResponse>;
   filters = {
     language: persistableField(new TextField(LanguageFilter.Any), "catalogLn"),
-    categoryId: persistableField(new TextField<string>(""), "catalogCateg"),
+    categoryId: persistableField(new TextField(""), "catalogCateg"),
   };
   categories?: IPromiseBasedObservable<DeckCategoryResponse>;
 
