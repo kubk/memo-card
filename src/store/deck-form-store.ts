@@ -112,9 +112,7 @@ export class DeckFormStore {
     assert(screen.type === "deckForm");
 
     if (screen.deckId) {
-      const deck = deckListStore.myDecks.find(
-        (myDeck) => myDeck.id === screen.deckId,
-      );
+      const deck = deckListStore.searchDeckById(screen.deckId);
       assert(deck, "Deck not found in deckListStore");
       this.form = createUpdateForm(screen.deckId, deck);
     } else {

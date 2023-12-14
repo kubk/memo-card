@@ -16,6 +16,7 @@ vi.mock("../api/api.ts", () => {
           last_name: "Testov",
           last_reminded_date: null,
           is_speaking_card_enabled: false,
+          is_admin: false,
           username: "test",
         },
         cardsToReview: [
