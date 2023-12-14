@@ -1,4 +1,4 @@
-import { EnvType } from "../../env/env-schema.ts";
+import { EnvSafe } from "../../env/env-schema.ts";
 import { getDatabase } from "../get-database.ts";
 import { DatabaseException } from "../database-exception.ts";
 import {
@@ -8,7 +8,7 @@ import {
 import { z } from "zod";
 
 export const getMyDecksDb = async (
-  env: EnvType,
+  env: EnvSafe,
   userId: number,
 ): Promise<DeckWithCardsDbType[]> => {
   const db = getDatabase(env);

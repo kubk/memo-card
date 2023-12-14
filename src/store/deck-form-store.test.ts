@@ -22,6 +22,8 @@ const mapUpsertDeckRequestToResponse = (
   is_public: false,
   speak_locale: null,
   speak_field: null,
+  deck_category: null,
+  category_id: null,
   deck_card: input.cards.map((card) => {
     assert(input.id);
     return {
@@ -99,7 +101,7 @@ vi.mock("./deck-list-store.ts", () => {
       searchDeckById: (id: number) => {
         return myDecks.find((deck) => deck.id === id);
       },
-      myDecks: myDecks
+      myDecks: myDecks,
     },
   };
 });

@@ -8,4 +8,4 @@ export const envSchema = z.object({
   BOT_ERROR_REPORTING_USER_ID: z.string().optional(),
 });
 
-export type EnvType = z.infer<typeof envSchema>;
+export type EnvSafe = z.infer<typeof envSchema>;

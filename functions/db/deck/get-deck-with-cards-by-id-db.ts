@@ -1,9 +1,9 @@
 import { DatabaseException } from "../database-exception.ts";
 import { deckWithCardsSchema } from "./decks-with-cards-schema.ts";
-import { EnvType } from "../../env/env-schema.ts";
+import { EnvSafe } from "../../env/env-schema.ts";
 import { getDatabase } from "../get-database.ts";
 
-export const getDeckWithCardsById = async (env: EnvType, deckId: number) => {
+export const getDeckWithCardsById = async (env: EnvSafe, deckId: number) => {
   const db = getDatabase(env);
 
   const { data, error } = await db
