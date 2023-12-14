@@ -38,6 +38,7 @@ export const onRequestPost = handleError(async ({ request, env }) => {
     envSafe,
     input.data.deckId,
     user.id,
+    user.is_admin,
   );
   if (!canEdit) {
     return createForbiddenRequestResponse();

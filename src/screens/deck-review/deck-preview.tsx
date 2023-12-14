@@ -111,7 +111,7 @@ export const DeckPreview = observer(() => {
             gridTemplateColumns: "repeat(auto-fit, minmax(100px, 1fr))",
           })}
         >
-          {deckListStore.myId && deck.author_id === deckListStore.myId ? (
+          {deckListStore.canEditDeck(deck) ? (
             <ButtonSideAligned
               icon={"mdi-plus-circle mdi-24px"}
               outline
@@ -130,17 +130,17 @@ export const DeckPreview = observer(() => {
               icon={"mdi-content-duplicate mdi-24px"}
               outline
               onClick={() => {
-                showConfirm("Are you sure to copy this deck?").then(() => {
+                showConfirm("Are you sure to duplicate this deck?").then(() => {
                   apiDuplicateDeckRequest(deck.id).then(() => {
                     screenStore.go({ type: "main" });
                   });
                 });
               }}
             >
-              Copy
+              Duplicate
             </ButtonSideAligned>
           )}
-          {deckListStore.myId && deck.author_id === deckListStore.myId ? (
+          {deckListStore.canEditDeck(deck) ? (
             <ButtonSideAligned
               icon={"mdi-pencil-circle mdi-24px"}
               outline

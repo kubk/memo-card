@@ -53,6 +53,7 @@ export interface Database {
         Row: {
           author_id: number | null
           available_in: string | null
+          category_id: string | null
           created_at: string
           description: string | null
           id: number
@@ -65,6 +66,7 @@ export interface Database {
         Insert: {
           author_id?: number | null
           available_in?: string | null
+          category_id?: string | null
           created_at?: string
           description?: string | null
           id?: number
@@ -77,6 +79,7 @@ export interface Database {
         Update: {
           author_id?: number | null
           available_in?: string | null
+          category_id?: string | null
           created_at?: string
           description?: string | null
           id?: number
@@ -91,6 +94,12 @@ export interface Database {
             foreignKeyName: "deck_author_id_fkey"
             columns: ["author_id"]
             referencedRelation: "user"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "deck_category_id_fkey"
+            columns: ["category_id"]
+            referencedRelation: "deck_category"
             referencedColumns: ["id"]
           }
         ]
@@ -131,6 +140,27 @@ export interface Database {
             referencedColumns: ["id"]
           }
         ]
+      }
+      deck_category: {
+        Row: {
+          created_at: string
+          id: string
+          logo: string | null
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          logo?: string | null
+          name: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          logo?: string | null
+          name?: string
+        }
+        Relationships: []
       }
       notification: {
         Row: {
@@ -248,6 +278,7 @@ export interface Database {
         Returns: {
           author_id: number | null
           available_in: string | null
+          category_id: string | null
           created_at: string
           description: string | null
           id: number

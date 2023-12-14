@@ -13,7 +13,7 @@ export const getCatalogDecksDb = async (
 
   const { data, error } = await db
     .from("deck")
-    .select("*")
+    .select("*, deck_category:category_id(name, logo)")
     .eq("is_public", true)
     .order("id", { ascending: false })
     .limit(100);
@@ -23,6 +23,9 @@ export const getCatalogDecksDb = async (
   }
 
   return decksWithCardsSchema.parse(
-    data.map((item) => ({ ...item, deck_card: [] })),
+    data.map((deck) => {
+      // @ts-ignore
+      return { ...deck, deck_card: [] };
+    }),
   );
 };

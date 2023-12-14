@@ -58,6 +58,7 @@ export const onRequestPost = handleError(async ({ request, env }) => {
       envSafe,
       input.data.id,
       user.id,
+      user.is_admin,
     );
     if (!databaseDeck) {
       return createForbiddenRequestResponse();
