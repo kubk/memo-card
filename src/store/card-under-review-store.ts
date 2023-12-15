@@ -1,5 +1,4 @@
 import { makeAutoObservable } from "mobx";
-import { assert } from "../lib/typescript/assert.ts";
 import {
   DeckCardDbType,
   DeckSpeakFieldEnum,
@@ -50,10 +49,9 @@ export class CardUnderReviewStore {
   }
 
   changeState(state: CardState) {
-    assert(
-      this.isOpened,
-      `The card should be opened before changing state. Card id: ${this.id}`,
-    );
+    if (!this.isOpened) {
+      this.isOpened = true;
+    }
     this.state = state;
   }
 
