@@ -17,6 +17,7 @@ import { assert } from "../lib/typescript/assert.ts";
 import { ReviewStore } from "./review-store.ts";
 import { reportHandledError } from "../lib/rollbar/rollbar.tsx";
 import { UserDbType } from "../../functions/db/user/upsert-user-db.ts";
+import { BooleanToggle } from "../lib/mobx-form/boolean-toggle.ts";
 
 export enum StartParamType {
   RepeatAll = "repeat_all",
@@ -29,6 +30,8 @@ export type DeckCardDbTypeWithType = DeckCardDbType & {
 export type DeckWithCardsWithReviewType = DeckWithCardsDbType & {
   cardsToReview: DeckCardDbTypeWithType[];
 };
+
+const collapsedDecksLimit = 3;
 
 export class DeckListStore {
   myInfo?: MyInfoResponse;
@@ -45,6 +48,8 @@ export class DeckListStore {
   isDeckRemoving = false;
 
   isDeckCardsLoading = false;
+
+  isMyDecksExpanded = new BooleanToggle(false);
 
   constructor() {
     makeAutoObservable(
@@ -288,10 +293,6 @@ export class DeckListStore {
     );
   }
 
-  get publicDecksToDisplay() {
-    return this.publicDecks.slice(0, 3);
-  }
-
   get myDecks(): DeckWithCardsWithReviewType[] {
     if (!this.myInfo) {
       return [];
@@ -302,6 +303,41 @@ export class DeckListStore {
       ...deck,
       cardsToReview: getCardsToReview(deck, cardsToReview),
     }));
+  }
+
+  get shouldShowMyDecksToggle() {
+    return deckListStore.myDecks.length > collapsedDecksLimit;
+  }
+
+  get myDecksVisible(): DeckWithCardsWithReviewType[] {
+    const myDecks = this.myDecks;
+    if (this.isMyDecksExpanded.value) {
+      return myDecks;
+    }
+
+    return myDecks
+      .sort((a, b) => {
+        // sort decks by cardsToReview count with type 'repeat' first, then with type 'new'
+        const aRepeatCount = a.cardsToReview.filter(
+          (card) => card.type === "repeat",
+        ).length;
+
+        const bRepeatCount = b.cardsToReview.filter(
+          (card) => card.type === "repeat",
+        ).length;
+
+        if (aRepeatCount !== bRepeatCount) {
+          return bRepeatCount - aRepeatCount;
+        }
+
+        const aNewCount = a.cardsToReview.length - aRepeatCount;
+        const bNewCount = b.cardsToReview.length - bRepeatCount;
+        if (aNewCount !== bNewCount) {
+          return bNewCount - aNewCount;
+        }
+        return a.name.localeCompare(b.name);
+      })
+      .slice(0, collapsedDecksLimit);
   }
 
   get areAllDecksReviewed() {
