@@ -15,6 +15,7 @@ import { assert } from "../../lib/typescript/assert.ts";
 import { ListHeader } from "../../ui/list-header.tsx";
 import { range } from "../../lib/array/range.ts";
 import { reset } from "../../ui/reset.ts";
+import { ViewMoreDecksToggle } from "./view-more-decks-toggle.tsx";
 
 export const MainScreen = observer(() => {
   useMount(() => {
@@ -31,7 +32,14 @@ export const MainScreen = observer(() => {
       })}
     >
       <div>
-        <ListHeader text={"My decks"} />
+        <ListHeader
+          text={"My decks"}
+          rightSlot={
+            deckListStore.shouldShowMyDecksToggle ? (
+              <ViewMoreDecksToggle />
+            ) : undefined
+          }
+        />
         <div
           className={css({
             display: "flex",
@@ -44,7 +52,7 @@ export const MainScreen = observer(() => {
               <DeckLoading key={i} />
             ))}
           {deckListStore.myInfo
-            ? deckListStore.myDecks.map((deck) => {
+            ? deckListStore.myDecksVisible.map((deck) => {
                 return <MyDeck key={deck.id} deck={deck} />;
               })
             : null}
@@ -97,7 +105,7 @@ export const MainScreen = observer(() => {
         >
           {deckListStore.myInfo ? (
             <>
-              {deckListStore.publicDecksToDisplay.map((deck) => (
+              {deckListStore.publicDecks.map((deck) => (
                 <PublicDeck key={deck.id} deck={deck} />
               ))}
               <button

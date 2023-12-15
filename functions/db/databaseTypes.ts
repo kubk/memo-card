@@ -289,6 +289,26 @@ export interface Database {
           speak_locale: string | null
         }[]
       }
+      get_unadded_public_decks_smart: {
+        Args: {
+          user_id_param: number
+        }
+        Returns: {
+          id: number
+          created_at: string
+          name: string
+          author_id: number
+          description: string
+          is_public: boolean
+          share_id: string
+          speak_locale: string
+          speak_field: string
+          available_in: string
+          category_id: string
+          category_name: string
+          category_logo: string
+        }[]
+      }
       get_user_decks_deck_id: {
         Args: {
           usr_id: number
@@ -304,14 +324,6 @@ export interface Database {
           review_count: number
           last_reminded_date: string
           is_admin: boolean
-        }[]
-      }
-      get_users_with_review_to_notify_backup: {
-        Args: Record<PropertyKey, never>
-        Returns: {
-          user_id: number
-          review_count: number
-          last_reminded_date: string
         }[]
       }
     }
