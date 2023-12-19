@@ -195,6 +195,7 @@ export interface Database {
           last_name: string | null
           last_reminded_date: string | null
           last_used: string | null
+          server_bot_state: Json | null
           username: string | null
         }
         Insert: {
@@ -208,6 +209,7 @@ export interface Database {
           last_name?: string | null
           last_reminded_date?: string | null
           last_used?: string | null
+          server_bot_state?: Json | null
           username?: string | null
         }
         Update: {
@@ -221,6 +223,7 @@ export interface Database {
           last_name?: string | null
           last_reminded_date?: string | null
           last_used?: string | null
+          server_bot_state?: Json | null
           username?: string | null
         }
         Relationships: []
@@ -261,6 +264,24 @@ export interface Database {
       [_ in never]: never
     }
     Functions: {
+      get_active_decks_by_author: {
+        Args: {
+          user_id: number
+        }
+        Returns: {
+          author_id: number | null
+          available_in: string | null
+          category_id: string | null
+          created_at: string
+          description: string | null
+          id: number
+          is_public: boolean
+          name: string
+          share_id: string
+          speak_field: string | null
+          speak_locale: string | null
+        }[]
+      }
       get_cards_to_review: {
         Args: {
           usr_id: number
