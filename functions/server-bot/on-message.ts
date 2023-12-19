@@ -16,6 +16,8 @@ export const onMessage = (envSafe: EnvSafe) => async (ctx: Context) => {
   }
   assert(ctx.from);
 
+  await ctx.replyWithChatAction("typing");
+
   const userState = await userGetServerBotState(envSafe, ctx.from.id);
   if (userState?.type === "deckSelected" && userState.editingField) {
     await userSetServerBotState(envSafe, ctx.from.id, {
@@ -43,7 +45,7 @@ export const onMessage = (envSafe: EnvSafe) => async (ctx: Context) => {
   const decks = await getDecksCreatedByMe(envSafe, ctx.from.id);
   if (decks.length === 0) {
     await ctx.reply(
-      `You don't have any personal decks yet. Create one after clicking "MemoCard" 👇`
+      `You don't have any personal decks yet. Create one in the app first 👇`,
     );
     return;
   }

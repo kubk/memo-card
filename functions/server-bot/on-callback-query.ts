@@ -81,7 +81,7 @@ export const onCallbackQuery = (envSafe: EnvSafe) => async (ctx: Context) => {
       throw new DatabaseException(createCardsResult.error);
     }
 
-    await ctx.reply('Card has been created. Click "MemoCard" to review it 👇');
+    await ctx.reply('Card has been created');
     await ctx.deleteMessage();
     await userSetServerBotState(envSafe, ctx.from.id, null);
     return;
