@@ -5,6 +5,7 @@ import { createAuthFailedResponse } from "./lib/json-response/create-auth-failed
 import { onMessage } from "./server-bot/on-message.ts";
 import { onCallbackQuery } from "./server-bot/on-callback-query.ts";
 import { onStart } from "./server-bot/on-start.ts";
+import { ignoreOldMessageMiddleware } from "./server-bot/ignore-old-messages-middleware.ts";
 
 export const onRequestPost: PagesFunction = handleError(
   async ({ env, request }) => {
@@ -15,6 +16,7 @@ export const onRequestPost: PagesFunction = handleError(
     }
 
     const bot = new Bot(envSafe.BOT_TOKEN);
+    bot.use(ignoreOldMessageMiddleware);
     bot.command("start", onStart);
     bot.on("message", onMessage(envSafe));
     bot.on("callback_query:data", onCallbackQuery(envSafe));
