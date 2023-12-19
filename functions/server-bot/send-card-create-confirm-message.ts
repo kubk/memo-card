@@ -6,10 +6,7 @@ import {
   userSetServerBotState,
 } from "../db/user/user-set-server-bot-state.ts";
 import { CallbackQueryType } from "./callback-query-type.ts";
-
-const sanitizeMarkdown = (text: string) => {
-  return text.replace("-", "\\-");
-};
+import { escapeMarkdown } from "./escape-markdown.ts";
 
 export const sendCardCreateConfirmMessage = async (
   envSafe: EnvSafe,
@@ -29,9 +26,9 @@ export const sendCardCreateConfirmMessage = async (
   await ctx.deleteMessage();
 
   await ctx.reply(
-    `Confirm card creation:\n\n*Front:*\n${sanitizeMarkdown(
+    `Confirm card creation:\n\n*Front:*\n${escapeMarkdown(
       state.cardFront,
-    )}\n\n*Back:*\n${sanitizeMarkdown(state.cardBack)}`,
+    )}\n\n*Back:*\n${escapeMarkdown(state.cardBack)}`,
     {
       parse_mode: "MarkdownV2",
       reply_markup: InlineKeyboard.from([
