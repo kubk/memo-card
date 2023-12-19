@@ -7,7 +7,7 @@ import {
 } from "./decks-with-cards-schema.ts";
 import { z } from "zod";
 
-export const getMyDecksDb = async (
+export const getMyDecksWithCardsDb = async (
   env: EnvSafe,
   userId: number,
 ): Promise<DeckWithCardsDbType[]> => {

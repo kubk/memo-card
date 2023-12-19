@@ -5,7 +5,7 @@ import { handleError } from "./lib/handle-error/handle-error.ts";
 import { UserDbType } from "./db/user/upsert-user-db.ts";
 import { DeckWithCardsDbType } from "./db/deck/decks-with-cards-schema.ts";
 import { envSchema } from "./env/env-schema.ts";
-import { getMyDecksDb } from "./db/deck/get-my-decks-db.ts";
+import { getMyDecksWithCardsDb } from "./db/deck/get-my-decks-with-cards-db.ts";
 import {
   CardToReviewDbType,
   getCardsToReviewDb,
@@ -26,7 +26,7 @@ export const onRequest = handleError(async ({ request, env }) => {
 
   const [publicDecks, myDecks, cardsToReview] = await Promise.all([
     await getUnAddedPublicDecksDb(envSafe, user.id),
-    await getMyDecksDb(envSafe, user.id),
+    await getMyDecksWithCardsDb(envSafe, user.id),
     await getCardsToReviewDb(envSafe, user.id),
   ]);
 
