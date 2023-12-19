@@ -27,7 +27,9 @@ export const onCallbackQuery = (envSafe: EnvSafe) => async (ctx: Context) => {
       throw new Error(`Deck id ${deckId} is not valid`);
     }
     const state = await userGetServerBotState(envSafe, ctx.from.id);
-    assert(state?.type === "cardAdded", "State is not cardAdded");
+    if (state?.type !== "cardAdded") {
+      return;
+    }
     await userSetServerBotState(envSafe, ctx.from.id, {
       type: "deckSelected",
       cardBack: state.cardBack,
