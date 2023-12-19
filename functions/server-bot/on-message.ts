@@ -39,14 +39,12 @@ export const onMessage = (envSafe: EnvSafe) => async (ctx: Context) => {
     );
     return;
   }
-  const [decks] = await Promise.all([
-    getDecksCreatedByMe(envSafe, ctx.from.id),
-    userSetServerBotState(envSafe, ctx.from.id, {
-      type: "cardAdded",
-      cardFront: cardAsText.front,
-      cardBack: cardAsText.back,
-    }),
-  ]);
+  await userSetServerBotState(envSafe, ctx.from.id, {
+    type: "cardAdded",
+    cardFront: cardAsText.front,
+    cardBack: cardAsText.back,
+  });
+  const decks = await getDecksCreatedByMe(envSafe, ctx.from.id);
 
   await ctx.reply("To create a card from it, select a deck: ", {
     reply_markup: InlineKeyboard.from(
