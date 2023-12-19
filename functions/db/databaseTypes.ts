@@ -266,7 +266,7 @@ export interface Database {
     Functions: {
       get_active_decks_by_author: {
         Args: {
-          user_id: number
+          usr_id: number
         }
         Returns: {
           author_id: number | null

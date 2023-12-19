@@ -14,7 +14,7 @@ export const getDecksCreatedByMe = async (
   const db = getDatabase(env);
 
   const result = await db.rpc("get_active_decks_by_author", {
-    user_id: userId,
+    usr_id: userId,
   });
 
   if (result.error) {
