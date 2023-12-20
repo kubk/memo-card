@@ -9,8 +9,9 @@ export type ServerBotState =
       type: "deckSelected";
       cardFront: string;
       cardBack: string;
+      cardExample: string | null;
       deckId: number;
-      editingField?: "cardFront" | "cardBack";
+      editingField?: "cardFront" | "cardBack" | "cardExample";
     };
 
 export const userSetServerBotState = async (
