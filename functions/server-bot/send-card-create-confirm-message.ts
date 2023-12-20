@@ -8,6 +8,14 @@ import {
 import { CallbackQueryType } from "./callback-query-type.ts";
 import { escapeMarkdown } from "./escape-markdown.ts";
 
+const renderFieldValue = (value: string | null) => {
+  if (!value) {
+    return "_None_";
+  }
+
+  return escapeMarkdown(value);
+};
+
 export const sendCardCreateConfirmMessage = async (
   envSafe: EnvSafe,
   ctx: Context,
@@ -21,14 +29,17 @@ export const sendCardCreateConfirmMessage = async (
     cardBack: state.cardBack,
     cardFront: state.cardFront,
     deckId: state.deckId,
+    cardExample: state.cardExample,
   });
 
   await ctx.deleteMessage();
 
   await ctx.reply(
-    `Confirm card creation:\n\n*Front:*\n${escapeMarkdown(
+    `Confirm card creation:\n\n*Front:* ${renderFieldValue(
       state.cardFront,
-    )}\n\n*Back:*\n${escapeMarkdown(state.cardBack)}`,
+    )}\n\n*Back:* ${renderFieldValue(
+      state.cardBack,
+    )}\n\n*Example:* ${renderFieldValue(state.cardExample)}`,
     {
       parse_mode: "MarkdownV2",
       reply_markup: InlineKeyboard.from([
@@ -41,6 +52,7 @@ export const sendCardCreateConfirmMessage = async (
         [
           InlineKeyboard.text(`✏️ Edit front`, CallbackQueryType.EditFront),
           InlineKeyboard.text(`✏️ Edit back`, CallbackQueryType.EditBack),
+          InlineKeyboard.text(`✏️ Edit example`, CallbackQueryType.EditExample),
         ],
         [InlineKeyboard.text(`❌ Cancel`, CallbackQueryType.Cancel)],
       ]),

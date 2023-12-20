@@ -10,6 +10,37 @@ import {
 import { sendCardCreateConfirmMessage } from "./send-card-create-confirm-message.ts";
 import { DatabaseException } from "../db/database-exception.ts";
 
+type CallbackQueryEdit =
+  | CallbackQueryType.EditFront
+  | CallbackQueryType.EditBack
+  | CallbackQueryType.EditExample;
+
+const callbackQueryEditTypeToField = (data: CallbackQueryEdit) => {
+  switch (data) {
+    case CallbackQueryType.EditFront:
+      return "cardFront";
+    case CallbackQueryType.EditBack:
+      return "cardBack";
+    case CallbackQueryType.EditExample:
+      return "cardExample";
+    default:
+      return data satisfies never;
+  }
+};
+
+const callbackQueryToHumanReadable = (data: CallbackQueryEdit) => {
+  switch (data) {
+    case CallbackQueryType.EditFront:
+      return "front";
+    case CallbackQueryType.EditBack:
+      return "back";
+    case CallbackQueryType.EditExample:
+      return "example";
+    default:
+      return data satisfies never;
+  }
+};
+
 export const onCallbackQuery = (envSafe: EnvSafe) => async (ctx: Context) => {
   assert(ctx.callbackQuery);
   assert(ctx.from);
@@ -34,6 +65,7 @@ export const onCallbackQuery = (envSafe: EnvSafe) => async (ctx: Context) => {
       type: "deckSelected",
       cardBack: state.cardBack,
       cardFront: state.cardFront,
+      cardExample: null,
       deckId,
     });
 
@@ -44,19 +76,19 @@ export const onCallbackQuery = (envSafe: EnvSafe) => async (ctx: Context) => {
 
   if (
     data === CallbackQueryType.EditFront ||
-    data === CallbackQueryType.EditBack
+    data === CallbackQueryType.EditBack ||
+    data === CallbackQueryType.EditExample
   ) {
-    const isFront = data === CallbackQueryType.EditFront;
     const state = await userGetServerBotState(envSafe, ctx.from.id);
     assert(state?.type === "deckSelected", "State is not deckSelected");
+    const editingField = callbackQueryEditTypeToField(data);
+    const editingFieldHuman = callbackQueryToHumanReadable(data);
     await userSetServerBotState(envSafe, ctx.from.id, {
       ...state,
-      editingField: isFront ? "cardFront" : "cardBack",
+      editingField,
     });
     await ctx.deleteMessage();
-    await ctx.reply(
-      `Send a message with the new ${isFront ? "front" : "back"}:`,
-    );
+    await ctx.reply(`Send a message with the new ${editingFieldHuman}:`);
     return;
   }
 
@@ -75,13 +107,14 @@ export const onCallbackQuery = (envSafe: EnvSafe) => async (ctx: Context) => {
       deck_id: state.deckId,
       front: state.cardFront,
       back: state.cardBack,
+      example: state.cardExample,
     });
 
     if (createCardsResult.error) {
       throw new DatabaseException(createCardsResult.error);
     }
 
-    await ctx.reply('Card has been created');
+    await ctx.reply("Card has been created");
     await ctx.deleteMessage();
     await userSetServerBotState(envSafe, ctx.from.id, null);
     return;
