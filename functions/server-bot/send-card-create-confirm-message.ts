@@ -44,17 +44,17 @@ export const sendCardCreateConfirmMessage = async (
       parse_mode: "MarkdownV2",
       reply_markup: InlineKeyboard.from([
         [
+          InlineKeyboard.text(`✏️ Edit front`, CallbackQueryType.EditFront),
+          InlineKeyboard.text(`✏️ Edit back`, CallbackQueryType.EditBack),
+          InlineKeyboard.text(`✏️ Edit example`, CallbackQueryType.EditExample),
+        ],
+        [
+          InlineKeyboard.text(`❌ Cancel`, CallbackQueryType.Cancel),
           InlineKeyboard.text(
             `✅ Confirm`,
             CallbackQueryType.ConfirmCreateCard,
           ),
         ],
-        [
-          InlineKeyboard.text(`✏️ Edit front`, CallbackQueryType.EditFront),
-          InlineKeyboard.text(`✏️ Edit back`, CallbackQueryType.EditBack),
-          InlineKeyboard.text(`✏️ Edit example`, CallbackQueryType.EditExample),
-        ],
-        [InlineKeyboard.text(`❌ Cancel`, CallbackQueryType.Cancel)],
       ]),
     },
   );
