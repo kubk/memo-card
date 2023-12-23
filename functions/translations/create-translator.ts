@@ -1,7 +1,7 @@
 import { Translator } from "../lib/translator/translator.ts";
 
 const en = {
-  start: `Hello! I help improving memory with spaced repetition. You can learn languages, history or other subjects.\n\nClick "MemoCard" to start 👇`,
+  start: `Hello! I help improving memory with spaced repetition. You can learn languages, history or other subjects 👇`,
   invalid_card_format:
     "Please send a message in the format: `front \\- back`\n\n*Example:*\nMe gusta \\- I like it",
   no_decks_created: `You don't have any personal decks yet. Create one in the app first 👇`,
@@ -21,12 +21,13 @@ const en = {
   confirm_card_creation_front: `Create card?\n\n*Front:* `,
   confirm_card_creation_back: `\n\n*Back:* `,
   confirm_card_creation_example: `\n\n*Example:* `,
+  start_button: "Start bot",
 };
 
 type Translation = typeof en;
 
 const ru: Translation = {
-  start: `Привет! Я помогаю улучшать память с помощью интервального повторения. Подхожу для изучения языки, истории и других предметов\n\nНажимай "MemoCard" для запуска 👇`,
+  start: `Привет! Я помогаю улучшать память с помощью интервального повторения. Подхожу для изучения языков, истории и других предметов 👇`,
   invalid_card_format:
     "Пожалуйста, отправь сообщение в формате: `вопрос \\- ответ`\n\n*Пример:*\nMe gusta \\- Мне нравится",
   no_decks_created: `У тебя ещё нет личных колод. Создай колоду в приложении 👇`,
@@ -46,11 +47,12 @@ const ru: Translation = {
   confirm_card_creation_back: `\n\n*Ответ:* `,
   confirm_card_creation_example: `\n\n*Пример:* `,
   confirm_card_creation_front: `Создать карточку?:\n\n*Вопрос:* `,
+  start_button: "Запустить бота",
 };
 
 const es: Translation = {
   start:
-    'Hola! Te ayudo a mejorar la memoria con la repetición espaciada. Puedes aprender idiomas, historia u otras materias.\n\nHaz clic en "MemoCard" para comenzar 👇',
+    "Hola! Te ayudo a mejorar la memoria con la repetición espaciada. Puedes aprender idiomas, historia u otras materias 👇",
   invalid_card_format:
     "Envíe un mensaje en el formato: `pregunta \\- respuesta`\n\n*Ejemplo:*\nI like it \\- Me gusta",
   no_decks_created: `Todavía no tienes mazos personales. Crea uno en la aplicación 👇`,
@@ -70,6 +72,7 @@ const es: Translation = {
   bot_button_confirm: "✅ Crear",
   confirm_card_creation_example: `\n\n*Ejemplo:* `,
   confirm_card_creation_front: `Crear tarjeta?:\n\n*Pregunta:* `,
+  start_button: "Iniciar bot",
 };
 
 const translations = { en, ru, es } as const;
