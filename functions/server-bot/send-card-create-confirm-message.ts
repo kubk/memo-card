@@ -7,6 +7,7 @@ import {
 } from "../db/user/user-set-server-bot-state.ts";
 import { CallbackQueryType } from "./callback-query-type.ts";
 import { escapeMarkdown } from "./escape-markdown.ts";
+import { createUserAwareTranslator } from "../translations/create-user-aware-translator.ts";
 
 const renderFieldValue = (value: string | null) => {
   if (!value) {
@@ -21,6 +22,7 @@ export const sendCardCreateConfirmMessage = async (
   ctx: Context,
 ) => {
   assert(ctx.from);
+  const translator = await createUserAwareTranslator(envSafe, ctx);
   const state = await userGetServerBotState(envSafe, ctx.from.id);
   assert(state?.type === "deckSelected");
 
@@ -35,23 +37,37 @@ export const sendCardCreateConfirmMessage = async (
   await ctx.deleteMessage();
 
   await ctx.reply(
-    `Confirm card creation:\n\n*Front:* ${renderFieldValue(
+    `${translator.translate("confirm_card_creation_front")}${renderFieldValue(
       state.cardFront,
-    )}\n\n*Back:* ${renderFieldValue(
+    )}${translator.translate("confirm_card_creation_back")}${renderFieldValue(
       state.cardBack,
-    )}\n\n*Example:* ${renderFieldValue(state.cardExample)}`,
+    )}${translator.translate(
+      "confirm_card_creation_example",
+    )}${renderFieldValue(state.cardExample)}`,
     {
       parse_mode: "MarkdownV2",
       reply_markup: InlineKeyboard.from([
         [
-          InlineKeyboard.text(`✏️ Edit front`, CallbackQueryType.EditFront),
-          InlineKeyboard.text(`✏️ Edit back`, CallbackQueryType.EditBack),
-          InlineKeyboard.text(`✏️ Edit example`, CallbackQueryType.EditExample),
+          InlineKeyboard.text(
+            translator.translate("bot_button_edit_front"),
+            CallbackQueryType.EditFront,
+          ),
+          InlineKeyboard.text(
+            translator.translate("bot_button_edit_back"),
+            CallbackQueryType.EditBack,
+          ),
+          InlineKeyboard.text(
+            translator.translate("bot_button_edit_example"),
+            CallbackQueryType.EditExample,
+          ),
         ],
         [
-          InlineKeyboard.text(`❌ Cancel`, CallbackQueryType.Cancel),
           InlineKeyboard.text(
-            `✅ Confirm`,
+            translator.translate("bot_button_cancel"),
+            CallbackQueryType.Cancel,
+          ),
+          InlineKeyboard.text(
+            translator.translate("bot_button_confirm"),
             CallbackQueryType.ConfirmCreateCard,
           ),
         ],

@@ -1,6 +1,7 @@
 import React from "react";
 import { css } from "@emotion/css";
 import WebApp from "@twa-dev/sdk";
+import { t, translateCategory } from "../translations/t.ts";
 
 // Windows doesn't support flag emojis, so we replace them with images
 export const replaceFlagEmojiOnWindows = (logo: string) => {
@@ -18,7 +19,7 @@ type Props = { logo: string; categoryName: string };
 
 export const DeckCategoryLogo = (props: Props) => {
   const { logo, categoryName } = props;
-  const title = `Deck category is ${categoryName}`;
+  const title = `${t("deck_category")}: ${translateCategory(categoryName)}`;
 
   if (supportsEmojiFlag) {
     return <span title={title}>{logo}</span>;

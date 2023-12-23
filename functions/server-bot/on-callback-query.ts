@@ -9,6 +9,8 @@ import {
 } from "../db/user/user-set-server-bot-state.ts";
 import { sendCardCreateConfirmMessage } from "./send-card-create-confirm-message.ts";
 import { DatabaseException } from "../db/database-exception.ts";
+import { createUserAwareTranslator } from "../translations/create-user-aware-translator.ts";
+import { MemoCardTranslator } from "../translations/create-translator.ts";
 
 type CallbackQueryEdit =
   | CallbackQueryType.EditFront
@@ -28,14 +30,17 @@ const callbackQueryEditTypeToField = (data: CallbackQueryEdit) => {
   }
 };
 
-const callbackQueryToHumanReadable = (data: CallbackQueryEdit) => {
+const callbackQueryToHumanReadable = (
+  data: CallbackQueryEdit,
+  translator: MemoCardTranslator,
+) => {
   switch (data) {
     case CallbackQueryType.EditFront:
-      return "front";
+      return translator.translate("send_new_front");
     case CallbackQueryType.EditBack:
-      return "back";
+      return translator.translate("send_new_back");
     case CallbackQueryType.EditExample:
-      return "example";
+      return translator.translate("send_new_example");
     default:
       return data satisfies never;
   }
@@ -51,6 +56,8 @@ export const onCallbackQuery = (envSafe: EnvSafe) => async (ctx: Context) => {
     await ctx.answerCallbackQuery();
     return;
   }
+
+  const translator = await createUserAwareTranslator(envSafe, ctx);
 
   if (data.startsWith(CallbackQueryType.Deck)) {
     const deckId = Number(data.split(":")[1]);
@@ -82,18 +89,18 @@ export const onCallbackQuery = (envSafe: EnvSafe) => async (ctx: Context) => {
     const state = await userGetServerBotState(envSafe, ctx.from.id);
     assert(state?.type === "deckSelected", "State is not deckSelected");
     const editingField = callbackQueryEditTypeToField(data);
-    const editingFieldHuman = callbackQueryToHumanReadable(data);
+    const editingFieldHuman = callbackQueryToHumanReadable(data, translator);
     await userSetServerBotState(envSafe, ctx.from.id, {
       ...state,
       editingField,
     });
     await ctx.deleteMessage();
-    await ctx.reply(`Send a message with the new ${editingFieldHuman}:`);
+    await ctx.reply(editingFieldHuman);
     return;
   }
 
   if (data === CallbackQueryType.Cancel) {
-    await ctx.answerCallbackQuery("Cancelled");
+    await ctx.answerCallbackQuery(translator.translate("cancelled"));
     await ctx.deleteMessage();
     await userSetServerBotState(envSafe, ctx.from.id, null);
     return;
@@ -114,7 +121,7 @@ export const onCallbackQuery = (envSafe: EnvSafe) => async (ctx: Context) => {
       throw new DatabaseException(createCardsResult.error);
     }
 
-    await ctx.reply("Card has been created");
+    await ctx.reply(translator.translate("card_created"));
     await ctx.deleteMessage();
     await userSetServerBotState(envSafe, ctx.from.id, null);
     return;

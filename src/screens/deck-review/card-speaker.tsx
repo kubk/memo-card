@@ -22,7 +22,7 @@ export const CardSpeaker = observer((props: Props) => {
     return null;
   }
 
-  // throttle is needed to avoid user clicking on the speaker button many times in a row hence creating many sounds
+  // throttle is needed to avoid user clicking on the speaker many times in a row hence creating many sounds
   return (
     <i
       onClick={throttle(card.speak, 500)}

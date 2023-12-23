@@ -11,6 +11,7 @@ import { useReviewStore } from "../../store/review-store-context.tsx";
 import { Button } from "../../ui/button.tsx";
 import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
 import { useHotkeys } from "react-hotkeys-hook";
+import { t } from "../../translations/t.ts";
 
 const rotateBorder = 80;
 
@@ -176,10 +177,10 @@ export const Review = observer(() => {
           {reviewStore.currentCard.isOpened && !isRotateAnimating ? (
             <>
               <Button key={"forgot"} onClick={() => onLeft()} outline>
-                Need to review
+                {t("review_need_to_repeat")}
               </Button>
               <Button key={"remember"} onClick={() => onRight()}>
-                I got it right
+                {t("review_right")}
               </Button>
             </>
           ) : (
@@ -189,7 +190,7 @@ export const Review = observer(() => {
                 reviewStore.open();
               }}
             >
-              Show answer
+              {t("review_show_answer")}
             </Button>
           )}
         </div>
