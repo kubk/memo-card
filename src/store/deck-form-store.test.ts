@@ -124,7 +124,6 @@ vi.mock("../translations/t.ts", () => {
   };
 });
 
-
 vi.mock("../api/api.ts", () => {
   return {
     upsertDeckRequest: mocks.upsertDeckRequest,

@@ -8,7 +8,7 @@ import {
 } from "./form-has-error.ts";
 import { validators } from "./validator.ts";
 
-const isRequiredMessage = 'is required';
+const isRequiredMessage = "is required";
 
 test("isFormTouchedAndHasError", () => {
   const f1 = {
@@ -27,7 +27,10 @@ test("isFormTouchedAndHasError", () => {
 
   const f2 = {
     a: new TextField("a", validators.required(isRequiredMessage)),
-    b: [new TextField("b", validators.required(isRequiredMessage)), new TextField("d")],
+    b: [
+      new TextField("b", validators.required(isRequiredMessage)),
+      new TextField("d"),
+    ],
   };
 
   f2.a.touch();
@@ -52,7 +55,10 @@ test("isFormTouchedAndHasError", () => {
 test("is form dirty", () => {
   const f = {
     a: new TextField("a", validators.required(isRequiredMessage)),
-    b: [new TextField("b", validators.required(isRequiredMessage)), new TextField("d")],
+    b: [
+      new TextField("b", validators.required(isRequiredMessage)),
+      new TextField("d"),
+    ],
   };
 
   expect(isFormTouched(f)).toBeFalsy();
@@ -86,7 +92,10 @@ test("is boolean form dirty", () => {
 test("is form empty", () => {
   const f = {
     a: new TextField("a", validators.required(isRequiredMessage)),
-    b: [new TextField("b", validators.required(isRequiredMessage)), new TextField("d")],
+    b: [
+      new TextField("b", validators.required(isRequiredMessage)),
+      new TextField("d"),
+    ],
   };
 
   expect(isFormEmpty(f)).toBeFalsy();

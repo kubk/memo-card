@@ -110,7 +110,8 @@ export const MainScreen = observer(() => {
                 className={cx(
                   reset.button,
                   css({
-                    marginTop: 6,
+                    paddingTop: 10,
+                    paddingBottom: 6,
                     color: theme.linkColor,
                     fontSize: 16,
                   }),

@@ -41,6 +41,4 @@ describe("translate new cards count", () => {
     expect(translateNewCardsCount(3)).toBe("nuevas tarjetas");
     expect(translateNewCardsCount(21)).toBe("nuevas tarjetas");
   });
-
 });
-

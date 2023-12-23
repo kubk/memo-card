@@ -63,7 +63,7 @@ export const DeckCatalog = observer(() => {
 
       <div className={css({ display: "flex", gap: 4 })}>
         <div className={css({ color: theme.hintColor })}>
-          {t("i_understand")}
+          {t("translated_to")}
         </div>
         <Select<LanguageFilter>
           value={store.filters.language.value}

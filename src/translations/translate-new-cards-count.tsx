@@ -19,7 +19,7 @@ export const translateNewCardsCount = (count: number) => {
     }
   }
 
-  if (language === 'es') {
+  if (language === "es") {
     const rules = new Intl.PluralRules("es-ES");
     const result = rules.select(count);
 

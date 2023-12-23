@@ -5,9 +5,8 @@ export const getUserLanguage = (): Language => {
   const languageCode = WebApp.initDataUnsafe.user?.language_code;
   switch (languageCode) {
     case "ru":
-      return "ru";
     case "es":
-      return "es";
+      return languageCode;
     default:
       return "en";
   }
