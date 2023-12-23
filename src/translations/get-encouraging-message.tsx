@@ -31,9 +31,26 @@ const ru = [
   "Подумай о накопленных знаниях, которые ты получаешь с каждым повторением. Будущий 'ты' благодарит тебя!",
 ];
 
+const es = [
+  "La constancia es la clave para la maestría, y cada repetición te hace mejor",
+  "Recuerda que el camino del conocimiento es infinito, y cada lección cuenta",
+  "Cada repetición profundiza el conocimiento en tu memoria. ¡Bien hecho por no rendirte!",
+  "Cada repetición fortalece tus conexiones neuronales. No solo estás aprendiendo, estás creciendo",
+  "Cada repetición alimenta tu futuro. ¡Imagina cuánto sabrás dentro de un año!",
+  "Como dice el dicho, 'La repetición es la madre del aprendizaje'. Estás encarnando esta sabiduría en cada sesión",
+  "Tus esfuerzos de hoy son la base para la maestría de mañana. ¡Sigue así!",
+  "Aprender es como construir un castillo ladrillo a ladrillo. Cada repetición agrega una piedra más a tu fortaleza del conocimiento",
+  "El árbol de tu conocimiento no crecerá sin cuidado constante. Continúa regando tu árbol del aprendizaje",
+  "No solo estás repitiendo información; la estás convirtiendo en parte de ti",
+  "Piensa en el conocimiento acumulado que obtienes con cada repetición. Tu futuro yo te lo agradecerá",
+];
+
 export const getEncouragingMessage = () => {
   if (translator.getLang() === "ru") {
     return random(ru);
+  }
+  if (translator.getLang() === "es") {
+    return random(es);
   }
   return random(en);
 };

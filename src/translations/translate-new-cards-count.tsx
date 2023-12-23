@@ -19,6 +19,18 @@ export const translateNewCardsCount = (count: number) => {
     }
   }
 
+  if (language === 'es') {
+    const rules = new Intl.PluralRules("es-ES");
+    const result = rules.select(count);
+
+    switch (result) {
+      case "one":
+        return "nueva tarjeta";
+      case "other":
+        return "nuevas tarjetas";
+    }
+  }
+
   if (count === 1) {
     return `new card`;
   }

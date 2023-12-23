@@ -176,7 +176,97 @@ const ru: Translation = {
   validation_number: "Это поле должно быть числом",
 };
 
-const translations = { en, ru };
+const es: Translation = {
+  my_decks: "Mis mazos",
+  show_all_decks: "Mostrar todos",
+  hide_all_decks: "Ocultar",
+  no_personal_decks_start:
+    "Todavía no tienes ningún mazo personal. Siéntete libre de",
+  no_personal_decks_create: "crear uno",
+  no_personal_decks_explore:
+    "o explorar los mazos públicos a continuación. ¡Feliz aprendizaje! 😊",
+  add_deck: "Añadir mazo",
+  edit_deck: "Editar mazo",
+  edit: "Editar",
+  all_decks_reviewed: `¡Increíble trabajo! 🌟 Has repasado todos los mazos por ahora. Vuelve más tarde para más.`,
+  public_decks: "Mazos públicos",
+  explore_public_decks: "Explorar más mazos",
+  news_and_updates: "Noticias y actualizaciones",
+  telegram_channel: "Canal de Telegram",
+  settings: "Configuración",
+  deck_has_been_added: "Este mazo está en tu lista",
+  deck_catalog: "Catálogo de Mazos",
+  i_understand: "Entiendo",
+  any_language: "Cualquier idioma",
+  category: "Categoría",
+  any_category: "Cualquiera",
+  deck_search_not_found: "No se encontraron mazos",
+  deck_search_not_found_description:
+    "Intenta actualizar los filtros para ver más mazos",
+  category_English: "Inglés",
+  category_Geography: "Geografía",
+  category_History: "Historia",
+  save: "Guardar",
+  add_card: "Añadir tarjeta",
+  add_card_short: "Añadir",
+  card_front_title: "Cara frontal",
+  card_back_title: "Cara posterior",
+  card_front_side_hint: "La pregunta o indicación",
+  card_back_side_hint: "La respuesta que necesitas proporcionar",
+  card_field_example_title: "Ejemplo",
+  card_field_example_hint: "Información adicional opcional",
+  cards: "Tarjetas",
+  search_card: "Buscar tarjeta",
+  card_sort_by_date: "Fecha",
+  card_sort_by_front: "Frente",
+  card_sort_by_back: "Dorso",
+  sort_by: "Ordenar por",
+  title: "Título",
+  description: "Descripción",
+  speaking_cards: "Tarjetas habladas",
+  voice_language: "Idioma de voz",
+  card_speak_side: "Lado de la tarjeta",
+  card_speak_side_front: "Frente",
+  card_speak_side_back: "Dorso",
+  card_speak_description:
+    "Reproducir audio hablado para cada tarjeta y mejorar la pronunciación",
+  review_deck_finished: `Has terminado este mazo por ahora 🎉`,
+  review_all_cards: `Has repasado todas las tarjetas por hoy 🎉`,
+  review_finished_want_more: "¿Quieres más? Tienes",
+  review_finished_to_review: "para estudiar",
+  review_deck: "Repasar mazo",
+  cards_to_repeat: "Tarjetas para repetir",
+  cards_new: "Nuevas tarjetas",
+  cards_total: "Total de tarjetas",
+  duplicate: "Duplicar",
+  duplicate_confirm: "¿Estás seguro de duplicar este mazo?",
+  delete_deck_confirm:
+    "¿Estás seguro de eliminar el mazo de tu colección? Esta acción no se puede deshacer",
+  delete: "Eliminar",
+  no_cards_to_review_in_deck: `¡Increíble trabajo! 🌟 Has repasado todas las tarjetas en este mazo por ahora. Vuelve más tarde para más.`,
+  no_cards_to_review_all: `¡Increíble trabajo! 🌟 Has repasado todas las tarjetas por hoy. Vuelve más tarde para más.`,
+  review_need_to_repeat: "Necesito repasar",
+  review_right: "Lo recordé bien",
+  review_show_answer: "Mostrar respuesta",
+  share: "Compartir",
+  warning_telegram_outdated_title: "Tu Telegram está desactualizado",
+  warning_telegram_outdated_description:
+    "Por favor, actualiza tu Telegram para asegurar el funcionamiento estable de esta aplicación.",
+  settings_review_notifications: "Notificaciones de repaso",
+  settings_time: "Hora",
+  settings_review_notifications_hint:
+    "Los recordatorios diarios te ayudan a recordar repetir las tarjetas",
+  validation_deck_title: "El título del mazo es obligatorio",
+  deck_form_quit_card_confirm: "¿Salir sin guardar la tarjeta?",
+  deck_form_quit_deck_confirm: "¿Salir sin guardar el mazo?",
+  deck_form_no_cards_alert:
+    "Por favor, añade al menos 1 tarjeta para crear un mazo",
+  deck_category: "Categoría del mazo",
+  validation_required: "Este campo es obligatorio",
+  validation_number: "Este campo debe ser un número",
+};
+
+const translations = { en, ru, es };
 export type Language = keyof typeof translations;
 
 export const translateCategory = (category: string) => {
