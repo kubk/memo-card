@@ -9,7 +9,7 @@ export const onStart = (envSafe: EnvSafe) => async (ctx: Context) => {
   return ctx.reply(translator.translate("start"), {
     reply_markup: new InlineKeyboard().url(
       translator.translate("start_button"),
-      envSafe.BOT_APP_URL_PLAIN,
+      envSafe.VITE_BOT_APP_URL,
     ),
   });
 };

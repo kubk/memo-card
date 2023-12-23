@@ -46,7 +46,7 @@ export const onMessage = (envSafe: EnvSafe) => async (ctx: Context) => {
     await ctx.reply(translator.translate("no_decks_created"), {
       reply_markup: new InlineKeyboard().url(
         translator.translate("create_deck"),
-        envSafe.BOT_APP_URL_PLAIN,
+        envSafe.VITE_BOT_APP_URL,
       ),
     });
     return;

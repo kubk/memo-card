@@ -6,7 +6,7 @@ export const envSchema = z.object({
   SUPABASE_URL: z.string(),
   BOT_ERROR_REPORTING_TOKEN: z.string().optional(),
   BOT_ERROR_REPORTING_USER_ID: z.string().optional(),
-  BOT_APP_URL_PLAIN: z.string(),
+  VITE_BOT_APP_URL: z.string(),
 });
 
 export type EnvSafe = z.infer<typeof envSchema>;
