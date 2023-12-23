@@ -40,7 +40,7 @@ export const DeckFinished = observer((props: Props) => {
         <p>
           {type === "deck" ? t("review_deck_finished") : t("review_all_cards")}
         </p>
-        {type === "repeat_all" && newCardsCount ? (
+        {type === "repeat_all" ? (
           <p>
             <WantMoreCardsButton newCardsCount={newCardsCount} />
           </p>
