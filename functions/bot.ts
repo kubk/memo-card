@@ -17,7 +17,7 @@ export const onRequestPost: PagesFunction = handleError(
 
     const bot = new Bot(envSafe.BOT_TOKEN);
     bot.use(ignoreOldMessageMiddleware);
-    bot.command("start", onStart);
+    bot.command("start", onStart(envSafe));
     bot.on("message", onMessage(envSafe));
     bot.on("callback_query:data", onCallbackQuery(envSafe));
 

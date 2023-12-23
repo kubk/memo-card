@@ -1,7 +1,10 @@
 import { Context } from "grammy";
+import { EnvSafe } from "../env/env-schema.ts";
+import { createUserAwareTranslator } from "../translations/create-user-aware-translator.ts";
 
-export const onStart = (ctx: Context) => {
-  return ctx.reply(
-    `Improve your memory with spaced repetition. Learn languages, history or other subjects with the proven flashcard method.\n\nClick "MemoCard" 👇`,
-  );
+export const onStart = (envSafe: EnvSafe) => async (ctx: Context) => {
+  await ctx.replyWithChatAction("typing");
+  const translator = await createUserAwareTranslator(envSafe, ctx);
+
+  return ctx.reply(translator.translate("start"));
 };

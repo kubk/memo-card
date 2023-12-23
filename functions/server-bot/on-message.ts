@@ -9,6 +9,7 @@ import { sendCardCreateConfirmMessage } from "./send-card-create-confirm-message
 import { parseDeckFromText } from "./parse-deck-from-text.ts";
 import { getDecksCreatedByMe } from "../db/deck/get-decks-created-by-me.ts";
 import { CallbackQueryType } from "./callback-query-type.ts";
+import { createUserAwareTranslator } from "../translations/create-user-aware-translator.ts";
 
 export const onMessage = (envSafe: EnvSafe) => async (ctx: Context) => {
   if (!ctx.message?.text) {
@@ -17,6 +18,7 @@ export const onMessage = (envSafe: EnvSafe) => async (ctx: Context) => {
   assert(ctx.from);
 
   await ctx.replyWithChatAction("typing");
+  const translator = await createUserAwareTranslator(envSafe, ctx);
 
   const userState = await userGetServerBotState(envSafe, ctx.from.id);
   if (userState?.type === "deckSelected" && userState.editingField) {
@@ -33,20 +35,20 @@ export const onMessage = (envSafe: EnvSafe) => async (ctx: Context) => {
 
   const cardAsText = parseDeckFromText(ctx.message.text);
   if (!cardAsText) {
-    await ctx.reply(
-      "Please send a message in the format: `front \\- back`\n\n*Example:*\nMe gusta \\- I like it",
-      {
-        parse_mode: "MarkdownV2",
-      },
-    );
+    await ctx.reply(translator.translate("invalid_card_format"), {
+      parse_mode: "MarkdownV2",
+    });
     return;
   }
 
   const decks = await getDecksCreatedByMe(envSafe, ctx.from.id);
   if (decks.length === 0) {
-    await ctx.reply(
-      `You don't have any personal decks yet. Create one in the app first 👇`,
-    );
+    await ctx.reply(translator.translate("no_decks_created"), {
+      reply_markup: new InlineKeyboard().url(
+        translator.translate("create_deck"),
+        envSafe.BOT_APP_URL_PLAIN,
+      ),
+    });
     return;
   }
 
@@ -56,7 +58,7 @@ export const onMessage = (envSafe: EnvSafe) => async (ctx: Context) => {
     cardBack: cardAsText.back,
   });
 
-  await ctx.reply("To create a card from it, select a deck: ", {
+  await ctx.reply(translator.translate("create_card_from_deck_message"), {
     reply_markup: InlineKeyboard.from(
       decks
         .map((deck) => [
@@ -65,7 +67,14 @@ export const onMessage = (envSafe: EnvSafe) => async (ctx: Context) => {
             `${CallbackQueryType.Deck}:${deck.id}`,
           ),
         ])
-        .concat([[InlineKeyboard.text("❌ Cancel", CallbackQueryType.Cancel)]]),
+        .concat([
+          [
+            InlineKeyboard.text(
+              translator.translate("bot_button_cancel"),
+              CallbackQueryType.Cancel,
+            ),
+          ],
+        ]),
     ),
   });
 };
