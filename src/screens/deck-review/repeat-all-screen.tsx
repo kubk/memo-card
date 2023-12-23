@@ -6,6 +6,7 @@ import { DeckFinished } from "./deck-finished.tsx";
 import { Review } from "./review.tsx";
 import React from "react";
 import { Hint } from "../../ui/hint.tsx";
+import { t } from "../../translations/t.ts";
 
 export const RepeatAllScreen = observer(() => {
   const reviewStore = useReviewStore();
@@ -30,10 +31,7 @@ export const RepeatAllScreen = observer(() => {
 
   return (
     <div>
-      <Hint>
-        Amazing work! 🌟 You've repeated all the cards for today. Come back
-        later for more.
-      </Hint>
+      <Hint>{t("no_cards_to_review_all")}</Hint>
     </div>
   );
 });

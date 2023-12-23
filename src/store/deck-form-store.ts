@@ -18,6 +18,7 @@ import {
   DeckWithCardsDbType,
 } from "../../functions/db/deck/decks-with-cards-schema.ts";
 import { SpeakLanguageEnum } from "../lib/voice-playback/speak.ts";
+import { t } from "../translations/t.ts";
 
 export type CardFormType = {
   front: TextField<string>;
@@ -36,10 +37,7 @@ type DeckFormType = {
 };
 
 export const createDeckTitleField = (value: string) => {
-  return new TextField(
-    value,
-    validators.required("The deck title is required"),
-  );
+  return new TextField(value, validators.required(t("validation_deck_title")));
 };
 
 export const createCardSideField = (value: string) => {
@@ -285,7 +283,7 @@ export class DeckFormStore {
       return;
     }
 
-    const confirmed = await showConfirm("Quit editing card without saving?");
+    const confirmed = await showConfirm(t("deck_form_quit_card_confirm"));
     if (confirmed) {
       this.quitCardForm();
     }
@@ -298,7 +296,7 @@ export class DeckFormStore {
       return;
     }
 
-    const confirmed = await showConfirm("Stop adding deck and quit?");
+    const confirmed = await showConfirm(t("deck_form_quit_deck_confirm"));
     if (confirmed) {
       screenStore.back();
     }
@@ -308,7 +306,7 @@ export class DeckFormStore {
     assert(this.form, "onDeckSave: form is empty");
 
     if (this.form.cards.length === 0) {
-      showAlert("Please add at least 1 card to create a deck");
+      showAlert(t("deck_form_no_cards_alert"));
       return;
     }
 

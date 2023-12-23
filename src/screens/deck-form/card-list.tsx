@@ -9,6 +9,7 @@ import { theme } from "../../ui/theme.tsx";
 import { Button } from "../../ui/button.tsx";
 import React from "react";
 import { reset } from "../../ui/reset.ts";
+import { t } from "../../translations/t.ts";
 
 export const CardList = observer(() => {
   const deckFormStore = useDeckFormStore();
@@ -32,12 +33,12 @@ export const CardList = observer(() => {
         marginBottom: 16,
       })}
     >
-      <h3 className={css({ textAlign: "center" })}>Cards</h3>
+      <h3 className={css({ textAlign: "center" })}>{t("cards")}</h3>
       {deckFormStore.form.cards.length > 1 && (
         <>
           <Input
             field={deckFormStore.cardFilter.text}
-            placeholder={"Search card"}
+            placeholder={t("search_card")}
           />
           <div
             className={css({
@@ -46,18 +47,18 @@ export const CardList = observer(() => {
               gap: 8,
             })}
           >
-            <span>Sort by</span>
+            <span>{t("sort_by")}</span>
             {[
               {
-                label: "Date",
+                label: t("card_sort_by_date"),
                 fieldName: "createdAt" as const,
               },
               {
-                label: "Front",
+                label: t("card_sort_by_front"),
                 fieldName: "frontAlpha" as const,
               },
               {
-                label: "Back",
+                label: t("card_sort_by_back"),
                 fieldName: "backAlpha" as const,
               },
             ].map((item, i) => {
@@ -111,7 +112,7 @@ export const CardList = observer(() => {
           deckFormStore.openNewCardForm();
         }}
       >
-        Add card
+        {t("add_card")}
       </Button>
     </div>
   );

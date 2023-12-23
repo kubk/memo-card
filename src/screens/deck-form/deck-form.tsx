@@ -22,6 +22,7 @@ import {
 } from "../../lib/voice-playback/speak.ts";
 import { DeckSpeakFieldEnum } from "../../../functions/db/deck/decks-with-cards-schema.ts";
 import { theme } from "../../ui/theme.tsx";
+import { t } from "../../translations/t.ts";
 
 export const DeckForm = observer(() => {
   const deckFormStore = useDeckFormStore();
@@ -32,7 +33,7 @@ export const DeckForm = observer(() => {
     deckFormStore.loadForm();
   });
   useMainButton(
-    "Save",
+    t("save"),
     () => {
       deckFormStore.onDeckSave();
     },
@@ -58,13 +59,13 @@ export const DeckForm = observer(() => {
       })}
     >
       <h3 className={css({ textAlign: "center" })}>
-        {screen.deckId ? "Edit deck" : "Add deck"}
+        {screen.deckId ? t("edit_deck") : t("add_deck")}
       </h3>
-      <Label text={"Title"} isRequired>
+      <Label text={t("title")} isRequired>
         <Input field={deckFormStore.form.title} />
       </Label>
 
-      <Label text={"Description"}>
+      <Label text={t("description")}>
         <Input
           field={deckFormStore.form.description}
           rows={3}
@@ -78,13 +79,13 @@ export const DeckForm = observer(() => {
             deckFormStore.goToCardList();
           }}
         >
-          <span>Cards</span>
+          <span>{t("cards")}</span>
           <span>{deckFormStore.form.cards.length}</span>
         </SettingsRow>
       )}
 
       <SettingsRow>
-        <span>Speaking cards</span>
+        <span>{t("speaking_cards")}</span>
         <RadioSwitcher
           isOn={deckFormStore.isSpeakingCardEnabled}
           onToggle={deckFormStore.toggleIsSpeakingCardEnabled}
@@ -101,7 +102,7 @@ export const DeckForm = observer(() => {
         >
           <div>
             <div className={css({ fontSize: 14, color: theme.hintColor })}>
-              Voice language
+              {t("voice_language")}
             </div>
             {deckFormStore.form.speakingCardsLocale.value ? (
               <Select<string>
@@ -117,15 +118,15 @@ export const DeckForm = observer(() => {
 
           <div>
             <div className={css({ fontSize: 14, color: theme.hintColor })}>
-              Speak field
+              {t("card_speak_side")}
             </div>
             {deckFormStore.form.speakingCardsField.value ? (
               <Select<DeckSpeakFieldEnum>
                 value={deckFormStore.form.speakingCardsField.value}
                 onChange={deckFormStore.form.speakingCardsField.onChange}
                 options={[
-                  { value: "front", label: "Front side" },
-                  { value: "back", label: "Back side" },
+                  { value: "front", label: t("card_speak_side_front") },
+                  { value: "back", label: t("card_speak_side_back") },
                 ]}
               />
             ) : null}
@@ -133,9 +134,7 @@ export const DeckForm = observer(() => {
         </div>
       ) : (
         <>
-          <HintTransparent>
-            Play spoken audio for each flashcard to enhance pronunciation
-          </HintTransparent>
+          <HintTransparent>{t("card_speak_description")}</HintTransparent>
         </>
       )}
 
@@ -146,7 +145,7 @@ export const DeckForm = observer(() => {
           deckFormStore.openNewCardForm();
         }}
       >
-        Add card
+        {t("add_card")}
       </Button>
     </div>
   );

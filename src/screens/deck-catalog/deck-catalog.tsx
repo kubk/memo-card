@@ -7,15 +7,19 @@ import { useDeckCatalogStore } from "../../store/deck-catalog-store-context.tsx"
 import { useMount } from "../../lib/react/use-mount.ts";
 import { theme } from "../../ui/theme.tsx";
 import { Select } from "../../ui/select.tsx";
-import { enumEntries } from "../../lib/typescript/enum-values.ts";
-import { LanguageFilter } from "../../store/deck-catalog-store.ts";
-import { camelCaseToHuman } from "../../lib/string/camel-case-to-human.ts";
+import {
+  LanguageFilter,
+  languageFilterToNativeName,
+} from "../../store/deck-catalog-store.ts";
 import { DeckListItemWithDescription } from "../../ui/deck-list-item-with-description.tsx";
 import { range } from "../../lib/array/range.ts";
 import { DeckLoading } from "../deck-list/deck-loading.tsx";
 import { NoDecksMatchingFilters } from "./no-decks-matching-filters.tsx";
 import { deckListStore } from "../../store/deck-list-store.ts";
 import { DeckAddedLabel } from "./deck-added-label.tsx";
+import { t, translateCategory } from "../../translations/t.ts";
+import { util } from "zod";
+import objectValues = util.objectValues;
 
 export const DeckCatalog = observer(() => {
   const store = useDeckCatalogStore();
@@ -37,35 +41,38 @@ export const DeckCatalog = observer(() => {
         marginBottom: 16,
       })}
     >
-      <h3 className={css({ textAlign: "center" })}>Deck Catalog</h3>
-      <div className={css({ display: "flex", gap: 4 })}>
-        <div className={css({ color: theme.hintColor })}>Available in</div>
-        <Select<LanguageFilter>
-          value={store.filters.language.value}
-          onChange={store.filters.language.onChange}
-          options={enumEntries(LanguageFilter).map(([name, key]) => ({
-            value: key,
-            label: name === "Any" ? "Any language" : camelCaseToHuman(name),
-          }))}
-        />
-      </div>
+      <h3 className={css({ textAlign: "center" })}>{t("deck_catalog")}</h3>
 
       <div className={css({ display: "flex", gap: 4 })}>
-        <div className={css({ color: theme.hintColor })}>Category</div>
+        <div className={css({ color: theme.hintColor })}>{t("category")}</div>
         <Select
           value={store.filters.categoryId.value}
           onChange={store.filters.categoryId.onChange}
           isLoading={store.categories?.state === "pending"}
           options={
             store.categories?.state === "fulfilled"
-              ? [{ value: "", label: "Any" }].concat(
+              ? [{ value: "", label: t("any_category") }].concat(
                   store.categories.value.categories.map((category) => ({
                     value: category.id,
-                    label: category.name,
+                    label: translateCategory(category.name),
                   })),
                 )
               : []
           }
+        />
+      </div>
+
+      <div className={css({ display: "flex", gap: 4 })}>
+        <div className={css({ color: theme.hintColor })}>
+          {t("i_understand")}
+        </div>
+        <Select<LanguageFilter>
+          value={store.filters.language.value}
+          onChange={store.filters.language.onChange}
+          options={objectValues(LanguageFilter).map((key) => ({
+            value: key,
+            label: languageFilterToNativeName(key),
+          }))}
         />
       </div>
 

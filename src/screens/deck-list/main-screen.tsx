@@ -16,6 +16,7 @@ import { ListHeader } from "../../ui/list-header.tsx";
 import { range } from "../../lib/array/range.ts";
 import { reset } from "../../ui/reset.ts";
 import { ViewMoreDecksToggle } from "./view-more-decks-toggle.tsx";
+import { t } from "../../translations/t.ts";
 
 export const MainScreen = observer(() => {
   useMount(() => {
@@ -33,7 +34,7 @@ export const MainScreen = observer(() => {
     >
       <div>
         <ListHeader
-          text={"My decks"}
+          text={t("my_decks")}
           rightSlot={
             deckListStore.shouldShowMyDecksToggle ? (
               <ViewMoreDecksToggle />
@@ -59,7 +60,7 @@ export const MainScreen = observer(() => {
 
           {deckListStore.myInfo && !deckListStore.myDecks.length ? (
             <Hint>
-              You don't have any personal deck yet. Feel free to{" "}
+              {t("no_personal_decks_start")}{" "}
               <span
                 className={css({
                   color: theme.linkColor,
@@ -68,9 +69,9 @@ export const MainScreen = observer(() => {
                   screenStore.go({ type: "deckForm" });
                 }}
               >
-                create one
+                {t("no_personal_decks_create")}
               </span>{" "}
-              or explore the public decks below. Happy learning! 😊
+              {t("no_personal_decks_explore")}
             </Hint>
           ) : null}
 
@@ -81,21 +82,18 @@ export const MainScreen = observer(() => {
                 screenStore.go({ type: "deckForm" });
               }}
             >
-              Add deck
+              {t("add_deck")}
             </Button>
           ) : null}
 
           {deckListStore.areAllDecksReviewed && (
-            <Hint>
-              Amazing work! 🌟 You've reviewed all the decks for now. Come back
-              later for more.
-            </Hint>
+            <Hint>{t("all_decks_reviewed")}</Hint>
           )}
         </div>
       </div>
 
       <div>
-        <ListHeader text={"Public decks"} />
+        <ListHeader text={t("public_decks")} />
         <div
           className={css({
             display: "flex",
@@ -124,7 +122,7 @@ export const MainScreen = observer(() => {
                 <i
                   className={cx(css({ color: "inherit" }), "mdi mdi-magnify")}
                 />{" "}
-                Explore more decks
+                {t("explore_public_decks")}
               </button>
             </>
           ) : null}
@@ -139,7 +137,7 @@ export const MainScreen = observer(() => {
       {deckListStore.myInfo && (
         <>
           <div>
-            <ListHeader text={"News and updates"} />
+            <ListHeader text={t("news_and_updates")} />
             <Button
               icon={"mdi-call-made"}
               onClick={() => {
@@ -149,7 +147,7 @@ export const MainScreen = observer(() => {
                 WebApp.openTelegramLink(channelLink);
               }}
             >
-              Telegram channel
+              {t("telegram_channel")}
             </Button>
           </div>
           <div>
@@ -159,7 +157,7 @@ export const MainScreen = observer(() => {
                 screenStore.go({ type: "userSettings" });
               }}
             >
-              Settings
+              {t("settings")}
             </Button>
           </div>
         </>
