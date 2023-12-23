@@ -41,7 +41,7 @@ export const createDeckTitleField = (value: string) => {
 };
 
 export const createCardSideField = (value: string) => {
-  return new TextField(value, validators.required());
+  return new TextField(value, validators.required(t('validation_required')));
 };
 
 const createUpdateForm = (

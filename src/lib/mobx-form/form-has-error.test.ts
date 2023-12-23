@@ -8,6 +8,8 @@ import {
 } from "./form-has-error.ts";
 import { validators } from "./validator.ts";
 
+const isRequiredMessage = 'is required';
+
 test("isFormTouchedAndHasError", () => {
   const f1 = {
     a: new TextField("a"),
@@ -24,8 +26,8 @@ test("isFormTouchedAndHasError", () => {
   ).toBeTruthy();
 
   const f2 = {
-    a: new TextField("a", validators.required()),
-    b: [new TextField("b", validators.required()), new TextField("d")],
+    a: new TextField("a", validators.required(isRequiredMessage)),
+    b: [new TextField("b", validators.required(isRequiredMessage)), new TextField("d")],
   };
 
   f2.a.touch();
@@ -49,8 +51,8 @@ test("isFormTouchedAndHasError", () => {
 
 test("is form dirty", () => {
   const f = {
-    a: new TextField("a", validators.required()),
-    b: [new TextField("b", validators.required()), new TextField("d")],
+    a: new TextField("a", validators.required(isRequiredMessage)),
+    b: [new TextField("b", validators.required(isRequiredMessage)), new TextField("d")],
   };
 
   expect(isFormTouched(f)).toBeFalsy();
@@ -61,7 +63,7 @@ test("is form dirty", () => {
 
 test("is form invalid by default", () => {
   const f = {
-    a: new TextField("", validators.required()),
+    a: new TextField("", validators.required(isRequiredMessage)),
   };
 
   expect(isFormValid(f)).toBeFalsy();
@@ -83,8 +85,8 @@ test("is boolean form dirty", () => {
 
 test("is form empty", () => {
   const f = {
-    a: new TextField("a", validators.required()),
-    b: [new TextField("b", validators.required()), new TextField("d")],
+    a: new TextField("a", validators.required(isRequiredMessage)),
+    b: [new TextField("b", validators.required(isRequiredMessage)), new TextField("d")],
   };
 
   expect(isFormEmpty(f)).toBeFalsy();
@@ -99,10 +101,10 @@ test("is form empty", () => {
 
 test("very nested form - only fields", () => {
   const f = {
-    a: new TextField("a", validators.required()),
+    a: new TextField("a", validators.required(isRequiredMessage)),
     b: {
       c: {
-        d: new TextField("d", validators.required()),
+        d: new TextField("d", validators.required(isRequiredMessage)),
       },
     },
   };
@@ -118,11 +120,11 @@ test("very nested form - only fields", () => {
 
 test("very nested form - any fields", () => {
   const f = {
-    a: new TextField("a", validators.required()),
+    a: new TextField("a", validators.required(isRequiredMessage)),
     num: 12,
     b: {
       c: {
-        d: new TextField("d", validators.required()),
+        d: new TextField("d", validators.required(isRequiredMessage)),
         k: null,
       },
     },
