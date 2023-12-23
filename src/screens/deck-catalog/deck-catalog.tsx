@@ -18,8 +18,7 @@ import { NoDecksMatchingFilters } from "./no-decks-matching-filters.tsx";
 import { deckListStore } from "../../store/deck-list-store.ts";
 import { DeckAddedLabel } from "./deck-added-label.tsx";
 import { t, translateCategory } from "../../translations/t.ts";
-import { util } from "zod";
-import objectValues = util.objectValues;
+import { enumValues } from "../../lib/typescript/enum-values.ts";
 
 export const DeckCatalog = observer(() => {
   const store = useDeckCatalogStore();
@@ -69,7 +68,7 @@ export const DeckCatalog = observer(() => {
         <Select<LanguageFilter>
           value={store.filters.language.value}
           onChange={store.filters.language.onChange}
-          options={objectValues(LanguageFilter).map((key) => ({
+          options={enumValues(LanguageFilter).map((key) => ({
             value: key,
             label: languageFilterToNativeName(key),
           }))}
