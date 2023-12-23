@@ -2,7 +2,7 @@ import { describe, expect, test, vi } from "vitest";
 import { translateNewCardsCount } from "./translate-new-cards-count.tsx";
 
 const lang = vi.hoisted(() => vi.fn());
-vi.mock("../../lib/translator/translate.ts", () => {
+vi.mock("./t.ts", () => {
   return {
     translator: {
       getLang: lang,
