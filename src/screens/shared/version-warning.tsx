@@ -1,6 +1,7 @@
 import WebApp from "@twa-dev/sdk";
 import { css } from "@emotion/css";
 import { theme } from "../../ui/theme.tsx";
+import { t } from "../../translations/t.ts";
 
 export const VersionWarning = () => {
   if (WebApp.isVersionAtLeast("6.1")) {
@@ -22,13 +23,13 @@ export const VersionWarning = () => {
         marginBottom: 8,
       })}
     >
-      <div>Your Telegram is outdated</div>
+      <div>{t("warning_telegram_outdated_title")}</div>
       <div
         className={css({
           fontSize: 12,
         })}
       >
-        Please update your Telegram to ensure stable functioning of this app.
+        {t("warning_telegram_outdated_description")}
       </div>
     </div>
   );

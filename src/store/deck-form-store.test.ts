@@ -118,6 +118,12 @@ vi.mock("../lib/telegram/show-alert.ts", () => {
   };
 });
 
+vi.mock("../translations/t.ts", () => {
+  return {
+    t: (val: string) => val,
+  };
+});
+
 vi.mock("../api/api.ts", () => {
   return {
     upsertDeckRequest: mocks.upsertDeckRequest,

@@ -3,29 +3,13 @@ import { observer } from "mobx-react-lite";
 import { DeckFinishedModal } from "./deck-finished-modal.tsx";
 import { css } from "@emotion/css";
 import { useReviewStore } from "../../store/review-store-context.tsx";
-import { random } from "../../lib/array/random.ts";
 import { useMount } from "../../lib/react/use-mount.ts";
 import { screenStore } from "../../store/screen-store.ts";
 import { useMainButton } from "../../lib/telegram/use-main-button.tsx";
 import { useTelegramProgress } from "../../lib/telegram/use-telegram-progress.tsx";
-import { theme } from "../../ui/theme.tsx";
-
-const encouragingMessages = [
-  "Consistency is the key to mastery, and each step you take brings you closer to your learning goals",
-  "Remember, the journey of knowledge is endless, and every session counts",
-  "Keep up the momentum, and see you in the next review!",
-  "While you've made it through all the cards for now, remember that the magic of spaced repetition means you'll see these words pop up in the future.",
-  "It's all part of ensuring these nuggets of knowledge stick with you for the long run.",
-  "Each review session carves the knowledge deeper into your memory. Well done for pushing through!",
-  "Every review strengthens your neural connections. You're not just learning; you're growing!",
-  "You're fueling your future self with every review. Imagine where you'll be a year from now!",
-  "As the saying goes, 'Repetition is the mother of learning.' You're embracing this wisdom with every session.",
-  "Your commitment today is the foundation for mastery tomorrow. Keep it up!",
-  "Learning is like building a castle brick by brick. Every review adds another stone to your fortress of knowledge.",
-  "Remember, the mightiest of trees grow from constant nurturing. Your knowledge is no different. Keep watering your learning tree!",
-  "You're not just revisiting information; you're turning it into a part of who you are. Well done!",
-  "Just think of the compounded knowledge you're getting with every review. Your future self thanks you!",
-];
+import { t } from "../../translations/t.ts";
+import { getEncouragingMessage } from "../../translations/get-encouraging-message.tsx";
+import { WantMoreCardsButton } from "./want-more-cards-button.tsx";
 
 type Props = {
   type: "deck" | "repeat_all";
@@ -54,27 +38,14 @@ export const DeckFinished = observer((props: Props) => {
         })}
       >
         <p>
-          {type === "deck"
-            ? `You have finished this deck for now 🎉`
-            : `You have repeated all the cards for today 🎉`}
+          {type === "deck" ? t("review_deck_finished") : t("review_all_cards")}
         </p>
-        {type === "repeat_all" && newCardsCount && newCardsCount > 1 ? (
+        {type === "repeat_all" && newCardsCount ? (
           <p>
-            Want more? You have{" "}
-            <span
-              className={css({
-                color: theme.linkColor,
-              })}
-              onClick={() => {
-                screenStore.go({ type: "main" });
-              }}
-            >
-              {newCardsCount}
-            </span>{" "}
-            new cards to study
+            <WantMoreCardsButton newCardsCount={newCardsCount} />
           </p>
         ) : (
-          <p>{random(encouragingMessages)} 😊</p>
+          <p>{getEncouragingMessage()} 😊</p>
         )}
       </div>
     </DeckFinishedModal>

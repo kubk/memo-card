@@ -6,6 +6,7 @@ import { useDeckFormStore } from "../../store/deck-form-store-context.tsx";
 import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
 import { CardFormView } from "./card-form-view.tsx";
 import { useTelegramProgress } from "../../lib/telegram/use-telegram-progress.tsx";
+import { t } from "../../translations/t.ts";
 
 export const CardForm = observer(() => {
   const deckFormStore = useDeckFormStore();
@@ -13,7 +14,7 @@ export const CardForm = observer(() => {
   assert(cardForm, "Card should not be empty before editing");
 
   useMainButton(
-    "Save",
+    t("save"),
     () => {
       deckFormStore.saveCardForm();
     },

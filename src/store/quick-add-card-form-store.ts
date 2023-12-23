@@ -12,6 +12,7 @@ import { assert } from "../lib/typescript/assert.ts";
 import { TextField } from "../lib/mobx-form/mobx-form.ts";
 import { AddCardRequest } from "../../functions/add-card.ts";
 import { deckListStore } from "./deck-list-store.ts";
+import { t } from "../translations/t.ts";
 
 export class QuickAddCardFormStore {
   form: CardFormType = {
@@ -62,7 +63,7 @@ export class QuickAddCardFormStore {
       return;
     }
 
-    const confirmed = await showConfirm("Quit editing card without saving?");
+    const confirmed = await showConfirm(t("deck_form_quit_card_confirm"));
     if (confirmed) {
       screenStore.back();
     }

@@ -3,6 +3,7 @@ import { assert } from "../../lib/typescript/assert.ts";
 import { trimEnd } from "../../lib/string/trim.ts";
 import WebApp from "@twa-dev/sdk";
 import { ButtonSideAligned } from "../../ui/button-side-aligned.tsx";
+import { t } from "../../translations/t.ts";
 
 type Props = {
   shareId?: string | null;
@@ -25,7 +26,7 @@ export const ShareDeckButton = (props: Props) => {
       outline
       onClick={onClick}
     >
-      Share
+      {t("share")}
     </ButtonSideAligned>
   );
 };

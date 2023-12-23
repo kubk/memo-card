@@ -15,6 +15,7 @@ import { css } from "@emotion/css";
 import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
 import { screenStore } from "../../store/screen-store.ts";
 import { HintTransparent } from "../../ui/hint-transparent.tsx";
+import { t } from "../../translations/t.ts";
 
 export const timeRanges = generateTimeRange();
 
@@ -25,7 +26,7 @@ export const UserSettingsMain = observer(() => {
   });
 
   useMainButton(
-    "Save",
+    t("save"),
     () => userSettingsStore.submit(),
     () => userSettingsStore.isSaveVisible,
   );
@@ -44,7 +45,7 @@ export const UserSettingsMain = observer(() => {
 
   return (
     <div>
-      <ListHeader text={"Settings"} />
+      <ListHeader text={t("settings")} />
 
       <div
         className={css({
@@ -54,7 +55,7 @@ export const UserSettingsMain = observer(() => {
         })}
       >
         <SettingsRow>
-          <span>Review notifications</span>
+          <span>{t("settings_review_notifications")}</span>
           <span
             className={css({
               transform: "translateY(3px)",
@@ -69,7 +70,7 @@ export const UserSettingsMain = observer(() => {
         </SettingsRow>
         {isRemindNotifyEnabled.value && (
           <SettingsRow>
-            <span>Time</span>
+            <span>{t("settings_time")}</span>
             <div className={css({ color: theme.linkColor })}>
               <Select
                 value={time.value.toString()}
@@ -86,11 +87,11 @@ export const UserSettingsMain = observer(() => {
         )}
 
         <HintTransparent>
-          Daily reminders help you remember to repeat cards
+          {t("settings_review_notifications_hint")}
         </HintTransparent>
 
         <SettingsRow>
-          <span>Speaking cards</span>
+          <span>{t("speaking_cards")}</span>
           <span
             className={css({
               transform: "translateY(3px)",
@@ -104,9 +105,7 @@ export const UserSettingsMain = observer(() => {
           </span>
         </SettingsRow>
 
-        <HintTransparent>
-          Play spoken audio for each flashcard to enhance pronunciation
-        </HintTransparent>
+        <HintTransparent>{t("card_speak_description")}</HintTransparent>
       </div>
     </div>
   );

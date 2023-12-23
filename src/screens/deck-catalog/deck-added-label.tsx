@@ -1,11 +1,12 @@
 import { css, cx } from "@emotion/css";
 import { theme } from "../../ui/theme.tsx";
 import React from "react";
+import { t } from "../../translations/t.ts";
 
 export const DeckAddedLabel = () => {
   return (
     <div
-      title={"This deck is on your list"}
+      title={t("deck_has_been_added")}
       className={css({
         position: "absolute",
         right: 0,

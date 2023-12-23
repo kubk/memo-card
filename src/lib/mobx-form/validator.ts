@@ -1,12 +1,8 @@
 // @ts-nocheck
-// https://codesandbox.io/s/github/final-form/react-final-form/tree/master/examples/field-level-validation?file=/index.js
 
+// https://codesandbox.io/s/github/final-form/react-final-form/tree/master/examples/field-level-validation?file=/index.js
 export const validators = {
-  required:
-    (errorMessage = "Required") =>
-    (value) =>
-      value ? undefined : errorMessage,
-  number: (value) => (isNaN(value) ? "Must be a number" : undefined),
+  required: (errorMessage) => (value) => (value ? undefined : errorMessage),
   all:
     (...validators) =>
     (value) =>

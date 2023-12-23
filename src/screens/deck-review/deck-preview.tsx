@@ -13,6 +13,7 @@ import { showConfirm } from "../../lib/telegram/show-confirm.ts";
 import { ButtonSideAligned } from "../../ui/button-side-aligned.tsx";
 import { useTelegramProgress } from "../../lib/telegram/use-telegram-progress.tsx";
 import { apiDuplicateDeckRequest } from "../../api/api.ts";
+import { t } from "../../translations/t.ts";
 
 export const DeckPreview = observer(() => {
   const reviewStore = useReviewStore();
@@ -24,7 +25,7 @@ export const DeckPreview = observer(() => {
   useTelegramProgress(() => deckListStore.isDeckCardsLoading);
 
   useMainButton(
-    "Review deck",
+    t("review_deck"),
     () => {
       deckListStore.startDeckReview(reviewStore);
     },
@@ -66,7 +67,6 @@ export const DeckPreview = observer(() => {
           <h3 className={css({ paddingTop: 12 })}>{deck.name}</h3>
         </div>
         <div>
-          <h4 className={css({ paddingBottom: 4 })}>Description</h4>
           <div>{deck.description}</div>
         </div>
         {!deckListStore.isDeckCardsLoading && (
@@ -80,7 +80,7 @@ export const DeckPreview = observer(() => {
             })}
           >
             <div className={css({ display: "flex", gap: 4 })}>
-              <span>Cards to repeat: </span>
+              <span>{t("cards_to_repeat")}: </span>
               <h4 className={css({ color: theme.orange })}>
                 {
                   deck.cardsToReview.filter((card) => card.type === "repeat")
@@ -89,7 +89,7 @@ export const DeckPreview = observer(() => {
               </h4>
             </div>
             <div className={css({ display: "flex", gap: 4 })}>
-              <span>New cards: </span>
+              <span>{t("cards_new")}: </span>
               <h4 className={css({ color: theme.success })}>
                 {
                   deck.cardsToReview.filter((card) => card.type === "new")
@@ -98,7 +98,7 @@ export const DeckPreview = observer(() => {
               </h4>
             </div>
             <div className={css({ display: "flex", gap: 4 })}>
-              <span>Total cards: </span>
+              <span>{t("cards_total")}: </span>
               <h4>{deck.deck_card.length}</h4>
             </div>
           </div>
@@ -122,7 +122,7 @@ export const DeckPreview = observer(() => {
                 });
               }}
             >
-              Add card
+              {t("add_card_short")}
             </ButtonSideAligned>
           ) : null}
           {deckListStore.user?.is_admin && (
@@ -130,14 +130,14 @@ export const DeckPreview = observer(() => {
               icon={"mdi-content-duplicate mdi-24px"}
               outline
               onClick={() => {
-                showConfirm("Are you sure to duplicate this deck?").then(() => {
+                showConfirm(t("duplicate_confirm")).then(() => {
                   apiDuplicateDeckRequest(deck.id).then(() => {
                     screenStore.go({ type: "main" });
                   });
                 });
               }}
             >
-              Duplicate
+              {t("duplicate")}
             </ButtonSideAligned>
           )}
           {deckListStore.canEditDeck(deck) ? (
@@ -148,7 +148,7 @@ export const DeckPreview = observer(() => {
                 screenStore.go({ type: "deckForm", deckId: deck.id });
               }}
             >
-              Edit
+              {t("edit")}
             </ButtonSideAligned>
           ) : null}
           {screenStore.screen.type === "deckMine" ? (
@@ -156,14 +156,12 @@ export const DeckPreview = observer(() => {
               icon={"mdi-delete-circle mdi-24px"}
               outline
               onClick={() => {
-                showConfirm(
-                  "Are you sure to remove the deck from your collection? This action can't be undone",
-                ).then(() => {
+                showConfirm(t("delete_deck_confirm")).then(() => {
                   deckListStore.removeDeck();
                 });
               }}
             >
-              Delete
+              {t("delete")}
             </ButtonSideAligned>
           ) : null}
 
@@ -171,10 +169,7 @@ export const DeckPreview = observer(() => {
         </div>
       </div>
       {deck.cardsToReview.length === 0 && (
-        <Hint>
-          Amazing work! 🌟 You've reviewed all the cards in this deck for now.
-          Come back later for more.
-        </Hint>
+        <Hint>{t("no_cards_to_review_in_deck")}</Hint>
       )}
     </div>
   );

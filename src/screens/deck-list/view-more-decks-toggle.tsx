@@ -5,6 +5,7 @@ import { theme } from "../../ui/theme.tsx";
 import { deckListStore } from "../../store/deck-list-store.ts";
 import { ChevronIcon } from "../../ui/chevron-icon.tsx";
 import React from "react";
+import { t } from "../../translations/t.ts";
 
 export const ViewMoreDecksToggle = observer(() => {
   return (
@@ -30,7 +31,9 @@ export const ViewMoreDecksToggle = observer(() => {
           direction={deckListStore.isMyDecksExpanded.value ? "top" : "bottom"}
         />
       </span>
-      {deckListStore.isMyDecksExpanded.value ? "Hide" : "Show all"}
+      {deckListStore.isMyDecksExpanded.value
+        ? t("hide_all_decks")
+        : t("show_all_decks")}
     </button>
   );
 });

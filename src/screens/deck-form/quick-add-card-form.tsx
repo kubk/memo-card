@@ -5,11 +5,12 @@ import { useMainButton } from "../../lib/telegram/use-main-button.tsx";
 import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
 import { QuickAddCardFormStore } from "../../store/quick-add-card-form-store.ts";
 import { useTelegramProgress } from "../../lib/telegram/use-telegram-progress.tsx";
+import { t } from "../../translations/t.ts";
 
 export const QuickAddCardForm = observer(() => {
   const [quickAddCardStore] = useState(() => new QuickAddCardFormStore());
 
-  useMainButton("Save", () => {
+  useMainButton(t("save"), () => {
     quickAddCardStore.onSave();
   });
   useBackButton(() => {

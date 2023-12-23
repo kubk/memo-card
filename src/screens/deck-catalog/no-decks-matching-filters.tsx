@@ -1,6 +1,7 @@
 import { css } from "@emotion/css";
 import { theme } from "../../ui/theme.tsx";
 import React from "react";
+import { t } from "../../translations/t.ts";
 
 export const NoDecksMatchingFilters = () => {
   return (
@@ -11,9 +12,11 @@ export const NoDecksMatchingFilters = () => {
         textAlign: "center",
       })}
     >
-      <div className={css({ fontWeight: 500 })}>No decks found</div>
+      <div className={css({ fontWeight: 500 })}>
+        {t("deck_search_not_found")}
+      </div>
       <div className={css({ fontSize: 14, color: theme.hintColor })}>
-        Try updating filters to see more decks
+        {t("deck_search_not_found_description")}
       </div>
     </div>
   );

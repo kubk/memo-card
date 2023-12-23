@@ -5,6 +5,7 @@ import { Input } from "../../ui/input.tsx";
 import React from "react";
 import { CardFormType } from "../../store/deck-form-store.ts";
 import { HintTransparent } from "../../ui/hint-transparent.tsx";
+import { t } from "../../translations/t.ts";
 
 type Props = {
   cardForm: CardFormType;
@@ -23,20 +24,20 @@ export const CardFormView = observer((props: Props) => {
         position: "relative",
       })}
     >
-      <h3 className={css({ textAlign: "center" })}>Add card</h3>
-      <Label text={"Front side"} isRequired>
+      <h3 className={css({ textAlign: "center" })}>{t("add_card")}</h3>
+      <Label text={t("card_front_title")} isRequired>
         <Input field={cardForm.front} rows={3} type={"textarea"} />
-        <HintTransparent>The prompt or question you'll see</HintTransparent>
+        <HintTransparent>{t("card_front_side_hint")}</HintTransparent>
       </Label>
 
-      <Label text={"Back side"} isRequired>
+      <Label text={t("card_back_title")} isRequired>
         <Input field={cardForm.back} rows={3} type={"textarea"} />
-        <HintTransparent>The response you need to provide</HintTransparent>
+        <HintTransparent>{t("card_back_side_hint")}</HintTransparent>
       </Label>
 
-      <Label text={"Example"}>
+      <Label text={t("card_field_example_title")}>
         <Input field={cardForm.example} rows={2} type={"textarea"} />
-        <HintTransparent>Optional additional information</HintTransparent>
+        <HintTransparent>{t("card_field_example_hint")}</HintTransparent>
       </Label>
     </div>
   );
