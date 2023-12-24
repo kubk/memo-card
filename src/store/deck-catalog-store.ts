@@ -2,28 +2,28 @@ import { makeAutoObservable } from "mobx";
 import { apiDeckCatalog, apiDeckCategories } from "../api/api.ts";
 import { fromPromise, IPromiseBasedObservable } from "mobx-utils";
 import { DeckCatalogResponse } from "../../functions/catalog-decks.ts";
-import { TextField } from "../lib/mobx-form/mobx-form.ts";
+import { TextField } from "../lib/mobx-form/text-field.ts";
 import { cachePromise } from "../lib/cache/cache-promise.ts";
 import { DeckCategoryResponse } from "../../functions/deck-categories.ts";
 import { persistableField } from "../lib/mobx-form/persistable-field.ts";
 import { t } from "../translations/t.ts";
 
-export enum LanguageFilter {
+export enum DeckLanguage {
   Any = "any",
   English = "en",
   Spanish = "es",
   Russian = "ru",
 }
 
-export const languageFilterToNativeName = (str: LanguageFilter): string => {
+export const languageFilterToNativeName = (str: DeckLanguage): string => {
   switch (str) {
-    case LanguageFilter.Any:
+    case DeckLanguage.Any:
       return t("any_language");
-    case LanguageFilter.English:
+    case DeckLanguage.English:
       return "English";
-    case LanguageFilter.Russian:
+    case DeckLanguage.Russian:
       return "Русский";
-    case LanguageFilter.Spanish:
+    case DeckLanguage.Spanish:
       return "Español";
     default:
       return str satisfies never;
@@ -36,7 +36,7 @@ const categoriesCached = cachePromise<DeckCategoryResponse>();
 export class DeckCatalogStore {
   decks?: IPromiseBasedObservable<DeckCatalogResponse>;
   filters = {
-    language: persistableField(new TextField(LanguageFilter.Any), "catalogLn"),
+    language: persistableField(new TextField(DeckLanguage.Any), "catalogLn"),
     categoryId: new TextField(""),
   };
   categories?: IPromiseBasedObservable<DeckCategoryResponse>;
@@ -59,7 +59,7 @@ export class DeckCatalogStore {
     const categoryId = this.filters.categoryId.value;
 
     return this.decks.value.decks.filter((deck) => {
-      if (language !== LanguageFilter.Any && deck.available_in !== language) {
+      if (language !== DeckLanguage.Any && deck.available_in !== language) {
         return false;
       }
 

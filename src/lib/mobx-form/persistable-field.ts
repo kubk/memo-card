@@ -1,4 +1,4 @@
-import { TextField } from "./mobx-form.ts";
+import { TextField } from "./text-field.ts";
 import { makePersistable } from "mobx-persist-store";
 
 export const persistableField = <T>(

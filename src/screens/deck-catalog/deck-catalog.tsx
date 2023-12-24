@@ -8,7 +8,7 @@ import { useMount } from "../../lib/react/use-mount.ts";
 import { theme } from "../../ui/theme.tsx";
 import { Select } from "../../ui/select.tsx";
 import {
-  LanguageFilter,
+  DeckLanguage,
   languageFilterToNativeName,
 } from "../../store/deck-catalog-store.ts";
 import { DeckListItemWithDescription } from "../../ui/deck-list-item-with-description.tsx";
@@ -65,10 +65,10 @@ export const DeckCatalog = observer(() => {
         <div className={css({ color: theme.hintColor })}>
           {t("translated_to")}
         </div>
-        <Select<LanguageFilter>
+        <Select<DeckLanguage>
           value={store.filters.language.value}
           onChange={store.filters.language.onChange}
-          options={enumValues(LanguageFilter).map((key) => ({
+          options={enumValues(DeckLanguage).map((key) => ({
             value: key,
             label: languageFilterToNativeName(key),
           }))}
