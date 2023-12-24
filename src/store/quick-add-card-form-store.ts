@@ -9,7 +9,7 @@ import { screenStore } from "./screen-store.ts";
 import { showConfirm } from "../lib/telegram/show-confirm.ts";
 import { addCardRequest } from "../api/api.ts";
 import { assert } from "../lib/typescript/assert.ts";
-import { TextField } from "../lib/mobx-form/mobx-form.ts";
+import { TextField } from "../lib/mobx-form/text-field.ts";
 import { AddCardRequest } from "../../functions/add-card.ts";
 import { deckListStore } from "./deck-list-store.ts";
 import { t } from "../translations/t.ts";

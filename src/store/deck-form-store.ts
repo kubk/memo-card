@@ -1,4 +1,4 @@
-import { TextField } from "../lib/mobx-form/mobx-form.ts";
+import { TextField } from "../lib/mobx-form/text-field.ts";
 import { validators } from "../lib/mobx-form/validator.ts";
 import { action, makeAutoObservable } from "mobx";
 import {

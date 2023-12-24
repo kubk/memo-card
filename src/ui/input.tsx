@@ -1,7 +1,7 @@
 import { ChangeEvent } from "react";
 import { css } from "@emotion/css";
 import { theme } from "./theme.tsx";
-import { TextField } from "../lib/mobx-form/mobx-form.ts";
+import { TextField } from "../lib/mobx-form/text-field.ts";
 import { observer } from "mobx-react-lite";
 
 interface Props {
@@ -13,7 +13,7 @@ interface Props {
 
 export const Input = observer((props: Props) => {
   const { field, placeholder, type, rows } = props;
-  const { onChange, value, isTouched, error, onBlur } = field.props;
+  const { onChange, value, isTouched, error, onBlur } = field;
 
   const handleInputChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,

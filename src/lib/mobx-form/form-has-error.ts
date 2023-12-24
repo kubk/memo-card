@@ -1,4 +1,5 @@
-import { BooleanField, TextField } from "./mobx-form.ts";
+import { TextField } from "./text-field.ts";
+import { BooleanField } from "./boolean-field.ts";
 
 type Form = Record<string, unknown>;
 

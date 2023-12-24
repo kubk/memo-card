@@ -1,5 +1,5 @@
 import { expect, test } from "vitest";
-import { BooleanField, TextField } from "./mobx-form.ts";
+import { TextField } from "./text-field.ts";
 import {
   isFormEmpty,
   isFormTouched,
@@ -7,6 +7,7 @@ import {
   isFormValid,
 } from "./form-has-error.ts";
 import { validators } from "./validator.ts";
+import { BooleanField } from "./boolean-field.ts";
 
 const isRequiredMessage = "is required";
 
