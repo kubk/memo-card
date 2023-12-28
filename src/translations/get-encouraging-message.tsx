@@ -45,12 +45,29 @@ const es = [
   "Piensa en el conocimiento acumulado que obtienes con cada repetición. Tu futuro yo te lo agradecerá",
 ];
 
+const ptBr = [
+  "A consistência é a chave para a maestria, e cada repetição te torna melhor",
+  "Lembre-se de que o caminho do conhecimento é infinito, e cada lição conta",
+  "Cada repetição aprofunda o conhecimento em sua memória. Bom trabalho por não desistir!",
+  "Cada repetição fortalece suas conexões neurais. Você não está apenas aprendendo, você está crescendo",
+  "Cada repetição alimenta seu futuro. Imagine quanto você saberá em um ano!",
+  "Como diz o ditado, 'Repetição é a mãe do aprendizado'. Você está encarnando essa sabedoria em cada sessão",
+  "Seus esforços de hoje são a base para a maestria de amanhã. Continue assim!",
+  "Aprender é como construir um castelo, tijolo por tijolo. Cada repetição adiciona uma pedra à sua fortaleza do conhecimento",
+  "A árvore do seu conhecimento não crescerá sem cuidado constante. Continue regando sua árvore de aprendizado",
+  "Você não está apenas repetindo informações; você está transformando-as em parte de si",
+  "Pense no conhecimento acumulado que você obtém com cada repetição. Seu futuro eu agradecerá",
+];
+
 export const getEncouragingMessage = () => {
   if (translator.getLang() === "ru") {
     return random(ru);
   }
   if (translator.getLang() === "es") {
     return random(es);
+  }
+  if (translator.getLang() === "pt-br") {
+    return random(ptBr);
   }
   return random(en);
 };

@@ -10,8 +10,8 @@ const en = {
     "To create a card from the text, select a deck: ",
   bot_button_cancel: "❌ Cancel",
   bot_button_confirm: "✅ Create",
-  bot_button_edit_front: `✏️ Edit front`,
-  bot_button_edit_back: `✏️ Edit back`,
+  bot_button_edit_front: `✏️ Front`,
+  bot_button_edit_back: `✏️ Back`,
   bot_button_edit_example: `✏️ Edit example`,
   cancelled: "Cancelled",
   card_created: "Card has been created",
@@ -41,9 +41,9 @@ const ru: Translation = {
   send_new_back: "Отправь сообщение с новым ответом",
   send_new_example: "Отправь сообщение с новым примером",
   bot_button_confirm: "✅ Создать",
-  bot_button_edit_back: `✏️ Изменить ответ`,
-  bot_button_edit_example: `✏️ Изменить пример`,
-  bot_button_edit_front: `✏️ Изменить вопрос`,
+  bot_button_edit_back: `✏️ Ответ`,
+  bot_button_edit_example: `✏️ Пример`,
+  bot_button_edit_front: `✏️ Вопрос`,
   confirm_card_creation_back: `\n\n*Ответ:* `,
   confirm_card_creation_example: `\n\n*Пример:* `,
   confirm_card_creation_front: `Создать карточку?:\n\n*Вопрос:* `,
@@ -66,16 +66,40 @@ const es: Translation = {
   send_new_back: "Enviar un mensaje con la nueva respuesta",
   send_new_example: "Enviar un mensaje con el nuevo ejemplo",
   confirm_card_creation_back: `\n\n*Respuesta:* `,
-  bot_button_edit_front: `✏️ Editar pregunta`,
-  bot_button_edit_example: `✏️ Editar ejemplo`,
-  bot_button_edit_back: `✏️ Editar respuesta`,
+  bot_button_edit_front: `✏️ Pregunta`,
+  bot_button_edit_example: `✏️ Ejemplo`,
+  bot_button_edit_back: `✏️ Respuesta`,
   bot_button_confirm: "✅ Crear",
   confirm_card_creation_example: `\n\n*Ejemplo:* `,
   confirm_card_creation_front: `Crear tarjeta?:\n\n*Pregunta:* `,
   start_button: "Iniciar bot",
 };
 
-const translations = { en, ru, es } as const;
+const ptBr: Translation = {
+  start: "Olá! Eu ajudo a melhorar a memória com repetição espaçada. Perfeito para aprender idiomas, história ou outras matérias 👇",
+  invalid_card_format:
+    "Por favor, envie uma mensagem no formato: `pergunta \\- resposta`\n\n*Exemplo:*\nEu gosto \\- Me gusta",
+  no_decks_created: `Você ainda não tem baralhos pessoais. Crie um no aplicativo 👇`,
+  create_deck: "Criar baralho",
+  create_card_from_deck_message:
+    "Para criar um cartão a partir deste texto, selecione um baralho: ",
+  bot_button_cancel: "❌ Cancelar",
+  cancelled: "Cancelado",
+  card_created: "Cartão criado",
+  send_new_front: "Envie uma mensagem com a nova pergunta",
+  send_new_back: "Envie uma mensagem com a nova resposta",
+  send_new_example: "Envie uma mensagem com o novo exemplo",
+  bot_button_confirm: "✅ Criar",
+  bot_button_edit_back: `✏️ Resposta`,
+  bot_button_edit_example: `✏️ Exemplo`,
+  bot_button_edit_front: `✏️ Pergunta`,
+  confirm_card_creation_back: `\n\n*Resposta:* `,
+  confirm_card_creation_example: `\n\n*Exemplo:* `,
+  confirm_card_creation_front: `Criar cartão?:\n\n*Pergunta:* `,
+  start_button: "Iniciar bot",
+};
+
+const translations = { en, ru, es, 'pt-br': ptBr } as const;
 export type Language = keyof typeof translations;
 
 export const createTranslator = (lang: Language) => {
