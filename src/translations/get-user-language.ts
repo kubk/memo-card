@@ -6,6 +6,7 @@ export const getUserLanguage = (): Language => {
   switch (languageCode) {
     case "ru":
     case "es":
+    case 'pt-br':
       return languageCode;
     default:
       return "en";
