@@ -76,7 +76,8 @@ const es: Translation = {
 };
 
 const ptBr: Translation = {
-  start: "Olá! Eu ajudo a melhorar a memória com repetição espaçada. Perfeito para aprender idiomas, história ou outras matérias 👇",
+  start:
+    "Olá! Eu ajudo a melhorar a memória com repetição espaçada. Perfeito para aprender idiomas, história ou outras matérias 👇",
   invalid_card_format:
     "Por favor, envie uma mensagem no formato: `pergunta \\- resposta`\n\n*Exemplo:*\nEu gosto \\- Me gusta",
   no_decks_created: `Você ainda não tem baralhos pessoais. Crie um no aplicativo 👇`,
@@ -99,7 +100,7 @@ const ptBr: Translation = {
   start_button: "Iniciar bot",
 };
 
-const translations = { en, ru, es, 'pt-br': ptBr } as const;
+const translations = { en, ru, es, "pt-br": ptBr } as const;
 export type Language = keyof typeof translations;
 
 export const createTranslator = (lang: Language) => {

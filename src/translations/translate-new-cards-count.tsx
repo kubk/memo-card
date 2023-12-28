@@ -31,15 +31,15 @@ export const translateNewCardsCount = (count: number) => {
     }
   }
 
-  if (language === 'pt-br') {
-    const rules = new Intl.PluralRules('pt-br');
+  if (language === "pt-br") {
+    const rules = new Intl.PluralRules("pt-br");
     const result = rules.select(count);
 
     switch (result) {
-      case 'one':
-        return 'novo cartão';
-      case 'other':
-        return 'novos cartões';
+      case "one":
+        return "novo cartão";
+      case "other":
+        return "novos cartões";
     }
   }
 
