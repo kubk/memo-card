@@ -20,7 +20,7 @@ const en = {
   send_new_back: "Send a message with the new back",
   send_new_example: "Send a message with the new example",
   confirm_card_creation_front: `Create card?\n\n*Front:* `,
-  confirm_many_cards_creation: `Create these cards?`,
+  confirm_many_cards_creation: `Create these cards? You will be able to edit them in the app after creation`,
   confirm_many_cards_front: "Front:",
   confirm_many_cards_back: "Back:",
   confirm_many_cards_example: "Example:",
@@ -41,7 +41,8 @@ const ru: Translation = {
   create_deck: "Создать колоду",
   create_card_from_deck_message:
     "Чтобы создать карточку из этого текста, выбери колоду: ",
-  create_many_cards_message: "Чтобы создать карточки из этого текста, выбери колоду:",
+  create_many_cards_message:
+    "Чтобы создать карточки из этого текста, выбери колоду:",
   bot_button_cancel: "❌ Отмена",
   cancelled: "Отменено",
   card_created: "Карточка создана 🎉",
@@ -55,7 +56,7 @@ const ru: Translation = {
   confirm_card_creation_back: `\n*Ответ:* `,
   confirm_card_creation_example: `\n*Пример:* `,
   confirm_card_creation_front: `Создать карточку?:\n\n*Вопрос:* `,
-  confirm_many_cards_creation: `Создать эти карточки?`,
+  confirm_many_cards_creation: `Создать эти карточки? Ты сможешь отредактировать их в приложении после создания`,
   confirm_many_cards_front: "Вопрос:",
   confirm_many_cards_back: "Ответ:",
   confirm_many_cards_example: "Пример:",
@@ -73,7 +74,8 @@ const es: Translation = {
   create_deck: "Crear mazo",
   create_card_from_deck_message:
     "Para crear una tarjeta a partir de este texto, seleccione un mazo: ",
-  create_many_cards_message: "Para crear tarjetas a partir de este texto, seleccione un mazo:",
+  create_many_cards_message:
+    "Para crear tarjetas a partir de este texto, seleccione un mazo:",
   bot_button_cancel: "❌ Cancelar",
   cancelled: "Cancelado",
   card_created: "La tarjeta ha sido creada 🎉",
@@ -86,7 +88,7 @@ const es: Translation = {
   bot_button_edit_back: `✏️ Respuesta`,
   bot_button_confirm: "✅ Crear",
   confirm_card_creation_example: `\n*Ejemplo:* `,
-  confirm_many_cards_creation: `Crear estas tarjetas?`,
+  confirm_many_cards_creation: `Crear estas tarjetas? Podrás editarlos en la aplicación después de su creación`,
   confirm_card_creation_front: `Crear tarjeta?:\n\n*Pregunta:* `,
   confirm_many_cards_front: "Pregunta:",
   confirm_many_cards_back: "Respuesta:",
@@ -105,7 +107,8 @@ const ptBr: Translation = {
   create_deck: "Criar baralho",
   create_card_from_deck_message:
     "Para criar um cartão a partir deste texto, selecione um baralho: ",
-  create_many_cards_message: "Para criar cartões a partir deste texto, selecione um baralho:",
+  create_many_cards_message:
+    "Para criar cartões a partir deste texto, selecione um baralho:",
   bot_button_cancel: "❌ Cancelar",
   cancelled: "Cancelado",
   card_created: "Cartão criado 🎉",
@@ -118,7 +121,7 @@ const ptBr: Translation = {
   bot_button_edit_front: `✏️ Pergunta`,
   confirm_card_creation_back: `\n*Resposta:* `,
   confirm_card_creation_example: `\n*Exemplo:* `,
-  confirm_many_cards_creation: `Criar estes cartões?`,
+  confirm_many_cards_creation: `Criar esses cartões? Você poderá editá-los no aplicativo após a criação`,
   confirm_card_creation_front: `Criar cartão?:\n\n*Pergunta:* `,
   confirm_many_cards_front: "Pergunta:",
   confirm_many_cards_back: "Resposta:",
