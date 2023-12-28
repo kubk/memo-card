@@ -6,7 +6,7 @@ import {
   userSetServerBotState,
 } from "../db/user/user-set-server-bot-state.ts";
 import { sendCardCreateConfirmMessage } from "./send-card-create-confirm-message.ts";
-import { parseDeckFromText } from "./parse-deck-from-text.ts";
+import { parseCardsFromText } from "./parse-cards-from-text.ts";
 import { getDecksCreatedByMe } from "../db/deck/get-decks-created-by-me.ts";
 import { CallbackQueryType } from "./callback-query-type.ts";
 import { createUserAwareTranslator } from "../translations/create-user-aware-translator.ts";
@@ -28,13 +28,12 @@ export const onMessage = (envSafe: EnvSafe) => async (ctx: Context) => {
       editingField: undefined,
     });
 
-    await sendCardCreateConfirmMessage(envSafe, ctx);
-
+    await sendCardCreateConfirmMessage(envSafe, ctx, translator);
     return;
   }
 
-  const cardAsText = parseDeckFromText(ctx.message.text);
-  if (!cardAsText) {
+  const cardsParsed = parseCardsFromText(ctx.message.text);
+  if (!cardsParsed.length) {
     await ctx.reply(translator.translate("invalid_card_format"), {
       parse_mode: "MarkdownV2",
     });
@@ -42,7 +41,7 @@ export const onMessage = (envSafe: EnvSafe) => async (ctx: Context) => {
   }
 
   const decks = await getDecksCreatedByMe(envSafe, ctx.from.id);
-  if (decks.length === 0) {
+  if (!decks.length) {
     await ctx.reply(translator.translate("no_decks_created"), {
       reply_markup: new InlineKeyboard().url(
         translator.translate("create_deck"),
@@ -52,13 +51,29 @@ export const onMessage = (envSafe: EnvSafe) => async (ctx: Context) => {
     return;
   }
 
-  await userSetServerBotState(envSafe, ctx.from.id, {
-    type: "cardAdded",
-    cardFront: cardAsText.front,
-    cardBack: cardAsText.back,
-  });
+  let message = "";
+  if (cardsParsed.length === 1) {
+    const cardParsed = cardsParsed[0];
+    await userSetServerBotState(envSafe, ctx.from.id, {
+      type: "cardAdded",
+      cardFront: cardParsed.front,
+      cardBack: cardParsed.back,
+      cardExample: cardParsed.example || null,
+    });
+    message = translator.translate("create_card_from_deck_message");
+  } else {
+    await userSetServerBotState(envSafe, ctx.from.id, {
+      type: "manyCardsAdded",
+      cards: cardsParsed.map((cardParsed) => ({
+        cardFront: cardParsed.front,
+        cardBack: cardParsed.back,
+        cardExample: cardParsed.example || null,
+      })),
+    });
+    message = translator.translate("create_many_cards_message");
+  }
 
-  await ctx.reply(translator.translate("create_card_from_deck_message"), {
+  await ctx.reply(message, {
     reply_markup: InlineKeyboard.from(
       decks
         .map((deck) => [

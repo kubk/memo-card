@@ -11,6 +11,7 @@ import { sendCardCreateConfirmMessage } from "./send-card-create-confirm-message
 import { DatabaseException } from "../db/database-exception.ts";
 import { createUserAwareTranslator } from "../translations/create-user-aware-translator.ts";
 import { MemoCardTranslator } from "../translations/create-translator.ts";
+import { sendMultipleCardsCreateConfirmMessage } from "./send-multiple-cards-create-confirm-message.ts";
 
 type CallbackQueryEdit =
   | CallbackQueryType.EditFront
@@ -51,32 +52,49 @@ export const onCallbackQuery = (envSafe: EnvSafe) => async (ctx: Context) => {
   assert(ctx.from);
 
   const data = ctx.callbackQuery.data;
-  const db = getDatabase(envSafe);
   if (!data) {
     await ctx.answerCallbackQuery();
     return;
   }
 
+  const db = getDatabase(envSafe);
   const translator = await createUserAwareTranslator(envSafe, ctx);
 
-  if (data.startsWith(CallbackQueryType.Deck)) {
+  if (data.startsWith(`${CallbackQueryType.Deck}:`)) {
     const deckId = Number(data.split(":")[1]);
     if (!deckId) {
       throw new Error(`Deck id ${deckId} is not valid`);
     }
     const state = await userGetServerBotState(envSafe, ctx.from.id);
-    if (state?.type !== "cardAdded") {
+    if (
+      !state ||
+      (state.type !== "cardAdded" && state.type !== "manyCardsAdded")
+    ) {
       return;
     }
-    await userSetServerBotState(envSafe, ctx.from.id, {
-      type: "deckSelected",
-      cardBack: state.cardBack,
-      cardFront: state.cardFront,
-      cardExample: null,
-      deckId,
-    });
 
-    await sendCardCreateConfirmMessage(envSafe, ctx);
+    if (state.type === "cardAdded") {
+      await userSetServerBotState(envSafe, ctx.from.id, {
+        type: "deckSelected",
+        cardBack: state.cardBack,
+        cardFront: state.cardFront,
+        cardExample: state.cardExample,
+        deckId,
+      });
+
+      await sendCardCreateConfirmMessage(envSafe, ctx, translator);
+    }
+
+    if (state.type === "manyCardsAdded") {
+      await userSetServerBotState(envSafe, ctx.from.id, {
+        type: "deckWithManyCardsSelected",
+        cards: state.cards,
+        deckId,
+      });
+
+      await sendMultipleCardsCreateConfirmMessage(envSafe, ctx, translator);
+    }
+
     await ctx.answerCallbackQuery();
     return;
   }
@@ -121,7 +139,33 @@ export const onCallbackQuery = (envSafe: EnvSafe) => async (ctx: Context) => {
       throw new DatabaseException(createCardsResult.error);
     }
 
-    await ctx.reply(translator.translate("card_created"));
+    await ctx.reply(`${translator.translate("card_created")}`);
+    await ctx.deleteMessage();
+    await userSetServerBotState(envSafe, ctx.from.id, null);
+    return;
+  }
+
+  if (data === CallbackQueryType.ConfirmCreateManyCards) {
+    const state = await userGetServerBotState(envSafe, ctx.from.id);
+    assert(
+      state?.type === "deckWithManyCardsSelected",
+      "State is not deckWithManyCardsSelected",
+    );
+
+    const createCardsResult = await db.from("deck_card").insert(
+      state.cards.map((card) => ({
+        deck_id: state.deckId,
+        front: card.cardFront,
+        back: card.cardBack,
+        example: card.cardExample,
+      })),
+    );
+
+    if (createCardsResult.error) {
+      throw new DatabaseException(createCardsResult.error);
+    }
+
+    await ctx.reply(translator.translate("many_cards_created"));
     await ctx.deleteMessage();
     await userSetServerBotState(envSafe, ctx.from.id, null);
     return;
