@@ -29,11 +29,11 @@ test("render-many-cards-to-create", async () => {
   ).toMatchInlineSnapshot(`
     "confirm_many_cards_creation
 
-    *1*. *confirm_many_cards_front* front
+    *1*\\\\. *confirm_many_cards_front* front
     *confirm_many_cards_back* back
     *confirm_many_cards_example* example
 
-    *2*. *confirm_many_cards_front* a
+    *2*\\\\. *confirm_many_cards_front* a
     *confirm_many_cards_back* b
     *confirm_many_cards_example* c"
   `);
