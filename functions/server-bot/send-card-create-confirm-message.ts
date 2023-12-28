@@ -1,38 +1,21 @@
 import { EnvSafe } from "../env/env-schema.ts";
 import { Context, InlineKeyboard } from "grammy";
 import { assert } from "../lib/typescript/assert.ts";
-import {
-  userGetServerBotState,
-  userSetServerBotState,
-} from "../db/user/user-set-server-bot-state.ts";
+import { userGetServerBotState } from "../db/user/user-set-server-bot-state.ts";
 import { CallbackQueryType } from "./callback-query-type.ts";
-import { escapeMarkdown } from "./escape-markdown.ts";
-import { createUserAwareTranslator } from "../translations/create-user-aware-translator.ts";
-
-const renderFieldValue = (value: string | null) => {
-  if (!value) {
-    return "_None_";
-  }
-
-  return escapeMarkdown(value);
-};
+import { renderFieldValue } from "./render-field-value.ts";
+import { MemoCardTranslator } from "../translations/create-translator.ts";
 
 export const sendCardCreateConfirmMessage = async (
   envSafe: EnvSafe,
   ctx: Context,
+  translator: MemoCardTranslator,
 ) => {
   assert(ctx.from);
-  const translator = await createUserAwareTranslator(envSafe, ctx);
   const state = await userGetServerBotState(envSafe, ctx.from.id);
-  assert(state?.type === "deckSelected");
-
-  await userSetServerBotState(envSafe, ctx.from.id, {
-    type: "deckSelected",
-    cardBack: state.cardBack,
-    cardFront: state.cardFront,
-    deckId: state.deckId,
-    cardExample: state.cardExample,
-  });
+  if (state?.type !== "deckSelected") {
+    return;
+  }
 
   await ctx.deleteMessage();
 

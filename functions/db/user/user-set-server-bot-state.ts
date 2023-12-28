@@ -4,8 +4,33 @@ import { DatabaseException } from "../database-exception.ts";
 
 export type ServerBotState =
   | null
-  | { type: "cardAdded"; cardFront: string; cardBack: string }
   | {
+      // better name - cardGiven
+      type: "cardAdded";
+      cardFront: string;
+      cardBack: string;
+      cardExample: string | null;
+    }
+  | {
+      // better name - manyCardsGiven
+      type: "manyCardsAdded";
+      cards: Array<{
+        cardFront: string;
+        cardBack: string;
+        cardExample: string | null;
+      }>;
+    }
+  | {
+      type: "deckWithManyCardsSelected";
+      deckId: number;
+      cards: Array<{
+        cardFront: string;
+        cardBack: string;
+        cardExample: string | null;
+      }>;
+    }
+  | {
+      // deck with only 1 card
       type: "deckSelected";
       cardFront: string;
       cardBack: string;
