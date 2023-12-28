@@ -42,12 +42,12 @@ describe("translate new cards count", () => {
     expect(translateNewCardsCount(21)).toBe("nuevas tarjetas");
   });
 
-  test('brazilian portuguese', () => {
-    lang.mockReturnValue('pt-br');
+  test("brazilian portuguese", () => {
+    lang.mockReturnValue("pt-br");
 
-    expect(translateNewCardsCount(1)).toBe('novo cartão');
-    expect(translateNewCardsCount(2)).toBe('novos cartões');
-    expect(translateNewCardsCount(3)).toBe('novos cartões');
-    expect(translateNewCardsCount(21)).toBe('novos cartões');
-  })
+    expect(translateNewCardsCount(1)).toBe("novo cartão");
+    expect(translateNewCardsCount(2)).toBe("novos cartões");
+    expect(translateNewCardsCount(3)).toBe("novos cartões");
+    expect(translateNewCardsCount(21)).toBe("novos cartões");
+  });
 });
