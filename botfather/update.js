@@ -45,7 +45,7 @@ const main = async () => {
   );
 
   await bot.api.setMyDescription(
-    "As pessoas tendem a esquecer informações. Em uma hora, até 60% das novas informações podem ser esquecidas, e ao final de uma semana, pode restar apenas cerca de 10%. No entanto, a revisão constante da informação pode combater esse declínio. Este bot utiliza o método comprovado de cartões de memória, ajudando os usuários a reter e dominar idiomas, história e muito mais.",
+    "As pessoas tendem a esquecer informações. Em uma hora, até 60% das novas informações podem ser esquecidas e, ao final de uma semana, pode restar apenas cerca de 10% delas. No entanto, a revisão constante da informação pode combater esse declínio. Este bot utiliza o método comprovado de cartões de memória, ajudando os usuários a reter e dominar idiomas, história e muito mais.",
     {
       language_code: "pt",
     },
