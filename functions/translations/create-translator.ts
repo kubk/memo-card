@@ -121,7 +121,7 @@ const ptBr: Translation = {
   bot_button_edit_front: `✏️ Pergunta`,
   confirm_card_creation_back: `\n*Resposta:* `,
   confirm_card_creation_example: `\n*Exemplo:* `,
-  confirm_many_cards_creation: `Criar esses cartões? Você poderá editá-los no aplicativo após a criação`,
+  confirm_many_cards_creation: `Criar esses cartões? Você poderá editá\\-los no aplicativo após a criação`,
   confirm_card_creation_front: `Criar cartão?:\n\n*Pergunta:* `,
   confirm_many_cards_front: "Pergunta:",
   confirm_many_cards_back: "Resposta:",
