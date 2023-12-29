@@ -46,17 +46,17 @@ const es = [
 ];
 
 const ptBr = [
-  "A consistência é a chave para a maestria, e cada repetição te torna melhor",
-  "Lembre-se de que o caminho do conhecimento é infinito, e cada lição conta",
-  "Cada repetição aprofunda o conhecimento em sua memória. Bom trabalho por não desistir!",
+  "A consistência é a chave para a maestria, e a cada passo você se torna melhor",
+  "Lembre-se de que o caminho do conhecimento é infinito, e cada lição é valiosa",
+  "Cada repetição aprofunda o conhecimento em sua memória. Parabéns e até a próxima revisão!",
   "Cada repetição fortalece suas conexões neurais. Você não está apenas aprendendo, você está crescendo",
   "Cada repetição alimenta seu futuro. Imagine quanto você saberá em um ano!",
-  "Como diz o ditado, 'Repetição é a mãe do aprendizado'. Você está encarnando essa sabedoria em cada sessão",
-  "Seus esforços de hoje são a base para a maestria de amanhã. Continue assim!",
+  "Como diz o ditado, 'A repetição é a mãe do aprendizado'. Você está abraçando essa sabedoria em cada sessão",
+  "Seus esforços de hoje são a base para o sucesso de amanhã. Continue assim!",
   "Aprender é como construir um castelo, tijolo por tijolo. Cada repetição adiciona uma pedra à sua fortaleza do conhecimento",
   "A árvore do seu conhecimento não crescerá sem cuidado constante. Continue regando sua árvore de aprendizado",
-  "Você não está apenas repetindo informações; você está transformando-as em parte de si",
-  "Pense no conhecimento acumulado que você obtém com cada repetição. Seu futuro eu agradecerá",
+  "Você não está apenas revisando informações; está transformando-as em parte de quem você é! Muito bem!",
+  "Pense no conhecimento acumulado que você obtém com cada revisão. Seu futuro agradecerá",
 ];
 
 export const getEncouragingMessage = () => {

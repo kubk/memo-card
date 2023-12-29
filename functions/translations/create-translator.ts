@@ -55,7 +55,7 @@ const ru: Translation = {
   bot_button_edit_front: `✏️ Вопрос`,
   confirm_card_creation_back: `\n*Ответ:* `,
   confirm_card_creation_example: `\n*Пример:* `,
-  confirm_card_creation_front: `Создать карточку?:\n\n*Вопрос:* `,
+  confirm_card_creation_front: `Создать карточку?\n\n*Вопрос:* `,
   confirm_many_cards_creation: `Создать эти карточки? Ты сможешь отредактировать их в приложении после создания`,
   confirm_many_cards_front: "Вопрос:",
   confirm_many_cards_back: "Ответ:",
@@ -100,9 +100,9 @@ const es: Translation = {
 
 const ptBr: Translation = {
   start:
-    "Olá! Eu ajudo a melhorar a memória com repetição espaçada. Perfeito para aprender idiomas, história ou outras matérias 👇",
+    "Olá! Eu ajudo a melhorar a memorização com repetição espaçada. Perfeito para aprender idiomas, história ou outras matérias 👇",
   invalid_card_format:
-    "Por favor, envie uma mensagem no formato: `pergunta \\- resposta`\n\n*Exemplo:*\nEu gosto \\- Me gusta",
+    "Por favor, envie uma mensagem no formato: `pergunta \\- resposta`\n\n*Explanação:*\nI like it \\- Eu gosto disso",
   no_decks_created: `Você ainda não tem baralhos pessoais. Crie um no aplicativo 👇`,
   create_deck: "Criar baralho",
   create_card_from_deck_message:
@@ -114,18 +114,18 @@ const ptBr: Translation = {
   card_created: "Cartão criado 🎉",
   send_new_front: "Envie uma mensagem com a nova pergunta",
   send_new_back: "Envie uma mensagem com a nova resposta",
-  send_new_example: "Envie uma mensagem com o novo exemplo",
+  send_new_example: "Envie uma mensagem com o novo explanação",
   bot_button_confirm: "✅ Criar",
   bot_button_edit_back: `✏️ Resposta`,
-  bot_button_edit_example: `✏️ Exemplo`,
+  bot_button_edit_example: `✏️ Explanação`,
   bot_button_edit_front: `✏️ Pergunta`,
   confirm_card_creation_back: `\n*Resposta:* `,
-  confirm_card_creation_example: `\n*Exemplo:* `,
+  confirm_card_creation_example: `\n*Explanação:* `,
   confirm_many_cards_creation: `Criar esses cartões? Você poderá editá\\-los no aplicativo após a criação`,
   confirm_card_creation_front: `Criar cartão?:\n\n*Pergunta:* `,
   confirm_many_cards_front: "Pergunta:",
   confirm_many_cards_back: "Resposta:",
-  confirm_many_cards_example: "Exemplo:",
+  confirm_many_cards_example: "Explanação:",
   many_cards_created: "Cartões criados 🎉",
   no_cards_to_create: "Não há cartões para criar",
   start_button: "Iniciar bot",
