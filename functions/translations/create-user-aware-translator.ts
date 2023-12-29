@@ -24,7 +24,6 @@ export const createUserAwareTranslator = async (
     ) {
       translator.setLang(userData.language_code);
     }
-    translator.setLang("pt-br");
   }
 
   return translator;
