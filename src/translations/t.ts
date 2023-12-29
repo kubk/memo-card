@@ -303,7 +303,7 @@ const ptBr: Translation = {
   card_back_title: "Lado de trás",
   card_front_side_hint: "A pergunta ou indicação",
   card_back_side_hint: "A resposta que você precisa fornecer",
-  card_field_example_title: "Exemplo",
+  card_field_example_title: "Explanação",
   card_field_example_hint: "Informação adicional opcional",
   cards: "Cartões",
   search_card: "Buscar cartão",
