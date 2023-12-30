@@ -27,6 +27,10 @@ import { DeckCatalogResponse } from "../../functions/catalog-decks.ts";
 import { DeckWithCardsResponse } from "../../functions/deck-with-cards.ts";
 import { CopyDeckResponse } from "../../functions/duplicate-deck.ts";
 import { DeckCategoryResponse } from "../../functions/deck-categories.ts";
+import {
+  AddFolderRequest,
+  AddFolderResponse,
+} from "../../functions/upsert-folder.ts";
 
 export const healthRequest = () => {
   return request<HealthResponse>("/health");
@@ -98,4 +102,12 @@ export const apiDeckWithCards = (deckId: number) => {
 
 export const apiDeckCategories = () => {
   return request<DeckCategoryResponse>("/deck-categories");
+};
+
+export const apiFolderUpsert = (body: AddFolderRequest) => {
+  return request<AddFolderResponse, AddFolderRequest>(
+    "/upsert-folder",
+    "POST",
+    body,
+  );
 };

@@ -162,6 +162,65 @@ export interface Database {
         }
         Relationships: []
       }
+      deck_folder: {
+        Row: {
+          created_at: string
+          deck_id: number
+          folder_id: number
+        }
+        Insert: {
+          created_at?: string
+          deck_id: number
+          folder_id: number
+        }
+        Update: {
+          created_at?: string
+          deck_id?: number
+          folder_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "deck_folder_deck_id_fkey"
+            columns: ["deck_id"]
+            referencedRelation: "deck"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "deck_folder_folder_id_fkey"
+            columns: ["folder_id"]
+            referencedRelation: "folder"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      folder: {
+        Row: {
+          author_id: number
+          created_at: string
+          id: number
+          title: string
+        }
+        Insert: {
+          author_id: number
+          created_at?: string
+          id?: number
+          title: string
+        }
+        Update: {
+          author_id?: number
+          created_at?: string
+          id?: number
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "folder_author_id_fkey"
+            columns: ["author_id"]
+            referencedRelation: "user"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       notification: {
         Row: {
           created_at: string
@@ -259,6 +318,37 @@ export interface Database {
           }
         ]
       }
+      user_folder: {
+        Row: {
+          created_at: string
+          folder_id: number
+          user_id: number
+        }
+        Insert: {
+          created_at?: string
+          folder_id: number
+          user_id: number
+        }
+        Update: {
+          created_at?: string
+          folder_id?: number
+          user_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_folder_folder_id_fkey"
+            columns: ["folder_id"]
+            referencedRelation: "folder"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_folder_user_id_fkey"
+            columns: ["user_id"]
+            referencedRelation: "user"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -290,6 +380,16 @@ export interface Database {
           id: number
           deck_id: number
           type: string
+        }[]
+      }
+      get_folder_with_decks: {
+        Args: {
+          usr_id: number
+        }
+        Returns: {
+          folder_id: number
+          folder_title: string
+          deck_id: number
         }[]
       }
       get_unadded_public_decks: {
@@ -345,6 +445,16 @@ export interface Database {
           review_count: number
           last_reminded_date: string
           is_admin: boolean
+        }[]
+      }
+      get_users_with_review_to_notify2: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          user_id: number
+          review_count: number
+          last_reminded_date: string
+          is_admin: boolean
+          language_code: string
         }[]
       }
     }

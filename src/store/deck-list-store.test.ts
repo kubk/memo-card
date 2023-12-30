@@ -101,6 +101,7 @@ vi.mock("../api/api.ts", () => {
           },
         ],
         publicDecks: [],
+        folders: [],
       });
     },
     addDeckToMineRequest: () => {},

@@ -2,7 +2,7 @@ import React from "react";
 import { observer } from "mobx-react-lite";
 import { css, cx } from "@emotion/css";
 import { PublicDeck } from "./public-deck.tsx";
-import { MyDeck } from "./my-deck.tsx";
+import { MyDeckRow } from "./my-deck-row.tsx";
 import { deckListStore } from "../../store/deck-list-store.ts";
 import { useMount } from "../../lib/react/use-mount.ts";
 import { Hint } from "../../ui/hint.tsx";
@@ -53,8 +53,27 @@ export const MainScreen = observer(() => {
               <DeckLoading key={i} />
             ))}
           {deckListStore.myInfo
-            ? deckListStore.myDecksVisible.map((deck) => {
-                return <MyDeck key={deck.id} deck={deck} />;
+            ? deckListStore.myDeckItemsVisible.map((listItem) => {
+                return (
+                  <MyDeckRow
+                    onClick={() => {
+                      if (listItem.type === "deck") {
+                        screenStore.go({
+                          type: "deckMine",
+                          deckId: listItem.id,
+                        });
+                      }
+                      if (listItem.type === "folder") {
+                        screenStore.go({
+                          type: "folderForm",
+                          folderId: listItem.id,
+                        });
+                      }
+                    }}
+                    key={listItem.id}
+                    item={listItem}
+                  />
+                );
               })
             : null}
 
@@ -79,10 +98,10 @@ export const MainScreen = observer(() => {
             <Button
               icon={"mdi-plus"}
               onClick={() => {
-                screenStore.go({ type: "deckForm" });
+                screenStore.go({ type: "deckOrFolderChoose" });
               }}
             >
-              {t("add_deck")}
+              {t("add")}
             </Button>
           ) : null}
 

@@ -5,6 +5,8 @@ type Route =
   | { type: "deckMine"; deckId: number }
   | { type: "deckPublic"; deckId: number }
   | { type: "deckForm"; deckId?: number }
+  | { type: "folderForm"; folderId?: number }
+  | { type: "deckOrFolderChoose" }
   | { type: "reviewAll" }
   | { type: "cardQuickAddForm"; deckId: number }
   | { type: "deckCatalog" }

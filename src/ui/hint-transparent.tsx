@@ -3,7 +3,9 @@ import { reset } from "./reset.ts";
 import React, { ReactNode } from "react";
 import { theme } from "./theme.tsx";
 
-type Props = { children: ReactNode };
+type Props = {
+  children: ReactNode;
+};
 
 export const HintTransparent = (props: Props) => {
   const { children } = props;
@@ -18,6 +20,7 @@ export const HintTransparent = (props: Props) => {
           marginTop: -4,
           borderRadius: theme.borderRadius,
           color: theme.hintColor,
+          textTransform: "none",
         }),
       )}
     >

@@ -31,6 +31,20 @@ export type DeckWithCardsWithReviewType = DeckWithCardsDbType & {
   cardsToReview: DeckCardDbTypeWithType[];
 };
 
+export type DeckListItem = {
+  id: number;
+  cardsToReview: DeckCardDbTypeWithType[];
+  name: string;
+} & (
+  | {
+      type: "deck";
+    }
+  | {
+      type: "folder";
+      deckIds: number[];
+    }
+);
+
 const collapsedDecksLimit = 3;
 
 export class DeckListStore {
@@ -305,17 +319,66 @@ export class DeckListStore {
     }));
   }
 
+  get myDecksWithoutFolder(): DeckListItem[] {
+    // filter my decks if they are not in this.myInfo.folders
+    const decksWithinFolder =
+      this.myInfo?.folders.map((folder) => folder.deck_id) ?? [];
+
+    return this.myDecks
+      .filter((deck) => !decksWithinFolder.includes(deck.id))
+      .map((deck) => ({
+        ...deck,
+        type: "deck",
+      }));
+  }
+
+  get myFoldersAsDecks(): DeckListItem[] {
+    if (!this.myInfo || this.myInfo.folders.length === 0) {
+      return [];
+    }
+
+    const myDecks = this.myDecks;
+
+    const map = new Map<
+      number,
+      { folderName: string; decks: DeckWithCardsWithReviewType[] }
+    >();
+
+    this.myInfo.folders.forEach((folder) => {
+      const mapItem = map.get(folder.folder_id) ?? {
+        folderName: folder.folder_title,
+        decks: [],
+      };
+      const deck = myDecks.find((deck) => deck.id === folder.deck_id);
+      if (deck) {
+        mapItem.decks.push(deck);
+      }
+      map.set(folder.folder_id, mapItem);
+    });
+
+    return Array.from(map.entries()).map(([folderId, mapItem]) => ({
+      id: folderId,
+      deckIds: mapItem.decks.map((deck) => deck.id),
+      cardsToReview: mapItem.decks.reduce<DeckCardDbTypeWithType[]>(
+        (acc, deck) => acc.concat(deck.cardsToReview),
+        [],
+      ),
+      type: "folder",
+      name: mapItem.folderName,
+    }));
+  }
+
   get shouldShowMyDecksToggle() {
     return deckListStore.myDecks.length > collapsedDecksLimit;
   }
 
-  get myDecksVisible(): DeckWithCardsWithReviewType[] {
-    const myDecks = this.myDecks;
+  get myDeckItemsVisible(): DeckListItem[] {
+    const listItems = this.myFoldersAsDecks.concat(this.myDecksWithoutFolder);
     if (this.isMyDecksExpanded.value) {
-      return myDecks;
+      return listItems;
     }
 
-    return myDecks
+    return listItems
       .sort((a, b) => {
         // sort decks by cardsToReview count with type 'repeat' first, then with type 'new'
         const aRepeatCount = a.cardsToReview.filter(

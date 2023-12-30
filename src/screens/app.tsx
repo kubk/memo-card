@@ -19,6 +19,8 @@ import {
 import { RepeatAllScreen } from "./deck-review/repeat-all-screen.tsx";
 import { DeckCatalog } from "./deck-catalog/deck-catalog.tsx";
 import { DeckCatalogStoreContextProvider } from "../store/deck-catalog-store-context.tsx";
+import { DeckOrFolderChoose } from "./deck-or-folder-choose/deck-or-folder-choose.tsx";
+import { FolderForm } from "./folder-form/folder-form.tsx";
 
 export const App = observer(() => {
   useRestoreFullScreenExpand();
@@ -51,6 +53,16 @@ export const App = observer(() => {
           <ReviewStoreProvider>
             <RepeatAllScreen />
           </ReviewStoreProvider>
+        </PreventTelegramSwipeDownClosingIos>
+      )}
+      {screenStore.screen.type === "deckOrFolderChoose" && (
+        <PreventTelegramSwipeDownClosingIos>
+          <DeckOrFolderChoose />
+        </PreventTelegramSwipeDownClosingIos>
+      )}
+      {screenStore.screen.type === "folderForm" && (
+        <PreventTelegramSwipeDownClosingIos>
+          <FolderForm />
         </PreventTelegramSwipeDownClosingIos>
       )}
       {screenStore.screen.type === "deckForm" && (

@@ -11,7 +11,7 @@ type Props = {
 export const Label = (props: Props) => {
   return (
     <label
-      className={css({ display: "flex", flexDirection: "column", gap: 4 })}
+      className={css({ display: "flex", flexDirection: "column", gap: 2 })}
     >
       <span className={css({ marginLeft: 12 })}>
         {props.text}

@@ -23,6 +23,7 @@ import {
 import { DeckSpeakFieldEnum } from "../../../functions/db/deck/decks-with-cards-schema.ts";
 import { theme } from "../../ui/theme.tsx";
 import { t } from "../../translations/t.ts";
+import { Screen } from "../shared/screen.tsx";
 
 export const DeckForm = observer(() => {
   const deckFormStore = useDeckFormStore();
@@ -49,18 +50,7 @@ export const DeckForm = observer(() => {
   }
 
   return (
-    <div
-      className={css({
-        display: "flex",
-        flexDirection: "column",
-        gap: 6,
-        position: "relative",
-        marginBottom: 16,
-      })}
-    >
-      <h3 className={css({ textAlign: "center" })}>
-        {screen.deckId ? t("edit_deck") : t("add_deck")}
-      </h3>
+    <Screen title={screen.deckId ? t("edit_deck") : t("add_deck")}>
       <Label text={t("title")} isRequired>
         <Input field={deckFormStore.form.title} />
       </Label>
@@ -147,6 +137,6 @@ export const DeckForm = observer(() => {
       >
         {t("add_card")}
       </Button>
-    </div>
+    </Screen>
   );
 });
