@@ -6,7 +6,6 @@ import React from "react";
 import { useReviewStore } from "../../store/review-store-context.tsx";
 import { screenStore } from "../../store/screen-store.ts";
 import { Hint } from "../../ui/hint.tsx";
-import { ShareDeckButton } from "./share-deck-button.tsx";
 import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
 import { useMainButton } from "../../lib/telegram/use-main-button.tsx";
 import { showConfirm } from "../../lib/telegram/show-confirm.ts";
@@ -165,7 +164,17 @@ export const DeckPreview = observer(() => {
             </ButtonSideAligned>
           ) : null}
 
-          <ShareDeckButton shareId={deck.share_id} />
+          {deckListStore.canEditDeck(deck) && (
+            <ButtonSideAligned
+              icon={"mdi-share-circle mdi-24px"}
+              outline
+              onClick={() => {
+                screenStore.go({ type: "shareDeck", deckId: deck.id });
+              }}
+            >
+              {t("share")}
+            </ButtonSideAligned>
+          )}
         </div>
       </div>
       {deck.cardsToReview.length === 0 && (

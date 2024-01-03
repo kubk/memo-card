@@ -27,6 +27,9 @@ import { DeckCatalogResponse } from "../../functions/catalog-decks.ts";
 import { DeckWithCardsResponse } from "../../functions/deck-with-cards.ts";
 import { CopyDeckResponse } from "../../functions/duplicate-deck.ts";
 import { DeckCategoryResponse } from "../../functions/deck-categories.ts";
+import {
+  DeckAccessesOfDeckResponse
+} from "../../functions/deck-accesses.ts";
 
 export const healthRequest = () => {
   return request<HealthResponse>("/health");
@@ -47,6 +50,12 @@ export const addDeckToMineRequest = (body: AddDeckToMineRequest) => {
     body,
   );
 };
+
+export const getDeckAccessesOfDeckRequest = (deckId: number) => {
+  return request<DeckAccessesOfDeckResponse>(
+    `/deck-accesses?deck_id=${deckId}`,
+  );
+}
 
 export const apiDuplicateDeckRequest = (deckId: number) => {
   return request<CopyDeckResponse>(`/duplicate-deck?deck_id=${deckId}`, "POST");

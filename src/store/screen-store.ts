@@ -8,6 +8,7 @@ type Route =
   | { type: "reviewAll" }
   | { type: "cardQuickAddForm"; deckId: number }
   | { type: "deckCatalog" }
+  | { type: "shareDeck"; deckId: number }
   | { type: "userSettings" };
 
 export class ScreenStore {

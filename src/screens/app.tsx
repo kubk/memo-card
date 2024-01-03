@@ -19,6 +19,7 @@ import {
 import { RepeatAllScreen } from "./deck-review/repeat-all-screen.tsx";
 import { DeckCatalog } from "./deck-catalog/deck-catalog.tsx";
 import { DeckCatalogStoreContextProvider } from "../store/deck-catalog-store-context.tsx";
+import { ShareDeck } from "./share-deck/share-deck.tsx";
 
 export const App = observer(() => {
   useRestoreFullScreenExpand();
@@ -60,6 +61,12 @@ export const App = observer(() => {
           </DeckFormStoreProvider>
         </PreventTelegramSwipeDownClosingIos>
       )}
+      {screenStore.screen.type === "shareDeck" && (
+        <PreventTelegramSwipeDownClosingIos>
+          <ShareDeck />
+        </PreventTelegramSwipeDownClosingIos>
+      )}
+
       {screenStore.screen.type === "cardQuickAddForm" && (
         <PreventTelegramSwipeDownClosingIos>
           <QuickAddCardForm />
