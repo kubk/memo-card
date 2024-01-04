@@ -109,27 +109,30 @@ export interface Database {
           author_id: number
           created_at: string
           deck_id: number
+          duration_days: number | null
           id: number
-          is_used: boolean
           share_id: string
+          usage_started_at: string | null
           used_by: number | null
         }
         Insert: {
           author_id: number
           created_at?: string
           deck_id: number
+          duration_days?: number | null
           id?: number
-          is_used?: boolean
           share_id: string
+          usage_started_at?: string | null
           used_by?: number | null
         }
         Update: {
           author_id?: number
           created_at?: string
           deck_id?: number
+          duration_days?: number | null
           id?: number
-          is_used?: boolean
           share_id?: string
+          usage_started_at?: string | null
           used_by?: number | null
         }
         Relationships: [

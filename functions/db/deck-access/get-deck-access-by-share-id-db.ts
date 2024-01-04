@@ -1,0 +1,29 @@
+import { DatabaseException } from "../database-exception.ts";
+import { getDatabase } from "../get-database.ts";
+import { EnvSafe } from "../../env/env-schema.ts";
+import { z } from "zod";
+
+const resultSchema = z.object({
+  deck_id: z.number(),
+  author_id: z.number(),
+  used_by: z.number().nullable(),
+});
+
+export const getDeckAccessByShareIdDb = async (
+  envSafe: EnvSafe,
+  shareId: string,
+) => {
+  const db = getDatabase(envSafe);
+
+  const oneTimeShareLinkResult = await db
+    .from("deck_access")
+    .select("deck_id, author_id, used_by")
+    .eq("share_id", shareId)
+    .single();
+
+  if (oneTimeShareLinkResult.error) {
+    throw new DatabaseException(oneTimeShareLinkResult.error);
+  }
+
+  return resultSchema.parse(oneTimeShareLinkResult.data);
+};

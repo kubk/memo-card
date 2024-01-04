@@ -89,7 +89,7 @@ vi.mock("./deck-list-store.ts", () => {
     {
       id: 1,
       cardsToReview: deckCardsMock.slice(0, 2),
-      share_id: null,
+      share_id: "share_id_mock",
       deck_card: deckCardsMock,
       name: "Test",
     },

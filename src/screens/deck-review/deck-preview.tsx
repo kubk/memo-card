@@ -169,7 +169,11 @@ export const DeckPreview = observer(() => {
               icon={"mdi-share-circle mdi-24px"}
               outline
               onClick={() => {
-                screenStore.go({ type: "shareDeck", deckId: deck.id });
+                screenStore.go({
+                  type: "shareDeck",
+                  deckId: deck.id,
+                  shareId: deck.share_id,
+                });
               }}
             >
               {t("share")}

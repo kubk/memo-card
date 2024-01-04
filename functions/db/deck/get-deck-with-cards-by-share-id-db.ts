@@ -3,19 +3,22 @@ import { deckWithCardsSchema } from "./decks-with-cards-schema.ts";
 import { EnvSafe } from "../../env/env-schema.ts";
 import { getDatabase } from "../get-database.ts";
 
-export const getDeckWithCardsById = async (env: EnvSafe, deckId: number) => {
+export const getDeckWithCardsByShareIdDb = async (
+  env: EnvSafe,
+  shareId: string,
+) => {
   const db = getDatabase(env);
 
-  const stableShareLinkResult = await db
+  const { data, error } = await db
     .from("deck")
     .select("*, deck_card!deck_card_deck_id_fkey(*)")
-    .eq("id", deckId)
+    .eq("share_id", shareId)
     .limit(1)
     .single();
 
-  if (stableShareLinkResult.error) {
-    throw new DatabaseException(stableShareLinkResult.error);
+  if (error) {
+    throw new DatabaseException(error);
   }
 
-  return deckWithCardsSchema.parse(stableShareLinkResult.data);
+  return deckWithCardsSchema.parse(data);
 };

@@ -86,6 +86,7 @@ const en = {
   deck_category: "Deck category",
   validation_required: "This field is required",
   validation_number: "This field must be a number",
+  validation_positive_number: "This field must be a positive number",
 };
 
 type Translation = typeof en;
@@ -174,6 +175,7 @@ const ru: Translation = {
   add_card_short: "Карточка",
   validation_required: "Это поле обязательно",
   validation_number: "Это поле должно быть числом",
+  validation_positive_number: "Это поле должно быть положительным числом",
 };
 
 const es: Translation = {
@@ -264,6 +266,7 @@ const es: Translation = {
   deck_category: "Categoría del mazo",
   validation_required: "Este campo es obligatorio",
   validation_number: "Este campo debe ser un número",
+  validation_positive_number: "Este campo debe ser un número positivo",
 };
 
 const ptBr: Translation = {
@@ -354,6 +357,7 @@ const ptBr: Translation = {
   deck_category: "Categoria do baralho",
   validation_required: "Este campo é obrigatório",
   validation_number: "Este campo deve ser um número",
+  validation_positive_number: "Este campo deve ser um número positivo",
 };
 
 const translations = { en, ru, es, "pt-br": ptBr };

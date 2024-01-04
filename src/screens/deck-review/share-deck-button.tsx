@@ -6,10 +6,12 @@ import { ButtonSideAligned } from "../../ui/button-side-aligned.tsx";
 
 type Props = {
   shareId?: string | null;
+  text?: string;
 };
 
 export const ShareDeckButton = (props: Props) => {
   const { shareId } = props;
+  const text = props.text || "Share deck";
 
   const onClick = async () => {
     const botUrl = import.meta.env.VITE_BOT_APP_URL;
@@ -25,7 +27,7 @@ export const ShareDeckButton = (props: Props) => {
       outline
       onClick={onClick}
     >
-      Share stable link
+      {text}
     </ButtonSideAligned>
   );
 };
