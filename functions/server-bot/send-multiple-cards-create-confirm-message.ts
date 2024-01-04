@@ -5,6 +5,7 @@ import { userGetServerBotState } from "../db/user/user-set-server-bot-state.ts";
 import { CallbackQueryType } from "./callback-query-type.ts";
 import { MemoCardTranslator } from "../translations/create-translator.ts";
 import { renderManyCardsToCreate } from "./render-many-cards-to-create.ts";
+import { deleteMessage } from "./delete-message.ts";
 
 export const sendMultipleCardsCreateConfirmMessage = async (
   envSafe: EnvSafe,
@@ -17,7 +18,7 @@ export const sendMultipleCardsCreateConfirmMessage = async (
     return;
   }
 
-  await ctx.deleteMessage();
+  await deleteMessage(ctx);
   if (state.cards.length === 0) {
     await ctx.reply(translator.translate("no_cards_to_create"));
     return;
