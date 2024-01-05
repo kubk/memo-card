@@ -12,6 +12,7 @@ import { getDeckAccessByShareIdDb } from "./db/deck-access/get-deck-access-by-sh
 import { startUsingDeckAccessDb } from "./db/deck-access/start-using-deck-access-db.ts";
 import { getDeckWithCardsById } from "./db/deck/get-deck-with-cards-by-id-db.ts";
 import { getDeckWithCardsByShareIdDb } from "./db/deck/get-deck-with-cards-by-share-id-db.ts";
+import { addDeckToMineDb } from "./db/deck/add-deck-to-mine-db.ts";
 
 export type GetSharedDeckResponse = {
   deck: DeckWithCardsDbType;
@@ -43,6 +44,10 @@ export const onRequest = handleError(async ({ env, request }) => {
         }
       } else {
         await startUsingDeckAccessDb(envSafe, user.id, shareId);
+        await addDeckToMineDb(envSafe, {
+          user_id: user.id,
+          deck_id: oneTimeShareLinkResultData.deck_id,
+        });
       }
     }
 
