@@ -1,14 +1,13 @@
 import { observer } from "mobx-react-lite";
-import React, { useState } from "react";
-import { ShareDeckStore } from "./store/share-deck-store.ts";
+import React from "react";
 import { ShareDeckOneTimeLinks } from "./share-deck-one-time-links.tsx";
 import { ShareDeckSettings } from "./share-deck-settings.tsx";
+import { useShareDeckStore } from "./store/share-deck-store-context.tsx";
 
 export const ShareDeckScreen = observer(() => {
-  const [store] = useState(() => new ShareDeckStore());
-
+  const store = useShareDeckStore();
   if (store.isDeckAccessesOpen.value) {
-    return <ShareDeckOneTimeLinks store={store} />;
+    return <ShareDeckOneTimeLinks />;
   }
-  return <ShareDeckSettings store={store} />;
+  return <ShareDeckSettings />;
 });

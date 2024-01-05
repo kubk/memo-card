@@ -2,7 +2,6 @@ import { observer } from "mobx-react-lite";
 import { css } from "@emotion/css";
 import { t } from "../../translations/t.ts";
 import React from "react";
-import { ShareDeckStore } from "./store/share-deck-store.ts";
 import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
 import { useMount } from "../../lib/react/use-mount.ts";
 import { getDeckLink } from "./redirect-user-to-deck-link.tsx";
@@ -10,13 +9,10 @@ import { copyToClipboard } from "../../lib/copy-to-clipboard/copy-to-clipboard.t
 import { showAlert } from "../../lib/telegram/show-alert.ts";
 import { theme } from "../../ui/theme.tsx";
 import { DateTime } from "luxon";
+import { useShareDeckStore } from "./store/share-deck-store-context.tsx";
 
-type Props = {
-  store: ShareDeckStore;
-};
-
-export const ShareDeckOneTimeLinks = observer((props: Props) => {
-  const { store } = props;
+export const ShareDeckOneTimeLinks = observer(() => {
+  const store = useShareDeckStore();
 
   useBackButton(() => {
     store.isDeckAccessesOpen.setFalse();
