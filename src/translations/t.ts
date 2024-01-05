@@ -31,6 +31,7 @@ const en = {
   category_History: "History",
   save: "Save",
   add_card: "Add card",
+  deck_preview: 'Deck preview',
   add_card_short: "Add card",
   card_front_title: "Front side",
   card_back_title: "Back side",
@@ -86,12 +87,33 @@ const en = {
   deck_category: "Deck category",
   validation_required: "This field is required",
   validation_number: "This field must be a number",
+  validation_positive_number: "This field must be a positive number",
+  share_perpetual_link: "Share perpetual link",
+  share_one_time_link: "Share one-time link",
+  share_deck_settings: "Share deck",
+  share_one_time_access_link: "One-time access link",
+  share_one_time_access_link_description:
+    "The link is only available for one user. After the first use, the link will be invalid",
+  share_access_duration: "Access duration",
+  share_days: "Days",
+  share_days_description:
+    "How long the deck will be available after the first use",
+  share_one_time_links_usage: "One-time links",
+  share_used: "Link have been used by",
+  share_unused: "Haven't been used",
+  share_link_copied: "The link has been copied to your clipboard",
+  share_copy_link: "Copy link",
+  share_access_duration_days: "Access duration days",
+  share_access_duration_no_limit: "No limit",
+  share_deck_access_created_at: "Created at",
+  share_no_links: "You haven't created any one-time links for this deck",
 };
 
 type Translation = typeof en;
 
 const ru: Translation = {
   my_decks: "Мои колоды",
+  deck_preview: 'Предпросмотр колоды',
   show_all_decks: "Показать",
   hide_all_decks: "Скрыть",
   no_personal_decks_start: "У вас еще нет персональных колод. Вы можете",
@@ -174,11 +196,32 @@ const ru: Translation = {
   add_card_short: "Карточка",
   validation_required: "Это поле обязательно",
   validation_number: "Это поле должно быть числом",
+  validation_positive_number: "Это поле должно быть положительным числом",
+  share_access_duration_days: "Длительность доступа в днях",
+  share_used: "Ссылка была использована",
+  share_one_time_access_link: "Одноразовая ссылка",
+  share_deck_settings: "Настройки шеринга колоды",
+  share_access_duration: "Длительность доступа",
+  share_access_duration_no_limit: "Без ограничений",
+  share_days_description:
+    "Как долго колода будет доступна после первого использования",
+  share_copy_link: "Скопировать",
+  share_days: "Дни",
+  share_one_time_links_usage: "Одноразовые ссылки",
+  share_no_links: "Вы еще не создали одноразовых ссылок для этой колоды",
+  share_deck_access_created_at: "Создана",
+  share_one_time_access_link_description:
+    "Ссылка доступна только одному пользователю. После первого использования ссылка станет недействительной",
+  share_link_copied: "Ссылка скопирована",
+  share_one_time_link: "Поделиться одноразовой ссылкой",
+  share_perpetual_link: "Поделиться постоянной ссылкой",
+  share_unused: "Не использована",
 };
 
 const es: Translation = {
   my_decks: "Mis mazos",
   show_all_decks: "Mostrar todos",
+  deck_preview: 'Vista previa del mazo',
   hide_all_decks: "Ocultar",
   no_personal_decks_start:
     "Todavía no tienes ningún mazo personal. Siéntete libre de",
@@ -264,12 +307,33 @@ const es: Translation = {
   deck_category: "Categoría del mazo",
   validation_required: "Este campo es obligatorio",
   validation_number: "Este campo debe ser un número",
+  validation_positive_number: "Este campo debe ser un número positivo",
+  share_unused: "No se ha utilizado",
+  share_one_time_link: "Compartir enlace de un solo uso",
+  share_link_copied: "El enlace se ha copiado en el portapapeles",
+  share_one_time_access_link_description:
+    "El enlace solo está disponible para un usuario. Después del primer uso, el enlace será inválido",
+  share_no_links: "No has creado ningún enlace de un solo uso para este mazo",
+  share_one_time_links_usage: "Enlaces únicos",
+  share_deck_access_created_at: "Creado en",
+  share_days: "Días",
+  share_copy_link: "Copiar enlace",
+  share_days_description:
+    "Cuánto tiempo estará disponible el mazo después del primer uso",
+  share_access_duration_no_limit: "Sin límite",
+  share_access_duration: "Duración del acceso",
+  share_used: "El enlace ha sido utilizado por",
+  share_one_time_access_link: "Enlace de acceso de un solo uso",
+  share_access_duration_days: "Duración del acceso en días",
+  share_deck_settings: "Compartir un mazo",
+  share_perpetual_link: "Compartir enlace perpetuo",
 };
 
 const ptBr: Translation = {
   my_decks: "Meus baralhos",
   show_all_decks: "Mostrar todos",
   hide_all_decks: "Ocultar",
+  deck_preview: 'Visualização do baralho',
   no_personal_decks_start:
     "Você ainda não tem nenhum baralho pessoal. Sinta-se à vontade para",
   no_personal_decks_create: "criar um",
@@ -298,7 +362,7 @@ const ptBr: Translation = {
   category_History: "História",
   save: "Salvar",
   add_card: "Adicionar cartão",
-  add_card_short: "Adicionar cartão",
+  add_card_short: "Cartão",
   card_front_title: "Lado da frente",
   card_back_title: "Lado de trás",
   card_front_side_hint: "A pergunta ou indicação",
@@ -354,6 +418,27 @@ const ptBr: Translation = {
   deck_category: "Categoria do baralho",
   validation_required: "Este campo é obrigatório",
   validation_number: "Este campo deve ser um número",
+  validation_positive_number: "Este campo deve ser um número positivo",
+  share_perpetual_link: "Compartilhar link perpétuo",
+  share_deck_settings: "Compartilhar um baralho",
+  share_access_duration_days: "Duração do acesso em dias",
+  share_used: "O link foi usado por",
+  share_one_time_access_link: "Link de acesso único",
+  share_access_duration: "Duração do acesso",
+  share_access_duration_no_limit: "Sem limite",
+  share_days_description:
+    "Quanto tempo o baralho estará disponível após o primeiro uso",
+  share_copy_link: "Copiar link",
+  share_days: "Dias",
+  share_deck_access_created_at: "Criado em",
+  share_one_time_links_usage: "Enlaces descartáveis",
+  share_no_links:
+    "Você ainda não criou nenhum link de acesso único para este baralho",
+  share_one_time_access_link_description:
+    "O link está disponível apenas para um usuário. Após o primeiro uso, o link será inválido",
+  share_link_copied: "O link foi copiado para a área de transferência",
+  share_one_time_link: "Compartilhar link de acesso único",
+  share_unused: "Não utilizado",
 };
 
 const translations = { en, ru, es, "pt-br": ptBr };

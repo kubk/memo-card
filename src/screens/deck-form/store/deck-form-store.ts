@@ -1,24 +1,24 @@
-import { TextField } from "../lib/mobx-form/text-field.ts";
-import { validators } from "../lib/mobx-form/validator.ts";
+import { TextField } from "../../../lib/mobx-form/text-field.ts";
+import { validators } from "../../../lib/mobx-form/validator.ts";
 import { action, makeAutoObservable } from "mobx";
 import {
   isFormEmpty,
   isFormTouched,
   isFormValid,
-} from "../lib/mobx-form/form-has-error.ts";
-import { assert } from "../lib/typescript/assert.ts";
-import { upsertDeckRequest } from "../api/api.ts";
-import { screenStore } from "./screen-store.ts";
-import { deckListStore } from "./deck-list-store.ts";
-import { showConfirm } from "../lib/telegram/show-confirm.ts";
-import { showAlert } from "../lib/telegram/show-alert.ts";
-import { fuzzySearch } from "../lib/string/fuzzy-search.ts";
+} from "../../../lib/mobx-form/form-has-error.ts";
+import { assert } from "../../../lib/typescript/assert.ts";
+import { upsertDeckRequest } from "../../../api/api.ts";
+import { screenStore } from "../../../store/screen-store.ts";
+import { deckListStore } from "../../../store/deck-list-store.ts";
+import { showConfirm } from "../../../lib/telegram/show-confirm.ts";
+import { showAlert } from "../../../lib/telegram/show-alert.ts";
+import { fuzzySearch } from "../../../lib/string/fuzzy-search.ts";
 import {
   DeckSpeakFieldEnum,
   DeckWithCardsDbType,
-} from "../../functions/db/deck/decks-with-cards-schema.ts";
-import { SpeakLanguageEnum } from "../lib/voice-playback/speak.ts";
-import { t } from "../translations/t.ts";
+} from "../../../../functions/db/deck/decks-with-cards-schema.ts";
+import { SpeakLanguageEnum } from "../../../lib/voice-playback/speak.ts";
+import { t } from "../../../translations/t.ts";
 
 export type CardFormType = {
   front: TextField<string>;

@@ -1,10 +1,10 @@
 import { observer } from "mobx-react-lite";
-import { css } from "@emotion/css";
+import { css, cx } from "@emotion/css";
 import { Label } from "../../ui/label.tsx";
 import { Input } from "../../ui/input.tsx";
 import React from "react";
 import { useMainButton } from "../../lib/telegram/use-main-button.tsx";
-import { useDeckFormStore } from "../../store/deck-form-store-context.tsx";
+import { useDeckFormStore } from "./store/deck-form-store-context.tsx";
 import { screenStore } from "../../store/screen-store.ts";
 import { useMount } from "../../lib/react/use-mount.ts";
 import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
@@ -23,6 +23,8 @@ import {
 import { DeckSpeakFieldEnum } from "../../../functions/db/deck/decks-with-cards-schema.ts";
 import { theme } from "../../ui/theme.tsx";
 import { t } from "../../translations/t.ts";
+import { deckListStore } from "../../store/deck-list-store.ts";
+import { reset } from "../../ui/reset.ts";
 
 export const DeckForm = observer(() => {
   const deckFormStore = useDeckFormStore();
@@ -141,12 +143,34 @@ export const DeckForm = observer(() => {
       <div className={css({ marginTop: 18 })} />
 
       <Button
+        icon={"mdi mdi-plus"}
         onClick={() => {
           deckFormStore.openNewCardForm();
         }}
       >
         {t("add_card")}
       </Button>
+      {deckFormStore.form.id ? (
+        <button
+          className={cx(
+            reset.button,
+            css({
+              width: "100%",
+              color: theme.linkColor,
+              fontSize: 14,
+              paddingTop: 6,
+              textTransform: "uppercase",
+            }),
+          )}
+          onClick={() => {
+            assert(deckFormStore.form);
+            assert(deckFormStore.form.id);
+            deckListStore.goDeckById(deckFormStore.form.id);
+          }}
+        >
+          {t("deck_preview")}
+        </button>
+      ) : null}
     </div>
   );
 });

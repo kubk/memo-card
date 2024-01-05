@@ -1,6 +1,6 @@
 import React, { createContext, ReactNode, useContext } from "react";
 import { ReviewStore } from "./review-store.ts";
-import { assert } from "../lib/typescript/assert.ts";
+import { assert } from "../../../lib/typescript/assert.ts";
 
 const Context = createContext<ReviewStore | null>(null);
 

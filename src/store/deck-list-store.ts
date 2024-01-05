@@ -14,7 +14,7 @@ import {
 import { screenStore } from "./screen-store.ts";
 import { CardToReviewDbType } from "../../functions/db/deck/get-cards-to-review-db.ts";
 import { assert } from "../lib/typescript/assert.ts";
-import { ReviewStore } from "./review-store.ts";
+import { ReviewStore } from "../screens/deck-review/store/review-store.ts";
 import { reportHandledError } from "../lib/rollbar/rollbar.tsx";
 import { UserDbType } from "../../functions/db/user/upsert-user-db.ts";
 import { BooleanToggle } from "../lib/mobx-form/boolean-toggle.ts";
@@ -230,6 +230,22 @@ export class DeckListStore {
           this.isDeckCardsLoading = false;
         }),
       );
+  }
+
+  goDeckById(deckId: number) {
+    if (!this.myInfo) {
+      return null;
+    }
+    const myDeck = this.myInfo.myDecks.find((deck) => deck.id === deckId);
+    if (myDeck) {
+      screenStore.go({ type: "deckMine", deckId });
+      return;
+    }
+    const publicDeck = this.publicDecks.find((deck) => deck.id === deckId);
+    if (publicDeck) {
+      screenStore.go({ type: "deckPublic", deckId });
+      return;
+    }
   }
 
   searchDeckById(deckId: number) {

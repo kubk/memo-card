@@ -2,7 +2,7 @@ import React from "react";
 import { observer } from "mobx-react-lite";
 import { DeckFinishedModal } from "./deck-finished-modal.tsx";
 import { css } from "@emotion/css";
-import { useReviewStore } from "../../store/review-store-context.tsx";
+import { useReviewStore } from "./store/review-store-context.tsx";
 import { useMount } from "../../lib/react/use-mount.ts";
 import { screenStore } from "../../store/screen-store.ts";
 import { useMainButton } from "../../lib/telegram/use-main-button.tsx";

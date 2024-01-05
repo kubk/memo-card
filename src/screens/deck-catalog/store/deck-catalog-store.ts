@@ -1,12 +1,12 @@
 import { makeAutoObservable } from "mobx";
-import { apiDeckCatalog, apiDeckCategories } from "../api/api.ts";
+import { apiDeckCatalog, apiDeckCategories } from "../../../api/api.ts";
 import { fromPromise, IPromiseBasedObservable } from "mobx-utils";
-import { DeckCatalogResponse } from "../../functions/catalog-decks.ts";
-import { TextField } from "../lib/mobx-form/text-field.ts";
-import { cachePromise } from "../lib/cache/cache-promise.ts";
-import { DeckCategoryResponse } from "../../functions/deck-categories.ts";
-import { persistableField } from "../lib/mobx-form/persistable-field.ts";
-import { t } from "../translations/t.ts";
+import { DeckCatalogResponse } from "../../../../functions/catalog-decks.ts";
+import { TextField } from "../../../lib/mobx-form/text-field.ts";
+import { cachePromise } from "../../../lib/cache/cache-promise.ts";
+import { DeckCategoryResponse } from "../../../../functions/deck-categories.ts";
+import { persistableField } from "../../../lib/mobx-form/persistable-field.ts";
+import { t } from "../../../translations/t.ts";
 
 export enum DeckLanguage {
   Any = "any",

@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import { useDeckFormStore } from "../../store/deck-form-store-context.tsx";
+import { useDeckFormStore } from "./store/deck-form-store-context.tsx";
 import { screenStore } from "../../store/screen-store.ts";
 import { assert } from "../../lib/typescript/assert.ts";
 import { useBackButton } from "../../lib/telegram/use-back-button.tsx";

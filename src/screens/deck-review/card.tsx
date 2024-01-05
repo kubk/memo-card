@@ -3,7 +3,7 @@ import { css } from "@emotion/css";
 import React from "react";
 import { theme } from "../../ui/theme.tsx";
 import { observer } from "mobx-react-lite";
-import { CardUnderReviewStore } from "../../store/card-under-review-store.ts";
+import { CardUnderReviewStore } from "./store/card-under-review-store.ts";
 import { HorizontalDivider } from "../../ui/horizontal-divider.tsx";
 import { CardSpeaker } from "./card-speaker.tsx";
 

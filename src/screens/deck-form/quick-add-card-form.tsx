@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { CardFormView } from "./card-form-view.tsx";
 import { useMainButton } from "../../lib/telegram/use-main-button.tsx";
 import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
-import { QuickAddCardFormStore } from "../../store/quick-add-card-form-store.ts";
+import { QuickAddCardFormStore } from "./store/quick-add-card-form-store.ts";
 import { useTelegramProgress } from "../../lib/telegram/use-telegram-progress.tsx";
 import { t } from "../../translations/t.ts";
 

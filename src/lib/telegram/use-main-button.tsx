@@ -4,7 +4,7 @@ import { useHotkeys } from "react-hotkeys-hook";
 import { autorun } from "mobx";
 
 export const useMainButton = (
-  text: string,
+  text: string | (() => string),
   onClick: () => void,
   condition?: () => boolean,
 ) => {
@@ -22,7 +22,7 @@ export const useMainButton = (
       }
 
       WebApp.MainButton.show();
-      WebApp.MainButton.setText(text);
+      WebApp.MainButton.setText(typeof text === "string" ? text : text());
       WebApp.MainButton.onClick(onClick);
     });
 

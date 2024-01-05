@@ -1,13 +1,13 @@
 import { CardState, CardUnderReviewStore } from "./card-under-review-store.ts";
 import { action, makeAutoObservable } from "mobx";
-import { assert } from "../lib/typescript/assert.ts";
-import { reviewCardsRequest } from "../api/api.ts";
-import { ReviewOutcome } from "../../functions/services/review-card.ts";
-import { screenStore } from "./screen-store.ts";
+import { assert } from "../../../lib/typescript/assert.ts";
+import { reviewCardsRequest } from "../../../api/api.ts";
+import { ReviewOutcome } from "../../../../functions/services/review-card.ts";
+import { screenStore } from "../../../store/screen-store.ts";
 import {
   deckListStore,
   DeckWithCardsWithReviewType,
-} from "./deck-list-store.ts";
+} from "../../../store/deck-list-store.ts";
 
 type ReviewResult = {
   forgotIds: number[];

@@ -3,14 +3,15 @@ import { assert } from "../../lib/typescript/assert.ts";
 import { trimEnd } from "../../lib/string/trim.ts";
 import WebApp from "@twa-dev/sdk";
 import { ButtonSideAligned } from "../../ui/button-side-aligned.tsx";
-import { t } from "../../translations/t.ts";
 
 type Props = {
   shareId?: string | null;
+  text?: string;
 };
 
 export const ShareDeckButton = (props: Props) => {
   const { shareId } = props;
+  const text = props.text || "Share deck";
 
   const onClick = async () => {
     const botUrl = import.meta.env.VITE_BOT_APP_URL;
@@ -26,7 +27,7 @@ export const ShareDeckButton = (props: Props) => {
       outline
       onClick={onClick}
     >
-      {t("share")}
+      {text}
     </ButtonSideAligned>
   );
 };

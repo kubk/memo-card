@@ -1,5 +1,5 @@
 import React, { createContext, ReactNode, useContext } from "react";
-import { assert } from "../lib/typescript/assert.ts";
+import { assert } from "../../../lib/typescript/assert.ts";
 import { DeckFormStore } from "./deck-form-store.ts";
 
 const Context = createContext<DeckFormStore | null>(null);
