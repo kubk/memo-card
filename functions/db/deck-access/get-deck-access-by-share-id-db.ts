@@ -7,6 +7,7 @@ const resultSchema = z.object({
   deck_id: z.number(),
   author_id: z.number(),
   used_by: z.number().nullable(),
+  processed_at: z.string().nullable(),
 });
 
 type GetDeckAccessByShareIdDbResultType = z.infer<typeof resultSchema>;
@@ -19,7 +20,7 @@ export const getDeckAccessByShareIdDb = async (
 
   const oneTimeShareLinkResult = await db
     .from("deck_access")
-    .select("deck_id, author_id, used_by")
+    .select("deck_id, author_id, used_by, processed_at")
     .eq("share_id", shareId)
     .maybeSingle();
 

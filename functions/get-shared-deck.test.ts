@@ -37,6 +37,11 @@ vi.mock("./db/deck-access/start-using-deck-access-db.ts", () => ({
   startUsingDeckAccessDb: async () => startUsingDeckAccessDbMock(),
 }));
 
+const addDeckToMineDbMock = vi.hoisted(() => vi.fn());
+vi.mock("./db/deck/add-deck-to-mine-db.ts", () => ({
+  addDeckToMineDb: async () => addDeckToMineDbMock(),
+}));
+
 const mockDeckOfUser1: DeckWithCardsDbType = {
   id: 1,
   name: "name",
@@ -135,5 +140,22 @@ describe("get shared deck", () => {
 
     expect(getDeckWithCardsByIdMock).toBeCalled();
     expect(startUsingDeckAccessDbMock).toBeCalled();
+    expect(addDeckToMineDbMock).toBeCalled();
+  });
+
+  test("one time access found but it is already processed", async () => {
+    getDeckAccessByShareIdMock.mockReturnValue({
+      author_id: 2,
+      used_by: null,
+      deck_id: 2,
+      processed_at: new Date().toISOString(),
+    });
+    getDeckWithCardsByIdMock.mockReturnValue(mockDeckOfUser2);
+
+    await getSharedDeckRequest(
+      createMockRequest(`https://example.com?share_id=SHARE_ID1`),
+    );
+
+    expect(createBadRequestResponseMock).toBeCalled();
   });
 });

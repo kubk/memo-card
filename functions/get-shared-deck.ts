@@ -31,27 +31,28 @@ export const onRequest = handleError(async ({ env, request }) => {
 
   const envSafe = envSchema.parse(env);
 
-  const oneTimeShareLinkResultData = await getDeckAccessByShareIdDb(
-    envSafe,
-    shareId,
-  );
+  const deckAccessResult = await getDeckAccessByShareIdDb(envSafe, shareId);
 
-  if (oneTimeShareLinkResultData) {
-    if (oneTimeShareLinkResultData.author_id !== user.id) {
-      if (oneTimeShareLinkResultData.used_by) {
-        if (oneTimeShareLinkResultData.used_by !== user.id) {
+  if (deckAccessResult) {
+    if (deckAccessResult.processed_at) {
+      return createBadRequestResponse("The link has expired");
+    }
+
+    if (deckAccessResult.author_id !== user.id) {
+      if (deckAccessResult.used_by) {
+        if (deckAccessResult.used_by !== user.id) {
           return createBadRequestResponse("The link has already been used");
         }
       } else {
         await startUsingDeckAccessDb(envSafe, user.id, shareId);
         await addDeckToMineDb(envSafe, {
           user_id: user.id,
-          deck_id: oneTimeShareLinkResultData.deck_id,
+          deck_id: deckAccessResult.deck_id,
         });
       }
     }
 
-    const deckId = oneTimeShareLinkResultData.deck_id;
+    const deckId = deckAccessResult.deck_id;
     const stableShareLinkResult = await getDeckWithCardsById(envSafe, deckId);
 
     return createJsonResponse<GetSharedDeckResponse>({
