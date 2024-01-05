@@ -9,21 +9,25 @@ const resultSchema = z.object({
   used_by: z.number().nullable(),
 });
 
+type GetDeckAccessByShareIdDbResultType = z.infer<typeof resultSchema>;
+
 export const getDeckAccessByShareIdDb = async (
   envSafe: EnvSafe,
   shareId: string,
-) => {
+): Promise<GetDeckAccessByShareIdDbResultType | null> => {
   const db = getDatabase(envSafe);
 
   const oneTimeShareLinkResult = await db
     .from("deck_access")
     .select("deck_id, author_id, used_by")
     .eq("share_id", shareId)
-    .single();
+    .maybeSingle();
 
   if (oneTimeShareLinkResult.error) {
     throw new DatabaseException(oneTimeShareLinkResult.error);
   }
 
-  return resultSchema.parse(oneTimeShareLinkResult.data);
+  return oneTimeShareLinkResult.data
+    ? resultSchema.parse(oneTimeShareLinkResult.data)
+    : null;
 };

@@ -1,9 +1,15 @@
 import { DatabaseException } from "../database-exception.ts";
-import { deckWithCardsSchema } from "./decks-with-cards-schema.ts";
+import {
+  DeckWithCardsDbType,
+  deckWithCardsSchema,
+} from "./decks-with-cards-schema.ts";
 import { EnvSafe } from "../../env/env-schema.ts";
 import { getDatabase } from "../get-database.ts";
 
-export const getDeckWithCardsById = async (env: EnvSafe, deckId: number) => {
+export const getDeckWithCardsById = async (
+  env: EnvSafe,
+  deckId: number,
+): Promise<DeckWithCardsDbType> => {
   const db = getDatabase(env);
 
   const stableShareLinkResult = await db
