@@ -1,4 +1,4 @@
-import { CardUnderReviewStore } from "../../store/card-under-review-store.ts";
+import { CardUnderReviewStore } from "./store/card-under-review-store.ts";
 import { isSpeechSynthesisSupported } from "../../lib/voice-playback/speak.ts";
 import { throttle } from "../../lib/throttle/throttle.ts";
 import { css, cx } from "@emotion/css";

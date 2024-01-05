@@ -4,7 +4,7 @@ import { ReviewStore } from "./review-store.ts";
 import {
   DeckCardDbTypeWithType,
   DeckWithCardsWithReviewType,
-} from "./deck-list-store.ts";
+} from "../../../store/deck-list-store.ts";
 
 const deckCardsMock: DeckCardDbTypeWithType[] = [
   {
@@ -46,21 +46,21 @@ const deckMock: DeckWithCardsWithReviewType = {
   speak_locale: null,
   created_at: "2023-10-06T02:13:20.985Z",
   author_id: 1,
-  share_id: null,
+  share_id: "share_id_mock2",
   is_public: false,
   available_in: null,
   deck_category: null,
   category_id: null,
 };
 
-vi.mock("../api/api.ts", () => {
+vi.mock("../../../api/api.ts", () => {
   return {
     reviewCardsRequest: () => {},
     myInfoRequest: () => {},
   };
 });
 
-vi.mock("./deck-list-store.ts", () => {
+vi.mock("./../store/deck-list-store.ts", () => {
   return {
     deckListStore: {
       load: () => {},
@@ -68,7 +68,7 @@ vi.mock("./deck-list-store.ts", () => {
   };
 });
 
-vi.mock("../lib/voice-playback/speak.ts", async () => {
+vi.mock("../../../lib/voice-playback/speak.ts", async () => {
   return {
     speak: () => {},
   };

@@ -2,7 +2,7 @@ import { observer } from "mobx-react-lite";
 import { assert } from "../../lib/typescript/assert.ts";
 import React from "react";
 import { useMainButton } from "../../lib/telegram/use-main-button.tsx";
-import { useDeckFormStore } from "../../store/deck-form-store-context.tsx";
+import { useDeckFormStore } from "./store/deck-form-store-context.tsx";
 import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
 import { CardFormView } from "./card-form-view.tsx";
 import { useTelegramProgress } from "../../lib/telegram/use-telegram-progress.tsx";

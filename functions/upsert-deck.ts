@@ -54,12 +54,7 @@ export const onRequestPost = handleError(async ({ request, env }) => {
   let databaseDeck: DeckRow | null = null;
 
   if (input.data.id) {
-    databaseDeck = await getDeckByIdAndAuthorId(
-      envSafe,
-      input.data.id,
-      user.id,
-      user.is_admin,
-    );
+    databaseDeck = await getDeckByIdAndAuthorId(envSafe, input.data.id, user);
     if (!databaseDeck) {
       return createForbiddenRequestResponse();
     }

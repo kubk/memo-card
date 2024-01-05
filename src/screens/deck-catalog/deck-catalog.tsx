@@ -3,14 +3,14 @@ import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
 import { screenStore } from "../../store/screen-store.ts";
 import { css } from "@emotion/css";
 import React from "react";
-import { useDeckCatalogStore } from "../../store/deck-catalog-store-context.tsx";
+import { useDeckCatalogStore } from "./store/deck-catalog-store-context.tsx";
 import { useMount } from "../../lib/react/use-mount.ts";
 import { theme } from "../../ui/theme.tsx";
 import { Select } from "../../ui/select.tsx";
 import {
   DeckLanguage,
   languageFilterToNativeName,
-} from "../../store/deck-catalog-store.ts";
+} from "./store/deck-catalog-store.ts";
 import { DeckListItemWithDescription } from "../../ui/deck-list-item-with-description.tsx";
 import { range } from "../../lib/array/range.ts";
 import { DeckLoading } from "../deck-list/deck-loading.tsx";

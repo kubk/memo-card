@@ -2,21 +2,27 @@ import { handleError } from "./lib/handle-error/handle-error.ts";
 import { createJsonResponse } from "./lib/json-response/create-json-response.ts";
 import { createBadRequestResponse } from "./lib/json-response/create-bad-request-response.ts";
 import { envSchema } from "./env/env-schema.ts";
-import { getDatabase } from "./db/get-database.ts";
-import { DatabaseException } from "./db/database-exception.ts";
-import { createNotFoundResponse } from "./lib/json-response/create-not-found-response.ts";
 import {
   DeckWithCardsDbType,
   deckWithCardsSchema,
 } from "./db/deck/decks-with-cards-schema.ts";
 import { getUser } from "./services/get-user.ts";
 import { createAuthFailedResponse } from "./lib/json-response/create-auth-failed-response.ts";
+import { getDeckAccessByShareIdDb } from "./db/deck-access/get-deck-access-by-share-id-db.ts";
+import { startUsingDeckAccessDb } from "./db/deck-access/start-using-deck-access-db.ts";
+import { getDeckWithCardsById } from "./db/deck/get-deck-with-cards-by-id-db.ts";
+import { getDeckWithCardsByShareIdDb } from "./db/deck/get-deck-with-cards-by-share-id-db.ts";
+import { addDeckToMineDb } from "./db/deck/add-deck-to-mine-db.ts";
 
-export type GetSharedDeckResponse = { deck: DeckWithCardsDbType };
+export type GetSharedDeckResponse = {
+  deck: DeckWithCardsDbType;
+};
 
 export const onRequest = handleError(async ({ env, request }) => {
-  const user = getUser(request, env);
-  if (!user) createAuthFailedResponse();
+  const user = await getUser(request, env);
+  if (!user) {
+    return createAuthFailedResponse();
+  }
   const url = new URL(request.url);
   const shareId = url.searchParams.get("share_id");
   if (!shareId) {
@@ -24,22 +30,42 @@ export const onRequest = handleError(async ({ env, request }) => {
   }
 
   const envSafe = envSchema.parse(env);
-  const db = getDatabase(envSafe);
 
-  const result = await db
-    .from("deck")
-    .select("*, deck_card!deck_card_deck_id_fkey(*)")
-    .eq("share_id", shareId);
+  const deckAccessResult = await getDeckAccessByShareIdDb(envSafe, shareId);
 
-  if (result.error) {
-    throw new DatabaseException(result.error);
+  if (deckAccessResult) {
+    if (deckAccessResult.processed_at) {
+      return createBadRequestResponse("The link has expired");
+    }
+
+    if (deckAccessResult.author_id !== user.id) {
+      if (deckAccessResult.used_by) {
+        if (deckAccessResult.used_by !== user.id) {
+          return createBadRequestResponse("The link has already been used");
+        }
+      } else {
+        await startUsingDeckAccessDb(envSafe, user.id, shareId);
+        await addDeckToMineDb(envSafe, {
+          user_id: user.id,
+          deck_id: deckAccessResult.deck_id,
+        });
+      }
+    }
+
+    const deckId = deckAccessResult.deck_id;
+    const stableShareLinkResult = await getDeckWithCardsById(envSafe, deckId);
+
+    return createJsonResponse<GetSharedDeckResponse>({
+      deck: deckWithCardsSchema.parse(stableShareLinkResult),
+    });
+  } else {
+    const stableShareLinkResult = await getDeckWithCardsByShareIdDb(
+      envSafe,
+      shareId,
+    );
+
+    return createJsonResponse<GetSharedDeckResponse>({
+      deck: deckWithCardsSchema.parse(stableShareLinkResult),
+    });
   }
-
-  if (result.data.length === 0) {
-    return createNotFoundResponse();
-  }
-
-  return createJsonResponse<GetSharedDeckResponse>({
-    deck: deckWithCardsSchema.parse(result.data[0]),
-  });
 });

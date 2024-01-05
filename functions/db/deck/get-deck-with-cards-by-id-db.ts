@@ -1,21 +1,27 @@
 import { DatabaseException } from "../database-exception.ts";
-import { deckWithCardsSchema } from "./decks-with-cards-schema.ts";
+import {
+  DeckWithCardsDbType,
+  deckWithCardsSchema,
+} from "./decks-with-cards-schema.ts";
 import { EnvSafe } from "../../env/env-schema.ts";
 import { getDatabase } from "../get-database.ts";
 
-export const getDeckWithCardsById = async (env: EnvSafe, deckId: number) => {
+export const getDeckWithCardsById = async (
+  env: EnvSafe,
+  deckId: number,
+): Promise<DeckWithCardsDbType> => {
   const db = getDatabase(env);
 
-  const { data, error } = await db
+  const stableShareLinkResult = await db
     .from("deck")
     .select("*, deck_card!deck_card_deck_id_fkey(*)")
     .eq("id", deckId)
     .limit(1)
     .single();
 
-  if (error) {
-    throw new DatabaseException(error);
+  if (stableShareLinkResult.error) {
+    throw new DatabaseException(stableShareLinkResult.error);
   }
 
-  return deckWithCardsSchema.parse(data);
+  return deckWithCardsSchema.parse(stableShareLinkResult.data);
 };

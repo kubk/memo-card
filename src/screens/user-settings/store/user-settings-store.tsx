@@ -1,14 +1,14 @@
 import { action, makeAutoObservable, when } from "mobx";
-import { TextField } from "../lib/mobx-form/text-field.ts";
-import { deckListStore } from "./deck-list-store.ts";
-import { assert } from "../lib/typescript/assert.ts";
+import { TextField } from "../../../lib/mobx-form/text-field.ts";
+import { deckListStore } from "../../../store/deck-list-store.ts";
+import { assert } from "../../../lib/typescript/assert.ts";
 import { DateTime } from "luxon";
-import { formatTime } from "../screens/user-settings/generate-time-range.tsx";
-import { isFormTouched } from "../lib/mobx-form/form-has-error.ts";
-import { userSettingsRequest } from "../api/api.ts";
-import { screenStore } from "./screen-store.ts";
-import { UserSettingsRequest } from "../../functions/user-settings.ts";
-import { BooleanField } from "../lib/mobx-form/boolean-field.ts";
+import { formatTime } from "../generate-time-range.tsx";
+import { isFormTouched } from "../../../lib/mobx-form/form-has-error.ts";
+import { userSettingsRequest } from "../../../api/api.ts";
+import { screenStore } from "../../../store/screen-store.ts";
+import { UserSettingsRequest } from "../../../../functions/user-settings.ts";
+import { BooleanField } from "../../../lib/mobx-form/boolean-field.ts";
 
 const DEFAULT_TIME = "12:00";
 

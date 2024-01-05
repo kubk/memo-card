@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import { useUserSettingsStore } from "../../store/user-settings-store-context.tsx";
+import { useUserSettingsStore } from "./store/user-settings-store-context.tsx";
 import { deckListStore } from "../../store/deck-list-store.ts";
 import React from "react";
 import { useMount } from "../../lib/react/use-mount.ts";
