@@ -11,6 +11,21 @@ import { theme } from "../../ui/theme.tsx";
 import { DateTime } from "luxon";
 import { useShareDeckStore } from "./store/share-deck-store-context.tsx";
 
+const formatAccessUser = (user: {
+  id: number;
+  username: string | null;
+  first_name: string | null;
+  last_name: string | null;
+}) => {
+  if (user.username) {
+    return `@${user.username}`;
+  }
+  if (user.first_name || user.last_name) {
+    return `${user.first_name ?? ""} ${user.last_name ?? ""}`;
+  }
+  return `#${user.id}`;
+};
+
 export const ShareDeckOneTimeLinks = observer(() => {
   const store = useShareDeckStore();
 
@@ -64,7 +79,8 @@ export const ShareDeckOneTimeLinks = observer(() => {
                 className={css({
                   paddingTop: 6,
                   marginLeft: 12,
-                  borderTop: i !== 0 ? "1px solid #ccc" : undefined,
+                  borderTop:
+                    i !== 0 ? `1px solid ${theme.dividerColor}` : undefined,
                 })}
               >
                 <div>
@@ -73,8 +89,7 @@ export const ShareDeckOneTimeLinks = observer(() => {
                       fontWeight: 500,
                     })}
                   >
-                    #{access.id}:{" "}
-                    {access.used_by ? t("share_used") : t("share_unused")}
+                    #{access.id}{" "}
                     <span
                       onClick={async () => {
                         const link = getDeckLink(access.share_id);
@@ -86,9 +101,13 @@ export const ShareDeckOneTimeLinks = observer(() => {
                         cursor: "pointer",
                       })}
                     >
-                      {" "}
                       {t("share_copy_link")}
                     </span>
+                  </div>
+                  <div>
+                    {access.used_by && access.user
+                      ? `${t("share_used")} ${formatAccessUser(access.user)}`
+                      : t("share_unused")}
                   </div>
                   <div>
                     {t("share_access_duration_days")}:{" "}

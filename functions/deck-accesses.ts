@@ -4,22 +4,14 @@ import { createAuthFailedResponse } from "./lib/json-response/create-auth-failed
 import { handleError } from "./lib/handle-error/handle-error.ts";
 import { envSchema } from "./env/env-schema.ts";
 import { createBadRequestResponse } from "./lib/json-response/create-bad-request-response.ts";
-import { getLastDeckAccessesForDeckDb } from "./db/deck-access/get-last-deck-accesses-for-deck-db.ts";
-import { z } from "zod";
+import {
+  DeckAccessesForDeckTypeDb,
+  getLastDeckAccessesForDeckDb,
+} from "./db/deck-access/get-last-deck-accesses-for-deck-db.ts";
 
-const responseSchema = z.object({
-  accesses: z.array(
-    z.object({
-      used_by: z.number().nullable(),
-      share_id: z.string(),
-      id: z.number(),
-      created_at: z.string(),
-      duration_days: z.number().nullable(),
-    }),
-  ),
-});
-
-export type DeckAccessesForDeckTypeDb = z.infer<typeof responseSchema>;
+export type DeckAccessesResponse = {
+  accesses: DeckAccessesForDeckTypeDb;
+};
 
 export const onRequest = handleError(async ({ request, env }) => {
   const user = await getUser(request, env);
@@ -35,7 +27,7 @@ export const onRequest = handleError(async ({ request, env }) => {
 
   const data = await getLastDeckAccessesForDeckDb(envSafe, Number(deckId));
 
-  return createJsonResponse<DeckAccessesForDeckTypeDb>({
+  return createJsonResponse<DeckAccessesResponse>({
     accesses: data,
   });
 });

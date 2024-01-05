@@ -232,6 +232,22 @@ export class DeckListStore {
       );
   }
 
+  goDeckById(deckId: number) {
+    if (!this.myInfo) {
+      return null;
+    }
+    const myDeck = this.myInfo.myDecks.find((deck) => deck.id === deckId);
+    if (myDeck) {
+      screenStore.go({ type: "deckMine", deckId });
+      return;
+    }
+    const publicDeck = this.publicDecks.find((deck) => deck.id === deckId);
+    if (publicDeck) {
+      screenStore.go({ type: "deckPublic", deckId });
+      return;
+    }
+  }
+
   searchDeckById(deckId: number) {
     if (!this.myInfo) {
       return null;

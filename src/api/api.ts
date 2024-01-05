@@ -27,7 +27,7 @@ import { DeckCatalogResponse } from "../../functions/catalog-decks.ts";
 import { DeckWithCardsResponse } from "../../functions/deck-with-cards.ts";
 import { CopyDeckResponse } from "../../functions/duplicate-deck.ts";
 import { DeckCategoryResponse } from "../../functions/deck-categories.ts";
-import { DeckAccessesForDeckTypeDb } from "../../functions/deck-accesses.ts";
+import { DeckAccessesResponse } from "../../functions/deck-accesses.ts";
 import {
   AddDeckAccessRequest,
   AddDeckAccessResponse,
@@ -54,7 +54,7 @@ export const addDeckToMineRequest = (body: AddDeckToMineRequest) => {
 };
 
 export const getDeckAccessesOfDeckRequest = (deckId: number) => {
-  return request<DeckAccessesForDeckTypeDb>(`/deck-accesses?deck_id=${deckId}`);
+  return request<DeckAccessesResponse>(`/deck-accesses?deck_id=${deckId}`);
 };
 
 export const addDeckAccessRequest = (body: AddDeckAccessRequest) => {

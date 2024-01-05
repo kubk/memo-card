@@ -31,6 +31,7 @@ const en = {
   category_History: "History",
   save: "Save",
   add_card: "Add card",
+  deck_preview: 'Deck preview',
   add_card_short: "Add card",
   card_front_title: "Front side",
   card_back_title: "Back side",
@@ -98,7 +99,7 @@ const en = {
   share_days_description:
     "How long the deck will be available after the first use",
   share_one_time_links_usage: "One-time links",
-  share_used: "Link have been used ✅",
+  share_used: "Link have been used by",
   share_unused: "Haven't been used",
   share_link_copied: "The link has been copied to your clipboard",
   share_copy_link: "Copy link",
@@ -112,6 +113,7 @@ type Translation = typeof en;
 
 const ru: Translation = {
   my_decks: "Мои колоды",
+  deck_preview: 'Предпросмотр колоды',
   show_all_decks: "Показать",
   hide_all_decks: "Скрыть",
   no_personal_decks_start: "У вас еще нет персональных колод. Вы можете",
@@ -196,7 +198,7 @@ const ru: Translation = {
   validation_number: "Это поле должно быть числом",
   validation_positive_number: "Это поле должно быть положительным числом",
   share_access_duration_days: "Длительность доступа в днях",
-  share_used: "Использована ✅",
+  share_used: "Ссылка была использована",
   share_one_time_access_link: "Одноразовая ссылка",
   share_deck_settings: "Настройки шеринга колоды",
   share_access_duration: "Длительность доступа",
@@ -219,6 +221,7 @@ const ru: Translation = {
 const es: Translation = {
   my_decks: "Mis mazos",
   show_all_decks: "Mostrar todos",
+  deck_preview: 'Vista previa del mazo',
   hide_all_decks: "Ocultar",
   no_personal_decks_start:
     "Todavía no tienes ningún mazo personal. Siéntete libre de",
@@ -319,7 +322,7 @@ const es: Translation = {
     "Cuánto tiempo estará disponible el mazo después del primer uso",
   share_access_duration_no_limit: "Sin límite",
   share_access_duration: "Duración del acceso",
-  share_used: "El enlace ha sido utilizado ✅",
+  share_used: "El enlace ha sido utilizado por",
   share_one_time_access_link: "Enlace de acceso de un solo uso",
   share_access_duration_days: "Duración del acceso en días",
   share_deck_settings: "Compartir un mazo",
@@ -330,6 +333,7 @@ const ptBr: Translation = {
   my_decks: "Meus baralhos",
   show_all_decks: "Mostrar todos",
   hide_all_decks: "Ocultar",
+  deck_preview: 'Visualização do baralho',
   no_personal_decks_start:
     "Você ainda não tem nenhum baralho pessoal. Sinta-se à vontade para",
   no_personal_decks_create: "criar um",
@@ -418,7 +422,7 @@ const ptBr: Translation = {
   share_perpetual_link: "Compartilhar link perpétuo",
   share_deck_settings: "Compartilhar um baralho",
   share_access_duration_days: "Duração do acesso em dias",
-  share_used: "O link foi usado ✅",
+  share_used: "O link foi usado por",
   share_one_time_access_link: "Link de acesso único",
   share_access_duration: "Duração do acesso",
   share_access_duration_no_limit: "Sem limite",

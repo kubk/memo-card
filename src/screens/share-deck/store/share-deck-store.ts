@@ -12,11 +12,11 @@ import {
 } from "../../../api/api.ts";
 import { persistableField } from "../../../lib/mobx-form/persistable-field.ts";
 import { fromPromise, IPromiseBasedObservable } from "mobx-utils";
-import { DeckAccessesForDeckTypeDb } from "../../../../functions/deck-accesses.ts";
+import { DeckAccessesResponse } from "../../../../functions/deck-accesses.ts";
 
 export class ShareDeckStore {
   isSending = false;
-  deckAccesses?: IPromiseBasedObservable<DeckAccessesForDeckTypeDb>;
+  deckAccesses?: IPromiseBasedObservable<DeckAccessesResponse>;
   isDeckAccessesOpen = new BooleanToggle(false);
 
   form = {
