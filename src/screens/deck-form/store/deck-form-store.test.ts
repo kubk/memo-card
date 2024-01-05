@@ -46,7 +46,7 @@ const mocks = vi.hoisted(() => {
   };
 });
 
-vi.mock("./screen-store", () => {
+vi.mock("./../../../store/screen-store", () => {
   return {
     screenStore: {
       screen: {
@@ -57,7 +57,7 @@ vi.mock("./screen-store", () => {
   };
 });
 
-vi.mock("./deck-list-store.ts", () => {
+vi.mock("./../../../store/deck-list-store.ts", () => {
   const deckCardsMock: DeckCardDbType[] = [
     {
       id: 3,
@@ -106,31 +106,31 @@ vi.mock("./deck-list-store.ts", () => {
   };
 });
 
-vi.mock("../lib/telegram/show-confirm.ts", () => {
+vi.mock("../../../lib/telegram/show-confirm.ts", () => {
   return {
     showConfirm: () => {},
   };
 });
 
-vi.mock("../lib/telegram/show-alert.ts", () => {
+vi.mock("../../../lib/telegram/show-alert.ts", () => {
   return {
     showAlert: () => {},
   };
 });
 
-vi.mock("../translations/t.ts", () => {
+vi.mock("../../../translations/t.ts", () => {
   return {
     t: (val: string) => val,
   };
 });
 
-vi.mock("../api/api.ts", () => {
+vi.mock("../../../api/api.ts", () => {
   return {
     upsertDeckRequest: mocks.upsertDeckRequest,
   };
 });
 
-vi.mock("../lib/voice-playback/speak.ts", async () => {
+vi.mock("../../../lib/voice-playback/speak.ts", async () => {
   return {
     speak: () => {},
   };

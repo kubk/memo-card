@@ -53,14 +53,14 @@ const deckMock: DeckWithCardsWithReviewType = {
   category_id: null,
 };
 
-vi.mock("../api/api.ts", () => {
+vi.mock("../../../api/api.ts", () => {
   return {
     reviewCardsRequest: () => {},
     myInfoRequest: () => {},
   };
 });
 
-vi.mock("./deck-list-store.ts", () => {
+vi.mock("./../store/deck-list-store.ts", () => {
   return {
     deckListStore: {
       load: () => {},
@@ -68,7 +68,7 @@ vi.mock("./deck-list-store.ts", () => {
   };
 });
 
-vi.mock("../lib/voice-playback/speak.ts", async () => {
+vi.mock("../../../lib/voice-playback/speak.ts", async () => {
   return {
     speak: () => {},
   };
