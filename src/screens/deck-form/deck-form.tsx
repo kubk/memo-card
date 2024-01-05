@@ -4,7 +4,7 @@ import { Label } from "../../ui/label.tsx";
 import { Input } from "../../ui/input.tsx";
 import React from "react";
 import { useMainButton } from "../../lib/telegram/use-main-button.tsx";
-import { useDeckFormStore } from "../../store/deck-form-store-context.tsx";
+import { useDeckFormStore } from "./store/deck-form-store-context.tsx";
 import { screenStore } from "../../store/screen-store.ts";
 import { useMount } from "../../lib/react/use-mount.ts";
 import { useBackButton } from "../../lib/telegram/use-back-button.tsx";

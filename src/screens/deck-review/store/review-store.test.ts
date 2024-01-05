@@ -4,7 +4,7 @@ import { ReviewStore } from "./review-store.ts";
 import {
   DeckCardDbTypeWithType,
   DeckWithCardsWithReviewType,
-} from "./deck-list-store.ts";
+} from "../../../store/deck-list-store.ts";
 
 const deckCardsMock: DeckCardDbTypeWithType[] = [
   {

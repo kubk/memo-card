@@ -2,10 +2,10 @@ import { makeAutoObservable } from "mobx";
 import {
   DeckCardDbType,
   DeckSpeakFieldEnum,
-} from "../../functions/db/deck/decks-with-cards-schema.ts";
-import { DeckWithCardsWithReviewType } from "./deck-list-store.ts";
-import { speak, SpeakLanguageEnum } from "../lib/voice-playback/speak.ts";
-import { isEnumValid } from "../lib/typescript/is-enum-valid.ts";
+} from "../../../../functions/db/deck/decks-with-cards-schema.ts";
+import { DeckWithCardsWithReviewType } from "../../../store/deck-list-store.ts";
+import { speak, SpeakLanguageEnum } from "../../../lib/voice-playback/speak.ts";
+import { isEnumValid } from "../../../lib/typescript/is-enum-valid.ts";
 
 export enum CardState {
   Remember = "remember",

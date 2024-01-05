@@ -1,4 +1,4 @@
-import { assert } from "../lib/typescript/assert.ts";
+import { assert } from "../../../lib/typescript/assert.ts";
 import { DeckCatalogStore } from "./deck-catalog-store.ts";
 import { createContext, ReactNode, useContext } from "react";
 

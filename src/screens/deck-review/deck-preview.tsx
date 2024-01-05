@@ -3,7 +3,7 @@ import { deckListStore } from "../../store/deck-list-store.ts";
 import { css } from "@emotion/css";
 import { theme } from "../../ui/theme.tsx";
 import React from "react";
-import { useReviewStore } from "../../store/review-store-context.tsx";
+import { useReviewStore } from "./store/review-store-context.tsx";
 import { screenStore } from "../../store/screen-store.ts";
 import { Hint } from "../../ui/hint.tsx";
 import { useBackButton } from "../../lib/telegram/use-back-button.tsx";

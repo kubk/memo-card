@@ -1,22 +1,23 @@
-import { assert } from "../../lib/typescript/assert.ts";
-import { BooleanToggle } from "../../lib/mobx-form/boolean-toggle.ts";
-import { TextField } from "../../lib/mobx-form/text-field.ts";
-import { t } from "../../translations/t.ts";
+import { assert } from "../../../lib/typescript/assert.ts";
+import { BooleanToggle } from "../../../lib/mobx-form/boolean-toggle.ts";
+import { TextField } from "../../../lib/mobx-form/text-field.ts";
+import { t } from "../../../translations/t.ts";
 import { action, makeAutoObservable } from "mobx";
-import { isFormValid } from "../../lib/mobx-form/form-has-error.ts";
-import { screenStore } from "../../store/screen-store.ts";
-import { redirectUserToDeckLink } from "./redirect-user-to-deck-link.tsx";
+import { isFormValid } from "../../../lib/mobx-form/form-has-error.ts";
+import { screenStore } from "../../../store/screen-store.ts";
+import { redirectUserToDeckLink } from "../redirect-user-to-deck-link.tsx";
 import {
   addDeckAccessRequest,
   getDeckAccessesOfDeckRequest,
-} from "../../api/api.ts";
-import { persistableField } from "../../lib/mobx-form/persistable-field.ts";
+} from "../../../api/api.ts";
+import { persistableField } from "../../../lib/mobx-form/persistable-field.ts";
 import { fromPromise, IPromiseBasedObservable } from "mobx-utils";
-import { DeckAccessesForDeckTypeDb } from "../../../functions/deck-accesses.ts";
+import { DeckAccessesForDeckTypeDb } from "../../../../functions/deck-accesses.ts";
 
 export class ShareDeckStore {
   isSending = false;
   deckAccesses?: IPromiseBasedObservable<DeckAccessesForDeckTypeDb>;
+  isDeckAccessesOpen = new BooleanToggle(false);
 
   form = {
     isOneTime: persistableField(new BooleanToggle(false), "isOneTime"),
