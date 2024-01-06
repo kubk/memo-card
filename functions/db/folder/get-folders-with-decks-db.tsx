@@ -6,6 +6,7 @@ import { z } from "zod";
 const userFoldersSchema = z.object({
   folder_id: z.number(),
   folder_title: z.string(),
+  folder_description: z.string().nullable(),
   deck_id: z.number().nullable(),
 });
 

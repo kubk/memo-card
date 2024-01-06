@@ -5,11 +5,10 @@ import { theme } from "./theme.tsx";
 
 type Props = {
   children: ReactNode;
-  marginTop?: number;
 };
 
 export const HintTransparent = (props: Props) => {
-  const { children, marginTop } = props;
+  const { children } = props;
 
   return (
     <p
@@ -18,7 +17,7 @@ export const HintTransparent = (props: Props) => {
         css({
           fontSize: 14,
           padding: "0 12px",
-          marginTop: marginTop ?? -4,
+          marginTop: -4,
           borderRadius: theme.borderRadius,
           color: theme.hintColor,
           textTransform: "none",

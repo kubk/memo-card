@@ -3,8 +3,9 @@ import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
 import { screenStore } from "../../store/screen-store.ts";
 import { useMainButton } from "../../lib/telegram/use-main-button.tsx";
 import { t } from "../../translations/t.ts";
-import { useTelegramProgress } from "../../lib/telegram/use-telegram-progress.tsx";
-import { css } from "@emotion/css";
+import {
+  useTelegramProgress
+} from "../../lib/telegram/use-telegram-progress.tsx";
 import { SettingsRow } from "../user-settings/settings-row.tsx";
 import { RadioSwitcher } from "../../ui/radio-switcher.tsx";
 import { HintTransparent } from "../../ui/hint-transparent.tsx";
@@ -12,6 +13,7 @@ import { Label } from "../../ui/label.tsx";
 import { Input } from "../../ui/input.tsx";
 import React from "react";
 import { useShareDeckStore } from "./store/share-deck-store-context.tsx";
+import { Screen } from "../shared/screen.tsx";
 
 export const ShareDeckSettings = observer(() => {
   const store = useShareDeckStore();
@@ -35,18 +37,7 @@ export const ShareDeckSettings = observer(() => {
   useTelegramProgress(() => store.isSending);
 
   return (
-    <div
-      className={css({
-        display: "flex",
-        flexDirection: "column",
-        gap: 16,
-        marginBottom: 16,
-        position: "relative",
-      })}
-    >
-      <h3 className={css({ textAlign: "center" })}>
-        {t("share_deck_settings")}
-      </h3>
+    <Screen title={t("share_deck_settings")}>
       <SettingsRow>
         <span>{t("share_one_time_access_link")}</span>
         <RadioSwitcher
@@ -54,7 +45,7 @@ export const ShareDeckSettings = observer(() => {
           onToggle={store.form.isOneTime.toggle}
         />
       </SettingsRow>
-      <HintTransparent marginTop={-12}>
+      <HintTransparent>
         {t("share_one_time_access_link_description")}
       </HintTransparent>
       {store.form.isOneTime.value && (
@@ -82,6 +73,6 @@ export const ShareDeckSettings = observer(() => {
       >
         {t("share_one_time_links_usage")}
       </SettingsRow>
-    </div>
+    </Screen>
   );
 });

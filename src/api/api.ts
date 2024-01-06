@@ -36,6 +36,7 @@ import {
   AddDeckAccessRequest,
   AddDeckAccessResponse,
 } from "../../functions/add-deck-access.ts";
+import { DecksMineResponse } from "../../functions/decks-mine.ts";
 
 export const healthRequest = () => {
   return request<HealthResponse>("/health");
@@ -127,4 +128,8 @@ export const apiFolderUpsert = (body: AddFolderRequest) => {
     "POST",
     body,
   );
+};
+
+export const apiDecksMine = () => {
+  return request<DecksMineResponse>("/decks-mine");
 };

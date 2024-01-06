@@ -14,7 +14,7 @@ export const Screen = observer((props: Props) => {
       className={css({
         display: "flex",
         flexDirection: "column",
-        gap: 6,
+        gap: 8,
         position: "relative",
         marginBottom: 16,
       })}

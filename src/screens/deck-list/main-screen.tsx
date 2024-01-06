@@ -55,24 +55,45 @@ export const MainScreen = observer(() => {
           {deckListStore.myInfo
             ? deckListStore.myDeckItemsVisible.map((listItem) => {
                 return (
-                  <MyDeckRow
-                    onClick={() => {
-                      if (listItem.type === "deck") {
-                        screenStore.go({
-                          type: "deckMine",
-                          deckId: listItem.id,
-                        });
-                      }
-                      if (listItem.type === "folder") {
-                        screenStore.go({
-                          type: "folderForm",
-                          folderId: listItem.id,
-                        });
-                      }
-                    }}
-                    key={listItem.id}
-                    item={listItem}
-                  />
+                  <>
+                    <MyDeckRow
+                      onClick={() => {
+                        if (listItem.type === "deck") {
+                          screenStore.go({
+                            type: "deckMine",
+                            deckId: listItem.id,
+                          });
+                        }
+                        if (listItem.type === "folder") {
+                          screenStore.go({
+                            type: "folderPreview",
+                            folderId: listItem.id,
+                          });
+                        }
+                      }}
+                      key={listItem.id}
+                      item={listItem}
+                    />
+                    {listItem.type === "folder" &&
+                    deckListStore.isMyDecksExpanded.value
+                      ? listItem.decks.map((deck) => {
+                          return (
+                            <div className={css({ marginLeft: 24 })}>
+                              <MyDeckRow
+                                onClick={() => {
+                                  screenStore.go({
+                                    type: "deckMine",
+                                    deckId: deck.id,
+                                  });
+                                }}
+                                key={deck.id}
+                                item={deck}
+                              />
+                            </div>
+                          );
+                        })
+                      : null}
+                  </>
                 );
               })
             : null}

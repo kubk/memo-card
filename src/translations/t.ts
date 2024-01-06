@@ -33,7 +33,7 @@ const en = {
   save: "Save",
   add_card: "Add card",
   edit_card: "Edit card",
-  deck_preview: 'Deck preview',
+  deck_preview: "Deck preview",
   add_card_short: "Add card",
   card_front_title: "Front side",
   card_back_title: "Back side",
@@ -61,6 +61,7 @@ const en = {
   review_finished_want_more: "Want more? You have",
   review_finished_to_review: "to study",
   review_deck: "Review deck",
+  review_folder: "Review folder",
   cards_to_repeat: "Cards to repeat",
   cards_new: "New cards",
   cards_total: "Total cards",
@@ -109,13 +110,15 @@ const en = {
   share_access_duration_no_limit: "No limit",
   share_deck_access_created_at: "Created at",
   share_no_links: "You haven't created any one-time links for this deck",
+  go_back: "Go back",
 };
 
 type Translation = typeof en;
 
 const ru: Translation = {
+  review_folder: "Повторить папку",
   my_decks: "Мои колоды",
-  deck_preview: 'Предпросмотр колоды',
+  deck_preview: "Предпросмотр колоды",
   show_all_decks: "Показать",
   hide_all_decks: "Скрыть",
   no_personal_decks_start: "У вас еще нет персональных колод. Вы можете",
@@ -220,12 +223,14 @@ const ru: Translation = {
   share_one_time_link: "Поделиться одноразовой ссылкой",
   share_perpetual_link: "Поделиться постоянной ссылкой",
   share_unused: "Не использована",
+  go_back: "Назад",
 };
 
 const es: Translation = {
+  review_folder: "Repasar carpeta",
   my_decks: "Mis mazos",
   show_all_decks: "Mostrar todos",
-  deck_preview: 'Vista previa del mazo',
+  deck_preview: "Vista previa del mazo",
   hide_all_decks: "Ocultar",
   no_personal_decks_start:
     "Todavía no tienes ningún mazo personal. Siéntete libre de",
@@ -333,13 +338,15 @@ const es: Translation = {
   share_access_duration_days: "Duración del acceso en días",
   share_deck_settings: "Compartir un mazo",
   share_perpetual_link: "Compartir enlace perpetuo",
+  go_back: "Volver",
 };
 
 const ptBr: Translation = {
+  review_folder: "Revisar pasta",
   my_decks: "Meus baralhos",
   show_all_decks: "Mostrar todos",
   hide_all_decks: "Ocultar",
-  deck_preview: 'Visualização do baralho',
+  deck_preview: "Visualização do baralho",
   no_personal_decks_start:
     "Você ainda não tem nenhum baralho pessoal. Sinta-se à vontade para",
   no_personal_decks_create: "criar um",
@@ -447,6 +454,7 @@ const ptBr: Translation = {
   share_link_copied: "O link foi copiado para a área de transferência",
   share_one_time_link: "Compartilhar link de acesso único",
   share_unused: "Não utilizado",
+  go_back: "Voltar",
 };
 
 const translations = { en, ru, es, "pt-br": ptBr };

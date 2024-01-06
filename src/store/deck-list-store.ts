@@ -18,6 +18,7 @@ import { ReviewStore } from "../screens/deck-review/store/review-store.ts";
 import { reportHandledError } from "../lib/rollbar/rollbar.tsx";
 import { UserDbType } from "../../functions/db/user/upsert-user-db.ts";
 import { BooleanToggle } from "../lib/mobx-form/boolean-toggle.ts";
+import { UserFoldersDbType } from "../../functions/db/folder/get-folders-with-decks-db.tsx";
 
 export enum StartParamType {
   RepeatAll = "repeat_all",
@@ -35,13 +36,14 @@ export type DeckListItem = {
   id: number;
   cardsToReview: DeckCardDbTypeWithType[];
   name: string;
+  description: string | null;
 } & (
   | {
       type: "deck";
     }
   | {
       type: "folder";
-      deckIds: number[];
+      decks: DeckWithCardsWithReviewType[];
     }
 );
 
@@ -270,6 +272,30 @@ export class DeckListStore {
     return decksToSearch.find((deck) => deck.id === deckId);
   }
 
+  get selectedFolder() {
+    const screen = screenStore.screen;
+    assert(screen.type === "folderPreview");
+    if (!this.myInfo) {
+      return null;
+    }
+
+    const folder = this.myFoldersAsDecks.find(
+      (folder) => folder.id === screen.folderId,
+    );
+    if (!folder) {
+      return null;
+    }
+    assert(folder.type === "folder");
+
+    return folder;
+  }
+
+  get isFolderReviewVisible() {
+    return this.selectedFolder
+      ? this.selectedFolder.cardsToReview.length > 0
+      : false;
+  }
+
   get selectedDeck(): DeckWithCardsWithReviewType | null {
     const screen = screenStore.screen;
     assert(screen.type === "deckPublic" || screen.type === "deckMine");
@@ -357,12 +383,17 @@ export class DeckListStore {
 
     const map = new Map<
       number,
-      { folderName: string; decks: DeckWithCardsWithReviewType[] }
+      {
+        folderName: string;
+        folderDescription: string | null;
+        decks: DeckWithCardsWithReviewType[];
+      }
     >();
 
     this.myInfo.folders.forEach((folder) => {
       const mapItem = map.get(folder.folder_id) ?? {
         folderName: folder.folder_title,
+        folderDescription: folder.folder_description,
         decks: [],
       };
       const deck = myDecks.find((deck) => deck.id === folder.deck_id);
@@ -374,13 +405,14 @@ export class DeckListStore {
 
     return Array.from(map.entries()).map(([folderId, mapItem]) => ({
       id: folderId,
-      deckIds: mapItem.decks.map((deck) => deck.id),
+      decks: mapItem.decks,
       cardsToReview: mapItem.decks.reduce<DeckCardDbTypeWithType[]>(
         (acc, deck) => acc.concat(deck.cardsToReview),
         [],
       ),
       type: "folder",
       name: mapItem.folderName,
+      description: mapItem.folderDescription,
     }));
   }
 
@@ -389,12 +421,8 @@ export class DeckListStore {
   }
 
   get myDeckItemsVisible(): DeckListItem[] {
-    const listItems = this.myFoldersAsDecks.concat(this.myDecksWithoutFolder);
-    if (this.isMyDecksExpanded.value) {
-      return listItems;
-    }
-
-    return listItems
+    const sortedListItems = this.myFoldersAsDecks
+      .concat(this.myDecksWithoutFolder)
       .sort((a, b) => {
         // sort decks by cardsToReview count with type 'repeat' first, then with type 'new'
         const aRepeatCount = a.cardsToReview.filter(
@@ -415,8 +443,12 @@ export class DeckListStore {
           return bNewCount - aNewCount;
         }
         return a.name.localeCompare(b.name);
-      })
-      .slice(0, collapsedDecksLimit);
+      });
+
+    if (this.isMyDecksExpanded.value) {
+      return sortedListItems;
+    }
+    return sortedListItems.slice(0, collapsedDecksLimit);
   }
 
   get areAllDecksReviewed() {
@@ -466,6 +498,11 @@ export class DeckListStore {
   optimisticUpdateSettings(body: Partial<UserDbType>) {
     assert(this.myInfo, "myInfo is not loaded in optimisticUpdateSettings");
     Object.assign(this.myInfo.user, body);
+  }
+
+  optimisticUpdateFolders(body: UserFoldersDbType[]) {
+    assert(this.myInfo, "myInfo is not loaded in optimisticUpdateFolders");
+    Object.assign(this.myInfo.folders, body);
   }
 }
 

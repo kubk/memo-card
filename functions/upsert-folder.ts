@@ -7,14 +7,23 @@ import { getDatabase } from "./db/get-database.ts";
 import { envSchema } from "./env/env-schema.ts";
 import { DatabaseException } from "./db/database-exception.ts";
 import { createJsonResponse } from "./lib/json-response/create-json-response.ts";
+import {
+  getFoldersWithDecksDb,
+  UserFoldersDbType,
+} from "./db/folder/get-folders-with-decks-db.tsx";
+import { getFolderByIdAndAuthorId } from "./db/folder/get-folder-by-id-and-author-id.ts";
 
 const requestSchema = z.object({
   id: z.number().optional(),
   title: z.string(),
+  description: z.string().nullable(),
+  deckIds: z.array(z.number()),
 });
 
 export type AddFolderRequest = z.infer<typeof requestSchema>;
-export type AddFolderResponse = null;
+export type AddFolderResponse = {
+  folders: UserFoldersDbType[];
+};
 
 export const onRequestPost = handleError(async ({ request, env }) => {
   const user = await getUser(request, env);
@@ -26,18 +35,58 @@ export const onRequestPost = handleError(async ({ request, env }) => {
   }
 
   const envSafe = envSchema.parse(env);
+
+  if (input.data.id) {
+    const canEdit = await getFolderByIdAndAuthorId(
+      envSafe,
+      input.data.id,
+      user,
+    );
+    if (!canEdit) {
+      return createBadRequestResponse();
+    }
+  }
+
   const db = getDatabase(envSafe);
   const { data } = input;
 
-  const upsertFolderResult = await db.from("folder").upsert({
-    id: data.id,
-    title: data.title,
-    author_id: user.id,
-  });
+  const upsertFolderResult = await db
+    .from("folder")
+    .upsert({
+      id: data.id,
+      title: data.title,
+      description: data.description,
+      author_id: user.id,
+    })
+    .select()
+    .single();
 
   if (upsertFolderResult.error) {
     throw new DatabaseException(upsertFolderResult.error);
   }
 
-  return createJsonResponse<AddFolderResponse>(null);
+  const folderId = upsertFolderResult.data.id;
+
+  const oldDeckFolderResult = await db.from("deck_folder").delete().match({
+    folder_id: folderId,
+  });
+
+  if (oldDeckFolderResult.error) {
+    throw new DatabaseException(oldDeckFolderResult.error);
+  }
+
+  const upsertDeckFolderResult = await db.from("deck_folder").upsert(
+    data.deckIds.map((deckId) => ({
+      deck_id: deckId,
+      folder_id: folderId,
+    })),
+  );
+
+  if (upsertDeckFolderResult.error) {
+    throw new DatabaseException(upsertDeckFolderResult.error);
+  }
+
+  return createJsonResponse<AddFolderResponse>({
+    folders: await getFoldersWithDecksDb(envSafe, user.id),
+  });
 });

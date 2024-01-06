@@ -11,7 +11,7 @@ import React from "react";
 import { UserSettingsStoreProvider } from "./user-settings/store/user-settings-store-context.tsx";
 import { UserSettingsMain } from "./user-settings/user-settings-main.tsx";
 import { deckListStore } from "../store/deck-list-store.ts";
-import { FullScreenLoader } from "./deck-list/full-screen-loader.tsx";
+import { FullScreenLoader } from "../ui/full-screen-loader.tsx";
 import {
   PreventTelegramSwipeDownClosingIos,
   useRestoreFullScreenExpand,
@@ -23,6 +23,8 @@ import { FolderForm } from "./folder-form/folder-form.tsx";
 import { DeckCatalogStoreContextProvider } from "./deck-catalog/store/deck-catalog-store-context.tsx";
 import { ShareDeckScreen } from "./share-deck/share-deck-screen.tsx";
 import { ShareDeckStoreProvider } from "./share-deck/store/share-deck-store-context.tsx";
+import { FolderFormStoreProvider } from "./folder-form/store/folder-form-store-context.tsx";
+import { FolderScreen } from "./folder-review/folder-screen.tsx";
 
 export const App = observer(() => {
   useRestoreFullScreenExpand();
@@ -64,7 +66,16 @@ export const App = observer(() => {
       )}
       {screenStore.screen.type === "folderForm" && (
         <PreventTelegramSwipeDownClosingIos>
-          <FolderForm />
+          <FolderFormStoreProvider>
+            <FolderForm />
+          </FolderFormStoreProvider>
+        </PreventTelegramSwipeDownClosingIos>
+      )}
+      {screenStore.screen.type === "folderPreview" && (
+        <PreventTelegramSwipeDownClosingIos>
+          <ReviewStoreProvider>
+            <FolderScreen />
+          </ReviewStoreProvider>
         </PreventTelegramSwipeDownClosingIos>
       )}
       {screenStore.screen.type === "deckForm" && (
@@ -81,7 +92,6 @@ export const App = observer(() => {
           </ShareDeckStoreProvider>
         </PreventTelegramSwipeDownClosingIos>
       )}
-
       {screenStore.screen.type === "cardQuickAddForm" && (
         <PreventTelegramSwipeDownClosingIos>
           <QuickAddCardForm />

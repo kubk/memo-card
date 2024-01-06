@@ -1,23 +1,25 @@
 import { makeAutoObservable } from "mobx";
 import { TouchableField } from "./touchable-field.ts";
+import { FieldWithValue } from "./field-with-value.ts";
 
-export class BooleanField implements TouchableField {
+export class ListField<T> implements TouchableField, FieldWithValue<T[]> {
   isTouched = false;
 
   constructor(
-    public value: boolean,
-    public validate?: (value: any) => string | undefined,
+    public value: T[],
+    public validate?: (value: T[]) => string | undefined,
   ) {
     makeAutoObservable(this, { validate: false }, { autoBind: true });
   }
 
-  setValue(value: boolean) {
-    this.value = value;
-    this.isTouched = true;
+  add(value: T) {
+    this.touch();
+    this.value.push(value);
   }
 
-  toggle() {
-    this.setValue(!this.value);
+  removeByIndex(index: number) {
+    this.touch();
+    this.value.splice(index, 1);
   }
 
   get error() {

@@ -4,11 +4,15 @@ import { theme } from "../../ui/theme.tsx";
 import React from "react";
 import { motion } from "framer-motion";
 import { whileTap } from "../../ui/animations.ts";
-import { DeckListItem } from "../../store/deck-list-store.ts";
+import { DeckCardDbTypeWithType } from "../../store/deck-list-store.ts";
 import { CardsToReviewCount } from "./cards-to-review-count.tsx";
 
 type Props = {
-  item: DeckListItem;
+  item: {
+    id: number;
+    cardsToReview: DeckCardDbTypeWithType[];
+    name: string;
+  };
   onClick: () => void;
 };
 

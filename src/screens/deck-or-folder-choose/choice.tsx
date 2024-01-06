@@ -19,9 +19,9 @@ export const Choice = (props: Props) => {
         display: "flex",
         flexDirection: "column",
         gap: 4,
-        border: "1px solid " + theme.buttonColor,
-        backgroundColor: theme.buttonColor,
-        color: theme.buttonTextColor,
+        border: `1px solid ${theme.buttonColorLighter}`,
+        color: theme.buttonColor,
+        backgroundColor: theme.buttonColorLighter,
         borderRadius: theme.borderRadius,
         cursor: "pointer",
       })}
@@ -34,29 +34,10 @@ export const Choice = (props: Props) => {
           justifyContent: "center",
         })}
       >
-        <i
-          className={cx(
-            icon,
-            css({
-              color: "inherit",
-            }),
-          )}
-        />
-        <h3
-          className={css({
-            color: theme.buttonTextColor,
-          })}
-        >
-          {title}
-        </h3>
+        <i className={cx(icon, css({ color: "inherit" }))} />
+        <h3 className={css({ color: "inherit" })}>{title}</h3>
       </div>
-      <span
-        className={css({
-          fontSize: 14,
-        })}
-      >
-        {description}
-      </span>
+      <span className={css({ fontSize: 14 })}>{description}</span>
     </div>
   );
 };

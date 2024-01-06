@@ -2,8 +2,13 @@ import { observer } from "mobx-react-lite";
 import { css } from "@emotion/css";
 import { Choice } from "./choice.tsx";
 import { screenStore } from "../../store/screen-store.ts";
+import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
 
 export const DeckOrFolderChoose = observer(() => {
+  useBackButton(() => {
+    screenStore.back();
+  });
+
   return (
     <div
       className={css({
