@@ -9,7 +9,7 @@ import { screenStore } from "../../store/screen-store.ts";
 import { useTelegramProgress } from "../../lib/telegram/use-telegram-progress.tsx";
 import { useMount } from "../../lib/react/use-mount.ts";
 import { useMainButton } from "../../lib/telegram/use-main-button.tsx";
-import { FolderFormStore } from "./folder-form-store.ts";
+import { FolderFormStore } from "./store/folder-form-store.ts";
 import { assert } from "../../lib/typescript/assert.ts";
 
 export const FolderForm = observer(() => {

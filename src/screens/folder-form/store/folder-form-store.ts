@@ -1,15 +1,15 @@
-import { TextField } from "../../lib/mobx-form/text-field.ts";
-import { validators } from "../../lib/mobx-form/validator.ts";
-import { t } from "../../translations/t.ts";
+import { TextField } from "../../../lib/mobx-form/text-field.ts";
+import { validators } from "../../../lib/mobx-form/validator.ts";
+import { t } from "../../../translations/t.ts";
 import { action, makeAutoObservable } from "mobx";
-import { screenStore } from "../../store/screen-store.ts";
-import { assert } from "../../lib/typescript/assert.ts";
+import { screenStore } from "../../../store/screen-store.ts";
+import { assert } from "../../../lib/typescript/assert.ts";
 import {
   isFormTouched,
   isFormValid,
-} from "../../lib/mobx-form/form-has-error.ts";
-import { apiFolderUpsert } from "../../api/api.ts";
-import { deckListStore } from "../../store/deck-list-store.ts";
+} from "../../../lib/mobx-form/form-has-error.ts";
+import { apiFolderUpsert } from "../../../api/api.ts";
+import { deckListStore } from "../../../store/deck-list-store.ts";
 
 const createFolderTitleField = (title: string) => {
   return new TextField(title, validators.required(t("validation_required")));
