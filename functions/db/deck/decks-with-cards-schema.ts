@@ -17,7 +17,7 @@ export const deckSchema = z.object({
   name: z.string(),
   author_id: z.number().nullable(),
   description: z.string().nullable(),
-  share_id: z.string().nullable(),
+  share_id: z.string(),
   is_public: z.boolean(),
   speak_locale: z.string().nullable(),
   speak_field: deckSpeakField.nullable(),

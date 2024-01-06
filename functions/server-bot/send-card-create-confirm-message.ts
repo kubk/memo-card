@@ -5,6 +5,7 @@ import { userGetServerBotState } from "../db/user/user-set-server-bot-state.ts";
 import { CallbackQueryType } from "./callback-query-type.ts";
 import { renderFieldValue } from "./render-field-value.ts";
 import { MemoCardTranslator } from "../translations/create-translator.ts";
+import { deleteMessage } from "./delete-message.ts";
 
 export const sendCardCreateConfirmMessage = async (
   envSafe: EnvSafe,
@@ -17,7 +18,7 @@ export const sendCardCreateConfirmMessage = async (
     return;
   }
 
-  await ctx.deleteMessage();
+  await deleteMessage(ctx);
 
   await ctx.reply(
     `${translator.translate("confirm_card_creation_front")}${renderFieldValue(

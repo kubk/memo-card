@@ -12,6 +12,7 @@ import { DatabaseException } from "../db/database-exception.ts";
 import { createUserAwareTranslator } from "../translations/create-user-aware-translator.ts";
 import { MemoCardTranslator } from "../translations/create-translator.ts";
 import { sendMultipleCardsCreateConfirmMessage } from "./send-multiple-cards-create-confirm-message.ts";
+import { deleteMessage } from "./delete-message.ts";
 
 type CallbackQueryEdit =
   | CallbackQueryType.EditFront
@@ -112,14 +113,14 @@ export const onCallbackQuery = (envSafe: EnvSafe) => async (ctx: Context) => {
       ...state,
       editingField,
     });
-    await ctx.deleteMessage();
+    await deleteMessage(ctx);
     await ctx.reply(editingFieldHuman);
     return;
   }
 
   if (data === CallbackQueryType.Cancel) {
     await ctx.answerCallbackQuery(translator.translate("cancelled"));
-    await ctx.deleteMessage();
+    await deleteMessage(ctx);
     await userSetServerBotState(envSafe, ctx.from.id, null);
     return;
   }
@@ -140,7 +141,7 @@ export const onCallbackQuery = (envSafe: EnvSafe) => async (ctx: Context) => {
     }
 
     await ctx.reply(`${translator.translate("card_created")}`);
-    await ctx.deleteMessage();
+    await deleteMessage(ctx);
     await userSetServerBotState(envSafe, ctx.from.id, null);
     return;
   }
@@ -166,7 +167,7 @@ export const onCallbackQuery = (envSafe: EnvSafe) => async (ctx: Context) => {
     }
 
     await ctx.reply(translator.translate("many_cards_created"));
-    await ctx.deleteMessage();
+    await deleteMessage(ctx);
     await userSetServerBotState(envSafe, ctx.from.id, null);
     return;
   }

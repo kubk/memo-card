@@ -104,6 +104,58 @@ export interface Database {
           }
         ]
       }
+      deck_access: {
+        Row: {
+          author_id: number
+          created_at: string
+          deck_id: number
+          duration_days: number | null
+          id: number
+          share_id: string
+          usage_started_at: string | null
+          used_by: number | null
+        }
+        Insert: {
+          author_id: number
+          created_at?: string
+          deck_id: number
+          duration_days?: number | null
+          id?: number
+          share_id: string
+          usage_started_at?: string | null
+          used_by?: number | null
+        }
+        Update: {
+          author_id?: number
+          created_at?: string
+          deck_id?: number
+          duration_days?: number | null
+          id?: number
+          share_id?: string
+          usage_started_at?: string | null
+          used_by?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "deck_access_author_id_fkey"
+            columns: ["author_id"]
+            referencedRelation: "user"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "deck_access_deck_id_fkey"
+            columns: ["deck_id"]
+            referencedRelation: "deck"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "deck_access_used_by_fkey"
+            columns: ["used_by"]
+            referencedRelation: "user"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       deck_card: {
         Row: {
           back: string

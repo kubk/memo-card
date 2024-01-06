@@ -2,7 +2,7 @@ import { observer } from "mobx-react-lite";
 import { Label } from "../../ui/label.tsx";
 import { Input } from "../../ui/input.tsx";
 import React from "react";
-import { CardFormType } from "../../store/deck-form-store.ts";
+import { CardFormType } from "./store/deck-form-store.ts";
 import { HintTransparent } from "../../ui/hint-transparent.tsx";
 import { t } from "../../translations/t.ts";
 import { Screen } from "../shared/screen.tsx";

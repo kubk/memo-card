@@ -31,6 +31,11 @@ import {
   AddFolderRequest,
   AddFolderResponse,
 } from "../../functions/upsert-folder.ts";
+import { DeckAccessesResponse } from "../../functions/deck-accesses.ts";
+import {
+  AddDeckAccessRequest,
+  AddDeckAccessResponse,
+} from "../../functions/add-deck-access.ts";
 
 export const healthRequest = () => {
   return request<HealthResponse>("/health");
@@ -47,6 +52,18 @@ export const getSharedDeckRequest = (shareId?: string) => {
 export const addDeckToMineRequest = (body: AddDeckToMineRequest) => {
   return request<AddDeckToMineResponse, AddDeckToMineRequest>(
     "/add-deck-to-mine",
+    "POST",
+    body,
+  );
+};
+
+export const getDeckAccessesOfDeckRequest = (deckId: number) => {
+  return request<DeckAccessesResponse>(`/deck-accesses?deck_id=${deckId}`);
+};
+
+export const addDeckAccessRequest = (body: AddDeckAccessRequest) => {
+  return request<AddDeckAccessResponse, AddDeckAccessRequest>(
+    "/add-deck-access",
     "POST",
     body,
   );
