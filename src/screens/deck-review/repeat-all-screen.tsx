@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import { useReviewStore } from "../../store/review-store-context.tsx";
+import { useReviewStore } from "./store/review-store-context.tsx";
 import { useMount } from "../../lib/react/use-mount.ts";
 import { deckListStore } from "../../store/deck-list-store.ts";
 import { DeckFinished } from "./deck-finished.tsx";
