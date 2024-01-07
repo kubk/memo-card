@@ -47,26 +47,20 @@ export const FolderForm = observer(() => {
   }
 
   return (
-    <Screen title={screen.folderId ? "Edit folder" : "Add folder"}>
+    <Screen title={screen.folderId ? t("edit_folder") : t("add_folder")}>
       <Label text={t("title")} isRequired>
         <Input field={folderForm.title} />
       </Label>
       <Label text={t("description")}>
         <Input field={folderForm.description} rows={3} type={"textarea"} />
       </Label>
-      <Label text={"Decks"} isPlain>
+      <Label text={t("decks")} isPlain>
         {folderForm.decks.value.map((deck, i) => {
           return (
             <SettingsRow key={i}>
               <span>{deck.name}</span>
               <button
-                className={cx(
-                  reset.button,
-                  css({
-                    padding: 8,
-                    fontSize: 16,
-                  }),
-                )}
+                className={cx(reset.button, css({ padding: 8, fontSize: 16 }))}
                 onClick={() => {
                   assert(folderForm);
                   return folderForm.decks.removeByIndex(i);
@@ -75,9 +69,7 @@ export const FolderForm = observer(() => {
                 <i
                   className={cx(
                     "mdi mdi-delete-circle mdi-24px",
-                    css({
-                      color: theme.danger,
-                    }),
+                    css({ color: theme.danger }),
                   )}
                 />
               </button>
@@ -85,11 +77,11 @@ export const FolderForm = observer(() => {
           );
         })}
       </Label>
-      <Label text={"Add deck to the folder"} isPlain>
+      <Label text={t("add_deck_to_folder")} isPlain>
         {folderStore.decksMine?.state === "pending" && <Loader />}
         {folderStore.decksMine?.state === "fulfilled" &&
         folderStore.decksMineFiltered.length === 0 ? (
-          <EmptyState>No more decks to add</EmptyState>
+          <EmptyState>{t("no_decks_to_add")}</EmptyState>
         ) : null}
         {folderStore.decksMineFiltered.map((deck) => {
           return (

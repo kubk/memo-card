@@ -138,9 +138,7 @@ export const FolderPreview = observer(() => {
               icon={"mdi-delete-circle mdi-24px"}
               outline
               onClick={() => {
-                showConfirm(
-                  "Do you want to delete the folder? Deleting folder won't remove decks inside the folder",
-                ).then(() => {
+                showConfirm(t("delete_folder_confirm")).then(() => {
                   deckListStore.deleteFolder();
                 });
               }}
@@ -158,7 +156,7 @@ export const FolderPreview = observer(() => {
           gap: 6,
         })}
       >
-        <ListHeader text={"Decks"} />
+        <ListHeader text={t("decks")} />
         {folder.decks.map((deck) => {
           return (
             <SettingsRow

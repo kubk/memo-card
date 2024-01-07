@@ -3,6 +3,11 @@ import { getUserLanguage } from "./get-user-language.ts";
 
 const en = {
   my_decks: "My decks",
+  decks: "Decks",
+  edit_folder: "Edit folder",
+  add_folder: "Add folder",
+  add_deck_to_folder: "Add deck to the folder",
+  no_decks_to_add: "No more decks to add",
   show_all_decks: "Show all",
   hide_all_decks: "Hide",
   no_personal_decks_start: "You don't have any personal deck yet. Feel free to",
@@ -111,12 +116,19 @@ const en = {
   share_deck_access_created_at: "Created at",
   share_no_links: "You haven't created any one-time links for this deck",
   go_back: "Go back",
+  delete_folder_confirm:
+    "Do you want to delete the folder? Deleting folder won't remove decks inside the folder",
 };
 
 type Translation = typeof en;
 
 const ru: Translation = {
   review_folder: "Повторить папку",
+  add_deck_to_folder: "Добавить колоду в папку",
+  add_folder: "Добавить папку",
+  edit_folder: "Редактировать папку",
+  no_decks_to_add: "Больше нет колод для добавления",
+  decks: "Колоды",
   my_decks: "Мои колоды",
   deck_preview: "Предпросмотр колоды",
   show_all_decks: "Показать",
@@ -224,10 +236,17 @@ const ru: Translation = {
   share_perpetual_link: "Поделиться постоянной ссылкой",
   share_unused: "Не использована",
   go_back: "Назад",
+  delete_folder_confirm:
+    "Вы уверены, что хотите удалить папку? Удаление папки не удалит колоды внутри папки",
 };
 
 const es: Translation = {
   review_folder: "Repasar carpeta",
+  edit_folder: "Editar carpeta",
+  add_folder: "Añadir carpeta",
+  add_deck_to_folder: "Añadir mazo a la carpeta",
+  no_decks_to_add: "No hay más mazos para añadir",
+  decks: "Mazos",
   my_decks: "Mis mazos",
   show_all_decks: "Mostrar todos",
   deck_preview: "Vista previa del mazo",
@@ -339,10 +358,17 @@ const es: Translation = {
   share_deck_settings: "Compartir un mazo",
   share_perpetual_link: "Compartir enlace perpetuo",
   go_back: "Volver",
+  delete_folder_confirm:
+    "¿Quieres eliminar la carpeta? Eliminar la carpeta no eliminará los mazos dentro de la carpeta",
 };
 
 const ptBr: Translation = {
   review_folder: "Revisar pasta",
+  no_decks_to_add: "Não há mais baralhos para adicionar",
+  add_deck_to_folder: "Adicionar baralho à pasta",
+  add_folder: "Adicionar pasta",
+  edit_folder: "Editar pasta",
+  decks: "Baralhos",
   my_decks: "Meus baralhos",
   show_all_decks: "Mostrar todos",
   hide_all_decks: "Ocultar",
@@ -455,6 +481,8 @@ const ptBr: Translation = {
   share_one_time_link: "Compartilhar link de acesso único",
   share_unused: "Não utilizado",
   go_back: "Voltar",
+  delete_folder_confirm:
+    "Você quer deletar a pasta? Deletar a pasta não irá remover os baralhos dentro da pasta",
 };
 
 const translations = { en, ru, es, "pt-br": ptBr };
