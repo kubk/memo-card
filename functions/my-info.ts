@@ -11,12 +11,17 @@ import {
   getCardsToReviewDb,
 } from "./db/deck/get-cards-to-review-db.ts";
 import { getUnAddedPublicDecksDb } from "./db/deck/get-un-added-public-decks-db.ts";
+import {
+  getFoldersWithDecksDb,
+  UserFoldersDbType,
+} from "./db/folder/get-folders-with-decks-db.tsx";
 
 export type MyInfoResponse = {
   user: UserDbType;
   myDecks: DeckWithCardsDbType[];
   publicDecks: DeckWithCardsDbType[];
   cardsToReview: CardToReviewDbType[];
+  folders: UserFoldersDbType[];
 };
 
 export const onRequest = handleError(async ({ request, env }) => {
@@ -24,10 +29,11 @@ export const onRequest = handleError(async ({ request, env }) => {
   if (!user) return createAuthFailedResponse();
   const envSafe = envSchema.parse(env);
 
-  const [publicDecks, myDecks, cardsToReview] = await Promise.all([
+  const [publicDecks, myDecks, cardsToReview, folders] = await Promise.all([
     await getUnAddedPublicDecksDb(envSafe, user.id),
     await getMyDecksWithCardsDb(envSafe, user.id),
     await getCardsToReviewDb(envSafe, user.id),
+    await getFoldersWithDecksDb(envSafe, user.id),
   ]);
 
   return createJsonResponse<MyInfoResponse>({
@@ -35,5 +41,6 @@ export const onRequest = handleError(async ({ request, env }) => {
     publicDecks,
     myDecks,
     cardsToReview,
+    folders,
   });
 });
