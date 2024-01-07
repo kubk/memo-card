@@ -19,6 +19,7 @@ import { deckListStore } from "../../store/deck-list-store.ts";
 import { DeckAddedLabel } from "./deck-added-label.tsx";
 import { t, translateCategory } from "../../translations/t.ts";
 import { enumValues } from "../../lib/typescript/enum-values.ts";
+import { Screen } from "../shared/screen.tsx";
 
 export const DeckCatalog = observer(() => {
   const store = useDeckCatalogStore();
@@ -32,16 +33,7 @@ export const DeckCatalog = observer(() => {
   });
 
   return (
-    <div
-      className={css({
-        display: "flex",
-        flexDirection: "column",
-        gap: 6,
-        marginBottom: 16,
-      })}
-    >
-      <h3 className={css({ textAlign: "center" })}>{t("deck_catalog")}</h3>
-
+    <Screen title={t("deck_catalog")}>
       <div className={css({ display: "flex", gap: 4 })}>
         <div className={css({ color: theme.hintColor })}>{t("category")}</div>
         <Select
@@ -107,6 +99,6 @@ export const DeckCatalog = observer(() => {
 
         return null;
       })()}
-    </div>
+    </Screen>
   );
 });

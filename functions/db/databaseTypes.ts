@@ -111,6 +111,7 @@ export interface Database {
           deck_id: number
           duration_days: number | null
           id: number
+          processed_at: string | null
           share_id: string
           usage_started_at: string | null
           used_by: number | null
@@ -121,6 +122,7 @@ export interface Database {
           deck_id: number
           duration_days?: number | null
           id?: number
+          processed_at?: string | null
           share_id: string
           usage_started_at?: string | null
           used_by?: number | null
@@ -131,6 +133,7 @@ export interface Database {
           deck_id?: number
           duration_days?: number | null
           id?: number
+          processed_at?: string | null
           share_id?: string
           usage_started_at?: string | null
           used_by?: number | null
@@ -249,18 +252,21 @@ export interface Database {
         Row: {
           author_id: number
           created_at: string
+          description: string | null
           id: number
           title: string
         }
         Insert: {
           author_id: number
           created_at?: string
+          description?: string | null
           id?: number
           title: string
         }
         Update: {
           author_id?: number
           created_at?: string
+          description?: string | null
           id?: number
           title?: string
         }
@@ -370,6 +376,34 @@ export interface Database {
           }
         ]
       }
+      user_features: {
+        Row: {
+          advanced_share: boolean
+          created_at: string
+          id: number
+          user_id: number
+        }
+        Insert: {
+          advanced_share?: boolean
+          created_at?: string
+          id?: number
+          user_id: number
+        }
+        Update: {
+          advanced_share?: boolean
+          created_at?: string
+          id?: number
+          user_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_features_user_id_fkey"
+            columns: ["user_id"]
+            referencedRelation: "user"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       user_folder: {
         Row: {
           created_at: string
@@ -441,6 +475,8 @@ export interface Database {
         Returns: {
           folder_id: number
           folder_title: string
+          folder_description: string
+          folder_author_id: number
           deck_id: number
         }[]
       }

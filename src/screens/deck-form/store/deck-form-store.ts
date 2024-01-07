@@ -292,13 +292,13 @@ export class DeckFormStore {
   async onDeckBack() {
     assert(this.form, "onDeckBack: form is empty");
     if (isFormEmpty(this.form) || !isFormTouched(this.form)) {
-      screenStore.back();
+      screenStore.go({ type: "main" });
       return;
     }
 
     const confirmed = await showConfirm(t("deck_form_quit_deck_confirm"));
     if (confirmed) {
-      screenStore.back();
+      screenStore.go({ type: "main" });
     }
   }
 

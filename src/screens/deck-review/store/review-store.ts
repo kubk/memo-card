@@ -42,11 +42,30 @@ export class ReviewStore {
       );
     });
 
-    this.initialCardCount = this.cardsToReview.length;
-    this.currentCardId = this.cardsToReview[0].id;
-    if (this.cardsToReview.length > 1) {
-      this.nextCardId = this.cardsToReview[1].id;
+    this.initializeInitialCurrentNextCards();
+  }
+
+  startFolderReview(
+    myDecks: DeckWithCardsWithReviewType[],
+    isSpeakingCardsEnabledSettings?: boolean,
+  ) {
+    if (!myDecks.length) {
+      return;
     }
+
+    myDecks.forEach((deck) => {
+      deck.cardsToReview.forEach((card) => {
+        this.cardsToReview.push(
+          new CardUnderReviewStore(
+            card,
+            deck,
+            !!isSpeakingCardsEnabledSettings,
+          ),
+        );
+      });
+    });
+
+    this.initializeInitialCurrentNextCards();
   }
 
   startAllRepeatReview(
@@ -71,6 +90,10 @@ export class ReviewStore {
         });
     });
 
+    this.initializeInitialCurrentNextCards();
+  }
+
+  private initializeInitialCurrentNextCards() {
     if (!this.cardsToReview.length) {
       return;
     }
