@@ -22,6 +22,9 @@ const requestSchema = z.object({
 
 export type AddFolderRequest = z.infer<typeof requestSchema>;
 export type AddFolderResponse = {
+  folder: {
+    id: number;
+  }
   folders: UserFoldersDbType[];
 };
 
@@ -36,19 +39,15 @@ export const onRequestPost = handleError(async ({ request, env }) => {
 
   const envSafe = envSchema.parse(env);
 
-  if (input.data.id) {
-    const canEdit = await getFolderByIdAndAuthorId(
-      envSafe,
-      input.data.id,
-      user,
-    );
+  const { data } = input;
+  if (data.id) {
+    const canEdit = await getFolderByIdAndAuthorId(envSafe, data.id, user);
     if (!canEdit) {
       return createBadRequestResponse();
     }
   }
 
   const db = getDatabase(envSafe);
-  const { data } = input;
 
   const upsertFolderResult = await db
     .from("folder")
@@ -87,6 +86,7 @@ export const onRequestPost = handleError(async ({ request, env }) => {
   }
 
   return createJsonResponse<AddFolderResponse>({
+    folder: upsertFolderResult.data,
     folders: await getFoldersWithDecksDb(envSafe, user.id),
   });
 });

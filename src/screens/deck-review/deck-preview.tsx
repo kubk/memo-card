@@ -11,8 +11,9 @@ import { useMainButton } from "../../lib/telegram/use-main-button.tsx";
 import { showConfirm } from "../../lib/telegram/show-confirm.ts";
 import { ButtonSideAligned } from "../../ui/button-side-aligned.tsx";
 import { useTelegramProgress } from "../../lib/telegram/use-telegram-progress.tsx";
-import { apiDuplicateDeckRequest } from "../../api/api.ts";
+import { duplicateDeckRequest } from "../../api/api.ts";
 import { t } from "../../translations/t.ts";
+import { userStore } from "../../store/user-store.ts";
 
 export const DeckPreview = observer(() => {
   const reviewStore = useReviewStore();
@@ -110,7 +111,7 @@ export const DeckPreview = observer(() => {
             gridTemplateColumns: "repeat(auto-fit, minmax(100px, 1fr))",
           })}
         >
-          {deckListStore.canEditDeck(deck) ? (
+          {deckListStore.canEditDeck ? (
             <ButtonSideAligned
               icon={"mdi-plus-circle mdi-24px"}
               outline
@@ -124,13 +125,13 @@ export const DeckPreview = observer(() => {
               {t("add_card_short")}
             </ButtonSideAligned>
           ) : null}
-          {deckListStore.user?.is_admin && (
+          {userStore.isAdmin && (
             <ButtonSideAligned
               icon={"mdi-content-duplicate mdi-24px"}
               outline
               onClick={() => {
                 showConfirm(t("duplicate_confirm")).then(() => {
-                  apiDuplicateDeckRequest(deck.id).then(() => {
+                  duplicateDeckRequest(deck.id).then(() => {
                     screenStore.go({ type: "main" });
                   });
                 });
@@ -139,7 +140,7 @@ export const DeckPreview = observer(() => {
               {t("duplicate")}
             </ButtonSideAligned>
           )}
-          {deckListStore.canEditDeck(deck) ? (
+          {deckListStore.canEditDeck ? (
             <ButtonSideAligned
               icon={"mdi-pencil-circle mdi-24px"}
               outline
@@ -164,7 +165,7 @@ export const DeckPreview = observer(() => {
             </ButtonSideAligned>
           ) : null}
 
-          {deckListStore.canEditDeck(deck) && (
+          {deckListStore.canEditDeck && (
             <ButtonSideAligned
               icon={"mdi-share-circle mdi-24px"}
               outline

@@ -15,12 +15,13 @@ import { useReviewStore } from "../deck-review/store/review-store-context.tsx";
 import { SettingsRow } from "../user-settings/settings-row.tsx";
 import { ListHeader } from "../../ui/list-header.tsx";
 import { assert } from "../../lib/typescript/assert.ts";
+import { userStore } from "../../store/user-store.ts";
 
 export const FolderPreview = observer(() => {
   const reviewStore = useReviewStore();
 
   useBackButton(() => {
-    screenStore.back();
+    screenStore.go({ type: "main" });
   });
 
   useTelegramProgress(() => deckListStore.isDeckCardsLoading);
@@ -30,7 +31,10 @@ export const FolderPreview = observer(() => {
     () => {
       const folder = deckListStore.selectedFolder;
       assert(folder);
-      reviewStore.startFolderReview(folder.decks);
+      reviewStore.startFolderReview(
+        folder.decks,
+        userStore.isSpeakingCardsEnabled,
+      );
     },
     () => deckListStore.isFolderReviewVisible,
   );
@@ -118,7 +122,7 @@ export const FolderPreview = observer(() => {
             gridTemplateColumns: "repeat(auto-fit, minmax(100px, 1fr))",
           })}
         >
-          {true ? (
+          {deckListStore.canEditFolder ? (
             <ButtonSideAligned
               icon={"mdi-pencil-circle mdi-24px"}
               outline
@@ -129,13 +133,15 @@ export const FolderPreview = observer(() => {
               {t("edit")}
             </ButtonSideAligned>
           ) : null}
-          {true ? (
+          {deckListStore.canEditFolder ? (
             <ButtonSideAligned
               icon={"mdi-delete-circle mdi-24px"}
               outline
               onClick={() => {
-                showConfirm(t("delete_deck_confirm")).then(() => {
-                  // deckListStore.removeDeck();
+                showConfirm(
+                  "Do you want to delete the folder? Deleting folder won't remove decks inside the folder",
+                ).then(() => {
+                  deckListStore.deleteFolder();
                 });
               }}
             >
@@ -164,10 +170,10 @@ export const FolderPreview = observer(() => {
             </SettingsRow>
           );
         })}
+        {folder.cardsToReview.length === 0 && (
+          <Hint>{t("no_cards_to_review_in_deck")}</Hint>
+        )}
       </div>
-      {folder.cardsToReview.length === 0 && (
-        <Hint>{t("no_cards_to_review_in_deck")}</Hint>
-      )}
     </div>
   );
 });

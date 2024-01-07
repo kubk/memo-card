@@ -476,16 +476,7 @@ export interface Database {
           folder_id: number
           folder_title: string
           folder_description: string
-          deck_id: number
-        }[]
-      }
-      get_folder_with_decks_backup: {
-        Args: {
-          usr_id: number
-        }
-        Returns: {
-          folder_id: number
-          folder_title: string
+          folder_author_id: number
           deck_id: number
         }[]
       }

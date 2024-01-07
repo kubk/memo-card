@@ -29,11 +29,7 @@ import { FolderScreen } from "./folder-review/folder-screen.tsx";
 export const App = observer(() => {
   useRestoreFullScreenExpand();
 
-  if (
-    deckListStore.isSharedDeckLoading ||
-    deckListStore.isDeckRemoving ||
-    deckListStore.isReviewAllLoading
-  ) {
+  if (deckListStore.isFullScreenLoaderVisible) {
     return <FullScreenLoader />;
   }
 

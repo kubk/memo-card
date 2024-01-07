@@ -7,6 +7,7 @@ const userFoldersSchema = z.object({
   folder_id: z.number(),
   folder_title: z.string(),
   folder_description: z.string().nullable(),
+  folder_author_id: z.number(),
   deck_id: z.number().nullable(),
 });
 

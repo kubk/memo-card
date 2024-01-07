@@ -9,7 +9,7 @@ import {
   isFormTouched,
   isFormValid,
 } from "../../../lib/mobx-form/form-has-error.ts";
-import { apiDecksMine, apiFolderUpsert } from "../../../api/api.ts";
+import { decksMineRequest, folderUpsertRequest } from "../../../api/api.ts";
 import { deckListStore } from "../../../store/deck-list-store.ts";
 import { ListField } from "../../../lib/mobx-form/list-field.ts";
 import { fromPromise, IPromiseBasedObservable } from "mobx-utils";
@@ -39,7 +39,7 @@ export class FolderFormStore {
     assert(screen.type === "folderForm");
 
     this.decksMine = fromPromise(
-      apiDecksMine().then((response) => response.decks),
+      decksMineRequest().then((response) => response.decks),
     );
 
     if (screen.folderId) {
@@ -90,16 +90,17 @@ export class FolderFormStore {
 
     this.isSending = true;
 
-    apiFolderUpsert({
+    folderUpsertRequest({
       id: screen.folderId,
       title: this.folderForm.title.value,
       description: this.folderForm.description.value,
       deckIds: this.folderForm.decks.value.map((deck) => deck.id),
     })
-      .then(({ folders }) => {
-        deckListStore.optimisticUpdateFolders(folders);
+      .then(({ folders, folder }) => {
+        deckListStore.updateFolders(folders);
         assert(this.folderForm);
         formUnTouchAll(this.folderForm);
+        screenStore.go({ type: "folderPreview", folderId: folder.id });
       })
       .finally(
         action(() => {

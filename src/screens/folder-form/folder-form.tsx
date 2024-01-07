@@ -6,9 +6,7 @@ import { Input } from "../../ui/input.tsx";
 import React from "react";
 import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
 import { screenStore } from "../../store/screen-store.ts";
-import {
-  useTelegramProgress
-} from "../../lib/telegram/use-telegram-progress.tsx";
+import { useTelegramProgress } from "../../lib/telegram/use-telegram-progress.tsx";
 import { useMount } from "../../lib/react/use-mount.ts";
 import { useMainButton } from "../../lib/telegram/use-main-button.tsx";
 import { assert } from "../../lib/typescript/assert.ts";

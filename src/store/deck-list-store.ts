@@ -1,10 +1,11 @@
 import { action, makeAutoObservable, when } from "mobx";
 import {
   addDeckToMineRequest,
-  apiDeckWithCards,
+  deckWithCardsRequest,
+  deleteFolderRequest,
   getSharedDeckRequest,
   myInfoRequest,
-  removeDeckFromMine,
+  removeDeckFromMineRequest,
 } from "../api/api.ts";
 import { MyInfoResponse } from "../../functions/my-info.ts";
 import {
@@ -16,9 +17,9 @@ import { CardToReviewDbType } from "../../functions/db/deck/get-cards-to-review-
 import { assert } from "../lib/typescript/assert.ts";
 import { ReviewStore } from "../screens/deck-review/store/review-store.ts";
 import { reportHandledError } from "../lib/rollbar/rollbar.tsx";
-import { UserDbType } from "../../functions/db/user/upsert-user-db.ts";
 import { BooleanToggle } from "../lib/mobx-form/boolean-toggle.ts";
 import { UserFoldersDbType } from "../../functions/db/folder/get-folders-with-decks-db.tsx";
+import { userStore } from "./user-store.ts";
 
 export enum StartParamType {
   RepeatAll = "repeat_all",
@@ -44,38 +45,29 @@ export type DeckListItem = {
   | {
       type: "folder";
       decks: DeckWithCardsWithReviewType[];
+      authorId: number;
     }
 );
 
 const collapsedDecksLimit = 3;
 
 export class DeckListStore {
-  myInfo?: MyInfoResponse;
+  myInfo?: Omit<MyInfoResponse, "user">;
   isMyInfoLoading = false;
 
-  isSharedDeckLoading = false;
+  isFullScreenLoaderVisible = false;
   isSharedDeckLoaded = false;
 
-  isReviewAllLoading = false;
   isReviewAllLoaded = false;
 
   skeletonLoaderData = { publicCount: 3, myDecksCount: 3 };
-
-  isDeckRemoving = false;
 
   isDeckCardsLoading = false;
 
   isMyDecksExpanded = new BooleanToggle(false);
 
   constructor() {
-    makeAutoObservable(
-      this,
-      {
-        canEditDeck: false,
-        searchDeckById: false,
-      },
-      { autoBind: true },
-    );
+    makeAutoObservable(this, { searchDeckById: false }, { autoBind: true });
   }
 
   loadFirstTime(startParam?: string) {
@@ -93,6 +85,7 @@ export class DeckListStore {
       .then(
         action((result) => {
           this.myInfo = result;
+          userStore.setUser(result.user);
         }),
       )
       .finally(
@@ -112,14 +105,14 @@ export class DeckListStore {
         return;
       }
 
-      this.isReviewAllLoading = true;
+      this.isFullScreenLoaderVisible = true;
       when(() => !!this.myInfo)
         .then(() => {
           screenStore.go({ type: "reviewAll" });
         })
         .finally(
           action(() => {
-            this.isReviewAllLoading = false;
+            this.isFullScreenLoaderVisible = false;
             this.isReviewAllLoaded = true;
           }),
         );
@@ -128,7 +121,7 @@ export class DeckListStore {
         return;
       }
 
-      this.isSharedDeckLoading = true;
+      this.isFullScreenLoaderVisible = true;
       await when(() => !!this.myInfo);
 
       getSharedDeckRequest(startParam)
@@ -162,7 +155,7 @@ export class DeckListStore {
         })
         .finally(
           action(() => {
-            this.isSharedDeckLoading = false;
+            this.isFullScreenLoaderVisible = false;
             this.isSharedDeckLoaded = true;
           }),
         );
@@ -190,7 +183,7 @@ export class DeckListStore {
 
     reviewStore.startDeckReview(
       deckListStore.selectedDeck,
-      this.user?.is_speaking_card_enabled ?? false,
+      userStore.isSpeakingCardsEnabled,
     );
   }
 
@@ -208,21 +201,12 @@ export class DeckListStore {
       });
   }
 
-  get user() {
-    return this.myInfo?.user ?? null;
-  }
-
-  get myId() {
-    return this.user?.id;
-  }
-
-  canEditDeck(deck: DeckWithCardsWithReviewType) {
-    const isAdmin = this.user?.is_admin ?? false;
-    if (isAdmin) {
-      return true;
+  get canEditDeck() {
+    const deck = this.selectedDeck;
+    if (!deck) {
+      return false;
     }
-
-    return deckListStore.myId && deck.author_id === deckListStore.myId;
+    return deck.author_id === userStore.myId || userStore.isAdmin;
   }
 
   openDeckFromCatalog(deck: DeckWithCardsDbType, isMine: boolean) {
@@ -237,7 +221,7 @@ export class DeckListStore {
     screenStore.go({ type: "deckPublic", deckId: deck.id });
 
     this.isDeckCardsLoading = true;
-    apiDeckWithCards(deck.id)
+    deckWithCardsRequest(deck.id)
       .then((deckWithCards) => {
         this.replaceDeck(deckWithCards);
       })
@@ -288,6 +272,14 @@ export class DeckListStore {
     assert(folder.type === "folder");
 
     return folder;
+  }
+
+  get canEditFolder() {
+    const folder = this.selectedFolder;
+    if (!folder) {
+      return false;
+    }
+    return folder.authorId === userStore.myId || userStore.isAdmin;
   }
 
   get isFolderReviewVisible() {
@@ -386,6 +378,7 @@ export class DeckListStore {
       {
         folderName: string;
         folderDescription: string | null;
+        folderAuthorId: number;
         decks: DeckWithCardsWithReviewType[];
       }
     >();
@@ -394,6 +387,7 @@ export class DeckListStore {
       const mapItem = map.get(folder.folder_id) ?? {
         folderName: folder.folder_title,
         folderDescription: folder.folder_description,
+        folderAuthorId: folder.folder_author_id,
         decks: [],
       };
       const deck = myDecks.find((deck) => deck.id === folder.deck_id);
@@ -413,6 +407,7 @@ export class DeckListStore {
       type: "folder",
       name: mapItem.folderName,
       description: mapItem.folderDescription,
+      authorId: mapItem.folderAuthorId,
     }));
   }
 
@@ -466,15 +461,44 @@ export class DeckListStore {
     }, 0);
   }
 
+  deleteFolder() {
+    const folder = this.selectedFolder;
+    if (!folder) {
+      return;
+    }
+
+    this.isFullScreenLoaderVisible = true;
+
+    deleteFolderRequest(folder.id)
+      .then(
+        action(() => {
+          screenStore.go({ type: "main" });
+          myInfoRequest().then(
+            action((result) => {
+              this.myInfo = result;
+            }),
+          );
+        }),
+      )
+      .catch((e) => {
+        reportHandledError(`Unable to remove deck ${folder.id}`, e);
+      })
+      .finally(
+        action(() => {
+          this.isFullScreenLoaderVisible = false;
+        }),
+      );
+  }
+
   removeDeck() {
     const deck = this.selectedDeck;
     if (!deck) {
       return;
     }
 
-    this.isDeckRemoving = true;
+    this.isFullScreenLoaderVisible = true;
 
-    removeDeckFromMine({ deckId: deck.id })
+    removeDeckFromMineRequest({ deckId: deck.id })
       .then(
         action(() => {
           screenStore.go({ type: "main" });
@@ -490,17 +514,12 @@ export class DeckListStore {
       })
       .finally(
         action(() => {
-          this.isDeckRemoving = false;
+          this.isFullScreenLoaderVisible = false;
         }),
       );
   }
 
-  optimisticUpdateSettings(body: Partial<UserDbType>) {
-    assert(this.myInfo, "myInfo is not loaded in optimisticUpdateSettings");
-    Object.assign(this.myInfo.user, body);
-  }
-
-  optimisticUpdateFolders(body: UserFoldersDbType[]) {
+  updateFolders(body: UserFoldersDbType[]) {
     assert(this.myInfo, "myInfo is not loaded in optimisticUpdateFolders");
     Object.assign(this.myInfo.folders, body);
   }

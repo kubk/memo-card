@@ -2,6 +2,7 @@ import { afterEach, describe, expect, test, vi } from "vitest";
 import { deckListStore } from "./deck-list-store.ts";
 import { MyInfoResponse } from "../../functions/my-info.ts";
 import { when } from "mobx";
+import { userStore } from "./user-store.ts";
 
 vi.mock("../api/api.ts", () => {
   return {
@@ -130,7 +131,7 @@ describe("deck list store", () => {
 
     await when(() => !!deckListStore.myInfo);
 
-    expect(deckListStore.myId).toBe(111);
+    expect(userStore.myId).toBe(111);
     expect(deckListStore.publicDecks).toHaveLength(0);
     expect(deckListStore.newCardsCount).toBe(3);
     expect(deckListStore.selectedDeck?.cardsToReview).toMatchInlineSnapshot(`
