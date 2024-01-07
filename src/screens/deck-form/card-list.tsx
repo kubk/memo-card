@@ -10,6 +10,7 @@ import { Button } from "../../ui/button.tsx";
 import React from "react";
 import { reset } from "../../ui/reset.ts";
 import { t } from "../../translations/t.ts";
+import { Screen } from "../shared/screen.tsx";
 
 export const CardList = observer(() => {
   const deckFormStore = useDeckFormStore();
@@ -25,15 +26,7 @@ export const CardList = observer(() => {
   }
 
   return (
-    <div
-      className={css({
-        display: "flex",
-        flexDirection: "column",
-        gap: 6,
-        marginBottom: 16,
-      })}
-    >
-      <h3 className={css({ textAlign: "center" })}>{t("cards")}</h3>
+    <Screen title={t("cards")}>
       {deckFormStore.form.cards.length > 1 && (
         <>
           <Input
@@ -114,6 +107,6 @@ export const CardList = observer(() => {
       >
         {t("add_card")}
       </Button>
-    </div>
+    </Screen>
   );
 });

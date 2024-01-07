@@ -1,6 +1,5 @@
 import { action, makeAutoObservable, when } from "mobx";
 import { TextField } from "../../../lib/mobx-form/text-field.ts";
-import { deckListStore } from "../../../store/deck-list-store.ts";
 import { assert } from "../../../lib/typescript/assert.ts";
 import { DateTime } from "luxon";
 import { formatTime } from "../generate-time-range.tsx";
@@ -9,6 +8,7 @@ import { userSettingsRequest } from "../../../api/api.ts";
 import { screenStore } from "../../../store/screen-store.ts";
 import { UserSettingsRequest } from "../../../../functions/user-settings.ts";
 import { BooleanField } from "../../../lib/mobx-form/boolean-field.ts";
+import { userStore } from "../../../store/user-store.ts";
 
 const DEFAULT_TIME = "12:00";
 
@@ -25,9 +25,9 @@ export class UserSettingsStore {
   }
 
   async load() {
-    await when(() => !!deckListStore.myInfo);
-    assert(deckListStore.myInfo);
-    const userInfo = deckListStore.myInfo.user;
+    await when(() => !!userStore.userInfo);
+    assert(userStore.userInfo);
+    const userInfo = userStore.userInfo;
     const remindDate = userInfo.last_reminded_date
       ? DateTime.fromISO(userInfo.last_reminded_date)
       : null;
@@ -70,7 +70,7 @@ export class UserSettingsStore {
 
     userSettingsRequest(body)
       .then(() => {
-        deckListStore.optimisticUpdateSettings({
+        userStore.updateSettings({
           is_remind_enabled: body.isRemindNotifyEnabled,
           last_reminded_date: body.remindNotificationTime,
           is_speaking_card_enabled: body.isSpeakingCardEnabled,

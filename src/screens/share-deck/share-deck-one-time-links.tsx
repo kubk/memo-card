@@ -10,6 +10,9 @@ import { showAlert } from "../../lib/telegram/show-alert.ts";
 import { theme } from "../../ui/theme.tsx";
 import { DateTime } from "luxon";
 import { useShareDeckStore } from "./store/share-deck-store-context.tsx";
+import { Screen } from "../shared/screen.tsx";
+import { Loader } from "../../ui/loader.tsx";
+import { EmptyState } from "../../ui/empty-state.tsx";
 
 const formatAccessUser = (user: {
   id: number;
@@ -38,37 +41,11 @@ export const ShareDeckOneTimeLinks = observer(() => {
   });
 
   return (
-    <div
-      className={css({
-        display: "flex",
-        flexDirection: "column",
-        gap: 16,
-        marginBottom: 16,
-        position: "relative",
-      })}
-    >
-      <h3 className={css({ textAlign: "center" })}>
-        {t("share_one_time_links_usage")}
-      </h3>
-
-      {store.deckAccesses?.state === "pending" ? (
-        <div className={css({ width: "100%", textAlign: "center" })}>
-          <i className={"mdi mdi-loading mdi-spin mdi-24px"} />
-        </div>
-      ) : null}
-
+    <Screen title={t("share_one_time_links_usage")}>
+      {store.deckAccesses?.state === "pending" ? <Loader /> : null}
       {store.deckAccesses?.state === "fulfilled" &&
       store.deckAccesses.value.accesses.length === 0 ? (
-        <div
-          className={css({
-            width: "100%",
-            textAlign: "center",
-            marginTop: 8,
-            fontSize: 14,
-          })}
-        >
-          {t("share_no_links")}
-        </div>
+        <EmptyState>{t("share_no_links")}</EmptyState>
       ) : null}
 
       {store.deckAccesses?.state === "fulfilled"
@@ -130,6 +107,6 @@ export const ShareDeckOneTimeLinks = observer(() => {
             );
           })
         : null}
-    </div>
+    </Screen>
   );
 });

@@ -20,6 +20,8 @@ const textColor = "var(--tg-theme-text-color)";
 const hintColor = "var(--tg-theme-hint-color)";
 const linkColor = "var(--tg-theme-link-color)";
 
+const buttonColorComputed = cssVarToValue(buttonColor);
+
 export const theme = {
   bgColor,
   textColor,
@@ -32,7 +34,8 @@ export const theme = {
 
   // Needed for framer-motion library
   secondaryBgColorComputed: cssVarToValue(secondaryBgColor),
-  buttonColorComputed: cssVarToValue(buttonColor),
+  buttonColorComputed: buttonColorComputed,
+  buttonColorLighter: colord(buttonColorComputed).lighten(0.4).toHex(),
   buttonTextColorComputed: cssVarToValue(buttonTextColor),
 
   success: "#2ecb47",

@@ -1,7 +1,8 @@
 import { makeAutoObservable } from "mobx";
 import { FieldWithValue } from "./field-with-value.ts";
+import { TouchableField } from "./touchable-field.ts";
 
-export class TextField<T> implements FieldWithValue<T> {
+export class TextField<T> implements FieldWithValue<T>, TouchableField {
   isTouched = false;
 
   constructor(

@@ -1,5 +1,5 @@
 import { css } from "@emotion/css";
-import { theme } from "../../ui/theme.tsx";
+import { theme } from "./theme.tsx";
 import React from "react";
 
 export const FullScreenLoader = () => {

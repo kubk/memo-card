@@ -4,23 +4,25 @@ import { theme } from "../../ui/theme.tsx";
 import React from "react";
 import { motion } from "framer-motion";
 import { whileTap } from "../../ui/animations.ts";
-import { screenStore } from "../../store/screen-store.ts";
-import { DeckWithCardsWithReviewType } from "../../store/deck-list-store.ts";
+import { DeckCardDbTypeWithType } from "../../store/deck-list-store.ts";
 import { CardsToReviewCount } from "./cards-to-review-count.tsx";
 
 type Props = {
-  deck: DeckWithCardsWithReviewType;
+  item: {
+    id: number;
+    cardsToReview: DeckCardDbTypeWithType[];
+    name: string;
+  };
+  onClick: () => void;
 };
 
-export const MyDeck = observer((props: Props) => {
-  const { deck } = props;
+export const MyDeckRow = observer((props: Props) => {
+  const { item, onClick } = props;
 
   return (
     <motion.div
       whileTap={whileTap}
-      onClick={() => {
-        screenStore.go({ type: "deckMine", deckId: deck.id });
-      }}
+      onClick={onClick}
       className={css({
         display: "flex",
         justifyContent: "space-between",
@@ -33,13 +35,13 @@ export const MyDeck = observer((props: Props) => {
       })}
     >
       <div
-        key={deck.id}
+        key={item.id}
         className={css({
           color: theme.textColor,
           fontWeight: 500,
         })}
       >
-        {deck.name}
+        {item.name}
       </div>
       <div
         className={css({
@@ -49,11 +51,11 @@ export const MyDeck = observer((props: Props) => {
         })}
       >
         <CardsToReviewCount
-          items={deck.cardsToReview.filter((card) => card.type === "repeat")}
+          items={item.cardsToReview.filter((card) => card.type === "repeat")}
           color={theme.orange}
         />
         <CardsToReviewCount
-          items={deck.cardsToReview.filter((card) => card.type === "new")}
+          items={item.cardsToReview.filter((card) => card.type === "new")}
           color={theme.success}
         />
       </div>

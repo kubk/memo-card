@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import { apiDeckCatalog, apiDeckCategories } from "../../../api/api.ts";
+import { deckCatalogRequest, deckCategoriesRequest } from "../../../api/api.ts";
 import { fromPromise, IPromiseBasedObservable } from "mobx-utils";
 import { DeckCatalogResponse } from "../../../../functions/catalog-decks.ts";
 import { TextField } from "../../../lib/mobx-form/text-field.ts";
@@ -46,8 +46,8 @@ export class DeckCatalogStore {
   }
 
   load() {
-    this.decks = fromPromise(decksCached(apiDeckCatalog()));
-    this.categories = fromPromise(categoriesCached(apiDeckCategories()));
+    this.decks = fromPromise(decksCached(deckCatalogRequest()));
+    this.categories = fromPromise(categoriesCached(deckCategoriesRequest()));
   }
 
   get filteredDecks() {

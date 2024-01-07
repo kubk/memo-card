@@ -3,7 +3,6 @@ import { deckListStore } from "../../store/deck-list-store.ts";
 import { css } from "@emotion/css";
 import { theme } from "../../ui/theme.tsx";
 import React from "react";
-import { useReviewStore } from "./store/review-store-context.tsx";
 import { screenStore } from "../../store/screen-store.ts";
 import { Hint } from "../../ui/hint.tsx";
 import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
@@ -11,29 +10,37 @@ import { useMainButton } from "../../lib/telegram/use-main-button.tsx";
 import { showConfirm } from "../../lib/telegram/show-confirm.ts";
 import { ButtonSideAligned } from "../../ui/button-side-aligned.tsx";
 import { useTelegramProgress } from "../../lib/telegram/use-telegram-progress.tsx";
-import { duplicateDeckRequest } from "../../api/api.ts";
 import { t } from "../../translations/t.ts";
+import { useReviewStore } from "../deck-review/store/review-store-context.tsx";
+import { SettingsRow } from "../user-settings/settings-row.tsx";
+import { ListHeader } from "../../ui/list-header.tsx";
+import { assert } from "../../lib/typescript/assert.ts";
 import { userStore } from "../../store/user-store.ts";
 
-export const DeckPreview = observer(() => {
+export const FolderPreview = observer(() => {
   const reviewStore = useReviewStore();
 
   useBackButton(() => {
-    screenStore.back();
+    screenStore.go({ type: "main" });
   });
 
   useTelegramProgress(() => deckListStore.isDeckCardsLoading);
 
   useMainButton(
-    t("review_deck"),
+    t("review_folder"),
     () => {
-      deckListStore.startDeckReview(reviewStore);
+      const folder = deckListStore.selectedFolder;
+      assert(folder);
+      reviewStore.startFolderReview(
+        folder.decks,
+        userStore.isSpeakingCardsEnabled,
+      );
     },
-    () => deckListStore.canReview,
+    () => deckListStore.isFolderReviewVisible,
   );
 
-  const deck = deckListStore.selectedDeck;
-  if (!deck) {
+  const folder = deckListStore.selectedFolder;
+  if (!folder) {
     return null;
   }
 
@@ -42,7 +49,6 @@ export const DeckPreview = observer(() => {
       className={css({
         display: "flex",
         flexDirection: "column",
-        gap: 16,
         paddingTop: 12,
         paddingBottom: 12,
       })}
@@ -64,10 +70,10 @@ export const DeckPreview = observer(() => {
             textAlign: "center",
           })}
         >
-          <h3 className={css({ paddingTop: 12 })}>{deck.name}</h3>
+          <h3 className={css({ paddingTop: 12 })}>{folder.name}</h3>
         </div>
         <div>
-          <div>{deck.description}</div>
+          <div>{folder.description}</div>
         </div>
         {!deckListStore.isDeckCardsLoading && (
           <div
@@ -83,7 +89,7 @@ export const DeckPreview = observer(() => {
               <span>{t("cards_to_repeat")}: </span>
               <h4 className={css({ color: theme.orange })}>
                 {
-                  deck.cardsToReview.filter((card) => card.type === "repeat")
+                  folder.cardsToReview.filter((card) => card.type === "repeat")
                     .length
                 }
               </h4>
@@ -92,14 +98,19 @@ export const DeckPreview = observer(() => {
               <span>{t("cards_new")}: </span>
               <h4 className={css({ color: theme.success })}>
                 {
-                  deck.cardsToReview.filter((card) => card.type === "new")
+                  folder.cardsToReview.filter((card) => card.type === "new")
                     .length
                 }
               </h4>
             </div>
             <div className={css({ display: "flex", gap: 4 })}>
               <span>{t("cards_total")}: </span>
-              <h4>{deck.deck_card.length}</h4>
+              <h4>
+                {folder.decks.reduce(
+                  (acc, cur) => cur.deck_card.length + acc,
+                  0,
+                )}
+              </h4>
             </div>
           </div>
         )}
@@ -111,80 +122,56 @@ export const DeckPreview = observer(() => {
             gridTemplateColumns: "repeat(auto-fit, minmax(100px, 1fr))",
           })}
         >
-          {deckListStore.canEditDeck ? (
-            <ButtonSideAligned
-              icon={"mdi-plus-circle mdi-24px"}
-              outline
-              onClick={() => {
-                screenStore.go({
-                  type: "cardQuickAddForm",
-                  deckId: deck.id,
-                });
-              }}
-            >
-              {t("add_card_short")}
-            </ButtonSideAligned>
-          ) : null}
-          {userStore.isAdmin && (
-            <ButtonSideAligned
-              icon={"mdi-content-duplicate mdi-24px"}
-              outline
-              onClick={() => {
-                showConfirm(t("duplicate_confirm")).then(() => {
-                  duplicateDeckRequest(deck.id).then(() => {
-                    screenStore.go({ type: "main" });
-                  });
-                });
-              }}
-            >
-              {t("duplicate")}
-            </ButtonSideAligned>
-          )}
-          {deckListStore.canEditDeck ? (
+          {deckListStore.canEditFolder ? (
             <ButtonSideAligned
               icon={"mdi-pencil-circle mdi-24px"}
               outline
               onClick={() => {
-                screenStore.go({ type: "deckForm", deckId: deck.id });
+                screenStore.go({ type: "folderForm", folderId: folder.id });
               }}
             >
               {t("edit")}
             </ButtonSideAligned>
           ) : null}
-          {screenStore.screen.type === "deckMine" ? (
+          {deckListStore.canEditFolder ? (
             <ButtonSideAligned
               icon={"mdi-delete-circle mdi-24px"}
               outline
               onClick={() => {
-                showConfirm(t("delete_deck_confirm")).then(() => {
-                  deckListStore.removeDeck();
+                showConfirm(t("delete_folder_confirm")).then(() => {
+                  deckListStore.deleteFolder();
                 });
               }}
             >
               {t("delete")}
             </ButtonSideAligned>
           ) : null}
-
-          {deckListStore.canEditDeck && (
-            <ButtonSideAligned
-              icon={"mdi-share-circle mdi-24px"}
-              outline
-              onClick={() => {
-                screenStore.go({
-                  type: "shareDeck",
-                  deckId: deck.id,
-                  shareId: deck.share_id,
-                });
-              }}
-            >
-              {t("share")}
-            </ButtonSideAligned>
-          )}
         </div>
       </div>
-      {deck.cardsToReview.length === 0 && (
-        <Hint>{t("no_cards_to_review_in_deck")}</Hint>
-      )}
+      <div
+        className={css({
+          paddingTop: 6,
+          display: "flex",
+          flexDirection: "column",
+          gap: 6,
+        })}
+      >
+        <ListHeader text={t("decks")} />
+        {folder.decks.map((deck) => {
+          return (
+            <SettingsRow
+              onClick={() => {
+                deckListStore.goDeckById(deck.id);
+              }}
+            >
+              {deck.name}
+            </SettingsRow>
+          );
+        })}
+        {folder.cardsToReview.length === 0 && (
+          <Hint>{t("no_cards_to_review_in_deck")}</Hint>
+        )}
+      </div>
     </div>
   );
 });

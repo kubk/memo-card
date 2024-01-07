@@ -9,6 +9,7 @@ import { Hint } from "../../ui/hint.tsx";
 import { t } from "../../translations/t.ts";
 import { WantMoreCardsButton } from "./want-more-cards-button.tsx";
 import { css } from "@emotion/css";
+import { userStore } from "../../store/user-store.ts";
 
 export const RepeatAllScreen = observer(() => {
   const reviewStore = useReviewStore();
@@ -16,7 +17,7 @@ export const RepeatAllScreen = observer(() => {
   useMount(() => {
     reviewStore.startAllRepeatReview(
       deckListStore.myDecks,
-      deckListStore.user?.is_speaking_card_enabled ?? false,
+      userStore.isSpeakingCardsEnabled,
     );
   });
 
