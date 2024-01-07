@@ -3,6 +3,7 @@ import { css } from "@emotion/css";
 import { Choice } from "./choice.tsx";
 import { screenStore } from "../../store/screen-store.ts";
 import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
+import { t } from "../../translations/t.ts";
 
 export const DeckOrFolderChoose = observer(() => {
   useBackButton(() => {
@@ -20,7 +21,7 @@ export const DeckOrFolderChoose = observer(() => {
         gap: 12,
       })}
     >
-      <h3>Choose what to create</h3>
+      <h3>{t("choose_what_to_create")}</h3>
       <div
         className={css({
           display: "flex",
@@ -30,16 +31,16 @@ export const DeckOrFolderChoose = observer(() => {
       >
         <Choice
           icon={"mdi mdi-cards-outline mdi-36px"}
-          title={"Deck"}
-          description={"A collection of cards"}
+          title={t("deck")}
+          description={t("deck_description")}
           onClick={() => {
             screenStore.go({ type: "deckForm" });
           }}
         />
         <Choice
           icon={"mdi mdi-folder-open-outline mdi-36px"}
-          title={"Folder"}
-          description={"A collection of decks"}
+          title={t("folder")}
+          description={t("folder_description")}
           onClick={() => {
             screenStore.go({ type: "folderForm" });
           }}

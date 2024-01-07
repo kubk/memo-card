@@ -3,6 +3,11 @@ import { getUserLanguage } from "./get-user-language.ts";
 
 const en = {
   my_decks: "My decks",
+  choose_what_to_create: "Choose what to create",
+  deck: "Deck",
+  deck_description: "A collection of cards",
+  folder: "Folder",
+  folder_description: "A collection of decks",
   decks: "Decks",
   edit_folder: "Edit folder",
   add_folder: "Add folder",
@@ -123,6 +128,11 @@ const en = {
 type Translation = typeof en;
 
 const ru: Translation = {
+  choose_what_to_create: "Выберите что создать",
+  deck: "Колода",
+  deck_description: "Коллекция карточек",
+  folder: "Папка",
+  folder_description: "Коллекция колод",
   review_folder: "Повторить папку",
   add_deck_to_folder: "Добавить колоду в папку",
   add_folder: "Добавить папку",
@@ -242,6 +252,11 @@ const ru: Translation = {
 
 const es: Translation = {
   review_folder: "Repasar carpeta",
+  folder_description: "Una colección de mazos",
+  folder: "Carpeta",
+  deck_description: "Una colección de tarjetas",
+  deck: "Mazo",
+  choose_what_to_create: "Elige qué crear",
   edit_folder: "Editar carpeta",
   add_folder: "Añadir carpeta",
   add_deck_to_folder: "Añadir mazo a la carpeta",
@@ -364,6 +379,11 @@ const es: Translation = {
 
 const ptBr: Translation = {
   review_folder: "Revisar pasta",
+  choose_what_to_create: "Escolha o que criar",
+  deck: "Baralho",
+  deck_description: "Uma coleção de cartões",
+  folder: "Pasta",
+  folder_description: "Uma coleção de baralhos",
   no_decks_to_add: "Não há mais baralhos para adicionar",
   add_deck_to_folder: "Adicionar baralho à pasta",
   add_folder: "Adicionar pasta",
