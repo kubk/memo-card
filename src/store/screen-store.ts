@@ -2,9 +2,9 @@ import { makeAutoObservable } from "mobx";
 
 type Route =
   | { type: "main" }
-  | { type: "deckMine"; deckId: number }
-  | { type: "deckPublic"; deckId: number }
-  | { type: "deckForm"; deckId?: number }
+  | { type: "deckMine"; deckId: number; backScreen?: RouteType }
+  | { type: "deckPublic"; deckId: number; backScreen?: RouteType }
+  | { type: "deckForm"; deckId?: number; folder?: { id: number; name: string } }
   | { type: "folderForm"; folderId?: number }
   | { type: "folderPreview"; folderId: number }
   | { type: "deckOrFolderChoose" }
@@ -13,6 +13,8 @@ type Route =
   | { type: "deckCatalog" }
   | { type: "shareDeck"; deckId: number; shareId: string }
   | { type: "userSettings" };
+
+export type RouteType = Route["type"];
 
 export class ScreenStore {
   history: Route[] = [{ type: "main" }];

@@ -5,10 +5,11 @@ import { css } from "@emotion/css";
 type Props = {
   children: ReactNode;
   title: string;
+  subtitle?: ReactNode;
 };
 
 export const Screen = observer((props: Props) => {
-  const { children, title } = props;
+  const { children, title, subtitle } = props;
   return (
     <div
       className={css({
@@ -19,7 +20,10 @@ export const Screen = observer((props: Props) => {
         marginBottom: 16,
       })}
     >
-      <h3 className={css({ textAlign: "center" })}>{title}</h3>
+      <div>
+        <h3 className={css({ textAlign: "center"})}>{title}</h3>
+        {subtitle}
+      </div>
       {children}
     </div>
   );

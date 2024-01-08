@@ -19,7 +19,14 @@ export const DeckPreview = observer(() => {
   const reviewStore = useReviewStore();
 
   useBackButton(() => {
-    screenStore.back();
+    const screen = screenStore.screen;
+    if ("backScreen" in screen && screen.backScreen) {
+      // backScreen is RouteType here
+      // @ts-ignore
+      screenStore.go({ type: screen.backScreen });
+    } else {
+      screenStore.back();
+    }
   });
 
   useTelegramProgress(() => deckListStore.isDeckCardsLoading);
@@ -64,7 +71,18 @@ export const DeckPreview = observer(() => {
             textAlign: "center",
           })}
         >
-          <h3 className={css({ paddingTop: 12 })}>{deck.name}</h3>
+          <h3
+            className={css({
+              paddingTop: 12,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: 6,
+            })}
+          >
+            <i className={"mdi mdi-cards-outline"} title={t("deck")} />
+            {deck.name}
+          </h3>
         </div>
         <div>
           <div>{deck.description}</div>
