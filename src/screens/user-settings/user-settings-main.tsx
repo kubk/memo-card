@@ -6,7 +6,7 @@ import { useMount } from "../../lib/react/use-mount.ts";
 import { generateTimeRange } from "./generate-time-range.tsx";
 import { useMainButton } from "../../lib/telegram/use-main-button.tsx";
 import { useTelegramProgress } from "../../lib/telegram/use-telegram-progress.tsx";
-import { SettingsRow } from "./settings-row.tsx";
+import { CardRow } from "../../ui/card-row.tsx";
 import { RadioSwitcher } from "../../ui/radio-switcher.tsx";
 import { theme } from "../../ui/theme.tsx";
 import { Select } from "../../ui/select.tsx";
@@ -16,6 +16,8 @@ import { screenStore } from "../../store/screen-store.ts";
 import { HintTransparent } from "../../ui/hint-transparent.tsx";
 import { t } from "../../translations/t.ts";
 import { Screen } from "../shared/screen.tsx";
+import WebApp from "@twa-dev/sdk";
+import { links } from "../shared/links.ts";
 
 export const timeRanges = generateTimeRange();
 
@@ -45,7 +47,7 @@ export const UserSettingsMain = observer(() => {
 
   return (
     <Screen title={t("settings")}>
-      <SettingsRow>
+      <CardRow>
         <span>{t("settings_review_notifications")}</span>
         <span
           className={css({
@@ -58,9 +60,9 @@ export const UserSettingsMain = observer(() => {
             onToggle={isRemindNotifyEnabled.toggle}
           />
         </span>
-      </SettingsRow>
+      </CardRow>
       {isRemindNotifyEnabled.value && (
-        <SettingsRow>
+        <CardRow>
           <span>{t("settings_time")}</span>
           <div className={css({ color: theme.linkColor })}>
             <Select
@@ -74,14 +76,14 @@ export const UserSettingsMain = observer(() => {
               }))}
             />
           </div>
-        </SettingsRow>
+        </CardRow>
       )}
 
       <HintTransparent>
         {t("settings_review_notifications_hint")}
       </HintTransparent>
 
-      <SettingsRow>
+      <CardRow>
         <span>{t("speaking_cards")}</span>
         <span
           className={css({
@@ -94,9 +96,23 @@ export const UserSettingsMain = observer(() => {
             onToggle={isSpeakingCardsEnabled.toggle}
           />
         </span>
-      </SettingsRow>
+      </CardRow>
 
       <HintTransparent>{t("card_speak_description")}</HintTransparent>
+
+      <CardRow
+        onClick={() => {
+          WebApp.openTelegramLink(links.supportChat);
+        }}
+      >
+        <span
+          className={css({
+            color: theme.linkColor,
+          })}
+        >
+          Contact support
+        </span>
+      </CardRow>
     </Screen>
   );
 });

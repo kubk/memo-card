@@ -10,7 +10,7 @@ import { useTelegramProgress } from "../../lib/telegram/use-telegram-progress.ts
 import { useMount } from "../../lib/react/use-mount.ts";
 import { useMainButton } from "../../lib/telegram/use-main-button.tsx";
 import { assert } from "../../lib/typescript/assert.ts";
-import { SettingsRow } from "../user-settings/settings-row.tsx";
+import { CardRow } from "../../ui/card-row.tsx";
 import { reset } from "../../ui/reset.ts";
 import { css, cx } from "@emotion/css";
 import { theme } from "../../ui/theme.tsx";
@@ -57,7 +57,7 @@ export const FolderForm = observer(() => {
       <Label text={t("decks")} isPlain>
         {folderForm.decks.value.map((deck, i) => {
           return (
-            <SettingsRow key={i}>
+            <CardRow key={i}>
               <span>{deck.name}</span>
               <button
                 className={cx(reset.button, css({ padding: 8, fontSize: 16 }))}
@@ -73,7 +73,7 @@ export const FolderForm = observer(() => {
                   )}
                 />
               </button>
-            </SettingsRow>
+            </CardRow>
           );
         })}
       </Label>
@@ -85,7 +85,7 @@ export const FolderForm = observer(() => {
         ) : null}
         {folderStore.decksMineFiltered.map((deck) => {
           return (
-            <SettingsRow key={deck.id}>
+            <CardRow key={deck.id}>
               <span>{deck.name}</span>
               <button
                 className={cx(reset.button, css({ padding: 8, fontSize: 16 }))}
@@ -104,7 +104,7 @@ export const FolderForm = observer(() => {
                   )}
                 />
               </button>
-            </SettingsRow>
+            </CardRow>
           );
         })}
       </Label>

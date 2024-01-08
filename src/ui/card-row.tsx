@@ -1,14 +1,14 @@
 import { observer } from "mobx-react-lite";
 import React, { ReactNode } from "react";
 import { css } from "@emotion/css";
-import { theme } from "../../ui/theme.tsx";
+import { theme } from "./theme.tsx";
 
 type Props = {
   children: ReactNode;
   onClick?: () => void;
 };
 
-export const SettingsRow = observer((props: Props) => {
+export const CardRow = observer((props: Props) => {
   return (
     <label
       onClick={props.onClick}

@@ -11,12 +11,12 @@ import { screenStore } from "../../store/screen-store.ts";
 import { Button } from "../../ui/button.tsx";
 import { DeckLoading } from "./deck-loading.tsx";
 import WebApp from "@twa-dev/sdk";
-import { assert } from "../../lib/typescript/assert.ts";
 import { ListHeader } from "../../ui/list-header.tsx";
 import { range } from "../../lib/array/range.ts";
 import { reset } from "../../ui/reset.ts";
 import { ViewMoreDecksToggle } from "./view-more-decks-toggle.tsx";
 import { t } from "../../translations/t.ts";
+import { links } from "../shared/links.ts";
 
 export const MainScreen = observer(() => {
   useMount(() => {
@@ -181,10 +181,7 @@ export const MainScreen = observer(() => {
             <Button
               icon={"mdi-call-made"}
               onClick={() => {
-                const channelLink = import.meta.env.VITE_CHANNEL_LINK;
-                assert(channelLink, "Channel link env variable is empty");
-
-                WebApp.openTelegramLink(channelLink);
+                WebApp.openTelegramLink(links.botChannel);
               }}
             >
               {t("telegram_channel")}
