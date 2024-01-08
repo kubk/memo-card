@@ -53,6 +53,7 @@ const mocks = vi.hoisted(() => {
 vi.mock("./../../../store/screen-store", () => {
   return {
     screenStore: {
+      go: () => {},
       screen: {
         type: "deckForm",
         deckId: 1,
