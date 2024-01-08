@@ -34,6 +34,7 @@ type DeckFormType = {
   cards: CardFormType[];
   speakingCardsLocale: TextField<string | null>;
   speakingCardsField: TextField<DeckSpeakFieldEnum | null>;
+  folderId?: number;
 };
 
 export const createDeckTitleField = (value: string) => {
@@ -120,6 +121,7 @@ export class DeckFormStore {
         cards: [],
         speakingCardsLocale: new TextField(null),
         speakingCardsField: new TextField(null),
+        folderId: screen.folder?.id ?? undefined,
       };
     }
   }
@@ -330,11 +332,17 @@ export class DeckFormStore {
       cards: cardsToSend,
       speakLocale: this.form.speakingCardsLocale.value,
       speakField: this.form.speakingCardsField.value,
+      folderId: this.form.folderId,
     })
-      .then((response) => {
-        this.form = createUpdateForm(response.id, response);
-        deckListStore.replaceDeck(response);
-      })
+      .then(
+        action(({ deck, folders, cardsToReview }) => {
+          this.form = createUpdateForm(deck.id, deck);
+          deckListStore.replaceDeck(deck, true);
+          deckListStore.updateFolders(folders);
+          deckListStore.updateCardsToReview(cardsToReview);
+          screenStore.go({ type: "deckForm", deckId: deck.id });
+        }),
+      )
       .finally(
         action(() => {
           this.isSending = false;

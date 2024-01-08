@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { observer } from "mobx-react-lite";
 import { css, cx } from "@emotion/css";
 import { PublicDeck } from "./public-deck.tsx";
@@ -55,7 +55,7 @@ export const MainScreen = observer(() => {
           {deckListStore.myInfo
             ? deckListStore.myDeckItemsVisible.map((listItem) => {
                 return (
-                  <>
+                  <Fragment key={listItem.id}>
                     <MyDeckRow
                       onClick={() => {
                         if (listItem.type === "deck") {
@@ -71,7 +71,6 @@ export const MainScreen = observer(() => {
                           });
                         }
                       }}
-                      key={listItem.id}
                       item={listItem}
                     />
                     {listItem.type === "folder" &&
@@ -93,7 +92,7 @@ export const MainScreen = observer(() => {
                           );
                         })
                       : null}
-                  </>
+                  </Fragment>
                 );
               })
             : null}

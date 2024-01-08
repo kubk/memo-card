@@ -12,7 +12,7 @@ import {
   DeckCardDbType,
   DeckWithCardsDbType,
 } from "../../functions/db/deck/decks-with-cards-schema.ts";
-import { screenStore } from "./screen-store.ts";
+import { RouteType, screenStore } from "./screen-store.ts";
 import { CardToReviewDbType } from "../../functions/db/deck/get-cards-to-review-db.ts";
 import { assert } from "../lib/typescript/assert.ts";
 import { ReviewStore } from "../screens/deck-review/store/review-store.ts";
@@ -232,18 +232,18 @@ export class DeckListStore {
       );
   }
 
-  goDeckById(deckId: number) {
+  goDeckById(deckId: number, backScreen?: RouteType) {
     if (!this.myInfo) {
       return null;
     }
     const myDeck = this.myInfo.myDecks.find((deck) => deck.id === deckId);
     if (myDeck) {
-      screenStore.go({ type: "deckMine", deckId });
+      screenStore.go({ type: "deckMine", deckId, backScreen });
       return;
     }
     const publicDeck = this.publicDecks.find((deck) => deck.id === deckId);
     if (publicDeck) {
-      screenStore.go({ type: "deckPublic", deckId });
+      screenStore.go({ type: "deckPublic", deckId, backScreen });
       return;
     }
   }
@@ -258,7 +258,7 @@ export class DeckListStore {
 
   get selectedFolder() {
     const screen = screenStore.screen;
-    assert(screen.type === "folderPreview");
+    assert(screen.type === "folderPreview", "screen is not folder preview");
     if (!this.myInfo) {
       return null;
     }
@@ -269,7 +269,7 @@ export class DeckListStore {
     if (!folder) {
       return null;
     }
-    assert(folder.type === "folder");
+    assert(folder.type === "folder", "folder is not folder type");
 
     return folder;
   }
@@ -311,7 +311,7 @@ export class DeckListStore {
     };
   }
 
-  replaceDeck(deck: DeckWithCardsDbType) {
+  replaceDeck(deck: DeckWithCardsDbType, addToMine = false) {
     if (!this.myInfo) {
       return;
     }
@@ -328,6 +328,11 @@ export class DeckListStore {
     );
     if (deckPublicIndex !== -1) {
       this.myInfo.publicDecks[deckPublicIndex] = deck;
+      return;
+    }
+
+    if (addToMine) {
+      this.myInfo.myDecks.push(deck);
     }
   }
 
@@ -470,14 +475,11 @@ export class DeckListStore {
     this.isFullScreenLoaderVisible = true;
 
     deleteFolderRequest(folder.id)
+      .then(() => myInfoRequest())
       .then(
-        action(() => {
+        action((result) => {
+          this.myInfo = result;
           screenStore.go({ type: "main" });
-          myInfoRequest().then(
-            action((result) => {
-              this.myInfo = result;
-            }),
-          );
         }),
       )
       .catch((e) => {
@@ -499,14 +501,11 @@ export class DeckListStore {
     this.isFullScreenLoaderVisible = true;
 
     removeDeckFromMineRequest({ deckId: deck.id })
+      .then(() => myInfoRequest())
       .then(
-        action(() => {
+        action((result) => {
+          this.myInfo = result;
           screenStore.go({ type: "main" });
-          myInfoRequest().then(
-            action((result) => {
-              this.myInfo = result;
-            }),
-          );
         }),
       )
       .catch((e) => {
@@ -520,8 +519,13 @@ export class DeckListStore {
   }
 
   updateFolders(body: UserFoldersDbType[]) {
-    assert(this.myInfo, "myInfo is not loaded in optimisticUpdateFolders");
-    Object.assign(this.myInfo.folders, body);
+    assert(this.myInfo, "myInfo is not loaded in updateFolders");
+    this.myInfo.folders = body;
+  }
+
+  updateCardsToReview(body: CardToReviewDbType[]) {
+    assert(this.myInfo, "myInfo is not loaded in updateCardsToReview");
+    this.myInfo.cardsToReview = body;
   }
 }
 

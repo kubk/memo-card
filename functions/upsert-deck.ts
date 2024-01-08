@@ -9,7 +9,7 @@ import { DatabaseException } from "./db/database-exception.ts";
 import { createJsonResponse } from "./lib/json-response/create-json-response.ts";
 import {
   deckSchema,
-  deckWithCardsSchema,
+  DeckWithCardsDbType,
 } from "./db/deck/decks-with-cards-schema.ts";
 import { addDeckToMineDb } from "./db/deck/add-deck-to-mine-db.ts";
 import { createForbiddenRequestResponse } from "./lib/json-response/create-forbidden-request-response.ts";
@@ -17,6 +17,14 @@ import { getDeckByIdAndAuthorId } from "./db/deck/get-deck-by-id-and-author-id.t
 import { shortUniqueId } from "./lib/short-unique-id/short-unique-id.ts";
 import { Database } from "./db/databaseTypes.ts";
 import { getDeckWithCardsById } from "./db/deck/get-deck-with-cards-by-id-db.ts";
+import {
+  getFoldersWithDecksDb,
+  UserFoldersDbType,
+} from "./db/folder/get-folders-with-decks-db.tsx";
+import {
+  CardToReviewDbType,
+  getCardsToReviewDb,
+} from "./db/deck/get-cards-to-review-db.ts";
 
 const requestSchema = z.object({
   id: z.number().nullable().optional(),
@@ -24,6 +32,7 @@ const requestSchema = z.object({
   description: z.string().nullable().optional(),
   speakLocale: z.string().nullable().optional(),
   speakField: z.string().nullable().optional(),
+  folderId: z.number().nullable().optional(),
   cards: z.array(
     z.object({
       front: z.string(),
@@ -35,7 +44,11 @@ const requestSchema = z.object({
 });
 
 export type UpsertDeckRequest = z.infer<typeof requestSchema>;
-export type UpsertDeckResponse = z.infer<typeof deckWithCardsSchema>;
+export type UpsertDeckResponse = {
+  deck: DeckWithCardsDbType;
+  folders: UserFoldersDbType[];
+  cardsToReview: CardToReviewDbType[];
+};
 
 type InsertDeckDatabaseType = Database["public"]["Tables"]["deck"]["Insert"];
 type DeckRow = Database["public"]["Tables"]["deck"]["Row"];
@@ -116,15 +129,30 @@ export const onRequestPost = handleError(async ({ request, env }) => {
     throw new DatabaseException(createCardsResult.error);
   }
 
+  // If create deck
   if (!input.data.id) {
     await addDeckToMineDb(envSafe, {
       user_id: user.id,
       deck_id: upsertedDeck.id,
     });
+
+    // If folderId passed - add the new deck to folder
+    if (input.data.folderId) {
+      await db.from("deck_folder").upsert({
+        deck_id: upsertedDeck.id,
+        folder_id: input.data.folderId,
+      });
+    }
   }
 
+  const [deck, folders, cardsToReview] = await Promise.all([
+    getDeckWithCardsById(envSafe, upsertedDeck.id),
+    getFoldersWithDecksDb(envSafe, user.id),
+    getCardsToReviewDb(envSafe, user.id),
+  ]);
+
   return createJsonResponse<UpsertDeckResponse>(
-    await getDeckWithCardsById(envSafe, upsertedDeck.id),
+    { deck, folders, cardsToReview },
     200,
   );
 });

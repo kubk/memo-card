@@ -52,7 +52,31 @@ export const DeckForm = observer(() => {
   }
 
   return (
-    <Screen title={screen.deckId ? t("edit_deck") : t("add_deck")}>
+    <Screen
+      title={screen.deckId ? t("edit_deck") : t("add_deck")}
+      subtitle={
+        screen.folder ? (
+          <div className={css({ textAlign: "center", fontSize: 14 })}>
+            to folder{" "}
+            <button
+              onClick={() => {
+                assert(screen.folder, "Folder should be defined");
+                screenStore.go({
+                  type: "folderPreview",
+                  folderId: screen.folder.id,
+                });
+              }}
+              className={cx(
+                reset.button,
+                css({ fontSize: "inherit", color: theme.linkColor }),
+              )}
+            >
+              {screen.folder.name}
+            </button>
+          </div>
+        ) : undefined
+      }
+    >
       <Label text={t("title")} isRequired>
         <Input field={deckFormStore.form.title} />
       </Label>
@@ -155,7 +179,7 @@ export const DeckForm = observer(() => {
           onClick={() => {
             assert(deckFormStore.form);
             assert(deckFormStore.form.id);
-            deckListStore.goDeckById(deckFormStore.form.id);
+            deckListStore.goDeckById(deckFormStore.form.id, "main");
           }}
         >
           {t("deck_preview")}
