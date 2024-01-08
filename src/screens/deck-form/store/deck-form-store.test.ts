@@ -12,29 +12,33 @@ import { isFormValid } from "../../../lib/mobx-form/form-has-error.ts";
 const mapUpsertDeckRequestToResponse = (
   input: UpsertDeckRequest,
 ): UpsertDeckResponse => ({
-  id: input.id || 9999,
-  available_in: null,
-  description: input.description ?? null,
-  created_at: new Date().toISOString(),
-  name: input.title,
-  author_id: 9999,
-  share_id: "share_id_mock",
-  is_public: false,
-  speak_locale: null,
-  speak_field: null,
-  deck_category: null,
-  category_id: null,
-  deck_card: input.cards.map((card) => {
-    assert(input.id);
-    return {
-      id: card.id || 9999,
-      deck_id: input.id,
-      created_at: new Date().toISOString(),
-      example: card.example ?? null,
-      front: card.front,
-      back: card.back,
-    };
-  }),
+  folders: [],
+  cardsToReview: [],
+  deck: {
+    id: input.id || 9999,
+    available_in: null,
+    description: input.description ?? null,
+    created_at: new Date().toISOString(),
+    name: input.title,
+    author_id: 9999,
+    share_id: "share_id_mock",
+    is_public: false,
+    speak_locale: null,
+    speak_field: null,
+    deck_category: null,
+    category_id: null,
+    deck_card: input.cards.map((card) => {
+      assert(input.id);
+      return {
+        id: card.id || 9999,
+        deck_id: input.id,
+        created_at: new Date().toISOString(),
+        example: card.example ?? null,
+        front: card.front,
+        back: card.back,
+      };
+    }),
+  }
 });
 
 const mocks = vi.hoisted(() => {
@@ -49,6 +53,7 @@ const mocks = vi.hoisted(() => {
 vi.mock("./../../../store/screen-store", () => {
   return {
     screenStore: {
+      go: () => {},
       screen: {
         type: "deckForm",
         deckId: 1,
@@ -98,6 +103,8 @@ vi.mock("./../../../store/deck-list-store.ts", () => {
   return {
     deckListStore: {
       replaceDeck: () => {},
+      updateFolders: () => {},
+      updateCardsToReview: () => {},
       searchDeckById: (id: number) => {
         return myDecks.find((deck) => deck.id === id);
       },

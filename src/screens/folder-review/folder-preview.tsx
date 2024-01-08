@@ -30,7 +30,7 @@ export const FolderPreview = observer(() => {
     t("review_folder"),
     () => {
       const folder = deckListStore.selectedFolder;
-      assert(folder);
+      assert(folder, "Folder should be selected before review");
       reviewStore.startFolderReview(
         folder.decks,
         userStore.isSpeakingCardsEnabled,
@@ -70,7 +70,18 @@ export const FolderPreview = observer(() => {
             textAlign: "center",
           })}
         >
-          <h3 className={css({ paddingTop: 12 })}>{folder.name}</h3>
+          <h3
+            className={css({
+              paddingTop: 12,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: 6,
+            })}
+          >
+            <i className={"mdi mdi-folder-open-outline"} title={t("folder")} />
+            {folder.name}
+          </h3>
         </div>
         <div>
           <div>{folder.description}</div>
@@ -124,6 +135,23 @@ export const FolderPreview = observer(() => {
         >
           {deckListStore.canEditFolder ? (
             <ButtonSideAligned
+              icon={"mdi-plus-circle mdi-24px"}
+              outline
+              onClick={() => {
+                screenStore.go({
+                  type: "deckForm",
+                  folder: {
+                    id: folder.id,
+                    name: folder.name,
+                  },
+                });
+              }}
+            >
+              {t("add_deck_short")}
+            </ButtonSideAligned>
+          ) : null}
+          {deckListStore.canEditFolder ? (
+            <ButtonSideAligned
               icon={"mdi-pencil-circle mdi-24px"}
               outline
               onClick={() => {
@@ -157,9 +185,10 @@ export const FolderPreview = observer(() => {
         })}
       >
         <ListHeader text={t("decks")} />
-        {folder.decks.map((deck) => {
+        {folder.decks.map((deck, i) => {
           return (
             <SettingsRow
+              key={i}
               onClick={() => {
                 deckListStore.goDeckById(deck.id);
               }}
