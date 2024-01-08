@@ -38,7 +38,7 @@ const mapUpsertDeckRequestToResponse = (
         back: card.back,
       };
     }),
-  }
+  },
 });
 
 const mocks = vi.hoisted(() => {

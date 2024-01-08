@@ -21,7 +21,7 @@ export const Screen = observer((props: Props) => {
       })}
     >
       <div>
-        <h3 className={css({ textAlign: "center"})}>{title}</h3>
+        <h3 className={css({ textAlign: "center" })}>{title}</h3>
         {subtitle}
       </div>
       {children}

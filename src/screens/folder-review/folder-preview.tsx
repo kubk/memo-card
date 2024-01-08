@@ -12,7 +12,7 @@ import { ButtonSideAligned } from "../../ui/button-side-aligned.tsx";
 import { useTelegramProgress } from "../../lib/telegram/use-telegram-progress.tsx";
 import { t } from "../../translations/t.ts";
 import { useReviewStore } from "../deck-review/store/review-store-context.tsx";
-import { SettingsRow } from "../user-settings/settings-row.tsx";
+import { CardRow } from "../../ui/card-row.tsx";
 import { ListHeader } from "../../ui/list-header.tsx";
 import { assert } from "../../lib/typescript/assert.ts";
 import { userStore } from "../../store/user-store.ts";
@@ -187,14 +187,14 @@ export const FolderPreview = observer(() => {
         <ListHeader text={t("decks")} />
         {folder.decks.map((deck, i) => {
           return (
-            <SettingsRow
+            <CardRow
               key={i}
               onClick={() => {
                 deckListStore.goDeckById(deck.id);
               }}
             >
               {deck.name}
-            </SettingsRow>
+            </CardRow>
           );
         })}
         {folder.cardsToReview.length === 0 && (

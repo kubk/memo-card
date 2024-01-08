@@ -10,7 +10,7 @@ import { useMount } from "../../lib/react/use-mount.ts";
 import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
 import { useTelegramProgress } from "../../lib/telegram/use-telegram-progress.tsx";
 import { assert } from "../../lib/typescript/assert.ts";
-import { SettingsRow } from "../user-settings/settings-row.tsx";
+import { CardRow } from "../../ui/card-row.tsx";
 import { Button } from "../../ui/button.tsx";
 import { HintTransparent } from "../../ui/hint-transparent.tsx";
 import { RadioSwitcher } from "../../ui/radio-switcher.tsx";
@@ -90,23 +90,23 @@ export const DeckForm = observer(() => {
       </Label>
 
       {deckFormStore.form.cards.length > 0 && (
-        <SettingsRow
+        <CardRow
           onClick={() => {
             deckFormStore.goToCardList();
           }}
         >
           <span>{t("cards")}</span>
           <span>{deckFormStore.form.cards.length}</span>
-        </SettingsRow>
+        </CardRow>
       )}
 
-      <SettingsRow>
+      <CardRow>
         <span>{t("speaking_cards")}</span>
         <RadioSwitcher
           isOn={deckFormStore.isSpeakingCardEnabled}
           onToggle={deckFormStore.toggleIsSpeakingCardEnabled}
         />
-      </SettingsRow>
+      </CardRow>
       {deckFormStore.isSpeakingCardEnabled ? (
         <div
           className={css({
