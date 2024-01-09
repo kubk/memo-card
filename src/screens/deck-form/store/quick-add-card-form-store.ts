@@ -13,6 +13,7 @@ import { TextField } from "../../../lib/mobx-form/text-field.ts";
 import { AddCardRequest } from "../../../../functions/add-card.ts";
 import { deckListStore } from "../../../store/deck-list-store.ts";
 import { t } from "../../../translations/t.ts";
+import { BooleanToggle } from "../../../lib/mobx-form/boolean-toggle.ts";
 
 export class QuickAddCardFormStore {
   form: CardFormType = {
@@ -21,6 +22,7 @@ export class QuickAddCardFormStore {
     example: new TextField(""),
   };
   isSending = false;
+  isCardPreviewSelected = new BooleanToggle(false);
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });

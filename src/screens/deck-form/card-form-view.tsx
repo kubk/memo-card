@@ -6,13 +6,16 @@ import { CardFormType } from "./store/deck-form-store.ts";
 import { HintTransparent } from "../../ui/hint-transparent.tsx";
 import { t } from "../../translations/t.ts";
 import { Screen } from "../shared/screen.tsx";
+import { CenteredUnstyledButton } from "../../ui/centered-unstyled-button.tsx";
+import { isFormValid } from "../../lib/mobx-form/form-has-error.ts";
 
 type Props = {
   cardForm: CardFormType;
+  onPreviewClick: () => void;
 };
 
 export const CardFormView = observer((props: Props) => {
-  const { cardForm } = props;
+  const { cardForm, onPreviewClick } = props;
 
   return (
     <Screen title={cardForm ? t("edit_card") : t("add_card")}>
@@ -30,6 +33,12 @@ export const CardFormView = observer((props: Props) => {
         <Input field={cardForm.example} rows={2} type={"textarea"} />
         <HintTransparent>{t("card_field_example_hint")}</HintTransparent>
       </Label>
+
+      {isFormValid(cardForm) && (
+        <CenteredUnstyledButton onClick={onPreviewClick}>
+          {t("card_preview")}
+        </CenteredUnstyledButton>
+      )}
     </Screen>
   );
 });

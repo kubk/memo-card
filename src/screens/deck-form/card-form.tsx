@@ -27,5 +27,12 @@ export const CardForm = observer(() => {
     deckFormStore.onCardBack();
   });
 
-  return <CardFormView cardForm={cardForm} />;
+  return (
+    <CardFormView
+      cardForm={cardForm}
+      onPreviewClick={() => {
+        deckFormStore.isCardPreviewSelected.setTrue();
+      }}
+    />
+  );
 });

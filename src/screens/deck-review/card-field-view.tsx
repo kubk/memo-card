@@ -6,8 +6,8 @@ export const CardFieldView = (props: { text: string }) => {
   return (
     <span
       dangerouslySetInnerHTML={{
-        __html: sanitize(text)
+        __html: sanitize(text),
       }}
-    ></span>
+    />
   );
 };
