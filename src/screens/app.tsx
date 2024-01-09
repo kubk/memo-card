@@ -7,7 +7,7 @@ import { DeckFormScreen } from "./deck-form/deck-form-screen.tsx";
 import { DeckFormStoreProvider } from "./deck-form/store/deck-form-store-context.tsx";
 import { QuickAddCardForm } from "./deck-form/quick-add-card-form.tsx";
 import { VersionWarning } from "./shared/version-warning.tsx";
-import React from "react";
+import React, { useMemo, useState } from "react";
 import { UserSettingsStoreProvider } from "./user-settings/store/user-settings-store-context.tsx";
 import { UserSettingsMain } from "./user-settings/user-settings-main.tsx";
 import { deckListStore } from "../store/deck-list-store.ts";
@@ -25,8 +25,74 @@ import { ShareDeckScreen } from "./share-deck/share-deck-screen.tsx";
 import { ShareDeckStoreProvider } from "./share-deck/store/share-deck-store-context.tsx";
 import { FolderFormStoreProvider } from "./folder-form/store/folder-form-store-context.tsx";
 import { FolderScreen } from "./folder-review/folder-screen.tsx";
+import {
+  BtnBold,
+  BtnItalic,
+  createButton,
+  Editor,
+  EditorProvider,
+  Toolbar,
+} from "react-simple-wysiwyg";
 
-export const App = observer(() => {
+const BtnAlignCenter = createButton("Decrease size", "-", "decreaseFontSize");
+
+export function App() {
+  const [value, setValue] = useState("simple text");
+  const [link, setLink] = useState("");
+  const [isOpened, setIsOpened] = useState(false);
+
+  // @ts-ignore
+  function onChange(e) {
+    setValue(e.target.value);
+  }
+
+  const BtnLink2 = useMemo(
+    () =>
+      createButton("Link", "🔗", ({ $selection }) => {
+        if ($selection?.nodeName === "A") {
+          document.execCommand("unlink");
+        } else {
+          setIsOpened(true);
+        }
+      }),
+    [],
+  );
+
+  return (
+    <EditorProvider>
+      <Editor value={value} onChange={onChange}>
+        <Toolbar>
+          <BtnBold />
+          <BtnItalic />
+          <BtnLink2 />
+          <BtnAlignCenter />
+        </Toolbar>
+      </Editor>
+      {JSON.stringify(value, null, 2)}
+      {isOpened && (
+        <div>
+          <input
+            value={link}
+            onChange={(e: any) => {
+              setLink(e.target.value);
+            }}
+          />
+          <button
+            onClick={() => {
+              console.log(link);
+              document.execCommand("createLink", false, link);
+              setIsOpened(false);
+            }}
+          >
+            OK
+          </button>
+        </div>
+      )}
+    </EditorProvider>
+  );
+}
+
+export const App2 = observer(() => {
   useRestoreFullScreenExpand();
 
   if (deckListStore.isFullScreenLoaderVisible) {

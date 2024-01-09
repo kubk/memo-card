@@ -45,6 +45,7 @@
     "react-dom": "^18.2.0",
     "react-hotkeys-hook": "^4.4.1",
     "react-lines-ellipsis": "^0.15.3",
+    "react-simple-wysiwyg": "^3.0.2",
     "short-unique-id": "^5.0.3",
     "supabase": "^1.110.1",
     "zod": "^3.22.3"
