@@ -5,7 +5,7 @@ import { ReviewStoreProvider } from "./deck-review/store/review-store-context.ts
 import { screenStore } from "../store/screen-store.ts";
 import { DeckFormScreen } from "./deck-form/deck-form-screen.tsx";
 import { DeckFormStoreProvider } from "./deck-form/store/deck-form-store-context.tsx";
-import { QuickAddCardForm } from "./deck-form/quick-add-card-form.tsx";
+import { QuickAddCardFormPage } from "./deck-form/quick-add-card-form-page.tsx";
 import { VersionWarning } from "./shared/version-warning.tsx";
 import React from "react";
 import { UserSettingsStoreProvider } from "./user-settings/store/user-settings-store-context.tsx";
@@ -90,7 +90,7 @@ export const App = observer(() => {
       )}
       {screenStore.screen.type === "cardQuickAddForm" && (
         <PreventTelegramSwipeDownClosingIos>
-          <QuickAddCardForm />
+          <QuickAddCardFormPage />
         </PreventTelegramSwipeDownClosingIos>
       )}
       {screenStore.screen.type === "userSettings" && (

@@ -1,10 +1,12 @@
 import { makeAutoObservable } from "mobx";
+import { CardFormType } from "../screens/deck-form/store/deck-form-store.ts";
 
 type Route =
   | { type: "main" }
   | { type: "deckMine"; deckId: number; backScreen?: RouteType }
   | { type: "deckPublic"; deckId: number; backScreen?: RouteType }
   | { type: "deckForm"; deckId?: number; folder?: { id: number; name: string } }
+  | { type: "cardPreview"; form: CardFormType }
   | { type: "folderForm"; folderId?: number }
   | { type: "folderPreview"; folderId: number }
   | { type: "deckOrFolderChoose" }

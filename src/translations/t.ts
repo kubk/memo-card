@@ -44,6 +44,7 @@ const en = {
   add_card: "Add card",
   edit_card: "Edit card",
   deck_preview: "Deck preview",
+  card_preview: "Card preview",
   add_card_short: "Add card",
   add_deck_short: "Deck",
   card_front_title: "Front side",
@@ -130,6 +131,7 @@ type Translation = typeof en;
 
 const ru: Translation = {
   choose_what_to_create: "Выберите что создать",
+  card_preview: "Предпросмотр карточки",
   deck: "Колода",
   add_deck_short: "Колода",
   deck_description: "Коллекция карточек",
@@ -253,6 +255,7 @@ const ru: Translation = {
 };
 
 const es: Translation = {
+  card_preview: "Vista previa de la tarjeta",
   review_folder: "Repasar carpeta",
   folder_description: "Una colección de mazos",
   add_deck_short: "Mazo",
@@ -381,6 +384,7 @@ const es: Translation = {
 };
 
 const ptBr: Translation = {
+  card_preview: "Visualização do cartão",
   review_folder: "Revisar pasta",
   add_deck_short: "Baralho",
   choose_what_to_create: "Escolha o que criar",

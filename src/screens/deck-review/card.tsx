@@ -12,8 +12,19 @@ export const cardSize = 310;
 
 type FramerMotionProps = Pick<MotionProps, "style" | "animate" | "initial">;
 
+export type LimitedCardUnderReviewStore = Pick<
+  CardUnderReviewStore,
+  | "isOpened"
+  | "deckSpeakField"
+  | "isSpeakingCardsEnabledSettings"
+  | "speak"
+  | "front"
+  | "back"
+  | "example"
+>;
+
 type Props = {
-  card: CardUnderReviewStore;
+  card: LimitedCardUnderReviewStore;
 } & FramerMotionProps;
 
 export const Card = observer(({ card, style, animate }: Props) => {
