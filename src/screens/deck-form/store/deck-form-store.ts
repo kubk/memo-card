@@ -19,6 +19,7 @@ import {
 } from "../../../../functions/db/deck/decks-with-cards-schema.ts";
 import { SpeakLanguageEnum } from "../../../lib/voice-playback/speak.ts";
 import { t } from "../../../translations/t.ts";
+import { BooleanToggle } from "../../../lib/mobx-form/boolean-toggle.ts";
 
 export type CardFormType = {
   front: TextField<string>;
@@ -79,6 +80,7 @@ export type CardFilterDirection = "desc" | "asc";
 export class DeckFormStore {
   cardFormIndex?: number;
   cardFormType?: "new" | "edit";
+  isCardPreviewSelected = new BooleanToggle(false);
   form?: DeckFormType;
   isSending = false;
   isCardList = false;
@@ -94,6 +96,9 @@ export class DeckFormStore {
 
   get deckFormScreen() {
     if (this.cardFormIndex !== undefined) {
+      if (this.isCardPreviewSelected.value) {
+        return "cardPreview";
+      }
       return "cardForm";
     }
     if (this.isCardList) {

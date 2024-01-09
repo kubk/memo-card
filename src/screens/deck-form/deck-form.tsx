@@ -26,6 +26,7 @@ import { t } from "../../translations/t.ts";
 import { deckListStore } from "../../store/deck-list-store.ts";
 import { reset } from "../../ui/reset.ts";
 import { Screen } from "../shared/screen.tsx";
+import { CenteredUnstyledButton } from "../../ui/centered-unstyled-button.tsx";
 
 export const DeckForm = observer(() => {
   const deckFormStore = useDeckFormStore();
@@ -165,17 +166,7 @@ export const DeckForm = observer(() => {
         {t("add_card")}
       </Button>
       {deckFormStore.form.id ? (
-        <button
-          className={cx(
-            reset.button,
-            css({
-              width: "100%",
-              color: theme.linkColor,
-              fontSize: 14,
-              paddingTop: 6,
-              textTransform: "uppercase",
-            }),
-          )}
+        <CenteredUnstyledButton
           onClick={() => {
             assert(deckFormStore.form);
             assert(deckFormStore.form.id);
@@ -183,7 +174,7 @@ export const DeckForm = observer(() => {
           }}
         >
           {t("deck_preview")}
-        </button>
+        </CenteredUnstyledButton>
       ) : null}
     </Screen>
   );
