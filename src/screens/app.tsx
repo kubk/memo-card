@@ -25,9 +25,14 @@ import { ShareDeckScreen } from "./share-deck/share-deck-screen.tsx";
 import { ShareDeckStoreProvider } from "./share-deck/store/share-deck-store-context.tsx";
 import { FolderFormStoreProvider } from "./folder-form/store/folder-form-store-context.tsx";
 import { FolderScreen } from "./folder-review/folder-screen.tsx";
+import { useSettingsButton } from "../lib/telegram/use-settings-button.ts";
 
 export const App = observer(() => {
   useRestoreFullScreenExpand();
+
+  useSettingsButton(() => {
+    screenStore.go({ type: "userSettings" });
+  });
 
   if (deckListStore.isFullScreenLoaderVisible) {
     return <FullScreenLoader />;
