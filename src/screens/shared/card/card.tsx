@@ -1,10 +1,10 @@
 import { motion, MotionProps } from "framer-motion";
 import { css } from "@emotion/css";
 import React from "react";
-import { theme } from "../../ui/theme.tsx";
+import { theme } from "../../../ui/theme.tsx";
 import { observer } from "mobx-react-lite";
-import { CardUnderReviewStore } from "./store/card-under-review-store.ts";
-import { HorizontalDivider } from "../../ui/horizontal-divider.tsx";
+import { CardUnderReviewStore } from "../../deck-review/store/card-under-review-store.ts";
+import { HorizontalDivider } from "../../../ui/horizontal-divider.tsx";
 import { CardSpeaker } from "./card-speaker.tsx";
 import { CardFieldView } from "./card-field-view.tsx";
 

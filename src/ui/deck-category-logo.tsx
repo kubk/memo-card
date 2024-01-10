@@ -15,7 +15,10 @@ export const replaceFlagEmojiOnWindows = (logo: string) => {
 
 const supportsEmojiFlag = WebApp.platform !== "tdesktop";
 
-type Props = { logo: string; categoryName: string };
+type Props = {
+  logo: string;
+  categoryName: string;
+};
 
 export const DeckCategoryLogo = (props: Props) => {
   const { logo, categoryName } = props;

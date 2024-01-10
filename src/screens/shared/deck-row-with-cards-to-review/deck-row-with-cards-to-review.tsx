@@ -1,10 +1,10 @@
 import { observer } from "mobx-react-lite";
 import { css } from "@emotion/css";
-import { theme } from "../../ui/theme.tsx";
+import { theme } from "../../../ui/theme.tsx";
 import React from "react";
 import { motion } from "framer-motion";
-import { whileTap } from "../../ui/animations.ts";
-import { DeckCardDbTypeWithType } from "../../store/deck-list-store.ts";
+import { whileTap } from "../../../ui/animations.ts";
+import { DeckCardDbTypeWithType } from "../../../store/deck-list-store.ts";
 import { CardsToReviewCount } from "./cards-to-review-count.tsx";
 
 type Props = {
@@ -16,7 +16,7 @@ type Props = {
   onClick: () => void;
 };
 
-export const MyDeckRow = observer((props: Props) => {
+export const DeckRowWithCardsToReview = observer((props: Props) => {
   const { item, onClick } = props;
 
   return (

@@ -55,6 +55,9 @@ export const ButtonSideAligned = (props: Props) => {
           position: "relative",
           transitionTimingFunction: "ease-in-out",
           transitionProperty: "background-color, border, box-shadow, color",
+          ":active": {
+            transform: "scale(0.97)",
+          },
         }),
         outline &&
           css({
