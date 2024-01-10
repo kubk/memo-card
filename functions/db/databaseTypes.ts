@@ -108,33 +108,39 @@ export interface Database {
         Row: {
           author_id: number
           created_at: string
-          deck_id: number
+          deck_id: number | null
           duration_days: number | null
+          folder_id: number | null
           id: number
           processed_at: string | null
           share_id: string
+          type: Database["public"]["Enums"]["deck_access_type"]
           usage_started_at: string | null
           used_by: number | null
         }
         Insert: {
           author_id: number
           created_at?: string
-          deck_id: number
+          deck_id?: number | null
           duration_days?: number | null
+          folder_id?: number | null
           id?: number
           processed_at?: string | null
           share_id: string
+          type?: Database["public"]["Enums"]["deck_access_type"]
           usage_started_at?: string | null
           used_by?: number | null
         }
         Update: {
           author_id?: number
           created_at?: string
-          deck_id?: number
+          deck_id?: number | null
           duration_days?: number | null
+          folder_id?: number | null
           id?: number
           processed_at?: string | null
           share_id?: string
+          type?: Database["public"]["Enums"]["deck_access_type"]
           usage_started_at?: string | null
           used_by?: number | null
         }
@@ -149,6 +155,12 @@ export interface Database {
             foreignKeyName: "deck_access_deck_id_fkey"
             columns: ["deck_id"]
             referencedRelation: "deck"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "deck_access_folder_id_fkey"
+            columns: ["folder_id"]
+            referencedRelation: "folder"
             referencedColumns: ["id"]
           },
           {
@@ -254,6 +266,7 @@ export interface Database {
           created_at: string
           description: string | null
           id: number
+          share_id: string
           title: string
         }
         Insert: {
@@ -261,6 +274,7 @@ export interface Database {
           created_at?: string
           description?: string | null
           id?: number
+          share_id: string
           title: string
         }
         Update: {
@@ -268,6 +282,7 @@ export interface Database {
           created_at?: string
           description?: string | null
           id?: number
+          share_id?: string
           title?: string
         }
         Relationships: [
@@ -476,6 +491,7 @@ export interface Database {
           folder_id: number
           folder_title: string
           folder_description: string
+          folder_share_id: string
           folder_author_id: number
           deck_id: number
         }[]
@@ -547,7 +563,7 @@ export interface Database {
       }
     }
     Enums: {
-      [_ in never]: never
+      deck_access_type: "deck" | "folder"
     }
     CompositeTypes: {
       [_ in never]: never

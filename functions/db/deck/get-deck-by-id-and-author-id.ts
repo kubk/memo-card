@@ -14,7 +14,7 @@ export const getDeckByIdAndAuthorId = async (
     query = query.eq("author_id", user.id);
   }
 
-  const canEditDeckResult = await query.single();
+  const canEditDeckResult = await query.maybeSingle();
   if (canEditDeckResult.error) {
     throw new DatabaseException(canEditDeckResult.error);
   }

@@ -9,6 +9,20 @@ import {
   getLastDeckAccessesForDeckDb,
 } from "./db/deck-access/get-last-deck-accesses-for-deck-db.ts";
 
+const getFilters = (urlString: string) => {
+  const url = new URL(urlString);
+  const deckId = url.searchParams.get("deckId");
+  const folderId = url.searchParams.get("folderId");
+
+  if (deckId) {
+    return { deckId: parseInt(deckId) };
+  }
+  if (folderId) {
+    return { folderId: parseInt(folderId) };
+  }
+  return null;
+};
+
 export type DeckAccessesResponse = {
   accesses: DeckAccessesForDeckTypeDb;
 };
@@ -17,15 +31,11 @@ export const onRequest = handleError(async ({ request, env }) => {
   const user = await getUser(request, env);
   if (!user) return createAuthFailedResponse();
 
-  const url = new URL(request.url);
-  const deckId = url.searchParams.get("deck_id");
-  if (!deckId) {
-    return createBadRequestResponse();
-  }
+  const filters = getFilters(request.url);
+  if (!filters) return createBadRequestResponse();
 
   const envSafe = envSchema.parse(env);
-
-  const data = await getLastDeckAccessesForDeckDb(envSafe, Number(deckId));
+  const data = await getLastDeckAccessesForDeckDb(envSafe, filters);
 
   return createJsonResponse<DeckAccessesResponse>({
     accesses: data,

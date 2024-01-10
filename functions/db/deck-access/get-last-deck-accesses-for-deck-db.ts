@@ -25,19 +25,26 @@ export type DeckAccessesForDeckTypeDb = z.infer<typeof responseSchema>;
 
 export const getLastDeckAccessesForDeckDb = async (
   envSafe: EnvSafe,
-  deckId: number,
+  filters: { deckId: number } | { folderId: number },
 ): Promise<DeckAccessesForDeckTypeDb> => {
   const db = getDatabase(envSafe);
 
-  const { data, error } = await db
+  const query = db
     .from("deck_access")
     .select(
       "deck_id, author_id, used_by, share_id, id, created_at, duration_days, user:used_by (id, username, first_name, last_name)",
     )
-    .eq("deck_id", deckId)
     .order("created_at", { ascending: false })
     .limit(100);
 
+  if ("deckId" in filters) {
+    query.eq("deck_id", filters.deckId);
+  }
+  if ("folderId" in filters) {
+    query.eq("folder_id", filters.folderId);
+  }
+
+  const { data, error } = await query;
   if (error) {
     throw new DatabaseException(error);
   }

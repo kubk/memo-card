@@ -14,7 +14,7 @@ export const getFolderByIdAndAuthorId = async (
     query = query.eq("author_id", user.id);
   }
 
-  const canEditResult = await query.single();
+  const canEditResult = await query.maybeSingle();
   if (canEditResult.error) {
     throw new DatabaseException(canEditResult.error);
   }

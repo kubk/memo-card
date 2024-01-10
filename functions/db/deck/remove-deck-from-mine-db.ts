@@ -1,6 +1,7 @@
 import { EnvSafe } from "../../env/env-schema.ts";
 import { getDatabase } from "../get-database.ts";
 import { DatabaseException } from "../database-exception.ts";
+import { getDeckByIdAndAuthorId } from "./get-deck-by-id-and-author-id.ts";
 
 export const removeDeckFromMineDb = async (
   env: EnvSafe,
@@ -8,10 +9,28 @@ export const removeDeckFromMineDb = async (
 ): Promise<null> => {
   const db = getDatabase(env);
 
-  const { error } = await db.from("user_deck").delete().match(body);
+  const deleteFromUserDeckResult = await db
+    .from("user_deck")
+    .delete()
+    .match(body);
+  if (deleteFromUserDeckResult.error) {
+    throw new DatabaseException(deleteFromUserDeckResult.error);
+  }
 
-  if (error) {
-    throw new DatabaseException(error);
+  const userDeckResult = await getDeckByIdAndAuthorId(env, body.deck_id, {
+    id: body.user_id,
+    is_admin: false,
+  });
+  if (userDeckResult) {
+    const deleteFromDeckFolderResult = await db
+      .from("deck_folder")
+      .delete()
+      .match({
+        deck_id: body.deck_id,
+      });
+    if (deleteFromDeckFolderResult.error) {
+      throw new DatabaseException(deleteFromDeckFolderResult.error);
+    }
   }
 
   return null;

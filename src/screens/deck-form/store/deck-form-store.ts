@@ -133,10 +133,11 @@ export class DeckFormStore {
 
   get isDeckSaveButtonVisible() {
     return Boolean(
-      (this.form?.description.isTouched ||
-        this.form?.title.isTouched ||
-        this.form?.speakingCardsField.isTouched ||
-        this.form?.speakingCardsLocale.isTouched) &&
+      this.form &&
+        (this.form.description.isTouched ||
+          this.form.title.isTouched ||
+          this.form.speakingCardsField.isTouched ||
+          this.form.speakingCardsLocale.isTouched) &&
         this.form?.cards.length > 0,
     );
   }
@@ -215,7 +216,9 @@ export class DeckFormStore {
   }
 
   toggleIsSpeakingCardEnabled() {
-    if (!this.form) return;
+    if (!this.form) {
+      return;
+    }
     const { speakingCardsLocale, speakingCardsField } = this.form;
 
     if (speakingCardsLocale.value && speakingCardsField.value) {
@@ -341,11 +344,14 @@ export class DeckFormStore {
     })
       .then(
         action(({ deck, folders, cardsToReview }) => {
+          const redirectToEdit = !this.form?.id;
           this.form = createUpdateForm(deck.id, deck);
           deckListStore.replaceDeck(deck, true);
           deckListStore.updateFolders(folders);
           deckListStore.updateCardsToReview(cardsToReview);
-          screenStore.go({ type: "deckForm", deckId: deck.id });
+          if (redirectToEdit) {
+            screenStore.go({ type: "deckForm", deckId: deck.id });
+          }
         }),
       )
       .finally(

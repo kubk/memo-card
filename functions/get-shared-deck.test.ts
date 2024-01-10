@@ -84,6 +84,7 @@ describe("get shared deck", () => {
       author_id: 1,
       used_by: null,
       deck_id: 1,
+      type: "deck",
     });
     getDeckWithCardsByIdMock.mockReturnValue(mockDeckOfUser1);
 
@@ -116,6 +117,7 @@ describe("get shared deck", () => {
       author_id: 2,
       used_by: 2,
       deck_id: 2,
+      type: "deck",
     });
     getDeckWithCardsByIdMock.mockReturnValue(mockDeckOfUser2);
 
@@ -131,6 +133,7 @@ describe("get shared deck", () => {
       author_id: 2,
       used_by: null,
       deck_id: 2,
+      type: "deck",
     });
     getDeckWithCardsByIdMock.mockReturnValue(mockDeckOfUser2);
 
@@ -149,6 +152,7 @@ describe("get shared deck", () => {
       used_by: null,
       deck_id: 2,
       processed_at: new Date().toISOString(),
+      type: "deck",
     });
     getDeckWithCardsByIdMock.mockReturnValue(mockDeckOfUser2);
 

@@ -4,7 +4,7 @@ import { t } from "../../translations/t.ts";
 import React from "react";
 import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
 import { useMount } from "../../lib/react/use-mount.ts";
-import { getDeckLink } from "./redirect-user-to-deck-link.tsx";
+import { getDeckOrFolderLink } from "./redirect-user-to-deck-or-folder-link.tsx";
 import { copyToClipboard } from "../../lib/copy-to-clipboard/copy-to-clipboard.ts";
 import { showAlert } from "../../lib/telegram/show-alert.ts";
 import { theme } from "../../ui/theme.tsx";
@@ -13,21 +13,7 @@ import { useShareDeckStore } from "./store/share-deck-store-context.tsx";
 import { Screen } from "../shared/screen.tsx";
 import { Loader } from "../../ui/loader.tsx";
 import { EmptyState } from "../../ui/empty-state.tsx";
-
-const formatAccessUser = (user: {
-  id: number;
-  username: string | null;
-  first_name: string | null;
-  last_name: string | null;
-}) => {
-  if (user.username) {
-    return `@${user.username}`;
-  }
-  if (user.first_name || user.last_name) {
-    return `${user.first_name ?? ""} ${user.last_name ?? ""}`;
-  }
-  return `#${user.id}`;
-};
+import { formatAccessUser } from "./format-access-user.ts";
 
 export const ShareDeckOneTimeLinks = observer(() => {
   const store = useShareDeckStore();
@@ -45,7 +31,11 @@ export const ShareDeckOneTimeLinks = observer(() => {
       {store.deckAccesses?.state === "pending" ? <Loader /> : null}
       {store.deckAccesses?.state === "fulfilled" &&
       store.deckAccesses.value.accesses.length === 0 ? (
-        <EmptyState>{t("share_no_links")}</EmptyState>
+        <EmptyState>
+          {store.deckAccessType === "deck"
+            ? t("share_no_links")
+            : t("share_no_links_for_folder")}
+        </EmptyState>
       ) : null}
 
       {store.deckAccesses?.state === "fulfilled"
@@ -69,7 +59,7 @@ export const ShareDeckOneTimeLinks = observer(() => {
                     #{access.id}{" "}
                     <span
                       onClick={async () => {
-                        const link = getDeckLink(access.share_id);
+                        const link = getDeckOrFolderLink(access.share_id);
                         await copyToClipboard(link);
                         showAlert(t("share_link_copied"));
                       }}

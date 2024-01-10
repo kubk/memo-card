@@ -34,7 +34,7 @@ export const UserSettingsMain = observer(() => {
   );
 
   useBackButton(() => {
-    screenStore.go({ type: "main" });
+    screenStore.back();
   });
   useTelegramProgress(() => userSettingsStore.isSending);
 

@@ -8,12 +8,16 @@ const userFoldersSchema = z.object({
   folder_title: z.string(),
   folder_description: z.string().nullable(),
   folder_author_id: z.number(),
+  folder_share_id: z.string(),
   deck_id: z.number().nullable(),
 });
 
 export type UserFoldersDbType = z.infer<typeof userFoldersSchema>;
 
-export const getFoldersWithDecksDb = async (env: EnvSafe, userId: number) => {
+export const getManyFoldersWithDecksDb = async (
+  env: EnvSafe,
+  userId: number,
+) => {
   const db = getDatabase(env);
 
   const result = await db.rpc("get_folder_with_decks", {

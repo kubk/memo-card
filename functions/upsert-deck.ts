@@ -18,9 +18,9 @@ import { shortUniqueId } from "./lib/short-unique-id/short-unique-id.ts";
 import { Database } from "./db/databaseTypes.ts";
 import { getDeckWithCardsById } from "./db/deck/get-deck-with-cards-by-id-db.ts";
 import {
-  getFoldersWithDecksDb,
+  getManyFoldersWithDecksDb,
   UserFoldersDbType,
-} from "./db/folder/get-folders-with-decks-db.tsx";
+} from "./db/folder/get-many-folders-with-decks-db.tsx";
 import {
   CardToReviewDbType,
   getCardsToReviewDb,
@@ -147,7 +147,7 @@ export const onRequestPost = handleError(async ({ request, env }) => {
 
   const [deck, folders, cardsToReview] = await Promise.all([
     getDeckWithCardsById(envSafe, upsertedDeck.id),
-    getFoldersWithDecksDb(envSafe, user.id),
+    getManyFoldersWithDecksDb(envSafe, user.id),
     getCardsToReviewDb(envSafe, user.id),
   ]);
 

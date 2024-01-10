@@ -12,9 +12,9 @@ import {
 } from "./db/deck/get-cards-to-review-db.ts";
 import { getUnAddedPublicDecksDb } from "./db/deck/get-un-added-public-decks-db.ts";
 import {
-  getFoldersWithDecksDb,
+  getManyFoldersWithDecksDb,
   UserFoldersDbType,
-} from "./db/folder/get-folders-with-decks-db.tsx";
+} from "./db/folder/get-many-folders-with-decks-db.tsx";
 
 export type MyInfoResponse = {
   user: UserDbType;
@@ -33,7 +33,7 @@ export const onRequest = handleError(async ({ request, env }) => {
     await getUnAddedPublicDecksDb(envSafe, user.id),
     await getMyDecksWithCardsDb(envSafe, user.id),
     await getCardsToReviewDb(envSafe, user.id),
-    await getFoldersWithDecksDb(envSafe, user.id),
+    await getManyFoldersWithDecksDb(envSafe, user.id),
   ]);
 
   return createJsonResponse<MyInfoResponse>({

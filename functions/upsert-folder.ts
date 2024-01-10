@@ -8,10 +8,11 @@ import { envSchema } from "./env/env-schema.ts";
 import { DatabaseException } from "./db/database-exception.ts";
 import { createJsonResponse } from "./lib/json-response/create-json-response.ts";
 import {
-  getFoldersWithDecksDb,
+  getManyFoldersWithDecksDb,
   UserFoldersDbType,
-} from "./db/folder/get-folders-with-decks-db.tsx";
+} from "./db/folder/get-many-folders-with-decks-db.tsx";
 import { getFolderByIdAndAuthorId } from "./db/folder/get-folder-by-id-and-author-id.ts";
+import { shortUniqueId } from "./lib/short-unique-id/short-unique-id.ts";
 
 const requestSchema = z.object({
   id: z.number().optional(),
@@ -24,7 +25,7 @@ export type AddFolderRequest = z.infer<typeof requestSchema>;
 export type AddFolderResponse = {
   folder: {
     id: number;
-  }
+  };
   folders: UserFoldersDbType[];
 };
 
@@ -40,9 +41,11 @@ export const onRequestPost = handleError(async ({ request, env }) => {
   const envSafe = envSchema.parse(env);
 
   const { data } = input;
+  let databaseFolder: { share_id: string } | null = null;
+
   if (data.id) {
-    const canEdit = await getFolderByIdAndAuthorId(envSafe, data.id, user);
-    if (!canEdit) {
+    databaseFolder = await getFolderByIdAndAuthorId(envSafe, data.id, user);
+    if (!databaseFolder) {
       return createBadRequestResponse();
     }
   }
@@ -56,6 +59,8 @@ export const onRequestPost = handleError(async ({ request, env }) => {
       title: data.title,
       description: data.description,
       author_id: user.id,
+      share_id:
+        data.id && databaseFolder ? databaseFolder.share_id : shortUniqueId(),
     })
     .select()
     .single();
@@ -87,6 +92,6 @@ export const onRequestPost = handleError(async ({ request, env }) => {
 
   return createJsonResponse<AddFolderResponse>({
     folder: upsertFolderResult.data,
-    folders: await getFoldersWithDecksDb(envSafe, user.id),
+    folders: await getManyFoldersWithDecksDb(envSafe, user.id),
   });
 });

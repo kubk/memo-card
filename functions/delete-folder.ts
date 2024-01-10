@@ -6,6 +6,7 @@ import { createBadRequestResponse } from "./lib/json-response/create-bad-request
 import { getFolderByIdAndAuthorId } from "./db/folder/get-folder-by-id-and-author-id.ts";
 import { createJsonResponse } from "./lib/json-response/create-json-response.ts";
 import { deleteFolderById } from "./db/folder/delete-folder-by-id.ts";
+import { getDatabase } from "./db/get-database.ts";
 
 export const onRequestPost = handleError(async ({ request, env }) => {
   const user = await getUser(request, env);
@@ -20,16 +21,29 @@ export const onRequestPost = handleError(async ({ request, env }) => {
     return createBadRequestResponse();
   }
 
-  const canEdit = await getFolderByIdAndAuthorId(
+  const folderToDelete = await getFolderByIdAndAuthorId(
     envSafe,
     parseInt(folderId),
-    user,
+    // Ignore user.is_admin to avoid accidentally deleting other user's folder
+    { ...user, is_admin: false },
   );
-  if (!canEdit) {
-    return createBadRequestResponse();
+  if (folderToDelete) {
+    await deleteFolderById(envSafe, parseInt(folderId));
+    return createJsonResponse(null);
   }
 
-  await deleteFolderById(envSafe, parseInt(folderId));
+  const db = getDatabase(envSafe);
 
+  const deleteUserFolderResult = await db
+    .from("user_folder")
+    .delete()
+    .match({
+      user_id: user.id,
+      folder_id: parseInt(folderId),
+    });
+
+  if (deleteUserFolderResult.error) {
+    return createBadRequestResponse();
+  }
   return createJsonResponse(null);
 });
