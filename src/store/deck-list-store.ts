@@ -164,6 +164,7 @@ export class DeckListStore {
               }
 
               for (const deck of folder.decks) {
+                // Push new folders
                 this.myInfo.folders.push({
                   deck_id: deck.id,
                   folder_id: folder.id,
@@ -172,7 +173,16 @@ export class DeckListStore {
                   folder_share_id: folder.share_id,
                   folder_title: folder.title,
                 });
+                // Push new decks
                 this.myInfo.myDecks.push(deck);
+                // Push new cards
+                this.myInfo.cardsToReview = this.myInfo.cardsToReview.concat(
+                  deck.deck_card.map((card) => ({
+                    id: card.id,
+                    deck_id: deck.id,
+                    type: "new",
+                  })),
+                );
               }
               screenStore.go({ type: "folderPreview", folderId: folder.id });
             }

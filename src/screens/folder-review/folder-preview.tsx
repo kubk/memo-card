@@ -176,19 +176,17 @@ export const FolderPreview = observer(() => {
               {t("share")}
             </ButtonSideAligned>
           )}
-          {deckListStore.canEditFolder && (
-            <ButtonSideAligned
-              icon={"mdi-delete-circle mdi-24px"}
-              outline
-              onClick={() => {
-                showConfirm(t("delete_folder_confirm")).then(() => {
-                  deckListStore.deleteFolder();
-                });
-              }}
-            >
-              {t("delete")}
-            </ButtonSideAligned>
-          )}
+          <ButtonSideAligned
+            icon={"mdi-delete-circle mdi-24px"}
+            outline
+            onClick={() => {
+              showConfirm(t("delete_folder_confirm")).then(() => {
+                deckListStore.deleteFolder();
+              });
+            }}
+          >
+            {t("delete")}
+          </ButtonSideAligned>
         </div>
       </div>
       <div
