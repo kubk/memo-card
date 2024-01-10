@@ -21,6 +21,9 @@ export const CenteredUnstyledButton = (props: Props) => {
           fontSize: 14,
           paddingTop: 6,
           textTransform: "uppercase",
+          ":active": {
+            transform: "scale(0.97)",
+          },
         }),
       )}
       onClick={onClick}

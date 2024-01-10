@@ -1,7 +1,7 @@
 import { observer } from "mobx-react-lite";
 import { Screen } from "../shared/screen.tsx";
 import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
-import { Card } from "../deck-review/card.tsx";
+import { Card } from "../shared/card/card.tsx";
 import { css } from "@emotion/css";
 import { t } from "../../translations/t.ts";
 import { CardFormType } from "./store/deck-form-store.ts";

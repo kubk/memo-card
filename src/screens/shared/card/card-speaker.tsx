@@ -1,7 +1,7 @@
-import { isSpeechSynthesisSupported } from "../../lib/voice-playback/speak.ts";
-import { throttle } from "../../lib/throttle/throttle.ts";
+import { isSpeechSynthesisSupported } from "../../../lib/voice-playback/speak.ts";
+import { throttle } from "../../../lib/throttle/throttle.ts";
 import { css, cx } from "@emotion/css";
-import { theme } from "../../ui/theme.tsx";
+import { theme } from "../../../ui/theme.tsx";
 import React from "react";
 import { observer } from "mobx-react-lite";
 import { LimitedCardUnderReviewStore } from "./card.tsx";

@@ -2,14 +2,14 @@ import React, { Fragment } from "react";
 import { observer } from "mobx-react-lite";
 import { css, cx } from "@emotion/css";
 import { PublicDeck } from "./public-deck.tsx";
-import { MyDeckRow } from "./my-deck-row.tsx";
+import { DeckRowWithCardsToReview } from "../shared/deck-row-with-cards-to-review/deck-row-with-cards-to-review.tsx";
 import { deckListStore } from "../../store/deck-list-store.ts";
 import { useMount } from "../../lib/react/use-mount.ts";
 import { Hint } from "../../ui/hint.tsx";
 import { theme } from "../../ui/theme.tsx";
 import { screenStore } from "../../store/screen-store.ts";
 import { Button } from "../../ui/button.tsx";
-import { DeckLoading } from "./deck-loading.tsx";
+import { DeckLoading } from "../shared/deck-loading.tsx";
 import WebApp from "@twa-dev/sdk";
 import { ListHeader } from "../../ui/list-header.tsx";
 import { range } from "../../lib/array/range.ts";
@@ -56,7 +56,7 @@ export const MainScreen = observer(() => {
             ? deckListStore.myDeckItemsVisible.map((listItem) => {
                 return (
                   <Fragment key={listItem.id}>
-                    <MyDeckRow
+                    <DeckRowWithCardsToReview
                       onClick={() => {
                         if (listItem.type === "deck") {
                           screenStore.go({
@@ -78,7 +78,7 @@ export const MainScreen = observer(() => {
                       ? listItem.decks.map((deck) => {
                           return (
                             <div className={css({ marginLeft: 24 })}>
-                              <MyDeckRow
+                              <DeckRowWithCardsToReview
                                 onClick={() => {
                                   screenStore.go({
                                     type: "deckMine",

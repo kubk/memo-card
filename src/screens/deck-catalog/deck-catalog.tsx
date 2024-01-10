@@ -13,7 +13,7 @@ import {
 } from "./store/deck-catalog-store.ts";
 import { DeckListItemWithDescription } from "../../ui/deck-list-item-with-description.tsx";
 import { range } from "../../lib/array/range.ts";
-import { DeckLoading } from "../deck-list/deck-loading.tsx";
+import { DeckLoading } from "../shared/deck-loading.tsx";
 import { NoDecksMatchingFilters } from "./no-decks-matching-filters.tsx";
 import { deckListStore } from "../../store/deck-list-store.ts";
 import { DeckAddedLabel } from "./deck-added-label.tsx";

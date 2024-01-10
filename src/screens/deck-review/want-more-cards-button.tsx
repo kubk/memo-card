@@ -6,7 +6,9 @@ import { screenStore } from "../../store/screen-store.ts";
 import { translateNewCardsCount } from "../../translations/translate-new-cards-count.tsx";
 import React from "react";
 
-type Props = { newCardsCount?: number | null };
+type Props = {
+  newCardsCount?: number | null;
+};
 
 export const WantMoreCardsButton = observer((props: Props) => {
   const { newCardsCount } = props;

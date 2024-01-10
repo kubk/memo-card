@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useMotionValue, useTransform } from "framer-motion";
-import { Card, cardSize } from "./card.tsx";
+import { Card, cardSize } from "../shared/card/card.tsx";
 import { observer } from "mobx-react-lite";
 import { css } from "@emotion/css";
 import { theme } from "../../ui/theme.tsx";
