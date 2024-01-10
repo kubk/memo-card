@@ -11,6 +11,8 @@ import React from "react";
 import { reset } from "../../ui/reset.ts";
 import { t } from "../../translations/t.ts";
 import { Screen } from "../shared/screen.tsx";
+import { motion } from "framer-motion";
+import { whileTap } from "../../ui/animations.ts";
 
 export const CardList = observer(() => {
   const deckFormStore = useDeckFormStore();
@@ -82,7 +84,8 @@ export const CardList = observer(() => {
         </>
       )}
       {deckFormStore.filteredCards.map((cardForm, i) => (
-        <div
+        <motion.div
+          whileTap={whileTap}
           onClick={() => {
             deckFormStore.editCardFormById(cardForm.id);
           }}
@@ -98,7 +101,7 @@ export const CardList = observer(() => {
           <div className={css({ color: theme.hintColor })}>
             {cardForm.back.value}
           </div>
-        </div>
+        </motion.div>
       ))}
       <Button
         onClick={() => {
