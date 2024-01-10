@@ -1,11 +1,9 @@
 import { EnvSafe } from "../../env/env-schema.ts";
 import { getDatabase } from "../get-database.ts";
 import { DatabaseException } from "../database-exception.ts";
-import {
-  decksWithCardsSchema,
-  DeckWithCardsDbType,
-} from "./decks-with-cards-schema.ts";
+import { DeckWithCardsDbType } from "./decks-with-cards-schema.ts";
 import { z } from "zod";
+import { getManyDecksWithCardsDb } from "./get-many-decks-with-cards-db.ts";
 
 export const getMyDecksWithCardsDb = async (
   env: EnvSafe,
@@ -22,23 +20,9 @@ export const getMyDecksWithCardsDb = async (
   }
 
   const deckIds = z
-    .array(
-      z.object({
-        id: z.number(),
-      }),
-    )
+    .array(z.object({ id: z.number() }))
     .transform((list) => list.map((item) => item.id))
     .parse(getUserDeckIdsResult.data);
 
-  const { data, error } = await db
-    .from("deck")
-    .select("*, deck_card!deck_card_deck_id_fkey(*)")
-    .in("id", deckIds)
-    .order("id", { ascending: false });
-
-  if (error) {
-    throw new DatabaseException(error);
-  }
-
-  return decksWithCardsSchema.parse(data);
+  return getManyDecksWithCardsDb(env, deckIds);
 };

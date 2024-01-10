@@ -106,6 +106,7 @@ const en = {
   share_perpetual_link: "Share perpetual link",
   share_one_time_link: "Share one-time link",
   share_deck_settings: "Share deck",
+  share_folder_settings: "Share folder",
   share_one_time_access_link: "One-time access link",
   share_one_time_access_link_description:
     "The link is only available for one user. After the first use, the link will be invalid",
@@ -122,6 +123,8 @@ const en = {
   share_access_duration_no_limit: "No limit",
   share_deck_access_created_at: "Created at",
   share_no_links: "You haven't created any one-time links for this deck",
+  share_no_links_for_folder:
+    "You haven't created any one-time links for this folder",
   go_back: "Go back",
   delete_folder_confirm:
     "Do you want to delete the folder? Deleting folder won't remove decks inside the folder",
@@ -130,6 +133,9 @@ const en = {
 type Translation = typeof en;
 
 const ru: Translation = {
+  share_folder_settings: "Настройки шеринга папки",
+  share_no_links_for_folder:
+    "Вы еще не создали одноразовых ссылок для этой папки",
   choose_what_to_create: "Выберите что создать",
   card_preview: "Предпросмотр карточки",
   deck: "Колода",
@@ -256,6 +262,9 @@ const ru: Translation = {
 
 const es: Translation = {
   card_preview: "Vista previa de la tarjeta",
+  share_no_links_for_folder:
+    "No has creado ningún enlace de un solo uso para esta carpeta",
+  share_folder_settings: "Compartir carpeta",
   review_folder: "Repasar carpeta",
   folder_description: "Una colección de mazos",
   add_deck_short: "Mazo",
@@ -384,6 +393,8 @@ const es: Translation = {
 };
 
 const ptBr: Translation = {
+  share_folder_settings: "Compartilhar pasta",
+  share_no_links_for_folder: "Você ainda não criou nenhum link para esta pasta",
   card_preview: "Visualização do cartão",
   review_folder: "Revisar pasta",
   add_deck_short: "Baralho",

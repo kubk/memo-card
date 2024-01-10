@@ -1,27 +1,26 @@
 import { DatabaseException } from "../database-exception.ts";
 import {
+  decksWithCardsSchema,
   DeckWithCardsDbType,
-  deckWithCardsSchema,
 } from "./decks-with-cards-schema.ts";
-import { EnvSafe } from "../../env/env-schema.ts";
 import { getDatabase } from "../get-database.ts";
+import { EnvSafe } from "../../env/env-schema.ts";
 
-export const getDeckWithCardsByShareIdDb = async (
+export const getManyDecksWithCardsDb = async (
   env: EnvSafe,
-  shareId: string,
-): Promise<DeckWithCardsDbType | null> => {
+  deckIds: number[],
+): Promise<DeckWithCardsDbType[]> => {
   const db = getDatabase(env);
 
   const { data, error } = await db
     .from("deck")
     .select("*, deck_card!deck_card_deck_id_fkey(*)")
-    .eq("share_id", shareId)
-    .limit(1)
-    .maybeSingle();
+    .in("id", deckIds)
+    .order("id", { ascending: false });
 
   if (error) {
     throw new DatabaseException(error);
   }
 
-  return data ? deckWithCardsSchema.parse(data) : null;
+  return decksWithCardsSchema.parse(data);
 };

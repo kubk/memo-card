@@ -8,10 +8,13 @@ import { envSchema } from "./env/env-schema.ts";
 import { createForbiddenRequestResponse } from "./lib/json-response/create-forbidden-request-response.ts";
 import { createJsonResponse } from "./lib/json-response/create-json-response.ts";
 import { createDeckAccessDb } from "./db/deck-access/create-deck-access-db.ts";
+import { getFolderByIdAndAuthorId } from "./db/folder/get-folder-by-id-and-author-id.ts";
 
 const requestSchema = z.object({
-  deckId: z.number(),
+  deckId: z.number().nullable(),
+  folderId: z.number().nullable(),
   durationDays: z.number().nullable(),
+  type: z.enum(["deck", "folder"]),
 });
 
 const responseSchema = z.object({
@@ -30,20 +33,29 @@ export const onRequestPost = handleError(async ({ request, env }) => {
   }
 
   const envSafe = envSchema.parse(env);
-  const canEdit = await getDeckByIdAndAuthorId(
-    envSafe,
-    input.data.deckId,
-    user,
-  );
-  if (!canEdit) {
-    return createForbiddenRequestResponse();
+  if (input.data.deckId) {
+    if (!(await getDeckByIdAndAuthorId(envSafe, input.data.deckId, user))) {
+      return createForbiddenRequestResponse();
+    }
+  }
+  if (input.data.folderId) {
+    if (!(await getFolderByIdAndAuthorId(envSafe, input.data.folderId, user))) {
+      return createForbiddenRequestResponse();
+    }
+  }
+
+  // Only 1 option from deckId or folderId should be provided
+  if (
+    (input.data.folderId && input.data.deckId) ||
+    (!input.data.folderId && !input.data.deckId)
+  ) {
+    return createBadRequestResponse();
   }
 
   const createDeckAccessResult = await createDeckAccessDb(
     envSafe,
     user.id,
-    input.data.deckId,
-    input.data.durationDays,
+    input.data,
   );
 
   return createJsonResponse<AddDeckAccessResponse>(

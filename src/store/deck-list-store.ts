@@ -18,7 +18,7 @@ import { assert } from "../lib/typescript/assert.ts";
 import { ReviewStore } from "../screens/deck-review/store/review-store.ts";
 import { reportHandledError } from "../lib/rollbar/rollbar.tsx";
 import { BooleanToggle } from "../lib/mobx-form/boolean-toggle.ts";
-import { UserFoldersDbType } from "../../functions/db/folder/get-folders-with-decks-db.tsx";
+import { UserFoldersDbType } from "../../functions/db/folder/get-many-folders-with-decks-db.tsx";
 import { userStore } from "./user-store.ts";
 
 export enum StartParamType {
@@ -46,6 +46,7 @@ export type DeckListItem = {
       type: "folder";
       decks: DeckWithCardsWithReviewType[];
       authorId: number;
+      shareId: string;
     }
 );
 
@@ -126,26 +127,55 @@ export class DeckListStore {
 
       getSharedDeckRequest(startParam)
         .then(
-          action(({ deck }) => {
-            assert(this.myInfo);
-            if (this.myInfo.myDecks.find((myDeck) => myDeck.id === deck.id)) {
-              screenStore.go({ type: "deckMine", deckId: deck.id });
-              return;
+          action((sharedDeckResponse) => {
+            if ("deck" in sharedDeckResponse) {
+              const deck = sharedDeckResponse.deck;
+              assert(this.myInfo);
+              if (this.myInfo.myDecks.find((myDeck) => myDeck.id === deck.id)) {
+                screenStore.go({ type: "deckMine", deckId: deck.id });
+                return;
+              }
+
+              if (
+                this.publicDecks.find((publicDeck) => publicDeck.id === deck.id)
+              ) {
+                this.replaceDeck(deck);
+                screenStore.go({
+                  type: "deckPublic",
+                  deckId: deck.id,
+                });
+                return;
+              }
+
+              this.myInfo.publicDecks.push(deck);
+              screenStore.go({ type: "deckPublic", deckId: deck.id });
             }
 
-            if (
-              this.publicDecks.find((publicDeck) => publicDeck.id === deck.id)
-            ) {
-              this.replaceDeck(deck);
-              screenStore.go({
-                type: "deckPublic",
-                deckId: deck.id,
-              });
-              return;
-            }
+            if ("folder" in sharedDeckResponse) {
+              const folder = sharedDeckResponse.folder;
+              assert(this.myInfo);
+              if (
+                this.myInfo.folders.find(
+                  (myFolder) => myFolder.folder_id === folder.id,
+                )
+              ) {
+                screenStore.go({ type: "folderPreview", folderId: folder.id });
+                return;
+              }
 
-            this.myInfo.publicDecks.push(deck);
-            screenStore.go({ type: "deckPublic", deckId: deck.id });
+              for (const deck of folder.decks) {
+                this.myInfo.folders.push({
+                  deck_id: deck.id,
+                  folder_id: folder.id,
+                  folder_author_id: folder.author_id,
+                  folder_description: folder.description,
+                  folder_share_id: folder.share_id,
+                  folder_title: folder.title,
+                });
+                this.myInfo.myDecks.push(deck);
+              }
+              screenStore.go({ type: "folderPreview", folderId: folder.id });
+            }
           }),
         )
         .catch((e) => {
@@ -384,6 +414,7 @@ export class DeckListStore {
         folderName: string;
         folderDescription: string | null;
         folderAuthorId: number;
+        folderShareId: string;
         decks: DeckWithCardsWithReviewType[];
       }
     >();
@@ -393,6 +424,7 @@ export class DeckListStore {
         folderName: folder.folder_title,
         folderDescription: folder.folder_description,
         folderAuthorId: folder.folder_author_id,
+        folderShareId: folder.folder_share_id,
         decks: [],
       };
       const deck = myDecks.find((deck) => deck.id === folder.deck_id);
@@ -411,6 +443,7 @@ export class DeckListStore {
       ),
       type: "folder",
       name: mapItem.folderName,
+      shareId: mapItem.folderShareId,
       description: mapItem.folderDescription,
       authorId: mapItem.folderAuthorId,
     }));

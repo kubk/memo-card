@@ -8,11 +8,15 @@ export const isUserDeckExists = async (
 ) => {
   const db = getDatabase(envSafe);
 
-  const userDeck = await db.from("user_deck").select().match(body);
+  const userDeck = await db
+    .from("user_deck")
+    .select()
+    .match(body)
+    .maybeSingle();
 
   if (userDeck.error) {
     throw new DatabaseException(userDeck.error);
   }
 
-  return userDeck.data.length ? userDeck.data[0] : null;
+  return userDeck.data ? userDeck.data : null;
 };

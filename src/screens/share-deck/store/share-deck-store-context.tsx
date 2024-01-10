@@ -1,13 +1,20 @@
 import { createContext, ReactNode, useContext } from "react";
-import { ShareDeckStore } from "./share-deck-store.ts";
+import { ShareDeckFormStore } from "./share-deck-form-store.ts";
 import { assert } from "../../../lib/typescript/assert.ts";
+import { DeckAccessType } from "../../../../functions/db/custom-types.ts";
 
-const Context = createContext<ShareDeckStore | null>(null);
+const Context = createContext<ShareDeckFormStore | null>(null);
 
-export const ShareDeckStoreProvider = (props: { children: ReactNode }) => {
+type Props = {
+  children: ReactNode;
+  type: DeckAccessType;
+};
+
+export const ShareDeckOrFormStoreProvider = (props: Props) => {
+  const { children, type } = props;
   return (
-    <Context.Provider value={new ShareDeckStore()}>
-      {props.children}
+    <Context.Provider value={new ShareDeckFormStore(type)}>
+      {children}
     </Context.Provider>
   );
 };

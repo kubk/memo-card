@@ -169,19 +169,6 @@ export const DeckPreview = observer(() => {
               {t("edit")}
             </ButtonSideAligned>
           ) : null}
-          {screenStore.screen.type === "deckMine" ? (
-            <ButtonSideAligned
-              icon={"mdi-delete-circle mdi-24px"}
-              outline
-              onClick={() => {
-                showConfirm(t("delete_deck_confirm")).then(() => {
-                  deckListStore.removeDeck();
-                });
-              }}
-            >
-              {t("delete")}
-            </ButtonSideAligned>
-          ) : null}
 
           {deckListStore.canEditDeck && (
             <ButtonSideAligned
@@ -198,6 +185,20 @@ export const DeckPreview = observer(() => {
               {t("share")}
             </ButtonSideAligned>
           )}
+
+          {screenStore.screen.type === "deckMine" ? (
+            <ButtonSideAligned
+              icon={"mdi-delete-circle mdi-24px"}
+              outline
+              onClick={() => {
+                showConfirm(t("delete_deck_confirm")).then(() => {
+                  deckListStore.removeDeck();
+                });
+              }}
+            >
+              {t("delete")}
+            </ButtonSideAligned>
+          ) : null}
         </div>
       </div>
       {deck.cardsToReview.length === 0 && (
