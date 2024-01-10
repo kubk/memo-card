@@ -20,7 +20,6 @@ import {
 import { SpeakLanguageEnum } from "../../../lib/voice-playback/speak.ts";
 import { t } from "../../../translations/t.ts";
 import { BooleanToggle } from "../../../lib/mobx-form/boolean-toggle.ts";
-import { makeLoggable } from "mobx-log";
 
 export type CardFormType = {
   front: TextField<string>;
@@ -93,7 +92,6 @@ export class DeckFormStore {
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
-    makeLoggable(this);
   }
 
   get deckFormScreen() {
