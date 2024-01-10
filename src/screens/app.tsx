@@ -22,7 +22,7 @@ import { DeckOrFolderChoose } from "./deck-or-folder-choose/deck-or-folder-choos
 import { FolderForm } from "./folder-form/folder-form.tsx";
 import { DeckCatalogStoreContextProvider } from "./deck-catalog/store/deck-catalog-store-context.tsx";
 import { ShareDeckScreen } from "./share-deck/share-deck-screen.tsx";
-import { ShareDeckStoreProvider } from "./share-deck/store/share-deck-store-context.tsx";
+import { ShareDeckOrFormStoreProvider } from "./share-deck/store/share-deck-store-context.tsx";
 import { FolderFormStoreProvider } from "./folder-form/store/folder-form-store-context.tsx";
 import { FolderScreen } from "./folder-review/folder-screen.tsx";
 import { useSettingsButton } from "../lib/telegram/use-settings-button.ts";
@@ -88,9 +88,16 @@ export const App = observer(() => {
       )}
       {screenStore.screen.type === "shareDeck" && (
         <PreventTelegramSwipeDownClosingIos>
-          <ShareDeckStoreProvider>
+          <ShareDeckOrFormStoreProvider type={"deck"}>
             <ShareDeckScreen />
-          </ShareDeckStoreProvider>
+          </ShareDeckOrFormStoreProvider>
+        </PreventTelegramSwipeDownClosingIos>
+      )}
+      {screenStore.screen.type === "shareFolder" && (
+        <PreventTelegramSwipeDownClosingIos>
+          <ShareDeckOrFormStoreProvider type={"folder"}>
+            <ShareDeckScreen />
+          </ShareDeckOrFormStoreProvider>
         </PreventTelegramSwipeDownClosingIos>
       )}
       {screenStore.screen.type === "cardQuickAddForm" && (

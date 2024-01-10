@@ -14,6 +14,7 @@ type Route =
   | { type: "cardQuickAddForm"; deckId: number }
   | { type: "deckCatalog" }
   | { type: "shareDeck"; deckId: number; shareId: string }
+  | { type: "shareFolder"; folderId: number; shareId: string }
   | { type: "userSettings" };
 
 export type RouteType = Route["type"];

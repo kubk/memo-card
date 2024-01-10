@@ -161,7 +161,22 @@ export const FolderPreview = observer(() => {
               {t("edit")}
             </ButtonSideAligned>
           ) : null}
-          {deckListStore.canEditFolder ? (
+          {deckListStore.canEditFolder && (
+            <ButtonSideAligned
+              icon={"mdi-share-circle mdi-24px"}
+              outline
+              onClick={() => {
+                screenStore.go({
+                  type: "shareFolder",
+                  folderId: folder.id,
+                  shareId: folder.shareId,
+                });
+              }}
+            >
+              {t("share")}
+            </ButtonSideAligned>
+          )}
+          {deckListStore.canEditFolder && (
             <ButtonSideAligned
               icon={"mdi-delete-circle mdi-24px"}
               outline
@@ -173,7 +188,7 @@ export const FolderPreview = observer(() => {
             >
               {t("delete")}
             </ButtonSideAligned>
-          ) : null}
+          )}
         </div>
       </div>
       <div

@@ -5,7 +5,7 @@ import { t } from "../../../translations/t.ts";
 import { action, makeAutoObservable } from "mobx";
 import { isFormValid } from "../../../lib/mobx-form/form-has-error.ts";
 import { screenStore } from "../../../store/screen-store.ts";
-import { redirectUserToDeckLink } from "../redirect-user-to-deck-link.tsx";
+import { redirectUserToDeckOrFolderLink } from "../redirect-user-to-deck-or-folder-link.tsx";
 import {
   addDeckAccessRequest,
   getDeckAccessesOfDeckRequest,
@@ -13,8 +13,21 @@ import {
 import { persistableField } from "../../../lib/mobx-form/persistable-field.ts";
 import { fromPromise, IPromiseBasedObservable } from "mobx-utils";
 import { DeckAccessesResponse } from "../../../../functions/deck-accesses.ts";
+import { DeckAccessType } from "../../../../functions/db/custom-types.ts";
 
-export class ShareDeckStore {
+const getRequestFiltersForScreen = () => {
+  const screen = screenStore.screen;
+  switch (screen.type) {
+    case "shareDeck":
+      return { deckId: screen.deckId.toString() };
+    case "shareFolder":
+      return { folderId: screen.folderId.toString() };
+    default:
+      assert(false, `Invalid screen type: ${screen.type}`);
+  }
+};
+
+export class ShareDeckFormStore {
   isSending = false;
   deckAccesses?: IPromiseBasedObservable<DeckAccessesResponse>;
   isDeckAccessesOpen = new BooleanToggle(false);
@@ -40,42 +53,45 @@ export class ShareDeckStore {
     ),
   };
 
-  constructor() {
+  constructor(public deckAccessType: DeckAccessType) {
     makeAutoObservable(this, {}, { autoBind: true });
   }
 
   load() {
-    const screen = screenStore.screen;
-    assert(screen.type === "shareDeck", "Screen is not shareDeck");
-    const { deckId } = screen;
-
-    this.deckAccesses = fromPromise(getDeckAccessesOfDeckRequest(deckId));
+    this.deckAccesses = fromPromise(
+      getDeckAccessesOfDeckRequest(getRequestFiltersForScreen()),
+    );
   }
 
   get isSaveButtonVisible() {
     return Boolean(this.form && isFormValid(this.form));
   }
 
-  async shareDeck() {
+  async shareDeckOrFolder() {
     const screen = screenStore.screen;
-    assert(screen.type === "shareDeck", "Screen is not shareDeck");
-    const { deckId, shareId } = screen;
+    assert(
+      screen.type === "shareDeck" || screen.type === "shareFolder",
+      "Screen type is not shareDeck or shareFolder",
+    );
+    const { shareId } = screen;
 
     if (!this.form.isOneTime.value) {
-      redirectUserToDeckLink(shareId);
+      redirectUserToDeckOrFolderLink(shareId);
       return;
     }
 
     this.isSending = true;
 
     addDeckAccessRequest({
-      deckId,
+      deckId: screen.type === "shareDeck" ? screen.deckId : null,
+      folderId: screen.type === "shareFolder" ? screen.folderId : null,
+      type: this.deckAccessType,
       durationDays: this.form.isAccessDuration.value
         ? Number(this.form.accessDurationLimitDays.value)
         : null,
     })
       .then((result) => {
-        redirectUserToDeckLink(result.share_id);
+        redirectUserToDeckOrFolderLink(result.share_id);
       })
       .finally(
         action(() => {

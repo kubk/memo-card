@@ -58,8 +58,11 @@ export const addDeckToMineRequest = (body: AddDeckToMineRequest) => {
   );
 };
 
-export const getDeckAccessesOfDeckRequest = (deckId: number) => {
-  return request<DeckAccessesResponse>(`/deck-accesses?deck_id=${deckId}`);
+export const getDeckAccessesOfDeckRequest = (
+  filters: { deckId: string } | { folderId: string },
+) => {
+  const queryParams = new URLSearchParams(filters).toString();
+  return request<DeckAccessesResponse>(`/deck-accesses?${queryParams}`);
 };
 
 export const addDeckAccessRequest = (body: AddDeckAccessRequest) => {

@@ -49,6 +49,7 @@ export const DeckForm = observer(() => {
   useTelegramProgress(() => deckFormStore.isSending);
 
   if (!deckFormStore.form) {
+    console.log("no deck form");
     return null;
   }
 

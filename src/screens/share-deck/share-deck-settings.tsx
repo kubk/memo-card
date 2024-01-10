@@ -27,7 +27,7 @@ export const ShareDeckSettings = observer(() => {
         : t("share_perpetual_link");
     },
     () => {
-      store.shareDeck();
+      store.shareDeckOrFolder();
     },
     () => store.isSaveButtonVisible,
   );
