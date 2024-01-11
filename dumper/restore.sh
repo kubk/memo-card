@@ -15,5 +15,5 @@ export $(cat "$SCRIPT_DIR/../.dev.vars" | xargs)
 
 confirm "Are you sure you want to execute the psql command? [y/N]"
 
-docker-compose exec postgres psql postgresql://postgres:$DB_PASS@$DB_HOST:5432/$DB_NAME < "$SCRIPT_DIR/dump.sql"
+docker-compose exec postgres psql $DB_URL < "$SCRIPT_DIR/dump.sql"
 
