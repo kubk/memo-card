@@ -14,6 +14,7 @@ import { useTelegramProgress } from "../../lib/telegram/use-telegram-progress.ts
 import { duplicateDeckRequest } from "../../api/api.ts";
 import { t } from "../../translations/t.ts";
 import { userStore } from "../../store/user-store.ts";
+import { ButtonGrid } from "../../ui/button-grid.tsx";
 
 export const DeckPreview = observer(() => {
   const reviewStore = useReviewStore();
@@ -122,13 +123,7 @@ export const DeckPreview = observer(() => {
           </div>
         )}
 
-        <div
-          className={css({
-            gap: 16,
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(100px, 1fr))",
-          })}
-        >
+        <ButtonGrid>
           {deckListStore.canEditDeck ? (
             <ButtonSideAligned
               icon={"mdi-plus-circle mdi-24px"}
@@ -199,7 +194,7 @@ export const DeckPreview = observer(() => {
               {t("delete")}
             </ButtonSideAligned>
           ) : null}
-        </div>
+        </ButtonGrid>
       </div>
       {deck.cardsToReview.length === 0 && (
         <Hint>{t("no_cards_to_review_in_deck")}</Hint>

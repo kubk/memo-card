@@ -25,6 +25,7 @@ import {
   CardToReviewDbType,
   getCardsToReviewDb,
 } from "./db/deck/get-cards-to-review-db.ts";
+import { deleteCardsInIds } from "./db/card/delete-cards-in-ids.ts";
 
 const requestSchema = z.object({
   id: z.number().nullable().optional(),
@@ -33,6 +34,7 @@ const requestSchema = z.object({
   speakLocale: z.string().nullable().optional(),
   speakField: z.string().nullable().optional(),
   folderId: z.number().nullable().optional(),
+  cardsToRemoveIds: z.array(z.number()).optional(),
   cards: z.array(
     z.object({
       front: z.string(),
@@ -95,7 +97,6 @@ export const onRequestPost = handleError(async ({ request, env }) => {
     throw new DatabaseException(upsertDeckResult.error);
   }
 
-  // Supabase returns an array as a result of upsert, that's why it gets validated against an array here
   const upsertedDeck = deckSchema.parse(upsertDeckResult.data);
 
   const updateCardsResult = await db.from("deck_card").upsert(
@@ -127,6 +128,10 @@ export const onRequestPost = handleError(async ({ request, env }) => {
 
   if (createCardsResult.error) {
     throw new DatabaseException(createCardsResult.error);
+  }
+
+  if (input.data.id && input.data.cardsToRemoveIds?.length) {
+    await deleteCardsInIds(envSafe, input.data.cardsToRemoveIds);
   }
 
   // If create deck

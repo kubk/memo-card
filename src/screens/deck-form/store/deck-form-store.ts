@@ -36,6 +36,7 @@ type DeckFormType = {
   speakingCardsLocale: TextField<string | null>;
   speakingCardsField: TextField<DeckSpeakFieldEnum | null>;
   folderId?: number;
+  cardsToRemoveIds: number[];
 };
 
 export const createDeckTitleField = (value: string) => {
@@ -62,6 +63,7 @@ const createUpdateForm = (
       back: createCardSideField(card.back),
       example: new TextField(card.example || ""),
     })),
+    cardsToRemoveIds: [],
   };
 };
 
@@ -127,6 +129,7 @@ export class DeckFormStore {
         speakingCardsLocale: new TextField(null),
         speakingCardsField: new TextField(null),
         folderId: screen.folder?.id ?? undefined,
+        cardsToRemoveIds: [],
       };
     }
   }
@@ -278,7 +281,7 @@ export class DeckFormStore {
       return;
     }
 
-    this.onDeckSave()?.finally(
+    this.onDeckSave().finally(
       action(() => {
         this.cardFormIndex = undefined;
         this.cardFormType = undefined;
@@ -312,16 +315,49 @@ export class DeckFormStore {
     }
   }
 
+  async markCardAsRemoved() {
+    const result = await showConfirm(t("deck_form_remove_card_confirm"));
+    if (!result) {
+      return;
+    }
+
+    const selectedCard = this.cardForm;
+    if (!selectedCard) {
+      return;
+    }
+    assert(this.form, "markCardAsRemoved: form is empty");
+    if (!selectedCard.id) {
+      return;
+    }
+    this.form.cardsToRemoveIds.push(selectedCard.id);
+
+    deckListStore.isFullScreenLoaderVisible = true;
+
+    this.onDeckSave()
+      .then(
+        action(() => {
+          this.isCardList = true;
+          this.cardFormIndex = undefined;
+          this.cardFormType = undefined;
+        }),
+      )
+      .finally(
+        action(() => {
+          deckListStore.isFullScreenLoaderVisible = false;
+        }),
+      );
+  }
+
   onDeckSave() {
     assert(this.form, "onDeckSave: form is empty");
 
     if (this.form.cards.length === 0) {
       showAlert(t("deck_form_no_cards_alert"));
-      return;
+      return Promise.reject();
     }
 
     if (!isFormValid(this.form)) {
-      return;
+      return Promise.reject();
     }
     this.isSending = true;
 
@@ -341,6 +377,7 @@ export class DeckFormStore {
       speakLocale: this.form.speakingCardsLocale.value,
       speakField: this.form.speakingCardsField.value,
       folderId: this.form.folderId,
+      cardsToRemoveIds: this.form.cardsToRemoveIds,
     })
       .then(
         action(({ deck, folders, cardsToReview }) => {
