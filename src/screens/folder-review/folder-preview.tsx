@@ -16,6 +16,7 @@ import { ListHeader } from "../../ui/list-header.tsx";
 import { assert } from "../../lib/typescript/assert.ts";
 import { userStore } from "../../store/user-store.ts";
 import { DeckRowWithCardsToReview } from "../shared/deck-row-with-cards-to-review/deck-row-with-cards-to-review.tsx";
+import { ButtonGrid } from "../../ui/button-grid.tsx";
 
 export const FolderPreview = observer(() => {
   const reviewStore = useReviewStore();
@@ -126,13 +127,7 @@ export const FolderPreview = observer(() => {
           </div>
         )}
 
-        <div
-          className={css({
-            gap: 16,
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(100px, 1fr))",
-          })}
-        >
+        <ButtonGrid>
           {deckListStore.canEditFolder ? (
             <ButtonSideAligned
               icon={"mdi-plus-circle mdi-24px"}
@@ -187,7 +182,7 @@ export const FolderPreview = observer(() => {
           >
             {t("delete")}
           </ButtonSideAligned>
-        </div>
+        </ButtonGrid>
       </div>
       <div
         className={css({

@@ -44,7 +44,7 @@ const en = {
   add_card: "Add card",
   edit_card: "Edit card",
   deck_preview: "Deck preview",
-  card_preview: "Card preview",
+  card_preview: "Preview",
   add_card_short: "Add card",
   add_deck_short: "Deck",
   card_front_title: "Front side",
@@ -81,6 +81,8 @@ const en = {
   duplicate_confirm: "Are you sure to duplicate this deck?",
   delete_deck_confirm:
     "Are you sure to remove the deck from your collection? This action can't be undone",
+  deck_form_remove_card_confirm:
+    "Are you sure you want to remove the card? All the card reviews from all the users will be lost",
   delete: "Delete",
   no_cards_to_review_in_deck: `Amazing work! 🌟 You've reviewed all the cards in this deck for now. Come back later for more.`,
   no_cards_to_review_all: `Amazing work! 🌟 You've repeated all the cards for today. Come back later for more.`,
@@ -137,7 +139,7 @@ const ru: Translation = {
   share_no_links_for_folder:
     "Вы еще не создали одноразовых ссылок для этой папки",
   choose_what_to_create: "Выберите что создать",
-  card_preview: "Предпросмотр карточки",
+  card_preview: "Предпросмотр",
   deck: "Колода",
   add_deck_short: "Колода",
   deck_description: "Коллекция карточек",
@@ -174,6 +176,8 @@ const ru: Translation = {
   category: "Категория",
   any_category: "Любая",
   deck_search_not_found: "Нет подходящих колод",
+  deck_form_remove_card_confirm:
+    "Вы уверены, что хотите удалить карточку? Все повторения этой карточки будут удалены у всех пользователей",
   deck_search_not_found_description:
     "Попробуйте изменить фильтры чтобы увидеть больше",
   category_English: "Английский",
@@ -261,7 +265,7 @@ const ru: Translation = {
 };
 
 const es: Translation = {
-  card_preview: "Vista previa de la tarjeta",
+  card_preview: "Vista previa",
   share_no_links_for_folder:
     "No has creado ningún enlace de un solo uso para esta carpeta",
   share_folder_settings: "Compartir carpeta",
@@ -287,6 +291,8 @@ const es: Translation = {
   no_personal_decks_explore:
     "o explorar los mazos públicos a continuación. ¡Feliz aprendizaje! 😊",
   add_deck: "Añadir mazo",
+  deck_form_remove_card_confirm:
+    "¿Estás seguro de que quieres eliminar la tarjeta? Todas las revisiones de tarjetas de todos los usuarios se perderán",
   edit_deck: "Editar mazo",
   edit_card: "Editar tarjeta",
   add: "Añadir",
@@ -395,7 +401,7 @@ const es: Translation = {
 const ptBr: Translation = {
   share_folder_settings: "Compartilhar pasta",
   share_no_links_for_folder: "Você ainda não criou nenhum link para esta pasta",
-  card_preview: "Visualização do cartão",
+  card_preview: "Visualização",
   review_folder: "Revisar pasta",
   add_deck_short: "Baralho",
   choose_what_to_create: "Escolha o que criar",
@@ -414,6 +420,8 @@ const ptBr: Translation = {
   deck_preview: "Visualização do baralho",
   no_personal_decks_start:
     "Você ainda não tem nenhum baralho pessoal. Sinta-se à vontade para",
+  deck_form_remove_card_confirm:
+    "Tem certeza de que deseja remover o cartão? Todas as revisões de cartões de todos os usuários serão perdidas",
   no_personal_decks_create: "criar um",
   no_personal_decks_explore:
     "ou explorar os baralhos públicos abaixo. Bom aprendizado! 😊",

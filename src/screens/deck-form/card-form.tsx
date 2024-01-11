@@ -30,9 +30,8 @@ export const CardForm = observer(() => {
   return (
     <CardFormView
       cardForm={cardForm}
-      onPreviewClick={() => {
-        deckFormStore.isCardPreviewSelected.setTrue();
-      }}
+      onPreviewClick={deckFormStore.isCardPreviewSelected.setTrue}
+      onDeleteClick={deckFormStore.markCardAsRemoved}
     />
   );
 });
