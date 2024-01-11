@@ -142,12 +142,13 @@ export const DeckPreview = observer(() => {
             <ButtonSideAligned
               icon={"mdi-content-duplicate mdi-24px"}
               outline
-              onClick={() => {
-                showConfirm(t("duplicate_confirm")).then(() => {
+              onClick={async () => {
+                const isConfirmed = await showConfirm(t("duplicate_confirm"));
+                if (isConfirmed) {
                   duplicateDeckRequest(deck.id).then(() => {
                     screenStore.go({ type: "main" });
                   });
-                });
+                }
               }}
             >
               {t("duplicate")}
@@ -185,10 +186,11 @@ export const DeckPreview = observer(() => {
             <ButtonSideAligned
               icon={"mdi-delete-circle mdi-24px"}
               outline
-              onClick={() => {
-                showConfirm(t("delete_deck_confirm")).then(() => {
+              onClick={async () => {
+                const isConfirmed = await showConfirm(t("delete_deck_confirm"));
+                if (isConfirmed) {
                   deckListStore.removeDeck();
-                });
+                }
               }}
             >
               {t("delete")}

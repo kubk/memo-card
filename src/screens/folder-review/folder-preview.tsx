@@ -174,10 +174,11 @@ export const FolderPreview = observer(() => {
           <ButtonSideAligned
             icon={"mdi-delete-circle mdi-24px"}
             outline
-            onClick={() => {
-              showConfirm(t("delete_folder_confirm")).then(() => {
+            onClick={async () => {
+              const isConfirmed = await showConfirm(t("delete_folder_confirm"));
+              if (isConfirmed) {
                 deckListStore.deleteFolder();
-              });
+              }
             }}
           >
             {t("delete")}
