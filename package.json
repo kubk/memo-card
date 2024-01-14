@@ -17,7 +17,7 @@
     "prod:api:logs": "npx wrangler pages deployment tail",
     "prod:deploy": "npx wrangler pages publish functions --project-name=memo-card",
     "dev:botfather:description": "export $(cat .dev.vars) && node botfather/update.js",
-    "export-public-code": "npx betterplace-gitexporter gitexporter.config.json && cd ../memocard-public && git checkout master && git remote add origin git@github.com:kubk/memocard-public-test.git && git push",
+    "export-public-code": "npx betterplace-gitexporter gitexporter.config.json && cd ../memocard-public && git checkout -b main && git remote add origin git@github.com:kubk/memo-card.git && git push",
     "generate-db-types": "docker info > /dev/null 2>&1 && export $(cat .dev.vars | xargs) && npx supabase gen types typescript --db-url $DB_URL >./functions/db/databaseTypes.ts"
   },
   "pre-commit": [
