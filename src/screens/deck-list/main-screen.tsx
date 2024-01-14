@@ -196,6 +196,11 @@ export const MainScreen = observer(() => {
             >
               {t("settings")}
             </Button>
+            <Button
+            onClick={() => {
+              WebApp.openTelegramLink('https://t.me/wallet?startattach=wpay_order-orderId__8656928378626')
+            }}
+            >Pay</Button>
           </div>
         </>
       )}
