@@ -204,37 +204,31 @@ describe("card form store", () => {
     expect(reviewStore.isFinished).toBeFalsy();
 
     expect(reviewStore.currentCard?.id).toEqual(3);
-    expect(reviewStore.nextCard?.id).toEqual(4);
 
     reviewStore.open();
     reviewStore.changeState(CardState.Remember);
 
     expect(reviewStore.currentCard?.id).toEqual(4);
-    expect(reviewStore.nextCard?.id).toEqual(5);
 
     reviewStore.open();
     reviewStore.changeState(CardState.Forget);
 
     expect(reviewStore.currentCard?.id).toEqual(5);
-    expect(reviewStore.nextCard?.id).toEqual(4);
 
     reviewStore.open();
     reviewStore.changeState(CardState.Remember);
 
     expect(reviewStore.currentCard?.id).toEqual(4);
-    expect(reviewStore.nextCard).toBeFalsy();
 
     reviewStore.open();
     reviewStore.changeState(CardState.Forget);
 
     expect(reviewStore.currentCard?.id).toEqual(4);
-    expect(reviewStore.nextCard).toBeFalsy();
 
     reviewStore.open();
     reviewStore.changeState(CardState.Remember);
 
     expect(reviewStore.currentCard).toBeFalsy();
-    expect(reviewStore.nextCard).toBeFalsy();
   });
 
   it("hit wrong many times", () => {

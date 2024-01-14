@@ -1,4 +1,4 @@
-import { motion, MotionProps } from "framer-motion";
+import { motion } from "framer-motion";
 import { css } from "@emotion/css";
 import React from "react";
 import { theme } from "../../../ui/theme.tsx";
@@ -9,8 +9,6 @@ import { CardSpeaker } from "./card-speaker.tsx";
 import { CardFieldView } from "./card-field-view.tsx";
 
 export const cardSize = 310;
-
-type FramerMotionProps = Pick<MotionProps, "style" | "animate" | "initial">;
 
 export type LimitedCardUnderReviewStore = Pick<
   CardUnderReviewStore,
@@ -25,9 +23,9 @@ export type LimitedCardUnderReviewStore = Pick<
 
 type Props = {
   card: LimitedCardUnderReviewStore;
-} & FramerMotionProps;
+};
 
-export const Card = observer(({ card, style, animate }: Props) => {
+export const Card = observer(({ card }: Props) => {
   return (
     <motion.div
       className={css({
@@ -43,10 +41,8 @@ export const Card = observer(({ card, style, animate }: Props) => {
         display: "grid",
         placeItems: "center center",
         padding: 10,
+        background: theme.secondaryBgColorComputed,
       })}
-      animate={animate}
-      style={{ ...style, background: theme.secondaryBgColorComputed }}
-      transition={{ ease: [0.6, 0.05, -0.01, 0.9] }}
     >
       <span
         className={css({

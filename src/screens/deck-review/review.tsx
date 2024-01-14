@@ -1,9 +1,7 @@
-import React, { useState } from "react";
-import { useMotionValue, useTransform } from "framer-motion";
+import React from "react";
 import { Card, cardSize } from "../shared/card/card.tsx";
 import { observer } from "mobx-react-lite";
 import { css } from "@emotion/css";
-import { theme } from "../../ui/theme.tsx";
 import throttle from "just-throttle";
 import { CardState } from "./store/card-under-review-store.ts";
 import { ProgressBar } from "../../ui/progress-bar.tsx";
@@ -12,78 +10,45 @@ import { Button } from "../../ui/button.tsx";
 import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
 import { useHotkeys } from "react-hotkeys-hook";
 import { t } from "../../translations/t.ts";
-
-const rotateBorder = 80;
+import { ReviewDeckName } from "./review-deck-name.tsx";
 
 export const Review = observer(() => {
   const reviewStore = useReviewStore();
-  const [frontCardX, setFrontCardX] = useState(0);
-  const [isRotateAnimating, setIsRotateAnimating] = useState(false);
-
   useBackButton(() => {
     reviewStore.submitUnfinished();
   });
 
-  const x = useMotionValue(0);
-  const scaleBelowCard = useTransform(
-    x,
-    [-rotateBorder * 5, 0, rotateBorder * 5],
-    [1, 0.5, 1],
-  );
-  const backgroundColorFrontCard = useTransform(
-    x,
-    [-rotateBorder, 0, rotateBorder],
-    [theme.dangerLight, theme.secondaryBgColorComputed, theme.successLight],
-  );
-  const rotateFrontCard = useTransform(
-    x,
-    [-rotateBorder, 0, rotateBorder],
-    [-10, 0, 10],
-  );
-
-  const animateCardRotate = (newFrontCardX: number, cardState: CardState) => {
-    setFrontCardX(newFrontCardX);
-    setIsRotateAnimating(true);
-
-    setTimeout(() => {
-      setFrontCardX(0);
-      setIsRotateAnimating(false);
-      x.set(0);
-      reviewStore.changeState(cardState);
-    }, 500);
-  };
-
-  const onLeft = throttle(
+  const onWrong = throttle(
     () => {
-      animateCardRotate(-rotateBorder * 5, CardState.Forget);
+      reviewStore.changeState(CardState.Forget);
     },
-    500,
+    100,
     { leading: true },
   );
 
-  const onRight = throttle(
+  const onCorrect = throttle(
     () => {
-      animateCardRotate(rotateBorder * 5, CardState.Remember);
+      reviewStore.changeState(CardState.Remember);
     },
-    500,
+    100,
     { leading: true },
   );
 
   useHotkeys("1", () => {
     if (reviewStore.currentCard?.isOpened) {
-      onLeft();
+      onWrong();
     }
   });
 
   useHotkeys("2", () => {
     if (reviewStore.currentCard?.isOpened) {
-      onRight();
+      onCorrect();
     }
   });
 
   useHotkeys("enter", () => {
     if (reviewStore.currentCard?.isOpened) {
-      onRight();
+      onCorrect();
     } else {
       reviewStore.open();
     }
@@ -117,17 +82,7 @@ export const Review = observer(() => {
           />
         )}
       </div>
-      <div
-        className={css({
-          position: "absolute",
-          top: 41,
-          fontSize: 14,
-          whiteSpace: "nowrap",
-          color: theme.hintColor,
-        })}
-      >
-        {reviewStore.currentCard?.deckName}
-      </div>
+      <ReviewDeckName />
       <div
         className={css({
           height: 350,
@@ -135,30 +90,7 @@ export const Review = observer(() => {
           width: "100%",
         })}
       >
-        {reviewStore.currentCard && (
-          <Card
-            card={reviewStore.currentCard}
-            style={{
-              x,
-              zIndex: 1,
-              backgroundColor: backgroundColorFrontCard,
-              rotate: rotateFrontCard,
-            }}
-            animate={{
-              x: frontCardX,
-            }}
-          />
-        )}
-
-        {reviewStore.nextCard && (
-          <Card
-            card={reviewStore.nextCard}
-            style={{
-              scale: scaleBelowCard,
-              zIndex: 0,
-            }}
-          />
-        )}
+        {reviewStore.currentCard && <Card card={reviewStore.currentCard} />}
       </div>
       {reviewStore.currentCard && (
         <div
@@ -174,12 +106,12 @@ export const Review = observer(() => {
             },
           })}
         >
-          {reviewStore.currentCard.isOpened && !isRotateAnimating ? (
+          {reviewStore.currentCard.isOpened ? (
             <>
-              <Button key={"forgot"} onClick={() => onLeft()} outline>
+              <Button key={"forgot"} onClick={() => onWrong()} outline>
                 {t("review_need_to_repeat")}
               </Button>
-              <Button key={"remember"} onClick={() => onRight()}>
+              <Button key={"remember"} onClick={() => onCorrect()}>
                 {t("review_right")}
               </Button>
             </>

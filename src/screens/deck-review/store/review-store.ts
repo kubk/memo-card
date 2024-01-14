@@ -17,8 +17,6 @@ type ReviewResult = {
 export class ReviewStore {
   cardsToReview: CardUnderReviewStore[] = [];
   currentCardId?: number;
-  // For UI purposes
-  nextCardId?: number;
 
   result: ReviewResult = { forgotIds: [], rememberIds: [] };
   initialCardCount?: number;
@@ -100,9 +98,6 @@ export class ReviewStore {
 
     this.initialCardCount = this.cardsToReview.length;
     this.currentCardId = this.cardsToReview[0].id;
-    if (this.cardsToReview.length > 1) {
-      this.nextCardId = this.cardsToReview[1].id;
-    }
   }
 
   get currentCard() {
@@ -112,16 +107,6 @@ export class ReviewStore {
 
     return (
       this.cardsToReview.find((card) => this.currentCardId === card.id) || null
-    );
-  }
-
-  get nextCard() {
-    if (!this.nextCardId) {
-      return null;
-    }
-
-    return (
-      this.cardsToReview.find((card) => this.nextCardId === card.id) || null
     );
   }
 
@@ -163,8 +148,6 @@ export class ReviewStore {
     if (this.cardsToReview.length !== 0) {
       // Go to next card
       this.currentCardId = this.cardsToReview[0].id;
-      this.nextCardId =
-        this.cardsToReview.length > 1 ? this.cardsToReview[1].id : undefined;
     }
   }
 

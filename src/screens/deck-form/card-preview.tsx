@@ -31,8 +31,6 @@ export const CardPreview = observer((props: Props) => {
             deckSpeakField: "front",
             isSpeakingCardsEnabledSettings: false,
           }}
-          animate={{}}
-          style={{}}
         />
       </div>
     </Screen>
