@@ -67,7 +67,7 @@ const en = {
   card_speak_side_front: "Front",
   card_speak_side_back: "Back",
   card_speak_description:
-    "Play spoken audio for each flashcard to enhance pronunciation",
+    "Play spoken audio for each flashcard to enhance pronunciation.",
   review_deck_finished: `You have finished this deck for now 🎉`,
   review_all_cards: `You have repeated all the cards for today 🎉`,
   review_finished_want_more: "Want more? You have",
@@ -204,7 +204,7 @@ const ru: Translation = {
   card_speak_side: "Сторона карточки",
   card_speak_side_front: "Лицевая",
   card_speak_side_back: "Обратная",
-  card_speak_description: "Позволяет улучшить произношение",
+  card_speak_description: "Позволяет улучшить произношение.",
   review_deck_finished: `Вы прошли эту колоду 🎉`,
   review_all_cards: `Вы повторили все карточки на сегодня 🎉`,
   review_finished_want_more: "Хотите ещё? У вас есть",
@@ -338,7 +338,7 @@ const es: Translation = {
   card_speak_side_front: "Frente",
   card_speak_side_back: "Dorso",
   card_speak_description:
-    "Reproducir audio hablado para cada tarjeta y mejorar la pronunciación",
+    "Reproducir audio hablado para cada tarjeta y mejorar la pronunciación.",
   review_deck_finished: `Has terminado este mazo por ahora 🎉`,
   review_all_cards: `Has repasado todas las tarjetas por hoy 🎉`,
   review_finished_want_more: "¿Quieres más? Tienes",
@@ -471,7 +471,7 @@ const ptBr: Translation = {
   card_speak_side_front: "Frente",
   card_speak_side_back: "Verso",
   card_speak_description:
-    "Reproduzir áudio falado para cada cartão para melhorar a pronúncia",
+    "Reproduzir áudio falado para cada cartão para melhorar a pronúncia.",
   review_deck_finished: `Parabéns! Você terminou este baralho por enquanto. 🎉`,
   review_all_cards: `Você revisou todos os cartões para hoje 🎉`,
   review_finished_want_more: "Quer mais? Você tem",
