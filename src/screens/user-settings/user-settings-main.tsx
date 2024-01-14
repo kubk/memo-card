@@ -110,9 +110,10 @@ export const UserSettingsMain = observer(() => {
             color: theme.linkColor,
           })}
         >
-          Contact support
+          {t('settings_contact_support')}
         </span>
       </CardRow>
+      <HintTransparent>{t("settings_support_hint")}</HintTransparent>
     </Screen>
   );
 });

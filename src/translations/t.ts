@@ -125,6 +125,8 @@ const en = {
   share_access_duration_no_limit: "No limit",
   share_deck_access_created_at: "Created at",
   share_no_links: "You haven't created any one-time links for this deck",
+  settings_contact_support: "Contact support",
+  settings_support_hint: "If you have any issues, questions or suggestions",
   share_no_links_for_folder:
     "You haven't created any one-time links for this folder",
   go_back: "Go back",
@@ -260,6 +262,8 @@ const ru: Translation = {
   share_perpetual_link: "Поделиться постоянной ссылкой",
   share_unused: "Не использована",
   go_back: "Назад",
+  settings_contact_support: "Связаться с поддержкой",
+  settings_support_hint: "Если у вас есть вопросы, проблемы или предложения",
   delete_folder_confirm:
     "Вы уверены, что хотите удалить папку? Удаление папки не удалит колоды внутри папки",
 };
@@ -391,6 +395,8 @@ const es: Translation = {
   share_used: "El enlace ha sido utilizado por",
   share_one_time_access_link: "Enlace de acceso de un solo uso",
   share_access_duration_days: "Duración del acceso en días",
+  settings_support_hint: "Si tienes algún problema, pregunta o sugerencia",
+  settings_contact_support: "Contactar con soporte",
   share_deck_settings: "Compartir un mazo",
   share_perpetual_link: "Compartir enlace perpetuo",
   go_back: "Volver",
@@ -520,6 +526,8 @@ const ptBr: Translation = {
   share_days: "Dias",
   share_deck_access_created_at: "Criado em",
   share_one_time_links_usage: "Enlaces descartáveis",
+  settings_contact_support: "Contatar suporte",
+  settings_support_hint: "Se você tiver algum problema, dúvida ou sugestão",
   share_no_links:
     "Você ainda não criou nenhum link de acesso único para este baralho",
   share_one_time_access_link_description:
