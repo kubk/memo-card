@@ -37,6 +37,11 @@ import {
   AddDeckAccessResponse,
 } from "../../functions/add-deck-access.ts";
 import { DecksMineResponse } from "../../functions/decks-mine.ts";
+import {
+  CreateOrderRequest,
+  CreateOrderResponse,
+} from "../../functions/order.ts";
+import { MyPlansResponse } from "../../functions/my-plans.ts";
 
 export const healthRequest = () => {
   return request<HealthResponse>("/health");
@@ -139,4 +144,14 @@ export const deleteFolderRequest = (folderId: number) => {
 
 export const decksMineRequest = () => {
   return request<DecksMineResponse>("/decks-mine");
+};
+
+export const createOrderRequest = (planId: number) => {
+  return request<CreateOrderResponse, CreateOrderRequest>(`/order`, "POST", {
+    planId,
+  });
+};
+
+export const myPlansRequest = () => {
+  return request<MyPlansResponse>("/my-plans");
 };
