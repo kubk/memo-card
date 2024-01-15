@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev:frontend:start": "vite",
-    "dev:api:start": "npx wrangler pages dev /functions --compatibility-date=2023-09-22",
+    "dev:api:start": "npx wrangler pages dev /functions --compatibility-date=2023-09-22 --compatibility-flags=\"nodejs_compat\"",
     "dev:tunnel": "../ngrok http --domain=causal-magpie-closing.ngrok-free.app 5173",
     "build": "cp index.build.html index.html && vite build",
     "typecheck": "npx tsc",
@@ -49,7 +49,6 @@
     "short-unique-id": "^5.0.3",
     "supabase": "^1.110.1",
     "uuid": "^9.0.1",
-    "wallet-pay-sdk": "^1.1.0",
     "zod": "^3.22.3"
   },
   "devDependencies": {
@@ -58,6 +57,7 @@
     "@types/autosize": "^4.0.3",
     "@types/luxon": "^3.4.0",
     "@types/node": "^20.8.0",
+    "@types/node-fetch": "^2.6.10",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
     "@types/sanitize-html": "^2.9.5",
