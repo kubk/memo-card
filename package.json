@@ -35,6 +35,7 @@
     "grammy": "^1.19.1",
     "just-throttle": "^4.2.0",
     "luxon": "^3.4.3",
+    "mathml-tag-names": "^3.0.2",
     "mobx": "^6.10.2",
     "mobx-log": "^2.2.3",
     "mobx-persist-store": "^1.1.3",
