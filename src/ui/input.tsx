@@ -4,6 +4,7 @@ import { theme } from "./theme.tsx";
 import { TextField } from "../lib/mobx-form/text-field.ts";
 import { observer } from "mobx-react-lite";
 import autosize from "autosize";
+import { ValidationError } from "./validation-error.tsx";
 
 interface Props {
   placeholder?: string;
@@ -58,11 +59,7 @@ export const Input = observer((props: Props) => {
         onBlur={onBlur}
         onChange={handleInputChange}
       />
-      {isTouched && error ? (
-        <div className={css({ fontSize: 14, color: theme.danger })}>
-          {error}
-        </div>
-      ) : null}
+      {isTouched && error ? <ValidationError error={error} /> : null}
     </div>
   );
 });

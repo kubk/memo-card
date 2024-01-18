@@ -1,7 +1,11 @@
 import { makeAutoObservable } from "mobx";
 import { TouchableField } from "./touchable-field.ts";
+import { ClonableField } from "./clonable-field.ts";
+import { FieldWithError } from "./field-with-error.ts";
 
-export class BooleanField implements TouchableField {
+export class BooleanField
+  implements TouchableField, ClonableField<BooleanField>, FieldWithError
+{
   isTouched = false;
 
   constructor(
@@ -30,5 +34,9 @@ export class BooleanField implements TouchableField {
 
   unTouch() {
     this.isTouched = false;
+  }
+
+  clone() {
+    return new BooleanField(this.value, this.validate);
   }
 }

@@ -12,7 +12,7 @@ export class ListField<T> implements TouchableField, FieldWithValue<T[]> {
     makeAutoObservable(this, { validate: false }, { autoBind: true });
   }
 
-  add(value: T) {
+  push(value: T) {
     this.touch();
     this.value.push(value);
   }
@@ -20,6 +20,11 @@ export class ListField<T> implements TouchableField, FieldWithValue<T[]> {
   removeByIndex(index: number) {
     this.touch();
     this.value.splice(index, 1);
+  }
+
+  removeByCondition(condition: (value: T) => boolean) {
+    this.touch();
+    this.value = this.value.filter((value) => !condition(value));
   }
 
   get error() {

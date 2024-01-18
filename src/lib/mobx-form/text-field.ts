@@ -1,8 +1,16 @@
 import { makeAutoObservable } from "mobx";
 import { FieldWithValue } from "./field-with-value.ts";
 import { TouchableField } from "./touchable-field.ts";
+import { ClonableField } from "./clonable-field.ts";
+import { FieldWithError } from "./field-with-error.ts";
 
-export class TextField<T> implements FieldWithValue<T>, TouchableField {
+export class TextField<T>
+  implements
+    FieldWithValue<T>,
+    TouchableField,
+    ClonableField<TextField<T>>,
+    FieldWithError
+{
   isTouched = false;
 
   constructor(
@@ -31,5 +39,9 @@ export class TextField<T> implements FieldWithValue<T>, TouchableField {
 
   unTouch() {
     this.isTouched = false;
+  }
+
+  clone() {
+    return new TextField(this.value, this.validate);
   }
 }

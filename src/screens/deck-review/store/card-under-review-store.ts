@@ -1,11 +1,14 @@
 import { makeAutoObservable } from "mobx";
 import {
+  CardAnswerDbType,
   DeckCardDbType,
   DeckSpeakFieldEnum,
 } from "../../../../functions/db/deck/decks-with-cards-schema.ts";
 import { DeckWithCardsWithReviewType } from "../../../store/deck-list-store.ts";
 import { speak, SpeakLanguageEnum } from "../../../lib/voice-playback/speak.ts";
 import { isEnumValid } from "../../../lib/typescript/is-enum-valid.ts";
+import { CardAnswerType } from "../../../../functions/db/custom-types.ts";
+import { assert } from "../../../lib/typescript/assert.ts";
 
 export enum CardState {
   Remember = "remember",
@@ -20,6 +23,9 @@ export class CardUnderReviewStore {
   deckName?: string;
   deckSpeakLocale: string | null = null;
   deckSpeakField: DeckSpeakFieldEnum | null = null;
+  answerType: CardAnswerType;
+  answers: CardAnswerDbType[] = [];
+  answer?: CardAnswerDbType;
 
   isOpened = false;
   state?: CardState;
@@ -33,6 +39,8 @@ export class CardUnderReviewStore {
     this.front = card.front;
     this.back = card.back;
     this.example = card.example;
+    this.answerType = card.answer_type;
+    this.answers = card.answers || [];
     this.deckName = deck.name;
     this.deckSpeakLocale = deck.speak_locale;
     this.deckSpeakField = deck.speak_field;
@@ -42,6 +50,12 @@ export class CardUnderReviewStore {
 
   open() {
     this.isOpened = true;
+  }
+
+  openWithAnswer(answer: CardAnswerDbType) {
+    this.open();
+    assert(this.answerType === "choice_single");
+    this.answer = answer;
   }
 
   close() {

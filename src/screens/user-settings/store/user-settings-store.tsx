@@ -3,7 +3,7 @@ import { TextField } from "../../../lib/mobx-form/text-field.ts";
 import { assert } from "../../../lib/typescript/assert.ts";
 import { DateTime } from "luxon";
 import { formatTime } from "../generate-time-range.tsx";
-import { isFormTouched } from "../../../lib/mobx-form/form-has-error.ts";
+import { isFormTouched } from "../../../lib/mobx-form/form.ts";
 import { userSettingsRequest } from "../../../api/api.ts";
 import { screenStore } from "../../../store/screen-store.ts";
 import { UserSettingsRequest } from "../../../../functions/user-settings.ts";

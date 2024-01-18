@@ -3,7 +3,7 @@ import { BooleanToggle } from "../../../lib/mobx-form/boolean-toggle.ts";
 import { TextField } from "../../../lib/mobx-form/text-field.ts";
 import { t } from "../../../translations/t.ts";
 import { action, makeAutoObservable } from "mobx";
-import { isFormValid } from "../../../lib/mobx-form/form-has-error.ts";
+import { isFormValid } from "../../../lib/mobx-form/form.ts";
 import { screenStore } from "../../../store/screen-store.ts";
 import { redirectUserToDeckOrFolderLink } from "../redirect-user-to-deck-or-folder-link.tsx";
 import {

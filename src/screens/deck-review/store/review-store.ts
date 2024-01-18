@@ -113,8 +113,21 @@ export class ReviewStore {
   open() {
     const currentCard = this.currentCard;
     assert(currentCard, "Current card should not be empty");
-    currentCard.open();
-    currentCard.speak();
+    if (currentCard.answerType === "remember") {
+      currentCard.open();
+      currentCard.speak();
+    }
+  }
+
+  onReviewCardWithAnswers() {
+    const currentCard = this.currentCard;
+    assert(currentCard, "Current card should not be empty");
+
+    assert(currentCard.answerType === "choice_single");
+    const newState = currentCard.answer?.isCorrect
+      ? CardState.Remember
+      : CardState.Forget;
+    this.changeState(newState);
   }
 
   changeState(cardState: CardState) {

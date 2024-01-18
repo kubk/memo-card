@@ -5,7 +5,7 @@ import {
   isFormEmpty,
   isFormTouched,
   isFormValid,
-} from "../../../lib/mobx-form/form-has-error.ts";
+} from "../../../lib/mobx-form/form.ts";
 import { assert } from "../../../lib/typescript/assert.ts";
 import { upsertDeckRequest } from "../../../api/api.ts";
 import { screenStore } from "../../../store/screen-store.ts";
@@ -20,11 +20,28 @@ import {
 import { SpeakLanguageEnum } from "../../../lib/voice-playback/speak.ts";
 import { t } from "../../../translations/t.ts";
 import { BooleanToggle } from "../../../lib/mobx-form/boolean-toggle.ts";
+import { CardAnswerType } from "../../../../functions/db/custom-types.ts";
+import { ListField } from "../../../lib/mobx-form/list-field.ts";
+import { BooleanField } from "../../../lib/mobx-form/boolean-field.ts";
+import { v4 } from "uuid";
+import { CardFormStore } from "./card-form-store.ts";
+import { UpsertDeckRequest } from "../../../../functions/upsert-deck.ts";
+import { UnwrapArray } from "../../../lib/typescript/unwrap-array.ts";
+
+export type CardAnswerFormType = {
+  id: string;
+  text: TextField<string>;
+  isCorrect: BooleanField;
+};
 
 export type CardFormType = {
   front: TextField<string>;
   back: TextField<string>;
   example: TextField<string>;
+  answerType: TextField<CardAnswerType>;
+  answers: ListField<CardAnswerFormType>;
+  answerId?: string;
+  answerFormType?: "new" | "edit";
   id?: number;
 };
 
@@ -47,9 +64,41 @@ export const createCardSideField = (value: string) => {
   return new TextField(value, validators.required(t("validation_required")));
 };
 
+export const createAnswerForm = () => {
+  return {
+    id: v4(),
+    text: new TextField("", validators.required(t("validation_required"))),
+    isCorrect: new BooleanField(false),
+  };
+};
+
+export const createAnswerListField = (
+  answers: CardAnswerFormType[],
+  getCardForm: () => CardFormType | null,
+) => {
+  return new ListField<CardAnswerFormType>(answers, (value) => {
+    const cardForm = getCardForm();
+
+    if (!cardForm || cardForm.answerType.value !== "choice_single") {
+      return;
+    }
+
+    if (value.length > 0) {
+      if (value.every((item) => !item.isCorrect.value)) {
+        return "One answer should be selected as correct";
+      }
+    }
+
+    if (value.length === 0) {
+      return "At least one answer should be provided";
+    }
+  });
+};
+
 const createUpdateForm = (
   id: number,
   deck: DeckWithCardsDbType,
+  getCardForm: () => CardFormType | null,
 ): DeckFormType => {
   return {
     id: id,
@@ -62,24 +111,43 @@ const createUpdateForm = (
       front: createCardSideField(card.front),
       back: createCardSideField(card.back),
       example: new TextField(card.example || ""),
+      answerType: new TextField(card.answer_type),
+      answers: createAnswerListField(
+        card.answers
+          ? card.answers.map((answer) => ({
+              id: answer.id,
+              text: new TextField(answer.text),
+              isCorrect: new BooleanField(answer.isCorrect),
+            }))
+          : [],
+        getCardForm,
+      ),
     })),
     cardsToRemoveIds: [],
   };
 };
 
-const cardFormToApi = (card: CardFormType) => {
+const cardFormToApi = (
+  card: CardFormType,
+): UnwrapArray<UpsertDeckRequest["cards"]> => {
   return {
     id: card.id,
     front: card.front.value,
     back: card.back.value,
     example: card.example.value,
+    answerType: card.answerType.value,
+    answers: card.answers.value.map((answer) => ({
+      id: answer.id,
+      text: answer.text.value,
+      isCorrect: answer.isCorrect.value,
+    })),
   };
 };
 
 export type CardFilterSortBy = "createdAt" | "frontAlpha" | "backAlpha";
 export type CardFilterDirection = "desc" | "asc";
 
-export class DeckFormStore {
+export class DeckFormStore implements CardFormStore {
   cardFormIndex?: number;
   cardFormType?: "new" | "edit";
   isCardPreviewSelected = new BooleanToggle(false);
@@ -98,9 +166,6 @@ export class DeckFormStore {
 
   get deckFormScreen() {
     if (this.cardFormIndex !== undefined) {
-      if (this.isCardPreviewSelected.value) {
-        return "cardPreview";
-      }
       return "cardForm";
     }
     if (this.isCardList) {
@@ -120,7 +185,7 @@ export class DeckFormStore {
     if (screen.deckId) {
       const deck = deckListStore.searchDeckById(screen.deckId);
       assert(deck, "Deck not found in deckListStore");
-      this.form = createUpdateForm(screen.deckId, deck);
+      this.form = createUpdateForm(screen.deckId, deck, () => this.cardForm);
     } else {
       this.form = {
         title: createDeckTitleField(""),
@@ -258,6 +323,9 @@ export class DeckFormStore {
       front: createCardSideField(""),
       back: createCardSideField(""),
       example: new TextField(""),
+      // TODO: get from localStorage
+      answerType: new TextField("remember"),
+      answers: createAnswerListField([], () => this.cardForm),
     });
   }
 
@@ -276,7 +344,7 @@ export class DeckFormStore {
     }
   }
 
-  saveCardForm() {
+  onSaveCard() {
     if (!this.isSaveCardButtonActive) {
       return;
     }
@@ -289,7 +357,7 @@ export class DeckFormStore {
     );
   }
 
-  async onCardBack() {
+  async onBackCard() {
     assert(this.cardForm, "onCardBack: cardForm is empty");
     if (isFormEmpty(this.cardForm) || !isFormTouched(this.cardForm)) {
       this.quitCardForm();
@@ -382,7 +450,7 @@ export class DeckFormStore {
       .then(
         action(({ deck, folders, cardsToReview }) => {
           const redirectToEdit = !this.form?.id;
-          this.form = createUpdateForm(deck.id, deck);
+          this.form = createUpdateForm(deck.id, deck, () => this.cardForm);
           deckListStore.replaceDeck(deck, true);
           deckListStore.updateFolders(folders);
           deckListStore.updateCardsToReview(cardsToReview);
@@ -417,6 +485,13 @@ export class DeckFormStore {
       return false;
     }
 
-    return Boolean(!cardForm.front.error && !cardForm.back.error);
+    if (cardForm.answerType.value === "remember") {
+      return Boolean(!cardForm.front.error && !cardForm.back.error);
+    }
+    if (cardForm.answerType.value === "choice_single") {
+      return isFormValid({ answers: cardForm.answers });
+    }
+
+    return false;
   }
 }

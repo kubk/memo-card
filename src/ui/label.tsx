@@ -3,7 +3,7 @@ import { css } from "@emotion/css";
 import { theme } from "./theme.tsx";
 
 type Props = {
-  text: string;
+  text: ReactNode;
   children: ReactNode;
   isRequired?: boolean;
   // Helps to avoid nested <label> tags

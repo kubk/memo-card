@@ -8,7 +8,7 @@ import {
   formUnTouchAll,
   isFormTouched,
   isFormValid,
-} from "../../../lib/mobx-form/form-has-error.ts";
+} from "../../../lib/mobx-form/form.ts";
 import { decksMineRequest, folderUpsertRequest } from "../../../api/api.ts";
 import { deckListStore } from "../../../store/deck-list-store.ts";
 import { ListField } from "../../../lib/mobx-form/list-field.ts";

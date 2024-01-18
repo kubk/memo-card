@@ -7,7 +7,7 @@ import {
   UpsertDeckRequest,
   UpsertDeckResponse,
 } from "../../../../functions/upsert-deck.ts";
-import { isFormValid } from "../../../lib/mobx-form/form-has-error.ts";
+import { isFormValid } from "../../../lib/mobx-form/form.ts";
 
 const mapUpsertDeckRequestToResponse = (
   input: UpsertDeckRequest,
@@ -36,6 +36,8 @@ const mapUpsertDeckRequestToResponse = (
         example: card.example ?? null,
         front: card.front,
         back: card.back,
+        answer_type: "remember",
+        answers: null,
       };
     }),
   },
@@ -71,6 +73,8 @@ vi.mock("./../../../store/deck-list-store.ts", () => {
       example: null,
       front: "time",
       back: "Время",
+      answer_type: "remember",
+      answers: null,
     },
     {
       id: 4,
@@ -79,6 +83,8 @@ vi.mock("./../../../store/deck-list-store.ts", () => {
       example: null,
       front: "year",
       back: "Год",
+      answer_type: "remember",
+      answers: null,
     },
     {
       id: 5,
@@ -87,6 +93,8 @@ vi.mock("./../../../store/deck-list-store.ts", () => {
       example: null,
       front: "way",
       back: "Дорога",
+      answer_type: "remember",
+      answers: null,
     },
   ];
 
@@ -178,15 +186,17 @@ describe("deck form store", () => {
     expect(mocks.upsertDeckRequest.mock.calls).toHaveLength(2);
     expect(mocks.upsertDeckRequest.mock.calls[1][0].cards)
       .toMatchInlineSnapshot(`
-      [
-        {
-          "back": "1 (new)",
-          "example": "",
-          "front": "1 (new)",
-          "id": undefined,
-        },
-      ]
-    `);
+        [
+          {
+            "answerType": "remember",
+            "answers": [],
+            "back": "1 (new)",
+            "example": "",
+            "front": "1 (new)",
+            "id": undefined,
+          },
+        ]
+      `);
   });
 
   it("edit 2 cards, add 1 new, save", () => {
@@ -215,27 +225,33 @@ describe("deck form store", () => {
     expect(mocks.upsertDeckRequest.mock.calls).toHaveLength(1);
     expect(mocks.upsertDeckRequest.mock.calls[0][0].cards)
       .toMatchInlineSnapshot(`
-      [
-        {
-          "back": "1 (new)",
-          "example": "",
-          "front": "1 (new)",
-          "id": undefined,
-        },
-        {
-          "back": "2 (edited)",
-          "example": "",
-          "front": "2 (edited)",
-          "id": 3,
-        },
-        {
-          "back": "3 (edited)",
-          "example": "",
-          "front": "3 (edited)",
-          "id": 4,
-        },
-      ]
-    `);
+        [
+          {
+            "answerType": "remember",
+            "answers": [],
+            "back": "1 (new)",
+            "example": "",
+            "front": "1 (new)",
+            "id": undefined,
+          },
+          {
+            "answerType": "remember",
+            "answers": [],
+            "back": "2 (edited)",
+            "example": "",
+            "front": "2 (edited)",
+            "id": 3,
+          },
+          {
+            "answerType": "remember",
+            "answers": [],
+            "back": "3 (edited)",
+            "example": "",
+            "front": "3 (edited)",
+            "id": 4,
+          },
+        ]
+      `);
   });
 
   it("bug with card amount", () => {

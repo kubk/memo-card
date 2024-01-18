@@ -15,6 +15,8 @@ const deckCardsMock: DeckCardDbTypeWithType[] = [
     front: "time",
     back: "Время",
     type: "repeat",
+    answer_type: "remember",
+    answers: null,
   },
   {
     id: 4,
@@ -24,6 +26,8 @@ const deckCardsMock: DeckCardDbTypeWithType[] = [
     front: "year",
     back: "Год",
     type: "repeat",
+    answer_type: "remember",
+    answers: null,
   },
   {
     id: 5,
@@ -33,6 +37,8 @@ const deckCardsMock: DeckCardDbTypeWithType[] = [
     front: "way",
     back: "Дорога",
     type: "repeat",
+    answer_type: "remember",
+    answers: null,
   },
 ];
 

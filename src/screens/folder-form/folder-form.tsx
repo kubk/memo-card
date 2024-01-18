@@ -91,7 +91,7 @@ export const FolderForm = observer(() => {
                 className={cx(reset.button, css({ padding: 8, fontSize: 16 }))}
                 onClick={() => {
                   assert(folderForm);
-                  folderForm.decks.add({
+                  folderForm.decks.push({
                     id: deck.id,
                     name: deck.name,
                   });

@@ -48,7 +48,9 @@ vi.mock("../api/api.ts", () => {
                 deck_id: 1,
                 front: "d1c1 - f",
                 back: "d1c1 - b",
+                answer_type: "remember",
                 example: null,
+                answers: null,
               },
               {
                 id: 2,
@@ -56,7 +58,9 @@ vi.mock("../api/api.ts", () => {
                 deck_id: 1,
                 front: "d1c2 - f",
                 back: "d1c2 - b",
+                answer_type: "remember",
                 example: null,
+                answers: null,
               },
               {
                 id: 3,
@@ -64,7 +68,9 @@ vi.mock("../api/api.ts", () => {
                 deck_id: 1,
                 front: "d1c3 - f",
                 back: "d1c3 - b",
+                answer_type: "remember",
                 example: null,
+                answers: null,
               },
               {
                 id: 5,
@@ -72,7 +78,9 @@ vi.mock("../api/api.ts", () => {
                 deck_id: 1,
                 front: "d1c5 - f",
                 back: "d1c5 - b",
+                answer_type: "remember",
                 example: null,
+                answers: null,
               },
             ],
           },
@@ -96,7 +104,9 @@ vi.mock("../api/api.ts", () => {
                 deck_id: 2,
                 front: "d2c1 - f",
                 back: "d2c1 - b",
+                answer_type: "remember",
                 example: null,
+                answers: null,
               },
             ],
           },
@@ -137,6 +147,8 @@ describe("deck list store", () => {
     expect(deckListStore.selectedDeck?.cardsToReview).toMatchInlineSnapshot(`
       [
         {
+          "answer_type": "remember",
+          "answers": null,
           "back": "d1c5 - b",
           "created_at": "",
           "deck_id": 1,
@@ -146,6 +158,8 @@ describe("deck list store", () => {
           "type": "repeat",
         },
         {
+          "answer_type": "remember",
+          "answers": null,
           "back": "d1c2 - b",
           "created_at": "",
           "deck_id": 1,
@@ -155,6 +169,8 @@ describe("deck list store", () => {
           "type": "repeat",
         },
         {
+          "answer_type": "remember",
+          "answers": null,
           "back": "d1c1 - b",
           "created_at": "",
           "deck_id": 1,
@@ -164,6 +180,8 @@ describe("deck list store", () => {
           "type": "new",
         },
         {
+          "answer_type": "remember",
+          "answers": null,
           "back": "d1c3 - b",
           "created_at": "",
           "deck_id": 1,

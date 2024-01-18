@@ -7,7 +7,7 @@ import {
   isFormTouched,
   isFormTouchedAndValid,
   isFormValid,
-} from "./form-has-error.ts";
+} from "./form.ts";
 import { validators } from "./validator.ts";
 import { BooleanField } from "./boolean-field.ts";
 import { ListField } from "./list-field.ts";
@@ -152,6 +152,41 @@ test("very nested form - any fields", () => {
   expect(isFormValid(f)).toBeFalsy();
 });
 
+test("formIsTouched with ListField and nested fields", () => {
+  const f = {
+    a: new TextField(""),
+    b: new ListField([new TextField(""), new TextField("")]),
+  };
+
+  expect(isFormTouched(f)).toBeFalsy();
+  f.a.onChange("1");
+  expect(isFormTouched(f)).toBeTruthy();
+  formUnTouchAll(f);
+  expect(isFormTouched(f)).toBeFalsy();
+
+  f.b.push(new TextField(""));
+  expect(isFormTouched(f)).toBeTruthy();
+  formUnTouchAll(f);
+  expect(isFormTouched(f)).toBeFalsy();
+
+  // f.b.value[0].onChange("1");
+  // expect(isFormTouched(f)).toBeTruthy();
+  // formUnTouchAll(f);
+  // expect(isFormTouched(f)).toBeFalsy();
+
+  const f2 = {
+    b: new ListField([
+      {
+        id: 1,
+        text: new TextField(""),
+      },
+    ]),
+  };
+  expect(isFormTouched(f2)).toBeFalsy();
+  f2.b.value[0].text.onChange("1");
+  expect(isFormTouched(f2)).toBeTruthy();
+});
+
 test("formTouchAll / formUnTouchAll", () => {
   const f = {
     a: new TextField("a", validators.required(isRequiredMessage)),
@@ -187,7 +222,7 @@ test("formTouchAll / formUnTouchAll", () => {
   formUnTouchAll(f);
   expect(isFormTouched(f)).toBeFalsy();
 
-  f.d.add(1);
+  f.d.push(1);
   expect(isFormTouched(f)).toBeTruthy();
 
   formUnTouchAll(f);

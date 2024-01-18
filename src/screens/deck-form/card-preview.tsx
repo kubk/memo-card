@@ -1,10 +1,10 @@
 import { observer } from "mobx-react-lite";
-import { Screen } from "../shared/screen.tsx";
 import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
-import { Card } from "../shared/card/card.tsx";
 import { css } from "@emotion/css";
-import { t } from "../../translations/t.ts";
 import { CardFormType } from "./store/deck-form-store.ts";
+import { CardReviewWithControls } from "../deck-review/card-review-with-controls.tsx";
+import { useState } from "react";
+import { CardPreviewStore } from "../deck-review/store/card-preview-store.ts";
 
 type Props = {
   form: CardFormType;
@@ -13,26 +13,51 @@ type Props = {
 
 export const CardPreview = observer((props: Props) => {
   const { form, onBack } = props;
+  const [cardPreviewStore] = useState(() => new CardPreviewStore(form));
 
   useBackButton(() => {
     onBack();
   });
 
   return (
-    <Screen title={t("card_preview")}>
-      <div className={css({ position: "relative", marginTop: 40 })}>
-        <Card
-          card={{
-            isOpened: true,
-            back: form.back.value,
-            front: form.front.value,
-            example: form.example.value,
-            speak: () => {},
-            deckSpeakField: "front",
-            isSpeakingCardsEnabledSettings: false,
-          }}
-        />
-      </div>
-    </Screen>
+    <div
+      className={css({
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        height: "100vh",
+        position: "relative",
+        overflowX: "hidden",
+      })}
+    >
+      {cardPreviewStore.isOpened && (
+        <div
+          className={css({
+            position: "absolute",
+            top: 12,
+            right: 12,
+            cursor: "pointer",
+          })}
+        >
+          <i
+            className={"mdi mdi-backup-restore mdi-24px"}
+            onClick={() => {
+              cardPreviewStore.revert();
+            }}
+          />
+        </div>
+      )}
+
+      <CardReviewWithControls
+        onWrong={() => {}}
+        onCorrect={() => {}}
+        onShowAnswer={() => {
+          cardPreviewStore.open();
+        }}
+        card={cardPreviewStore}
+        onReviewCardWithAnswers={() => {}}
+      />
+    </div>
   );
 });

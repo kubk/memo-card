@@ -15,12 +15,15 @@ const walkAndCheck = (
 ) => {
   return (form: Form) => {
     return Object.values(form)[iterateArray]((value) => {
-      if (
-        value instanceof TextField ||
-        value instanceof BooleanField ||
-        value instanceof ListField
-      ) {
+      if (value instanceof TextField || value instanceof BooleanField) {
         return check(value);
+      }
+      if (value instanceof ListField) {
+        const listFieldChecked = check(value);
+        const listItemsChecked = value.value[iterateArray](
+          walkAndCheck(check, iterateArray, defaultValue),
+        );
+        return [listItemsChecked, listFieldChecked][iterateArray](Boolean);
       }
       if (Array.isArray(value)) {
         return value[iterateArray](check);
@@ -61,8 +64,11 @@ export const walkAndDo = (fn: (field: unknown) => void) => (form: Form) => {
     if (Array.isArray(value)) {
       value.forEach(walkAndDo(fn));
     }
+    if (value instanceof ListField) {
+      value.value.forEach(walkAndDo(fn));
+    }
     if (typeof value === "object" && value !== null) {
-      Object.values(value)["every"](walkAndDo(fn));
+      Object.values(value).forEach(walkAndDo(fn));
     }
   });
 };
