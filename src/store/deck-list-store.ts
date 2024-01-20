@@ -86,7 +86,7 @@ export class DeckListStore {
       .then(
         action((result) => {
           this.myInfo = result;
-          userStore.setUser(result.user);
+          userStore.setUser(result.user, result.plans);
         }),
       )
       .finally(

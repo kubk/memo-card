@@ -27,6 +27,7 @@ vi.mock("../api/api.ts", () => {
           { id: 4, type: "new", deck_id: 2 },
           { id: 5, type: "repeat", deck_id: 1 },
         ],
+        plans: [],
         myDecks: [
           {
             id: 1,

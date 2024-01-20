@@ -1,16 +1,19 @@
 import { makeAutoObservable } from "mobx";
 import { UserDbType } from "../../functions/db/user/upsert-user-db.ts";
 import { assert } from "../lib/typescript/assert.ts";
+import { PlansForUser } from "../../functions/db/plan/get-plans-for-user.ts";
 
 export class UserStore {
   userInfo?: UserDbType;
+  plans?: PlansForUser;
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
   }
 
-  setUser(user: UserDbType) {
+  setUser(user: UserDbType, plans: PlansForUser) {
     this.userInfo = user;
+    this.plans = plans;
   }
 
   get user() {
@@ -23,6 +26,14 @@ export class UserStore {
 
   get isAdmin() {
     return this.user?.is_admin ?? false;
+  }
+
+  get canDuplicateDecks() {
+    if (this.isAdmin) {
+      return true;
+    }
+
+    return this.plans?.some((plan) => plan.advanced_duplicate) ?? false;
   }
 
   get isSpeakingCardsEnabled() {

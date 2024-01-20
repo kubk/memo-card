@@ -138,7 +138,7 @@ export const DeckPreview = observer(() => {
               {t("add_card_short")}
             </ButtonSideAligned>
           ) : null}
-          {userStore.isAdmin && (
+          {userStore.canDuplicateDecks && (
             <ButtonSideAligned
               icon={"mdi-content-duplicate mdi-24px"}
               outline
