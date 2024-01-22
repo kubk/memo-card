@@ -17,7 +17,7 @@ For UI changes:
 1. Please create issue first to avoid wasting time on something that might not be accepted.
 1. In case issue is approved, please create a Pull Request with your changes.
 1. Please make sure to add unit tests for your changes if applicable. For reference, check the existing tests for Mobx stores.
-1. Send the PR for review
+1. Send the PR for review.
 
 ## Pull Request Guidelines
 - Pull requests will be reviewed by a team member and merged if deemed appropriate.
