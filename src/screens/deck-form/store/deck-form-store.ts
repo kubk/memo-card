@@ -85,12 +85,12 @@ export const createAnswerListField = (
 
     if (value.length > 0) {
       if (value.every((item) => !item.isCorrect.value)) {
-        return "One answer should be selected as correct";
+        return t('validation_answer_at_least_one_correct');
       }
     }
 
     if (value.length === 0) {
-      return "At least one answer should be provided";
+      return t('validation_at_least_one_answer_required');
     }
   });
 };

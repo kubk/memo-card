@@ -130,6 +130,21 @@ const en = {
   share_no_links_for_folder:
     "You haven't created any one-time links for this folder",
   go_back: "Go back",
+  validation_at_least_one_deck: "Please select at least 1 deck",
+  add_answer: "Add answer",
+  edit_answer: "Edit answer",
+  answer_text: "Answer text",
+  is_correct: "Is correct",
+  is_correct_explanation: `There can only be one correct answer`,
+  card_advanced: "Advanced",
+  answer: 'Answer',
+  yes_no: "Yes No",
+  answer_type_choice: "Choice",
+  answer_type_explanation: `The type of answer you'll need to provide for this card. Choose "Yes No" if you want to select between "Remember" and "Don't remember". Select "Choice" if you want to select between answers.`,
+  validation_answer_at_least_one_correct:
+    "One answer should be selected as correct",
+  validation_at_least_one_answer_required:
+    "At least one answer should be provided",
   delete_folder_confirm:
     "Do you want to delete the folder? Deleting folder won't remove decks inside the folder",
 };
@@ -137,6 +152,19 @@ const en = {
 type Translation = typeof en;
 
 const ru: Translation = {
+  validation_at_least_one_deck: "Пожалуйста выберите хотя бы 1 колоду",
+  validation_answer_at_least_one_correct: "Выберите хотя бы 1 правильный ответ",
+  add_answer: "Добавить ответ",
+  answer_text: "Текст ответа",
+  answer_type_choice: "Варианты",
+  answer: 'Ответ',
+  answer_type_explanation: `Тип ответа, который вам нужно будет предоставить для этой карточки. Выберите "Да Нет", если хотите выбрать между "Помню" и "Не помню". Выберите "Варианты", если хотите выбирать между вариантами ответа.`,
+  card_advanced: "Дополнительно",
+  edit_answer: "Редактировать ответ",
+  is_correct: "Правильный",
+  validation_at_least_one_answer_required: "Укажите хотя бы 1 ответ",
+  yes_no: "Да Нет",
+  is_correct_explanation: `Может быть только один правильный ответ`,
   share_folder_settings: "Настройки шеринга папки",
   share_no_links_for_folder:
     "Вы еще не создали одноразовых ссылок для этой папки",
@@ -269,6 +297,19 @@ const ru: Translation = {
 };
 
 const es: Translation = {
+  validation_at_least_one_deck: "Por favor, selecciona al menos 1 mazo",
+  yes_no: "Sí No",
+  validation_at_least_one_answer_required: "Se debe proporcionar al menos una respuesta",
+  is_correct: "Es correcto",
+  validation_answer_at_least_one_correct: "Se debe seleccionar al menos una respuesta correcta",
+  edit_answer: "Editar respuesta",
+  card_advanced: "Avanzado",
+  answer_type_explanation: `El tipo de respuesta que deberás proporcionar para esta tarjeta. Elige "Sí No" si quieres seleccionar entre "Recuerdo" y "No recuerdo". Selecciona "Elección" si quieres seleccionar entre respuestas.`,
+  answer: 'Respuesta',
+  answer_type_choice: "Elección",
+  answer_text: "Texto de la respuesta",
+  add_answer: "Añadir respuesta",
+  is_correct_explanation: `Solo puede haber una respuesta correcta`,
   card_preview: "Vista previa",
   share_no_links_for_folder:
     "No has creado ningún enlace de un solo uso para esta carpeta",
@@ -405,6 +446,19 @@ const es: Translation = {
 };
 
 const ptBr: Translation = {
+  validation_answer_at_least_one_correct: "Selecione pelo menos uma resposta correta",
+  is_correct_explanation: `Só pode haver uma resposta correta`,
+  add_answer: "Adicionar resposta",
+  answer_text: "Texto da resposta",
+  answer_type_choice: "Escolha",
+  answer: 'Resposta',
+  answer_type_explanation: `O tipo de resposta que você precisará fornecer para este cartão. Escolha "Sim Não" se você quiser selecionar entre "Lembrar" e "Não lembrar". Selecione "Escolha" se você quiser selecionar entre respostas.`,
+  card_advanced: "Avançado",
+  edit_answer: "Editar resposta",
+  is_correct: "É correto",
+  validation_at_least_one_answer_required: "Pelo menos uma resposta deve ser fornecida",
+  yes_no: "Sim Não",
+  validation_at_least_one_deck: "Por favor, selecione pelo menos 1 baralho",
   share_folder_settings: "Compartilhar pasta",
   share_no_links_for_folder: "Você ainda não criou nenhum link para esta pasta",
   card_preview: "Visualização",

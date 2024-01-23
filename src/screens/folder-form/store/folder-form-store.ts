@@ -19,6 +19,14 @@ const createFolderTitleField = (title: string) => {
   return new TextField(title, validators.required(t("validation_required")));
 };
 
+const createDecksField = (decks: Array<{ id: number; name: string }>) => {
+  return new ListField<{ id: number; name: string }>(decks, (value) => {
+    if (value.length === 0) {
+      return t("validation_at_least_one_deck");
+    }
+  });
+};
+
 type FolderForm = {
   title: TextField<string>;
   description: TextField<string>;
@@ -53,7 +61,7 @@ export class FolderFormStore {
       this.folderForm = {
         title: createFolderTitleField(folder.name),
         description: new TextField(folder.description ?? ""),
-        decks: new ListField(
+        decks: createDecksField(
           folder.decks.map((deck) => ({ id: deck.id, name: deck.name })),
         ),
       };
@@ -61,7 +69,7 @@ export class FolderFormStore {
       this.folderForm = {
         title: createFolderTitleField(""),
         description: new TextField(""),
-        decks: new ListField<{ id: number; name: string }>([]),
+        decks: createDecksField([]),
       };
     }
   }

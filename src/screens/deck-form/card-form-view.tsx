@@ -65,7 +65,7 @@ export const CardFormView = observer((props: Props) => {
       </Label>
 
       <CardRow>
-        <span>Advanced</span>
+        <span>{t("card_advanced")}</span>
         <RadioSwitcher
           isOn={localStore.isAdvancedOn.value}
           onToggle={localStore.isAdvancedOn.toggle}
@@ -79,12 +79,10 @@ export const CardFormView = observer((props: Props) => {
               <span
                 className={css({ cursor: "pointer" })}
                 onClick={() => {
-                  showAlert(
-                    `The type of answer you'll need to provide for this card. Choose "Yes No" if you want to select between "Remember" and "Don't remember". Select "Choice" if you want to select between answers.`,
-                  );
+                  showAlert(t("answer_type_explanation"));
                 }}
               >
-                Answer{" "}
+                {t("answer")}{" "}
                 <i
                   className={cx(
                     "mdi mdi-information-outline",
@@ -101,11 +99,11 @@ export const CardFormView = observer((props: Props) => {
               options={[
                 {
                   id: "remember",
-                  label: "Yes No",
+                  label: t("yes_no"),
                 },
                 {
                   id: "choice_single",
-                  label: "Choice",
+                  label: t("answer_type_choice"),
                 },
               ]}
             />
@@ -154,7 +152,7 @@ export const CardFormView = observer((props: Props) => {
                   <i
                     className={cx("mdi mdi-plus", css({ color: "inherit" }))}
                   />{" "}
-                  Add answer
+                  {t("add_answer")}
                 </span>
               </CardRow>
             </>

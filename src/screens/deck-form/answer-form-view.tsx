@@ -88,23 +88,22 @@ export const AnswerFormView = observer((props: Props) => {
 
   return (
     <Screen
-      title={cardForm.answerFormType === "new" ? "Add answer" : "Edit answer"}
+      title={
+        cardForm.answerFormType === "new" ? t("add_answer") : t("edit_answer")
+      }
     >
-      <Label text={"Answer text"} isRequired>
+      <Label text={t("answer_text")} isRequired>
         <Input field={answer.text} rows={3} type={"textarea"} />
       </Label>
 
       <CardRow>
-        <span>Is correct</span>
+        <span>{t("is_correct")}</span>
         <RadioSwitcher
           isOn={answer.isCorrect.value}
           onToggle={onToggleIsCorrect}
         />
       </CardRow>
-      <HintTransparent>
-        There can only be one correct answer. When you set it here, it will be
-        removed from all other answers
-      </HintTransparent>
+      <HintTransparent>{t("is_correct_explanation")}</HintTransparent>
 
       <ButtonGrid>
         {cardForm.answerFormType === "edit" && (
