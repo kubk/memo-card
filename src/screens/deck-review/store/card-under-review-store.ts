@@ -9,6 +9,7 @@ import { speak, SpeakLanguageEnum } from "../../../lib/voice-playback/speak.ts";
 import { isEnumValid } from "../../../lib/typescript/is-enum-valid.ts";
 import { CardAnswerType } from "../../../../functions/db/custom-types.ts";
 import { assert } from "../../../lib/typescript/assert.ts";
+import { removeAllTags } from "../../../lib/sanitize-html/remove-all-tags.ts";
 
 export enum CardState {
   Remember = "remember",
@@ -77,10 +78,13 @@ export class CardUnderReviewStore {
     ) {
       return;
     }
+
     if (!isEnumValid(this.deckSpeakLocale, SpeakLanguageEnum)) {
       return;
     }
 
-    speak(this[this.deckSpeakField], this.deckSpeakLocale);
+    const text = this[this.deckSpeakField];
+
+    speak(removeAllTags(text), this.deckSpeakLocale);
   }
 }
