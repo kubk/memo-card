@@ -1,4 +1,4 @@
-import { sanitize } from "../../../lib/sanitize-html/sanitize.ts";
+import { sanitizeTextForCard } from "../../../lib/sanitize-html/sanitize-text-for-card.ts";
 import React from "react";
 
 export const CardFieldView = (props: { text: string }) => {
@@ -6,7 +6,7 @@ export const CardFieldView = (props: { text: string }) => {
   return (
     <span
       dangerouslySetInnerHTML={{
-        __html: sanitize(text),
+        __html: sanitizeTextForCard(text),
       }}
     />
   );

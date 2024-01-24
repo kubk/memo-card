@@ -21,6 +21,10 @@ export const request = async <Output, Input = object>(
   if (response.status === 200) {
     return response.json() as Output;
   }
+  if (response.status === 401 && endpoint === "/my-info") {
+    return null as Output;
+  }
+
   throw new Error(
     `Non-successful status: ${
       response.status

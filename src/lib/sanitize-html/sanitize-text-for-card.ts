@@ -35,7 +35,7 @@ const allowedTags = [
   ...mathmlTagNames,
 ];
 
-export const sanitize = (text: string) => {
+export const sanitizeTextForCard = (text: string) => {
   return sanitizeHtml(text, {
     allowedTags: allowedTags,
     allowedAttributes: {

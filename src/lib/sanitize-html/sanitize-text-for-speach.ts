@@ -1,5 +1,5 @@
 import sanitizeHtml from "sanitize-html";
 
-export const removeAllTags = (html: string) => {
+export const sanitizeTextForSpeach = (html: string) => {
   return sanitizeHtml(html);
 };

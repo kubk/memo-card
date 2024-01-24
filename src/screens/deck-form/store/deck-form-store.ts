@@ -85,12 +85,12 @@ export const createAnswerListField = (
 
     if (value.length > 0) {
       if (value.every((item) => !item.isCorrect.value)) {
-        return t('validation_answer_at_least_one_correct');
+        return t("validation_answer_at_least_one_correct");
       }
     }
 
     if (value.length === 0) {
-      return t('validation_at_least_one_answer_required');
+      return t("validation_at_least_one_answer_required");
     }
   });
 };
