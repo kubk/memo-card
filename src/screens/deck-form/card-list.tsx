@@ -13,6 +13,7 @@ import { t } from "../../translations/t.ts";
 import { Screen } from "../shared/screen.tsx";
 import { motion } from "framer-motion";
 import { whileTap } from "../../ui/animations.ts";
+import { removeAllTags } from "../../lib/sanitize-html/remove-all-tags.ts";
 
 export const CardList = observer(() => {
   const deckFormStore = useDeckFormStore();
@@ -97,9 +98,9 @@ export const CardList = observer(() => {
             padding: 12,
           })}
         >
-          <div>{cardForm.front.value}</div>
+          <div>{removeAllTags(cardForm.front.value)}</div>
           <div className={css({ color: theme.hintColor })}>
-            {cardForm.back.value}
+            {removeAllTags(cardForm.back.value)}
           </div>
         </motion.div>
       ))}

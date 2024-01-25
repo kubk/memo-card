@@ -9,7 +9,7 @@ import { speak, SpeakLanguageEnum } from "../../../lib/voice-playback/speak.ts";
 import { isEnumValid } from "../../../lib/typescript/is-enum-valid.ts";
 import { CardAnswerType } from "../../../../functions/db/custom-types.ts";
 import { assert } from "../../../lib/typescript/assert.ts";
-import { sanitizeTextForSpeach } from "../../../lib/sanitize-html/sanitize-text-for-speach.ts";
+import { removeAllTags } from "../../../lib/sanitize-html/remove-all-tags.ts";
 import { userStore } from "../../../store/user-store.ts";
 
 export enum CardState {
@@ -86,6 +86,6 @@ export class CardUnderReviewStore {
 
     const text = this[this.deckSpeakField];
 
-    speak(sanitizeTextForSpeach(text), this.deckSpeakLocale);
+    speak(removeAllTags(text), this.deckSpeakLocale);
   }
 }

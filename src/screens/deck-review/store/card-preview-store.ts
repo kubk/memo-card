@@ -12,7 +12,7 @@ import { makeAutoObservable } from "mobx";
 import { userStore } from "../../../store/user-store.ts";
 import { isEnumValid } from "../../../lib/typescript/is-enum-valid.ts";
 import { SpeakLanguageEnum, speak } from "../../../lib/voice-playback/speak.ts";
-import { sanitizeTextForSpeach } from "../../../lib/sanitize-html/sanitize-text-for-speach.ts";
+import { removeAllTags } from "../../../lib/sanitize-html/remove-all-tags.ts";
 
 export class CardPreviewStore implements LimitedCardUnderReviewStore {
   id: number;
@@ -61,7 +61,7 @@ export class CardPreviewStore implements LimitedCardUnderReviewStore {
 
     const text = this[this.deckSpeakField];
 
-    speak(sanitizeTextForSpeach(text), this.deckSpeakLocale);
+    speak(removeAllTags(text), this.deckSpeakLocale);
   }
 
   get isSpeakingCardsEnabledSettings() {
