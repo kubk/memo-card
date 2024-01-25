@@ -27,49 +27,32 @@ export class ReviewStore {
     makeAutoObservable(this, {}, { autoBind: true });
   }
 
-  startDeckReview(
-    deck: DeckWithCardsWithReviewType,
-    isSpeakingCardsEnabledSettings?: boolean,
-  ) {
+  startDeckReview(deck: DeckWithCardsWithReviewType) {
     if (!deck.cardsToReview.length) {
       return;
     }
     deck.cardsToReview.forEach((card) => {
-      this.cardsToReview.push(
-        new CardUnderReviewStore(card, deck, !!isSpeakingCardsEnabledSettings),
-      );
+      this.cardsToReview.push(new CardUnderReviewStore(card, deck));
     });
 
     this.initializeInitialCurrentNextCards();
   }
 
-  startFolderReview(
-    myDecks: DeckWithCardsWithReviewType[],
-    isSpeakingCardsEnabledSettings?: boolean,
-  ) {
+  startFolderReview(myDecks: DeckWithCardsWithReviewType[]) {
     if (!myDecks.length) {
       return;
     }
 
     myDecks.forEach((deck) => {
       deck.cardsToReview.forEach((card) => {
-        this.cardsToReview.push(
-          new CardUnderReviewStore(
-            card,
-            deck,
-            !!isSpeakingCardsEnabledSettings,
-          ),
-        );
+        this.cardsToReview.push(new CardUnderReviewStore(card, deck));
       });
     });
 
     this.initializeInitialCurrentNextCards();
   }
 
-  startAllRepeatReview(
-    myDecks: DeckWithCardsWithReviewType[],
-    isSpeakingCardsEnabledSettings?: boolean,
-  ) {
+  startAllRepeatReview(myDecks: DeckWithCardsWithReviewType[]) {
     if (!myDecks.length) {
       return;
     }
@@ -78,13 +61,7 @@ export class ReviewStore {
       deck.cardsToReview
         .filter((card) => card.type === "repeat")
         .forEach((card) => {
-          this.cardsToReview.push(
-            new CardUnderReviewStore(
-              card,
-              deck,
-              !!isSpeakingCardsEnabledSettings,
-            ),
-          );
+          this.cardsToReview.push(new CardUnderReviewStore(card, deck));
         });
     });
 

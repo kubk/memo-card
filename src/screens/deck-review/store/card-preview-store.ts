@@ -4,37 +4,69 @@ import {
   DeckSpeakFieldEnum,
 } from "../../../../functions/db/deck/decks-with-cards-schema.ts";
 import { CardAnswerType } from "../../../../functions/db/custom-types.ts";
-import { CardFormType } from "../../deck-form/store/deck-form-store.ts";
+import {
+  CardFormType,
+  DeckFormStore,
+} from "../../deck-form/store/deck-form-store.ts";
 import { makeAutoObservable } from "mobx";
+import { userStore } from "../../../store/user-store.ts";
+import { isEnumValid } from "../../../lib/typescript/is-enum-valid.ts";
+import { SpeakLanguageEnum, speak } from "../../../lib/voice-playback/speak.ts";
+import { sanitizeTextForSpeach } from "../../../lib/sanitize-html/sanitize-text-for-speach.ts";
 
 export class CardPreviewStore implements LimitedCardUnderReviewStore {
   id: number;
   front: string;
   back: string;
   example: string | null = null;
-  deckSpeakField: DeckSpeakFieldEnum | null = null;
   answerType: CardAnswerType;
   answers: CardAnswerDbType[] = [];
   answer?: CardAnswerDbType;
 
+  deckSpeakLocale: string | null = null;
+  deckSpeakField: DeckSpeakFieldEnum | null = null;
+
   isOpened = false;
 
-  isSpeakingCardsEnabledSettings = false;
-
-  constructor(form: CardFormType) {
+  constructor(form: CardFormType, deckFormStore: DeckFormStore) {
     makeAutoObservable(this, {}, { autoBind: true });
     this.id = 9999;
     this.front = form.front.value;
     this.back = form.back.value;
     this.answerType = form.answerType.value;
+    this.example = form.example.value;
     this.answers = form.answers.value.map((answer) => ({
       id: answer.id,
       text: answer.text.value,
       isCorrect: answer.isCorrect.value,
     }));
+
+    this.deckSpeakLocale =
+      deckFormStore.form?.speakingCardsLocale.value ?? null;
+    this.deckSpeakField = deckFormStore.form?.speakingCardsField.value ?? null;
   }
 
-  speak() {}
+  speak() {
+    if (
+      !this.isSpeakingCardsEnabledSettings ||
+      !this.deckSpeakLocale ||
+      !this.deckSpeakField
+    ) {
+      return;
+    }
+
+    if (!isEnumValid(this.deckSpeakLocale, SpeakLanguageEnum)) {
+      return;
+    }
+
+    const text = this[this.deckSpeakField];
+
+    speak(sanitizeTextForSpeach(text), this.deckSpeakLocale);
+  }
+
+  get isSpeakingCardsEnabledSettings() {
+    return userStore.isSpeakingCardsEnabled;
+  }
 
   openWithAnswer(answer: CardAnswerDbType) {
     this.isOpened = true;
@@ -48,5 +80,9 @@ export class CardPreviewStore implements LimitedCardUnderReviewStore {
 
   open() {
     this.isOpened = true;
+
+    if (this.answerType === "remember") {
+      this.speak();
+    }
   }
 }

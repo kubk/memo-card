@@ -14,7 +14,6 @@ import { t } from "../../translations/t.ts";
 import { useReviewStore } from "../deck-review/store/review-store-context.tsx";
 import { ListHeader } from "../../ui/list-header.tsx";
 import { assert } from "../../lib/typescript/assert.ts";
-import { userStore } from "../../store/user-store.ts";
 import { DeckRowWithCardsToReview } from "../shared/deck-row-with-cards-to-review/deck-row-with-cards-to-review.tsx";
 import { ButtonGrid } from "../../ui/button-grid.tsx";
 
@@ -32,10 +31,7 @@ export const FolderPreview = observer(() => {
     () => {
       const folder = deckListStore.selectedFolder;
       assert(folder, "Folder should be selected before review");
-      reviewStore.startFolderReview(
-        folder.decks,
-        userStore.isSpeakingCardsEnabled,
-      );
+      reviewStore.startFolderReview(folder.decks);
     },
     () => deckListStore.isFolderReviewVisible,
   );

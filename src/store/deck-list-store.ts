@@ -221,10 +221,7 @@ export class DeckListStore {
       deckListStore.addDeckToMine(deckListStore.selectedDeck.id);
     }
 
-    reviewStore.startDeckReview(
-      deckListStore.selectedDeck,
-      userStore.isSpeakingCardsEnabled,
-    );
+    reviewStore.startDeckReview(deckListStore.selectedDeck);
   }
 
   addDeckToMine(deckId: number) {

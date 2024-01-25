@@ -10,6 +10,7 @@ import { isEnumValid } from "../../../lib/typescript/is-enum-valid.ts";
 import { CardAnswerType } from "../../../../functions/db/custom-types.ts";
 import { assert } from "../../../lib/typescript/assert.ts";
 import { sanitizeTextForSpeach } from "../../../lib/sanitize-html/sanitize-text-for-speach.ts";
+import { userStore } from "../../../store/user-store.ts";
 
 export enum CardState {
   Remember = "remember",
@@ -31,11 +32,7 @@ export class CardUnderReviewStore {
   isOpened = false;
   state?: CardState;
 
-  constructor(
-    card: DeckCardDbType,
-    deck: DeckWithCardsWithReviewType,
-    public isSpeakingCardsEnabledSettings: boolean,
-  ) {
+  constructor(card: DeckCardDbType, deck: DeckWithCardsWithReviewType) {
     this.id = card.id;
     this.front = card.front;
     this.back = card.back;
@@ -68,6 +65,10 @@ export class CardUnderReviewStore {
       this.isOpened = true;
     }
     this.state = state;
+  }
+
+  get isSpeakingCardsEnabledSettings() {
+    return userStore.isSpeakingCardsEnabled;
   }
 
   speak() {

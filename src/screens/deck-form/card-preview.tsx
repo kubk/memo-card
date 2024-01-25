@@ -5,6 +5,7 @@ import { CardFormType } from "./store/deck-form-store.ts";
 import { CardReviewWithControls } from "../deck-review/card-review-with-controls.tsx";
 import { useState } from "react";
 import { CardPreviewStore } from "../deck-review/store/card-preview-store.ts";
+import { useDeckFormStore } from "./store/deck-form-store-context.tsx";
 
 type Props = {
   form: CardFormType;
@@ -13,7 +14,10 @@ type Props = {
 
 export const CardPreview = observer((props: Props) => {
   const { form, onBack } = props;
-  const [cardPreviewStore] = useState(() => new CardPreviewStore(form));
+  const deckFormStore = useDeckFormStore();
+  const [cardPreviewStore] = useState(
+    () => new CardPreviewStore(form, deckFormStore),
+  );
 
   useBackButton(() => {
     onBack();

@@ -9,16 +9,12 @@ import { Hint } from "../../ui/hint.tsx";
 import { t } from "../../translations/t.ts";
 import { WantMoreCardsButton } from "./want-more-cards-button.tsx";
 import { css } from "@emotion/css";
-import { userStore } from "../../store/user-store.ts";
 
 export const RepeatAllScreen = observer(() => {
   const reviewStore = useReviewStore();
 
   useMount(() => {
-    reviewStore.startAllRepeatReview(
-      deckListStore.myDecks,
-      userStore.isSpeakingCardsEnabled,
-    );
+    reviewStore.startAllRepeatReview(deckListStore.myDecks);
   });
 
   if (reviewStore.isFinished) {
