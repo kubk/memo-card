@@ -4,10 +4,7 @@ import { assert } from "../../../lib/typescript/assert.ts";
 import { reviewCardsRequest } from "../../../api/api.ts";
 import { ReviewOutcome } from "../../../../functions/services/review-card.ts";
 import { screenStore } from "../../../store/screen-store.ts";
-import {
-  deckListStore,
-  DeckWithCardsWithReviewType,
-} from "../../../store/deck-list-store.ts";
+import { type DeckWithCardsWithReviewType } from "../../../store/deck-list-store.ts";
 
 type ReviewResult = {
   forgotIds: number[];
@@ -172,7 +169,7 @@ export class ReviewStore {
     ];
   }
 
-  async submitFinished() {
+  async submitFinished(onReviewSuccess?: () => void) {
     if (!this.hasResult) {
       screenStore.go({ type: "main" });
       return;
@@ -182,7 +179,7 @@ export class ReviewStore {
 
     return reviewCardsRequest({ cards: this.cardsToSend }).finally(
       action(() => {
-        deckListStore.load();
+        onReviewSuccess?.();
         this.isReviewSending = false;
       }),
     );

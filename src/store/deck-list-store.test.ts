@@ -132,6 +132,20 @@ vi.mock("./screen-store", () => {
   };
 });
 
+vi.mock("../lib/telegram/show-confirm.ts", () => {
+  return {
+    showConfirm: () => {
+      return Promise.resolve(true);
+    },
+  };
+});
+
+vi.mock("../translations/t.ts", () => {
+  return {
+    t: (arg: any) => arg,
+  };
+});
+
 describe("deck list store", () => {
   afterEach(() => {
     vi.clearAllMocks();

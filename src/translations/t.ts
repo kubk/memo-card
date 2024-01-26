@@ -78,7 +78,8 @@ const en = {
   cards_new: "New cards",
   cards_total: "Total cards",
   duplicate: "Duplicate",
-  duplicate_confirm: "Are you sure to duplicate this deck?",
+  duplicate_deck_confirm: "Are you sure to duplicate this deck?",
+  duplicate_folder_confirm: "Are you sure to duplicate this folder?",
   delete_deck_confirm:
     "Are you sure to remove the deck from your collection? This action can't be undone",
   deck_form_remove_card_confirm:
@@ -153,6 +154,7 @@ type Translation = typeof en;
 
 const ru: Translation = {
   validation_at_least_one_deck: "Пожалуйста выберите хотя бы 1 колоду",
+  duplicate_folder_confirm: "Вы уверены, что хотите продублировать эту папку?",
   validation_answer_at_least_one_correct: "Выберите хотя бы 1 правильный ответ",
   add_answer: "Добавить ответ",
   answer_text: "Текст ответа",
@@ -244,7 +246,7 @@ const ru: Translation = {
   cards_new: "Новых",
   cards_total: "Всего",
   duplicate: "Копировать",
-  duplicate_confirm: "Вы уверены, что хотите продублировать эту колоду?",
+  duplicate_deck_confirm: "Вы уверены, что хотите продублировать эту колоду?",
   delete_deck_confirm:
     "Вы уверены, что хотите удалить колоду из своей коллекции? Это действие нельзя отменить",
   delete: "Удалить",
@@ -298,6 +300,7 @@ const ru: Translation = {
 
 const es: Translation = {
   validation_at_least_one_deck: "Por favor, selecciona al menos 1 mazo",
+  duplicate_folder_confirm: "¿Estás seguro de duplicar esta carpeta?",
   yes_no: "Sí No",
   validation_at_least_one_answer_required:
     "Se debe proporcionar al menos una respuesta",
@@ -395,7 +398,7 @@ const es: Translation = {
   cards_new: "Nuevas tarjetas",
   cards_total: "Total de tarjetas",
   duplicate: "Duplicar",
-  duplicate_confirm: "¿Estás seguro de duplicar este mazo?",
+  duplicate_deck_confirm: "¿Estás seguro de duplicar este mazo?",
   delete_deck_confirm:
     "¿Estás seguro de eliminar el mazo de tu colección? Esta acción no se puede deshacer",
   delete: "Eliminar",
@@ -451,6 +454,7 @@ const ptBr: Translation = {
   validation_answer_at_least_one_correct:
     "Selecione pelo menos uma resposta correta",
   is_correct_explanation: `Só pode haver uma resposta correta`,
+  duplicate_folder_confirm: "Tem certeza de que deseja duplicar esta pasta?",
   add_answer: "Adicionar resposta",
   answer_text: "Texto da resposta",
   answer_type_choice: "Escolha",
@@ -545,7 +549,7 @@ const ptBr: Translation = {
   cards_new: "Novos cartões",
   cards_total: "Total de cartões",
   duplicate: "Duplicar",
-  duplicate_confirm: "Tem certeza de que deseja duplicar este baralho?",
+  duplicate_deck_confirm: "Tem certeza de que deseja duplicar este baralho?",
   delete_deck_confirm:
     "Tem certeza de que deseja remover o baralho da sua coleção? Esta ação não pode ser desfeita",
   delete: "Deletar",

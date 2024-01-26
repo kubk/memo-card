@@ -10,6 +10,7 @@ import { useTelegramProgress } from "../../lib/telegram/use-telegram-progress.ts
 import { t } from "../../translations/t.ts";
 import { getEncouragingMessage } from "../../translations/get-encouraging-message.tsx";
 import { WantMoreCardsButton } from "./want-more-cards-button.tsx";
+import { deckListStore } from "../../store/deck-list-store.ts";
 
 type Props = {
   type: "deck" | "repeat_all";
@@ -21,7 +22,9 @@ export const DeckFinished = observer((props: Props) => {
   const reviewStore = useReviewStore();
 
   useMount(() => {
-    reviewStore.submitFinished();
+    reviewStore.submitFinished(() => {
+      deckListStore.load();
+    });
   });
   useMainButton(t("go_back"), () => {
     screenStore.go({ type: "main" });

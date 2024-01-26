@@ -1,7 +1,7 @@
 import { makeAutoObservable } from "mobx";
-import { UserDbType } from "../../functions/db/user/upsert-user-db.ts";
+import { type UserDbType } from "../../functions/db/user/upsert-user-db.ts";
 import { assert } from "../lib/typescript/assert.ts";
-import { PlansForUser } from "../../functions/db/plan/get-plans-for-user.ts";
+import { type PlansForUser } from "../../functions/db/plan/get-plans-for-user.ts";
 
 export class UserStore {
   userInfo?: UserDbType;
@@ -29,6 +29,14 @@ export class UserStore {
   }
 
   get canDuplicateDecks() {
+    if (this.isAdmin) {
+      return true;
+    }
+
+    return this.plans?.some((plan) => plan.advanced_duplicate) ?? false;
+  }
+
+  get canDuplicateFolders() {
     if (this.isAdmin) {
       return true;
     }

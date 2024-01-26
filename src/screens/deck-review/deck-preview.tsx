@@ -11,7 +11,6 @@ import { useMainButton } from "../../lib/telegram/use-main-button.tsx";
 import { showConfirm } from "../../lib/telegram/show-confirm.ts";
 import { ButtonSideAligned } from "../../ui/button-side-aligned.tsx";
 import { useTelegramProgress } from "../../lib/telegram/use-telegram-progress.tsx";
-import { duplicateDeckRequest } from "../../api/api.ts";
 import { t } from "../../translations/t.ts";
 import { userStore } from "../../store/user-store.ts";
 import { ButtonGrid } from "../../ui/button-grid.tsx";
@@ -142,13 +141,8 @@ export const DeckPreview = observer(() => {
             <ButtonSideAligned
               icon={"mdi-content-duplicate mdi-24px"}
               outline
-              onClick={async () => {
-                const isConfirmed = await showConfirm(t("duplicate_confirm"));
-                if (isConfirmed) {
-                  duplicateDeckRequest(deck.id).then(() => {
-                    screenStore.go({ type: "main" });
-                  });
-                }
+              onClick={() => {
+                deckListStore.onDuplicateDeck(deck.id);
               }}
             >
               {t("duplicate")}

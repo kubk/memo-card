@@ -42,6 +42,7 @@ import {
   CreateOrderResponse,
 } from "../../functions/order.ts";
 import { MyPlansResponse } from "../../functions/my-plans.ts";
+import { DuplicateFolderResponse } from "../../functions/duplicate-folder.ts";
 
 export const healthRequest = () => {
   return request<HealthResponse>("/health");
@@ -80,6 +81,13 @@ export const addDeckAccessRequest = (body: AddDeckAccessRequest) => {
 
 export const duplicateDeckRequest = (deckId: number) => {
   return request<CopyDeckResponse>(`/duplicate-deck?deck_id=${deckId}`, "POST");
+};
+
+export const duplicateFolderRequest = (folderId: number) => {
+  return request<DuplicateFolderResponse>(
+    `/duplicate-folder?folder_id=${folderId}`,
+    "POST",
+  );
 };
 
 export const userSettingsRequest = (body: UserSettingsRequest) => {

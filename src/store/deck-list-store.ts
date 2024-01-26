@@ -3,23 +3,27 @@ import {
   addDeckToMineRequest,
   deckWithCardsRequest,
   deleteFolderRequest,
+  duplicateDeckRequest,
+  duplicateFolderRequest,
   getSharedDeckRequest,
   myInfoRequest,
   removeDeckFromMineRequest,
 } from "../api/api.ts";
-import { MyInfoResponse } from "../../functions/my-info.ts";
+import { type MyInfoResponse } from "../../functions/my-info.ts";
 import {
-  DeckCardDbType,
-  DeckWithCardsDbType,
+  type DeckCardDbType,
+  type DeckWithCardsDbType,
 } from "../../functions/db/deck/decks-with-cards-schema.ts";
-import { RouteType, screenStore } from "./screen-store.ts";
-import { CardToReviewDbType } from "../../functions/db/deck/get-cards-to-review-db.ts";
+import { type RouteType, screenStore } from "./screen-store.ts";
+import { type CardToReviewDbType } from "../../functions/db/deck/get-cards-to-review-db.ts";
 import { assert } from "../lib/typescript/assert.ts";
 import { ReviewStore } from "../screens/deck-review/store/review-store.ts";
 import { reportHandledError } from "../lib/rollbar/rollbar.tsx";
 import { BooleanToggle } from "../lib/mobx-form/boolean-toggle.ts";
-import { UserFoldersDbType } from "../../functions/db/folder/get-many-folders-with-decks-db.tsx";
+import { type UserFoldersDbType } from "../../functions/db/folder/get-many-folders-with-decks-db.tsx";
 import { userStore } from "./user-store.ts";
+import { showConfirm } from "../lib/telegram/show-confirm.ts";
+import { t } from "../translations/t.ts";
 
 export enum StartParamType {
   RepeatAll = "repeat_all",
@@ -92,6 +96,42 @@ export class DeckListStore {
       .finally(
         action(() => {
           this.isMyInfoLoading = false;
+        }),
+      );
+  }
+
+  async onDuplicateDeck(deckId: number) {
+    const isConfirmed = await showConfirm(t("duplicate_deck_confirm"));
+    if (!isConfirmed) {
+      return;
+    }
+
+    this.isFullScreenLoaderVisible = true;
+    duplicateDeckRequest(deckId)
+      .then(() => {
+        screenStore.go({ type: "main" });
+      })
+      .finally(
+        action(() => {
+          this.isFullScreenLoaderVisible = false;
+        }),
+      );
+  }
+
+  async onDuplicateFolder(folderId: number) {
+    const isConfirmed = await showConfirm(t("duplicate_folder_confirm"));
+    if (!isConfirmed) {
+      return;
+    }
+
+    this.isFullScreenLoaderVisible = true;
+    duplicateFolderRequest(folderId)
+      .then(() => {
+        screenStore.go({ type: "main" });
+      })
+      .finally(
+        action(() => {
+          this.isFullScreenLoaderVisible = false;
         }),
       );
   }
