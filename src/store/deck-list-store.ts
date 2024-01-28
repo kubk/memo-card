@@ -24,6 +24,7 @@ import { type UserFoldersDbType } from "../../functions/db/folder/get-many-folde
 import { userStore } from "./user-store.ts";
 import { showConfirm } from "../lib/telegram/show-confirm.ts";
 import { t } from "../translations/t.ts";
+import { canDuplicateDeckOrFolder } from "../../shared/access/can-duplicate-deck-or-folder.ts";
 
 export enum StartParamType {
   RepeatAll = "repeat_all",
@@ -360,27 +361,37 @@ export class DeckListStore {
   }
 
   get canDuplicateSelectedFolder() {
-    const canDuplicateFolders = userStore.canDuplicateFolders;
-    if (!canDuplicateFolders) {
-      return false;
-    }
     const folder = this.selectedFolder;
     if (!folder) {
       return false;
     }
-    return folder.authorId === userStore.myId || userStore.isAdmin;
+    const user = userStore.user;
+    if (!user) {
+      return false;
+    }
+
+    return canDuplicateDeckOrFolder(
+      user,
+      { author_id: folder.authorId },
+      userStore.plans,
+    );
   }
 
   get canDuplicateSelectedDeck() {
-    const canDuplicateDecks = userStore.canDuplicateDecks;
-    if (!canDuplicateDecks) {
-      return false;
-    }
     const deck = this.selectedDeck;
     if (!deck) {
       return false;
     }
-    return deck.author_id === userStore.myId || userStore.isAdmin;
+    const user = userStore.user;
+    if (!user) {
+      return false;
+    }
+
+    return canDuplicateDeckOrFolder(
+      user,
+      { author_id: deck.author_id },
+      userStore.plans,
+    );
   }
 
   get isFolderReviewVisible() {

@@ -18,7 +18,6 @@ import { t } from "../../translations/t.ts";
 import { Screen } from "../shared/screen.tsx";
 import WebApp from "@twa-dev/sdk";
 import { links } from "../shared/links.ts";
-import { test } from "../../../shared/test.ts";
 
 export const timeRanges = generateTimeRange();
 
@@ -112,7 +111,6 @@ export const UserSettingsMain = observer(() => {
           })}
         >
           {t("settings_contact_support")}
-          {test()}
         </span>
       </CardRow>
       <HintTransparent>{t("settings_support_hint")}</HintTransparent>
