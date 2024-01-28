@@ -28,22 +28,6 @@ export class UserStore {
     return this.user?.is_admin ?? false;
   }
 
-  get canDuplicateDecks() {
-    if (this.isAdmin) {
-      return true;
-    }
-
-    return this.plans?.some((plan) => plan.advanced_duplicate) ?? false;
-  }
-
-  get canDuplicateFolders() {
-    if (this.isAdmin) {
-      return true;
-    }
-
-    return this.plans?.some((plan) => plan.advanced_duplicate) ?? false;
-  }
-
   get isSpeakingCardsEnabled() {
     return this.user?.is_speaking_card_enabled ?? false;
   }
