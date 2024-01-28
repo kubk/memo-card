@@ -12,7 +12,6 @@ import { showConfirm } from "../../lib/telegram/show-confirm.ts";
 import { ButtonSideAligned } from "../../ui/button-side-aligned.tsx";
 import { useTelegramProgress } from "../../lib/telegram/use-telegram-progress.tsx";
 import { t } from "../../translations/t.ts";
-import { userStore } from "../../store/user-store.ts";
 import { ButtonGrid } from "../../ui/button-grid.tsx";
 
 export const DeckPreview = observer(() => {
@@ -137,7 +136,7 @@ export const DeckPreview = observer(() => {
               {t("add_card_short")}
             </ButtonSideAligned>
           ) : null}
-          {userStore.canDuplicateDecks && (
+          {deckListStore.canDuplicateSelectedDeck && (
             <ButtonSideAligned
               icon={"mdi-content-duplicate mdi-24px"}
               outline
