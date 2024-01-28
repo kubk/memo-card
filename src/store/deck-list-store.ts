@@ -359,6 +359,30 @@ export class DeckListStore {
     return folder.authorId === userStore.myId || userStore.isAdmin;
   }
 
+  get canDuplicateSelectedFolder() {
+    const canDuplicateFolders = userStore.canDuplicateFolders;
+    if (!canDuplicateFolders) {
+      return false;
+    }
+    const folder = this.selectedFolder;
+    if (!folder) {
+      return false;
+    }
+    return folder.authorId === userStore.myId || userStore.isAdmin;
+  }
+
+  get canDuplicateSelectedDeck() {
+    const canDuplicateDecks = userStore.canDuplicateDecks;
+    if (!canDuplicateDecks) {
+      return false;
+    }
+    const deck = this.selectedDeck;
+    if (!deck) {
+      return false;
+    }
+    return deck.author_id === userStore.myId || userStore.isAdmin;
+  }
+
   get isFolderReviewVisible() {
     return this.selectedFolder
       ? this.selectedFolder.cardsToReview.length > 0
