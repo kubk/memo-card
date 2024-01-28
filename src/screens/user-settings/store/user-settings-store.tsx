@@ -9,6 +9,7 @@ import { screenStore } from "../../../store/screen-store.ts";
 import { UserSettingsRequest } from "../../../../functions/user-settings.ts";
 import { BooleanField } from "../../../lib/mobx-form/boolean-field.ts";
 import { userStore } from "../../../store/user-store.ts";
+import { hapticNotification } from "../../../lib/telegram/hapticNotification.ts";
 
 const DEFAULT_TIME = "12:00";
 
@@ -70,6 +71,7 @@ export class UserSettingsStore {
 
     userSettingsRequest(body)
       .then(() => {
+        hapticNotification("success");
         userStore.updateSettings({
           is_remind_enabled: body.isRemindNotifyEnabled,
           last_reminded_date: body.remindNotificationTime,

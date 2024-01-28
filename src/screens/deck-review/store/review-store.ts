@@ -5,6 +5,10 @@ import { reviewCardsRequest } from "../../../api/api.ts";
 import { ReviewOutcome } from "../../../../functions/services/review-card.ts";
 import { screenStore } from "../../../store/screen-store.ts";
 import { type DeckWithCardsWithReviewType } from "../../../store/deck-list-store.ts";
+import {
+  hapticImpact,
+  hapticNotification,
+} from "../../../lib/telegram/hapticNotification.ts";
 
 type ReviewResult = {
   forgotIds: number[];
@@ -28,6 +32,7 @@ export class ReviewStore {
     if (!deck.cardsToReview.length) {
       return;
     }
+
     deck.cardsToReview.forEach((card) => {
       this.cardsToReview.push(new CardUnderReviewStore(card, deck));
     });
@@ -69,6 +74,8 @@ export class ReviewStore {
     if (!this.cardsToReview.length) {
       return;
     }
+
+    hapticImpact("light");
 
     this.initialCardCount = this.cardsToReview.length;
     this.currentCardId = this.cardsToReview[0].id;
@@ -180,6 +187,7 @@ export class ReviewStore {
     return reviewCardsRequest({ cards: this.cardsToSend }).finally(
       action(() => {
         onReviewSuccess?.();
+        hapticNotification("success");
         this.isReviewSending = false;
       }),
     );

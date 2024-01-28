@@ -80,6 +80,13 @@ vi.mock("../../../lib/voice-playback/speak.ts", async () => {
   };
 });
 
+vi.mock("../../../lib/telegram/hapticNotification.ts", () => {
+  return {
+    hapticImpact: () => {},
+    hapticNotification: () => {},
+  };
+});
+
 const cardToSnapshot = (card: CardUnderReviewStore) => ({
   back: card.back,
   deckName: card.deckName,
