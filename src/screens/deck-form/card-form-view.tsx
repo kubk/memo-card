@@ -8,7 +8,6 @@ import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
 import { BooleanToggle } from "../../lib/mobx-form/boolean-toggle.ts";
 import { Screen } from "../shared/screen.tsx";
 import { Label } from "../../ui/label.tsx";
-import { Input } from "../../ui/input.tsx";
 import { HintTransparent } from "../../ui/hint-transparent.tsx";
 import { CardRow } from "../../ui/card-row.tsx";
 import { RadioSwitcher } from "../../ui/radio-switcher.tsx";
@@ -24,6 +23,7 @@ import { ButtonSideAligned } from "../../ui/button-side-aligned.tsx";
 import React from "react";
 import { ValidationError } from "../../ui/validation-error.tsx";
 import { showAlert } from "../../lib/telegram/show-alert.ts";
+import { WysiwygField } from "../../ui/wysiwyg-field/wysiwig-field.tsx";
 
 type Props = {
   cardFormStore: CardFormStore;
@@ -49,18 +49,20 @@ export const CardFormView = observer((props: Props) => {
   });
 
   const localStore = useLocalObservable(() => ({
-    isAdvancedOn: new BooleanToggle(cardForm.answerType.value !== "remember"),
+    isAdvancedOn: new BooleanToggle(
+      cardForm.answerType.value !== "remember" || !!cardForm.example.value,
+    ),
   }));
 
   return (
     <Screen title={cardForm.id ? t("edit_card") : t("add_card")}>
       <Label text={t("card_front_title")} isRequired>
-        <Input field={cardForm.front} rows={3} type={"textarea"} />
+        <WysiwygField field={cardForm.front} />
         <HintTransparent>{t("card_front_side_hint")}</HintTransparent>
       </Label>
 
       <Label text={t("card_back_title")} isRequired>
-        <Input field={cardForm.back} rows={3} type={"textarea"} />
+        <WysiwygField field={cardForm.back} />
         <HintTransparent>{t("card_back_side_hint")}</HintTransparent>
       </Label>
 
@@ -159,7 +161,7 @@ export const CardFormView = observer((props: Props) => {
           )}
 
           <Label text={t("card_field_example_title")}>
-            <Input field={cardForm.example} rows={2} type={"textarea"} />
+            <WysiwygField field={cardForm.back} />
             <HintTransparent>{t("card_field_example_hint")}</HintTransparent>
           </Label>
         </>

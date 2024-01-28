@@ -13,7 +13,12 @@ export const DeckFormScreen = observer(() => {
   }
 
   if (deckFormStore.deckFormScreen === "cardForm") {
-    return <CardFormWrapper cardFormStore={deckFormStore} />;
+    return (
+      <CardFormWrapper
+        cardFormStore={deckFormStore}
+        deckFormStore={deckFormStore}
+      />
+    );
   }
 
   return <DeckForm />;
