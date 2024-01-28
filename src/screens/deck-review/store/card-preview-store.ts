@@ -28,7 +28,7 @@ export class CardPreviewStore implements LimitedCardUnderReviewStore {
 
   isOpened = false;
 
-  constructor(form: CardFormType, deckFormStore: DeckFormStore) {
+  constructor(form: CardFormType, deckFormStore?: DeckFormStore) {
     makeAutoObservable(this, {}, { autoBind: true });
     this.id = 9999;
     this.front = form.front.value;
@@ -40,6 +40,10 @@ export class CardPreviewStore implements LimitedCardUnderReviewStore {
       text: answer.text.value,
       isCorrect: answer.isCorrect.value,
     }));
+
+    if (!deckFormStore) {
+      return;
+    }
 
     this.deckSpeakLocale =
       deckFormStore.form?.speakingCardsLocale.value ?? null;

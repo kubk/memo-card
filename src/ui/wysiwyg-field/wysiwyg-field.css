@@ -1,0 +1,29 @@
+.rsw-toolbar {
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  border-bottom: none !important;
+  color: var(--tg-theme-text-color);
+  background-color: var(--tg-theme-secondary-bg-color) !important;
+}
+
+.rsw-toolbar button:hover {
+  background-color: var(--tg-theme-button-color) !important;
+}
+
+.rsw-editor {
+  border: none !important;
+}
+
+.rsw-editor[data-invalid] .rsw-ce {
+  border-color: red;
+}
+
+.rsw-ce {
+  border: 1px solid var(--tg-theme-secondary-bg-color);
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+
+.rsw-ce:focus {
+  border: 1px solid var(--tg-theme-button-color);
+}
