@@ -29,7 +29,7 @@ const BtnMiddleHeader = createButton(
 );
 
 const BtnSmallHeader = createButton(
-  "Middle header",
+  "Small header",
   <i className={"mdi mdi-format-header-6"} />,
   () => {
     document.execCommand("formatBlock", false, "h6");

@@ -161,7 +161,7 @@ export const CardFormView = observer((props: Props) => {
           )}
 
           <Label text={t("card_field_example_title")}>
-            <WysiwygField field={cardForm.back} />
+            <WysiwygField field={cardForm.example} />
             <HintTransparent>{t("card_field_example_hint")}</HintTransparent>
           </Label>
         </>
