@@ -18,9 +18,9 @@ import { AddCardRequest } from "../../../../functions/add-card.ts";
 import { deckListStore } from "../../../store/deck-list-store.ts";
 import { t } from "../../../translations/t.ts";
 import { BooleanToggle } from "../../../lib/mobx-form/boolean-toggle.ts";
-import { CardFormStore } from "./card-form-store.ts";
+import { CardFormStoreInterface } from "./card-form-store-interface.ts";
 
-export class QuickAddCardFormStore implements CardFormStore {
+export class QuickAddCardFormStore implements CardFormStoreInterface {
   cardForm: CardFormType = {
     back: createCardSideField(""),
     front: createCardSideField(""),

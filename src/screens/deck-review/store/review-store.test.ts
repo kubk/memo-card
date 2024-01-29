@@ -6,6 +6,12 @@ import {
   DeckWithCardsWithReviewType,
 } from "../../../store/deck-list-store.ts";
 
+vi.mock("mobx-persist-store", () => {
+  return {
+    makePersistable: () => {},
+  };
+});
+
 const deckCardsMock: DeckCardDbTypeWithType[] = [
   {
     id: 3,
@@ -59,6 +65,12 @@ const deckMock: DeckWithCardsWithReviewType = {
   category_id: null,
 };
 
+vi.mock("../lib/telegram/storage-adapter.ts", () => {
+  return {
+    storageAdapter: {},
+  };
+});
+
 vi.mock("../../../api/api.ts", () => {
   return {
     reviewCardsRequest: () => {},
@@ -80,10 +92,16 @@ vi.mock("../../../lib/voice-playback/speak.ts", async () => {
   };
 });
 
-vi.mock("../../../lib/telegram/hapticNotification.ts", () => {
+vi.mock("../../../lib/telegram/haptics.ts", () => {
   return {
     hapticImpact: () => {},
     hapticNotification: () => {},
+  };
+});
+
+vi.mock("../../../store/user-store.ts", () => {
+  return {
+    userStore: {},
   };
 });
 

@@ -1,4 +1,4 @@
-import { test, vi, expect } from "vitest";
+import { expect, test, vi } from "vitest";
 import { cachePromise } from "./cache-promise.ts";
 
 test("should cache the resolved value of a promise", async () => {

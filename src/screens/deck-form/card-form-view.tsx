@@ -1,5 +1,5 @@
 import { observer, useLocalObservable } from "mobx-react-lite";
-import { CardFormStore } from "./store/card-form-store.ts";
+import { CardFormStoreInterface } from "./store/card-form-store-interface.ts";
 import { assert } from "../../lib/typescript/assert.ts";
 import { useMainButton } from "../../lib/telegram/use-main-button.tsx";
 import { t } from "../../translations/t.ts";
@@ -24,9 +24,12 @@ import React from "react";
 import { ValidationError } from "../../ui/validation-error.tsx";
 import { showAlert } from "../../lib/telegram/show-alert.ts";
 import { WysiwygField } from "../../ui/wysiwyg-field/wysiwig-field.tsx";
+import { userStore } from "../../store/user-store.ts";
+import { Input } from "../../ui/input.tsx";
+import { FormattingSwitcher } from "./formatting-switcher.tsx";
 
 type Props = {
-  cardFormStore: CardFormStore;
+  cardFormStore: CardFormStoreInterface;
 };
 
 export const CardFormView = observer((props: Props) => {
@@ -54,17 +57,45 @@ export const CardFormView = observer((props: Props) => {
     ),
   }));
 
+  const isCardFormattingOn = userStore.isCardFormattingOn.value;
+
   return (
     <Screen title={cardForm.id ? t("edit_card") : t("add_card")}>
-      <Label text={t("card_front_title")} isRequired>
-        <WysiwygField field={cardForm.front} />
-        <HintTransparent>{t("card_front_side_hint")}</HintTransparent>
-      </Label>
+      <div
+        className={css({
+          display: "flex",
+          flexDirection: "column",
+          gap: 16,
+        })}
+      >
+        <Label
+          text={t("card_front_title")}
+          isPlain
+          isRequired
+          slotRight={<FormattingSwitcher />}
+        >
+          {isCardFormattingOn ? (
+            <WysiwygField field={cardForm.front} />
+          ) : (
+            <Input field={cardForm.front} type={"textarea"} rows={2} />
+          )}
+          <HintTransparent>{t("card_front_side_hint")}</HintTransparent>
+        </Label>
 
-      <Label text={t("card_back_title")} isRequired>
-        <WysiwygField field={cardForm.back} />
-        <HintTransparent>{t("card_back_side_hint")}</HintTransparent>
-      </Label>
+        <Label
+          text={t("card_back_title")}
+          isPlain
+          isRequired
+          slotRight={<FormattingSwitcher />}
+        >
+          {isCardFormattingOn ? (
+            <WysiwygField field={cardForm.back} />
+          ) : (
+            <Input field={cardForm.back} type={"textarea"} rows={2} />
+          )}
+          <HintTransparent>{t("card_back_side_hint")}</HintTransparent>
+        </Label>
+      </div>
 
       <CardRow>
         <span>{t("card_advanced")}</span>
@@ -160,8 +191,16 @@ export const CardFormView = observer((props: Props) => {
             </>
           )}
 
-          <Label text={t("card_field_example_title")}>
-            <WysiwygField field={cardForm.example} />
+          <Label
+            isPlain
+            text={t("card_field_example_title")}
+            slotRight={<FormattingSwitcher />}
+          >
+            {isCardFormattingOn ? (
+              <WysiwygField field={cardForm.example} />
+            ) : (
+              <Input field={cardForm.example} type={"textarea"} rows={2} />
+            )}
             <HintTransparent>{t("card_field_example_hint")}</HintTransparent>
           </Label>
         </>

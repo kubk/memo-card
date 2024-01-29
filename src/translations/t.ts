@@ -3,6 +3,7 @@ import { getUserLanguage } from "./get-user-language.ts";
 
 const en = {
   my_decks: "My decks",
+  formatting: "Formatting",
   choose_what_to_create: "Choose what to create",
   deck: "Deck",
   deck_description: "A collection of cards",
@@ -153,6 +154,7 @@ const en = {
 type Translation = typeof en;
 
 const ru: Translation = {
+  formatting: "Форматирование",
   validation_at_least_one_deck: "Пожалуйста выберите хотя бы 1 колоду",
   duplicate_folder_confirm: "Вы уверены, что хотите продублировать эту папку?",
   validation_answer_at_least_one_correct: "Выберите хотя бы 1 правильный ответ",
@@ -299,6 +301,7 @@ const ru: Translation = {
 };
 
 const es: Translation = {
+  formatting: "Formato",
   validation_at_least_one_deck: "Por favor, selecciona al menos 1 mazo",
   duplicate_folder_confirm: "¿Estás seguro de duplicar esta carpeta?",
   yes_no: "Sí No",
@@ -451,6 +454,7 @@ const es: Translation = {
 };
 
 const ptBr: Translation = {
+  formatting: "Formatação",
   validation_answer_at_least_one_correct:
     "Selecione pelo menos uma resposta correta",
   is_correct_explanation: `Só pode haver uma resposta correta`,

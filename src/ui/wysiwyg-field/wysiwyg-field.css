@@ -7,7 +7,7 @@
 }
 
 .rsw-toolbar button:hover {
-  background-color: var(--tg-theme-button-color) !important;
+  background-color: unset !important;
 }
 
 .rsw-editor {

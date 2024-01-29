@@ -2,13 +2,23 @@ import { makeAutoObservable } from "mobx";
 import { type UserDbType } from "../../functions/db/user/upsert-user-db.ts";
 import { assert } from "../lib/typescript/assert.ts";
 import { type PlansForUser } from "../../functions/db/plan/get-plans-for-user.ts";
+import { makePersistable } from "mobx-persist-store";
+import { storageAdapter } from "../lib/telegram/storage-adapter.ts";
+import { BooleanToggle } from "../lib/mobx-form/boolean-toggle.ts";
 
 export class UserStore {
   userInfo?: UserDbType;
   plans?: PlansForUser;
+  isCardFormattingOn = new BooleanToggle(false);
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
+
+    makePersistable(this.isCardFormattingOn, {
+      name: "isCardFormattingOn",
+      properties: ["value"],
+      storage: storageAdapter,
+    });
   }
 
   setUser(user: UserDbType, plans: PlansForUser) {
