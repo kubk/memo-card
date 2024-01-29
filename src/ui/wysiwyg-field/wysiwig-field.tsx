@@ -11,9 +11,10 @@ import React from "react";
 import { TextField } from "../../lib/mobx-form/text-field.ts";
 import { ValidationError } from "../validation-error.tsx";
 import { ColorIcon } from "./color-icon.tsx";
+import { t } from "../../translations/t.ts";
 
 const BtnBigHeader = createButton(
-  "Big header",
+  t("wysiwyg_big_header"),
   <i className={"mdi mdi-format-header-1"} />,
   () => {
     document.execCommand("formatBlock", false, "h1");
@@ -21,7 +22,7 @@ const BtnBigHeader = createButton(
 );
 
 const BtnMiddleHeader = createButton(
-  "Middle header",
+  t("wysiwyg_middle_header"),
   <i className={"mdi mdi-format-header-3"} />,
   () => {
     document.execCommand("formatBlock", false, "h3");
@@ -29,7 +30,7 @@ const BtnMiddleHeader = createButton(
 );
 
 const BtnSmallHeader = createButton(
-  "Small header",
+  t("wysiwyg_small_header"),
   <i className={"mdi mdi-format-header-6"} />,
   () => {
     document.execCommand("formatBlock", false, "h6");
@@ -37,29 +38,29 @@ const BtnSmallHeader = createButton(
 );
 
 export const BtnBold = createButton(
-  "Bold",
+  t("wysiwyg_bold"),
   <i className={"mdi mdi-format-bold"} />,
   "bold",
 );
 export const BtnItalic = createButton(
-  "Italic",
+  t("wysiwyg_italic"),
   <i className={"mdi mdi-format-italic"} />,
   "italic",
 );
 
 export const BtnUndo = createButton(
-  "Undo",
+  t("wysiwyg_undo"),
   <i className={"mdi mdi-undo"} />,
   "undo",
 );
 export const BtnRedo = createButton(
-  "Redo",
+  t("wysiwyg_redo"),
   <i className={"mdi mdi-redo"} />,
   "redo",
 );
 
 export const BtnGreen = createButton(
-  "Green",
+  t("wysiwyg_green"),
   <ColorIcon color={theme.success} />,
   () => {
     document.execCommand("foreColor", false, theme.success);
@@ -67,7 +68,7 @@ export const BtnGreen = createButton(
 );
 
 export const BtnRed = createButton(
-  "Red",
+  t("wysiwyg_red"),
   <ColorIcon color={theme.danger} />,
   () => {
     document.execCommand("foreColor", false, theme.danger);
@@ -75,7 +76,7 @@ export const BtnRed = createButton(
 );
 
 export const BtnClearFormatting = createButton(
-  "Clear formatting",
+  t("wysiwyg_clear_formatting"),
   <i className={"mdi mdi-format-clear"} />,
   "removeFormat",
 );

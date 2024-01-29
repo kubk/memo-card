@@ -2,6 +2,16 @@ import { Translator } from "../lib/translator/translator.ts";
 import { getUserLanguage } from "./get-user-language.ts";
 
 const en = {
+  wysiwyg_big_header: "Big header",
+  wysiwyg_small_header: "Small header",
+  wysiwyg_middle_header: "Middle header",
+  wysiwyg_bold: "Bold",
+  wysiwyg_italic: "Italic",
+  wysiwyg_undo: "Undo",
+  wysiwyg_redo: "Redo",
+  wysiwyg_green: "Green",
+  wysiwyg_red: "Red",
+  wysiwyg_clear_formatting: "Clear formatting",
   my_decks: "My decks",
   formatting: "Formatting",
   choose_what_to_create: "Choose what to create",
@@ -154,6 +164,16 @@ const en = {
 type Translation = typeof en;
 
 const ru: Translation = {
+  wysiwyg_italic: "Курсив",
+  wysiwyg_red: "Красный",
+  wysiwyg_clear_formatting: "Очистить форматирование",
+  wysiwyg_bold: "Жирный",
+  wysiwyg_small_header: "Маленький заголовок",
+  wysiwyg_middle_header: "Средний заголовок",
+  wysiwyg_big_header: "Большой заголовок",
+  wysiwyg_green: "Зеленый",
+  wysiwyg_redo: "Повторить",
+  wysiwyg_undo: "Отменить",
   formatting: "Форматирование",
   validation_at_least_one_deck: "Пожалуйста выберите хотя бы 1 колоду",
   duplicate_folder_confirm: "Вы уверены, что хотите продублировать эту папку?",
@@ -301,6 +321,16 @@ const ru: Translation = {
 };
 
 const es: Translation = {
+  wysiwyg_red: "Rojo",
+  wysiwyg_bold: "Negrita",
+  wysiwyg_undo: "Deshacer",
+  wysiwyg_redo: "Rehacer",
+  wysiwyg_green: "Verde",
+  wysiwyg_big_header: "Encabezado grande",
+  wysiwyg_middle_header: "Encabezado mediano",
+  wysiwyg_clear_formatting: "Borrar formato",
+  wysiwyg_small_header: "Encabezado pequeño",
+  wysiwyg_italic: "Cursiva",
   formatting: "Formato",
   validation_at_least_one_deck: "Por favor, selecciona al menos 1 mazo",
   duplicate_folder_confirm: "¿Estás seguro de duplicar esta carpeta?",
@@ -454,6 +484,16 @@ const es: Translation = {
 };
 
 const ptBr: Translation = {
+  wysiwyg_red: "Vermelho",
+  wysiwyg_bold: "Negrito",
+  wysiwyg_clear_formatting: "Limpar formatação",
+  wysiwyg_small_header: "Cabeçalho pequeno",
+  wysiwyg_middle_header: "Cabeçalho médio",
+  wysiwyg_italic: "Itálico",
+  wysiwyg_big_header: "Cabeçalho grande",
+  wysiwyg_green: "Verde",
+  wysiwyg_redo: "Refazer",
+  wysiwyg_undo: "Desfazer",
   formatting: "Formatação",
   validation_answer_at_least_one_correct:
     "Selecione pelo menos uma resposta correta",
