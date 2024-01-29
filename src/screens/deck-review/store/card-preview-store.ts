@@ -4,15 +4,13 @@ import {
   DeckSpeakFieldEnum,
 } from "../../../../functions/db/deck/decks-with-cards-schema.ts";
 import { CardAnswerType } from "../../../../functions/db/custom-types.ts";
-import {
-  CardFormType,
-  DeckFormStore,
-} from "../../deck-form/store/deck-form-store.ts";
 import { makeAutoObservable } from "mobx";
 import { userStore } from "../../../store/user-store.ts";
 import { isEnumValid } from "../../../lib/typescript/is-enum-valid.ts";
-import { SpeakLanguageEnum, speak } from "../../../lib/voice-playback/speak.ts";
+import { speak, SpeakLanguageEnum } from "../../../lib/voice-playback/speak.ts";
 import { removeAllTags } from "../../../lib/sanitize-html/remove-all-tags.ts";
+import { CardFormStoreInterface } from "../../deck-form/store/card-form-store-interface.ts";
+import { assert } from "../../../lib/typescript/assert.ts";
 
 export class CardPreviewStore implements LimitedCardUnderReviewStore {
   id: number;
@@ -28,8 +26,10 @@ export class CardPreviewStore implements LimitedCardUnderReviewStore {
 
   isOpened = false;
 
-  constructor(form: CardFormType, deckFormStore?: DeckFormStore) {
+  constructor(cardFormStore: CardFormStoreInterface) {
     makeAutoObservable(this, {}, { autoBind: true });
+    const form = cardFormStore.cardForm;
+    assert(form, "form is not defined");
     this.id = 9999;
     this.front = form.front.value;
     this.back = form.back.value;
@@ -41,13 +41,13 @@ export class CardPreviewStore implements LimitedCardUnderReviewStore {
       isCorrect: answer.isCorrect.value,
     }));
 
-    if (!deckFormStore) {
+    const deckForm = cardFormStore.deckForm;
+    if (!deckForm) {
       return;
     }
 
-    this.deckSpeakLocale =
-      deckFormStore.form?.speakingCardsLocale.value ?? null;
-    this.deckSpeakField = deckFormStore.form?.speakingCardsField.value ?? null;
+    this.deckSpeakLocale = deckForm.speakingCardsLocale.value ?? null;
+    this.deckSpeakField = deckForm.speakingCardsField.value ?? null;
   }
 
   speak() {

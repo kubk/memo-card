@@ -1,22 +1,19 @@
 import { observer } from "mobx-react-lite";
 import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
 import { css } from "@emotion/css";
-import { CardFormType, DeckFormStore } from "./store/deck-form-store.ts";
 import { CardReviewWithControls } from "../deck-review/card-review-with-controls.tsx";
 import { useState } from "react";
 import { CardPreviewStore } from "../deck-review/store/card-preview-store.ts";
+import { CardFormStoreInterface } from "./store/card-form-store-interface.ts";
 
 type Props = {
-  form: CardFormType;
+  form: CardFormStoreInterface;
   onBack: () => void;
-  deckFormStore?: DeckFormStore;
 };
 
 export const CardPreview = observer((props: Props) => {
-  const { form, onBack, deckFormStore } = props;
-  const [cardPreviewStore] = useState(
-    () => new CardPreviewStore(form, deckFormStore),
-  );
+  const { form, onBack } = props;
+  const [cardPreviewStore] = useState(() => new CardPreviewStore(form));
 
   useBackButton(() => {
     onBack();

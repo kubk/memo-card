@@ -24,7 +24,7 @@ import { CardAnswerType } from "../../../../functions/db/custom-types.ts";
 import { ListField } from "../../../lib/mobx-form/list-field.ts";
 import { BooleanField } from "../../../lib/mobx-form/boolean-field.ts";
 import { v4 } from "uuid";
-import { CardFormStore } from "./card-form-store.ts";
+import { CardFormStoreInterface } from "./card-form-store-interface.ts";
 import { UpsertDeckRequest } from "../../../../functions/upsert-deck.ts";
 import { UnwrapArray } from "../../../lib/typescript/unwrap-array.ts";
 
@@ -147,7 +147,7 @@ const cardFormToApi = (
 export type CardFilterSortBy = "createdAt" | "frontAlpha" | "backAlpha";
 export type CardFilterDirection = "desc" | "asc";
 
-export class DeckFormStore implements CardFormStore {
+export class DeckFormStore implements CardFormStoreInterface {
   cardFormIndex?: number;
   cardFormType?: "new" | "edit";
   isCardPreviewSelected = new BooleanToggle(false);

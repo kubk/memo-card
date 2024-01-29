@@ -4,6 +4,18 @@ import { MyInfoResponse } from "../../functions/my-info.ts";
 import { when } from "mobx";
 import { userStore } from "./user-store.ts";
 
+vi.mock("mobx-persist-store", () => {
+  return {
+    makePersistable: () => {},
+  };
+});
+
+vi.mock("../lib/telegram/storage-adapter.ts", () => {
+  return {
+    storageAdapter: {},
+  };
+});
+
 vi.mock("../api/api.ts", () => {
   return {
     reviewCardsRequest: () => {},

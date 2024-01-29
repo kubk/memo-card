@@ -74,6 +74,12 @@ export const BtnRed = createButton(
   },
 );
 
+export const BtnClearFormatting = createButton(
+  "Clear formatting",
+  <i className={"mdi mdi-format-clear"} />,
+  "removeFormat",
+);
+
 type Props = {
   field: TextField<string>;
 };
@@ -109,6 +115,7 @@ export const WysiwygField = observer((props: Props) => {
           <BtnBigHeader />
           <BtnMiddleHeader />
           <BtnSmallHeader />
+          <BtnClearFormatting />
           <BtnUndo />
           <BtnRedo />
         </Toolbar>

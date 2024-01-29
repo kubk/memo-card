@@ -8,7 +8,7 @@ import { type DeckWithCardsWithReviewType } from "../../../store/deck-list-store
 import {
   hapticImpact,
   hapticNotification,
-} from "../../../lib/telegram/hapticNotification.ts";
+} from "../../../lib/telegram/haptics.ts";
 
 type ReviewResult = {
   forgotIds: number[];

@@ -8,14 +8,16 @@ type Props = {
   isRequired?: boolean;
   // Helps to avoid nested <label> tags
   isPlain?: boolean;
+  slotRight?: ReactNode;
 };
 
 export const Label = (props: Props) => {
   const Tag = props.isPlain ? "span" : "label";
+  const { slotRight } = props;
 
   return (
     <Tag className={css({ display: "flex", flexDirection: "column", gap: 2 })}>
-      <span className={css({ marginLeft: 12 })}>
+      <span className={css({ marginLeft: 12, display: "flex" })}>
         {props.text}
         {props.isRequired && (
           <span
@@ -25,6 +27,16 @@ export const Label = (props: Props) => {
             })}
           >
             *
+          </span>
+        )}
+        {slotRight && (
+          <span
+            className={css({
+              marginLeft: "auto",
+              marginRight: 12,
+            })}
+          >
+            {slotRight}
           </span>
         )}
       </span>
