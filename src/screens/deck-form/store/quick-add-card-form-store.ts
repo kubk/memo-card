@@ -1,6 +1,7 @@
 import {
   CardFormType,
   createAnswerListField,
+  createAnswerTypeField,
   createCardSideField,
 } from "./deck-form-store.ts";
 import { action, makeAutoObservable } from "mobx";
@@ -25,8 +26,7 @@ export class QuickAddCardFormStore implements CardFormStoreInterface {
     back: createCardSideField(""),
     front: createCardSideField(""),
     example: new TextField(""),
-    // TODO: get from localStorage
-    answerType: new TextField("remember"),
+    answerType: createAnswerTypeField(),
     answers: createAnswerListField([], () => this.cardForm),
   };
   isSending = false;

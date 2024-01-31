@@ -16,6 +16,7 @@ export class TextField<T>
   constructor(
     public value: T,
     public validate?: (value: any) => string | undefined,
+    public onChangeCallback?: (newValue: T) => void,
   ) {
     makeAutoObservable(this, { validate: false }, { autoBind: true });
   }
@@ -23,6 +24,7 @@ export class TextField<T>
   onChange(value: T) {
     this.value = value;
     this.isTouched = true;
+    this.onChangeCallback?.(value);
   }
 
   get error() {
