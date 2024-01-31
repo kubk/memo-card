@@ -13,6 +13,7 @@ import { ButtonSideAligned } from "../../ui/button-side-aligned.tsx";
 import { useTelegramProgress } from "../../lib/telegram/use-telegram-progress.tsx";
 import { t } from "../../translations/t.ts";
 import { ButtonGrid } from "../../ui/button-grid.tsx";
+import { Button } from "../../ui/button.tsx";
 
 export const DeckPreview = observer(() => {
   const reviewStore = useReviewStore();
@@ -192,7 +193,17 @@ export const DeckPreview = observer(() => {
         </ButtonGrid>
       </div>
       {deck.cardsToReview.length === 0 && (
-        <Hint>{t("no_cards_to_review_in_deck")}</Hint>
+        <>
+          <Hint>{t("no_cards_to_review_in_deck")}</Hint>
+          <Button
+            outline
+            onClick={() => {
+              reviewStore.startDeckReviewAnyway(deckListStore.selectedDeck);
+            }}
+          >
+            {t("repeat_cards_anyway")}
+          </Button>
+        </>
       )}
     </div>
   );

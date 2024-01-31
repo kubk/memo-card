@@ -40,6 +40,17 @@ export class ReviewStore {
     this.initializeInitialCurrentNextCards();
   }
 
+  startDeckReviewAnyway(deck: DeckWithCardsWithReviewType | null) {
+    if (!deck) {
+      return;
+    }
+    this.cardsToReview = [];
+    deck.deck_card.forEach((card) => {
+      this.cardsToReview.push(new CardUnderReviewStore(card, deck));
+    });
+    this.initializeInitialCurrentNextCards();
+  }
+
   startFolderReview(myDecks: DeckWithCardsWithReviewType[]) {
     if (!myDecks.length) {
       return;
