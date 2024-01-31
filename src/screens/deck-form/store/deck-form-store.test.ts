@@ -151,6 +151,14 @@ vi.mock("../../../lib/voice-playback/speak.ts", async () => {
   };
 });
 
+vi.mock("../../../store/user-store.ts", () => {
+  return {
+    userStore: {
+      defaultCardType: "remember",
+    },
+  };
+});
+
 describe("deck form store", () => {
   afterEach(() => {
     vi.clearAllMocks();

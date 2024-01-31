@@ -14,6 +14,7 @@ import { showConfirm } from "../../../lib/telegram/show-confirm.ts";
 import { showAlert } from "../../../lib/telegram/show-alert.ts";
 import { fuzzySearch } from "../../../lib/string/fuzzy-search.ts";
 import {
+  DeckCardDbType,
   DeckSpeakFieldEnum,
   DeckWithCardsDbType,
 } from "../../../../functions/db/deck/decks-with-cards-schema.ts";
@@ -27,6 +28,7 @@ import { v4 } from "uuid";
 import { CardFormStoreInterface } from "./card-form-store-interface.ts";
 import { UpsertDeckRequest } from "../../../../functions/upsert-deck.ts";
 import { UnwrapArray } from "../../../lib/typescript/unwrap-array.ts";
+import { userStore } from "../../../store/user-store.ts";
 
 export type CardAnswerFormType = {
   id: string;
@@ -95,6 +97,14 @@ export const createAnswerListField = (
   });
 };
 
+export const createAnswerTypeField = (card?: DeckCardDbType) => {
+  return new TextField<CardAnswerType>(
+    card ? card.answer_type : userStore.defaultCardType,
+    undefined,
+    userStore.updateDefaultCardType,
+  );
+};
+
 const createUpdateForm = (
   id: number,
   deck: DeckWithCardsDbType,
@@ -111,7 +121,7 @@ const createUpdateForm = (
       front: createCardSideField(card.front),
       back: createCardSideField(card.back),
       example: new TextField(card.example || ""),
-      answerType: new TextField(card.answer_type),
+      answerType: createAnswerTypeField(card),
       answers: createAnswerListField(
         card.answers
           ? card.answers.map((answer) => ({
@@ -191,8 +201,8 @@ export class DeckFormStore implements CardFormStoreInterface {
         title: createDeckTitleField(""),
         description: new TextField(""),
         cards: [],
-        speakingCardsLocale: new TextField(null),
-        speakingCardsField: new TextField(null),
+        speakingCardsLocale: new TextField<string | null>(null),
+        speakingCardsField: new TextField<DeckSpeakFieldEnum | null>(null),
         folderId: screen.folder?.id ?? undefined,
         cardsToRemoveIds: [],
       };
@@ -323,8 +333,7 @@ export class DeckFormStore implements CardFormStoreInterface {
       front: createCardSideField(""),
       back: createCardSideField(""),
       example: new TextField(""),
-      // TODO: get from localStorage
-      answerType: new TextField("remember"),
+      answerType: createAnswerTypeField(),
       answers: createAnswerListField([], () => this.cardForm),
     });
   }

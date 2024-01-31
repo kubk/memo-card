@@ -5,11 +5,13 @@ import { type PlansForUser } from "../../functions/db/plan/get-plans-for-user.ts
 import { makePersistable } from "mobx-persist-store";
 import { storageAdapter } from "../lib/telegram/storage-adapter.ts";
 import { BooleanToggle } from "../lib/mobx-form/boolean-toggle.ts";
+import { CardAnswerType } from "../../functions/db/custom-types.ts";
 
 export class UserStore {
   userInfo?: UserDbType;
   plans?: PlansForUser;
   isCardFormattingOn = new BooleanToggle(false);
+  defaultCardType: CardAnswerType = "remember";
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
@@ -19,6 +21,16 @@ export class UserStore {
       properties: ["value"],
       storage: storageAdapter,
     });
+
+    makePersistable(this, {
+      name: "defaultCardType",
+      properties: ["defaultCardType"],
+      storage: storageAdapter,
+    });
+  }
+
+  updateDefaultCardType(type: CardAnswerType) {
+    this.defaultCardType = type;
   }
 
   setUser(user: UserDbType, plans: PlansForUser) {
