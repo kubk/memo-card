@@ -12,7 +12,7 @@ export type CardFormStoreInterface = {
   isSending: boolean;
   markCardAsRemoved?: () => void;
 
-  deckForm?: {
+  form?: {
     speakingCardsLocale: TextField<string | null>;
     speakingCardsField: TextField<DeckSpeakFieldEnum | null>;
   };

@@ -41,7 +41,7 @@ export class CardPreviewStore implements LimitedCardUnderReviewStore {
       isCorrect: answer.isCorrect.value,
     }));
 
-    const deckForm = cardFormStore.deckForm;
+    const deckForm = cardFormStore.form;
     if (!deckForm) {
       return;
     }
