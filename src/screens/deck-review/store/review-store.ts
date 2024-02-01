@@ -23,6 +23,7 @@ export class ReviewStore {
   initialCardCount?: number;
 
   isReviewSending = false;
+  isStudyAnyway = false;
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
@@ -48,6 +49,9 @@ export class ReviewStore {
     deck.deck_card.forEach((card) => {
       this.cardsToReview.push(new CardUnderReviewStore(card, deck));
     });
+    if (this.cardsToReview.length) {
+      this.isStudyAnyway = true;
+    }
     this.initializeInitialCurrentNextCards();
   }
 
@@ -171,7 +175,11 @@ export class ReviewStore {
       return;
     }
 
-    return reviewCardsRequest({ cards: this.cardsToSend, isInterrupted: true });
+    return reviewCardsRequest({
+      cards: this.cardsToSend,
+      isInterrupted: true,
+      isStudyAnyway: this.isStudyAnyway,
+    });
   }
 
   get cardsToSend(): Array<{ id: number; outcome: ReviewOutcome }> {
@@ -195,7 +203,10 @@ export class ReviewStore {
 
     this.isReviewSending = true;
 
-    return reviewCardsRequest({ cards: this.cardsToSend }).finally(
+    return reviewCardsRequest({
+      cards: this.cardsToSend,
+      isStudyAnyway: this.isStudyAnyway,
+    }).finally(
       action(() => {
         onReviewSuccess?.();
         hapticNotification("success");
