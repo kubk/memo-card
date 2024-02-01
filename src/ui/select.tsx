@@ -28,7 +28,7 @@ export const Select = <T extends string | number>(props: Props<T>) => {
         outline: "none",
         fontSize: 16,
         border: "none",
-        "-webkit-appearance": "none",
+        WebkitAppearance: "none",
         cursor: "pointer",
         color: theme.linkColor,
       })}

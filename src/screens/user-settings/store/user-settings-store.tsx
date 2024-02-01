@@ -25,25 +25,29 @@ export class UserSettingsStore {
     makeAutoObservable(this, {}, { autoBind: true });
   }
 
-  async load() {
-    await when(() => !!userStore.userInfo);
-    assert(userStore.userInfo);
-    const userInfo = userStore.userInfo;
-    const remindDate = userInfo.last_reminded_date
-      ? DateTime.fromISO(userInfo.last_reminded_date)
-      : null;
+  load() {
+    console.log("load", !!userStore.userInfo);
+    when(() => !!userStore.userInfo).then(
+      action(() => {
+        assert(userStore.userInfo);
+        const userInfo = userStore.userInfo;
+        const remindDate = userInfo.last_reminded_date
+          ? DateTime.fromISO(userInfo.last_reminded_date)
+          : null;
 
-    this.form = {
-      isRemindNotifyEnabled: new BooleanField(userInfo.is_remind_enabled),
-      isSpeakingCardsEnabled: new BooleanField(
-        !!userInfo.is_speaking_card_enabled,
-      ),
-      time: new TextField(
-        remindDate
-          ? formatTime(remindDate.hour, remindDate.minute)
-          : DEFAULT_TIME,
-      ),
-    };
+        this.form = {
+          isRemindNotifyEnabled: new BooleanField(userInfo.is_remind_enabled),
+          isSpeakingCardsEnabled: new BooleanField(
+            !!userInfo.is_speaking_card_enabled,
+          ),
+          time: new TextField(
+            remindDate
+              ? formatTime(remindDate.hour, remindDate.minute)
+              : DEFAULT_TIME,
+          ),
+        };
+      }),
+    );
   }
 
   get isSaveVisible() {
