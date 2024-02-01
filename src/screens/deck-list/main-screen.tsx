@@ -77,7 +77,10 @@ export const MainScreen = observer(() => {
                     deckListStore.isMyDecksExpanded.value
                       ? listItem.decks.map((deck) => {
                           return (
-                            <div className={css({ marginLeft: 24 })}>
+                            <div
+                              className={css({ marginLeft: 24 })}
+                              key={deck.id}
+                            >
                               <DeckRowWithCardsToReview
                                 onClick={() => {
                                   screenStore.go({
@@ -85,7 +88,6 @@ export const MainScreen = observer(() => {
                                     deckId: deck.id,
                                   });
                                 }}
-                                key={deck.id}
                                 item={deck}
                               />
                             </div>
