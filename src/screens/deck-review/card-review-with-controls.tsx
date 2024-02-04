@@ -6,9 +6,9 @@ import {
 } from "../shared/card/card.tsx";
 import { css } from "@emotion/css";
 import { Button } from "../../ui/button.tsx";
-import { t } from "../../translations/t.ts";
 import React from "react";
 import { assert } from "../../lib/typescript/assert.ts";
+import { t } from "../../translations/t.ts";
 
 type Props = {
   card?: LimitedCardUnderReviewStore | null;
@@ -117,7 +117,7 @@ export const CardReviewWithControls = observer((props: Props) => {
               onReviewCardWithAnswers();
             }}
           >
-            Next
+            {t("next")}
           </Button>
         </div>
       )}

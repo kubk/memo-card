@@ -96,6 +96,9 @@ export const CardList = observer(() => {
             backgroundColor: theme.secondaryBgColor,
             borderRadius: theme.borderRadius,
             padding: 12,
+            // If the card content is too big then hide it
+            maxHeight: 120,
+            overflow: 'hidden',
           })}
         >
           <div>{removeAllTags(cardForm.front.value)}</div>
