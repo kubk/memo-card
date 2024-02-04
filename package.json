@@ -17,6 +17,7 @@
     "prod:api:logs": "npx wrangler pages deployment tail",
     "prod:deploy": "npx wrangler pages publish functions --project-name=memo-card",
     "dev:botfather:description": "export $(cat .dev.vars) && node botfather/update.js",
+    "bundle-visualize": "npx vite-bundle-visualizer",
     "export-public-code": "[[ $(git symbolic-ref --short HEAD 2>/dev/null) == \"main\" ]] && npm run __export-public-code || echo \"Current branch is not 'main'\"",
     "__export-public-code": "npx betterplace-gitexporter gitexporter.config.json && cd ../memocard-public && git checkout -b main && git remote add origin git@github.com:kubk/memo-card.git && git push",
     "generate-db-types": "docker info > /dev/null 2>&1 && export $(cat .dev.vars | xargs) && npx supabase gen types typescript --db-url $DB_URL >./functions/db/databaseTypes.ts"
@@ -77,6 +78,7 @@
     "prettier": "^3.0.3",
     "typescript": "^5.0.2",
     "vite": "^4.4.5",
+    "vite-bundle-visualizer": "^1.0.1",
     "vitest": "^0.34.6",
     "wrangler": "^3.10.1"
   }
