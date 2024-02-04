@@ -12,6 +12,7 @@ export class UserStore {
   plans?: PlansForUser;
   isCardFormattingOn = new BooleanToggle(false);
   defaultCardType: CardAnswerType = "remember";
+  isSpeakingCardsMuted = new BooleanToggle(false);
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
@@ -51,6 +52,9 @@ export class UserStore {
   }
 
   get isSpeakingCardsEnabled() {
+    if (this.isSpeakingCardsMuted.value) {
+      return false;
+    }
     return this.user?.is_speaking_card_enabled ?? false;
   }
 

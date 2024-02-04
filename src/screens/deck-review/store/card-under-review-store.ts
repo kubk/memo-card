@@ -67,13 +67,9 @@ export class CardUnderReviewStore {
     this.state = state;
   }
 
-  get isSpeakingCardsEnabledSettings() {
-    return userStore.isSpeakingCardsEnabled;
-  }
-
   speak() {
     if (
-      !this.isSpeakingCardsEnabledSettings ||
+      !userStore.isSpeakingCardsEnabled ||
       !this.deckSpeakLocale ||
       !this.deckSpeakField
     ) {

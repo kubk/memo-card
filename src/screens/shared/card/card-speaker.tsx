@@ -5,6 +5,7 @@ import { theme } from "../../../ui/theme.tsx";
 import React from "react";
 import { observer } from "mobx-react-lite";
 import { LimitedCardUnderReviewStore } from "./card.tsx";
+import { userStore } from "../../../store/user-store.ts";
 
 type Props = {
   card: LimitedCardUnderReviewStore;
@@ -17,7 +18,7 @@ export const CardSpeaker = observer((props: Props) => {
     !isSpeechSynthesisSupported ||
     !card.isOpened ||
     type !== card.deckSpeakField ||
-    !card.isSpeakingCardsEnabledSettings
+    !userStore.isSpeakingCardsEnabled
   ) {
     return null;
   }

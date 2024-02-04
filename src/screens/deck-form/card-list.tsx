@@ -11,9 +11,8 @@ import React from "react";
 import { reset } from "../../ui/reset.ts";
 import { t } from "../../translations/t.ts";
 import { Screen } from "../shared/screen.tsx";
-import { motion } from "framer-motion";
-import { whileTap } from "../../ui/animations.ts";
 import { removeAllTags } from "../../lib/sanitize-html/remove-all-tags.ts";
+import { tapScale } from "../../lib/animations/tap-scale.ts";
 
 export const CardList = observer(() => {
   const deckFormStore = useDeckFormStore();
@@ -85,8 +84,7 @@ export const CardList = observer(() => {
         </>
       )}
       {deckFormStore.filteredCards.map((cardForm, i) => (
-        <motion.div
-          whileTap={whileTap}
+        <div
           onClick={() => {
             deckFormStore.editCardFormById(cardForm.id);
           }}
@@ -99,13 +97,14 @@ export const CardList = observer(() => {
             // If the card content is too big then hide it
             maxHeight: 120,
             overflow: 'hidden',
+            ...tapScale,
           })}
         >
           <div>{removeAllTags(cardForm.front.value)}</div>
           <div className={css({ color: theme.hintColor })}>
             {removeAllTags(cardForm.back.value)}
           </div>
-        </motion.div>
+        </div>
       ))}
       <Button
         onClick={() => {

@@ -1,5 +1,4 @@
-import { motion } from "framer-motion";
-import { css } from "@emotion/css";
+import { css, cx } from "@emotion/css";
 import React from "react";
 import { theme } from "../../../ui/theme.tsx";
 import { observer } from "mobx-react-lite";
@@ -15,7 +14,6 @@ export type LimitedCardUnderReviewStore = Pick<
   CardUnderReviewStore,
   | "isOpened"
   | "deckSpeakField"
-  | "isSpeakingCardsEnabledSettings"
   | "speak"
   | "front"
   | "back"
@@ -33,7 +31,7 @@ type Props = {
 
 export const Card = observer(({ card }: Props) => {
   return (
-    <motion.div
+    <div
       className={
         card.answerType === "remember"
           ? css({
@@ -49,13 +47,27 @@ export const Card = observer(({ card }: Props) => {
               display: "grid",
               placeItems: "center center",
               padding: 10,
-              background: theme.secondaryBgColorComputed,
+              background: theme.secondaryBgColor,
             })
           : css({
               color: theme.textColor,
             })
       }
     >
+      {false && (
+        <div
+          className={css({
+            position: "absolute",
+            top: 0,
+            right: 12,
+            transform: "scale(0.8)",
+            cursor: "pointer",
+          })}
+          onClick={() => {}}
+        >
+          <i className={cx("mdi mdi-dots-horizontal mdi-24px")} />
+        </div>
+      )}
       <span
         className={css({
           textAlign: "center",
@@ -117,6 +129,6 @@ export const Card = observer(({ card }: Props) => {
           </>
         ) : null}
       </span>
-    </motion.div>
+    </div>
   );
 });
