@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import React, { SVGProps } from "react";
 
 type Direction = "top" | "bottom";
@@ -19,7 +19,7 @@ type Props = Pick<SVGProps<SVGSVGElement>, "onClick" | "className"> & {
 export const ChevronIcon = (props: Props) => {
   const { direction, ...restProps } = props;
   return (
-    <motion.svg
+    <m.svg
       width="16"
       height="16"
       viewBox="0 0 16 16"
@@ -38,6 +38,6 @@ export const ChevronIcon = (props: Props) => {
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-    </motion.svg>
+    </m.svg>
   );
 };

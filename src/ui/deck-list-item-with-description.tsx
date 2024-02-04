@@ -1,11 +1,10 @@
 import { observer } from "mobx-react-lite";
-import { motion } from "framer-motion";
-import { whileTap } from "./animations.ts";
 import { css } from "@emotion/css";
 import { theme } from "./theme.tsx";
 import LinesEllipsis from "react-lines-ellipsis";
 import React from "react";
 import { DeckCategoryLogo } from "./deck-category-logo.tsx";
+import { tapScale } from "../lib/animations/tap-scale.ts";
 
 type Props = {
   deck: {
@@ -23,8 +22,7 @@ export const DeckListItemWithDescription = observer((props: Props) => {
   const { deck, onClick, titleRightSlot } = props;
 
   return (
-    <motion.div
-      whileTap={whileTap}
+    <div
       className={css({
         display: "flex",
         flexDirection: "column",
@@ -33,6 +31,7 @@ export const DeckListItemWithDescription = observer((props: Props) => {
         padding: 12,
         cursor: "pointer",
         background: theme.secondaryBgColor,
+        ...tapScale,
       })}
       onClick={onClick}
     >
@@ -67,6 +66,6 @@ export const DeckListItemWithDescription = observer((props: Props) => {
           basedOn="words"
         />
       </div>
-    </motion.div>
+    </div>
   );
 });

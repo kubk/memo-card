@@ -32,8 +32,6 @@ export const theme = {
   buttonTextColor,
   secondaryBgColor,
 
-  // Needed for framer-motion library
-  secondaryBgColorComputed: cssVarToValue(secondaryBgColor),
   buttonColorComputed: buttonColorComputed,
   buttonColorLighter: colord(buttonColorComputed).lighten(0.4).toHex(),
   buttonTextColorComputed: cssVarToValue(buttonTextColor),

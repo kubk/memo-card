@@ -26,7 +26,6 @@ export class UserSettingsStore {
   }
 
   load() {
-    console.log("load", !!userStore.userInfo);
     when(() => !!userStore.userInfo).then(
       action(() => {
         assert(userStore.userInfo);

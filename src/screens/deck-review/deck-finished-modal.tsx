@@ -1,7 +1,8 @@
 import React, { ReactNode } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { css } from "@emotion/css";
 import { theme } from "../../ui/theme.tsx";
+import { LazyLoadFramerMotion } from "../../lib/framer-motion/lazy-load-framer-motion.tsx";
 
 type Props = {
   children: ReactNode;
@@ -25,20 +26,22 @@ export const DeckFinishedModal = (props: Props) => {
   };
 
   return (
-    <motion.div
-      className={css({
-        maxWidth: 290,
-        margin: "0 auto",
-        padding: 24,
-        background: theme.secondaryBgColor,
-        borderRadius: theme.borderRadius,
-      })}
-      initial={"hidden"}
-      animate={"visible"}
-      exit={"hidden"}
-      variants={modal}
-    >
-      {children}
-    </motion.div>
+    <LazyLoadFramerMotion>
+      <m.div
+        className={css({
+          maxWidth: 290,
+          margin: "0 auto",
+          padding: 24,
+          background: theme.secondaryBgColor,
+          borderRadius: theme.borderRadius,
+        })}
+        initial={"hidden"}
+        animate={"visible"}
+        exit={"hidden"}
+        variants={modal}
+      >
+        {children}
+      </m.div>
+    </LazyLoadFramerMotion>
   );
 };

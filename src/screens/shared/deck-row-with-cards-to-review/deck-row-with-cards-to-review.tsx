@@ -2,10 +2,9 @@ import { observer } from "mobx-react-lite";
 import { css } from "@emotion/css";
 import { theme } from "../../../ui/theme.tsx";
 import React from "react";
-import { motion } from "framer-motion";
-import { whileTap } from "../../../ui/animations.ts";
 import { DeckCardDbTypeWithType } from "../../../store/deck-list-store.ts";
 import { CardsToReviewCount } from "./cards-to-review-count.tsx";
+import { tapScale } from "../../../lib/animations/tap-scale.ts";
 
 type Props = {
   item: {
@@ -20,8 +19,7 @@ export const DeckRowWithCardsToReview = observer((props: Props) => {
   const { item, onClick } = props;
 
   return (
-    <motion.div
-      whileTap={whileTap}
+    <div
       onClick={onClick}
       className={css({
         display: "flex",
@@ -32,6 +30,7 @@ export const DeckRowWithCardsToReview = observer((props: Props) => {
         borderRadius: theme.borderRadius,
         padding: 12,
         background: theme.secondaryBgColor,
+        ...tapScale,
       })}
     >
       <div
@@ -59,6 +58,6 @@ export const DeckRowWithCardsToReview = observer((props: Props) => {
           color={theme.success}
         />
       </div>
-    </motion.div>
+    </div>
   );
 });

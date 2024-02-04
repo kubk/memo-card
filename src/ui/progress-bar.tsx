@@ -1,7 +1,8 @@
 import { css } from "@emotion/css";
 import { theme } from "./theme.tsx";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import React from "react";
+import { LazyLoadFramerMotion } from "../lib/framer-motion/lazy-load-framer-motion.tsx";
 
 type Props = { value: number; max: number };
 
@@ -16,14 +17,16 @@ export const ProgressBar = ({ value, max }: Props) => {
         overflow: "hidden",
       })}
     >
-      <motion.div
-        initial={false}
-        animate={{ width: `${(value / max) * 100}%` }}
-        className={css({
-          backgroundColor: theme.success,
-          height: 30,
-        })}
-      />
+      <LazyLoadFramerMotion>
+        <m.div
+          initial={false}
+          animate={{ width: `${(value / max) * 100}%` }}
+          className={css({
+            backgroundColor: theme.success,
+            height: 30,
+          })}
+        />
+      </LazyLoadFramerMotion>
       <div
         className={css({
           position: "absolute",
