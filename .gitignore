@@ -26,4 +26,3 @@ ngrok
 .dev.vars
 
 dumper/dump.sql
-gitexporter.config.json
