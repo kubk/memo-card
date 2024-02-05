@@ -35,7 +35,7 @@ export class ReviewStore {
     }
 
     deck.cardsToReview.forEach((card) => {
-      this.cardsToReview.push(new CardUnderReviewStore(card, deck));
+      this.cardsToReview.push(new CardUnderReviewStore(card, deck, card.type));
     });
 
     this.initializeInitialCurrentNextCards();
@@ -47,7 +47,7 @@ export class ReviewStore {
     }
     this.cardsToReview = [];
     deck.deck_card.forEach((card) => {
-      this.cardsToReview.push(new CardUnderReviewStore(card, deck));
+      this.cardsToReview.push(new CardUnderReviewStore(card, deck, "repeat"));
     });
     if (this.cardsToReview.length) {
       this.isStudyAnyway = true;
@@ -62,7 +62,9 @@ export class ReviewStore {
 
     myDecks.forEach((deck) => {
       deck.cardsToReview.forEach((card) => {
-        this.cardsToReview.push(new CardUnderReviewStore(card, deck));
+        this.cardsToReview.push(
+          new CardUnderReviewStore(card, deck, card.type),
+        );
       });
     });
 
@@ -78,7 +80,9 @@ export class ReviewStore {
       deck.cardsToReview
         .filter((card) => card.type === "repeat")
         .forEach((card) => {
-          this.cardsToReview.push(new CardUnderReviewStore(card, deck));
+          this.cardsToReview.push(
+            new CardUnderReviewStore(card, deck, card.type),
+          );
         });
     });
 
@@ -144,7 +148,20 @@ export class ReviewStore {
         this.result.forgotIds.push(currentCard.id);
       }
       currentCard.close();
-      this.cardsToReview.push(currentCard);
+
+      if (currentCard.cardReviewType === "new") {
+        // Calculate new index, ensuring it doesn't exceed the array length
+        const newIndex = Math.min(
+          currentCardIdx + 2,
+          this.cardsToReview.length,
+        );
+        // Insert the card at the new index
+        // This way, the incorrectly answered card is reinserted 3 positions ahead,
+        // or at the end of the queue if there are less than 3 cards left.
+        this.cardsToReview.splice(newIndex, 0, currentCard);
+      } else {
+        this.cardsToReview.push(currentCard);
+      }
     }
 
     if (

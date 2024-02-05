@@ -2,7 +2,7 @@ import { makePersistable } from "mobx-persist-store";
 import { FieldWithValue } from "./field-with-value.ts";
 import { storageAdapter } from "../telegram/storage-adapter.ts";
 
-export const persistableField = <T extends FieldWithValue<any>>(
+export const persistableField = <T extends FieldWithValue<unknown>>(
   field: T,
   storageKey: string,
   expireIn?: number,

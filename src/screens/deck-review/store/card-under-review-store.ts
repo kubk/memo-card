@@ -12,6 +12,7 @@ import { assert } from "../../../lib/typescript/assert.ts";
 import { removeAllTags } from "../../../lib/sanitize-html/remove-all-tags.ts";
 import { userStore } from "../../../store/user-store.ts";
 import { BooleanToggle } from "../../../lib/mobx-form/boolean-toggle.ts";
+import { CardReviewType } from "../../../../functions/db/deck/get-cards-to-review-db.ts";
 
 export enum CardState {
   Remember = "remember",
@@ -36,7 +37,11 @@ export class CardUnderReviewStore {
   // A hack for iOS when the card content is too large
   isOverflowing = new BooleanToggle(false);
 
-  constructor(card: DeckCardDbType, deck: DeckWithCardsWithReviewType) {
+  constructor(
+    card: DeckCardDbType,
+    deck: DeckWithCardsWithReviewType,
+    public cardReviewType: CardReviewType,
+  ) {
     this.id = card.id;
     this.front = card.front;
     this.back = card.back;
