@@ -15,7 +15,10 @@ import {
   type DeckWithCardsDbType,
 } from "../../functions/db/deck/decks-with-cards-schema.ts";
 import { type RouteType, screenStore } from "./screen-store.ts";
-import { type CardToReviewDbType } from "../../functions/db/deck/get-cards-to-review-db.ts";
+import {
+  CardReviewType,
+  type CardToReviewDbType,
+} from "../../functions/db/deck/get-cards-to-review-db.ts";
 import { assert } from "../lib/typescript/assert.ts";
 import { ReviewStore } from "../screens/deck-review/store/review-store.ts";
 import { reportHandledError } from "../lib/rollbar/rollbar.tsx";
@@ -31,7 +34,7 @@ export enum StartParamType {
 }
 
 export type DeckCardDbTypeWithType = DeckCardDbType & {
-  type: "new" | "repeat";
+  type: CardReviewType;
 };
 
 export type DeckWithCardsWithReviewType = DeckWithCardsDbType & {
@@ -648,7 +651,7 @@ const getCardsToReview = (
   deck: DeckWithCardsDbType,
   cardsToReview: CardToReviewDbType[],
 ) => {
-  const map = new Map<number, "new" | "repeat">();
+  const map = new Map<number, CardReviewType>();
 
   cardsToReview.forEach((cardToReview) => {
     if (cardToReview.deck_id == deck.id) {

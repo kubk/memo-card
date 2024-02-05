@@ -12,7 +12,27 @@ vi.mock("mobx-persist-store", () => {
   };
 });
 
-const deckCardsMock: DeckCardDbTypeWithType[] = [
+const createDeckWithCards = (cards: DeckCardDbTypeWithType[]) => {
+  const deckMock: DeckWithCardsWithReviewType = {
+    id: 1,
+    name: "English",
+    description: "English words",
+    deck_card: cards,
+    cardsToReview: cards,
+    speak_field: null,
+    speak_locale: null,
+    created_at: "2023-10-06T02:13:20.985Z",
+    author_id: 1,
+    share_id: "share_id_mock2",
+    is_public: false,
+    available_in: null,
+    deck_category: null,
+    category_id: null,
+  };
+  return deckMock;
+};
+
+const repeatCardsMock: DeckCardDbTypeWithType[] = [
   {
     id: 3,
     deck_id: 1,
@@ -46,24 +66,65 @@ const deckCardsMock: DeckCardDbTypeWithType[] = [
     answer_type: "remember",
     answers: null,
   },
+  {
+    id: 6,
+    deck_id: 1,
+    created_at: "2023-10-06T02:13:20.985Z",
+    example: null,
+    front: "card 4",
+    back: "card 4",
+    type: "repeat",
+    answer_type: "remember",
+    answers: null,
+  },
 ];
 
-const deckMock: DeckWithCardsWithReviewType = {
-  id: 1,
-  name: "English",
-  description: "English words",
-  deck_card: deckCardsMock,
-  cardsToReview: deckCardsMock,
-  speak_field: null,
-  speak_locale: null,
-  created_at: "2023-10-06T02:13:20.985Z",
-  author_id: 1,
-  share_id: "share_id_mock2",
-  is_public: false,
-  available_in: null,
-  deck_category: null,
-  category_id: null,
-};
+const newCardsMock: DeckCardDbTypeWithType[] = [
+  {
+    id: 3,
+    deck_id: 1,
+    created_at: "2023-10-06T02:13:20.985Z",
+    example: null,
+    front: "time",
+    back: "Время",
+    type: "new",
+    answer_type: "remember",
+    answers: null,
+  },
+  {
+    id: 4,
+    deck_id: 1,
+    created_at: "2023-10-06T02:13:20.985Z",
+    example: null,
+    front: "year",
+    back: "Год",
+    type: "new",
+    answer_type: "remember",
+    answers: null,
+  },
+  {
+    id: 5,
+    deck_id: 1,
+    created_at: "2023-10-06T02:13:20.985Z",
+    example: null,
+    front: "way",
+    back: "Дорога",
+    type: "new",
+    answer_type: "remember",
+    answers: null,
+  },
+  {
+    id: 6,
+    deck_id: 1,
+    created_at: "2023-10-06T02:13:20.985Z",
+    example: null,
+    front: "card 4",
+    back: "card 4",
+    type: "new",
+    answer_type: "remember",
+    answers: null,
+  },
+];
 
 vi.mock("../lib/telegram/storage-adapter.ts", () => {
   return {
@@ -122,41 +183,50 @@ describe("card form store", () => {
 
   it("basic", () => {
     const reviewStore = new ReviewStore();
-    reviewStore.startDeckReview(deckMock);
+    reviewStore.startDeckReview(createDeckWithCards(repeatCardsMock));
     expect(reviewStore.isFinished).toBeFalsy();
 
     expect(reviewStore.cardsToReview.map(cardToSnapshot))
       .toMatchInlineSnapshot(`
-      [
-        {
-          "back": "Время",
-          "deckName": "English",
-          "example": null,
-          "front": "time",
-          "id": 3,
-          "isOpened": false,
-          "state": undefined,
-        },
-        {
-          "back": "Год",
-          "deckName": "English",
-          "example": null,
-          "front": "year",
-          "id": 4,
-          "isOpened": false,
-          "state": undefined,
-        },
-        {
-          "back": "Дорога",
-          "deckName": "English",
-          "example": null,
-          "front": "way",
-          "id": 5,
-          "isOpened": false,
-          "state": undefined,
-        },
-      ]
-    `);
+        [
+          {
+            "back": "Время",
+            "deckName": "English",
+            "example": null,
+            "front": "time",
+            "id": 3,
+            "isOpened": false,
+            "state": undefined,
+          },
+          {
+            "back": "Год",
+            "deckName": "English",
+            "example": null,
+            "front": "year",
+            "id": 4,
+            "isOpened": false,
+            "state": undefined,
+          },
+          {
+            "back": "Дорога",
+            "deckName": "English",
+            "example": null,
+            "front": "way",
+            "id": 5,
+            "isOpened": false,
+            "state": undefined,
+          },
+          {
+            "back": "card 4",
+            "deckName": "English",
+            "example": null,
+            "front": "card 4",
+            "id": 6,
+            "isOpened": false,
+            "state": undefined,
+          },
+        ]
+      `);
 
     reviewStore.open();
     expect(reviewStore.currentCard?.isOpened).toBeTruthy();
@@ -165,27 +235,36 @@ describe("card form store", () => {
     expect(reviewStore.isFinished).toBeFalsy();
     expect(reviewStore.cardsToReview.map(cardToSnapshot))
       .toMatchInlineSnapshot(`
-      [
-        {
-          "back": "Год",
-          "deckName": "English",
-          "example": null,
-          "front": "year",
-          "id": 4,
-          "isOpened": false,
-          "state": undefined,
-        },
-        {
-          "back": "Дорога",
-          "deckName": "English",
-          "example": null,
-          "front": "way",
-          "id": 5,
-          "isOpened": false,
-          "state": undefined,
-        },
-      ]
-    `);
+        [
+          {
+            "back": "Год",
+            "deckName": "English",
+            "example": null,
+            "front": "year",
+            "id": 4,
+            "isOpened": false,
+            "state": undefined,
+          },
+          {
+            "back": "Дорога",
+            "deckName": "English",
+            "example": null,
+            "front": "way",
+            "id": 5,
+            "isOpened": false,
+            "state": undefined,
+          },
+          {
+            "back": "card 4",
+            "deckName": "English",
+            "example": null,
+            "front": "card 4",
+            "id": 6,
+            "isOpened": false,
+            "state": undefined,
+          },
+        ]
+      `);
     expect(reviewStore.currentCard?.id).toBe(4);
 
     reviewStore.open();
@@ -194,44 +273,56 @@ describe("card form store", () => {
     expect(reviewStore.isFinished).toBeFalsy();
     expect(reviewStore.cardsToReview.map(cardToSnapshot))
       .toMatchInlineSnapshot(`
-      [
-        {
-          "back": "Дорога",
-          "deckName": "English",
-          "example": null,
-          "front": "way",
-          "id": 5,
-          "isOpened": false,
-          "state": undefined,
-        },
-        {
-          "back": "Год",
-          "deckName": "English",
-          "example": null,
-          "front": "year",
-          "id": 4,
-          "isOpened": false,
-          "state": "forget",
-        },
-      ]
-    `);
+        [
+          {
+            "back": "Дорога",
+            "deckName": "English",
+            "example": null,
+            "front": "way",
+            "id": 5,
+            "isOpened": false,
+            "state": undefined,
+          },
+          {
+            "back": "card 4",
+            "deckName": "English",
+            "example": null,
+            "front": "card 4",
+            "id": 6,
+            "isOpened": false,
+            "state": undefined,
+          },
+          {
+            "back": "Год",
+            "deckName": "English",
+            "example": null,
+            "front": "year",
+            "id": 4,
+            "isOpened": false,
+            "state": "forget",
+          },
+        ]
+      `);
 
     reviewStore.open();
     reviewStore.changeState(CardState.Remember);
     expect(reviewStore.isFinished).toBeFalsy();
-    expect(reviewStore.cardsToReview).toHaveLength(1);
+    expect(reviewStore.cardsToReview).toHaveLength(2);
+
+    reviewStore.open();
+    reviewStore.changeState(CardState.Remember);
 
     reviewStore.open();
     reviewStore.changeState(CardState.Remember);
     expect(reviewStore.isFinished).toBeTruthy();
 
     expect(reviewStore.result.forgotIds).toEqual([4]);
-    expect(reviewStore.result.rememberIds).toEqual([3, 5]);
+    expect(reviewStore.result.rememberIds).toEqual([3, 5, 6]);
   });
 
   it("current next", () => {
     const reviewStore = new ReviewStore();
-    reviewStore.startDeckReview(deckMock);
+    reviewStore.startDeckReview(createDeckWithCards(repeatCardsMock));
     expect(reviewStore.isFinished).toBeFalsy();
 
     expect(reviewStore.currentCard?.id).toEqual(3);
@@ -245,6 +336,11 @@ describe("card form store", () => {
     reviewStore.changeState(CardState.Forget);
 
     expect(reviewStore.currentCard?.id).toEqual(5);
+
+    reviewStore.open();
+    reviewStore.changeState(CardState.Remember);
+
+    expect(reviewStore.currentCard?.id).toEqual(6);
 
     reviewStore.open();
     reviewStore.changeState(CardState.Remember);
@@ -264,26 +360,81 @@ describe("card form store", () => {
 
   it("hit wrong many times", () => {
     const reviewStore = new ReviewStore();
-    reviewStore.startDeckReview(deckMock);
+    reviewStore.startDeckReview(createDeckWithCards(repeatCardsMock));
     expect(reviewStore.isFinished).toBeFalsy();
+    expect(reviewStore.currentCard?.id).toEqual(3);
 
     reviewStore.open();
     reviewStore.changeState(CardState.Forget);
+    expect(reviewStore.currentCard?.id).toEqual(4);
 
     reviewStore.open();
     reviewStore.changeState(CardState.Forget);
+    expect(reviewStore.currentCard?.id).toEqual(5);
 
     reviewStore.open();
     reviewStore.changeState(CardState.Forget);
+    expect(reviewStore.currentCard?.id).toEqual(6);
 
     reviewStore.open();
     reviewStore.changeState(CardState.Forget);
+    expect(reviewStore.currentCard?.id).toEqual(3);
 
     reviewStore.open();
     reviewStore.changeState(CardState.Forget);
+    expect(reviewStore.currentCard?.id).toEqual(4);
 
     reviewStore.open();
     reviewStore.changeState(CardState.Forget);
+    expect(reviewStore.currentCard?.id).toEqual(5);
+
+    expect(reviewStore.result.forgotIds).toHaveLength(4);
+    expect(reviewStore.result.rememberIds).toHaveLength(0);
+
+    reviewStore.open();
+    reviewStore.changeState(CardState.Remember);
+
+    reviewStore.open();
+    reviewStore.changeState(CardState.Remember);
+
+    reviewStore.open();
+    reviewStore.changeState(CardState.Remember);
+
+    expect(reviewStore.result.forgotIds).toHaveLength(4);
+    expect(reviewStore.result.rememberIds).toHaveLength(0);
+    expect(reviewStore.currentCard?.id).toEqual(4);
+  });
+
+  it("hit wrong many times - prioritize forgotten new cards", () => {
+    const reviewStore = new ReviewStore();
+    reviewStore.startDeckReview(createDeckWithCards(newCardsMock));
+
+    expect(reviewStore.isFinished).toBeFalsy();
+    expect(reviewStore.currentCard?.id).toEqual(3);
+
+    reviewStore.open();
+    reviewStore.changeState(CardState.Forget);
+    expect(reviewStore.currentCard?.id).toEqual(4);
+
+    reviewStore.open();
+    reviewStore.changeState(CardState.Forget);
+    expect(reviewStore.currentCard?.id).toEqual(5);
+
+    reviewStore.open();
+    reviewStore.changeState(CardState.Forget);
+    expect(reviewStore.currentCard?.id).toEqual(3);
+
+    reviewStore.open();
+    reviewStore.changeState(CardState.Forget);
+    expect(reviewStore.currentCard?.id).toEqual(4);
+
+    reviewStore.open();
+    reviewStore.changeState(CardState.Forget);
+    expect(reviewStore.currentCard?.id).toEqual(5);
+
+    reviewStore.open();
+    reviewStore.changeState(CardState.Forget);
+    expect(reviewStore.currentCard?.id).toEqual(3);
 
     expect(reviewStore.result.forgotIds).toHaveLength(3);
     expect(reviewStore.result.rememberIds).toHaveLength(0);
@@ -299,5 +450,6 @@ describe("card form store", () => {
 
     expect(reviewStore.result.forgotIds).toHaveLength(3);
     expect(reviewStore.result.rememberIds).toHaveLength(0);
+    expect(reviewStore.currentCard?.id).toEqual(6);
   });
 });

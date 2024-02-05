@@ -6,22 +6,20 @@ import { makePersistable } from "mobx-persist-store";
 import { storageAdapter } from "../lib/telegram/storage-adapter.ts";
 import { BooleanToggle } from "../lib/mobx-form/boolean-toggle.ts";
 import { CardAnswerType } from "../../functions/db/custom-types.ts";
+import { persistableField } from "../lib/mobx-form/persistable-field.ts";
 
 export class UserStore {
   userInfo?: UserDbType;
   plans?: PlansForUser;
-  isCardFormattingOn = new BooleanToggle(false);
+  isCardFormattingOn = persistableField(
+    new BooleanToggle(false),
+    "isCardFormattingOn",
+  );
   defaultCardType: CardAnswerType = "remember";
   isSpeakingCardsMuted = new BooleanToggle(false);
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
-
-    makePersistable(this.isCardFormattingOn, {
-      name: "isCardFormattingOn",
-      properties: ["value"],
-      storage: storageAdapter,
-    });
 
     makePersistable(this, {
       name: "defaultCardType",

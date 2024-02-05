@@ -1,15 +1,18 @@
 import { Button } from "../../ui/button.tsx";
 import { ReactNode } from "react";
 import { CardPreviewStory } from "./card-preview-story.tsx";
+import { SelectStory } from "./select-story.tsx";
 
-export type Component = { name: string; component: ReactNode };
+export type Component = {
+  name: string;
+  component: ReactNode;
+};
 
 export const components: Array<Component> = [
   {
     name: "Button",
     component: <Button>Button</Button>,
   },
-
   {
     name: "Button - outline",
     component: <Button outline>Button</Button>,
@@ -38,5 +41,9 @@ export const components: Array<Component> = [
         }}
       />
     ),
+  },
+  {
+    name: "Select",
+    component: <SelectStory />,
   },
 ];
