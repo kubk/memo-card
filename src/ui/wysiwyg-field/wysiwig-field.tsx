@@ -12,9 +12,7 @@ import { TextField } from "../../lib/mobx-form/text-field.ts";
 import { ValidationError } from "../validation-error.tsx";
 import { ColorIcon } from "./color-icon.tsx";
 import { t } from "../../translations/t.ts";
-import {
-  sanitizeTextForCard
-} from "../../lib/sanitize-html/sanitize-text-for-card.ts";
+import { sanitizeTextForCard } from "../../lib/sanitize-html/sanitize-text-for-card.ts";
 
 const BtnBigHeader = createButton(
   t("wysiwyg_big_header"),

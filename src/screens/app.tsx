@@ -26,6 +26,7 @@ import { ShareDeckOrFormStoreProvider } from "./share-deck/store/share-deck-stor
 import { FolderFormStoreProvider } from "./folder-form/store/folder-form-store-context.tsx";
 import { FolderScreen } from "./folder-review/folder-screen.tsx";
 import { useSettingsButton } from "../lib/telegram/use-settings-button.ts";
+import { ComponentCatalogPage } from "./component-catalog/component-catalog-page.tsx";
 
 export const App = observer(() => {
   useRestoreFullScreenExpand();
@@ -117,6 +118,11 @@ export const App = observer(() => {
           <DeckCatalogStoreContextProvider>
             <DeckCatalog />
           </DeckCatalogStoreContextProvider>
+        </PreventTelegramSwipeDownClosingIos>
+      )}
+      {screenStore.screen.type === "componentCatalog" && (
+        <PreventTelegramSwipeDownClosingIos>
+          <ComponentCatalogPage />
         </PreventTelegramSwipeDownClosingIos>
       )}
     </div>

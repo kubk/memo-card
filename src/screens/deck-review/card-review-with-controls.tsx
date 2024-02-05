@@ -36,7 +36,7 @@ export const CardReviewWithControls = observer((props: Props) => {
       {card && card.answerType === "remember" && (
         <div
           className={css({
-            position: "absolute",
+            position: "sticky",
             bottom: 32,
             display: "flex",
             alignItems: "center",

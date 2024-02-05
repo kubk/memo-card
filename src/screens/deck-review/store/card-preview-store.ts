@@ -11,6 +11,7 @@ import { speak, SpeakLanguageEnum } from "../../../lib/voice-playback/speak.ts";
 import { removeAllTags } from "../../../lib/sanitize-html/remove-all-tags.ts";
 import { CardFormStoreInterface } from "../../deck-form/store/card-form-store-interface.ts";
 import { assert } from "../../../lib/typescript/assert.ts";
+import { BooleanToggle } from "../../../lib/mobx-form/boolean-toggle.ts";
 
 export class CardPreviewStore implements LimitedCardUnderReviewStore {
   id: number;
@@ -25,6 +26,9 @@ export class CardPreviewStore implements LimitedCardUnderReviewStore {
   deckSpeakField: DeckSpeakFieldEnum | null = null;
 
   isOpened = false;
+
+  // A hack for iOS when the card content is too large
+  isOverflowing = new BooleanToggle(false);
 
   constructor(cardFormStore: CardFormStoreInterface) {
     makeAutoObservable(this, {}, { autoBind: true });

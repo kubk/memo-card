@@ -96,7 +96,7 @@ export const CardList = observer(() => {
             padding: 12,
             // If the card content is too big then hide it
             maxHeight: 120,
-            overflow: 'hidden',
+            overflow: "hidden",
             ...tapScale,
           })}
         >

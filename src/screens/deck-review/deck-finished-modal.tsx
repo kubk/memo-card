@@ -6,12 +6,10 @@ import { LazyLoadFramerMotion } from "../../lib/framer-motion/lazy-load-framer-m
 
 type Props = {
   children: ReactNode;
-  marginTop?: string;
 };
 
 export const DeckFinishedModal = (props: Props) => {
   const { children } = props;
-  const marginTop = props.marginTop || "200px";
 
   const modal = {
     hidden: {
@@ -19,7 +17,7 @@ export const DeckFinishedModal = (props: Props) => {
       opacity: 0,
     },
     visible: {
-      y: marginTop,
+      y: "32px",
       opacity: 1,
       transition: { delay: 0.2 },
     },

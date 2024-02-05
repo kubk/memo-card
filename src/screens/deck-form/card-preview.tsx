@@ -2,9 +2,10 @@ import { observer } from "mobx-react-lite";
 import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
 import { css } from "@emotion/css";
 import { CardReviewWithControls } from "../deck-review/card-review-with-controls.tsx";
-import { useState } from "react";
+import React, { useState } from "react";
 import { CardPreviewStore } from "../deck-review/store/card-preview-store.ts";
 import { CardFormStoreInterface } from "./store/card-form-store-interface.ts";
+import { createPortal } from "react-dom";
 
 type Props = {
   form: CardFormStoreInterface;
@@ -19,7 +20,7 @@ export const CardPreview = observer((props: Props) => {
     onBack();
   });
 
-  return (
+  const component = (
     <div
       className={css({
         display: "flex",
@@ -60,4 +61,8 @@ export const CardPreview = observer((props: Props) => {
       />
     </div>
   );
+
+  return cardPreviewStore.isOverflowing.value
+    ? createPortal(component, document.body)
+    : component;
 });
