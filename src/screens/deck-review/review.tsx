@@ -10,6 +10,7 @@ import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
 import { useHotkeys } from "react-hotkeys-hook";
 import { ReviewDeckName } from "./review-deck-name.tsx";
 import { CardReviewWithControls } from "./card-review-with-controls.tsx";
+import { createPortal } from "react-dom";
 
 export const Review = observer(() => {
   const reviewStore = useReviewStore();
@@ -53,7 +54,7 @@ export const Review = observer(() => {
     }
   });
 
-  return (
+  const component = (
     <div
       className={css({
         display: "flex",
@@ -91,4 +92,8 @@ export const Review = observer(() => {
       />
     </div>
   );
+
+  return reviewStore.currentCard?.isOverflowing.value
+    ? createPortal(component, document.body)
+    : component;
 });

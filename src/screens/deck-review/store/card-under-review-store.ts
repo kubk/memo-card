@@ -11,6 +11,7 @@ import { CardAnswerType } from "../../../../functions/db/custom-types.ts";
 import { assert } from "../../../lib/typescript/assert.ts";
 import { removeAllTags } from "../../../lib/sanitize-html/remove-all-tags.ts";
 import { userStore } from "../../../store/user-store.ts";
+import { BooleanToggle } from "../../../lib/mobx-form/boolean-toggle.ts";
 
 export enum CardState {
   Remember = "remember",
@@ -31,6 +32,9 @@ export class CardUnderReviewStore {
 
   isOpened = false;
   state?: CardState;
+
+  // A hack for iOS when the card content is too large
+  isOverflowing = new BooleanToggle(false);
 
   constructor(card: DeckCardDbType, deck: DeckWithCardsWithReviewType) {
     this.id = card.id;

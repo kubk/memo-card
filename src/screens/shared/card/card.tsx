@@ -7,6 +7,7 @@ import { HorizontalDivider } from "../../../ui/horizontal-divider.tsx";
 import { CardSpeaker } from "./card-speaker.tsx";
 import { CardFieldView } from "./card-field-view.tsx";
 import { assert } from "../../../lib/typescript/assert.ts";
+import { useIsOverflowing } from "../../../lib/react/use-is-overflowing.ts";
 
 export const cardSize = 310;
 
@@ -23,15 +24,23 @@ export type LimitedCardUnderReviewStore = Pick<
   | "answer"
   | "openWithAnswer"
   | "open"
+  | "isOverflowing"
 >;
 
 type Props = {
   card: LimitedCardUnderReviewStore;
 };
 
-export const Card = observer(({ card }: Props) => {
+export const Card = observer((props: Props) => {
+  const { card } = props;
+  const { ref: cardRef } = useIsOverflowing(
+    card.isOpened,
+    (is) => card?.isOverflowing.setValue(is),
+  );
+
   return (
     <div
+      ref={cardRef}
       className={
         card.answerType === "remember"
           ? css({
@@ -48,6 +57,7 @@ export const Card = observer(({ card }: Props) => {
               placeItems: "center center",
               padding: 10,
               background: theme.secondaryBgColor,
+              overflowX: "auto",
             })
           : css({
               color: theme.textColor,

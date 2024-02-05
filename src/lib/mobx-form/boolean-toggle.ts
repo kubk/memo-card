@@ -17,4 +17,8 @@ export class BooleanToggle implements FieldWithValue<boolean> {
   setFalse() {
     this.value = false;
   }
+
+  setValue(value: boolean) {
+    this.value = value;
+  }
 }

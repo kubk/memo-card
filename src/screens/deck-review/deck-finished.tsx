@@ -32,7 +32,7 @@ export const DeckFinished = observer((props: Props) => {
   useTelegramProgress(() => reviewStore.isReviewSending);
 
   return (
-    <DeckFinishedModal marginTop={"32px"}>
+    <DeckFinishedModal>
       <div
         className={css({
           display: "flex",

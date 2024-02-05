@@ -3,7 +3,7 @@ import { getUserLanguage } from "./get-user-language.ts";
 
 const en = {
   wysiwyg_big_header: "Big header",
-  next: 'Next',
+  next: "Next",
   wysiwyg_small_header: "Small header",
   wysiwyg_middle_header: "Middle header",
   wysiwyg_bold: "Bold",
@@ -168,7 +168,7 @@ type Translation = typeof en;
 const ru: Translation = {
   wysiwyg_italic: "Курсив",
   wysiwyg_red: "Красный",
-  next: 'Далее',
+  next: "Далее",
   wysiwyg_clear_formatting: "Очистить форматирование",
   wysiwyg_bold: "Жирный",
   wysiwyg_small_header: "Маленький заголовок",
@@ -325,7 +325,7 @@ const ru: Translation = {
 };
 
 const es: Translation = {
-  next: 'Siguiente',
+  next: "Siguiente",
   wysiwyg_red: "Rojo",
   wysiwyg_bold: "Negrita",
   wysiwyg_undo: "Deshacer",
@@ -490,7 +490,7 @@ const es: Translation = {
 };
 
 const ptBr: Translation = {
-  next: 'Próximo',
+  next: "Próximo",
   wysiwyg_red: "Vermelho",
   wysiwyg_bold: "Negrito",
   wysiwyg_clear_formatting: "Limpar formatação",
