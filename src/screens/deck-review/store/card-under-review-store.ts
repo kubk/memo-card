@@ -21,6 +21,7 @@ import { CardReviewType } from "../../../../functions/db/deck/get-cards-to-revie
 export enum CardState {
   Remember = "remember",
   Forget = "forget",
+  Never = "never",
 }
 
 export class CardUnderReviewStore {

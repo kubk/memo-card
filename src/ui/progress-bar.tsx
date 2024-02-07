@@ -4,7 +4,10 @@ import { m } from "framer-motion";
 import React from "react";
 import { LazyLoadFramerMotion } from "../lib/framer-motion/lazy-load-framer-motion.tsx";
 
-type Props = { value: number; max: number };
+type Props = {
+  value: number;
+  max: number;
+};
 
 export const ProgressBar = ({ value, max }: Props) => {
   return (

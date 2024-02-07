@@ -1,4 +1,4 @@
-import { css, cx } from "@emotion/css";
+import { css } from "@emotion/css";
 import React from "react";
 import { theme } from "../../../ui/theme.tsx";
 import { observer } from "mobx-react-lite";
@@ -8,6 +8,8 @@ import { CardSpeaker } from "./card-speaker.tsx";
 import { CardFieldView } from "./card-field-view.tsx";
 import { assert } from "../../../lib/typescript/assert.ts";
 import { useIsOverflowing } from "../../../lib/react/use-is-overflowing.ts";
+import { Dropdown } from "../../../ui/dropdown.tsx";
+import { t } from "../../../translations/t.ts";
 
 export const cardSize = 310;
 
@@ -30,10 +32,11 @@ export type LimitedCardUnderReviewStore = Pick<
 
 type Props = {
   card: LimitedCardUnderReviewStore;
+  onHideCardForever?: () => void;
 };
 
 export const Card = observer((props: Props) => {
-  const { card } = props;
+  const { card, onHideCardForever } = props;
   const { ref: cardRef } = useIsOverflowing(
     card.isOpened,
     (is) => card?.isOverflowing.setValue(is),
@@ -65,20 +68,27 @@ export const Card = observer((props: Props) => {
             })
       }
     >
-      {false && (
+      {
         <div
           className={css({
             position: "absolute",
             top: 0,
-            right: 12,
-            transform: "scale(0.8)",
+            right: 30,
             cursor: "pointer",
           })}
-          onClick={() => {}}
         >
-          <i className={cx("mdi mdi-dots-horizontal mdi-24px")} />
+          <Dropdown
+            items={[
+              {
+                text: t("hide_card_forever"),
+                onClick: () => {
+                  onHideCardForever?.();
+                },
+              },
+            ]}
+          />
         </div>
-      )}
+      }
       <span
         className={css({
           textAlign: "center",

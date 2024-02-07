@@ -58,6 +58,7 @@ export const CardPreview = observer((props: Props) => {
         }}
         card={cardPreviewStore}
         onReviewCardWithAnswers={() => {}}
+        onHideCardForever={() => {}}
       />
     </div>
   );
