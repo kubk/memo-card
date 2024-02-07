@@ -75,9 +75,7 @@ export const Review = observer(() => {
       >
         {reviewStore.initialCardCount && (
           <ProgressBar
-            value={
-              reviewStore.initialCardCount - reviewStore.cardsToReview.length
-            }
+            value={reviewStore.reviewedCardsCount}
             max={reviewStore.initialCardCount}
           />
         )}
@@ -89,6 +87,7 @@ export const Review = observer(() => {
         onCorrect={onCorrect}
         onShowAnswer={reviewStore.open}
         onReviewCardWithAnswers={reviewStore.onReviewCardWithAnswers}
+        onHideCardForever={reviewStore.onHideCardForever}
       />
     </div>
   );

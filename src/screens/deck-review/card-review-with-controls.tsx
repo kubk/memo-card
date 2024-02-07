@@ -16,11 +16,18 @@ type Props = {
   onCorrect: () => void;
   onShowAnswer: () => void;
   onReviewCardWithAnswers: () => void;
+  onHideCardForever: () => void;
 };
 
 export const CardReviewWithControls = observer((props: Props) => {
-  const { card, onWrong, onCorrect, onShowAnswer, onReviewCardWithAnswers } =
-    props;
+  const {
+    card,
+    onWrong,
+    onCorrect,
+    onShowAnswer,
+    onReviewCardWithAnswers,
+    onHideCardForever,
+  } = props;
 
   return (
     <>
@@ -31,7 +38,7 @@ export const CardReviewWithControls = observer((props: Props) => {
           width: "100%",
         })}
       >
-        {card && <Card card={card} />}
+        {card && <Card card={card} onHideCardForever={onHideCardForever} />}
       </div>
       {card && card.answerType === "remember" && (
         <div

@@ -9,17 +9,20 @@ import {
   hapticImpact,
   hapticNotification,
 } from "../../../lib/telegram/haptics.ts";
+import { showConfirm } from "../../../lib/telegram/show-confirm.ts";
+import { t } from "../../../translations/t.ts";
 
 type ReviewResult = {
   forgotIds: number[];
   rememberIds: number[];
+  neverIds: number[];
 };
 
 export class ReviewStore {
   cardsToReview: CardUnderReviewStore[] = [];
   currentCardId?: number;
 
-  result: ReviewResult = { forgotIds: [], rememberIds: [] };
+  result: ReviewResult = { forgotIds: [], rememberIds: [], neverIds: [] };
   initialCardCount?: number;
 
   isReviewSending = false;
@@ -27,6 +30,11 @@ export class ReviewStore {
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
+  }
+
+  get reviewedCardsCount() {
+    assert(this.initialCardCount, "initialCardCount is empty");
+    return this.initialCardCount - this.cardsToReview.length;
   }
 
   startDeckReview(deck: DeckWithCardsWithReviewType) {
@@ -130,6 +138,14 @@ export class ReviewStore {
     this.changeState(newState);
   }
 
+  async onHideCardForever() {
+    const isConfirmed = await showConfirm(t("hide_card_forever_confirm_title"));
+    if (!isConfirmed) {
+      return;
+    }
+    this.changeState(CardState.Never);
+  }
+
   changeState(cardState: CardState) {
     const currentCard = this.currentCard;
     assert(
@@ -171,6 +187,16 @@ export class ReviewStore {
       this.result.rememberIds.push(currentCard.id);
     }
 
+    if (currentCard.state === CardState.Never) {
+      this.result.forgotIds = this.result.forgotIds.filter(
+        (id) => id !== currentCard.id,
+      );
+      this.result.rememberIds = this.result.rememberIds.filter(
+        (id) => id !== currentCard.id,
+      );
+      this.result.neverIds.push(currentCard.id);
+    }
+
     if (this.cardsToReview.length !== 0) {
       // Go to next card
       this.currentCardId = this.cardsToReview[0].id;
@@ -182,7 +208,11 @@ export class ReviewStore {
   }
 
   get hasResult() {
-    return this.result.forgotIds.length || this.result.rememberIds.length;
+    return (
+      this.result.forgotIds.length ||
+      this.result.rememberIds.length ||
+      this.result.neverIds.length
+    );
   }
 
   submitUnfinished() {
@@ -208,6 +238,10 @@ export class ReviewStore {
       ...this.result.rememberIds.map((rememberId) => ({
         id: rememberId,
         outcome: "correct" as const,
+      })),
+      ...this.result.neverIds.map((neverId) => ({
+        id: neverId,
+        outcome: "never" as const,
       })),
     ];
   }

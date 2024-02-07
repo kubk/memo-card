@@ -12,6 +12,18 @@ vi.mock("mobx-persist-store", () => {
   };
 });
 
+vi.mock("../../../lib/telegram/show-confirm.ts", () => {
+  return {
+    showAlert: () => {},
+  };
+});
+
+vi.mock("../../../translations/t.ts", () => {
+  return {
+    t: (val: string) => val,
+  };
+});
+
 const createDeckWithCards = (cards: DeckCardDbTypeWithType[]) => {
   const deckMock: DeckWithCardsWithReviewType = {
     id: 1,
@@ -411,6 +423,45 @@ describe("card form store", () => {
     expect(reviewStore.result.forgotIds).toHaveLength(4);
     expect(reviewStore.result.rememberIds).toHaveLength(0);
     expect(reviewStore.currentCard?.id).toEqual(4);
+  });
+
+  it("use 'never show' option", () => {
+    const reviewStore = new ReviewStore();
+    reviewStore.startDeckReview(createDeckWithCards(repeatCardsMock));
+    expect(reviewStore.isFinished).toBeFalsy();
+    expect(reviewStore.currentCard?.id).toEqual(3);
+
+    reviewStore.open();
+    reviewStore.changeState(CardState.Forget);
+    expect(reviewStore.currentCard?.id).toEqual(4);
+
+    reviewStore.open();
+    reviewStore.changeState(CardState.Forget);
+    expect(reviewStore.currentCard?.id).toEqual(5);
+
+    reviewStore.open();
+    reviewStore.changeState(CardState.Forget);
+    expect(reviewStore.currentCard?.id).toEqual(6);
+
+    reviewStore.open();
+    reviewStore.changeState(CardState.Never);
+    expect(reviewStore.currentCard?.id).toEqual(3);
+
+    reviewStore.open();
+    reviewStore.changeState(CardState.Remember);
+    expect(reviewStore.currentCard?.id).toEqual(4);
+
+    reviewStore.open();
+    reviewStore.changeState(CardState.Remember);
+    expect(reviewStore.currentCard?.id).toEqual(5);
+
+    reviewStore.open();
+    reviewStore.changeState(CardState.Remember);
+    expect(reviewStore.isFinished).toBeTruthy();
+
+    expect(reviewStore.result.forgotIds).toHaveLength(3);
+    expect(reviewStore.result.rememberIds).toHaveLength(0);
+    expect(reviewStore.result.neverIds).toHaveLength(1);
   });
 
   it("hit wrong many times - prioritize forgotten new cards", () => {
