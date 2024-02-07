@@ -38,6 +38,7 @@ const mapUpsertDeckRequestToResponse = (
         back: card.back,
         answer_type: "remember",
         answers: null,
+        options: null,
       };
     }),
   },
@@ -75,6 +76,7 @@ vi.mock("./../../../store/deck-list-store.ts", () => {
       back: "Время",
       answer_type: "remember",
       answers: null,
+      options: null,
     },
     {
       id: 4,
@@ -85,6 +87,7 @@ vi.mock("./../../../store/deck-list-store.ts", () => {
       back: "Год",
       answer_type: "remember",
       answers: null,
+      options: null,
     },
     {
       id: 5,
@@ -95,6 +98,7 @@ vi.mock("./../../../store/deck-list-store.ts", () => {
       back: "Дорога",
       answer_type: "remember",
       answers: null,
+      options: null,
     },
   ];
 

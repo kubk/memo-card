@@ -5,7 +5,11 @@ import {
   DeckSpeakFieldEnum,
 } from "../../../../functions/db/deck/decks-with-cards-schema.ts";
 import { DeckWithCardsWithReviewType } from "../../../store/deck-list-store.ts";
-import { speak, SpeakLanguageEnum } from "../../../lib/voice-playback/speak.ts";
+import {
+  isSpeechSynthesisSupported,
+  speak,
+  SpeakLanguageEnum,
+} from "../../../lib/voice-playback/speak.ts";
 import { isEnumValid } from "../../../lib/typescript/is-enum-valid.ts";
 import { CardAnswerType } from "../../../../functions/db/custom-types.ts";
 import { assert } from "../../../lib/typescript/assert.ts";
@@ -25,6 +29,7 @@ export class CardUnderReviewStore {
   back: string;
   example: string | null = null;
   deckName?: string;
+  voice?: HTMLAudioElement;
   deckSpeakLocale: string | null = null;
   deckSpeakField: DeckSpeakFieldEnum | null = null;
   answerType: CardAnswerType;
@@ -51,8 +56,17 @@ export class CardUnderReviewStore {
     this.deckName = deck.name;
     this.deckSpeakLocale = deck.speak_locale;
     this.deckSpeakField = deck.speak_field;
+    if (card.options?.voice) {
+      const audio = new Audio(card.options.voice);
+      audio.load();
+      this.voice = audio;
+    }
 
-    makeAutoObservable(this, {}, { autoBind: true });
+    makeAutoObservable(
+      this,
+      { isCardSpeakerVisible: false },
+      { autoBind: true },
+    );
   }
 
   open() {
@@ -77,11 +91,16 @@ export class CardUnderReviewStore {
   }
 
   speak() {
-    if (
-      !userStore.isSpeakingCardsEnabled ||
-      !this.deckSpeakLocale ||
-      !this.deckSpeakField
-    ) {
+    if (!userStore.isSpeakingCardsEnabled) {
+      return;
+    }
+
+    if (this.voice) {
+      this.voice.play();
+      return;
+    }
+
+    if (!this.deckSpeakLocale || !this.deckSpeakField) {
       return;
     }
 
@@ -92,5 +111,18 @@ export class CardUnderReviewStore {
     const text = this[this.deckSpeakField];
 
     speak(removeAllTags(text), this.deckSpeakLocale);
+  }
+
+  isCardSpeakerVisible(type: "front" | "back") {
+    if (this.voice) {
+      return type === "back";
+    }
+
+    return (
+      isSpeechSynthesisSupported &&
+      this.isOpened &&
+      type === this.deckSpeakField &&
+      userStore.isSpeakingCardsEnabled
+    );
   }
 }
