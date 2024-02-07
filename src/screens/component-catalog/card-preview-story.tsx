@@ -19,6 +19,7 @@ const createCardPreviewForm = (card: {
       example: new TextField<string>(card.example ?? ""),
       answerType: new TextField<CardAnswerType>("remember"),
       answerFormType: "new",
+      options: null,
       answers: new ListField<CardAnswerFormType>([]),
       answerId: "0",
     },

@@ -15,6 +15,7 @@ import { showAlert } from "../../../lib/telegram/show-alert.ts";
 import { fuzzySearch } from "../../../lib/string/fuzzy-search.ts";
 import {
   DeckCardDbType,
+  DeckCardOptionsDbType,
   DeckSpeakFieldEnum,
   DeckWithCardsDbType,
 } from "../../../../functions/db/deck/decks-with-cards-schema.ts";
@@ -45,6 +46,7 @@ export type CardFormType = {
   answerId?: string;
   answerFormType?: "new" | "edit";
   id?: number;
+  options: DeckCardOptionsDbType;
 };
 
 type DeckFormType = {
@@ -122,6 +124,7 @@ const createUpdateForm = (
       back: createCardSideField(card.back),
       example: new TextField(card.example || ""),
       answerType: createAnswerTypeField(card),
+      options: card.options,
       answers: createAnswerListField(
         card.answers
           ? card.answers.map((answer) => ({
@@ -334,6 +337,7 @@ export class DeckFormStore implements CardFormStoreInterface {
       back: createCardSideField(""),
       example: new TextField(""),
       answerType: createAnswerTypeField(),
+      options: null,
       answers: createAnswerListField([], () => this.cardForm),
     });
   }

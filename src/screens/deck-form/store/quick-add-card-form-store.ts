@@ -27,6 +27,7 @@ export class QuickAddCardFormStore implements CardFormStoreInterface {
     front: createCardSideField(""),
     example: new TextField(""),
     answerType: createAnswerTypeField(),
+    options: null,
     answers: createAnswerListField([], () => this.cardForm),
   };
   isSending = false;

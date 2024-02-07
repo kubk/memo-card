@@ -25,6 +25,7 @@ export type LimitedCardUnderReviewStore = Pick<
   | "openWithAnswer"
   | "open"
   | "isOverflowing"
+  | "isCardSpeakerVisible"
 >;
 
 type Props = {

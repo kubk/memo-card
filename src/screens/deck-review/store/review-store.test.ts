@@ -43,6 +43,7 @@ const repeatCardsMock: DeckCardDbTypeWithType[] = [
     type: "repeat",
     answer_type: "remember",
     answers: null,
+    options: null,
   },
   {
     id: 4,
@@ -54,6 +55,7 @@ const repeatCardsMock: DeckCardDbTypeWithType[] = [
     type: "repeat",
     answer_type: "remember",
     answers: null,
+    options: null,
   },
   {
     id: 5,
@@ -65,6 +67,7 @@ const repeatCardsMock: DeckCardDbTypeWithType[] = [
     type: "repeat",
     answer_type: "remember",
     answers: null,
+    options: null,
   },
   {
     id: 6,
@@ -76,6 +79,7 @@ const repeatCardsMock: DeckCardDbTypeWithType[] = [
     type: "repeat",
     answer_type: "remember",
     answers: null,
+    options: null,
   },
 ];
 
@@ -90,6 +94,7 @@ const newCardsMock: DeckCardDbTypeWithType[] = [
     type: "new",
     answer_type: "remember",
     answers: null,
+    options: null,
   },
   {
     id: 4,
@@ -101,6 +106,7 @@ const newCardsMock: DeckCardDbTypeWithType[] = [
     type: "new",
     answer_type: "remember",
     answers: null,
+    options: null,
   },
   {
     id: 5,
@@ -112,6 +118,7 @@ const newCardsMock: DeckCardDbTypeWithType[] = [
     type: "new",
     answer_type: "remember",
     answers: null,
+    options: null,
   },
   {
     id: 6,
@@ -123,6 +130,7 @@ const newCardsMock: DeckCardDbTypeWithType[] = [
     type: "new",
     answer_type: "remember",
     answers: null,
+    options: null,
   },
 ];
 

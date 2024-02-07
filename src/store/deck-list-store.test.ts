@@ -64,6 +64,7 @@ vi.mock("../api/api.ts", () => {
                 answer_type: "remember",
                 example: null,
                 answers: null,
+                options: null,
               },
               {
                 id: 2,
@@ -74,6 +75,7 @@ vi.mock("../api/api.ts", () => {
                 answer_type: "remember",
                 example: null,
                 answers: null,
+                options: null,
               },
               {
                 id: 3,
@@ -84,6 +86,7 @@ vi.mock("../api/api.ts", () => {
                 answer_type: "remember",
                 example: null,
                 answers: null,
+                options: null,
               },
               {
                 id: 5,
@@ -94,6 +97,7 @@ vi.mock("../api/api.ts", () => {
                 answer_type: "remember",
                 example: null,
                 answers: null,
+                options: null,
               },
             ],
           },
@@ -120,6 +124,7 @@ vi.mock("../api/api.ts", () => {
                 answer_type: "remember",
                 example: null,
                 answers: null,
+                options: null,
               },
             ],
           },
@@ -182,6 +187,7 @@ describe("deck list store", () => {
           "example": null,
           "front": "d1c5 - f",
           "id": 5,
+          "options": null,
           "type": "repeat",
         },
         {
@@ -193,6 +199,7 @@ describe("deck list store", () => {
           "example": null,
           "front": "d1c2 - f",
           "id": 2,
+          "options": null,
           "type": "repeat",
         },
         {
@@ -204,6 +211,7 @@ describe("deck list store", () => {
           "example": null,
           "front": "d1c1 - f",
           "id": 1,
+          "options": null,
           "type": "new",
         },
         {
@@ -215,6 +223,7 @@ describe("deck list store", () => {
           "example": null,
           "front": "d1c3 - f",
           "id": 3,
+          "options": null,
           "type": "new",
         },
       ]
