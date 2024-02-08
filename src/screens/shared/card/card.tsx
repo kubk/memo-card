@@ -10,6 +10,8 @@ import { assert } from "../../../lib/typescript/assert.ts";
 import { useIsOverflowing } from "../../../lib/react/use-is-overflowing.ts";
 import { Dropdown } from "../../../ui/dropdown.tsx";
 import { t } from "../../../translations/t.ts";
+import { boolNarrow } from "../../../lib/typescript/bool-narrow.ts";
+import { userStore } from "../../../store/user-store.ts";
 
 export const cardSize = 310;
 
@@ -28,6 +30,7 @@ export type LimitedCardUnderReviewStore = Pick<
   | "open"
   | "isOverflowing"
   | "isCardSpeakerVisible"
+  | "canSpeak"
 >;
 
 type Props = {
@@ -85,7 +88,17 @@ export const Card = observer((props: Props) => {
                   onHideCardForever?.();
                 },
               },
-            ]}
+              card.canSpeak
+                ? {
+                    text: userStore.isSpeakingCardsMuted.value
+                      ? t("unmute_cards")
+                      : t("mute_cards"),
+                    onClick: () => {
+                      userStore.isSpeakingCardsMuted.toggle();
+                    },
+                  }
+                : undefined,
+            ].filter(boolNarrow)}
           />
         </div>
       }
