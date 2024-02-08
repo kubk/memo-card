@@ -126,4 +126,11 @@ export class CardUnderReviewStore {
       userStore.isSpeakingCardsEnabled
     );
   }
+
+  get canSpeak() {
+    if (!isSpeechSynthesisSupported) {
+      return false;
+    }
+    return Boolean(this.voice || (this.deckSpeakLocale && this.deckSpeakField));
+  }
 }

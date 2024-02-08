@@ -59,7 +59,7 @@ export const RadioSwitcher = (props: Props) => {
             alignItems: "center",
             position: "absolute",
             backgroundColor: config.colors.white,
-            boxShadow: "0 0 8px rgba(56, 0, 107, 0.16)",
+            boxShadow: theme.boxShadow,
             width: config.cursorSize,
             height: config.cursorSize,
             borderRadius: "50%",

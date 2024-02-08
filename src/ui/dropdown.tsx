@@ -58,7 +58,7 @@ export const Dropdown = (props: Props) => {
               backgroundColor: theme.bgColor,
               minWidth: "160px",
               borderRadius: theme.borderRadius,
-              boxShadow: "0 0 8px rgba(56, 0, 107, 0.16)",
+              boxShadow: theme.boxShadow,
               right: 0,
               zIndex: 1,
               color: theme.textColor,
@@ -72,6 +72,18 @@ export const Dropdown = (props: Props) => {
                 padding: "12px 16px",
                 borderRadius: theme.borderRadius,
                 ...tapScale,
+                ":hover": {
+                  backgroundColor: theme.buttonColor,
+                  color: theme.buttonTextColor,
+                },
+                ":first-child": {
+                  borderBottomLeftRadius: 0,
+                  borderBottomRightRadius: 0,
+                },
+                ":last-child": {
+                  borderTopLeftRadius: 0,
+                  borderTopRightRadius: 0,
+                },
               })}
               onClick={() => {
                 item.onClick();

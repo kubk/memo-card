@@ -3,6 +3,8 @@ import { getUserLanguage } from "./get-user-language.ts";
 
 const en = {
   hide_card_forever: "Hide forever",
+  mute_cards: "Mute sound",
+  unmute_cards: "Unmute sound",
   hide_card_forever_confirm_title:
     "Are you sure you want to hide this card forever? You will never see it again",
   wysiwyg_big_header: "Big header",
@@ -172,6 +174,8 @@ const ru: Translation = {
   hide_card_forever_confirm_title:
     "Вы уверены, что хотите скрыть эту карточку навсегда? Вы больше не увидите её",
   hide_card_forever: "Скрыть навсегда",
+  mute_cards: "Выключить звук",
+  unmute_cards: "Включить звук",
   wysiwyg_italic: "Курсив",
   wysiwyg_red: "Красный",
   next: "Далее",
@@ -332,6 +336,8 @@ const ru: Translation = {
 
 const es: Translation = {
   hide_card_forever: "Ocultar para siempre",
+  mute_cards: "Silenciar sonido",
+  unmute_cards: "Activar sonido",
   hide_card_forever_confirm_title:
     "¿Estás seguro de que quieres ocultar esta tarjeta para siempre? No la volverás a ver",
   next: "Siguiente",
@@ -500,6 +506,8 @@ const es: Translation = {
 
 const ptBr: Translation = {
   hide_card_forever: "Ocultar para sempre",
+  mute_cards: "Silenciar som",
+  unmute_cards: "Ativar som",
   hide_card_forever_confirm_title:
     "Tem certeza de que deseja ocultar este cartão para sempre? Você nunca mais o verá",
   next: "Próximo",

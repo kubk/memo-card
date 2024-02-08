@@ -44,4 +44,5 @@ export const theme = {
   dividerColor: "#ccc",
 
   borderRadius: 12,
+  boxShadow: "0 0 8px rgba(56, 0, 107, 0.16)",
 };
