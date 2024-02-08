@@ -15,3 +15,10 @@ export const hapticImpact = (type: "light" | "medium" | "heavy") => {
   }
   WebApp.HapticFeedback.impactOccurred(type);
 };
+
+export const hapticSelection = () => {
+  if (!isIos) {
+    return;
+  }
+  WebApp.HapticFeedback.selectionChanged();
+};
