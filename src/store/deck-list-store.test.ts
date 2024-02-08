@@ -149,6 +149,13 @@ vi.mock("./screen-store", () => {
   };
 });
 
+vi.mock("../lib/telegram/haptics.ts", () => {
+  return {
+    hapticNotification: () => {},
+    hapticImpact: () => {},
+  };
+});
+
 vi.mock("../lib/telegram/show-confirm.ts", () => {
   return {
     showConfirm: () => {

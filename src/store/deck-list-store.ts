@@ -28,6 +28,7 @@ import { userStore } from "./user-store.ts";
 import { showConfirm } from "../lib/telegram/show-confirm.ts";
 import { t } from "../translations/t.ts";
 import { canDuplicateDeckOrFolder } from "../../shared/access/can-duplicate-deck-or-folder.ts";
+import { hapticImpact } from "../lib/telegram/haptics.ts";
 
 export enum StartParamType {
   RepeatAll = "repeat_all",
@@ -110,6 +111,7 @@ export class DeckListStore {
       return;
     }
 
+    hapticImpact("heavy");
     this.isFullScreenLoaderVisible = true;
     duplicateDeckRequest(deckId)
       .then(() => {
@@ -128,6 +130,7 @@ export class DeckListStore {
       return;
     }
 
+    hapticImpact("heavy");
     this.isFullScreenLoaderVisible = true;
     duplicateFolderRequest(folderId)
       .then(() => {
@@ -590,6 +593,7 @@ export class DeckListStore {
       return;
     }
 
+    hapticImpact("heavy");
     this.isFullScreenLoaderVisible = true;
 
     deleteFolderRequest(folder.id)
@@ -616,6 +620,7 @@ export class DeckListStore {
       return;
     }
 
+    hapticImpact("heavy");
     this.isFullScreenLoaderVisible = true;
 
     removeDeckFromMineRequest({ deckId: deck.id })
