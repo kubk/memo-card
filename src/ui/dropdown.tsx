@@ -44,7 +44,7 @@ export const Dropdown = (props: Props) => {
     >
       <div
         onClick={toggleDropdown}
-        className={cx("dropdown-icon", css({ cursor: "pointer" }))}
+        className={cx("dropdown-icon", css({ cursor: "pointer", ...tapScale }))}
       >
         ...
       </div>
