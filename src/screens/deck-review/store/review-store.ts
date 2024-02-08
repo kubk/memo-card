@@ -143,6 +143,7 @@ export class ReviewStore {
     if (!isConfirmed) {
       return;
     }
+    hapticImpact("heavy");
     this.changeState(CardState.Never);
   }
 
