@@ -71,6 +71,7 @@ export const Dropdown = (props: Props) => {
               className={css({
                 padding: "12px 16px",
                 borderRadius: theme.borderRadius,
+                whiteSpace: 'nowrap',
                 ...tapScale,
                 ":hover": {
                   backgroundColor: theme.buttonColor,
