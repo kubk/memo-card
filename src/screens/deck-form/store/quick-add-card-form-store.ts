@@ -9,16 +9,16 @@ import {
   isFormEmpty,
   isFormTouched,
   isFormValid,
-} from "../../../lib/mobx-form/form.ts";
+} from "mobx-form-lite";
 import { screenStore } from "../../../store/screen-store.ts";
 import { showConfirm } from "../../../lib/telegram/show-confirm.ts";
 import { addCardRequest } from "../../../api/api.ts";
 import { assert } from "../../../lib/typescript/assert.ts";
-import { TextField } from "../../../lib/mobx-form/text-field.ts";
+import { TextField } from "mobx-form-lite";
 import { AddCardRequest } from "../../../../functions/add-card.ts";
 import { deckListStore } from "../../../store/deck-list-store.ts";
 import { t } from "../../../translations/t.ts";
-import { BooleanToggle } from "../../../lib/mobx-form/boolean-toggle.ts";
+import { BooleanToggle } from "mobx-form-lite";
 import { CardFormStoreInterface } from "./card-form-store-interface.ts";
 
 export class QuickAddCardFormStore implements CardFormStoreInterface {

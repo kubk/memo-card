@@ -1,7 +1,7 @@
 import { ChangeEvent, useEffect, useRef } from "react";
 import { css } from "@emotion/css";
 import { theme } from "./theme.tsx";
-import { TextField } from "../lib/mobx-form/text-field.ts";
+import { TextField } from "mobx-form-lite";
 import { observer } from "mobx-react-lite";
 import autosize from "autosize";
 import { ValidationError } from "./validation-error.tsx";

@@ -15,7 +15,7 @@ import { CardAnswerType } from "../../../../functions/db/custom-types.ts";
 import { assert } from "../../../lib/typescript/assert.ts";
 import { removeAllTags } from "../../../lib/sanitize-html/remove-all-tags.ts";
 import { userStore } from "../../../store/user-store.ts";
-import { BooleanToggle } from "../../../lib/mobx-form/boolean-toggle.ts";
+import { BooleanToggle } from "mobx-form-lite";
 import { CardReviewType } from "../../../../functions/db/deck/get-cards-to-review-db.ts";
 
 export enum CardState {

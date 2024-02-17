@@ -1,6 +1,5 @@
-import { BooleanToggle } from "../../../lib/mobx-form/boolean-toggle.ts";
 import { CardFormType } from "./deck-form-store.ts";
-import { TextField } from "../../../lib/mobx-form/text-field.ts";
+import { BooleanToggle, TextField } from "mobx-form-lite";
 import { DeckSpeakFieldEnum } from "../../../../functions/db/deck/decks-with-cards-schema.ts";
 
 export type CardFormStoreInterface = {

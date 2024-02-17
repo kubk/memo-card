@@ -15,7 +15,7 @@ import {
 import { removeAllTags } from "../../../lib/sanitize-html/remove-all-tags.ts";
 import { CardFormStoreInterface } from "../../deck-form/store/card-form-store-interface.ts";
 import { assert } from "../../../lib/typescript/assert.ts";
-import { BooleanToggle } from "../../../lib/mobx-form/boolean-toggle.ts";
+import { BooleanToggle } from "mobx-form-lite";
 
 export class CardPreviewStore implements LimitedCardUnderReviewStore {
   id: number;

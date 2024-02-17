@@ -22,7 +22,7 @@ import {
 import { assert } from "../lib/typescript/assert.ts";
 import { ReviewStore } from "../screens/deck-review/store/review-store.ts";
 import { reportHandledError } from "../lib/rollbar/rollbar.tsx";
-import { BooleanToggle } from "../lib/mobx-form/boolean-toggle.ts";
+import { BooleanToggle } from "mobx-form-lite";
 import { type UserFoldersDbType } from "../../functions/db/folder/get-many-folders-with-decks-db.tsx";
 import { userStore } from "./user-store.ts";
 import { showConfirm } from "../lib/telegram/show-confirm.ts";

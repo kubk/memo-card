@@ -14,9 +14,8 @@ import { ButtonGrid } from "../../ui/button-grid.tsx";
 import { t } from "../../translations/t.ts";
 import { ButtonSideAligned } from "../../ui/button-side-aligned.tsx";
 import { v4 } from "uuid";
-import { isFormTouched, isFormValid } from "../../lib/mobx-form/form.ts";
+import { isFormTouched, isFormValid, BooleanField } from "mobx-form-lite";
 import { action } from "mobx";
-import { BooleanField } from "../../lib/mobx-form/boolean-field.ts";
 
 type Props = {
   cardForm: CardFormType;

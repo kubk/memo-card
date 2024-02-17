@@ -4,9 +4,11 @@ import { assert } from "../lib/typescript/assert.ts";
 import { type PlansForUser } from "../../functions/db/plan/get-plans-for-user.ts";
 import { makePersistable } from "mobx-persist-store";
 import { storageAdapter } from "../lib/telegram/storage-adapter.ts";
-import { BooleanToggle } from "../lib/mobx-form/boolean-toggle.ts";
+import { BooleanToggle } from "mobx-form-lite";
 import { CardAnswerType } from "../../functions/db/custom-types.ts";
-import { persistableField } from "../lib/mobx-form/persistable-field.ts";
+import {
+  persistableField
+} from "../lib/mobx-form-lite-persistable/persistable-field.ts";
 
 export class UserStore {
   userInfo?: UserDbType;

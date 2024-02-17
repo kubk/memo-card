@@ -8,7 +8,7 @@ import {
 } from "react-simple-wysiwyg";
 import { theme } from "../theme.tsx";
 import React from "react";
-import { TextField } from "../../lib/mobx-form/text-field.ts";
+import { TextField } from "mobx-form-lite";
 import { ValidationError } from "../validation-error.tsx";
 import { ColorIcon } from "./color-icon.tsx";
 import { t } from "../../translations/t.ts";

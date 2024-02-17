@@ -1,13 +1,13 @@
 import { action, makeAutoObservable, when } from "mobx";
-import { TextField } from "../../../lib/mobx-form/text-field.ts";
+import { TextField } from "mobx-form-lite";
 import { assert } from "../../../lib/typescript/assert.ts";
 import { DateTime } from "luxon";
 import { formatTime } from "../generate-time-range.tsx";
-import { isFormTouched } from "../../../lib/mobx-form/form.ts";
+import { isFormTouched } from "mobx-form-lite";
 import { userSettingsRequest } from "../../../api/api.ts";
 import { screenStore } from "../../../store/screen-store.ts";
 import { UserSettingsRequest } from "../../../../functions/user-settings.ts";
-import { BooleanField } from "../../../lib/mobx-form/boolean-field.ts";
+import { BooleanField } from "mobx-form-lite";
 import { userStore } from "../../../store/user-store.ts";
 import { hapticNotification } from "../../../lib/telegram/haptics.ts";
 
