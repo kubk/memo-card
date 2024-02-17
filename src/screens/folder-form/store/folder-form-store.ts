@@ -1,17 +1,10 @@
-import { TextField } from "../../../lib/mobx-form/text-field.ts";
-import { validators } from "../../../lib/mobx-form/validator.ts";
+import { TextField, validators, formUnTouchAll, isFormTouched, isFormValid, ListField } from "mobx-form-lite";
 import { t } from "../../../translations/t.ts";
 import { action, makeAutoObservable } from "mobx";
 import { screenStore } from "../../../store/screen-store.ts";
 import { assert } from "../../../lib/typescript/assert.ts";
-import {
-  formUnTouchAll,
-  isFormTouched,
-  isFormValid,
-} from "../../../lib/mobx-form/form.ts";
 import { decksMineRequest, folderUpsertRequest } from "../../../api/api.ts";
 import { deckListStore } from "../../../store/deck-list-store.ts";
-import { ListField } from "../../../lib/mobx-form/list-field.ts";
 import { fromPromise, IPromiseBasedObservable } from "mobx-utils";
 import { DeckWithoutCardsDbType } from "../../../../functions/db/deck/decks-with-cards-schema.ts";
 

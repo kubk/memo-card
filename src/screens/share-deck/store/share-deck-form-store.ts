@@ -1,19 +1,21 @@
 import { assert } from "../../../lib/typescript/assert.ts";
-import { BooleanToggle } from "../../../lib/mobx-form/boolean-toggle.ts";
-import { TextField } from "../../../lib/mobx-form/text-field.ts";
+import { BooleanToggle } from "mobx-form-lite";
+import { TextField } from "mobx-form-lite";
 import { t } from "../../../translations/t.ts";
 import { action, makeAutoObservable } from "mobx";
-import { isFormValid } from "../../../lib/mobx-form/form.ts";
+import { isFormValid } from "mobx-form-lite";
 import { screenStore } from "../../../store/screen-store.ts";
 import { redirectUserToDeckOrFolderLink } from "../redirect-user-to-deck-or-folder-link.tsx";
 import {
   addDeckAccessRequest,
   getDeckAccessesOfDeckRequest,
 } from "../../../api/api.ts";
-import { persistableField } from "../../../lib/mobx-form/persistable-field.ts";
 import { fromPromise, IPromiseBasedObservable } from "mobx-utils";
 import { DeckAccessesResponse } from "../../../../functions/deck-accesses.ts";
 import { DeckAccessType } from "../../../../functions/db/custom-types.ts";
+import {
+  persistableField
+} from "../../../lib/mobx-form-lite-persistable/persistable-field.ts";
 
 const getRequestFiltersForScreen = () => {
   const screen = screenStore.screen;

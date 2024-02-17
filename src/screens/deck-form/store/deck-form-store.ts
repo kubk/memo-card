@@ -1,11 +1,11 @@
-import { TextField } from "../../../lib/mobx-form/text-field.ts";
-import { validators } from "../../../lib/mobx-form/validator.ts";
+import { TextField } from "mobx-form-lite";
+import { validators } from "mobx-form-lite";
 import { action, makeAutoObservable } from "mobx";
 import {
   isFormEmpty,
   isFormTouched,
   isFormValid,
-} from "../../../lib/mobx-form/form.ts";
+} from "mobx-form-lite";
 import { assert } from "../../../lib/typescript/assert.ts";
 import { upsertDeckRequest } from "../../../api/api.ts";
 import { screenStore } from "../../../store/screen-store.ts";
@@ -21,10 +21,10 @@ import {
 } from "../../../../functions/db/deck/decks-with-cards-schema.ts";
 import { SpeakLanguageEnum } from "../../../lib/voice-playback/speak.ts";
 import { t } from "../../../translations/t.ts";
-import { BooleanToggle } from "../../../lib/mobx-form/boolean-toggle.ts";
+import { BooleanToggle } from "mobx-form-lite";
 import { CardAnswerType } from "../../../../functions/db/custom-types.ts";
-import { ListField } from "../../../lib/mobx-form/list-field.ts";
-import { BooleanField } from "../../../lib/mobx-form/boolean-field.ts";
+import { ListField } from "mobx-form-lite";
+import { BooleanField } from "mobx-form-lite";
 import { v4 } from "uuid";
 import { CardFormStoreInterface } from "./card-form-store-interface.ts";
 import { UpsertDeckRequest } from "../../../../functions/upsert-deck.ts";

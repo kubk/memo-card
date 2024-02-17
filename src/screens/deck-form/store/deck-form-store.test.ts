@@ -7,7 +7,7 @@ import {
   UpsertDeckRequest,
   UpsertDeckResponse,
 } from "../../../../functions/upsert-deck.ts";
-import { isFormValid } from "../../../lib/mobx-form/form.ts";
+import { isFormValid } from "mobx-form-lite";
 
 const mapUpsertDeckRequestToResponse = (
   input: UpsertDeckRequest,
