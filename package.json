@@ -39,7 +39,7 @@
     "luxon": "^3.4.3",
     "mathml-tag-names": "^3.0.2",
     "mobx": "^6.10.2",
-    "mobx-form-lite": "^0.0.2",
+    "mobx-form-lite": "^0.8.1",
     "mobx-log": "^2.2.3",
     "mobx-persist-store": "^1.1.3",
     "mobx-react-lite": "^4.0.5",
