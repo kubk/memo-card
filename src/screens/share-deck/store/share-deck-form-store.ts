@@ -13,9 +13,7 @@ import {
 import { fromPromise, IPromiseBasedObservable } from "mobx-utils";
 import { DeckAccessesResponse } from "../../../../functions/deck-accesses.ts";
 import { DeckAccessType } from "../../../../functions/db/custom-types.ts";
-import {
-  persistableField
-} from "../../../lib/mobx-form-lite-persistable/persistable-field.ts";
+import { persistableField } from "../../../lib/mobx-form-lite-persistable/persistable-field.ts";
 
 const getRequestFiltersForScreen = () => {
   const screen = screenStore.screen;

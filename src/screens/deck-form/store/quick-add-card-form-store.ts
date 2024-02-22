@@ -5,11 +5,7 @@ import {
   createCardSideField,
 } from "./deck-form-store.ts";
 import { action, makeAutoObservable } from "mobx";
-import {
-  isFormEmpty,
-  isFormTouched,
-  isFormValid,
-} from "mobx-form-lite";
+import { isFormEmpty, isFormTouched, isFormValid } from "mobx-form-lite";
 import { screenStore } from "../../../store/screen-store.ts";
 import { showConfirm } from "../../../lib/telegram/show-confirm.ts";
 import { addCardRequest } from "../../../api/api.ts";
@@ -20,6 +16,7 @@ import { deckListStore } from "../../../store/deck-list-store.ts";
 import { t } from "../../../translations/t.ts";
 import { BooleanToggle } from "mobx-form-lite";
 import { CardFormStoreInterface } from "./card-form-store-interface.ts";
+import { DeckSpeakFieldEnum } from "../../../../functions/db/deck/decks-with-cards-schema.ts";
 
 export class QuickAddCardFormStore implements CardFormStoreInterface {
   cardForm: CardFormType = {
@@ -34,7 +31,12 @@ export class QuickAddCardFormStore implements CardFormStoreInterface {
   isCardPreviewSelected = new BooleanToggle(false);
   isSaveCardButtonActive = true;
 
-  constructor() {
+  constructor(
+    public form?: {
+      speakingCardsLocale: TextField<string | null>;
+      speakingCardsField: TextField<DeckSpeakFieldEnum | null>;
+    },
+  ) {
     makeAutoObservable(this, {}, { autoBind: true });
   }
 

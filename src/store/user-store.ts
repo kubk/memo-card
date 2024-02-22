@@ -6,9 +6,7 @@ import { makePersistable } from "mobx-persist-store";
 import { storageAdapter } from "../lib/telegram/storage-adapter.ts";
 import { BooleanToggle } from "mobx-form-lite";
 import { CardAnswerType } from "../../functions/db/custom-types.ts";
-import {
-  persistableField
-} from "../lib/mobx-form-lite-persistable/persistable-field.ts";
+import { persistableField } from "../lib/mobx-form-lite-persistable/persistable-field.ts";
 
 export class UserStore {
   userInfo?: UserDbType;
