@@ -1,11 +1,7 @@
 import { TextField } from "mobx-form-lite";
 import { validators } from "mobx-form-lite";
 import { action, makeAutoObservable } from "mobx";
-import {
-  isFormEmpty,
-  isFormTouched,
-  isFormValid,
-} from "mobx-form-lite";
+import { isFormEmpty, isFormTouched, isFormValid } from "mobx-form-lite";
 import { assert } from "../../../lib/typescript/assert.ts";
 import { upsertDeckRequest } from "../../../api/api.ts";
 import { screenStore } from "../../../store/screen-store.ts";

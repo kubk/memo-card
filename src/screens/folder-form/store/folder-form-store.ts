@@ -1,4 +1,11 @@
-import { TextField, validators, formUnTouchAll, isFormTouched, isFormValid, ListField } from "mobx-form-lite";
+import {
+  TextField,
+  validators,
+  formUnTouchAll,
+  isFormTouched,
+  isFormValid,
+  ListField,
+} from "mobx-form-lite";
 import { t } from "../../../translations/t.ts";
 import { action, makeAutoObservable } from "mobx";
 import { screenStore } from "../../../store/screen-store.ts";
