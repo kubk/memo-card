@@ -3,7 +3,12 @@ import { css } from "@emotion/css";
 import React from "react";
 import ContentLoader from "react-content-loader";
 
-export const DeckLoading = () => {
+type Props = {
+  speed?: number;
+};
+
+export const DeckLoading = (props: Props) => {
+  const speed = props.speed || 2;
   return (
     <div
       className={css({
@@ -17,7 +22,7 @@ export const DeckLoading = () => {
       })}
     >
       <ContentLoader
-        speed={2}
+        speed={speed}
         width={"100%"}
         height={20}
         viewBox="0 0 400 20"

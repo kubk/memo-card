@@ -27,6 +27,8 @@ import { FolderFormStoreProvider } from "./folder-form/store/folder-form-store-c
 import { FolderScreen } from "./folder-review/folder-screen.tsx";
 import { useSettingsButton } from "../lib/telegram/use-settings-button.ts";
 import { ComponentCatalogPage } from "./component-catalog/component-catalog-page.tsx";
+import { UserStatisticsStoreProvider } from "./user-statistics/store/user-statistics-store-context.tsx";
+import { UserStatisticsScreen } from "./user-statistics/user-statistics-screen.tsx";
 
 export const App = observer(() => {
   useRestoreFullScreenExpand();
@@ -123,6 +125,13 @@ export const App = observer(() => {
       {screenStore.screen.type === "componentCatalog" && (
         <PreventTelegramSwipeDownClosingIos>
           <ComponentCatalogPage />
+        </PreventTelegramSwipeDownClosingIos>
+      )}
+      {screenStore.screen.type === "userStatistics" && (
+        <PreventTelegramSwipeDownClosingIos>
+          <UserStatisticsStoreProvider>
+            <UserStatisticsScreen />
+          </UserStatisticsStoreProvider>
         </PreventTelegramSwipeDownClosingIos>
       )}
     </div>

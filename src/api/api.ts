@@ -43,6 +43,7 @@ import {
 } from "../../functions/order.ts";
 import { MyPlansResponse } from "../../functions/my-plans.ts";
 import { DuplicateFolderResponse } from "../../functions/duplicate-folder.ts";
+import { MyStatisticsResponse } from "../../functions/my-statistics.ts";
 
 export const healthRequest = () => {
   return request<HealthResponse>("/health");
@@ -163,3 +164,7 @@ export const createOrderRequest = (planId: number) => {
 export const myPlansRequest = () => {
   return request<MyPlansResponse>("/my-plans");
 };
+
+export const myStatisticsRequest = () => {
+  return request<MyStatisticsResponse>("/my-statistics");
+}
