@@ -189,7 +189,19 @@ export const MainScreen = observer(() => {
               {t("telegram_channel")}
             </Button>
           </div>
+
           <div>
+            <ListHeader text={"Profile"} />
+            <Button
+              icon={"mdi-chart-bar"}
+              onClick={() => {
+                screenStore.go({ type: "userStatistics" });
+              }}
+            >
+              {t("user_stats_btn")}
+            </Button>
+            <div className={css({ height: 8 })} />
+
             <Button
               icon={"mdi-cog"}
               onClick={() => {

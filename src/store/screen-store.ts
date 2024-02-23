@@ -16,6 +16,7 @@ type Route =
   | { type: "shareDeck"; deckId: number; shareId: string }
   | { type: "shareFolder"; folderId: number; shareId: string }
   | { type: "componentCatalog" }
+  | { type: "userStatistics" }
   | { type: "userSettings" };
 
 export type RouteType = Route["type"];

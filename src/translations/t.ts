@@ -166,6 +166,21 @@ const en = {
     "At least one answer should be provided",
   delete_folder_confirm:
     "Do you want to delete the folder? Deleting folder won't remove decks inside the folder",
+  user_stats_btn: "Statistics",
+  user_stats_page: "My statistics",
+  user_stats_remembered: "Remembered",
+  user_stats_remembered_hint:
+    "The number of cards reviewed correctly 5 times in a row",
+  user_stats_learning: "Learning",
+  user_stats_learning_hint:
+    "The number of cards reviewed less than 5 times in a row",
+  user_stats_total: "Total cards",
+  user_stats_total_hint: "The total number of cards opened at least once",
+  user_stats_learning_time: "Learning time distribution",
+  user_stats_learning_time_hint:
+    "How your time is allocated between learning new material and reviewing",
+  user_stats_chart_min_expl: "Don't know the card",
+  user_stats_chart_max_expl: "Know the card very well",
 };
 
 type Translation = typeof en;
@@ -332,6 +347,19 @@ const ru: Translation = {
   settings_support_hint: "Если у вас есть вопросы, проблемы или предложения",
   delete_folder_confirm:
     "Вы уверены, что хотите удалить папку? Удаление папки не удалит колоды внутри папки",
+  user_stats_btn: "Статистика",
+  user_stats_page: "Моя статистика",
+  user_stats_remembered: "Запомнено карточек",
+  user_stats_remembered_hint: 'Нажато "Помню" 5 раз подряд',
+  user_stats_learning: "В процессе изучения",
+  user_stats_learning_hint: 'Нажато "Помню" менее 5 раз подряд',
+  user_stats_total: "Всего карточек",
+  user_stats_total_hint: "Карточки, открытые хотя бы один раз",
+  user_stats_learning_time: "Распределение времени обучения",
+  user_stats_learning_time_hint:
+    "Как распределяется ваше время между изучением нового материала и повторением",
+  user_stats_chart_min_expl: "Не помню карточку",
+  user_stats_chart_max_expl: "Знаю карточку очень хорошо",
 };
 
 const es: Translation = {
@@ -502,6 +530,19 @@ const es: Translation = {
   go_back: "Volver",
   delete_folder_confirm:
     "¿Quieres eliminar la carpeta? Eliminar la carpeta no eliminará los mazos dentro de la carpeta",
+  user_stats_btn: "Estadísticas",
+  user_stats_page: "Mi estadística",
+  user_stats_remembered: "Tarjetas recordadas",
+  user_stats_remembered_hint: "Presionado 'Recuerdo' 5 veces seguidas",
+  user_stats_learning: "En proceso de aprendizaje",
+  user_stats_learning_hint: "Presionado 'Recuerdo' menos de 5 veces seguidas",
+  user_stats_total: "Total de tarjetas",
+  user_stats_total_hint: "Tarjetas abiertas al menos una vez",
+  user_stats_learning_time: "Distribución del tiempo de aprendizaje",
+  user_stats_learning_time_hint:
+    "Cómo se distribuye tu tiempo entre el aprendizaje de material nuevo y la revisión",
+  user_stats_chart_max_expl: "Conozco la tarjeta muy bien",
+  user_stats_chart_min_expl: "No conozco la tarjeta",
 };
 
 const ptBr: Translation = {
@@ -672,6 +713,19 @@ const ptBr: Translation = {
   go_back: "Voltar",
   delete_folder_confirm:
     "Você quer deletar a pasta? Deletar a pasta não irá remover os baralhos dentro da pasta",
+  user_stats_btn: "Estatísticas",
+  user_stats_page: "Minha Estatística",
+  user_stats_remembered: "Cartões Memorizados",
+  user_stats_remembered_hint: "Clicado 'Acertei' 5 vezes seguidas",
+  user_stats_learning: "Em Processo de Aprendizagem",
+  user_stats_learning_hint: "Clicado 'Acertei' menos de 5 vezes seguidas",
+  user_stats_total: "Total de Cartões",
+  user_stats_total_hint: "Cartões abertos pelo menos uma vez",
+  user_stats_learning_time: "Distribuição do Tempo de Aprendizagem",
+  user_stats_learning_time_hint:
+    "Como o seu tempo é distribuído entre o estudo de material novo e a revisão",
+  user_stats_chart_min_expl: "Não conheço o cartão",
+  user_stats_chart_max_expl: "Conheço o cartão muito bem",
 };
 
 const translations = { en, ru, es, "pt-br": ptBr };
