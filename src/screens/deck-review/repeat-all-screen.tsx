@@ -31,9 +31,11 @@ export const RepeatAllScreen = observer(() => {
   return (
     <div className={css({ display: "flex", flexDirection: "column", gap: 8 })}>
       <Hint>{t("no_cards_to_review_all")}</Hint>
-      <Hint>
-        <WantMoreCardsButton newCardsCount={deckListStore.newCardsCount} />
-      </Hint>
+      {deckListStore.newCardsCount > 0 ? (
+        <Hint>
+          <WantMoreCardsButton newCardsCount={deckListStore.newCardsCount} />
+        </Hint>
+      ) : null}
     </div>
   );
 });
