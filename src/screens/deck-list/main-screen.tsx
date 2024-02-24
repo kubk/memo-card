@@ -17,6 +17,7 @@ import { reset } from "../../ui/reset.ts";
 import { ViewMoreDecksToggle } from "./view-more-decks-toggle.tsx";
 import { t } from "../../translations/t.ts";
 import { links } from "../shared/links.ts";
+import { tapScale } from "../../lib/animations/tap-scale.ts";
 
 export const MainScreen = observer(() => {
   useMount(() => {
@@ -155,6 +156,7 @@ export const MainScreen = observer(() => {
                     paddingBottom: 6,
                     color: theme.linkColor,
                     fontSize: 16,
+                    ...tapScale,
                   }),
                 )}
                 onClick={() => {
