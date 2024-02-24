@@ -1,7 +1,11 @@
 import { css } from "@emotion/css";
 import React from "react";
 
-export const LegendItem = (props: { color: string }) => {
+type Props = {
+  color: string;
+};
+
+export const LegendItem = (props: Props) => {
   const { color } = props;
   return (
     <div
@@ -9,7 +13,7 @@ export const LegendItem = (props: { color: string }) => {
         height: 14,
         width: 14,
         backgroundColor: color,
-        borderRadius: 4
+        borderRadius: 4,
       })}
     />
   );

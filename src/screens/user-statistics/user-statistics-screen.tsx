@@ -16,6 +16,10 @@ import {
 } from "./pie-chart-canvas.tsx";
 import { LegendItem } from "./legend-item.tsx";
 import { DeckLoading } from "../shared/deck-loading.tsx";
+import { EmptyStudyFrequencyChartText } from "./empty-study-frequency-chart-text.tsx";
+
+const pieChartWidth = 250;
+const pieChartHeight = 200;
 
 export const UserStatisticsScreen = observer(() => {
   const userStatisticsStore = useUserStatisticsStore();
@@ -79,45 +83,78 @@ export const UserStatisticsScreen = observer(() => {
               marginTop: 10,
               marginLeft: "auto",
               marginRight: "auto",
+              position: "relative",
             })}
           >
-            <PieChartCanvas
-              data={userStatisticsStore.frequencyChart}
-              width={250}
-              height={200}
-            />
+            {userStatisticsStore.isFrequencyChartEmpty ? (
+              <div className={css({ filter: "blur(5px)" })}>
+                <PieChartCanvas
+                  data={[
+                    { interval_range: "1-2", frequency: 10 },
+                    { interval_range: "3-4", frequency: 20 },
+                    { interval_range: "5-6", frequency: 30 },
+                    { interval_range: "7-8", frequency: 10 },
+                    { interval_range: "9-10", frequency: 20 },
+                  ]}
+                  width={pieChartWidth}
+                  height={pieChartHeight}
+                />
+              </div>
+            ) : (
+              <PieChartCanvas
+                data={userStatisticsStore.frequencyChart}
+                width={pieChartWidth}
+                height={pieChartHeight}
+              />
+            )}
+
+            {userStatisticsStore.isFrequencyChartEmpty && (
+              <EmptyStudyFrequencyChartText />
+            )}
           </div>
 
-          <div
-            className={css({
-              display: "flex",
-              flexDirection: "column",
-              gap: 4,
-              alignSelf: "center",
-            })}
-          >
-            <div
-              className={css({ display: "flex", gap: 4, alignItems: "center" })}
-            >
-              <LegendItem color={chartStart} />
-              <span className={css({ fontSize: 14 })}>
-                {t("user_stats_chart_min_expl")}
-              </span>
-            </div>
-            <div
-              className={css({ display: "flex", gap: 4, alignItems: "center" })}
-            >
-              <LegendItem color={chartFinish} />
-              <span className={css({ fontSize: 14 })}>
-                {t("user_stats_chart_max_expl")}
-              </span>
-            </div>
-          </div>
-          <p>
-            <HintTransparent>
-              {t("user_stats_learning_time_hint")}
-            </HintTransparent>
-          </p>
+          {!userStatisticsStore.isFrequencyChartEmpty && (
+            <>
+              <div
+                className={css({
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 4,
+                  alignSelf: "center",
+                })}
+              >
+                <div
+                  className={css({
+                    display: "flex",
+                    gap: 4,
+                    alignItems: "center",
+                  })}
+                >
+                  <LegendItem color={chartStart} />
+                  <span className={css({ fontSize: 14 })}>
+                    {t("user_stats_chart_min_expl")}
+                  </span>
+                </div>
+                <div
+                  className={css({
+                    display: "flex",
+                    gap: 4,
+                    alignItems: "center",
+                  })}
+                >
+                  <LegendItem color={chartFinish} />
+                  <span className={css({ fontSize: 14 })}>
+                    {t("user_stats_chart_max_expl")}
+                  </span>
+                </div>
+              </div>
+              <p>
+                <HintTransparent>
+                  {t("user_stats_learning_time_hint")}
+                </HintTransparent>
+              </p>
+            </>
+          )}
         </>
       ) : null}
     </Screen>

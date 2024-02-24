@@ -167,4 +167,4 @@ export const myPlansRequest = () => {
 
 export const myStatisticsRequest = () => {
   return request<MyStatisticsResponse>("/my-statistics");
-}
+};
