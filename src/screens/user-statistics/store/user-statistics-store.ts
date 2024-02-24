@@ -44,4 +44,8 @@ export class UserStatisticsStore {
 
     return this.userStatistics.value.intervalFrequency;
   }
+
+  get isFrequencyChartEmpty() {
+    return this.frequencyChart.every((item) => item.frequency === 0);
+  }
 }

@@ -2,6 +2,7 @@ import { Button } from "../../ui/button.tsx";
 import { ReactNode } from "react";
 import { CardPreviewStory } from "./card-preview-story.tsx";
 import { SelectStory } from "./select-story.tsx";
+import { PieChartCanvasStory } from "./pie-chart-canvas-story.tsx";
 
 export type Component = {
   name: string;
@@ -45,5 +46,9 @@ export const components: Array<Component> = [
   {
     name: "Select",
     component: <SelectStory />,
+  },
+  {
+    name: "PieChart",
+    component: <PieChartCanvasStory />,
   },
 ];
