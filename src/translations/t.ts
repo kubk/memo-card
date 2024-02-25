@@ -3,6 +3,7 @@ import { getUserLanguage } from "./get-user-language.ts";
 
 const en = {
   user_stats_empty_text: "Study more cards to see the data",
+  read_more: "Read more",
   hide_card_forever: "Hide forever",
   mute_cards: "Mute sound",
   unmute_cards: "Unmute sound",
@@ -187,6 +188,7 @@ const en = {
 type Translation = typeof en;
 
 const ru: Translation = {
+  read_more: "Читать далее",
   user_stats_empty_text: "Изучите больше карточек, чтобы увидеть данные",
   hide_card_forever_confirm_title:
     "Вы уверены, что хотите скрыть эту карточку навсегда? Вы больше не увидите её",
@@ -365,6 +367,7 @@ const ru: Translation = {
 };
 
 const es: Translation = {
+  read_more: "Leer más",
   user_stats_empty_text: "Estudia más tarjetas para ver los datos",
   hide_card_forever: "Ocultar para siempre",
   mute_cards: "Silenciar sonido",
@@ -549,6 +552,7 @@ const es: Translation = {
 };
 
 const ptBr: Translation = {
+  read_more: "Leia mais",
   user_stats_empty_text: "Estude mais cartões para ver os dados",
   hide_card_forever: "Ocultar para sempre",
   mute_cards: "Silenciar som",

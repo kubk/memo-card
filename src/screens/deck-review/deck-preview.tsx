@@ -14,6 +14,7 @@ import { useTelegramProgress } from "../../lib/telegram/use-telegram-progress.ts
 import { t } from "../../translations/t.ts";
 import { ButtonGrid } from "../../ui/button-grid.tsx";
 import { Button } from "../../ui/button.tsx";
+import { DeckFolderDescription } from "../shared/deck-folder-description.tsx";
 
 export const DeckPreview = observer(() => {
   const reviewStore = useReviewStore();
@@ -85,7 +86,7 @@ export const DeckPreview = observer(() => {
           </h3>
         </div>
         <div>
-          <div>{deck.description}</div>
+          <DeckFolderDescription deck={deck} />
         </div>
         {!deckListStore.isDeckCardsLoading && (
           <div
