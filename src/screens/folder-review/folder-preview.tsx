@@ -16,6 +16,7 @@ import { ListHeader } from "../../ui/list-header.tsx";
 import { assert } from "../../lib/typescript/assert.ts";
 import { DeckRowWithCardsToReview } from "../shared/deck-row-with-cards-to-review/deck-row-with-cards-to-review.tsx";
 import { ButtonGrid } from "../../ui/button-grid.tsx";
+import { DeckFolderDescription } from "../shared/deck-folder-description.tsx";
 
 export const FolderPreview = observer(() => {
   const reviewStore = useReviewStore();
@@ -81,7 +82,7 @@ export const FolderPreview = observer(() => {
           </h3>
         </div>
         <div>
-          <div>{folder.description}</div>
+          <DeckFolderDescription deck={folder} />
         </div>
         {!deckListStore.isDeckCardsLoading && (
           <div
