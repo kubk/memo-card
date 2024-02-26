@@ -15,6 +15,9 @@ import { t } from "../../translations/t.ts";
 import { ButtonGrid } from "../../ui/button-grid.tsx";
 import { Button } from "../../ui/button.tsx";
 import { DeckFolderDescription } from "../shared/deck-folder-description.tsx";
+import {
+  useScrollToTopOnMount
+} from "../../lib/react/use-scroll-to-top-mount.ts";
 
 export const DeckPreview = observer(() => {
   const reviewStore = useReviewStore();
@@ -31,6 +34,7 @@ export const DeckPreview = observer(() => {
   });
 
   useTelegramProgress(() => deckListStore.isDeckCardsLoading);
+  useScrollToTopOnMount();
 
   useMainButton(
     t("review_deck"),
