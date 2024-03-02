@@ -18,6 +18,8 @@ import { DeckRowWithCardsToReview } from "../shared/deck-row-with-cards-to-revie
 import { ButtonGrid } from "../../ui/button-grid.tsx";
 import { DeckFolderDescription } from "../shared/deck-folder-description.tsx";
 import { useScrollToTopOnMount } from "../../lib/react/use-scroll-to-top-mount.ts";
+import { redirectUserToDeckOrFolderLink } from "../share-deck/redirect-user-to-deck-or-folder-link.tsx";
+import { userStore } from "../../store/user-store.ts";
 
 export const FolderPreview = observer(() => {
   const reviewStore = useReviewStore();
@@ -171,11 +173,15 @@ export const FolderPreview = observer(() => {
               icon={"mdi-share-circle mdi-24px"}
               outline
               onClick={() => {
-                screenStore.go({
-                  type: "shareFolder",
-                  folderId: folder.id,
-                  shareId: folder.shareId,
-                });
+                if (userStore.canAdvancedShare) {
+                  screenStore.go({
+                    type: "shareFolder",
+                    folderId: folder.id,
+                    shareId: folder.shareId,
+                  });
+                } else {
+                  redirectUserToDeckOrFolderLink(folder.shareId);
+                }
               }}
             >
               {t("share")}
