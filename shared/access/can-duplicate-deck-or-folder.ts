@@ -1,4 +1,4 @@
-import { type PlansForUser } from "../../functions/db/plan/get-plans-for-user";
+import { type PlansForUser } from "../../functions/db/plan/get-active-plans-for-user.ts";
 import { type UserDbType } from "../../functions/db/user/upsert-user-db";
 import { type DeckOrFolderDbType } from "../../functions/db/plan/can-duplicate-deck-or-folder-db.ts";
 

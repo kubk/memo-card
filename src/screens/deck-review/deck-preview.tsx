@@ -15,9 +15,9 @@ import { t } from "../../translations/t.ts";
 import { ButtonGrid } from "../../ui/button-grid.tsx";
 import { Button } from "../../ui/button.tsx";
 import { DeckFolderDescription } from "../shared/deck-folder-description.tsx";
-import {
-  useScrollToTopOnMount
-} from "../../lib/react/use-scroll-to-top-mount.ts";
+import { useScrollToTopOnMount } from "../../lib/react/use-scroll-to-top-mount.ts";
+import { userStore } from "../../store/user-store.ts";
+import { redirectUserToDeckOrFolderLink } from "../share-deck/redirect-user-to-deck-or-folder-link.tsx";
 
 export const DeckPreview = observer(() => {
   const reviewStore = useReviewStore();
@@ -170,11 +170,15 @@ export const DeckPreview = observer(() => {
               icon={"mdi-share-circle mdi-24px"}
               outline
               onClick={() => {
-                screenStore.go({
-                  type: "shareDeck",
-                  deckId: deck.id,
-                  shareId: deck.share_id,
-                });
+                if (userStore.canAdvancedShare) {
+                  screenStore.go({
+                    type: "shareDeck",
+                    deckId: deck.id,
+                    shareId: deck.share_id,
+                  });
+                } else {
+                  redirectUserToDeckOrFolderLink(deck.share_id);
+                }
               }}
             >
               {t("share")}
