@@ -12,17 +12,27 @@ import {
 import { showConfirm } from "../../../lib/telegram/show-confirm.ts";
 import { t } from "../../../translations/t.ts";
 
+// Don't wait until the user has finished reviewing all the cards to send the progress
+const cardProgressSend = 3;
+
 type ReviewResult = {
   forgotIds: number[];
   rememberIds: number[];
   neverIds: number[];
 };
 
+type SilentSendResult = Pick<ReviewResult, "rememberIds" | "neverIds">;
+
 export class ReviewStore {
   cardsToReview: CardUnderReviewStore[] = [];
   currentCardId?: number;
 
   result: ReviewResult = { forgotIds: [], rememberIds: [], neverIds: [] };
+  sentResult: SilentSendResult = {
+    rememberIds: [],
+    neverIds: [],
+  };
+  isSendingInProgress = false;
   initialCardCount?: number;
 
   isReviewSending = false;
@@ -202,6 +212,50 @@ export class ReviewStore {
       // Go to next card
       this.currentCardId = this.cardsToReview[0].id;
     }
+
+    this.sendProgress();
+  }
+
+  private sendProgress() {
+    if (this.isReviewSending || this.isSendingInProgress) {
+      return;
+    }
+
+    const cardsToSendInProgress = this.cardsToSend.filter(
+      (card) => card.outcome === "correct" || card.outcome === "never",
+    );
+    if (cardsToSendInProgress.length >= cardProgressSend) {
+      this.isSendingInProgress = true;
+
+      reviewCardsRequest({
+        cards: cardsToSendInProgress,
+        isStudyAnyway: this.isStudyAnyway,
+      })
+        .then(
+          action(() => {
+            this.sentResult.rememberIds.push(
+              ...cardsToSendInProgress
+                .filter((sentCard) => sentCard.outcome === "correct")
+                .map((sentCard) => sentCard.id),
+            );
+            this.sentResult.neverIds.push(
+              ...cardsToSendInProgress
+                .filter((sentCard) => sentCard.outcome === "never")
+                .map((sentCard) => sentCard.id),
+            );
+          }),
+        )
+        .catch(
+          action(() => {
+            console.error("Unable to send card progress");
+          }),
+        )
+        .finally(
+          action(() => {
+            this.isSendingInProgress = false;
+          }),
+        );
+    }
   }
 
   get isFinished() {
@@ -231,20 +285,26 @@ export class ReviewStore {
   }
 
   get cardsToSend(): Array<{ id: number; outcome: ReviewOutcome }> {
-    return [
-      ...this.result.forgotIds.map((forgotId) => ({
-        id: forgotId,
-        outcome: "wrong" as const,
-      })),
-      ...this.result.rememberIds.map((rememberId) => ({
+    const forgotResult = this.result.forgotIds.map((forgotId) => ({
+      id: forgotId,
+      outcome: "wrong" as const,
+    }));
+
+    const rememberResult = this.result.rememberIds
+      .filter((rememberId) => !this.sentResult.rememberIds.includes(rememberId))
+      .map((rememberId) => ({
         id: rememberId,
         outcome: "correct" as const,
-      })),
-      ...this.result.neverIds.map((neverId) => ({
+      }));
+
+    const neverResult = this.result.neverIds
+      .filter((neverId) => !this.sentResult.neverIds.includes(neverId))
+      .map((neverId) => ({
         id: neverId,
         outcome: "never" as const,
-      })),
-    ];
+      }));
+
+    return [...forgotResult, ...rememberResult, ...neverResult];
   }
 
   async submitFinished(onReviewSuccess?: () => void) {

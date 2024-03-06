@@ -5,6 +5,7 @@ import {
   DeckCardDbTypeWithType,
   DeckWithCardsWithReviewType,
 } from "../../../store/deck-list-store.ts";
+import { when } from "mobx";
 
 vi.mock("mobx-persist-store", () => {
   return {
@@ -152,10 +153,11 @@ vi.mock("../lib/telegram/storage-adapter.ts", () => {
   };
 });
 
+const reviewCardsReviewMock = vi.hoisted(() => vi.fn());
+
 vi.mock("../../../api/api.ts", () => {
   return {
-    reviewCardsRequest: () => {},
-    myInfoRequest: () => {},
+    reviewCardsRequest: reviewCardsReviewMock,
   };
 });
 
@@ -201,7 +203,154 @@ describe("card form store", () => {
     vi.clearAllMocks();
   });
 
+  it("test silent progress send", async () => {
+    reviewCardsReviewMock.mockResolvedValueOnce(() => Promise.resolve());
+    expect(reviewCardsReviewMock).toHaveBeenCalledTimes(0);
+    const reviewStore = new ReviewStore();
+    reviewStore.startDeckReview(createDeckWithCards([
+      {
+        id: 3,
+        deck_id: 1,
+        created_at: "2023-10-06T02:13:20.985Z",
+        example: null,
+        front: "time",
+        back: "Время",
+        type: "repeat",
+        answer_type: "remember",
+        answers: null,
+        options: null,
+      },
+      {
+        id: 4,
+        deck_id: 1,
+        created_at: "2023-10-06T02:13:20.985Z",
+        example: null,
+        front: "year",
+        back: "Год",
+        type: "repeat",
+        answer_type: "remember",
+        answers: null,
+        options: null,
+      },
+      {
+        id: 5,
+        deck_id: 1,
+        created_at: "2023-10-06T02:13:20.985Z",
+        example: null,
+        front: "way",
+        back: "Дорога",
+        type: "repeat",
+        answer_type: "remember",
+        answers: null,
+        options: null,
+      },
+      {
+        id: 6,
+        deck_id: 1,
+        created_at: "2023-10-06T02:13:20.985Z",
+        example: null,
+        front: "card 4",
+        back: "card 4",
+        type: "repeat",
+        answer_type: "remember",
+        answers: null,
+        options: null,
+      },
+
+      {
+        id: 7,
+        deck_id: 1,
+        created_at: "2023-10-06T02:13:20.985Z",
+        example: null,
+        front: "card 7",
+        back: "card 7",
+        type: "repeat",
+        answer_type: "remember",
+        answers: null,
+        options: null,
+      },
+      {
+        id: 8,
+        deck_id: 1,
+        created_at: "2023-10-06T02:13:20.985Z",
+        example: null,
+        front: "card 8",
+        back: "card 8",
+        type: "repeat",
+        answer_type: "remember",
+        answers: null,
+        options: null,
+      },
+      {
+        id: 9,
+        deck_id: 1,
+        created_at: "2023-10-06T02:13:20.985Z",
+        example: null,
+        front: "card 9",
+        back: "card 9",
+        type: "repeat",
+        answer_type: "remember",
+        answers: null,
+        options: null,
+      },
+    ]));
+    expect(reviewStore.isFinished).toBeFalsy();
+
+    reviewStore.open();
+    reviewStore.changeState(CardState.Remember);
+    reviewStore.open();
+    reviewStore.changeState(CardState.Remember);
+
+    expect(reviewStore.sentResult).toEqual({ neverIds: [], rememberIds: [] });
+    expect(reviewStore.cardsToSend).toEqual([
+      { id: 3, outcome: "correct" },
+      { id: 4, outcome: "correct" },
+    ]);
+
+    reviewStore.open();
+    reviewStore.changeState(CardState.Never);
+    await when(() => !reviewStore.isSendingInProgress);
+
+    expect(reviewStore.sentResult).toEqual({
+      neverIds: [5],
+      rememberIds: [3, 4],
+    });
+    expect(reviewStore.cardsToSend).toEqual([]);
+
+    reviewStore.open();
+    reviewStore.changeState(CardState.Remember);
+
+    expect(reviewStore.sentResult).toEqual({
+      neverIds: [5],
+      rememberIds: [3, 4],
+    });
+    expect(reviewStore.cardsToSend).toEqual([{ id: 6, outcome: "correct" }]);
+    expect(reviewCardsReviewMock).toHaveBeenCalledTimes(1);
+    reviewCardsReviewMock.mockResolvedValueOnce(() => Promise.resolve());
+
+    reviewStore.open();
+    reviewStore.changeState(CardState.Remember);
+    reviewStore.open();
+    reviewStore.changeState(CardState.Remember);
+    await when(() => !reviewStore.isSendingInProgress);
+
+    expect(reviewCardsReviewMock).toHaveBeenCalledTimes(2);
+    expect(reviewStore.sentResult).toEqual({
+      neverIds: [5],
+      rememberIds: [3, 4, 6, 7, 8],
+    });
+    expect(reviewStore.cardsToSend).toEqual([]);
+
+    reviewStore.open();
+    reviewStore.changeState(CardState.Remember);
+    await when(() => !reviewStore.isSendingInProgress);
+
+    expect(reviewCardsReviewMock).toHaveBeenCalledTimes(2);
+    expect(reviewStore.cardsToSend).toEqual([{ id: 9, outcome: "correct" }]);
+  });
+
   it("basic", () => {
+    reviewCardsReviewMock.mockResolvedValueOnce(() => Promise.resolve());
     const reviewStore = new ReviewStore();
     reviewStore.startDeckReview(createDeckWithCards(repeatCardsMock));
     expect(reviewStore.isFinished).toBeFalsy();
@@ -341,6 +490,7 @@ describe("card form store", () => {
   });
 
   it("current next", () => {
+    reviewCardsReviewMock.mockResolvedValueOnce(() => Promise.resolve());
     const reviewStore = new ReviewStore();
     reviewStore.startDeckReview(createDeckWithCards(repeatCardsMock));
     expect(reviewStore.isFinished).toBeFalsy();
@@ -379,6 +529,7 @@ describe("card form store", () => {
   });
 
   it("hit wrong many times", () => {
+    reviewCardsReviewMock.mockResolvedValueOnce(() => Promise.resolve());
     const reviewStore = new ReviewStore();
     reviewStore.startDeckReview(createDeckWithCards(repeatCardsMock));
     expect(reviewStore.isFinished).toBeFalsy();
@@ -426,6 +577,7 @@ describe("card form store", () => {
   });
 
   it("use 'never show' option", () => {
+    reviewCardsReviewMock.mockResolvedValueOnce(() => Promise.resolve());
     const reviewStore = new ReviewStore();
     reviewStore.startDeckReview(createDeckWithCards(repeatCardsMock));
     expect(reviewStore.isFinished).toBeFalsy();
@@ -465,6 +617,7 @@ describe("card form store", () => {
   });
 
   it("hit wrong many times - prioritize forgotten new cards", () => {
+    reviewCardsReviewMock.mockResolvedValueOnce(() => Promise.resolve());
     const reviewStore = new ReviewStore();
     reviewStore.startDeckReview(createDeckWithCards(newCardsMock));
 
