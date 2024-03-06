@@ -1,8 +1,8 @@
-import sanitizeHtml from "sanitize-html";
+import DOMPurify from "dompurify";
 
 export const removeAllTags = (text: string) => {
-  return sanitizeHtml(text, {
-    allowedTags: [],
-    allowedAttributes: {},
+  return DOMPurify.sanitize(text, {
+    ALLOWED_TAGS: [],
+    ALLOWED_ATTR: [],
   });
 };

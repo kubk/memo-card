@@ -1,4 +1,4 @@
-import sanitizeHtml from "sanitize-html";
+import DOMPurify from "dompurify";
 import { mathmlTagNames } from "mathml-tag-names";
 
 const allowedTags = [
@@ -36,11 +36,8 @@ const allowedTags = [
 ];
 
 export const sanitizeTextForCard = (text: string) => {
-  return sanitizeHtml(text, {
-    allowedTags: allowedTags,
-    allowedAttributes: {
-      a: ["href"],
-      font: ["color"],
-    },
+  return DOMPurify.sanitize(text, {
+    ALLOWED_TAGS: allowedTags,
+    ALLOWED_ATTR: ["href", "color"],
   });
 };
