@@ -46,6 +46,12 @@ export class UserStatisticsStore {
   }
 
   get isFrequencyChartEmpty() {
-    return this.frequencyChart.every((item) => item.frequency === 0);
+    const isEmpty = this.frequencyChart.every((item) => item.frequency === 0);
+
+    const isOnlyFirstAvailable =
+      this.frequencyChart.length === 1 &&
+      this.frequencyChart[0].interval_range === "0-5";
+
+    return isEmpty || isOnlyFirstAvailable;
   }
 }
