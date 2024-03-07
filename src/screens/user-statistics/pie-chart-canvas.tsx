@@ -71,11 +71,10 @@ export const PieChartCanvas = ({ data, width, height }: Props) => {
       );
       ctx.closePath();
 
-      ctx.fillStyle = interpolateColor(
-        chartStart,
-        chartFinish,
-        index / (data.length - 1),
-      );
+      // Avoid division by 0
+      const factor = index / (data.length - 1) || 0.5;
+
+      ctx.fillStyle = interpolateColor(chartStart, chartFinish, factor);
       ctx.fill();
 
       startAngle = endAngle;

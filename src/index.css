@@ -45,7 +45,17 @@ h6 {
   margin: 0;
 }
 
-/*for wysiwyg*/
+/* for wysiwyg */
 h1 {
   font-size: 64px;
+}
+
+/* prevent buttons from being colored in blue on click on android */
+input,
+textarea,
+button,
+select,
+div,
+a {
+  -webkit-tap-highlight-color: transparent;
 }

@@ -1,5 +1,4 @@
-import { css, cx } from "@emotion/css";
-import { reset } from "./reset.ts";
+import { css } from "@emotion/css";
 import React, { ReactNode } from "react";
 import { theme } from "./theme.tsx";
 
@@ -11,20 +10,17 @@ export const HintTransparent = (props: Props) => {
   const { children } = props;
 
   return (
-    <p
-      className={cx(
-        reset.p,
-        css({
-          fontSize: 14,
-          padding: "0 12px",
-          marginTop: -4,
-          borderRadius: theme.borderRadius,
-          color: theme.hintColor,
-          textTransform: "none",
-        }),
-      )}
+    <span
+      className={css({
+        fontSize: 14,
+        padding: "0 12px",
+        marginTop: -4,
+        borderRadius: theme.borderRadius,
+        color: theme.hintColor,
+        textTransform: "none",
+      })}
     >
       {children}
-    </p>
+    </span>
   );
 };
