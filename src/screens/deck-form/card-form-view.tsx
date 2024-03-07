@@ -11,8 +11,7 @@ import { Label } from "../../ui/label.tsx";
 import { HintTransparent } from "../../ui/hint-transparent.tsx";
 import { CardRow } from "../../ui/card-row.tsx";
 import { RadioSwitcher } from "../../ui/radio-switcher.tsx";
-import { SegmentedControl } from "./segmented-control.tsx";
-import { CardAnswerType } from "../../../functions/db/custom-types.ts";
+import { AppRoot, SegmentedControl } from "@xelene/tgui";
 import { action } from "mobx";
 import { createAnswerForm } from "./store/deck-form-store.ts";
 import { css, cx } from "@emotion/css";
@@ -125,20 +124,28 @@ export const CardFormView = observer((props: Props) => {
             }
             isPlain
           >
-            <SegmentedControl<CardAnswerType>
-              onChange={cardForm.answerType.onChange}
-              selectedId={cardForm.answerType.value}
-              options={[
-                {
-                  id: "remember",
-                  label: t("yes_no"),
-                },
-                {
-                  id: "choice_single",
-                  label: t("answer_type_choice"),
-                },
-              ]}
-            />
+            <AppRoot>
+              <SegmentedControl>
+                <SegmentedControl.Item
+                  selected={cardForm.answerType.value === "remember"}
+                  key={"remember"}
+                  onClick={() => {
+                    cardForm?.answerType.onChange("remember");
+                  }}
+                >
+                  {t("yes_no")}
+                </SegmentedControl.Item>
+                <SegmentedControl.Item
+                  selected={cardForm.answerType.value === "choice_single"}
+                  key={"choice_single"}
+                  onClick={() => {
+                    cardForm?.answerType.onChange("choice_single");
+                  }}
+                >
+                  {t("answer_type_choice")}
+                </SegmentedControl.Item>
+              </SegmentedControl>
+            </AppRoot>
           </Label>
         </>
       )}
