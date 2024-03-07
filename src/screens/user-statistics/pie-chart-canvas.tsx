@@ -72,7 +72,7 @@ export const PieChartCanvas = ({ data, width, height }: Props) => {
       ctx.closePath();
 
       // Avoid division by 0
-      const factor = index / (data.length - 1) || 0.5;
+      const factor = index / (data.length - 1) || 0.1;
 
       ctx.fillStyle = interpolateColor(chartStart, chartFinish, factor);
       ctx.fill();
