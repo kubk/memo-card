@@ -17,6 +17,7 @@ import {
 import { LegendItem } from "./legend-item.tsx";
 import { DeckLoading } from "../shared/deck-loading.tsx";
 import { EmptyStudyFrequencyChartText } from "./empty-study-frequency-chart-text.tsx";
+import { Flex } from "../../ui/flex.tsx";
 
 const pieChartWidth = 250;
 const pieChartHeight = 200;
@@ -115,39 +116,21 @@ export const UserStatisticsScreen = observer(() => {
 
           {!userStatisticsStore.isFrequencyChartEmpty && (
             <>
-              <div
-                className={css({
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: 4,
-                  alignSelf: "center",
-                })}
-              >
-                <div
-                  className={css({
-                    display: "flex",
-                    gap: 4,
-                    alignItems: "center",
-                  })}
-                >
+              <Flex direction={"column"} gap={4} alignSelf={"center"}>
+                <Flex gap={4} alignItems={"center"}>
                   <LegendItem color={chartStart} />
                   <span className={css({ fontSize: 14 })}>
                     {t("user_stats_chart_min_expl")}
                   </span>
-                </div>
-                <div
-                  className={css({
-                    display: "flex",
-                    gap: 4,
-                    alignItems: "center",
-                  })}
-                >
+                </Flex>
+
+                <Flex gap={4} alignItems={"center"}>
                   <LegendItem color={chartFinish} />
                   <span className={css({ fontSize: 14 })}>
                     {t("user_stats_chart_max_expl")}
                   </span>
-                </div>
-              </div>
+                </Flex>
+              </Flex>
               <p>
                 <HintTransparent>
                   {t("user_stats_learning_time_hint")}

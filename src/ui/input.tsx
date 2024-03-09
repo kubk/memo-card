@@ -1,10 +1,11 @@
-import { ChangeEvent, useEffect, useRef } from "react";
+import React, { ChangeEvent, useEffect, useRef } from "react";
 import { css } from "@emotion/css";
 import { theme } from "./theme.tsx";
 import { TextField } from "mobx-form-lite";
 import { observer } from "mobx-react-lite";
 import autosize from "autosize";
 import { ValidationError } from "./validation-error.tsx";
+import { Flex } from "./flex.tsx";
 
 interface Props {
   placeholder?: string;
@@ -33,7 +34,7 @@ export const Input = observer((props: Props) => {
   }, [type]);
 
   return (
-    <div className={css({ display: "flex", flexDirection: "column", gap: 4 })}>
+    <Flex direction={"column"} gap={4}>
       <Tag
         ref={inputRef as any}
         className={css({
@@ -60,6 +61,6 @@ export const Input = observer((props: Props) => {
         onChange={handleInputChange}
       />
       {isTouched && error ? <ValidationError error={error} /> : null}
-    </div>
+    </Flex>
   );
 });

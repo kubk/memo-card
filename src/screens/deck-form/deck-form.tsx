@@ -27,6 +27,7 @@ import { deckListStore } from "../../store/deck-list-store.ts";
 import { reset } from "../../ui/reset.ts";
 import { Screen } from "../shared/screen.tsx";
 import { CenteredUnstyledButton } from "../../ui/centered-unstyled-button.tsx";
+import { Flex } from "../../ui/flex.tsx";
 
 export const DeckForm = observer(() => {
   const deckFormStore = useDeckFormStore();
@@ -110,14 +111,7 @@ export const DeckForm = observer(() => {
         />
       </CardRow>
       {deckFormStore.isSpeakingCardEnabled ? (
-        <div
-          className={css({
-            display: "flex",
-            justifyContent: "space-between",
-            marginLeft: 12,
-            marginRight: 12,
-          })}
-        >
+        <Flex justifyContent={"space-between"} ml={12} mr={12}>
           <div>
             <div className={css({ fontSize: 14, color: theme.hintColor })}>
               {t("voice_language")}
@@ -149,7 +143,7 @@ export const DeckForm = observer(() => {
               />
             ) : null}
           </div>
-        </div>
+        </Flex>
       ) : (
         <>
           <HintTransparent>{t("card_speak_description")}</HintTransparent>

@@ -20,6 +20,7 @@ import { DeckFolderDescription } from "../shared/deck-folder-description.tsx";
 import { useScrollToTopOnMount } from "../../lib/react/use-scroll-to-top-mount.ts";
 import { redirectUserToDeckOrFolderLink } from "../share-deck/redirect-user-to-deck-or-folder-link.tsx";
 import { userStore } from "../../store/user-store.ts";
+import { Flex } from "../../ui/flex.tsx";
 
 export const FolderPreview = observer(() => {
   const reviewStore = useReviewStore();
@@ -47,14 +48,7 @@ export const FolderPreview = observer(() => {
   }
 
   return (
-    <div
-      className={css({
-        display: "flex",
-        flexDirection: "column",
-        paddingTop: 12,
-        paddingBottom: 12,
-      })}
-    >
+    <Flex direction={"column"} pt={12} pb={12}>
       <div
         className={css({
           display: "flex",
@@ -98,7 +92,7 @@ export const FolderPreview = observer(() => {
               paddingTop: 8,
             })}
           >
-            <div className={css({ display: "flex", gap: 4 })}>
+            <Flex gap={4}>
               <span>{t("cards_to_repeat")}: </span>
               <h4 className={css({ color: theme.orange })}>
                 {
@@ -106,8 +100,8 @@ export const FolderPreview = observer(() => {
                     .length
                 }
               </h4>
-            </div>
-            <div className={css({ display: "flex", gap: 4 })}>
+            </Flex>
+            <Flex gap={4}>
               <span>{t("cards_new")}: </span>
               <h4 className={css({ color: theme.success })}>
                 {
@@ -115,8 +109,8 @@ export const FolderPreview = observer(() => {
                     .length
                 }
               </h4>
-            </div>
-            <div className={css({ display: "flex", gap: 4 })}>
+            </Flex>
+            <Flex gap={4}>
               <span>{t("cards_total")}: </span>
               <h4>
                 {folder.decks.reduce(
@@ -124,7 +118,7 @@ export const FolderPreview = observer(() => {
                   0,
                 )}
               </h4>
-            </div>
+            </Flex>
           </div>
         )}
 
@@ -201,14 +195,7 @@ export const FolderPreview = observer(() => {
           </ButtonSideAligned>
         </ButtonGrid>
       </div>
-      <div
-        className={css({
-          paddingTop: 6,
-          display: "flex",
-          flexDirection: "column",
-          gap: 6,
-        })}
-      >
+      <Flex pt={6} direction={"column"} gap={6}>
         <ListHeader text={t("decks")} />
         {folder.decks.map((deck, i) => {
           return (
@@ -224,7 +211,7 @@ export const FolderPreview = observer(() => {
         {folder.cardsToReview.length === 0 && (
           <Hint>{t("no_cards_to_review_in_deck")}</Hint>
         )}
-      </div>
-    </div>
+      </Flex>
+    </Flex>
   );
 });

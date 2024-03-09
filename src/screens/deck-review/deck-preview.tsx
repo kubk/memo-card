@@ -18,6 +18,7 @@ import { DeckFolderDescription } from "../shared/deck-folder-description.tsx";
 import { useScrollToTopOnMount } from "../../lib/react/use-scroll-to-top-mount.ts";
 import { userStore } from "../../store/user-store.ts";
 import { redirectUserToDeckOrFolderLink } from "../share-deck/redirect-user-to-deck-or-folder-link.tsx";
+import { Flex } from "../../ui/flex.tsx";
 
 export const DeckPreview = observer(() => {
   const reviewStore = useReviewStore();
@@ -50,15 +51,7 @@ export const DeckPreview = observer(() => {
   }
 
   return (
-    <div
-      className={css({
-        display: "flex",
-        flexDirection: "column",
-        gap: 16,
-        paddingTop: 12,
-        paddingBottom: 12,
-      })}
-    >
+    <Flex direction={"column"} gap={16} pt={12} pb={12}>
       <div
         className={css({
           display: "flex",
@@ -102,7 +95,7 @@ export const DeckPreview = observer(() => {
               paddingTop: 8,
             })}
           >
-            <div className={css({ display: "flex", gap: 4 })}>
+            <Flex gap={4}>
               <span>{t("cards_to_repeat")}: </span>
               <h4 className={css({ color: theme.orange })}>
                 {
@@ -110,8 +103,8 @@ export const DeckPreview = observer(() => {
                     .length
                 }
               </h4>
-            </div>
-            <div className={css({ display: "flex", gap: 4 })}>
+            </Flex>
+            <Flex gap={4}>
               <span>{t("cards_new")}: </span>
               <h4 className={css({ color: theme.success })}>
                 {
@@ -119,11 +112,11 @@ export const DeckPreview = observer(() => {
                     .length
                 }
               </h4>
-            </div>
-            <div className={css({ display: "flex", gap: 4 })}>
+            </Flex>
+            <Flex gap={4}>
               <span>{t("cards_total")}: </span>
               <h4>{deck.deck_card.length}</h4>
-            </div>
+            </Flex>
           </div>
         )}
 
@@ -214,6 +207,6 @@ export const DeckPreview = observer(() => {
           </Button>
         </>
       )}
-    </div>
+    </Flex>
   );
 });

@@ -1,7 +1,6 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
 import { DeckFinishedModal } from "./deck-finished-modal.tsx";
-import { css } from "@emotion/css";
 import { useReviewStore } from "./store/review-store-context.tsx";
 import { useMount } from "../../lib/react/use-mount.ts";
 import { screenStore } from "../../store/screen-store.ts";
@@ -11,6 +10,7 @@ import { t } from "../../translations/t.ts";
 import { getEncouragingMessage } from "../../translations/get-encouraging-message.tsx";
 import { WantMoreCardsButton } from "./want-more-cards-button.tsx";
 import { deckListStore } from "../../store/deck-list-store.ts";
+import { Flex } from "../../ui/flex.tsx";
 
 type Props = {
   type: "deck" | "repeat_all";
@@ -33,13 +33,7 @@ export const DeckFinished = observer((props: Props) => {
 
   return (
     <DeckFinishedModal>
-      <div
-        className={css({
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        })}
-      >
+      <Flex direction={"column"} alignItems={"center"}>
         <p>
           {type === "deck" ? t("review_deck_finished") : t("review_all_cards")}
         </p>
@@ -50,7 +44,7 @@ export const DeckFinished = observer((props: Props) => {
         ) : (
           <p>{getEncouragingMessage()} 😊</p>
         )}
-      </div>
+      </Flex>
     </DeckFinishedModal>
   );
 });

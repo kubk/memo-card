@@ -1,15 +1,9 @@
 import { PieChartCanvas } from "../user-statistics/pie-chart-canvas.tsx";
-import { css } from "@emotion/css";
+import { Flex } from "../../ui/flex.tsx";
 
 export const PieChartCanvasStory = () => {
   return (
-    <div
-      className={css({
-        display: "flex",
-        gap: 16,
-        flexDirection: "column",
-      })}
-    >
+    <Flex gap={16} direction={"column"}>
       <PieChartCanvas
         data={[
           { interval_range: "1-2", frequency: 10 },
@@ -38,6 +32,6 @@ export const PieChartCanvasStory = () => {
         width={200}
         height={200}
       />
-    </div>
+    </Flex>
   );
 };

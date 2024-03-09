@@ -20,6 +20,7 @@ import { DeckAddedLabel } from "./deck-added-label.tsx";
 import { t, translateCategory } from "../../translations/t.ts";
 import { enumValues } from "../../lib/typescript/enum-values.ts";
 import { Screen } from "../shared/screen.tsx";
+import { Flex } from "../../ui/flex.tsx";
 
 export const DeckCatalog = observer(() => {
   const store = useDeckCatalogStore();
@@ -34,7 +35,7 @@ export const DeckCatalog = observer(() => {
 
   return (
     <Screen title={t("deck_catalog")}>
-      <div className={css({ display: "flex", gap: 4 })}>
+      <Flex gap={4}>
         <div className={css({ color: theme.hintColor })}>{t("category")}</div>
         <Select
           value={store.filters.categoryId.value}
@@ -51,9 +52,9 @@ export const DeckCatalog = observer(() => {
               : []
           }
         />
-      </div>
+      </Flex>
 
-      <div className={css({ display: "flex", gap: 4 })}>
+      <Flex gap={4}>
         <div className={css({ color: theme.hintColor })}>
           {t("translated_to")}
         </div>
@@ -65,7 +66,7 @@ export const DeckCatalog = observer(() => {
             label: languageFilterToNativeName(key),
           }))}
         />
-      </div>
+      </Flex>
 
       {(() => {
         if (store.decks?.state === "pending") {
