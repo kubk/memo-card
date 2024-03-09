@@ -10,7 +10,10 @@ import {
   addDeckAccessRequest,
   getDeckAccessesOfDeckRequest,
 } from "../../../api/api.ts";
-import { fromPromise, IPromiseBasedObservable } from "mobx-utils";
+import {
+  fromPromise,
+  IPromiseBasedObservable,
+} from "../../../lib/mobx-from-promise/from-promise.ts";
 import { DeckAccessesResponse } from "../../../../functions/deck-accesses.ts";
 import { DeckAccessType } from "../../../../functions/db/custom-types.ts";
 import { persistableField } from "../../../lib/mobx-form-lite-persistable/persistable-field.ts";

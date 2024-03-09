@@ -8,8 +8,6 @@ import { DeckFormStoreProvider } from "./deck-form/store/deck-form-store-context
 import { QuickAddCardFormPage } from "./deck-form/quick-add-card-form-page.tsx";
 import { VersionWarning } from "./shared/version-warning.tsx";
 import React from "react";
-import { UserSettingsStoreProvider } from "./user-settings/store/user-settings-store-context.tsx";
-import { UserSettingsMain } from "./user-settings/user-settings-main.tsx";
 import { deckListStore } from "../store/deck-list-store.ts";
 import { FullScreenLoader } from "../ui/full-screen-loader.tsx";
 import {
@@ -21,14 +19,17 @@ import { DeckCatalog } from "./deck-catalog/deck-catalog.tsx";
 import { DeckOrFolderChoose } from "./deck-or-folder-choose/deck-or-folder-choose.tsx";
 import { FolderForm } from "./folder-form/folder-form.tsx";
 import { DeckCatalogStoreContextProvider } from "./deck-catalog/store/deck-catalog-store-context.tsx";
-import { ShareDeckScreen } from "./share-deck/share-deck-screen.tsx";
-import { ShareDeckOrFormStoreProvider } from "./share-deck/store/share-deck-store-context.tsx";
 import { FolderFormStoreProvider } from "./folder-form/store/folder-form-store-context.tsx";
 import { FolderScreen } from "./folder-review/folder-screen.tsx";
 import { useSettingsButton } from "../lib/telegram/use-settings-button.ts";
-import { ComponentCatalogPage } from "./component-catalog/component-catalog-page.tsx";
 import { UserStatisticsStoreProvider } from "./user-statistics/store/user-statistics-store-context.tsx";
 import { UserStatisticsScreen } from "./user-statistics/user-statistics-screen.tsx";
+import { UserSettingsLazy } from "./user-settings/user-settings-lazy.tsx";
+import { ComponentCatalogPageLazy } from "./component-catalog/component-catalog-page-lazy.tsx";
+import {
+  ShareDeckScreenLazy,
+  ShareFolderScreenLazy,
+} from "./share-deck/share-deck-screen-lazy.tsx";
 
 export const App = observer(() => {
   useRestoreFullScreenExpand();
@@ -91,16 +92,12 @@ export const App = observer(() => {
       )}
       {screenStore.screen.type === "shareDeck" && (
         <PreventTelegramSwipeDownClosingIos>
-          <ShareDeckOrFormStoreProvider type={"deck"}>
-            <ShareDeckScreen />
-          </ShareDeckOrFormStoreProvider>
+          <ShareDeckScreenLazy />
         </PreventTelegramSwipeDownClosingIos>
       )}
       {screenStore.screen.type === "shareFolder" && (
         <PreventTelegramSwipeDownClosingIos>
-          <ShareDeckOrFormStoreProvider type={"folder"}>
-            <ShareDeckScreen />
-          </ShareDeckOrFormStoreProvider>
+          <ShareFolderScreenLazy />
         </PreventTelegramSwipeDownClosingIos>
       )}
       {screenStore.screen.type === "cardQuickAddForm" && (
@@ -110,9 +107,7 @@ export const App = observer(() => {
       )}
       {screenStore.screen.type === "userSettings" && (
         <PreventTelegramSwipeDownClosingIos>
-          <UserSettingsStoreProvider>
-            <UserSettingsMain />
-          </UserSettingsStoreProvider>
+          <UserSettingsLazy />
         </PreventTelegramSwipeDownClosingIos>
       )}
       {screenStore.screen.type === "deckCatalog" && (
@@ -124,7 +119,7 @@ export const App = observer(() => {
       )}
       {screenStore.screen.type === "componentCatalog" && (
         <PreventTelegramSwipeDownClosingIos>
-          <ComponentCatalogPage />
+          <ComponentCatalogPageLazy />
         </PreventTelegramSwipeDownClosingIos>
       )}
       {screenStore.screen.type === "userStatistics" && (

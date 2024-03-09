@@ -12,7 +12,10 @@ import { screenStore } from "../../../store/screen-store.ts";
 import { assert } from "../../../lib/typescript/assert.ts";
 import { decksMineRequest, folderUpsertRequest } from "../../../api/api.ts";
 import { deckListStore } from "../../../store/deck-list-store.ts";
-import { fromPromise, IPromiseBasedObservable } from "mobx-utils";
+import {
+  fromPromise,
+  IPromiseBasedObservable,
+} from "../../../lib/mobx-from-promise/from-promise.ts";
 import { DeckWithoutCardsDbType } from "../../../../functions/db/deck/decks-with-cards-schema.ts";
 
 const createFolderTitleField = (title: string) => {

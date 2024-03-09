@@ -1,6 +1,9 @@
 import { makeAutoObservable } from "mobx";
 import { deckCatalogRequest, deckCategoriesRequest } from "../../../api/api.ts";
-import { fromPromise, IPromiseBasedObservable } from "mobx-utils";
+import {
+  fromPromise,
+  IPromiseBasedObservable,
+} from "../../../lib/mobx-from-promise/from-promise.ts";
 import { DeckCatalogResponse } from "../../../../functions/catalog-decks.ts";
 import { TextField } from "mobx-form-lite";
 import { cachePromise } from "../../../lib/cache/cache-promise.ts";
