@@ -1,9 +1,9 @@
 import { observer } from "mobx-react-lite";
-import { css } from "@emotion/css";
 import { Choice } from "./choice.tsx";
 import { screenStore } from "../../store/screen-store.ts";
 import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
 import { t } from "../../translations/t.ts";
+import { Flex } from "../../ui/flex.tsx";
 
 export const DeckOrFolderChoose = observer(() => {
   useBackButton(() => {
@@ -11,24 +11,15 @@ export const DeckOrFolderChoose = observer(() => {
   });
 
   return (
-    <div
-      className={css({
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        marginTop: 100,
-        gap: 12,
-      })}
+    <Flex
+      direction={"column"}
+      alignItems={"center"}
+      justifyContent={"center"}
+      mt={100}
+      gap={12}
     >
       <h3>{t("choose_what_to_create")}</h3>
-      <div
-        className={css({
-          display: "flex",
-          flexDirection: "column",
-          gap: 8,
-        })}
-      >
+      <Flex direction={"column"} gap={8}>
         <Choice
           icon={"mdi mdi-cards-outline mdi-36px"}
           title={t("deck")}
@@ -45,7 +36,7 @@ export const DeckOrFolderChoose = observer(() => {
             screenStore.go({ type: "folderForm" });
           }}
         />
-      </div>
-    </div>
+      </Flex>
+    </Flex>
   );
 });

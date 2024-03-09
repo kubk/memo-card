@@ -8,7 +8,7 @@ import React from "react";
 import { Hint } from "../../ui/hint.tsx";
 import { t } from "../../translations/t.ts";
 import { WantMoreCardsButton } from "./want-more-cards-button.tsx";
-import { css } from "@emotion/css";
+import { Flex } from "../../ui/flex.tsx";
 
 export const RepeatAllScreen = observer(() => {
   const reviewStore = useReviewStore();
@@ -29,13 +29,13 @@ export const RepeatAllScreen = observer(() => {
   }
 
   return (
-    <div className={css({ display: "flex", flexDirection: "column", gap: 8 })}>
+    <Flex direction={"column"} gap={8}>
       <Hint>{t("no_cards_to_review_all")}</Hint>
       {deckListStore.newCardsCount > 0 ? (
         <Hint>
           <WantMoreCardsButton newCardsCount={deckListStore.newCardsCount} />
         </Hint>
       ) : null}
-    </div>
+    </Flex>
   );
 });

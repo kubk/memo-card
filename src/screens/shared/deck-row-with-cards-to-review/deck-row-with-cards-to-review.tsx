@@ -5,6 +5,7 @@ import React from "react";
 import { DeckCardDbTypeWithType } from "../../../store/deck-list-store.ts";
 import { CardsToReviewCount } from "./cards-to-review-count.tsx";
 import { tapScale } from "../../../lib/animations/tap-scale.ts";
+import { Flex } from "../../../ui/flex.tsx";
 
 type Props = {
   item: {
@@ -42,13 +43,7 @@ export const DeckRowWithCardsToReview = observer((props: Props) => {
       >
         {item.name}
       </div>
-      <div
-        className={css({
-          display: "flex",
-          justifyContent: "space-between",
-          gap: 10,
-        })}
-      >
+      <Flex justifyContent={"space-between"} gap={10}>
         <CardsToReviewCount
           items={item.cardsToReview.filter((card) => card.type === "repeat")}
           color={theme.orange}
@@ -57,7 +52,7 @@ export const DeckRowWithCardsToReview = observer((props: Props) => {
           items={item.cardsToReview.filter((card) => card.type === "new")}
           color={theme.success}
         />
-      </div>
+      </Flex>
     </div>
   );
 });

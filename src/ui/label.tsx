@@ -1,6 +1,7 @@
 import React, { ReactNode } from "react";
 import { css } from "@emotion/css";
 import { theme } from "./theme.tsx";
+import { Flex } from "./flex.tsx";
 
 type Props = {
   text: ReactNode;
@@ -17,7 +18,7 @@ export const Label = (props: Props) => {
 
   return (
     <Tag className={css({ display: "flex", flexDirection: "column", gap: 2 })}>
-      <span className={css({ marginLeft: 12, display: "flex" })}>
+      <Flex ml={12}>
         {props.text}
         {props.isRequired && (
           <span
@@ -39,7 +40,7 @@ export const Label = (props: Props) => {
             {slotRight}
           </span>
         )}
-      </span>
+      </Flex>
       {props.children}
     </Tag>
   );

@@ -25,6 +25,7 @@ import { WysiwygField } from "../../ui/wysiwyg-field/wysiwig-field.tsx";
 import { userStore } from "../../store/user-store.ts";
 import { Input } from "../../ui/input.tsx";
 import { FormattingSwitcher } from "./formatting-switcher.tsx";
+import { Flex } from "../../ui/flex.tsx";
 
 type Props = {
   cardFormStore: CardFormStoreInterface;
@@ -59,13 +60,7 @@ export const CardFormView = observer((props: Props) => {
 
   return (
     <Screen title={cardForm.id ? t("edit_card") : t("add_card")}>
-      <div
-        className={css({
-          display: "flex",
-          flexDirection: "column",
-          gap: 16,
-        })}
-      >
+      <Flex direction={"column"} gap={16}>
         <Label
           text={t("card_front_title")}
           isPlain
@@ -93,7 +88,7 @@ export const CardFormView = observer((props: Props) => {
           )}
           <HintTransparent>{t("card_back_side_hint")}</HintTransparent>
         </Label>
-      </div>
+      </Flex>
 
       <CardRow>
         <span>{t("card_advanced")}</span>

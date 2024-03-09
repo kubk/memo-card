@@ -18,6 +18,7 @@ import { ViewMoreDecksToggle } from "./view-more-decks-toggle.tsx";
 import { t } from "../../translations/t.ts";
 import { links } from "../shared/links.ts";
 import { tapScale } from "../../lib/animations/tap-scale.ts";
+import { Flex } from "../../ui/flex.tsx";
 
 export const MainScreen = observer(() => {
   useMount(() => {
@@ -25,14 +26,7 @@ export const MainScreen = observer(() => {
   });
 
   return (
-    <div
-      className={css({
-        display: "flex",
-        flexDirection: "column",
-        gap: 12,
-        paddingBottom: 16,
-      })}
-    >
+    <Flex direction={"column"} gap={12} pb={16}>
       <div>
         <ListHeader
           text={t("my_decks")}
@@ -42,13 +36,7 @@ export const MainScreen = observer(() => {
             ) : undefined
           }
         />
-        <div
-          className={css({
-            display: "flex",
-            flexDirection: "column",
-            gap: 6,
-          })}
-        >
+        <Flex direction={"column"} gap={6}>
           {deckListStore.isMyInfoLoading &&
             range(deckListStore.skeletonLoaderData.myDecksCount).map((i) => (
               <DeckLoading key={i} />
@@ -131,18 +119,12 @@ export const MainScreen = observer(() => {
           {deckListStore.areAllDecksReviewed && (
             <Hint>{t("all_decks_reviewed")}</Hint>
           )}
-        </div>
+        </Flex>
       </div>
 
       <div>
         <ListHeader text={t("public_decks")} />
-        <div
-          className={css({
-            display: "flex",
-            flexDirection: "column",
-            gap: 6,
-          })}
-        >
+        <Flex direction={"column"} gap={6}>
           {deckListStore.myInfo ? (
             <>
               {deckListStore.publicDecks.map((deck) => (
@@ -175,7 +157,7 @@ export const MainScreen = observer(() => {
             range(deckListStore.skeletonLoaderData.publicCount).map((i) => (
               <DeckLoading key={i} />
             ))}
-        </div>
+        </Flex>
       </div>
 
       {deckListStore.myInfo && (
@@ -215,6 +197,6 @@ export const MainScreen = observer(() => {
           </div>
         </>
       )}
-    </div>
+    </Flex>
   );
 });

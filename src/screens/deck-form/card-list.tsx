@@ -13,6 +13,7 @@ import { t } from "../../translations/t.ts";
 import { Screen } from "../shared/screen.tsx";
 import { removeAllTags } from "../../lib/sanitize-html/remove-all-tags.ts";
 import { tapScale } from "../../lib/animations/tap-scale.ts";
+import { Flex } from "../../ui/flex.tsx";
 
 export const CardList = observer(() => {
   const deckFormStore = useDeckFormStore();
@@ -35,13 +36,7 @@ export const CardList = observer(() => {
             field={deckFormStore.cardFilter.text}
             placeholder={t("search_card")}
           />
-          <div
-            className={css({
-              display: "flex",
-              marginLeft: 12,
-              gap: 8,
-            })}
-          >
+          <Flex ml={12} gap={8}>
             <span>{t("sort_by")}</span>
             {[
               {
@@ -80,7 +75,7 @@ export const CardList = observer(() => {
                 </button>
               );
             })}
-          </div>
+          </Flex>
         </>
       )}
       {deckFormStore.filteredCards.map((cardForm, i) => (
