@@ -1,5 +1,8 @@
 import { makeAutoObservable } from "mobx";
-import { fromPromise, IPromiseBasedObservable } from "mobx-utils";
+import {
+  fromPromise,
+  IPromiseBasedObservable,
+} from "../../../lib/mobx-from-promise/from-promise.ts";
 import { MyStatisticsResponse } from "../../../../functions/my-statistics.ts";
 import { myStatisticsRequest } from "../../../api/api.ts";
 import { PieChartData } from "../pie-chart-canvas.tsx";
