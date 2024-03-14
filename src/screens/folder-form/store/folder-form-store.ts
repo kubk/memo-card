@@ -19,14 +19,18 @@ import {
 import { DeckWithoutCardsDbType } from "../../../../functions/db/deck/decks-with-cards-schema.ts";
 
 const createFolderTitleField = (title: string) => {
-  return new TextField(title, validators.required(t("validation_required")));
+  return new TextField(title, {
+    validate: validators.required(t("validation_required")),
+  });
 };
 
 const createDecksField = (decks: Array<{ id: number; name: string }>) => {
-  return new ListField<{ id: number; name: string }>(decks, (value) => {
-    if (value.length === 0) {
-      return t("validation_at_least_one_deck");
-    }
+  return new ListField<{ id: number; name: string }>(decks, {
+    validate: (value) => {
+      if (value.length === 0) {
+        return t("validation_at_least_one_deck");
+      }
+    },
   });
 };
 

@@ -42,15 +42,17 @@ export class ShareDeckFormStore {
       "accessDurationLimit",
     ),
     accessDurationLimitDays: persistableField(
-      new TextField("30", (value: unknown) => {
-        if (this.form.isAccessDuration.value) {
-          if (!value) {
-            return t("validation_required");
+      new TextField("30", {
+        validate: (value: unknown) => {
+          if (this.form.isAccessDuration.value) {
+            if (!value) {
+              return t("validation_required");
+            }
+            if (isNaN(Number(value)) || Number(value) < 1) {
+              return t("validation_number");
+            }
           }
-          if (isNaN(Number(value)) || Number(value) < 1) {
-            return t("validation_number");
-          }
-        }
+        },
       }),
       "accessDurationLimitDays",
     ),

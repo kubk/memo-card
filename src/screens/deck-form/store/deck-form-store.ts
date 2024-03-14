@@ -57,17 +57,23 @@ type DeckFormType = {
 };
 
 export const createDeckTitleField = (value: string) => {
-  return new TextField(value, validators.required(t("validation_deck_title")));
+  return new TextField(value, {
+    validate: validators.required(t("validation_deck_title")),
+  });
 };
 
 export const createCardSideField = (value: string) => {
-  return new TextField(value, validators.required(t("validation_required")));
+  return new TextField(value, {
+    validate: validators.required(t("validation_required")),
+  });
 };
 
 export const createAnswerForm = () => {
   return {
     id: v4(),
-    text: new TextField("", validators.required(t("validation_required"))),
+    text: new TextField("", {
+      validate: validators.required(t("validation_required")),
+    }),
     isCorrect: new BooleanField(false),
   };
 };
@@ -76,30 +82,33 @@ export const createAnswerListField = (
   answers: CardAnswerFormType[],
   getCardForm: () => CardFormType | null,
 ) => {
-  return new ListField<CardAnswerFormType>(answers, (value) => {
-    const cardForm = getCardForm();
+  return new ListField<CardAnswerFormType>(answers, {
+    validate: (value) => {
+      const cardForm = getCardForm();
 
-    if (!cardForm || cardForm.answerType.value !== "choice_single") {
-      return;
-    }
-
-    if (value.length > 0) {
-      if (value.every((item) => !item.isCorrect.value)) {
-        return t("validation_answer_at_least_one_correct");
+      if (!cardForm || cardForm.answerType.value !== "choice_single") {
+        return;
       }
-    }
 
-    if (value.length === 0) {
-      return t("validation_at_least_one_answer_required");
-    }
+      if (value.length > 0) {
+        if (value.every((item) => !item.isCorrect.value)) {
+          return t("validation_answer_at_least_one_correct");
+        }
+      }
+
+      if (value.length === 0) {
+        return t("validation_at_least_one_answer_required");
+      }
+    },
   });
 };
 
 export const createAnswerTypeField = (card?: DeckCardDbType) => {
   return new TextField<CardAnswerType>(
     card ? card.answer_type : userStore.defaultCardType,
-    undefined,
-    userStore.updateDefaultCardType,
+    {
+      onChangeCallback: userStore.updateDefaultCardType,
+    },
   );
 };
 
