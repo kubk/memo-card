@@ -40,7 +40,7 @@ import { DecksMineResponse } from "../../functions/decks-mine.ts";
 import {
   CreateOrderRequest,
   CreateOrderResponse,
-} from "../../functions/order.ts";
+} from "../../functions/order-plan.ts";
 import { MyPlansResponse } from "../../functions/my-plans.ts";
 import { DuplicateFolderResponse } from "../../functions/duplicate-folder.ts";
 import { MyStatisticsResponse } from "../../functions/my-statistics.ts";
@@ -156,7 +156,7 @@ export const decksMineRequest = () => {
 };
 
 export const createOrderRequest = (planId: number) => {
-  return request<CreateOrderResponse, CreateOrderRequest>(`/order`, "POST", {
+  return request<CreateOrderResponse, CreateOrderRequest>(`/order-plan`, "POST", {
     planId,
   });
 };
