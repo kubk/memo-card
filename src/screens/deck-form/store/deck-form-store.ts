@@ -1,4 +1,4 @@
-import { formTouchAll, TextField } from "mobx-form-lite";
+import { formTouchAll, isFormDirty, TextField } from "mobx-form-lite";
 import { validators } from "mobx-form-lite";
 import { action, makeAutoObservable } from "mobx";
 import { isFormEmpty, isFormTouched, isFormValid } from "mobx-form-lite";
@@ -454,7 +454,7 @@ export class DeckFormStore implements CardFormStoreInterface {
     // Only new and touched cards are sent to the server
     const newCards = this.form.cards.filter((card) => !card.id);
     const touchedCards = this.form.cards.filter(
-      (card) => !!(card.id && isFormTouched(card)),
+      (card) => !!(card.id && (isFormTouched(card) || isFormDirty(card))),
     );
     const cardsToSend = newCards.concat(touchedCards).map(cardFormToApi);
 
