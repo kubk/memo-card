@@ -1,5 +1,5 @@
 import { action, makeAutoObservable, when } from "mobx";
-import { TextField } from "mobx-form-lite";
+import { isFormDirty, TextField } from "mobx-form-lite";
 import { assert } from "../../../lib/typescript/assert.ts";
 import { DateTime } from "luxon";
 import { formatTime } from "../generate-time-range.tsx";
@@ -50,7 +50,7 @@ export class UserSettingsStore {
   }
 
   get isSaveVisible() {
-    return !!this.form && isFormTouched(this.form);
+    return !!this.form && (isFormTouched(this.form) || isFormDirty(this.form));
   }
 
   submit() {
