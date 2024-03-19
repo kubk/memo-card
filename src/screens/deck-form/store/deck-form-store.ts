@@ -379,7 +379,7 @@ export class DeckFormStore implements CardFormStoreInterface {
 
   async onBackCard() {
     assert(this.cardForm, "onCardBack: cardForm is empty");
-    if (isFormEmpty(this.cardForm) || !isFormTouched(this.cardForm)) {
+    if (isFormEmpty(this.cardForm) || !isFormDirty(this.cardForm)) {
       this.quitCardForm();
       return;
     }
@@ -392,7 +392,7 @@ export class DeckFormStore implements CardFormStoreInterface {
 
   async onDeckBack() {
     assert(this.form, "onDeckBack: form is empty");
-    if (isFormEmpty(this.form) || !isFormTouched(this.form)) {
+    if (isFormEmpty(this.form) || !isFormDirty(this.form)) {
       screenStore.go({ type: "main" });
       return;
     }

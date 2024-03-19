@@ -5,7 +5,12 @@ import { useMainButton } from "../../lib/telegram/use-main-button.tsx";
 import { t } from "../../translations/t.ts";
 import { useTelegramProgress } from "../../lib/telegram/use-telegram-progress.tsx";
 import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
-import { BooleanToggle, isFormTouched, isFormValid } from "mobx-form-lite";
+import {
+  BooleanToggle,
+  isFormDirty,
+  isFormTouched,
+  isFormValid,
+} from "mobx-form-lite";
 import { Screen } from "../shared/screen.tsx";
 import { Label } from "../../ui/label.tsx";
 import { HintTransparent } from "../../ui/hint-transparent.tsx";
@@ -171,7 +176,8 @@ export const CardFormView = observer((props: Props) => {
                 </CardRow>
               ))}
               {cardForm.answers.error &&
-                isFormTouched({ answers: cardForm.answers }) && (
+                (isFormTouched({ answers: cardForm.answers }) ||
+                  isFormDirty({ answers: cardForm.answers })) && (
                   <ValidationError error={cardForm.answers.error} />
                 )}
               <CardRow
