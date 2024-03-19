@@ -5,7 +5,12 @@ import {
   createCardSideField,
 } from "./deck-form-store.ts";
 import { action, makeAutoObservable } from "mobx";
-import { isFormEmpty, isFormTouched, isFormValid } from "mobx-form-lite";
+import {
+  formTouchAll,
+  isFormEmpty,
+  isFormTouched,
+  isFormValid,
+} from "mobx-form-lite";
 import { screenStore } from "../../../store/screen-store.ts";
 import { showConfirm } from "../../../lib/telegram/show-confirm.ts";
 import { addCardRequest } from "../../../api/api.ts";
@@ -42,6 +47,7 @@ export class QuickAddCardFormStore implements CardFormStoreInterface {
 
   onSaveCard() {
     if (!isFormValid(this.cardForm)) {
+      formTouchAll(this.cardForm);
       return;
     }
 

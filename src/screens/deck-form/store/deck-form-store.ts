@@ -1,4 +1,4 @@
-import { TextField } from "mobx-form-lite";
+import { formTouchAll, TextField } from "mobx-form-lite";
 import { validators } from "mobx-form-lite";
 import { action, makeAutoObservable } from "mobx";
 import { isFormEmpty, isFormTouched, isFormValid } from "mobx-form-lite";
@@ -233,6 +233,7 @@ export class DeckFormStore implements CardFormStoreInterface {
       return;
     }
     if (!isFormValid(this.form)) {
+      formTouchAll(this.form);
       return;
     }
     this.isCardList = true;
@@ -332,6 +333,7 @@ export class DeckFormStore implements CardFormStoreInterface {
   openNewCardForm() {
     assert(this.form, "openNewCardForm: form is empty");
     if (!isFormValid(this.form)) {
+      formTouchAll(this.form);
       return;
     }
 
@@ -443,6 +445,7 @@ export class DeckFormStore implements CardFormStoreInterface {
     }
 
     if (!isFormValid(this.form)) {
+      formTouchAll(this.form);
       return Promise.reject();
     }
     this.isSending = true;

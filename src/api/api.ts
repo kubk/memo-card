@@ -156,9 +156,13 @@ export const decksMineRequest = () => {
 };
 
 export const createOrderRequest = (planId: number) => {
-  return request<CreateOrderResponse, CreateOrderRequest>(`/order-plan`, "POST", {
-    planId,
-  });
+  return request<CreateOrderResponse, CreateOrderRequest>(
+    `/order-plan`,
+    "POST",
+    {
+      planId,
+    },
+  );
 };
 
 export const myPlansRequest = () => {

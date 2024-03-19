@@ -5,6 +5,7 @@ import {
   isFormTouched,
   isFormValid,
   ListField,
+  formTouchAll,
 } from "mobx-form-lite";
 import { t } from "../../../translations/t.ts";
 import { action, makeAutoObservable } from "mobx";
@@ -98,6 +99,7 @@ export class FolderFormStore {
       return;
     }
     if (!isFormValid(this.folderForm)) {
+      formTouchAll(this.folderForm);
       return;
     }
     const screen = screenStore.screen;

@@ -77,6 +77,7 @@ const en = {
   card_sort_by_date: "Date",
   card_sort_by_front: "Front",
   card_sort_by_back: "Back",
+  card_answer_back: "Back",
   sort_by: "Sort by",
   title: "Title",
   description: "Description",
@@ -188,6 +189,7 @@ const en = {
 type Translation = typeof en;
 
 const ru: Translation = {
+  card_answer_back: "Назад",
   read_more: "Читать далее",
   user_stats_empty_text: "Изучите больше карточек, чтобы увидеть данные",
   hide_card_forever_confirm_title:
@@ -367,6 +369,7 @@ const ru: Translation = {
 };
 
 const es: Translation = {
+  card_answer_back: "Atrás",
   read_more: "Leer más",
   user_stats_empty_text: "Estudia más tarjetas para ver los datos",
   hide_card_forever: "Ocultar para siempre",
@@ -552,6 +555,7 @@ const es: Translation = {
 };
 
 const ptBr: Translation = {
+  card_answer_back: "Costas",
   read_more: "Leia mais",
   user_stats_empty_text: "Estude mais cartões para ver os dados",
   hide_card_forever: "Ocultar para sempre",
