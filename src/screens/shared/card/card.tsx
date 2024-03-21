@@ -15,7 +15,7 @@ import { userStore } from "../../../store/user-store.ts";
 import { hapticSelection } from "../../../lib/telegram/haptics.ts";
 
 export const cardSize = 310;
-export const IDK_ID = "id";
+export const IDK_ID = "idk";
 
 export type LimitedCardUnderReviewStore = Pick<
   CardUnderReviewStore,
