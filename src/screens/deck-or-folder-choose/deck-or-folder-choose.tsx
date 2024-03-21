@@ -1,9 +1,10 @@
 import { observer } from "mobx-react-lite";
-import { Choice } from "./choice.tsx";
 import { screenStore } from "../../store/screen-store.ts";
 import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
 import { t } from "../../translations/t.ts";
 import { Flex } from "../../ui/flex.tsx";
+import React from "react";
+import { Choice } from "../../ui/choice.tsx";
 
 export const DeckOrFolderChoose = observer(() => {
   useBackButton(() => {

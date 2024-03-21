@@ -23,6 +23,7 @@ export const timeRanges = generateTimeRange();
 
 export const UserSettingsMain = observer(() => {
   const userSettingsStore = useUserSettingsStore();
+  // const [plansClickedTimes, setPlansClickedTimes] = useState(0);
   useMount(() => {
     userSettingsStore.load();
   });
@@ -114,6 +115,18 @@ export const UserSettingsMain = observer(() => {
         </span>
       </CardRow>
       <HintTransparent>{t("settings_support_hint")}</HintTransparent>
+
+      {/*<CardRow*/}
+      {/*  onClick={() => {*/}
+      {/*    setPlansClickedTimes((value) => value + 1);*/}
+      {/*    if (plansClickedTimes >= 5) {*/}
+      {/*      screenStore.go({ type: "plans" });*/}
+      {/*    }*/}
+      {/*  }}*/}
+      {/*>*/}
+      {/*  <span>Plans</span>*/}
+      {/*</CardRow>*/}
+      {/*<HintTransparent>Payment plan settings</HintTransparent>*/}
     </Screen>
   );
 });

@@ -30,6 +30,7 @@ import {
   ShareDeckScreenLazy,
   ShareFolderScreenLazy,
 } from "./share-deck/share-deck-screen-lazy.tsx";
+import { PlansScreen } from "./plans/plans-screen.tsx";
 
 export const App = observer(() => {
   useRestoreFullScreenExpand();
@@ -120,6 +121,11 @@ export const App = observer(() => {
       {screenStore.screen.type === "componentCatalog" && (
         <PreventTelegramSwipeDownClosingIos>
           <ComponentCatalogPageLazy />
+        </PreventTelegramSwipeDownClosingIos>
+      )}
+      {screenStore.screen.type === "plans" && (
+        <PreventTelegramSwipeDownClosingIos>
+          <PlansScreen />
         </PreventTelegramSwipeDownClosingIos>
       )}
       {screenStore.screen.type === "userStatistics" && (
