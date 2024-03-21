@@ -11,6 +11,8 @@ const en = {
     "Are you sure you want to hide this card forever? You will never see it again",
   wysiwyg_big_header: "Big header",
   next: "Next",
+  review_wrong_label: "Wrong",
+  review_correct_label: "Correct",
   wysiwyg_small_header: "Small header",
   wysiwyg_middle_header: "Middle header",
   wysiwyg_bold: "Bold",
@@ -162,6 +164,7 @@ const en = {
   answer: "Answer",
   yes_no: "Yes No",
   answer_type_choice: "Choice",
+  review_idk: "I don't know",
   answer_type_explanation: `The type of answer you'll need to provide for this card. Choose "Yes No" if you want to select between "Remember" and "Don't remember". Select "Choice" if you want to select between answers.`,
   validation_answer_at_least_one_correct:
     "One answer should be selected as correct",
@@ -191,10 +194,13 @@ type Translation = typeof en;
 const ru: Translation = {
   card_answer_back: "Назад",
   read_more: "Читать далее",
+  review_wrong_label: "Неправильно",
+  review_correct_label: "Правильно",
   user_stats_empty_text: "Изучите больше карточек, чтобы увидеть данные",
   hide_card_forever_confirm_title:
     "Вы уверены, что хотите скрыть эту карточку навсегда? Вы больше не увидите её",
   hide_card_forever: "Скрыть навсегда",
+  review_idk: "Не знаю",
   mute_cards: "Выключить звук",
   unmute_cards: "Включить звук",
   wysiwyg_italic: "Курсив",
@@ -371,6 +377,9 @@ const ru: Translation = {
 const es: Translation = {
   card_answer_back: "Atrás",
   read_more: "Leer más",
+  review_idk: "No sé",
+  review_wrong_label: "Incorrecto",
+  review_correct_label: "Correcto",
   user_stats_empty_text: "Estudia más tarjetas para ver los datos",
   hide_card_forever: "Ocultar para siempre",
   mute_cards: "Silenciar sonido",
@@ -557,6 +566,9 @@ const es: Translation = {
 const ptBr: Translation = {
   card_answer_back: "Costas",
   read_more: "Leia mais",
+  review_idk: "Não sei",
+  review_wrong_label: "Incorreto",
+  review_correct_label: "Correto",
   user_stats_empty_text: "Estude mais cartões para ver os dados",
   hide_card_forever: "Ocultar para sempre",
   mute_cards: "Silenciar som",

@@ -15,6 +15,7 @@ import { userStore } from "../../../store/user-store.ts";
 import { hapticSelection } from "../../../lib/telegram/haptics.ts";
 
 export const cardSize = 310;
+export const IDK_ID = "id";
 
 export type LimitedCardUnderReviewStore = Pick<
   CardUnderReviewStore,
@@ -131,7 +132,7 @@ export const Card = observer((props: Props) => {
         ) : null}
         {card.isOpened && card.answerType === "choice_single" ? (
           <>
-            <HorizontalDivider />
+            {!!card.back && <HorizontalDivider />}
             {(() => {
               assert(card.answer);
               if (card.answer.isCorrect) {
@@ -152,12 +153,16 @@ export const Card = observer((props: Props) => {
                 return (
                   <div className={css({ fontWeight: "normal" })}>
                     <div>
-                      <span className={css({ color: theme.danger })}>
-                        Wrong:{" "}
-                      </span>
+                      {card.answer.id !== IDK_ID && (
+                        <span className={css({ color: theme.danger })}>
+                          {t("review_wrong_label")}:{" "}
+                        </span>
+                      )}
                       {card.answer.text}
                     </div>
-                    <div>Correct: {correctAnswer?.text}</div>
+                    <div>
+                      {t("review_correct_label")}: {correctAnswer?.text}
+                    </div>
                   </div>
                 );
               }
