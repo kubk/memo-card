@@ -2,6 +2,7 @@ import { observer } from "mobx-react-lite";
 import {
   Card,
   cardSize,
+  IDK_ID,
   LimitedCardUnderReviewStore,
 } from "../shared/card/card.tsx";
 import { css } from "@emotion/css";
@@ -80,7 +81,7 @@ export const CardReviewWithControls = observer((props: Props) => {
         <div
           className={css({
             position: "absolute",
-            bottom: 32,
+            bottom: 48,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
@@ -102,6 +103,14 @@ export const CardReviewWithControls = observer((props: Props) => {
               {answer.text}
             </Button>
           ))}
+          <Button
+            onClick={() => {
+              assert(card);
+              card.openWithAnswer({ id: IDK_ID, text: "", isCorrect: false });
+            }}
+          >
+            {t("review_idk")}
+          </Button>
         </div>
       )}
 
