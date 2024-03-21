@@ -15,6 +15,7 @@ type Route =
   | { type: "deckCatalog" }
   | { type: "shareDeck"; deckId: number; shareId: string }
   | { type: "shareFolder"; folderId: number; shareId: string }
+  | { type: "plans" }
   | { type: "componentCatalog" }
   | { type: "userStatistics" }
   | { type: "userSettings" };
