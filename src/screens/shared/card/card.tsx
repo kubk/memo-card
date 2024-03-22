@@ -139,7 +139,7 @@ export const Card = observer((props: Props) => {
                 return (
                   <div className={css({ fontWeight: "normal" })}>
                     <span className={css({ color: theme.success })}>
-                      Correct:{" "}
+                      {t("review_correct_label")}:{" "}
                     </span>
                     {card.answer.text}
                   </div>
