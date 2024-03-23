@@ -8,8 +8,8 @@ const UserSettingsStoreProvider = lazy(() =>
 );
 
 const UserSettingsMain = lazy(() =>
-  import("./user-settings-main.tsx").then((module) => ({
-    default: module.UserSettingsMain,
+  import("./user-settings-screen.tsx").then((module) => ({
+    default: module.UserSettingsScreen,
   })),
 );
 

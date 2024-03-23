@@ -23,15 +23,21 @@ import { assert } from "../lib/typescript/assert.ts";
 import { ReviewStore } from "../screens/deck-review/store/review-store.ts";
 import { reportHandledError } from "../lib/rollbar/rollbar.tsx";
 import { BooleanToggle } from "mobx-form-lite";
-import { type UserFoldersDbType } from "../../functions/db/folder/get-many-folders-with-decks-db.tsx";
+import { type UserFoldersDbType } from "../../functions/db/folder/get-many-folders-with-decks-db.ts";
 import { userStore } from "./user-store.ts";
 import { showConfirm } from "../lib/telegram/show-confirm.ts";
 import { t } from "../translations/t.ts";
 import { canDuplicateDeckOrFolder } from "../../shared/access/can-duplicate-deck-or-folder.ts";
 import { hapticImpact } from "../lib/telegram/haptics.ts";
+import {
+  notifyPaymentFailed,
+  notifyPaymentSuccess,
+} from "../ui/notify-payment.ts";
 
 export enum StartParamType {
   RepeatAll = "repeat_all",
+  WalletPaymentSuccessful = "wp_success",
+  WalletPaymentFailed = "wp_fail",
 }
 
 export type DeckCardDbTypeWithType = DeckCardDbType & {
@@ -164,6 +170,10 @@ export class DeckListStore {
             this.isReviewAllLoaded = true;
           }),
         );
+    } else if (startParam === StartParamType.WalletPaymentSuccessful) {
+      notifyPaymentSuccess();
+    } else if (startParam === StartParamType.WalletPaymentFailed) {
+      notifyPaymentFailed();
     } else {
       if (this.isSharedDeckLoaded) {
         return;

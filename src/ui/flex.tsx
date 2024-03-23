@@ -17,6 +17,7 @@ type Props = {
   pl?: CSSProperties["paddingLeft"];
   pr?: CSSProperties["paddingRight"];
   className?: string;
+  fullWidth?: boolean;
 };
 
 export const Flex = (props: Props) => {
@@ -27,6 +28,7 @@ export const Flex = (props: Props) => {
       className={cx(
         css({
           display: "flex",
+          width: props.fullWidth ? "100%" : undefined,
           flexDirection: props.direction,
           justifyContent: props.justifyContent,
           alignItems: props.alignItems,

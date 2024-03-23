@@ -1,7 +1,7 @@
 import { observer } from "mobx-react-lite";
 import { useUserSettingsStore } from "./store/user-settings-store-context.tsx";
 import { deckListStore } from "../../store/deck-list-store.ts";
-import React from "react";
+import React, { useState } from "react";
 import { useMount } from "../../lib/react/use-mount.ts";
 import { generateTimeRange } from "./generate-time-range.tsx";
 import { useMainButton } from "../../lib/telegram/use-main-button.tsx";
@@ -21,9 +21,9 @@ import { links } from "../shared/links.ts";
 
 export const timeRanges = generateTimeRange();
 
-export const UserSettingsMain = observer(() => {
+export const UserSettingsScreen = observer(() => {
   const userSettingsStore = useUserSettingsStore();
-  // const [plansClickedTimes, setPlansClickedTimes] = useState(0);
+  const [plansClickedTimes, setPlansClickedTimes] = useState(0);
   useMount(() => {
     userSettingsStore.load();
   });
@@ -116,17 +116,17 @@ export const UserSettingsMain = observer(() => {
       </CardRow>
       <HintTransparent>{t("settings_support_hint")}</HintTransparent>
 
-      {/*<CardRow*/}
-      {/*  onClick={() => {*/}
-      {/*    setPlansClickedTimes((value) => value + 1);*/}
-      {/*    if (plansClickedTimes >= 5) {*/}
-      {/*      screenStore.go({ type: "plans" });*/}
-      {/*    }*/}
-      {/*  }}*/}
-      {/*>*/}
-      {/*  <span>Plans</span>*/}
-      {/*</CardRow>*/}
-      {/*<HintTransparent>Payment plan settings</HintTransparent>*/}
+      <CardRow
+        onClick={() => {
+          setPlansClickedTimes((value) => value + 1);
+          if (plansClickedTimes >= 5) {
+            screenStore.go({ type: "plans" });
+          }
+        }}
+      >
+        <span>Plans</span>
+      </CardRow>
+      <HintTransparent>Payment plan settings</HintTransparent>
     </Screen>
   );
 });
