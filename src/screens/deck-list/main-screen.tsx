@@ -2,7 +2,9 @@ import React, { Fragment } from "react";
 import { observer } from "mobx-react-lite";
 import { css, cx } from "@emotion/css";
 import { PublicDeck } from "./public-deck.tsx";
-import { DeckRowWithCardsToReview } from "../shared/deck-row-with-cards-to-review/deck-row-with-cards-to-review.tsx";
+import {
+  DeckRowWithCardsToReview
+} from "../shared/deck-row-with-cards-to-review/deck-row-with-cards-to-review.tsx";
 import { deckListStore } from "../../store/deck-list-store.ts";
 import { useMount } from "../../lib/react/use-mount.ts";
 import { Hint } from "../../ui/hint.tsx";
