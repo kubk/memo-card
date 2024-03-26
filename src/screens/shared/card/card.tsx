@@ -112,7 +112,7 @@ export const Card = observer((props: Props) => {
           color: theme.textColor,
         })}
       >
-        <div>
+        <div className={css({ wordBreak: 'break-word' })}>
           <CardFieldView text={card.front} />{" "}
           <CardSpeaker card={card} type={"front"} />
         </div>
