@@ -118,7 +118,7 @@ export const CardReviewWithControls = observer((props: Props) => {
         <div
           className={css({
             position: "absolute",
-            bottom: 32,
+            bottom: 48,
             display: "flex",
             alignItems: "center",
             gap: 16,
