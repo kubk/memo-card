@@ -1,7 +1,7 @@
 import { observer } from "mobx-react-lite";
 import { useUserSettingsStore } from "./store/user-settings-store-context.tsx";
 import { deckListStore } from "../../store/deck-list-store.ts";
-import React, { useState } from "react";
+import React from "react";
 import { useMount } from "../../lib/react/use-mount.ts";
 import { generateTimeRange } from "./generate-time-range.tsx";
 import { useMainButton } from "../../lib/telegram/use-main-button.tsx";
@@ -23,7 +23,6 @@ export const timeRanges = generateTimeRange();
 
 export const UserSettingsScreen = observer(() => {
   const userSettingsStore = useUserSettingsStore();
-  const [plansClickedTimes, setPlansClickedTimes] = useState(0);
   useMount(() => {
     userSettingsStore.load();
   });
@@ -118,15 +117,12 @@ export const UserSettingsScreen = observer(() => {
 
       <CardRow
         onClick={() => {
-          setPlansClickedTimes((value) => value + 1);
-          if (plansClickedTimes >= 5) {
-            screenStore.go({ type: "plans" });
-          }
+          screenStore.go({ type: "plans" });
         }}
       >
-        <span>Plans</span>
+        <span>Pro</span>
       </CardRow>
-      <HintTransparent>Payment plan settings</HintTransparent>
+      <HintTransparent>{t("payment_description")}</HintTransparent>
     </Screen>
   );
 });

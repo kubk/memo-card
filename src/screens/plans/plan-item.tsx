@@ -3,6 +3,7 @@ import { theme } from "../../ui/theme.tsx";
 import { Flex } from "../../ui/flex.tsx";
 import React from "react";
 import { HorizontalDivider } from "../../ui/horizontal-divider.tsx";
+import { t } from "../../translations/t.ts";
 
 type Props = {
   title: string;
@@ -61,7 +62,7 @@ export const PlanItem = (props: Props) => {
               textAlign: "center",
             })}
           >
-            Paid until: {paidUntil}
+            {t("payment_paid_until")}: {paidUntil}
           </div>
         </>
       )}
