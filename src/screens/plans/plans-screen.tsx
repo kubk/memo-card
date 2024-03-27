@@ -15,6 +15,7 @@ import { useTelegramProgress } from "../../lib/telegram/use-telegram-progress.ts
 import { userStore } from "../../store/user-store.ts";
 import { DateTime } from "luxon";
 import { ExternalLink } from "../../ui/external-link.tsx";
+import { t } from "../../translations/t.ts";
 
 export const PlansScreen = observer(() => {
   const [store] = useState(() => new PlansScreenStore());
@@ -41,7 +42,7 @@ export const PlansScreen = observer(() => {
   }
 
   return (
-    <Screen title={"Plans"}>
+    <Screen title={t("payment_page_title")}>
       <Flex
         direction={"column"}
         alignItems={"center"}
@@ -79,15 +80,14 @@ export const PlansScreen = observer(() => {
           })}
         </Flex>
         <Hint>
-          By purchasing MemoCard you agree to the{" "}
+          {t("payment_tos_and_pp_agree")}
           <ExternalLink href={"/terms-of-service.html"}>
-            Terms of Service
-          </ExternalLink>{" "}
-          and{" "}
-          <ExternalLink href={"/privacy-policy.html"}>
-            Privacy Policy
+            {t("payment_tos")}
           </ExternalLink>
-          .
+          {t("payment_and")}
+          <ExternalLink href={"/privacy-policy.html"}>
+            {t("payment_pp")}
+          </ExternalLink>
         </Hint>
       </Flex>
     </Screen>
