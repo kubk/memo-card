@@ -102,6 +102,15 @@ export const UserSettingsScreen = observer(() => {
 
       <CardRow
         onClick={() => {
+          screenStore.go({ type: "plans" });
+        }}
+      >
+        <span>Pro</span>
+      </CardRow>
+      <HintTransparent>{t("payment_description")}</HintTransparent>
+
+      <CardRow
+        onClick={() => {
           WebApp.openTelegramLink(links.supportChat);
         }}
       >
@@ -114,15 +123,6 @@ export const UserSettingsScreen = observer(() => {
         </span>
       </CardRow>
       <HintTransparent>{t("settings_support_hint")}</HintTransparent>
-
-      <CardRow
-        onClick={() => {
-          screenStore.go({ type: "plans" });
-        }}
-      >
-        <span>Pro</span>
-      </CardRow>
-      <HintTransparent>{t("payment_description")}</HintTransparent>
     </Screen>
   );
 });
