@@ -78,6 +78,7 @@ export class CardUnderReviewStore {
     this.open();
     assert(this.answerType === "choice_single");
     this.answer = answer;
+    this.speak();
   }
 
   close() {
