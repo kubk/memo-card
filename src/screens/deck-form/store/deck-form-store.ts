@@ -218,14 +218,10 @@ export class DeckFormStore implements CardFormStoreInterface {
   }
 
   get isDeckSaveButtonVisible() {
-    return Boolean(
-      this.form &&
-        (this.form.description.isTouched ||
-          this.form.title.isTouched ||
-          this.form.speakingCardsField.isTouched ||
-          this.form.speakingCardsLocale.isTouched) &&
-        this.form?.cards.length > 0,
-    );
+    if (!this.form) {
+      return false;
+    }
+    return isFormDirty(this.form) && this.form.cards.length > 0;
   }
 
   goToCardList() {
