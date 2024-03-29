@@ -6,6 +6,7 @@ import { observer } from "mobx-react-lite";
 import autosize from "autosize";
 import { ValidationError } from "./validation-error.tsx";
 import { Flex } from "./flex.tsx";
+import WebApp from "@twa-dev/sdk";
 
 interface Props {
   placeholder?: string;
@@ -28,7 +29,7 @@ export const Input = observer((props: Props) => {
   const Tag = type === "textarea" ? "textarea" : "input";
 
   useEffect(() => {
-    if (type === "textarea" && inputRef.current) {
+    if (type === "textarea" && inputRef.current && WebApp.platform !== "ios") {
       autosize(inputRef.current);
     }
   }, [type]);
