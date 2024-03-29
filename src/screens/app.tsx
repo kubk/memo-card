@@ -85,11 +85,9 @@ export const App = observer(() => {
         </PreventTelegramSwipeDownClosingIos>
       )}
       {screenStore.screen.type === "deckForm" && (
-        <PreventTelegramSwipeDownClosingIos>
-          <DeckFormStoreProvider>
-            <DeckFormScreen />
-          </DeckFormStoreProvider>
-        </PreventTelegramSwipeDownClosingIos>
+        <DeckFormStoreProvider>
+          <DeckFormScreen />
+        </DeckFormStoreProvider>
       )}
       {screenStore.screen.type === "shareDeck" && (
         <PreventTelegramSwipeDownClosingIos>
