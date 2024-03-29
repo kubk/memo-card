@@ -45,7 +45,9 @@ export const DeckForm = observer(() => {
     () => deckFormStore.isDeckSaveButtonVisible,
   );
   useBackButton(() => {
-    deckFormStore.onDeckBack();
+    deckFormStore.onDeckBack(() => {
+      screenStore.go({ type: "main" })
+    });
   });
   useTelegramProgress(() => deckFormStore.isSending);
 
@@ -60,14 +62,16 @@ export const DeckForm = observer(() => {
       subtitle={
         screen.folder ? (
           <div className={css({ textAlign: "center", fontSize: 14 })}>
-            to folder{" "}
+            {t('folder')}{" "}
             <button
               onClick={() => {
-                assert(screen.folder, "Folder should be defined");
-                screenStore.go({
-                  type: "folderPreview",
-                  folderId: screen.folder.id,
-                });
+                deckFormStore.onDeckBack(() => {
+                  assert(screen.folder, "Folder should be defined");
+                  screenStore.go({
+                    type: "folderPreview",
+                    folderId: screen.folder.id,
+                  });
+                })
               }}
               className={cx(
                 reset.button,

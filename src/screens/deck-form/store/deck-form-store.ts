@@ -386,16 +386,16 @@ export class DeckFormStore implements CardFormStoreInterface {
     }
   }
 
-  async onDeckBack() {
+  async onDeckBack(redirect: () => void) {
     assert(this.form, "onDeckBack: form is empty");
     if (isFormEmpty(this.form) || !isFormDirty(this.form)) {
-      screenStore.go({ type: "main" });
+      redirect();
       return;
     }
 
     const confirmed = await showConfirm(t("deck_form_quit_deck_confirm"));
     if (confirmed) {
-      screenStore.go({ type: "main" });
+      redirect();
     }
   }
 
