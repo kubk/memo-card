@@ -1,10 +1,12 @@
 import { action, makeAutoObservable, when } from "mobx";
 import {
   addDeckToMineRequest,
+  addFolderToMineRequest,
   deckWithCardsRequest,
   deleteFolderRequest,
   duplicateDeckRequest,
   duplicateFolderRequest,
+  getFolderWithDecksCards,
   getSharedDeckRequest,
   myInfoRequest,
   removeDeckFromMineRequest,
@@ -23,7 +25,6 @@ import { assert } from "../lib/typescript/assert.ts";
 import { ReviewStore } from "../screens/deck-review/store/review-store.ts";
 import { reportHandledError } from "../lib/rollbar/rollbar.tsx";
 import { BooleanToggle } from "mobx-form-lite";
-import { type UserFoldersDbType } from "../../functions/db/folder/get-many-folders-with-decks-db.ts";
 import { userStore } from "./user-store.ts";
 import { showConfirm } from "../lib/telegram/show-confirm.ts";
 import { t } from "../translations/t.ts";
@@ -33,6 +34,9 @@ import {
   notifyPaymentFailed,
   notifyPaymentSuccess,
 } from "../ui/notify-payment.ts";
+import { FolderWithDecksWithCards } from "../../functions/db/folder/get-folder-with-decks-with-cards-db.ts";
+import { type FolderWithDeckIdDbType } from "../../functions/db/folder/schema.ts";
+import { CatalogFolderDbType } from "../../functions/db/folder/get-public-folders-with-decks-db.ts";
 
 export enum StartParamType {
   RepeatAll = "repeat_all",
@@ -81,6 +85,13 @@ export class DeckListStore {
   isDeckCardsLoading = false;
 
   isMyDecksExpanded = new BooleanToggle(false);
+
+  catalogFolder?: FolderWithDecksWithCards;
+  isCatalogFolderLoading = false;
+
+  get isCatalogItemLoading() {
+    return this.isDeckCardsLoading || this.isCatalogFolderLoading;
+  }
 
   constructor() {
     makeAutoObservable(this, { searchDeckById: false }, { autoBind: true });
@@ -210,38 +221,7 @@ export class DeckListStore {
 
             if ("folder" in sharedDeckResponse) {
               const folder = sharedDeckResponse.folder;
-              assert(this.myInfo);
-              if (
-                this.myInfo.folders.find(
-                  (myFolder) => myFolder.folder_id === folder.id,
-                )
-              ) {
-                screenStore.go({ type: "folderPreview", folderId: folder.id });
-                return;
-              }
-
-              for (const deck of folder.decks) {
-                // Push new folders
-                this.myInfo.folders.push({
-                  deck_id: deck.id,
-                  folder_id: folder.id,
-                  folder_author_id: folder.author_id,
-                  folder_description: folder.description,
-                  folder_share_id: folder.share_id,
-                  folder_title: folder.title,
-                });
-                // Push new decks
-                this.myInfo.myDecks.push(deck);
-                // Push new cards
-                this.myInfo.cardsToReview = this.myInfo.cardsToReview.concat(
-                  deck.deck_card.map((card) => ({
-                    id: card.id,
-                    deck_id: deck.id,
-                    type: "new",
-                  })),
-                );
-              }
-              screenStore.go({ type: "folderPreview", folderId: folder.id });
+              this.addFolder(folder);
             }
           }),
         )
@@ -259,6 +239,77 @@ export class DeckListStore {
     }
   }
 
+  private addFolder(folder: FolderWithDecksWithCards) {
+    assert(this.myInfo);
+    if (
+      this.myInfo.folders.find((myFolder) => myFolder.folder_id === folder.id)
+    ) {
+      screenStore.go({ type: "folderPreview", folderId: folder.id });
+      return;
+    }
+
+    for (const deck of folder.decks) {
+      // Push new folders
+      this.myInfo.folders.push({
+        deck_id: deck.id,
+        folder_id: folder.id,
+        folder_author_id: folder.author_id,
+        folder_description: folder.description,
+        folder_share_id: folder.share_id,
+        folder_title: folder.title,
+      });
+      // Push new decks
+      this.myInfo.myDecks.push(deck);
+      // Push new cards
+      this.myInfo.cardsToReview = this.myInfo.cardsToReview.concat(
+        deck.deck_card.map((card) => ({
+          id: card.id,
+          deck_id: deck.id,
+          type: "new",
+        })),
+      );
+    }
+    screenStore.go({ type: "folderPreview", folderId: folder.id });
+  }
+
+  openFolderFromCatalog(folderWithoutDecks: CatalogFolderDbType) {
+    assert(this.myInfo);
+    if (
+      this.myInfo.folders.find(
+        (myFolder) => myFolder.folder_id === folderWithoutDecks.id,
+      )
+    ) {
+      screenStore.go({
+        type: "folderPreview",
+        folderId: folderWithoutDecks.id,
+      });
+      return;
+    }
+
+    this.isCatalogFolderLoading = true;
+    this.catalogFolder = {
+      ...folderWithoutDecks,
+      decks: [],
+    };
+    screenStore.go({ type: "folderPreview", folderId: this.catalogFolder.id });
+    getFolderWithDecksCards(folderWithoutDecks.id)
+      .then(
+        action(({ folder }) => {
+          this.catalogFolder = folder;
+        }),
+      )
+      .catch((e) => {
+        reportHandledError("Error while retrieving folder", e, {
+          folderId: folderWithoutDecks.id,
+        });
+      })
+      .finally(
+        action(() => {
+          this.isCatalogFolderLoading = false;
+        }),
+      );
+  }
+
   get canReview() {
     const deck = this.selectedDeck;
     assert(deck, "canReview requires a deck to be selected");
@@ -273,12 +324,12 @@ export class DeckListStore {
       return;
     }
 
-    assert(deckListStore.selectedDeck, "No selected deck for review");
+    assert(this.selectedDeck, "No selected deck for review");
     if (screenStore.screen.type === "deckPublic") {
-      deckListStore.addDeckToMine(deckListStore.selectedDeck.id);
+      this.addDeckToMine(this.selectedDeck.id);
     }
 
-    reviewStore.startDeckReview(deckListStore.selectedDeck);
+    reviewStore.startDeckReview(this.selectedDeck);
   }
 
   addDeckToMine(deckId: number) {
@@ -291,6 +342,23 @@ export class DeckListStore {
       .catch((error) => {
         reportHandledError("Error while adding deck to mine", error, {
           deckId,
+        });
+      });
+  }
+
+  addFolderToMine(folderId: number) {
+    return addFolderToMineRequest({
+      folderId,
+    })
+      .then(
+        action(() => {
+          this.catalogFolder = undefined;
+          this.load();
+        }),
+      )
+      .catch((error) => {
+        reportHandledError("Error while adding folder to mine", error, {
+          folderId,
         });
       });
   }
@@ -350,6 +418,17 @@ export class DeckListStore {
     return decksToSearch.find((deck) => deck.id === deckId);
   }
 
+  reviewFolder(reviewStore: ReviewStore) {
+    const folder = this.selectedFolder;
+    assert(folder, "Folder should be selected before review");
+
+    if (folder.id === this.catalogFolder?.id) {
+      this.addFolderToMine(folder.id);
+    }
+
+    reviewStore.startFolderReview(folder.decks);
+  }
+
   get selectedFolder() {
     const screen = screenStore.screen;
     assert(screen.type === "folderPreview", "screen is not folder preview");
@@ -357,9 +436,34 @@ export class DeckListStore {
       return null;
     }
 
+    if (this.catalogFolder?.id === screen.folderId) {
+      const decksWithCardsToReview = this.catalogFolder.decks.map((deck) => ({
+        ...deck,
+        cardsToReview: deck.deck_card.map((card) => ({
+          ...card,
+          type: "new" as const,
+        })),
+      }));
+
+      return {
+        type: "folder" as const,
+        decks: decksWithCardsToReview,
+        cardsToReview: decksWithCardsToReview.reduce<DeckCardDbTypeWithType[]>(
+          (acc, deck) => acc.concat(deck.cardsToReview),
+          [],
+        ),
+        shareId: this.catalogFolder.share_id,
+        authorId: this.catalogFolder.author_id,
+        name: this.catalogFolder.title,
+        id: this.catalogFolder.id,
+        description: this.catalogFolder.description,
+      };
+    }
+
     const folder = this.myFoldersAsDecks.find(
       (folder) => folder.id === screen.folderId,
     );
+
     if (!folder) {
       return null;
     }
@@ -504,7 +608,7 @@ export class DeckListStore {
       return [];
     }
 
-    const myDecks = this.myDecks;
+    const myDecks: DeckWithCardsWithReviewType[] = this.myDecks;
 
     const map = new Map<
       number,
@@ -548,7 +652,7 @@ export class DeckListStore {
   }
 
   get shouldShowMyDecksToggle() {
-    return deckListStore.myDecks.length > collapsedDecksLimit;
+    return this.myDecks.length > collapsedDecksLimit;
   }
 
   get myDeckItemsVisible(): DeckListItem[] {
@@ -651,7 +755,7 @@ export class DeckListStore {
       );
   }
 
-  updateFolders(body: UserFoldersDbType[]) {
+  updateFolders(body: FolderWithDeckIdDbType[]) {
     assert(this.myInfo, "myInfo is not loaded in updateFolders");
     this.myInfo.folders = body;
   }

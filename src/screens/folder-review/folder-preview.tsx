@@ -13,7 +13,6 @@ import { useTelegramProgress } from "../../lib/telegram/use-telegram-progress.ts
 import { t } from "../../translations/t.ts";
 import { useReviewStore } from "../deck-review/store/review-store-context.tsx";
 import { ListHeader } from "../../ui/list-header.tsx";
-import { assert } from "../../lib/typescript/assert.ts";
 import { DeckRowWithCardsToReview } from "../shared/deck-row-with-cards-to-review/deck-row-with-cards-to-review.tsx";
 import { ButtonGrid } from "../../ui/button-grid.tsx";
 import { DeckFolderDescription } from "../shared/deck-folder-description.tsx";
@@ -26,18 +25,16 @@ export const FolderPreview = observer(() => {
   const reviewStore = useReviewStore();
 
   useBackButton(() => {
-    screenStore.go({ type: "main" });
+    screenStore.back();
   });
 
-  useTelegramProgress(() => deckListStore.isDeckCardsLoading);
+  useTelegramProgress(() => deckListStore.isCatalogItemLoading);
   useScrollToTopOnMount();
 
   useMainButton(
     t("review_folder"),
     () => {
-      const folder = deckListStore.selectedFolder;
-      assert(folder, "Folder should be selected before review");
-      reviewStore.startFolderReview(folder.decks);
+      deckListStore.reviewFolder(reviewStore);
     },
     () => deckListStore.isFolderReviewVisible,
   );
@@ -82,7 +79,7 @@ export const FolderPreview = observer(() => {
         <div>
           <DeckFolderDescription deck={folder} />
         </div>
-        {!deckListStore.isDeckCardsLoading && (
+        {!deckListStore.isCatalogFolderLoading && (
           <div
             className={css({
               display: "flex",
@@ -208,9 +205,10 @@ export const FolderPreview = observer(() => {
             />
           );
         })}
-        {folder.cardsToReview.length === 0 && (
+        {folder.cardsToReview.length === 0 &&
+        !deckListStore.isCatalogItemLoading ? (
           <Hint>{t("no_cards_to_review_in_deck")}</Hint>
-        )}
+        ) : null}
       </Flex>
     </Flex>
   );

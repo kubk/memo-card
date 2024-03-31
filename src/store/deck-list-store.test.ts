@@ -16,12 +16,12 @@ vi.mock("../lib/telegram/storage-adapter.ts", () => {
   };
 });
 
-vi.mock('../ui/notify-payment.ts', () => {
+vi.mock("../ui/notify-payment.ts", () => {
   return {
     notifyPaymentFailed: () => {},
     notifyPaymentSuccess: () => {},
   };
-})
+});
 
 vi.mock("../api/api.ts", () => {
   return {

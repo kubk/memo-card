@@ -16,12 +16,7 @@ export const DeckAddedLabel = () => {
       })}
     >
       <i
-        className={cx(
-          "mdi mdi-check-circle",
-          css({
-            color: theme.linkColor,
-          }),
-        )}
+        className={cx("mdi mdi-check-circle", css({ color: theme.linkColor }))}
       />
     </div>
   );

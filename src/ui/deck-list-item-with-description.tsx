@@ -2,12 +2,12 @@ import { observer } from "mobx-react-lite";
 import { css } from "@emotion/css";
 import { theme } from "./theme.tsx";
 import LinesEllipsis from "react-lines-ellipsis";
-import React from "react";
 import { DeckCategoryLogo } from "./deck-category-logo.tsx";
 import { tapScale } from "../lib/animations/tap-scale.ts";
+import React, { ReactNode } from "react";
 
 type Props = {
-  deck: {
+  catalogItem: {
     id: number;
     name: string;
     description: string | null;
@@ -15,11 +15,11 @@ type Props = {
     deck_category?: { name: string; logo: string | null } | null;
   };
   onClick: () => void;
-  titleRightSlot?: React.ReactNode;
+  titleRightSlot?: ReactNode;
 };
 
 export const DeckListItemWithDescription = observer((props: Props) => {
-  const { deck, onClick, titleRightSlot } = props;
+  const { catalogItem, onClick, titleRightSlot } = props;
 
   return (
     <div
@@ -36,20 +36,20 @@ export const DeckListItemWithDescription = observer((props: Props) => {
       onClick={onClick}
     >
       <div
-        key={deck.id}
+        key={catalogItem.id}
         className={css({
           color: theme.textColor,
           fontWeight: 500,
           position: "relative",
         })}
       >
-        {deck.deck_category?.logo ? (
+        {catalogItem.deck_category?.logo ? (
           <DeckCategoryLogo
-            logo={deck.deck_category.logo}
-            categoryName={deck.deck_category.name}
+            logo={catalogItem.deck_category.logo}
+            categoryName={catalogItem.deck_category.name}
           />
         ) : null}
-        {deck.name}
+        {catalogItem.name}
         {titleRightSlot}
       </div>
       <div
@@ -59,7 +59,7 @@ export const DeckListItemWithDescription = observer((props: Props) => {
         })}
       >
         <LinesEllipsis
-          text={deck.description}
+          text={catalogItem.description}
           maxLine="2"
           ellipsis="..."
           trimRight

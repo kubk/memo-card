@@ -23,7 +23,6 @@ import {
   RemoveDeckFromMineRequest,
   RemoveDeckFromMineResponse,
 } from "../../functions/remove-deck-from-mine.ts";
-import { DeckCatalogResponse } from "../../functions/catalog-decks.ts";
 import { DeckWithCardsResponse } from "../../functions/deck-with-cards.ts";
 import { CopyDeckResponse } from "../../functions/duplicate-deck.ts";
 import { DeckCategoryResponse } from "../../functions/deck-categories.ts";
@@ -44,6 +43,9 @@ import {
 import { DuplicateFolderResponse } from "../../functions/duplicate-folder.ts";
 import { MyStatisticsResponse } from "../../functions/my-statistics.ts";
 import { AllPlansResponse } from "../../functions/plans.ts";
+import { DeckCatalogResponse } from "../../functions/catalog.ts";
+import { FolderWithDecksWithCardsResponse } from "../../functions/folder-with-decks-cards.ts";
+import { AddFolderToMineRequest } from "../../functions/add-folder-to-mine.ts";
 
 export const healthRequest = () => {
   return request<HealthResponse>("/health");
@@ -57,9 +59,23 @@ export const getSharedDeckRequest = (shareId?: string) => {
   return request<GetSharedDeckResponse>(`/get-shared-deck?share_id=${shareId}`);
 };
 
+export const getFolderWithDecksCards = (folderId?: number) => {
+  return request<FolderWithDecksWithCardsResponse>(
+    `/folder-with-decks-cards?folder_id=${folderId}`,
+  );
+};
+
 export const addDeckToMineRequest = (body: AddDeckToMineRequest) => {
   return request<AddDeckToMineResponse, AddDeckToMineRequest>(
     "/add-deck-to-mine",
+    "POST",
+    body,
+  );
+};
+
+export const addFolderToMineRequest = (body: AddFolderToMineRequest) => {
+  return request<AddFolderToMineRequest, AddFolderToMineRequest>(
+    "/add-folder-to-mine",
     "POST",
     body,
   );
@@ -127,8 +143,8 @@ export const removeDeckFromMineRequest = (body: RemoveDeckFromMineRequest) => {
   );
 };
 
-export const deckCatalogRequest = () => {
-  return request<DeckCatalogResponse>("/catalog-decks");
+export const catalogGetRequest = () => {
+  return request<DeckCatalogResponse>("/catalog");
 };
 
 export const deckWithCardsRequest = (deckId: number) => {

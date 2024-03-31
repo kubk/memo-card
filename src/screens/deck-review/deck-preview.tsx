@@ -24,14 +24,7 @@ export const DeckPreview = observer(() => {
   const reviewStore = useReviewStore();
 
   useBackButton(() => {
-    const screen = screenStore.screen;
-    if ("backScreen" in screen && screen.backScreen) {
-      // backScreen is RouteType here
-      // @ts-ignore
-      screenStore.go({ type: screen.backScreen });
-    } else {
-      screenStore.back();
-    }
+    screenStore.back();
   });
 
   useTelegramProgress(() => deckListStore.isDeckCardsLoading);

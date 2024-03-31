@@ -46,7 +46,7 @@ export const DeckForm = observer(() => {
   );
   useBackButton(() => {
     deckFormStore.onDeckBack(() => {
-      screenStore.go({ type: "main" })
+      screenStore.go({ type: "main" });
     });
   });
   useTelegramProgress(() => deckFormStore.isSending);
@@ -62,7 +62,7 @@ export const DeckForm = observer(() => {
       subtitle={
         screen.folder ? (
           <div className={css({ textAlign: "center", fontSize: 14 })}>
-            {t('folder')}{" "}
+            {t("folder")}{" "}
             <button
               onClick={() => {
                 deckFormStore.onDeckBack(() => {
@@ -71,7 +71,7 @@ export const DeckForm = observer(() => {
                     type: "folderPreview",
                     folderId: screen.folder.id,
                   });
-                })
+                });
               }}
               className={cx(
                 reset.button,

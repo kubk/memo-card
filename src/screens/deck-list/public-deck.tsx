@@ -11,7 +11,7 @@ export const PublicDeck = observer((props: Props) => {
 
   return (
     <DeckListItemWithDescription
-      deck={deck}
+      catalogItem={deck}
       onClick={() => {
         deckListStore.openDeckFromCatalog(deck, false);
       }}

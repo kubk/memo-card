@@ -4,10 +4,13 @@ import WebApp from "@twa-dev/sdk";
 import { t, translateCategory } from "../translations/t.ts";
 
 // Windows doesn't support flag emojis, so we replace them with images
+// TODO: move to database
 export const replaceFlagEmojiOnWindows = (logo: string) => {
   switch (logo) {
     case "🇬🇧":
       return "gb";
+    case "🇹🇭":
+      return "th";
     default:
       return null;
   }

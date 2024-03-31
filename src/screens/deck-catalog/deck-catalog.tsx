@@ -7,10 +7,7 @@ import { useDeckCatalogStore } from "./store/deck-catalog-store-context.tsx";
 import { useMount } from "../../lib/react/use-mount.ts";
 import { theme } from "../../ui/theme.tsx";
 import { Select } from "../../ui/select.tsx";
-import {
-  DeckLanguage,
-  languageFilterToNativeName,
-} from "./store/deck-catalog-store.ts";
+import { DeckLanguage } from "./store/deck-catalog-store.ts";
 import { DeckListItemWithDescription } from "../../ui/deck-list-item-with-description.tsx";
 import { range } from "../../lib/array/range.ts";
 import { DeckLoading } from "../shared/deck-loading.tsx";
@@ -21,6 +18,7 @@ import { t, translateCategory } from "../../translations/t.ts";
 import { enumValues } from "../../lib/typescript/enum-values.ts";
 import { Screen } from "../shared/screen.tsx";
 import { Flex } from "../../ui/flex.tsx";
+import { languageFilterToNativeName } from "./translations.ts";
 
 export const DeckCatalog = observer(() => {
   const store = useDeckCatalogStore();
@@ -69,29 +67,43 @@ export const DeckCatalog = observer(() => {
       </Flex>
 
       {(() => {
-        if (store.decks?.state === "pending") {
+        if (store.catalog?.state === "pending") {
           return range(5).map((i) => <DeckLoading key={i} />);
         }
 
-        if (store.decks?.state === "fulfilled") {
-          const filteredDecks = store.filteredDecks;
+        if (store.catalog?.state === "fulfilled") {
+          const filteredCatalogItems = store.filteredCatalogItems;
 
-          if (filteredDecks.length === 0) {
+          if (filteredCatalogItems.length === 0) {
             return <NoDecksMatchingFilters />;
           }
 
           const myDeckIds = deckListStore.myDecks.map((deck) => deck.id);
+          const myFoldersIds = deckListStore.myFoldersAsDecks.map(
+            (folder) => folder.id,
+          );
 
-          return filteredDecks.map((deck) => {
-            const isMine = myDeckIds.includes(deck.id);
+          return filteredCatalogItems.map((item) => {
+            const isMineFolder =
+              item.type === "folder"
+                ? myFoldersIds.includes(item.data.id)
+                : false;
+            const isMineDeck =
+              item.type === "deck" ? myDeckIds.includes(item.data.id) : false;
+            const isAdded = isMineDeck || isMineFolder;
 
             return (
               <DeckListItemWithDescription
-                key={deck.id}
-                titleRightSlot={isMine ? <DeckAddedLabel /> : undefined}
-                deck={deck}
+                key={item.data.id}
+                titleRightSlot={isAdded ? <DeckAddedLabel /> : undefined}
+                catalogItem={item.data}
                 onClick={() => {
-                  deckListStore.openDeckFromCatalog(deck, isMine);
+                  if (item.type === "deck") {
+                    deckListStore.openDeckFromCatalog(item.data, isMineDeck);
+                  }
+                  if (item.type === "folder") {
+                    deckListStore.openFolderFromCatalog(item.data);
+                  }
                 }}
               />
             );
