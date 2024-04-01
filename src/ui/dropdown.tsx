@@ -58,7 +58,6 @@ export const Dropdown = ({ items }: Props) => {
                   backgroundColor: theme.secondaryBgColor,
                   minWidth: "160px",
                   borderRadius: theme.borderRadius,
-                  boxShadow: theme.boxShadow,
                   right: 0,
                   zIndex: 1,
                   color: theme.textColor,
@@ -70,7 +69,7 @@ export const Dropdown = ({ items }: Props) => {
                   key={i}
                   className={css({
                     padding: "12px 16px",
-                    borderRadius: theme.borderRadius,
+                    borderRadius: 0,
                     whiteSpace: "nowrap",
                     ...tapScale,
                     ":hover": {
@@ -78,12 +77,12 @@ export const Dropdown = ({ items }: Props) => {
                       color: theme.buttonTextColor,
                     },
                     ":first-child": {
-                      borderBottomLeftRadius: 0,
-                      borderBottomRightRadius: 0,
+                      borderTopLeftRadius: theme.borderRadius,
+                      borderTopRightRadius: theme.borderRadius,
                     },
                     ":last-child": {
-                      borderTopLeftRadius: 0,
-                      borderTopRightRadius: 0,
+                      borderBottomLeftRadius: theme.borderRadius,
+                      borderBottomRightRadius: theme.borderRadius,
                     },
                   })}
                   onClick={() => {
