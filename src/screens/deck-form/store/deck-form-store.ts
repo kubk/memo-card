@@ -389,6 +389,11 @@ export class DeckFormStore implements CardFormStoreInterface {
   }
 
   async markCardAsRemoved() {
+    if (this.form?.cards.length === 1) {
+      showAlert(t("deck_form_remove_warning"));
+      return;
+    }
+
     const result = await showConfirm(t("deck_form_remove_card_confirm"));
     if (!result) {
       return;

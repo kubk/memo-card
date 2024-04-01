@@ -107,6 +107,7 @@ const en = {
     "Are you sure to remove the deck from your collection? This action can't be undone",
   deck_form_remove_card_confirm:
     "Are you sure you want to remove the card? All the card reviews from all the users will be lost",
+  deck_form_remove_warning: "Deck must have at least one card",
   delete: "Delete",
   no_cards_to_review_in_deck: `Amazing work! 🌟 You've reviewed all the cards in this deck for now. Come back later for more.`,
   repeat_cards_anyway: `Repeat cards anyway`,
@@ -200,6 +201,7 @@ const en = {
 type Translation = typeof en;
 
 const ru: Translation = {
+  deck_form_remove_warning: "Колода должна содержать хотя бы одну карточку",
   card_answer_back: "Назад",
   read_more: "Читать далее",
   review_wrong_label: "Неправильно",
@@ -392,6 +394,7 @@ const ru: Translation = {
 };
 
 const es: Translation = {
+  deck_form_remove_warning: "La baraja debe tener al menos una tarjeta",
   card_answer_back: "Atrás",
   read_more: "Leer más",
   review_idk: "No sé",
@@ -589,6 +592,7 @@ const es: Translation = {
 };
 
 const ptBr: Translation = {
+  deck_form_remove_warning: "O baralho deve ter pelo menos um cartão",
   card_answer_back: "Costas",
   read_more: "Leia mais",
   review_idk: "Não sei",
