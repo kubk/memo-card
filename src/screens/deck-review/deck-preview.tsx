@@ -53,7 +53,7 @@ export const DeckPreview = observer(() => {
           borderRadius: theme.borderRadius,
           padding: "8px 16px",
           paddingBottom: 12,
-          background: theme.secondaryBgColor,
+          background: theme.bgColor,
         })}
       >
         <div

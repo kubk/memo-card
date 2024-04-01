@@ -7,6 +7,7 @@ import "@mdi/font/css/materialdesignicons.min.css";
 import WebApp from "@twa-dev/sdk";
 
 WebApp.ready();
+WebApp.setHeaderColor("secondary_bg_color");
 WebApp.expand();
 
 ReactDOM.createRoot(document.getElementById("root")!).render(<App />);

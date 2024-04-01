@@ -55,7 +55,7 @@ export const Dropdown = ({ items }: Props) => {
                 css({
                   display: "block",
                   position: "absolute",
-                  backgroundColor: theme.bgColor,
+                  backgroundColor: theme.secondaryBgColor,
                   minWidth: "160px",
                   borderRadius: theme.borderRadius,
                   boxShadow: theme.boxShadow,

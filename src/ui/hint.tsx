@@ -15,7 +15,7 @@ export const Hint = (props: Props) => {
           padding: "8px 12px",
           borderRadius: theme.borderRadius,
           color: theme.hintColor,
-          backgroundColor: theme.secondaryBgColor,
+          backgroundColor: theme.bgColor,
         }),
       )}
     >

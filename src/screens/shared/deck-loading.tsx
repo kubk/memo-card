@@ -18,7 +18,7 @@ export const DeckLoading = (props: Props) => {
         gap: 4,
         borderRadius: theme.borderRadius,
         padding: "14px 12px",
-        background: theme.secondaryBgColor,
+        background: theme.bgColor,
       })}
     >
       <ContentLoader
@@ -26,7 +26,7 @@ export const DeckLoading = (props: Props) => {
         width={"100%"}
         height={20}
         viewBox="0 0 400 20"
-        backgroundColor={theme.secondaryBgColor}
+        backgroundColor={theme.bgColor}
         foregroundColor={theme.hintColor}
       >
         <rect x="0" y="0" rx="3" ry="3" width="100%" height="20" />

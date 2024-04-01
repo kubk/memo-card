@@ -30,7 +30,7 @@ export const PlanItem = (props: Props) => {
           gap: 4,
           color: theme.buttonColor,
           boxShadow: theme.boxShadow,
-          backgroundColor: theme.buttonColorLighter,
+          backgroundColor: theme.bgColor,
           borderRadius: theme.borderRadius,
           cursor: "pointer",
         }),

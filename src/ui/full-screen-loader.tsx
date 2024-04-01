@@ -8,7 +8,7 @@ export const FullScreenLoader = () => {
       className={css({
         display: "flex",
         height: "100vh",
-        backgroundColor: theme.bgColor,
+        backgroundColor: theme.secondaryBgColor,
         alignItems: "center",
         justifyContent: "center",
       })}

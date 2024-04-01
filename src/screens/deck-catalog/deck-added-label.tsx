@@ -12,7 +12,7 @@ export const DeckAddedLabel = () => {
         right: 0,
         top: 0,
         borderRadius: theme.borderRadius,
-        backgroundColor: theme.secondaryBgColor,
+        backgroundColor: theme.bgColor,
       })}
     >
       <i

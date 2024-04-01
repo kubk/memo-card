@@ -30,7 +30,7 @@ export const DeckListItemWithDescription = observer((props: Props) => {
         borderRadius: theme.borderRadius,
         padding: 12,
         cursor: "pointer",
-        background: theme.secondaryBgColor,
+        background: theme.bgColor,
         ...tapScale,
       })}
       onClick={onClick}

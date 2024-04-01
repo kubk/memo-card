@@ -30,7 +30,7 @@ export const DeckFinishedModal = (props: Props) => {
           maxWidth: 290,
           margin: "0 auto",
           padding: 24,
-          background: theme.secondaryBgColor,
+          background: theme.bgColor,
           borderRadius: theme.borderRadius,
         })}
         initial={"hidden"}

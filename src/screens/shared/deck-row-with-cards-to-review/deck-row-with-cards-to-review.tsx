@@ -30,7 +30,7 @@ export const DeckRowWithCardsToReview = observer((props: Props) => {
         gap: 4,
         borderRadius: theme.borderRadius,
         padding: 12,
-        background: theme.secondaryBgColor,
+        background: theme.bgColor,
         ...tapScale,
       })}
     >

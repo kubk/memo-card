@@ -17,7 +17,7 @@ body {
   min-height: 100vh;
   padding: 0 16px 0 16px;
   position: relative;
-  background: var(--tg-theme-bg-color);
+  background: var(--tg-theme-secondary-bg-color);
   color: var(--tg-theme-text-color);
 }
 
@@ -48,6 +48,10 @@ h6 {
 /* for wysiwyg */
 h1 {
   font-size: 64px;
+}
+.rsw-ce,
+.rsw-toolbar > button {
+  background: var(--tg-theme-bg-color);
 }
 
 /* prevent buttons from being colored in blue on click on android */

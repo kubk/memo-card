@@ -13,7 +13,7 @@ export const CardRow = observer((props: Props) => {
     <label
       onClick={props.onClick}
       className={css({
-        backgroundColor: theme.secondaryBgColor,
+        backgroundColor: theme.bgColor,
         borderRadius: theme.borderRadius,
         height: 48,
         boxSizing: "border-box",

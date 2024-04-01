@@ -86,7 +86,7 @@ export const CardList = observer(() => {
           key={i}
           className={css({
             cursor: "pointer",
-            backgroundColor: theme.secondaryBgColor,
+            backgroundColor: theme.bgColor,
             borderRadius: theme.borderRadius,
             padding: 12,
             // If the card content is too big then hide it

@@ -65,7 +65,7 @@ export const Card = observer((props: Props) => {
               display: "grid",
               placeItems: "center center",
               padding: 10,
-              background: theme.secondaryBgColor,
+              background: theme.bgColor,
               overflowX: "auto",
             })
           : css({
