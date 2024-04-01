@@ -1,12 +1,10 @@
 import {
-  TextField,
-  validators,
+  formTouchAll,
   formUnTouchAll,
-  isFormTouched,
   isFormValid,
   ListField,
-  formTouchAll,
-  isFormDirty,
+  TextField,
+  validators,
 } from "mobx-form-lite";
 import { t } from "../../../translations/t.ts";
 import { action, makeAutoObservable } from "mobx";
@@ -125,13 +123,5 @@ export class FolderFormStore {
           this.isSending = false;
         }),
       );
-  }
-
-  get isSaveButtonVisible() {
-    return Boolean(
-      this.folderForm &&
-        (isFormTouched(this.folderForm) || isFormDirty(this.folderForm)) &&
-        isFormValid(this.folderForm),
-    );
   }
 }

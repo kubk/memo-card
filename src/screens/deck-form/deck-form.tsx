@@ -37,13 +37,9 @@ export const DeckForm = observer(() => {
   useMount(() => {
     deckFormStore.loadForm();
   });
-  useMainButton(
-    t("save"),
-    () => {
-      deckFormStore.onDeckSave();
-    },
-    () => deckFormStore.isDeckSaveButtonVisible,
-  );
+  useMainButton(t("save"), () => {
+    deckFormStore.onDeckSave();
+  });
   useBackButton(() => {
     deckFormStore.onDeckBack(() => {
       screenStore.go({ type: "main" });

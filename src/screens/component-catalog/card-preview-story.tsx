@@ -23,7 +23,6 @@ const createCardPreviewForm = (card: {
     },
     form: undefined,
     isCardPreviewSelected: new BooleanToggle(false),
-    isSaveCardButtonActive: false,
     onBackCard: () => {},
     onSaveCard: () => {},
     isSending: false,

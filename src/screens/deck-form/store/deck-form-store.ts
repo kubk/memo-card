@@ -217,13 +217,6 @@ export class DeckFormStore implements CardFormStoreInterface {
     }
   }
 
-  get isDeckSaveButtonVisible() {
-    if (!this.form) {
-      return false;
-    }
-    return isFormDirty(this.form) && this.form.cards.length > 0;
-  }
-
   goToCardList() {
     if (!this.form) {
       return;
@@ -361,11 +354,7 @@ export class DeckFormStore implements CardFormStoreInterface {
   }
 
   onSaveCard() {
-    if (!this.isSaveCardButtonActive) {
-      return;
-    }
-
-    this.onDeckSave().finally(
+    this.onDeckSave().then(
       action(() => {
         this.cardFormIndex = undefined;
         this.cardFormType = undefined;
@@ -444,6 +433,13 @@ export class DeckFormStore implements CardFormStoreInterface {
       formTouchAll(this.form);
       return Promise.reject();
     }
+
+    // TODO: figure out why this is needed, the isFormValid call above should've handled it
+    if (this.cardForm && !isFormValid(this.cardForm)) {
+      formTouchAll(this.cardForm);
+      return Promise.reject();
+    }
+
     this.isSending = true;
 
     // Avoid sending huge collections on every save
@@ -494,21 +490,5 @@ export class DeckFormStore implements CardFormStoreInterface {
     }
     this.cardFormIndex = undefined;
     this.cardFormType = undefined;
-  }
-
-  get isSaveCardButtonActive() {
-    const cardForm = this.cardForm;
-    if (!cardForm) {
-      return false;
-    }
-
-    if (cardForm.answerType.value === "remember") {
-      return Boolean(!cardForm.front.error && !cardForm.back.error);
-    }
-    if (cardForm.answerType.value === "choice_single") {
-      return isFormValid({ answers: cardForm.answers });
-    }
-
-    return false;
   }
 }

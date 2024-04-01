@@ -34,7 +34,6 @@ export class QuickAddCardFormStore implements CardFormStoreInterface {
   };
   isSending = false;
   isCardPreviewSelected = new BooleanToggle(false);
-  isSaveCardButtonActive = true;
 
   constructor(
     public form?: {

@@ -28,13 +28,9 @@ export const FolderForm = observer(() => {
     folderStore.loadForm();
   });
 
-  useMainButton(
-    t("save"),
-    () => {
-      folderStore.onFolderSave();
-    },
-    () => folderStore.isSaveButtonVisible,
-  );
+  useMainButton(t("save"), () => {
+    folderStore.onFolderSave();
+  });
 
   useBackButton(() => {
     screenStore.back();

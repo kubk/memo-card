@@ -1,13 +1,16 @@
 import { action, makeAutoObservable, when } from "mobx";
-import { isFormDirty, TextField } from "mobx-form-lite";
+import {
+  BooleanField,
+  formTouchAll,
+  isFormValid,
+  TextField,
+} from "mobx-form-lite";
 import { assert } from "../../../lib/typescript/assert.ts";
 import { DateTime } from "luxon";
 import { formatTime } from "../generate-time-range.tsx";
-import { isFormTouched } from "mobx-form-lite";
 import { userSettingsRequest } from "../../../api/api.ts";
 import { screenStore } from "../../../store/screen-store.ts";
 import { UserSettingsRequest } from "../../../../functions/user-settings.ts";
-import { BooleanField } from "mobx-form-lite";
 import { userStore } from "../../../store/user-store.ts";
 import { hapticNotification } from "../../../lib/telegram/haptics.ts";
 
@@ -49,13 +52,14 @@ export class UserSettingsStore {
     );
   }
 
-  get isSaveVisible() {
-    return !!this.form && (isFormTouched(this.form) || isFormDirty(this.form));
-  }
-
   submit() {
-    this.isSending = true;
     assert(this.form);
+    if (!isFormValid(this.form)) {
+      formTouchAll(this.form);
+      return;
+    }
+
+    this.isSending = true;
 
     const [hour, minute] = this.form.time.value.split(":");
 

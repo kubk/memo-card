@@ -27,11 +27,7 @@ export const UserSettingsScreen = observer(() => {
     userSettingsStore.load();
   });
 
-  useMainButton(
-    t("save"),
-    () => userSettingsStore.submit(),
-    () => userSettingsStore.isSaveVisible,
-  );
+  useMainButton(t("save"), () => userSettingsStore.submit());
 
   useBackButton(() => {
     screenStore.back();

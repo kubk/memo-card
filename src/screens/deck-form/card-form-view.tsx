@@ -5,7 +5,12 @@ import { useMainButton } from "../../lib/telegram/use-main-button.tsx";
 import { t } from "../../translations/t.ts";
 import { useTelegramProgress } from "../../lib/telegram/use-telegram-progress.tsx";
 import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
-import { BooleanToggle, isFormDirty, isFormTouched } from "mobx-form-lite";
+import {
+  BooleanToggle,
+  isFormDirty,
+  isFormTouched,
+  isFormValid,
+} from "mobx-form-lite";
 import { Screen } from "../shared/screen.tsx";
 import { Label } from "../../ui/label.tsx";
 import { HintTransparent } from "../../ui/hint-transparent.tsx";
@@ -36,13 +41,9 @@ export const CardFormView = observer((props: Props) => {
   const { cardForm, markCardAsRemoved } = cardFormStore;
   assert(cardForm, "Card should not be empty before editing");
 
-  useMainButton(
-    t("save"),
-    () => {
-      cardFormStore.onSaveCard();
-    },
-    () => cardFormStore.isSaveCardButtonActive,
-  );
+  useMainButton(t("save"), () => {
+    cardFormStore.onSaveCard();
+  });
 
   useTelegramProgress(() => cardFormStore.isSending);
 
@@ -210,7 +211,7 @@ export const CardFormView = observer((props: Props) => {
 
       <div className={css({ marginTop: 12 })}>
         <ButtonGrid>
-          {cardFormStore.isSaveCardButtonActive && (
+          {cardFormStore.cardForm && isFormValid(cardFormStore.cardForm) ? (
             <ButtonSideAligned
               icon={"mdi-eye-check-outline mdi-24px"}
               outline
@@ -218,7 +219,7 @@ export const CardFormView = observer((props: Props) => {
             >
               {t("card_preview")}
             </ButtonSideAligned>
-          )}
+          ) : null}
           {markCardAsRemoved && cardForm.id && (
             <ButtonSideAligned
               icon={"mdi-delete-outline mdi-24px"}

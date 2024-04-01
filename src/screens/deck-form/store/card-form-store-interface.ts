@@ -6,7 +6,6 @@ export interface CardFormStoreInterface {
   cardForm?: CardFormType | null;
   onSaveCard: () => void;
   onBackCard: () => void;
-  isSaveCardButtonActive: boolean;
   isCardPreviewSelected: BooleanToggle;
   isSending: boolean;
   markCardAsRemoved?: () => void;
