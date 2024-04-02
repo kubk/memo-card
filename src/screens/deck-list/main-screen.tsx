@@ -19,6 +19,9 @@ import { t } from "../../translations/t.ts";
 import { links } from "../shared/links.ts";
 import { tapScale } from "../../lib/animations/tap-scale.ts";
 import { Flex } from "../../ui/flex.tsx";
+import { List } from "../../ui/list.tsx";
+import { FilledIcon } from "../../ui/filled-icon.tsx";
+import { CardsToReview } from "../../ui/cards-to-review.tsx";
 
 export const MainScreen = observer(() => {
   useMount(() => {
@@ -63,26 +66,24 @@ export const MainScreen = observer(() => {
                       item={listItem}
                     />
                     {listItem.type === "folder" &&
-                    deckListStore.isMyDecksExpanded.value
-                      ? listItem.decks.map((deck) => {
-                          return (
-                            <div
-                              className={css({ marginLeft: 24 })}
-                              key={deck.id}
-                            >
-                              <DeckRowWithCardsToReview
-                                onClick={() => {
-                                  screenStore.go({
-                                    type: "deckMine",
-                                    deckId: deck.id,
-                                  });
-                                }}
-                                item={deck}
-                              />
-                            </div>
-                          );
-                        })
-                      : null}
+                    deckListStore.isMyDecksExpanded.value ? (
+                      <div className={css({ marginLeft: 24 })}>
+                        <List
+                          items={listItem.decks.map((deck) => {
+                            return {
+                              onClick: () => {
+                                screenStore.go({
+                                  type: "deckMine",
+                                  deckId: deck.id,
+                                });
+                              },
+                              text: deck.name,
+                              right: <CardsToReview item={deck} />,
+                            };
+                          })}
+                        />
+                      </div>
+                    ) : null}
                   </Fragment>
                 );
               })
@@ -164,36 +165,54 @@ export const MainScreen = observer(() => {
         <>
           <div>
             <ListHeader text={t("news_and_updates")} />
-            <Button
-              icon={"mdi-call-made"}
-              onClick={() => {
-                WebApp.openTelegramLink(links.botChannel);
-              }}
-            >
-              {t("telegram_channel")}
-            </Button>
+            <List
+              items={[
+                {
+                  text: t("telegram_channel"),
+                  icon: (
+                    <FilledIcon
+                      icon={"mdi-call-made"}
+                      backgroundColor={theme.icons.blue}
+                    />
+                  ),
+                  onClick: () => {
+                    WebApp.openTelegramLink(links.botChannel);
+                  },
+                },
+              ]}
+            />
           </div>
 
           <div>
-            <ListHeader text={"Profile"} />
-            <Button
-              icon={"mdi-chart-bar"}
-              onClick={() => {
-                screenStore.go({ type: "userStatistics" });
-              }}
-            >
-              {t("user_stats_btn")}
-            </Button>
-            <div className={css({ height: 8 })} />
-
-            <Button
-              icon={"mdi-cog"}
-              onClick={() => {
-                screenStore.go({ type: "userSettings" });
-              }}
-            >
-              {t("settings")}
-            </Button>
+            <ListHeader text={t("profile_section")} />
+            <List
+              items={[
+                {
+                  text: t("user_stats_btn"),
+                  icon: (
+                    <FilledIcon
+                      backgroundColor={theme.icons.violet}
+                      icon={"mdi-chart-bar"}
+                    />
+                  ),
+                  onClick: () => {
+                    screenStore.go({ type: "userStatistics" });
+                  },
+                },
+                {
+                  text: t("settings"),
+                  icon: (
+                    <FilledIcon
+                      backgroundColor={theme.icons.pink}
+                      icon={"mdi-cog"}
+                    />
+                  ),
+                  onClick: () => {
+                    screenStore.go({ type: "userSettings" });
+                  },
+                },
+              ]}
+            />
           </div>
         </>
       )}

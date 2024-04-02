@@ -40,9 +40,9 @@ export const Input = observer((props: Props) => {
         ref={inputRef as any}
         className={css({
           display: "flex",
-          padding: 10,
+          padding: "14px 10px",
           fontSize: 16,
-          borderWidth: 1,
+          borderWidth: 2,
           borderStyle: "solid",
           borderColor:
             isTouched && error ? theme.danger : theme.secondaryBgColor,
@@ -50,7 +50,7 @@ export const Input = observer((props: Props) => {
           backgroundColor: theme.bgColor,
           transition: "border-color 0.3s",
           ":focus": {
-            borderColor: theme.buttonColor,
+            borderColor: isTouched && error ? theme.danger : theme.buttonColor,
             outline: "none",
           },
         })}

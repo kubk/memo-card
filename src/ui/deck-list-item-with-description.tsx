@@ -48,7 +48,7 @@ export const DeckListItemWithDescription = observer((props: Props) => {
             logo={catalogItem.deck_category.logo}
             categoryName={catalogItem.deck_category.name}
           />
-        ) : null}
+        ) : null}{" "}
         {catalogItem.name}
         {titleRightSlot}
       </div>

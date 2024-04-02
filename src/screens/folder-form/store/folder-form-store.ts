@@ -1,6 +1,7 @@
 import {
   formTouchAll,
   formUnTouchAll,
+  isFormDirty,
   isFormValid,
   ListField,
   TextField,
@@ -17,6 +18,7 @@ import {
   IPromiseBasedObservable,
 } from "../../../lib/mobx-from-promise/from-promise.ts";
 import { DeckWithoutCardsDbType } from "../../../../functions/db/deck/decks-with-cards-schema.ts";
+import { showConfirm } from "../../../lib/telegram/show-confirm.ts";
 
 const createFolderTitleField = (title: string) => {
   return new TextField(title, {
@@ -79,6 +81,22 @@ export class FolderFormStore {
         decks: createDecksField([]),
       };
     }
+  }
+
+  async onBack() {
+    if (!this.folderForm) {
+      return;
+    }
+    if (!isFormDirty(this.folderForm)) {
+      screenStore.back();
+      return;
+    }
+
+    const isConfirmed = await showConfirm(t("folder_form_quit_card_confirm"));
+    if (!isConfirmed) {
+      return;
+    }
+    screenStore.back();
   }
 
   get decksMineFiltered() {

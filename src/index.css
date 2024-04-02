@@ -49,10 +49,6 @@ h6 {
 h1 {
   font-size: 64px;
 }
-.rsw-ce,
-.rsw-toolbar > button {
-  background: var(--tg-theme-bg-color);
-}
 
 /* prevent buttons from being colored in blue on click on android */
 input,

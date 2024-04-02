@@ -6,7 +6,6 @@ import { useMount } from "../../lib/react/use-mount.ts";
 import { generateTimeRange } from "./generate-time-range.tsx";
 import { useMainButton } from "../../lib/telegram/use-main-button.tsx";
 import { useTelegramProgress } from "../../lib/telegram/use-telegram-progress.tsx";
-import { CardRow } from "../../ui/card-row.tsx";
 import { RadioSwitcher } from "../../ui/radio-switcher.tsx";
 import { theme } from "../../ui/theme.tsx";
 import { Select } from "../../ui/select.tsx";
@@ -18,6 +17,9 @@ import { t } from "../../translations/t.ts";
 import { Screen } from "../shared/screen.tsx";
 import WebApp from "@twa-dev/sdk";
 import { links } from "../shared/links.ts";
+import { List } from "../../ui/list.tsx";
+import { FilledIcon } from "../../ui/filled-icon.tsx";
+import { boolNarrow } from "../../lib/typescript/bool-narrow.ts";
 
 export const timeRanges = generateTimeRange();
 
@@ -43,81 +45,126 @@ export const UserSettingsScreen = observer(() => {
 
   return (
     <Screen title={t("settings")}>
-      <CardRow>
-        <span>{t("settings_review_notifications")}</span>
-        <span
-          className={css({
-            transform: "translateY(3px)",
-            position: "relative",
-          })}
-        >
-          <RadioSwitcher
-            isOn={isRemindNotifyEnabled.value}
-            onToggle={isRemindNotifyEnabled.toggle}
-          />
-        </span>
-      </CardRow>
-      {isRemindNotifyEnabled.value && (
-        <CardRow>
-          <span>{t("settings_time")}</span>
-          <div className={css({ color: theme.linkColor })}>
-            <Select
-              value={time.value.toString()}
-              onChange={(value) => {
-                time.onChange(value);
-              }}
-              options={timeRanges.map((range) => ({
-                value: range,
-                label: range,
-              }))}
-            />
-          </div>
-        </CardRow>
-      )}
+      <List
+        items={[
+          {
+            icon: (
+              <FilledIcon
+                backgroundColor={theme.icons.violet}
+                icon={"mdi-bell"}
+              />
+            ),
+            right: (
+              <span
+                className={css({
+                  top: 3,
+                  position: "relative",
+                })}
+              >
+                <RadioSwitcher
+                  isOn={isRemindNotifyEnabled.value}
+                  onToggle={isRemindNotifyEnabled.toggle}
+                />
+              </span>
+            ),
+            text: t("settings_review_notifications"),
+          },
+          isRemindNotifyEnabled.value
+            ? {
+                icon: (
+                  <FilledIcon
+                    backgroundColor={theme.icons.blue}
+                    icon={"mdi-clock-time-five-outline"}
+                  />
+                ),
+                text: t("settings_time"),
+                right: (
+                  <div className={css({ color: theme.linkColor })}>
+                    <Select
+                      value={time.value.toString()}
+                      onChange={(value) => {
+                        time.onChange(value);
+                      }}
+                      options={timeRanges.map((range) => ({
+                        value: range,
+                        label: range,
+                      }))}
+                    />
+                  </div>
+                ),
+              }
+            : null,
+        ].filter(boolNarrow)}
+      />
 
       <HintTransparent>
         {t("settings_review_notifications_hint")}
       </HintTransparent>
 
-      <CardRow>
-        <span>{t("speaking_cards")}</span>
-        <span
-          className={css({
-            transform: "translateY(3px)",
-            position: "relative",
-          })}
-        >
-          <RadioSwitcher
-            isOn={isSpeakingCardsEnabled.value}
-            onToggle={isSpeakingCardsEnabled.toggle}
-          />
-        </span>
-      </CardRow>
+      <List
+        animateTap={false}
+        items={[
+          {
+            icon: (
+              <FilledIcon
+                backgroundColor={theme.icons.turquoise}
+                icon={"mdi-account-voice"}
+              />
+            ),
+            right: (
+              <span
+                className={css({
+                  top: 3,
+                  position: "relative",
+                })}
+              >
+                <RadioSwitcher
+                  isOn={isSpeakingCardsEnabled.value}
+                  onToggle={isSpeakingCardsEnabled.toggle}
+                />
+              </span>
+            ),
+            text: t("speaking_cards"),
+          },
+        ]}
+      />
 
       <HintTransparent>{t("card_speak_description")}</HintTransparent>
 
-      <CardRow
-        onClick={() => {
-          screenStore.go({ type: "plans" });
-        }}
-      >
-        <span>Pro</span>
-      </CardRow>
+      <List
+        items={[
+          {
+            icon: (
+              <FilledIcon backgroundColor={theme.icons.sea} icon={"mdi-star"} />
+            ),
+            text: "Pro",
+            onClick: () => {
+              screenStore.go({ type: "plans" });
+            },
+          },
+        ]}
+      />
+
       <HintTransparent>{t("payment_description")}</HintTransparent>
 
-      <CardRow
-        onClick={() => {
-          WebApp.openTelegramLink(links.supportChat);
-        }}
-      >
-        <span
-          className={css({
-            color: theme.linkColor,
-          })}
-        >
-          {t("settings_contact_support")}
-        </span>
-      </CardRow>
+      <List
+        items={[
+          {
+            icon: (
+              <FilledIcon
+                backgroundColor={theme.icons.green}
+                icon={"mdi-face-agent"}
+              />
+            ),
+            text: t("settings_contact_support"),
+            onClick: () => {
+              WebApp.openTelegramLink(links.supportChat);
+            },
+            isLinkColor: true,
+          },
+        ]}
+      />
+
       <HintTransparent>{t("settings_support_hint")}</HintTransparent>
     </Screen>
   );

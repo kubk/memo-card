@@ -13,13 +13,14 @@ import { useTelegramProgress } from "../../lib/telegram/use-telegram-progress.ts
 import { t } from "../../translations/t.ts";
 import { useReviewStore } from "../deck-review/store/review-store-context.tsx";
 import { ListHeader } from "../../ui/list-header.tsx";
-import { DeckRowWithCardsToReview } from "../shared/deck-row-with-cards-to-review/deck-row-with-cards-to-review.tsx";
 import { ButtonGrid } from "../../ui/button-grid.tsx";
 import { DeckFolderDescription } from "../shared/deck-folder-description.tsx";
 import { useScrollToTopOnMount } from "../../lib/react/use-scroll-to-top-mount.ts";
 import { redirectUserToDeckOrFolderLink } from "../share-deck/redirect-user-to-deck-or-folder-link.tsx";
 import { userStore } from "../../store/user-store.ts";
 import { Flex } from "../../ui/flex.tsx";
+import { List } from "../../ui/list.tsx";
+import { CardsToReview } from "../../ui/cards-to-review.tsx";
 
 export const FolderPreview = observer(() => {
   const reviewStore = useReviewStore();
@@ -53,7 +54,7 @@ export const FolderPreview = observer(() => {
           gap: 16,
           borderRadius: theme.borderRadius,
           padding: "8px 16px",
-          paddingBottom: 12,
+          paddingBottom: 16,
           background: theme.bgColor,
         })}
       >
@@ -85,7 +86,7 @@ export const FolderPreview = observer(() => {
               display: "flex",
               gap: 4,
               flexDirection: "column",
-              borderTop: `1px solid ${theme.dividerColor}`,
+              borderTop: `1px solid ${theme.divider}`,
               paddingTop: 8,
             })}
           >
@@ -192,19 +193,17 @@ export const FolderPreview = observer(() => {
           </ButtonSideAligned>
         </ButtonGrid>
       </div>
-      <Flex pt={6} direction={"column"} gap={6}>
+      <Flex pt={6} direction={"column"}>
         <ListHeader text={t("decks")} />
-        {folder.decks.map((deck, i) => {
-          return (
-            <DeckRowWithCardsToReview
-              key={i}
-              item={deck}
-              onClick={() => {
-                deckListStore.goDeckById(deck.id);
-              }}
-            />
-          );
-        })}
+        <List
+          items={folder.decks.map((deck) => ({
+            onClick: () => {
+              deckListStore.goDeckById(deck.id);
+            },
+            text: deck.name,
+            right: <CardsToReview item={deck} />,
+          }))}
+        />
         {folder.cardsToReview.length === 0 &&
         !deckListStore.isCatalogItemLoading ? (
           <Hint>{t("no_cards_to_review_in_deck")}</Hint>

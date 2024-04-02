@@ -1,9 +1,8 @@
 .rsw-toolbar {
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
-  border-bottom: none !important;
   color: var(--tg-theme-text-color);
-  background-color: var(--tg-theme-secondary-bg-color) !important;
+  background-color: var(--tg-theme-bg-color) !important;
 }
 
 .rsw-toolbar button:hover {
@@ -15,15 +14,12 @@
 }
 
 .rsw-editor[data-invalid] .rsw-ce {
-  border-color: red;
+  border: 2px solid #fc2025;
 }
 
 .rsw-ce {
-  border: 1px solid var(--tg-theme-secondary-bg-color);
   border-bottom-left-radius: 12px;
   border-bottom-right-radius: 12px;
-}
-
-.rsw-ce:focus {
-  border: 1px solid var(--tg-theme-button-color);
+  background: var(--tg-theme-bg-color);
+  margin-bottom: 8px;
 }

@@ -46,8 +46,7 @@ export const ShareDeckOneTimeLinks = observer(() => {
                 className={css({
                   paddingTop: 6,
                   marginLeft: 12,
-                  borderTop:
-                    i !== 0 ? `1px solid ${theme.dividerColor}` : undefined,
+                  borderTop: i !== 0 ? `1px solid ${theme.divider}` : undefined,
                 })}
               >
                 <div>

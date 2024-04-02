@@ -31,6 +31,7 @@ import { userStore } from "../../store/user-store.ts";
 import { Input } from "../../ui/input.tsx";
 import { FormattingSwitcher } from "./formatting-switcher.tsx";
 import { Flex } from "../../ui/flex.tsx";
+import { List } from "../../ui/list.tsx";
 
 type Props = {
   cardFormStore: CardFormStoreInterface;
@@ -150,27 +151,26 @@ export const CardFormView = observer((props: Props) => {
         <>
           {cardForm.answerType.value === "choice_single" && (
             <>
-              {cardForm.answers.value.map((answerForm, index) => (
-                <CardRow
-                  key={index}
-                  onClick={action(() => {
-                    cardForm.answerId = answerForm.id;
-                    cardForm.answerFormType = "edit";
-                  })}
-                >
-                  <span>{answerForm.text.value}</span>
-                  {answerForm.isCorrect.value && (
-                    <span>
+              <List
+                items={cardForm.answers.value.map((answerForm) => {
+                  return {
+                    onClick: action(() => {
+                      cardForm.answerId = answerForm.id;
+                      cardForm.answerFormType = "edit";
+                    }),
+                    text: answerForm.text.value,
+                    right: answerForm.isCorrect.value ? (
                       <i
                         className={cx(
                           "mdi mdi-check-circle",
                           css({ color: theme.success }),
                         )}
                       />
-                    </span>
-                  )}
-                </CardRow>
-              ))}
+                    ) : null,
+                  };
+                })}
+              />
+
               {cardForm.answers.error &&
                 (isFormTouched({ answers: cardForm.answers }) ||
                   isFormDirty({ answers: cardForm.answers })) && (

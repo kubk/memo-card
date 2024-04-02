@@ -52,7 +52,7 @@ export const DeckPreview = observer(() => {
           gap: 16,
           borderRadius: theme.borderRadius,
           padding: "8px 16px",
-          paddingBottom: 12,
+          paddingBottom: 16,
           background: theme.bgColor,
         })}
       >
@@ -84,7 +84,7 @@ export const DeckPreview = observer(() => {
               display: "flex",
               gap: 4,
               flexDirection: "column",
-              borderTop: `1px solid ${theme.dividerColor}`,
+              borderTop: `1px solid ${theme.divider}`,
               paddingTop: 8,
             })}
           >

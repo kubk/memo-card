@@ -10,13 +10,13 @@ import { useTelegramProgress } from "../../lib/telegram/use-telegram-progress.ts
 import { useMount } from "../../lib/react/use-mount.ts";
 import { useMainButton } from "../../lib/telegram/use-main-button.tsx";
 import { assert } from "../../lib/typescript/assert.ts";
-import { CardRow } from "../../ui/card-row.tsx";
 import { reset } from "../../ui/reset.ts";
 import { css, cx } from "@emotion/css";
 import { theme } from "../../ui/theme.tsx";
 import { Loader } from "../../ui/loader.tsx";
 import { useFolderFormStore } from "./store/folder-form-store-context.tsx";
 import { EmptyState } from "../../ui/empty-state.tsx";
+import { List } from "../../ui/list.tsx";
 
 export const FolderForm = observer(() => {
   const folderStore = useFolderFormStore();
@@ -33,7 +33,7 @@ export const FolderForm = observer(() => {
   });
 
   useBackButton(() => {
-    screenStore.back();
+    folderStore.onBack();
   });
 
   useTelegramProgress(() => folderStore.isSending);
@@ -51,27 +51,32 @@ export const FolderForm = observer(() => {
         <Input field={folderForm.description} rows={3} type={"textarea"} />
       </Label>
       <Label text={t("decks")} isPlain>
-        {folderForm.decks.value.map((deck, i) => {
-          return (
-            <CardRow key={i}>
-              <span>{deck.name}</span>
-              <button
-                className={cx(reset.button, css({ padding: 8, fontSize: 16 }))}
-                onClick={() => {
-                  assert(folderForm);
-                  return folderForm.decks.removeByIndex(i);
-                }}
-              >
-                <i
+        <List
+          items={folderForm.decks.value.map((deck, i) => {
+            return {
+              text: deck.name,
+              right: (
+                <button
                   className={cx(
-                    "mdi mdi-delete-circle mdi-24px",
-                    css({ color: theme.danger }),
+                    reset.button,
+                    css({ paddingTop: 4, fontSize: 16 }),
                   )}
-                />
-              </button>
-            </CardRow>
-          );
-        })}
+                  onClick={() => {
+                    assert(folderForm);
+                    return folderForm.decks.removeByIndex(i);
+                  }}
+                >
+                  <i
+                    className={cx(
+                      "mdi mdi-delete-circle mdi-24px",
+                      css({ color: theme.danger }),
+                    )}
+                  />
+                </button>
+              ),
+            };
+          })}
+        />
       </Label>
       <Label text={t("add_deck_to_folder")} isPlain>
         {folderStore.decksMine?.state === "pending" && <Loader />}
@@ -79,30 +84,36 @@ export const FolderForm = observer(() => {
         folderStore.decksMineFiltered.length === 0 ? (
           <EmptyState>{t("no_decks_to_add")}</EmptyState>
         ) : null}
-        {folderStore.decksMineFiltered.map((deck) => {
-          return (
-            <CardRow key={deck.id}>
-              <span>{deck.name}</span>
-              <button
-                className={cx(reset.button, css({ padding: 8, fontSize: 16 }))}
-                onClick={() => {
-                  assert(folderForm);
-                  folderForm.decks.push({
-                    id: deck.id,
-                    name: deck.name,
-                  });
-                }}
-              >
-                <i
+
+        <List
+          items={folderStore.decksMineFiltered.map((deck) => {
+            return {
+              text: deck.name,
+              right: (
+                <button
                   className={cx(
-                    "mdi mdi-plus-circle mdi-24px",
-                    css({ color: theme.buttonColor }),
+                    reset.button,
+                    css({ paddingTop: 4, fontSize: 16 }),
                   )}
-                />
-              </button>
-            </CardRow>
-          );
-        })}
+                  onClick={() => {
+                    assert(folderForm);
+                    folderForm.decks.push({
+                      id: deck.id,
+                      name: deck.name,
+                    });
+                  }}
+                >
+                  <i
+                    className={cx(
+                      "mdi mdi-plus-circle mdi-24px",
+                      css({ color: theme.buttonColor }),
+                    )}
+                  />
+                </button>
+              ),
+            };
+          })}
+        />
       </Label>
     </Screen>
   );

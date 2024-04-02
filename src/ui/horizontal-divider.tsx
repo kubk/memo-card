@@ -7,7 +7,7 @@ type Props = {
 };
 
 export const HorizontalDivider = (props: Props) => {
-  const color = props.color || theme.dividerColor;
+  const color = props.color || theme.divider;
   return (
     <div
       className={css({

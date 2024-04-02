@@ -1,7 +1,8 @@
 import React, { ReactNode } from "react";
-import { css } from "@emotion/css";
+import { css, cx } from "@emotion/css";
 import { theme } from "./theme.tsx";
 import { Flex } from "./flex.tsx";
+import { reset } from "./reset.ts";
 
 type Props = {
   text: ReactNode;
@@ -17,9 +18,22 @@ export const Label = (props: Props) => {
   const { slotRight } = props;
 
   return (
-    <Tag className={css({ display: "flex", flexDirection: "column", gap: 2 })}>
-      <Flex ml={12}>
-        {props.text}
+    <Tag
+      className={cx(
+        reset.label,
+        css({ display: "flex", flexDirection: "column", gap: 0 }),
+      )}
+    >
+      <Flex ml={12} alignItems={"center"}>
+        <span
+          className={css({
+            color: theme.hintColor,
+            textTransform: "uppercase",
+            fontSize: 14,
+          })}
+        >
+          {props.text}
+        </span>
         {props.isRequired && (
           <span
             className={css({
@@ -35,6 +49,7 @@ export const Label = (props: Props) => {
             className={css({
               marginLeft: "auto",
               marginRight: 12,
+              fontSize: 14,
             })}
           >
             {slotRight}

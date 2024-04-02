@@ -8,6 +8,8 @@ type Props = {
 export const ValidationError = (props: Props) => {
   const { error } = props;
   return (
-    <div className={css({ fontSize: 14, color: theme.danger })}>{error}</div>
+    <div className={css({ fontSize: 14, color: theme.danger, marginLeft: 12 })}>
+      {error}
+    </div>
   );
 };

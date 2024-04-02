@@ -41,7 +41,16 @@ export const theme = {
   danger: "#fc2025",
   orange: "#FF9F0A",
   dangerLight: colord("#fc2025").alpha(0.4).toHex(),
-  dividerColor: "#ccc",
+  divider: "rgba(0, 0, 0, .05)",
+
+  icons: {
+    pink: "#c72ab9",
+    violet: "#5454d6",
+    blue: "#0e77f1",
+    turquoise: "#16a6c3",
+    sea: "#1abe8a",
+    green: "#1edb59",
+  },
 
   borderRadius: 12,
   boxShadow: "0 0 8px rgba(56, 0, 107, 0.16)",

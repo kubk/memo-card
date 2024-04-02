@@ -48,6 +48,7 @@ const en = {
   public_decks: "Public decks",
   explore_public_decks: "Explore more decks",
   news_and_updates: "News and updates",
+  profile_section: "Profile",
   telegram_channel: "Telegram channel",
   settings: "Settings",
   deck_has_been_added: "This deck is on your list",
@@ -125,6 +126,7 @@ const en = {
     "Daily reminders help you remember to repeat cards",
   validation_deck_title: "The deck title is required",
   deck_form_quit_card_confirm: "Quit editing card without saving?",
+  folder_form_quit_card_confirm: "Quit editing folder without saving?",
   deck_form_quit_deck_confirm: "Quit editing deck without saving?",
   deck_form_no_cards_alert: "Please add at least 1 card to create a deck",
   deck_category: "Deck category",
@@ -202,8 +204,10 @@ type Translation = typeof en;
 
 const ru: Translation = {
   deck_form_remove_warning: "Колода должна содержать хотя бы одну карточку",
+  folder_form_quit_card_confirm: "Выйти без сохранения папки?",
   card_answer_back: "Назад",
   read_more: "Читать далее",
+  profile_section: "Профиль",
   review_wrong_label: "Неправильно",
   review_correct_label: "Правильно",
   user_stats_empty_text: "Изучите больше карточек, чтобы увидеть данные",
@@ -394,6 +398,8 @@ const ru: Translation = {
 };
 
 const es: Translation = {
+  profile_section: "Perfil",
+  folder_form_quit_card_confirm: "¿Salir sin guardar la carpeta?",
   deck_form_remove_warning: "La baraja debe tener al menos una tarjeta",
   card_answer_back: "Atrás",
   read_more: "Leer más",
@@ -592,6 +598,8 @@ const es: Translation = {
 };
 
 const ptBr: Translation = {
+  profile_section: "Perfil",
+  folder_form_quit_card_confirm: "Sair sem salvar a pasta?",
   deck_form_remove_warning: "O baralho deve ter pelo menos um cartão",
   card_answer_back: "Costas",
   read_more: "Leia mais",
