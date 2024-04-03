@@ -13,9 +13,9 @@ import { getPlanDescription, getPlanFullTile } from "./translations.ts";
 import { PlansScreenStore } from "./store/plans-screen-store.ts";
 import { useTelegramProgress } from "../../lib/telegram/use-telegram-progress.tsx";
 import { userStore } from "../../store/user-store.ts";
-import { DateTime } from "luxon";
 import { ExternalLink } from "../../ui/external-link.tsx";
 import { t } from "../../translations/t.ts";
+import { formatPaidUntil } from "./format-paid-until.tsx";
 
 export const PlansScreen = observer(() => {
   const [store] = useState(() => new PlansScreenStore());
@@ -57,11 +57,9 @@ export const PlansScreen = observer(() => {
             const paidPlan = userStore.plans?.find(
               (p) => p.plan_id === plan.id,
             );
-            const paidUntil = paidPlan?.until_date
-              ? DateTime.fromISO(paidPlan.until_date).toLocaleString(
-                  DateTime.DATE_FULL,
-                )
-              : undefined;
+
+            const paidUntil =
+              formatPaidUntil(paidPlan?.until_date || "") || undefined;
 
             return (
               <PlanItem
