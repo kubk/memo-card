@@ -31,9 +31,14 @@ import {
   ShareFolderScreenLazy,
 } from "./share-deck/share-deck-screen-lazy.tsx";
 import { PlansScreen } from "./plans/plans-screen.tsx";
+import { isRunningWithinTelegram } from "../lib/telegram/is-running-within-telegram.ts";
 
 export const App = observer(() => {
   useRestoreFullScreenExpand();
+
+  if (!isRunningWithinTelegram()) {
+    return <div>This app can only be run within Telegram.</div>;
+  }
 
   useSettingsButton(() => {
     screenStore.go({ type: "userSettings" });
