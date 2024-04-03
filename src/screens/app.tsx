@@ -41,6 +41,10 @@ export const App = observer(() => {
   }
 
   useSettingsButton(() => {
+    if (screenStore.screen.type === "userSettings") {
+      // Fixes strange Telegram error that leads to blank screen if opening settings twice
+      return;
+    }
     screenStore.go({ type: "userSettings" });
   });
 
