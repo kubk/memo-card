@@ -45,127 +45,138 @@ export const UserSettingsScreen = observer(() => {
 
   return (
     <Screen title={t("settings")}>
-      <List
-        items={[
-          {
-            icon: (
-              <FilledIcon
-                backgroundColor={theme.icons.violet}
-                icon={"mdi-bell"}
-              />
-            ),
-            right: (
-              <span
-                className={css({
-                  top: 3,
-                  position: "relative",
-                })}
-              >
-                <RadioSwitcher
-                  isOn={isRemindNotifyEnabled.value}
-                  onToggle={isRemindNotifyEnabled.toggle}
+      <div>
+        <List
+          items={[
+            {
+              icon: (
+                <FilledIcon
+                  backgroundColor={theme.icons.violet}
+                  icon={"mdi-bell"}
                 />
-              </span>
-            ),
-            text: t("settings_review_notifications"),
-          },
-          isRemindNotifyEnabled.value
-            ? {
-                icon: (
-                  <FilledIcon
-                    backgroundColor={theme.icons.blue}
-                    icon={"mdi-clock-time-five-outline"}
+              ),
+              right: (
+                <span
+                  className={css({
+                    top: 3,
+                    position: "relative",
+                  })}
+                >
+                  <RadioSwitcher
+                    isOn={isRemindNotifyEnabled.value}
+                    onToggle={isRemindNotifyEnabled.toggle}
                   />
-                ),
-                text: t("settings_time"),
-                right: (
-                  <div className={css({ color: theme.linkColor })}>
-                    <Select
-                      value={time.value.toString()}
-                      onChange={(value) => {
-                        time.onChange(value);
-                      }}
-                      options={timeRanges.map((range) => ({
-                        value: range,
-                        label: range,
-                      }))}
+                </span>
+              ),
+              text: t("settings_review_notifications"),
+            },
+            isRemindNotifyEnabled.value
+              ? {
+                  icon: (
+                    <FilledIcon
+                      backgroundColor={theme.icons.blue}
+                      icon={"mdi-clock-time-five-outline"}
                     />
-                  </div>
-                ),
-              }
-            : null,
-        ].filter(boolNarrow)}
-      />
+                  ),
+                  text: t("settings_time"),
+                  right: (
+                    <div className={css({ color: theme.linkColor })}>
+                      <Select
+                        value={time.value.toString()}
+                        onChange={(value) => {
+                          time.onChange(value);
+                        }}
+                        options={timeRanges.map((range) => ({
+                          value: range,
+                          label: range,
+                        }))}
+                      />
+                    </div>
+                  ),
+                }
+              : null,
+          ].filter(boolNarrow)}
+        />
 
-      <HintTransparent>
-        {t("settings_review_notifications_hint")}
-      </HintTransparent>
+        <HintTransparent>
+          {t("settings_review_notifications_hint")}
+        </HintTransparent>
+      </div>
 
-      <List
-        animateTap={false}
-        items={[
-          {
-            icon: (
-              <FilledIcon
-                backgroundColor={theme.icons.turquoise}
-                icon={"mdi-account-voice"}
-              />
-            ),
-            right: (
-              <span
-                className={css({
-                  top: 3,
-                  position: "relative",
-                })}
-              >
-                <RadioSwitcher
-                  isOn={isSpeakingCardsEnabled.value}
-                  onToggle={isSpeakingCardsEnabled.toggle}
+      <div>
+        <List
+          animateTap={false}
+          items={[
+            {
+              icon: (
+                <FilledIcon
+                  backgroundColor={theme.icons.turquoise}
+                  icon={"mdi-account-voice"}
                 />
-              </span>
-            ),
-            text: t("speaking_cards"),
-          },
-        ]}
-      />
-
-      <HintTransparent>{t("card_speak_description")}</HintTransparent>
-
-      <List
-        items={[
-          {
-            icon: (
-              <FilledIcon backgroundColor={theme.icons.sea} icon={"mdi-star"} />
-            ),
-            text: "Pro",
-            onClick: () => {
-              screenStore.go({ type: "plans" });
+              ),
+              right: (
+                <span
+                  className={css({
+                    top: 3,
+                    position: "relative",
+                  })}
+                >
+                  <RadioSwitcher
+                    isOn={isSpeakingCardsEnabled.value}
+                    onToggle={isSpeakingCardsEnabled.toggle}
+                  />
+                </span>
+              ),
+              text: t("speaking_cards"),
             },
-          },
-        ]}
-      />
+          ]}
+        />
 
-      <HintTransparent>{t("payment_description")}</HintTransparent>
+        <HintTransparent>{t("card_speak_description")}</HintTransparent>
+      </div>
 
-      <List
-        items={[
-          {
-            icon: (
-              <FilledIcon
-                backgroundColor={theme.icons.green}
-                icon={"mdi-face-agent"}
-              />
-            ),
-            text: t("settings_contact_support"),
-            onClick: () => {
-              WebApp.openTelegramLink(links.supportChat);
+      <div>
+        <List
+          items={[
+            {
+              icon: (
+                <FilledIcon
+                  backgroundColor={theme.icons.sea}
+                  icon={"mdi-star"}
+                />
+              ),
+              text: "Pro",
+              onClick: () => {
+                screenStore.go({ type: "plans" });
+              },
             },
-            isLinkColor: true,
-          },
-        ]}
-      />
+          ]}
+        />
 
-      <HintTransparent>{t("settings_support_hint")}</HintTransparent>
+        <HintTransparent>{t("payment_description")}</HintTransparent>
+      </div>
+
+      <div>
+        <List
+          items={[
+            {
+              icon: (
+                <FilledIcon
+                  backgroundColor={theme.icons.green}
+                  icon={"mdi-face-agent"}
+                />
+              ),
+              text: t("settings_contact_support"),
+              onClick: () => {
+                WebApp.openTelegramLink(links.supportChat);
+              },
+              isLinkColor: true,
+            },
+          ]}
+        />
+
+        <HintTransparent>{t("settings_support_hint")}</HintTransparent>
+      </div>
     </Screen>
   );
 });

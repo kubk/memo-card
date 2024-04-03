@@ -1,7 +1,16 @@
-import { formTouchAll, isFormDirty, TextField } from "mobx-form-lite";
-import { validators } from "mobx-form-lite";
+import {
+  BooleanField,
+  BooleanToggle,
+  formTouchAll,
+  isFormDirty,
+  isFormEmpty,
+  isFormTouched,
+  isFormValid,
+  ListField,
+  TextField,
+  validators,
+} from "mobx-form-lite";
 import { action, makeAutoObservable } from "mobx";
-import { isFormEmpty, isFormTouched, isFormValid } from "mobx-form-lite";
 import { assert } from "../../../lib/typescript/assert.ts";
 import { upsertDeckRequest } from "../../../api/api.ts";
 import { screenStore } from "../../../store/screen-store.ts";
@@ -17,15 +26,11 @@ import {
 } from "../../../../functions/db/deck/decks-with-cards-schema.ts";
 import { SpeakLanguageEnum } from "../../../lib/voice-playback/speak.ts";
 import { t } from "../../../translations/t.ts";
-import { BooleanToggle } from "mobx-form-lite";
 import { CardAnswerType } from "../../../../functions/db/custom-types.ts";
-import { ListField } from "mobx-form-lite";
-import { BooleanField } from "mobx-form-lite";
 import { v4 } from "uuid";
 import { CardFormStoreInterface } from "./card-form-store-interface.ts";
 import { UpsertDeckRequest } from "../../../../functions/upsert-deck.ts";
 import { UnwrapArray } from "../../../lib/typescript/unwrap-array.ts";
-import { userStore } from "../../../store/user-store.ts";
 
 export type CardAnswerFormType = {
   id: string;
@@ -104,12 +109,7 @@ export const createAnswerListField = (
 };
 
 export const createAnswerTypeField = (card?: DeckCardDbType) => {
-  return new TextField<CardAnswerType>(
-    card ? card.answer_type : userStore.defaultCardType,
-    {
-      onChangeCallback: userStore.updateDefaultCardType,
-    },
-  );
+  return new TextField<CardAnswerType>(card ? card.answer_type : "remember");
 };
 
 const createUpdateForm = (

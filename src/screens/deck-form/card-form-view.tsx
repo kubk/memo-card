@@ -16,7 +16,6 @@ import { Label } from "../../ui/label.tsx";
 import { HintTransparent } from "../../ui/hint-transparent.tsx";
 import { CardRow } from "../../ui/card-row.tsx";
 import { RadioSwitcher } from "../../ui/radio-switcher.tsx";
-import { AppRoot, SegmentedControl } from "@xelene/tgui";
 import { action } from "mobx";
 import { createAnswerForm } from "./store/deck-form-store.ts";
 import { css, cx } from "@emotion/css";
@@ -25,13 +24,13 @@ import { ButtonGrid } from "../../ui/button-grid.tsx";
 import { ButtonSideAligned } from "../../ui/button-side-aligned.tsx";
 import React from "react";
 import { ValidationError } from "../../ui/validation-error.tsx";
-import { showAlert } from "../../lib/telegram/show-alert.ts";
 import { WysiwygField } from "../../ui/wysiwyg-field/wysiwig-field.tsx";
 import { userStore } from "../../store/user-store.ts";
 import { Input } from "../../ui/input.tsx";
 import { FormattingSwitcher } from "./formatting-switcher.tsx";
 import { Flex } from "../../ui/flex.tsx";
 import { List } from "../../ui/list.tsx";
+import { SelectWithChevron } from "../../ui/select-with-chevron.tsx";
 
 type Props = {
   cardFormStore: CardFormStoreInterface;
@@ -103,47 +102,53 @@ export const CardFormView = observer((props: Props) => {
       {localStore.isAdvancedOn.value && (
         <>
           <Label
-            text={
-              <span
-                className={css({ cursor: "pointer" })}
-                onClick={() => {
-                  showAlert(t("answer_type_explanation"));
-                }}
-              >
-                {t("answer")}{" "}
-                <i
-                  className={cx(
-                    "mdi mdi-information-outline",
-                    css({ color: theme.linkColor }),
-                  )}
-                />
-              </span>
-            }
             isPlain
+            text={t("card_field_example_title")}
+            slotRight={<FormattingSwitcher />}
           >
-            <AppRoot>
-              <SegmentedControl>
-                <SegmentedControl.Item
-                  selected={cardForm.answerType.value === "remember"}
-                  key={"remember"}
-                  onClick={() => {
-                    cardForm?.answerType.onChange("remember");
-                  }}
-                >
-                  {t("yes_no")}
-                </SegmentedControl.Item>
-                <SegmentedControl.Item
-                  selected={cardForm.answerType.value === "choice_single"}
-                  key={"choice_single"}
-                  onClick={() => {
-                    cardForm?.answerType.onChange("choice_single");
-                  }}
-                >
-                  {t("answer_type_choice")}
-                </SegmentedControl.Item>
-              </SegmentedControl>
-            </AppRoot>
+            {isCardFormattingOn ? (
+              <WysiwygField field={cardForm.example} />
+            ) : (
+              <Input field={cardForm.example} type={"textarea"} rows={2} />
+            )}
+            <HintTransparent>{t("card_field_example_hint")}</HintTransparent>
           </Label>
+
+          <Flex direction={"column"} gap={4}>
+            <Flex ml={12} mt={8} alignItems={"center"} gap={16}>
+              <div
+                className={css({
+                  color: theme.hintColor,
+                  textTransform: "uppercase",
+                  fontSize: 14,
+                })}
+              >
+                {t("answer")}
+              </div>
+              <SelectWithChevron
+                value={cardForm.answerType.value}
+                onChange={(value) => {
+                  cardForm?.answerType.onChange(value);
+                }}
+                options={[
+                  { label: t("yes_no"), value: "remember" },
+                  { label: t("answer_type_choice"), value: "choice_single" },
+                ]}
+              />
+            </Flex>
+            <HintTransparent>
+              {(() => {
+                switch (cardForm.answerType.value) {
+                  case "remember":
+                    return t("answer_type_explanation_remember");
+                  case "choice_single":
+                    return t("answer_type_explanation_choice");
+                  default:
+                    return cardForm.answerType.value satisfies never;
+                }
+              })()}
+            </HintTransparent>
+          </Flex>
         </>
       )}
 
@@ -193,19 +198,6 @@ export const CardFormView = observer((props: Props) => {
               </CardRow>
             </>
           )}
-
-          <Label
-            isPlain
-            text={t("card_field_example_title")}
-            slotRight={<FormattingSwitcher />}
-          >
-            {isCardFormattingOn ? (
-              <WysiwygField field={cardForm.example} />
-            ) : (
-              <Input field={cardForm.example} type={"textarea"} rows={2} />
-            )}
-            <HintTransparent>{t("card_field_example_hint")}</HintTransparent>
-          </Label>
         </>
       )}
 

@@ -12,16 +12,18 @@ type Props<T extends string | number> = {
   onChange: (newValue: T) => void;
   options: Option<T>[];
   isLoading?: boolean;
+  selectRef?: any;
 };
 
 export const Select = <T extends string | number>(props: Props<T>) => {
-  const { value, onChange, options, isLoading } = props;
+  const { value, onChange, options, isLoading, selectRef } = props;
   if (isLoading) {
     return <div className={css({ color: theme.hintColor })}>Loading...</div>;
   }
 
   return (
     <select
+      ref={selectRef}
       className={css({
         backgroundColor: "transparent",
         boxShadow: "none",
