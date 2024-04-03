@@ -189,15 +189,20 @@ export const DeckPreview = observer(() => {
       </div>
       {deck.cardsToReview.length === 0 && (
         <>
-          <Hint>{t("no_cards_to_review_in_deck")}</Hint>
-          <Button
-            outline
-            onClick={() => {
-              reviewStore.startDeckReviewAnyway(deckListStore.selectedDeck);
-            }}
-          >
-            {t("repeat_cards_anyway")}
-          </Button>
+          <Hint>
+            <Flex direction={"column"} gap={10} mb={4}>
+              <div>{t("no_cards_to_review_in_deck")}</div>
+              <Button
+                outline
+                icon={"mdi-cached"}
+                onClick={() => {
+                  reviewStore.startDeckReviewAnyway(deckListStore.selectedDeck);
+                }}
+              >
+                {t("repeat_cards_anyway")}
+              </Button>
+            </Flex>
+          </Hint>
         </>
       )}
     </Flex>

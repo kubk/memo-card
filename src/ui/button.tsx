@@ -40,9 +40,6 @@ export const Button = (props: Props) => {
           alignItems: "center",
           backgroundColor: mainColor,
           cursor: "pointer",
-          ":hover": {
-            backgroundColor: parsedColor.darken(0.1).toHex(),
-          },
           ":focus": {
             boxShadow: `0 0 0 0.2rem ${parsedColor.alpha(0.4).toHex()}`,
           },
