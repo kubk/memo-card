@@ -34,6 +34,7 @@ export const CardList = observer(() => {
         <>
           <Input
             field={deckFormStore.cardFilter.text}
+            icon={'mdi-magnify mdi-24px'}
             placeholder={t("search_card")}
           />
           <Flex ml={12} gap={8}>
