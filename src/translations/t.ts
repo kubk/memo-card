@@ -182,8 +182,7 @@ const en = {
     "One answer should be selected as correct",
   validation_at_least_one_answer_required:
     "At least one answer should be provided",
-  delete_folder_confirm:
-    "Do you want to delete the folder? Deleting folder won't remove decks inside the folder",
+  delete_folder_confirm: "Do you want to delete the folder?",
   user_stats_btn: "Statistics",
   user_stats_page: "My statistics",
   user_stats_remembered: "Remembered",
@@ -377,8 +376,7 @@ const ru: Translation = {
   go_back: "Назад",
   settings_contact_support: "Связаться с поддержкой",
   settings_support_hint: "Если у вас есть вопросы, проблемы или предложения",
-  delete_folder_confirm:
-    "Вы уверены, что хотите удалить папку? Удаление папки не удалит колоды внутри папки",
+  delete_folder_confirm: "Вы уверены, что хотите удалить папку?",
   user_stats_btn: "Статистика",
   user_stats_page: "Моя статистика",
   user_stats_remembered: "Запомнено карточек",
@@ -584,7 +582,7 @@ const es: Translation = {
   share_perpetual_link: "Compartir enlace perpetuo",
   go_back: "Volver",
   delete_folder_confirm:
-    "¿Quieres eliminar la carpeta? Eliminar la carpeta no eliminará los mazos dentro de la carpeta",
+    "¿Quieres eliminar la carpeta?",
   user_stats_btn: "Estadísticas",
   user_stats_page: "Mi estadística",
   user_stats_remembered: "Tarjetas recordadas",
@@ -785,7 +783,7 @@ const ptBr: Translation = {
   share_unused: "Não utilizado",
   go_back: "Voltar",
   delete_folder_confirm:
-    "Você quer deletar a pasta? Deletar a pasta não irá remover os baralhos dentro da pasta",
+    "Você quer deletar a pasta?",
   user_stats_btn: "Estatísticas",
   user_stats_page: "Minha Estatística",
   user_stats_remembered: "Cartões Memorizados",

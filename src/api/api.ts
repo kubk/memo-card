@@ -46,6 +46,7 @@ import { AllPlansResponse } from "../../functions/plans.ts";
 import { DeckCatalogResponse } from "../../functions/catalog.ts";
 import { FolderWithDecksWithCardsResponse } from "../../functions/folder-with-decks-cards.ts";
 import { AddFolderToMineRequest } from "../../functions/add-folder-to-mine.ts";
+import { DeleteFolderResponse } from "../../functions/delete-folder.ts";
 
 export const healthRequest = () => {
   return request<HealthResponse>("/health");
@@ -164,7 +165,7 @@ export const folderUpsertRequest = (body: AddFolderRequest) => {
 };
 
 export const deleteFolderRequest = (folderId: number) => {
-  return request<null>(`/delete-folder?folder_id=${folderId}`, "POST");
+  return request<DeleteFolderResponse>(`/delete-folder?folder_id=${folderId}`, "POST");
 };
 
 export const decksMineRequest = () => {
