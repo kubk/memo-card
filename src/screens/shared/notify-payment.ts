@@ -1,5 +1,5 @@
 import confetti from "canvas-confetti";
-import { showAlert } from "../lib/telegram/show-alert.ts";
+import { showAlert } from "../../lib/telegram/show-alert.ts";
 
 export const notifyPaymentSuccess = () => {
   confetti({

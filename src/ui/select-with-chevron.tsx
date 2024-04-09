@@ -3,6 +3,7 @@ import { theme } from "./theme.tsx";
 import { css } from "@emotion/css";
 import { ChevronIcon } from "./chevron-icon.tsx";
 import { Select } from "./select.tsx";
+import { t } from "../translations/t.ts";
 
 type Option<T extends string | number> = {
   label: string;
@@ -24,7 +25,9 @@ export const SelectWithChevron = <T extends string | number>(
   const selectRef = useRef<HTMLSelectElement | null>(null);
 
   if (isLoading) {
-    return <div className={css({ color: theme.hintColor })}>Loading...</div>;
+    return (
+      <div className={css({ color: theme.hintColor })}>{t("ui_loading")}</div>
+    );
   }
 
   return (

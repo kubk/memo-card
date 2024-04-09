@@ -1,6 +1,7 @@
 import React from "react";
 import { theme } from "./theme.tsx";
 import { css } from "@emotion/css";
+import { t } from "../translations/t.ts";
 
 type Option<T extends string | number> = {
   label: string;
@@ -18,7 +19,9 @@ type Props<T extends string | number> = {
 export const Select = <T extends string | number>(props: Props<T>) => {
   const { value, onChange, options, isLoading, selectRef } = props;
   if (isLoading) {
-    return <div className={css({ color: theme.hintColor })}>Loading...</div>;
+    return (
+      <div className={css({ color: theme.hintColor })}>{t("ui_loading")}</div>
+    );
   }
 
   return (

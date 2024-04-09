@@ -218,6 +218,7 @@ const en = {
   freeze_for_or_manual: "or type manually",
   freeze_notified: "You'll get notified on",
   freeze_hint: "Postpone studying cards",
+  ui_loading: "Loading...",
 };
 
 type Translation = typeof en;
@@ -435,9 +436,11 @@ const ru: Translation = {
   validate_positive: "Пожалуйста, введите положительное число",
   validate_under_100: "Пожалуйста, введите число меньше 100",
   freeze_hint: "Отложите изучение карточек",
+  ui_loading: "Загрузка...",
 };
 
 const es: Translation = {
+  ui_loading: "Cargando...",
   yes_no: "Recordar",
   answer: "Tipo de tarjeta",
   answer_type_explanation_choice: `Una tarjeta con opciones de respuesta`,
@@ -659,6 +662,7 @@ const es: Translation = {
 };
 
 const ptBr: Translation = {
+  ui_loading: "Carregando...",
   yes_no: "Lembrar",
   answer: "Tipo de cartão",
   answer_type_explanation_choice: `Um cartão com opções de resposta`,

@@ -30,13 +30,13 @@ import { showConfirm } from "../lib/telegram/show-confirm.ts";
 import { t } from "../translations/t.ts";
 import { canDuplicateDeckOrFolder } from "../../shared/access/can-duplicate-deck-or-folder.ts";
 import { hapticImpact } from "../lib/telegram/haptics.ts";
-import {
-  notifyPaymentFailed,
-  notifyPaymentSuccess,
-} from "../ui/notify-payment.ts";
 import { FolderWithDecksWithCards } from "../../functions/db/folder/get-folder-with-decks-with-cards-db.ts";
 import { type FolderWithDeckIdDbType } from "../../functions/db/folder/schema.ts";
 import { CatalogFolderDbType } from "../../functions/db/folder/get-public-folders-with-decks-db.ts";
+import {
+  notifyPaymentFailed,
+  notifyPaymentSuccess,
+} from "../screens/shared/notify-payment.ts";
 
 export enum StartParamType {
   RepeatAll = "repeat_all",
