@@ -1,10 +1,10 @@
 import { css, cx } from "@emotion/css";
 import React from "react";
 import { theme } from "./theme.tsx";
+import { isDarkTheme } from "../lib/color-scheme/is-dark-theme.tsx";
 
 const config = {
   colors: {
-    blueLight: theme.success,
     grayLightExtra: "#e8ecef",
     white: "#fff",
   },
@@ -29,8 +29,10 @@ export const RadioSwitcher = (props: Props) => {
         css({
           display: "inline-flex",
           alignItems: "center",
-          backgroundColor: config.colors.grayLightExtra,
-          outline: isOn ? undefined : "1px solid white",
+          backgroundColor: isDarkTheme()
+            ? "#0f0f0f"
+            : config.colors.grayLightExtra,
+          outline: isOn || isDarkTheme() ? undefined : "1px solid white",
           borderRadius: 38,
           padding: "0px 0.5rem",
           color: config.colors.white,
@@ -42,7 +44,7 @@ export const RadioSwitcher = (props: Props) => {
           transition: `background-color ${config.transitionDuration}`,
           marginBottom: 0,
         }),
-        isOn && css({ backgroundColor: config.colors.blueLight }),
+        isOn && css({ backgroundColor: theme.success }),
       )}
     >
       <input

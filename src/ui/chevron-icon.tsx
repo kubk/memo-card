@@ -1,5 +1,6 @@
 import { m } from "framer-motion";
 import React, { SVGProps } from "react";
+import { LazyLoadFramerMotion } from "../lib/framer-motion/lazy-load-framer-motion.tsx";
 
 type Direction = "top" | "bottom";
 
@@ -19,25 +20,27 @@ type Props = Pick<SVGProps<SVGSVGElement>, "onClick" | "className"> & {
 export const ChevronIcon = (props: Props) => {
   const { direction, ...restProps } = props;
   return (
-    <m.svg
-      width="16"
-      height="16"
-      viewBox="0 0 16 16"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      whileTap={{ scale: 0.9 }}
-      animate={{ rotate: getRotation(direction) }}
-      initial={false}
-      {...restProps}
-    >
-      <path
-        d="M4 10.5L8.5 6L13 10.5"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeMiterlimit="10"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </m.svg>
+    <LazyLoadFramerMotion>
+      <m.svg
+        width="16"
+        height="16"
+        viewBox="0 0 16 16"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        whileTap={{ scale: 0.9 }}
+        animate={{ rotate: getRotation(direction) }}
+        initial={false}
+        {...restProps}
+      >
+        <path
+          d="M4 10.5L8.5 6L13 10.5"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeMiterlimit="10"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </m.svg>
+    </LazyLoadFramerMotion>
   );
 };

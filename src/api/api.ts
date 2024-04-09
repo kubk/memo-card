@@ -46,6 +46,10 @@ import { AllPlansResponse } from "../../functions/plans.ts";
 import { DeckCatalogResponse } from "../../functions/catalog.ts";
 import { FolderWithDecksWithCardsResponse } from "../../functions/folder-with-decks-cards.ts";
 import { AddFolderToMineRequest } from "../../functions/add-folder-to-mine.ts";
+import {
+  CardsFreezeRequest,
+  CardsFreezeResponse,
+} from "../../functions/cards-freeze.ts";
 import { DeleteFolderResponse } from "../../functions/delete-folder.ts";
 
 export const healthRequest = () => {
@@ -188,4 +192,12 @@ export const allPlansRequest = () => {
 
 export const myStatisticsRequest = () => {
   return request<MyStatisticsResponse>("/my-statistics");
+};
+
+export const cardsFreezeRequest = (body: CardsFreezeRequest) => {
+  return request<CardsFreezeResponse, CardsFreezeRequest>(
+    "/cards-freeze",
+    "POST",
+    body,
+  );
 };

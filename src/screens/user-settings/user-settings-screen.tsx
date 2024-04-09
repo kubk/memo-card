@@ -51,6 +51,27 @@ export const UserSettingsScreen = observer(() => {
             {
               icon: (
                 <FilledIcon
+                  backgroundColor={theme.icons.turquoise}
+                  icon={"mdi-snowflake"}
+                />
+              ),
+              text: t("freeze_title"),
+              onClick: () => {
+                screenStore.go({ type: "freezeCards" });
+              },
+            },
+          ]}
+        />
+
+        <HintTransparent>{t("freeze_hint")}</HintTransparent>
+      </div>
+
+      <div>
+        <List
+          items={[
+            {
+              icon: (
+                <FilledIcon
                   backgroundColor={theme.icons.violet}
                   icon={"mdi-bell"}
                 />
@@ -110,7 +131,7 @@ export const UserSettingsScreen = observer(() => {
             {
               icon: (
                 <FilledIcon
-                  backgroundColor={theme.icons.turquoise}
+                  backgroundColor={theme.icons.pink}
                   icon={"mdi-account-voice"}
                 />
               ),

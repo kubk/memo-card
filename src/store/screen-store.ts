@@ -17,6 +17,7 @@ type Route =
   | { type: "shareFolder"; folderId: number; shareId: string }
   | { type: "plans" }
   | { type: "componentCatalog" }
+  | { type: "freezeCards" }
   | { type: "userStatistics" }
   | { type: "userSettings" };
 

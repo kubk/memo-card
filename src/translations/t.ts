@@ -155,7 +155,7 @@ const en = {
   share_no_links: "You haven't created any one-time links for this deck",
   settings_contact_support: "Contact support",
   settings_support_hint: "If you have any issues, questions or suggestions",
-  payment_description: "Payment plan settings",
+  payment_description: "Unlock more features ",
   payment_paid_until: "Paid until",
   payment_page_title: "Plans",
   payment_tos_and_pp_agree: "By purchasing MemoCard you agree to the ",
@@ -198,6 +198,27 @@ const en = {
     "How your time is allocated between learning new material and reviewing",
   user_stats_chart_min_expl: "Don't know the card",
   user_stats_chart_max_expl: "Know the card very well",
+  validate_number: "Please enter a valid number",
+  validate_positive: "Please enter a positive number",
+  validate_under_100: "Please enter a number less than 100",
+  freeze_confirm_freeze:
+    "Are you sure you want to freeze your cards? This action can't be undone.",
+  freeze_success: "All the cards have been frozen",
+  freeze_error: "Failed to freeze cards. Please try again later",
+  freeze_title: "Freeze cards",
+  freeze_how: "How it works",
+  freeze_how_title: `When you freeze cards, they will be postponed for the selected number of days, allowing you to take a break. Use it on holidays or whenever you need a rest.`,
+  freeze_rule_1:
+    "All your cards will be paused, and you won't receive any notifications.",
+  freeze_rule_2:
+    "The amount of cards to review won't increase during the frozen period; you'll see the same number of cards when you resume.",
+  freeze_rule_3: "Freezing cards can't be undone.",
+  freeze_rule_4:
+    "If you add a card during the freeze period, it will not be affected by the freeze.",
+  freeze_for: "Freeze for",
+  freeze_for_or_manual: "or type manually",
+  freeze_notified: "You'll get notified on",
+  freeze_hint: "Postpone studying cards",
 };
 
 type Translation = typeof en;
@@ -225,7 +246,7 @@ const ru: Translation = {
   payment_tos_and_pp_agree: "При покупке MemoCard вы соглашаетесь с ",
   payment_tos: "Условиями использования",
   payment_page_title: "Тарифы",
-  payment_description: "Настройки тарифного плана",
+  payment_description: "Получите больше возможностей",
   payment_paid_until: "Оплачено до",
   wysiwyg_clear_formatting: "Очистить форматирование",
   wysiwyg_bold: "Жирный",
@@ -395,6 +416,27 @@ const ru: Translation = {
   answer_type_choice: "Тест",
   answer_type_explanation_remember: `Карточка с кнопками "Помню" и "Не помню"`,
   answer_type_explanation_choice: `Карточка с вариантами ответов`,
+  freeze_notified: "Вы получите уведомление",
+  freeze_rule_1:
+    "Все ваши карточки будут приостановлены, и вы не будете получать уведомлений.",
+  freeze_for: "Заморозить на",
+  freeze_how: "Как это работает",
+  freeze_confirm_freeze:
+    "Вы уверены, что хотите заморозить карточки? Это действие нельзя отменить.",
+  freeze_title: "Заморозить карточки",
+  freeze_error: "Не удалось заморозить карточки. Пожалуйста, попробуйте позже",
+  freeze_for_or_manual: "или введите вручную",
+  freeze_how_title: `Когда вы замораживаете карточки, они будут отложены на выбранное количество дней, позволяя вам отдохнуть. Используйте это во время отпуска или когда вам нужен перерыв.`,
+  freeze_rule_2:
+    "Количество карточек для повторения не увеличится во время заморозки; вы увидите тот же объем карточек что и сейчас, когда заморозка закончится.",
+  freeze_rule_3: "Заморозка карточек необратима.",
+  freeze_rule_4:
+    "Если вы добавите карточку в период заморозки, она не будет затронута заморозкой.",
+  freeze_success: "Все карточки были заморожены",
+  validate_number: "Пожалуйста, введите корректное число",
+  validate_positive: "Пожалуйста, введите положительное число",
+  validate_under_100: "Пожалуйста, введите число меньше 100",
+  freeze_hint: "Отложите изучение карточек",
 };
 
 const es: Translation = {
@@ -423,7 +465,7 @@ const es: Translation = {
   payment_and: " y ",
   payment_tos: "Términos de servicio",
   payment_paid_until: "Pagado hasta",
-  payment_description: "Configuración del plan de pago",
+  payment_description: "Desbloquea más funciones",
   payment_page_title: "Planes",
   wysiwyg_red: "Rojo",
   wysiwyg_bold: "Negrita",
@@ -596,6 +638,28 @@ const es: Translation = {
     "Cómo se distribuye tu tiempo entre el aprendizaje de material nuevo y la revisión",
   user_stats_chart_max_expl: "Conozco la tarjeta muy bien",
   user_stats_chart_min_expl: "No conozco la tarjeta",
+  validate_under_100: "Por favor, introduce un número menor que 100",
+  validate_positive: "Por favor, introduce un número positivo",
+  freeze_confirm_freeze:
+    "¿Estás seguro de que quieres congelar tus tarjetas? Esta acción no se puede deshacer.",
+  validate_number: "Por favor, introduce un número válido",
+  freeze_error:
+    "No se pudieron congelar las tarjetas. Por favor, inténtalo de nuevo más tarde",
+  freeze_for: "Congelar durante",
+  freeze_for_or_manual: "o escribe manualmente",
+  freeze_how: "Cómo funciona",
+  freeze_rule_1:
+    "Todas tus tarjetas se pausarán y no recibirás notificaciones.",
+  freeze_rule_2:
+    "La cantidad de tarjetas a revisar no aumentará durante el período congelado; verás el mismo número de tarjetas cuando reanudes.",
+  freeze_how_title: `Cuando congelas tus tarjetas, se pospondrán durante el número de días seleccionado, permitiéndote tomar un descanso. Úsalo en vacaciones o cuando necesites un descanso.`,
+  freeze_notified: "Recibirás una notificación",
+  freeze_rule_4:
+    "Si añades una tarjeta durante el período de congelación, no se verá afectada por la congelación.",
+  freeze_rule_3: "La congelación de tarjetas no se puede deshacer.",
+  freeze_success: "Todas las tarjetas han sido congeladas",
+  freeze_title: "Congelar tarjetas",
+  freeze_hint: "Posponer el estudio de las tarjetas",
 };
 
 const ptBr: Translation = {
@@ -621,7 +685,7 @@ const ptBr: Translation = {
   next: "Próximo",
   payment_tos_and_pp_agree: "Ao comprar o MemoCard, você concorda com os ",
   payment_page_title: "Planos",
-  payment_description: "Configurações do plano de pagamento",
+  payment_description: "Desbloqueie mais recursos",
   payment_paid_until: "Pago até",
   payment_pp: "Política de Privacidade",
   payment_tos: "Termos de Serviço",
@@ -797,6 +861,28 @@ const ptBr: Translation = {
     "Como o seu tempo é distribuído entre o estudo de material novo e a revisão",
   user_stats_chart_min_expl: "Não conheço o cartão",
   user_stats_chart_max_expl: "Conheço o cartão muito bem",
+  freeze_title: "Congelar cartões",
+  freeze_success: "Todos os cartões foram congelados",
+  freeze_rule_4:
+    "Se você adicionar um cartão durante o período de congelamento, ele não será afetado pelo congelamento.",
+  freeze_rule_3: "O congelamento de cartões é irreversível.",
+  freeze_notified: "Você receberá uma notificação",
+  freeze_rule_2:
+    "A quantidade de cartões para revisar não aumentará durante o congelamento; você verá o mesmo número de cartões quando o congelamento terminar.",
+  freeze_rule_1:
+    "Todos os seus cartões serão pausados e você não receberá notificações.",
+  freeze_how_title: `Quando você congela seus cartões, eles serão adiados pelo número de dias selecionado, permitindo que você descanse. Use isso nas férias ou quando precisar de uma pausa.`,
+  freeze_how: "Como funciona",
+  freeze_for: "Congelar por",
+  freeze_for_or_manual: "ou digite manualmente",
+  freeze_error:
+    "Não foi possível congelar os cartões. Por favor, tente novamente mais tarde",
+  freeze_confirm_freeze:
+    "Tem certeza de que deseja congelar seus cartões? Esta ação não pode ser desfeita.",
+  validate_positive: "Por favor, insira um número positivo",
+  validate_number: "Por favor, insira um número válido",
+  validate_under_100: "Por favor, insira um número menor que 100",
+  freeze_hint: "Adie o estudo dos cartões",
 };
 
 const translations = { en, ru, es, "pt-br": ptBr };

@@ -32,6 +32,7 @@ import {
 } from "./share-deck/share-deck-screen-lazy.tsx";
 import { PlansScreen } from "./plans/plans-screen.tsx";
 import { isRunningWithinTelegram } from "../lib/telegram/is-running-within-telegram.ts";
+import { FreezeCardsScreenLazy } from "./freeze-cards/freeze-cards-screen-lazy.tsx";
 
 export const App = observer(() => {
   useRestoreFullScreenExpand();
@@ -133,6 +134,11 @@ export const App = observer(() => {
       {screenStore.screen.type === "plans" && (
         <PreventTelegramSwipeDownClosingIos>
           <PlansScreen />
+        </PreventTelegramSwipeDownClosingIos>
+      )}
+      {screenStore.screen.type === "freezeCards" && (
+        <PreventTelegramSwipeDownClosingIos>
+          <FreezeCardsScreenLazy />
         </PreventTelegramSwipeDownClosingIos>
       )}
       {screenStore.screen.type === "userStatistics" && (
