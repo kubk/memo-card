@@ -203,7 +203,6 @@ const en = {
   validate_under_100: "Please enter a number less than 100",
   freeze_confirm_freeze:
     "Are you sure you want to freeze your cards? This action can't be undone.",
-  freeze_success: "All the cards have been frozen",
   freeze_error: "Failed to freeze cards. Please try again later",
   freeze_title: "Freeze cards",
   freeze_how: "How it works",
@@ -432,7 +431,6 @@ const ru: Translation = {
   freeze_rule_3: "Заморозка карточек необратима.",
   freeze_rule_4:
     "Если вы добавите карточку в период заморозки, она не будет затронута заморозкой.",
-  freeze_success: "Все карточки были заморожены",
   validate_number: "Пожалуйста, введите корректное число",
   validate_positive: "Пожалуйста, введите положительное число",
   validate_under_100: "Пожалуйста, введите число меньше 100",
@@ -623,8 +621,7 @@ const es: Translation = {
   share_deck_settings: "Compartir un mazo",
   share_perpetual_link: "Compartir enlace perpetuo",
   go_back: "Volver",
-  delete_folder_confirm:
-    "¿Quieres eliminar la carpeta?",
+  delete_folder_confirm: "¿Quieres eliminar la carpeta?",
   user_stats_btn: "Estadísticas",
   user_stats_page: "Mi estadística",
   user_stats_remembered: "Tarjetas recordadas",
@@ -657,7 +654,6 @@ const es: Translation = {
   freeze_rule_4:
     "Si añades una tarjeta durante el período de congelación, no se verá afectada por la congelación.",
   freeze_rule_3: "La congelación de tarjetas no se puede deshacer.",
-  freeze_success: "Todas las tarjetas han sido congeladas",
   freeze_title: "Congelar tarjetas",
   freeze_hint: "Posponer el estudio de las tarjetas",
 };
@@ -846,8 +842,7 @@ const ptBr: Translation = {
   share_one_time_link: "Compartilhar link de acesso único",
   share_unused: "Não utilizado",
   go_back: "Voltar",
-  delete_folder_confirm:
-    "Você quer deletar a pasta?",
+  delete_folder_confirm: "Você quer deletar a pasta?",
   user_stats_btn: "Estatísticas",
   user_stats_page: "Minha Estatística",
   user_stats_remembered: "Cartões Memorizados",
@@ -862,7 +857,6 @@ const ptBr: Translation = {
   user_stats_chart_min_expl: "Não conheço o cartão",
   user_stats_chart_max_expl: "Conheço o cartão muito bem",
   freeze_title: "Congelar cartões",
-  freeze_success: "Todos os cartões foram congelados",
   freeze_rule_4:
     "Se você adicionar um cartão durante o período de congelamento, ele não será afetado pelo congelamento.",
   freeze_rule_3: "O congelamento de cartões é irreversível.",

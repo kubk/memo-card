@@ -1,5 +1,53 @@
 import { translator } from "../../translations/t.ts";
 
+export const formatFrozenCards = (cards: number) => {
+  const language = translator.getLang();
+  switch (language) {
+    case "en": {
+      return cards === 1
+        ? `1 card has been frozen`
+        : `${cards} have been frozen`;
+    }
+    case "ru": {
+      const rules = new Intl.PluralRules("ru-RU");
+      const result = rules.select(cards);
+      switch (result) {
+        case "one":
+          return `${cards} карточка заморожена`;
+        case "few":
+          return `${cards} карточки заморожены`;
+        case "many":
+          return `${cards} карточек заморожено`;
+        case "two":
+        default:
+          return `${cards} карточки заморожены`;
+      }
+    }
+    case "es": {
+      const rulesEs = new Intl.PluralRules("es-ES");
+      const resultEs = rulesEs.select(cards);
+      switch (resultEs) {
+        case "one":
+          return `${cards} tarjeta ha sido congelada`;
+        case "other":
+        default:
+          return `${cards} han sido congeladas`;
+      }
+    }
+    case "pt-br": {
+      const rulesPt = new Intl.PluralRules("pt-br");
+      const resultPt = rulesPt.select(cards);
+      switch (resultPt) {
+        case "one":
+          return `${cards} cartão foi congelado`;
+        case "other":
+        default:
+          return `${cards} foram congelados`;
+      }
+    }
+  }
+};
+
 export const formatDays = (days: number) => {
   const language = translator.getLang();
 

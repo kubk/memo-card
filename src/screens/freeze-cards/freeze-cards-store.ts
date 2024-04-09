@@ -8,6 +8,7 @@ import { screenStore } from "../../store/screen-store.ts";
 import { hapticImpact } from "../../lib/telegram/haptics.ts";
 import { showConfirm } from "../../lib/telegram/show-confirm.ts";
 import { t } from "../../translations/t.ts";
+import { formatFrozenCards } from "./translations.ts";
 
 export class FreezeCardsStore {
   isLoading = false;
@@ -85,10 +86,10 @@ export class FreezeCardsStore {
     });
     assert(this.freezeDays !== null, "freezeDays is null");
     cardsFreezeRequest({ days: this.freezeDays })
-      .then(() => {
+      .then(({ frozenCards }) => {
         screenStore.go({ type: "main" });
         hapticImpact("heavy");
-        showAlert(t("freeze_success"));
+        showAlert(formatFrozenCards(frozenCards));
       })
       .catch((error) => {
         reportHandledError("Failed to freeze cards", error);

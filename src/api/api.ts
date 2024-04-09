@@ -169,7 +169,10 @@ export const folderUpsertRequest = (body: AddFolderRequest) => {
 };
 
 export const deleteFolderRequest = (folderId: number) => {
-  return request<DeleteFolderResponse>(`/delete-folder?folder_id=${folderId}`, "POST");
+  return request<DeleteFolderResponse>(
+    `/delete-folder?folder_id=${folderId}`,
+    "POST",
+  );
 };
 
 export const decksMineRequest = () => {
