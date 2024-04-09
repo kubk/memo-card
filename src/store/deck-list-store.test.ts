@@ -16,7 +16,7 @@ vi.mock("../lib/telegram/storage-adapter.ts", () => {
   };
 });
 
-vi.mock("../ui/notify-payment.ts", () => {
+vi.mock("../screens/shared/notify-payment.ts", () => {
   return {
     notifyPaymentFailed: () => {},
     notifyPaymentSuccess: () => {},
