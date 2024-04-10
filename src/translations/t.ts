@@ -2,6 +2,8 @@ import { Translator } from "../lib/translator/translator.ts";
 import { getUserLanguage } from "./get-user-language.ts";
 
 const en = {
+  card_next: "Next",
+  card_previous: "Previous",
   user_stats_empty_text: "Study more cards to see the data",
   read_more: "Read more",
   hide_card_forever: "Hide forever",
@@ -198,7 +200,6 @@ const en = {
     "How your time is allocated between learning new material and reviewing",
   user_stats_chart_min_expl: "Don't know the card",
   user_stats_chart_max_expl: "Know the card very well",
-  validate_number: "Please enter a valid number",
   validate_positive: "Please enter a positive number",
   validate_under_100: "Please enter a number less than 100",
   freeze_confirm_freeze:
@@ -224,6 +225,8 @@ const en = {
 type Translation = typeof en;
 
 const ru: Translation = {
+  card_next: "Следующая",
+  card_previous: "Предыдущая",
   deck_form_remove_warning: "Колода должна содержать хотя бы одну карточку",
   folder_form_quit_card_confirm: "Выйти без сохранения папки?",
   card_answer_back: "Назад",
@@ -432,7 +435,6 @@ const ru: Translation = {
   freeze_rule_3: "Заморозка карточек необратима.",
   freeze_rule_4:
     "Если вы добавите карточку в период заморозки, она не будет затронута заморозкой.",
-  validate_number: "Пожалуйста, введите корректное число",
   validate_positive: "Пожалуйста, введите положительное число",
   validate_under_100: "Пожалуйста, введите число меньше 100",
   freeze_hint: "Отложите изучение карточек",
@@ -440,6 +442,8 @@ const ru: Translation = {
 };
 
 const es: Translation = {
+  card_next: "Siguiente",
+  card_previous: "Anterior",
   ui_loading: "Cargando...",
   yes_no: "Recordar",
   answer: "Tipo de tarjeta",
@@ -642,7 +646,6 @@ const es: Translation = {
   validate_positive: "Por favor, introduce un número positivo",
   freeze_confirm_freeze:
     "¿Estás seguro de que quieres congelar tus tarjetas? Esta acción no se puede deshacer.",
-  validate_number: "Por favor, introduce un número válido",
   freeze_error:
     "No se pudieron congelar las tarjetas. Por favor, inténtalo de nuevo más tarde",
   freeze_for: "Congelar durante",
@@ -662,6 +665,8 @@ const es: Translation = {
 };
 
 const ptBr: Translation = {
+  card_next: "Próxima",
+  card_previous: "Anterior",
   ui_loading: "Carregando...",
   yes_no: "Lembrar",
   answer: "Tipo de cartão",
@@ -878,7 +883,6 @@ const ptBr: Translation = {
   freeze_confirm_freeze:
     "Tem certeza de que deseja congelar seus cartões? Esta ação não pode ser desfeita.",
   validate_positive: "Por favor, insira um número positivo",
-  validate_number: "Por favor, insira um número válido",
   validate_under_100: "Por favor, insira um número menor que 100",
   freeze_hint: "Adie o estudo dos cartões",
 };

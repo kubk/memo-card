@@ -203,6 +203,29 @@ export const CardFormView = observer((props: Props) => {
 
       <div className={css({ marginTop: 12 })}>
         <ButtonGrid>
+          {cardForm.id && (
+            <>
+              {cardFormStore.isPreviousCardVisible && (
+                <ButtonSideAligned
+                  onClick={cardFormStore.onPreviousCard}
+                  icon={"mdi-arrow-left mdi-24px"}
+                  outline
+                >
+                  {t("card_previous")}
+                </ButtonSideAligned>
+              )}
+              {cardFormStore.isNextCardVisible && (
+                <ButtonSideAligned
+                  onClick={cardFormStore.onNextCard}
+                  icon={"mdi-arrow-right mdi-24px"}
+                  outline
+                >
+                  {t("card_next")}
+                </ButtonSideAligned>
+              )}
+            </>
+          )}
+
           {cardFormStore.cardForm && isFormValid(cardFormStore.cardForm) ? (
             <ButtonSideAligned
               icon={"mdi-eye-check-outline mdi-24px"}

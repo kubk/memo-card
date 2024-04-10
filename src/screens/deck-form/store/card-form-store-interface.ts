@@ -14,4 +14,10 @@ export interface CardFormStoreInterface {
     speakingCardsLocale: TextField<string | null>;
     speakingCardsField: TextField<DeckSpeakFieldEnum | null>;
   };
+
+  // Navigation next and previous card
+  isPreviousCardVisible?: boolean;
+  isNextCardVisible?: boolean;
+  onPreviousCard?: () => void;
+  onNextCard?: () => void;
 }

@@ -335,4 +335,36 @@ describe("deck form store", () => {
     expect(store.cardFilter.sortBy.value).toEqual("frontAlpha");
     expect(store.cardFilter.sortDirection.value).toEqual("desc");
   });
+
+  it("allows navigating to next and previous card", () => {
+    const store = new DeckFormStore();
+
+    expect(store.isPreviousCardVisible).toBeFalsy();
+    expect(store.isNextCardVisible).toBeFalsy();
+
+    store.loadForm();
+    assert(store.form);
+    expect(store.form.cards).toHaveLength(3);
+
+    expect(store.filteredCards[0].id).toBe(5);
+    store.editCardFormById(store.filteredCards[0].id);
+    expect(store.isPreviousCardVisible).toBeFalsy();
+    expect(store.isNextCardVisible).toBeTruthy();
+    expect(store.cardForm?.id).toBe(5);
+
+    store.onNextCard();
+    expect(store.isPreviousCardVisible).toBeTruthy();
+    expect(store.isNextCardVisible).toBeTruthy();
+    expect(store.cardForm?.id).toBe(4);
+
+    store.onNextCard();
+    expect(store.isPreviousCardVisible).toBeTruthy();
+    expect(store.isNextCardVisible).toBeFalsy();
+    expect(store.cardForm?.id).toBe(3);
+
+    store.onPreviousCard();
+    expect(store.isPreviousCardVisible).toBeTruthy();
+    expect(store.isNextCardVisible).toBeTruthy();
+    expect(store.cardForm?.id).toBe(4);
+  });
 });

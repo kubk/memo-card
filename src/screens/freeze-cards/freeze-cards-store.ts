@@ -25,10 +25,7 @@ export class FreezeCardsStore {
         if (value === "") {
           return;
         }
-        if (isNaN(Number(value))) {
-          return t("validate_number");
-        }
-        if (Number(value) <= 0) {
+        if (isNaN(Number(value)) || Number(value) <= 0) {
           return t("validate_positive");
         }
         if (Number(value) >= 100) {

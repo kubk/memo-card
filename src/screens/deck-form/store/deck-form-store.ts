@@ -362,16 +362,66 @@ export class DeckFormStore implements CardFormStoreInterface {
     );
   }
 
-  async onBackCard() {
+  get isPreviousCardVisible() {
+    if (this.filteredCards.length < 1) {
+      return false;
+    }
+    const isCurrentFirst = this.filteredCards[0].id === this.cardForm?.id;
+    return !isCurrentFirst;
+  }
+
+  get isNextCardVisible() {
+    if (this.filteredCards.length < 1) {
+      return false;
+    }
+    const isCurrentLast =
+      this.filteredCards[this.filteredCards.length - 1].id ===
+      this.cardForm?.id;
+    return !isCurrentLast;
+  }
+
+  onPreviousCard() {
+    if (!this.isPreviousCardVisible) {
+      return;
+    }
+    this.onQuitCard(() => {
+      const currentCardIndex = this.filteredCards.findIndex(
+        (card) => card.id === this.cardForm?.id,
+      );
+      const nextCard = this.filteredCards[currentCardIndex - 1];
+      this.editCardFormById(nextCard.id);
+    });
+  }
+
+  onNextCard() {
+    if (!this.isNextCardVisible) {
+      return;
+    }
+    this.onQuitCard(() => {
+      const currentCardIndex = this.filteredCards.findIndex(
+        (card) => card.id === this.cardForm?.id,
+      );
+      const nextCard = this.filteredCards[currentCardIndex + 1];
+      this.editCardFormById(nextCard.id);
+    });
+  }
+
+  onBackCard() {
+    this.onQuitCard(() => {
+      this.quitCardForm();
+    });
+  }
+
+  async onQuitCard(redirect: () => void) {
     assert(this.cardForm, "onCardBack: cardForm is empty");
     if (isFormEmpty(this.cardForm) || !isFormDirty(this.cardForm)) {
-      this.quitCardForm();
+      redirect();
       return;
     }
 
     const confirmed = await showConfirm(t("deck_form_quit_card_confirm"));
     if (confirmed) {
-      this.quitCardForm();
+      redirect();
     }
   }
 
