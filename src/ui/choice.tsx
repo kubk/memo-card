@@ -19,12 +19,14 @@ export const Choice = (props: Props) => {
       onClick={onClick}
       className={css({
         padding: 16,
+        paddingTop: 10,
         display: "flex",
         flexDirection: "column",
         gap: 4,
         color: theme.textColor,
         backgroundColor: theme.bgColor,
         borderRadius: theme.borderRadius,
+        boxShadow: theme.boxShadow,
         cursor: "pointer",
         ...tapScale,
         ":hover": {
@@ -35,8 +37,8 @@ export const Choice = (props: Props) => {
       })}
     >
       <Flex alignItems={"center"} gap={8} justifyContent={"center"}>
-        <i className={cx(icon, css({ color: "inherit" }))} />
-        <h3 className={css({ color: "inherit", fontWeight: 500 })}>{title}</h3>
+        <i className={cx(icon, css({ color: theme.buttonColor }))} />
+        <h3 className={css({ color: theme.buttonColor })}>{title}</h3>
       </Flex>
       <HintTransparent>{description}</HintTransparent>
     </div>
