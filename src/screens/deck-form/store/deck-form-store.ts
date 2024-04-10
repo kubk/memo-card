@@ -354,8 +354,12 @@ export class DeckFormStore implements CardFormStoreInterface {
   }
 
   onSaveCard() {
+    const isEdit = this.cardForm?.id;
     this.onDeckSave().then(
       action(() => {
+        if (isEdit) {
+          return;
+        }
         this.cardFormIndex = undefined;
         this.cardFormType = undefined;
       }),
@@ -517,14 +521,10 @@ export class DeckFormStore implements CardFormStoreInterface {
     })
       .then(
         action(({ deck, folders, cardsToReview }) => {
-          const redirectToEdit = !this.form?.id;
           this.form = createUpdateForm(deck.id, deck, () => this.cardForm);
           deckListStore.replaceDeck(deck, true);
           deckListStore.updateFolders(folders);
           deckListStore.updateCardsToReview(cardsToReview);
-          if (redirectToEdit) {
-            screenStore.go({ type: "deckForm", deckId: deck.id });
-          }
         }),
       )
       .finally(
