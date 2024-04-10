@@ -35,7 +35,7 @@ export const getPlanDescription = (plan: PlanDb) => {
         case "en":
           return [
             "Duplicate folder, deck",
-            "One time deck and folder links",
+            "One time deck links and one time folder links",
             "Specify deck and folder access duration",
             "High priority support",
           ];
