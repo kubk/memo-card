@@ -2,6 +2,7 @@ import { css, cx } from "@emotion/css";
 import { theme } from "./theme.tsx";
 import { Flex } from "./flex.tsx";
 import { tapScale } from "../lib/animations/tap-scale.ts";
+import { HintTransparent } from "./hint-transparent.tsx";
 
 type Props = {
   icon: string;
@@ -21,9 +22,8 @@ export const Choice = (props: Props) => {
         display: "flex",
         flexDirection: "column",
         gap: 4,
-        border: `1px solid ${theme.buttonColorLighter}`,
-        color: theme.buttonColor,
-        backgroundColor: theme.buttonColorLighter,
+        color: theme.textColor,
+        backgroundColor: theme.bgColor,
         borderRadius: theme.borderRadius,
         cursor: "pointer",
         ...tapScale,
@@ -36,9 +36,9 @@ export const Choice = (props: Props) => {
     >
       <Flex alignItems={"center"} gap={8} justifyContent={"center"}>
         <i className={cx(icon, css({ color: "inherit" }))} />
-        <h3 className={css({ color: "inherit" })}>{title}</h3>
+        <h3 className={css({ color: "inherit", fontWeight: 500 })}>{title}</h3>
       </Flex>
-      <span className={css({ fontSize: 14 })}>{description}</span>
+      <HintTransparent>{description}</HintTransparent>
     </div>
   );
 };

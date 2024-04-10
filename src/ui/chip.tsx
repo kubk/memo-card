@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { css, cx } from "@emotion/css";
-import { theme } from "../../ui/theme.tsx";
+import { theme } from "./theme.tsx";
 
 type Props = {
   children: ReactNode;

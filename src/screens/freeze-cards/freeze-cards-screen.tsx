@@ -9,7 +9,7 @@ import { Flex } from "../../ui/flex.tsx";
 import { useMainButton } from "../../lib/telegram/use-main-button.tsx";
 import { Input } from "../../ui/input.tsx";
 import { DateTime } from "luxon";
-import { Chip } from "./chip.tsx";
+import { Chip } from "../../ui/chip.tsx";
 import { FreezeCardsStore } from "./freeze-cards-store.ts";
 import { FilledIcon } from "../../ui/filled-icon.tsx";
 import { Accordion } from "../../ui/accordion.tsx";
