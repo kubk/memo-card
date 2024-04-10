@@ -5,7 +5,11 @@
   Available in: <a href="./README.md">English</a>, <a href="./README.ru.md">Русский</a>, <a href="./README.ua.md">Українська</a>
 </p>
 
-People tend to forget things. Within an hour, up to 60% of new information can slip away, and by the end of a week, only about 10% may remain. However, consistent revisiting the information combats this decline. This bot uses the proven flashcard method, assisting users in retaining and mastering languages, history, and more. Learn once, remember always. Run the bot: [https://t.me/memo_card_bot](https://t.me/memo_card_bot)
+People tend to forget things. Within an hour, up to 60% of new information can slip away, and by the end of a week, only about 10% may remain. However, consistent revisiting the information combats this decline. This bot uses the proven flashcard method, assisting users in retaining and mastering languages, history, and more.
+
+Run the bot: [https://t.me/memo_card_bot](https://t.me/memo_card_bot)
+
+About (ru): https://habr.com/ru/articles/779508 
 
 ## Example use cases
 - You're a tourist in a new country and want to acquire basic knowledge of the foreign language. 
