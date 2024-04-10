@@ -45,7 +45,11 @@ export const PlanItem = (props: Props) => {
         <h3 className={css({ color: "inherit" })}>{title}</h3>
       </Flex>
       {description && (
-        <ul className={cx(css({ fontSize: 14, paddingLeft: 26 }))}>
+        <ul
+          className={cx(
+            css({ fontSize: 14, paddingLeft: 26, color: theme.hintColor }),
+          )}
+        >
           {description.map((item, i) => (
             <li key={i}>{item}</li>
           ))}

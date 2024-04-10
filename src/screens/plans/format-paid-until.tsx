@@ -8,7 +8,9 @@ export const formatPaidUntil = (paidUntil: string) => {
     return null;
   }
 
-  return new Intl.DateTimeFormat("en-US", {
+  const locale = navigator.language || "en-US";
+
+  return new Intl.DateTimeFormat(locale, {
     year: "numeric",
     month: "long",
     day: "numeric",
