@@ -58,6 +58,7 @@ export const Dropdown = ({ items }: Props) => {
                   backgroundColor: theme.secondaryBgColor,
                   minWidth: "160px",
                   borderRadius: theme.borderRadius,
+                  boxShadow: theme.boxShadow,
                   right: 0,
                   zIndex: 1,
                   color: theme.textColor,

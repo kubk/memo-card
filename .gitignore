@@ -26,3 +26,4 @@ ngrok
 .dev.vars
 
 dumper/dump.sql
+.wrangler
