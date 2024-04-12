@@ -17,6 +17,7 @@ import { Loader } from "../../ui/loader.tsx";
 import { useFolderFormStore } from "./store/folder-form-store-context.tsx";
 import { EmptyState } from "../../ui/empty-state.tsx";
 import { List } from "../../ui/list.tsx";
+import { ValidationError } from "../../ui/validation-error.tsx";
 
 export const FolderForm = observer(() => {
   const folderStore = useFolderFormStore();
@@ -51,6 +52,14 @@ export const FolderForm = observer(() => {
         <Input field={folderForm.description} rows={3} type={"textarea"} />
       </Label>
       <Label text={t("decks")} isPlain>
+        {folderForm.decks.value.length === 0 && (
+          <div className={css({ marginBottom: 10 })}>
+            <EmptyState>{"No decks in the folder"}</EmptyState>
+          </div>
+        )}
+        {folderForm.decks.isTouched && folderForm.decks.error && (
+          <ValidationError error={folderForm.decks.error} />
+        )}
         <List
           items={folderForm.decks.value.map((deck, i) => {
             return {
