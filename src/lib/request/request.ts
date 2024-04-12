@@ -3,7 +3,7 @@ import WebApp from "@twa-dev/sdk";
 
 const baseUrl = import.meta.env.VITE_API_URL || "";
 
-export const request = async <Output, Input = object>(
+const requestInner = async <Output, Input = object>(
   path: string,
   method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH" = "GET",
   body?: Input,
@@ -30,4 +30,20 @@ export const request = async <Output, Input = object>(
       response.status
     }. Endpoint: ${endpoint}. Request body: ${bodyAsString}. Error: ${await response.text()}`,
   );
+};
+
+// Retry GET request once
+export const request = async <Output, Input = object>(
+  path: string,
+  method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH" = "GET",
+  body?: Input,
+): Promise<Output> => {
+  try {
+    return await requestInner(path, method, body);
+  } catch (error) {
+    if (method === "GET") {
+      return requestInner(path, method, body);
+    }
+    throw error;
+  }
 };
