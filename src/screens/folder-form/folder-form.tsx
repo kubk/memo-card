@@ -54,7 +54,7 @@ export const FolderForm = observer(() => {
       <Label text={t("decks")} isPlain>
         {folderForm.decks.value.length === 0 && (
           <div className={css({ marginBottom: 10 })}>
-            <EmptyState>{"No decks in the folder"}</EmptyState>
+            <EmptyState>{t("folder_form_no_decks")}</EmptyState>
           </div>
         )}
         {folderForm.decks.isTouched && folderForm.decks.error && (

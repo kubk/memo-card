@@ -2,6 +2,7 @@ import { Translator } from "../lib/translator/translator.ts";
 import { getUserLanguage } from "./get-user-language.ts";
 
 const en = {
+  folder_form_no_decks: "No decks in the folder",
   card_next: "Next",
   card_previous: "Previous",
   user_stats_empty_text: "Study more cards to see the data",
@@ -225,6 +226,7 @@ const en = {
 type Translation = typeof en;
 
 const ru: Translation = {
+  folder_form_no_decks: "В папке нет колод",
   card_next: "Следующая",
   card_previous: "Предыдущая",
   deck_form_remove_warning: "Колода должна содержать хотя бы одну карточку",
@@ -442,6 +444,7 @@ const ru: Translation = {
 };
 
 const es: Translation = {
+  folder_form_no_decks: "No hay mazos en la carpeta",
   card_next: "Siguiente",
   card_previous: "Anterior",
   ui_loading: "Cargando...",
@@ -665,6 +668,7 @@ const es: Translation = {
 };
 
 const ptBr: Translation = {
+  folder_form_no_decks: "Não há baralhos na pasta",
   card_next: "Próxima",
   card_previous: "Anterior",
   ui_loading: "Carregando...",
