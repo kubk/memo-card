@@ -38,14 +38,16 @@ export const DeckCatalog = observer(() => {
         <Select
           value={store.filters.categoryId.value}
           onChange={store.filters.categoryId.onChange}
-          isLoading={store.categories?.state === "pending"}
+          isLoading={store.categoriesRequest.isLoading}
           options={
-            store.categories?.state === "fulfilled"
+            store.categoriesRequest.result.status === "success"
               ? [{ value: "", label: t("any_category") }].concat(
-                  store.categories.value.categories.map((category) => ({
-                    value: category.id,
-                    label: translateCategory(category.name),
-                  })),
+                  store.categoriesRequest.result.data.categories.map(
+                    (category) => ({
+                      value: category.id,
+                      label: translateCategory(category.name),
+                    }),
+                  ),
                 )
               : []
           }
@@ -67,11 +69,11 @@ export const DeckCatalog = observer(() => {
       </Flex>
 
       {(() => {
-        if (store.catalog?.state === "pending") {
+        if (store.catalogRequest.result.status === "loading") {
           return range(5).map((i) => <DeckLoading key={i} />);
         }
 
-        if (store.catalog?.state === "fulfilled") {
+        if (store.catalogRequest.result.status === "success") {
           const filteredCatalogItems = store.filteredCatalogItems;
 
           if (filteredCatalogItems.length === 0) {

@@ -13,12 +13,8 @@ import { screenStore } from "../../../store/screen-store.ts";
 import { assert } from "../../../lib/typescript/assert.ts";
 import { decksMineRequest, folderUpsertRequest } from "../../../api/api.ts";
 import { deckListStore } from "../../../store/deck-list-store.ts";
-import {
-  fromPromise,
-  IPromiseBasedObservable,
-} from "../../../lib/mobx-from-promise/from-promise.ts";
-import { DeckWithoutCardsDbType } from "../../../../functions/db/deck/decks-with-cards-schema.ts";
 import { showConfirm } from "../../../lib/telegram/show-confirm.ts";
+import { RequestStore } from "../../../lib/mobx-request/request-store.ts";
 
 const createFolderTitleField = (title: string) => {
   return new TextField(title, {
@@ -45,7 +41,9 @@ type FolderForm = {
 export class FolderFormStore {
   folderForm?: FolderForm;
   isSending = false;
-  decksMine?: IPromiseBasedObservable<DeckWithoutCardsDbType[]>;
+  decksMineRequest = new RequestStore(() =>
+    decksMineRequest().then((response) => response.decks),
+  );
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
@@ -55,9 +53,7 @@ export class FolderFormStore {
     const screen = screenStore.screen;
     assert(screen.type === "folderForm");
 
-    this.decksMine = fromPromise(
-      decksMineRequest().then((response) => response.decks),
-    );
+    this.decksMineRequest.execute();
 
     if (screen.folderId) {
       assert(screen.folderId, "folderId is not set");
@@ -100,13 +96,13 @@ export class FolderFormStore {
   }
 
   get decksMineFiltered() {
-    if (this.decksMine?.state !== "fulfilled") {
+    if (this.decksMineRequest.result.status !== "success") {
       return [];
     }
     const deckIdsAdded =
       this.folderForm?.decks.value.map((deck) => deck.id) || [];
 
-    return this.decksMine.value.filter((deck) => {
+    return this.decksMineRequest.result.data.filter((deck) => {
       return !deckIdsAdded.includes(deck.id);
     });
   }

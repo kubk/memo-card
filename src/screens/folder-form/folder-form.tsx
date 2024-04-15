@@ -88,8 +88,8 @@ export const FolderForm = observer(() => {
         />
       </Label>
       <Label text={t("add_deck_to_folder")} isPlain>
-        {folderStore.decksMine?.state === "pending" && <Loader />}
-        {folderStore.decksMine?.state === "fulfilled" &&
+        {folderStore.decksMineRequest.isLoading && <Loader />}
+        {folderStore.decksMineRequest.result.status === "success" &&
         folderStore.decksMineFiltered.length === 0 ? (
           <EmptyState>{t("no_decks_to_add")}</EmptyState>
         ) : null}

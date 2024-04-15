@@ -32,7 +32,7 @@ export const ShareDeckSettings = observer(() => {
     () => store.isSaveButtonVisible,
   );
 
-  useTelegramProgress(() => store.isSending);
+  useTelegramProgress(() => store.addDeckAccessRequest.isLoading);
 
   return (
     <Screen title={t("share_deck_settings")}>

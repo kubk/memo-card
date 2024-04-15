@@ -8,10 +8,19 @@ type IdleResult = { data: null; status: "idle" };
 type Result<T> = SuccessResult<T> | ErrorResult | LoadingResult | IdleResult;
 type ExecuteResult<T> = SuccessResult<T> | ErrorResult;
 
+type Options = {
+  cacheId?: string;
+};
+
+const cacheStorage = new Map<string, any>();
+
 export class RequestStore<T, Args extends any[] = []> {
   result: Result<T> = { data: null, status: "idle" };
 
-  constructor(private fetchFn: (...args: Args) => Promise<T>) {
+  constructor(
+    private fetchFn: (...args: Args) => Promise<T>,
+    public readonly options?: Options,
+  ) {
     makeAutoObservable<this, "fetchFn">(
       this,
       { fetchFn: false },
@@ -20,12 +29,23 @@ export class RequestStore<T, Args extends any[] = []> {
   }
 
   execute = async (...args: Args): Promise<ExecuteResult<T>> => {
+    if (this.options?.cacheId && cacheStorage.has(this.options.cacheId)) {
+      this.result = {
+        data: cacheStorage.get(this.options.cacheId),
+        status: "success",
+      };
+      return this.result as unknown as ExecuteResult<T>;
+    }
+
     this.result = { data: null, status: "loading" };
 
     try {
       const data = await this.fetchFn(...args);
       runInAction(() => {
         this.result = { data, status: "success" };
+        if (this.options?.cacheId) {
+          cacheStorage.set(this.options.cacheId, data);
+        }
       });
     } catch (error) {
       runInAction(() => {
@@ -35,10 +55,6 @@ export class RequestStore<T, Args extends any[] = []> {
 
     return this.result as unknown as ExecuteResult<T>;
   };
-
-  overrideSuccess(data: T) {
-    this.result = { data, status: "success" };
-  }
 
   // Non type-safe shorthand
   get isLoading() {

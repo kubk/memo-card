@@ -1,39 +1,31 @@
 import { makeAutoObservable } from "mobx";
-import {
-  fromPromise,
-  IPromiseBasedObservable,
-} from "../../../lib/mobx-from-promise/from-promise.ts";
-import { MyStatisticsResponse } from "../../../../functions/my-statistics.ts";
 import { myStatisticsRequest } from "../../../api/api.ts";
 import { PieChartData } from "../pie-chart-canvas.tsx";
+import { RequestStore } from "../../../lib/mobx-request/request-store.ts";
 
 export class UserStatisticsStore {
-  userStatistics?: IPromiseBasedObservable<MyStatisticsResponse>;
+  userStatisticsRequest = new RequestStore(myStatisticsRequest);
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
   }
 
   load() {
-    this.userStatistics = fromPromise(myStatisticsRequest());
-  }
-
-  get isLoading() {
-    return this.userStatistics?.state === "pending";
+    this.userStatisticsRequest.execute();
   }
 
   get know() {
-    if (this.userStatistics?.state !== "fulfilled") {
+    if (this.userStatisticsRequest.result.status !== "success") {
       return 0;
     }
-    return this.userStatistics.value.cardsLearning.know ?? 0;
+    return this.userStatisticsRequest.result.data.cardsLearning.know ?? 0;
   }
 
   get learning() {
-    if (this.userStatistics?.state !== "fulfilled") {
+    if (this.userStatisticsRequest.result.status !== "success") {
       return 0;
     }
-    return this.userStatistics.value.cardsLearning.learning ?? 0;
+    return this.userStatisticsRequest.result.data.cardsLearning.learning ?? 0;
   }
 
   get total() {
@@ -41,11 +33,11 @@ export class UserStatisticsStore {
   }
 
   get frequencyChart(): PieChartData[] {
-    if (this.userStatistics?.state !== "fulfilled") {
+    if (this.userStatisticsRequest.result.status !== "success") {
       return [];
     }
 
-    return this.userStatistics.value.intervalFrequency;
+    return this.userStatisticsRequest.result.data.intervalFrequency;
   }
 
   get isFrequencyChartEmpty() {

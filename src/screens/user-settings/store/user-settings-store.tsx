@@ -12,7 +12,7 @@ import { userSettingsRequest } from "../../../api/api.ts";
 import { UserSettingsRequest } from "../../../../functions/user-settings.ts";
 import { userStore } from "../../../store/user-store.ts";
 import { hapticNotification } from "../../../lib/telegram/haptics.ts";
-import { RequestStore } from "../../../lib/mobx-request/requestStore.ts";
+import { RequestStore } from "../../../lib/mobx-request/request-store.ts";
 import { notifyError, notifySuccess } from "../../shared/snackbar.tsx";
 import { t } from "../../../translations/t.ts";
 
@@ -80,6 +80,7 @@ export class UserSettingsStore {
 
     if (result.status === "error") {
       notifyError(t("error_try_again"), {
+        e: result.error,
         info: "Error updating user settings",
       });
       return;

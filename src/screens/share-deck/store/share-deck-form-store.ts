@@ -1,22 +1,17 @@
 import { assert } from "../../../lib/typescript/assert.ts";
-import { BooleanToggle } from "mobx-form-lite";
-import { TextField } from "mobx-form-lite";
+import { BooleanToggle, isFormValid, TextField } from "mobx-form-lite";
 import { t } from "../../../translations/t.ts";
-import { action, makeAutoObservable } from "mobx";
-import { isFormValid } from "mobx-form-lite";
+import { makeAutoObservable } from "mobx";
 import { screenStore } from "../../../store/screen-store.ts";
 import { redirectUserToDeckOrFolderLink } from "../redirect-user-to-deck-or-folder-link.tsx";
 import {
   addDeckAccessRequest,
   getDeckAccessesOfDeckRequest,
 } from "../../../api/api.ts";
-import {
-  fromPromise,
-  IPromiseBasedObservable,
-} from "../../../lib/mobx-from-promise/from-promise.ts";
-import { DeckAccessesResponse } from "../../../../functions/deck-accesses.ts";
 import { DeckAccessType } from "../../../../functions/db/custom-types.ts";
 import { persistableField } from "../../../lib/mobx-form-lite-persistable/persistable-field.ts";
+import { RequestStore } from "../../../lib/mobx-request/request-store.ts";
+import { notifyError } from "../../shared/snackbar.tsx";
 
 const getRequestFiltersForScreen = () => {
   const screen = screenStore.screen;
@@ -31,9 +26,9 @@ const getRequestFiltersForScreen = () => {
 };
 
 export class ShareDeckFormStore {
-  isSending = false;
-  deckAccesses?: IPromiseBasedObservable<DeckAccessesResponse>;
   isDeckAccessesOpen = new BooleanToggle(false);
+  deckAccessesRequest = new RequestStore(getDeckAccessesOfDeckRequest);
+  addDeckAccessRequest = new RequestStore(addDeckAccessRequest);
 
   form = {
     isOneTime: persistableField(new BooleanToggle(false), "isOneTime"),
@@ -63,9 +58,7 @@ export class ShareDeckFormStore {
   }
 
   load() {
-    this.deckAccesses = fromPromise(
-      getDeckAccessesOfDeckRequest(getRequestFiltersForScreen()),
-    );
+    this.deckAccessesRequest.execute(getRequestFiltersForScreen());
   }
 
   get isSaveButtonVisible() {
@@ -85,23 +78,28 @@ export class ShareDeckFormStore {
       return;
     }
 
-    this.isSending = true;
+    const deckId = screen.type === "shareDeck" ? screen.deckId : null;
+    const folderId = screen.type === "shareFolder" ? screen.folderId : null;
 
-    addDeckAccessRequest({
-      deckId: screen.type === "shareDeck" ? screen.deckId : null,
-      folderId: screen.type === "shareFolder" ? screen.folderId : null,
+    const result = await this.addDeckAccessRequest.execute({
+      deckId,
+      folderId,
       type: this.deckAccessType,
       durationDays: this.form.isAccessDuration.value
         ? Number(this.form.accessDurationLimitDays.value)
         : null,
-    })
-      .then((result) => {
-        redirectUserToDeckOrFolderLink(result.share_id);
-      })
-      .finally(
-        action(() => {
-          this.isSending = false;
-        }),
-      );
+    });
+
+    if (result.status !== "success") {
+      notifyError(t("error_try_again"), {
+        info: "Error sharing deck or folder",
+        e: result.error,
+        deckId,
+        folderId,
+      });
+      return;
+    }
+
+    redirectUserToDeckOrFolderLink(result.data.share_id);
   }
 }

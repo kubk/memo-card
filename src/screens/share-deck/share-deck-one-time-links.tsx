@@ -26,11 +26,13 @@ export const ShareDeckOneTimeLinks = observer(() => {
     store.load();
   });
 
+  const deckAccesses = store.deckAccessesRequest.result;
+
   return (
     <Screen title={t("share_one_time_links_usage")}>
-      {store.deckAccesses?.state === "pending" ? <Loader /> : null}
-      {store.deckAccesses?.state === "fulfilled" &&
-      store.deckAccesses.value.accesses.length === 0 ? (
+      {deckAccesses.status === "loading" ? <Loader /> : null}
+      {deckAccesses.status === "success" &&
+      deckAccesses.data.accesses.length === 0 ? (
         <EmptyState>
           {store.deckAccessType === "deck"
             ? t("share_no_links")
@@ -38,8 +40,8 @@ export const ShareDeckOneTimeLinks = observer(() => {
         </EmptyState>
       ) : null}
 
-      {store.deckAccesses?.state === "fulfilled"
-        ? store.deckAccesses.value.accesses.map((access, i) => {
+      {store.deckAccessesRequest.result.status === "success"
+        ? store.deckAccessesRequest.result.data.accesses.map((access, i) => {
             return (
               <div
                 key={i}

@@ -3,7 +3,7 @@ import { allPlansRequest, createOrderRequest } from "../../../api/api.ts";
 import { getBuyText } from "../translations.ts";
 import { assert } from "../../../lib/typescript/assert.ts";
 import WebApp from "@twa-dev/sdk";
-import { RequestStore } from "../../../lib/mobx-request/requestStore.ts";
+import { RequestStore } from "../../../lib/mobx-request/request-store.ts";
 import { notifyError } from "../../shared/snackbar.tsx";
 import { t } from "../../../translations/t.ts";
 
@@ -54,6 +54,7 @@ export class PlansScreenStore {
     if (result.status !== "success") {
       notifyError(t("error_try_again"), {
         info: "Order creation failed",
+        e: result.error,
         plan: this.selectedPlanId,
       });
       return;

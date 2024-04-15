@@ -35,7 +35,7 @@ export const UserStatisticsScreen = observer(() => {
 
   return (
     <Screen title={t("user_stats_page")}>
-      {userStatisticsStore.isLoading ? (
+      {userStatisticsStore.userStatisticsRequest.isLoading ? (
         <DeckLoading speed={1} />
       ) : (
         <CardRow>
@@ -45,7 +45,7 @@ export const UserStatisticsScreen = observer(() => {
       )}
       <HintTransparent>{t("user_stats_remembered_hint")}</HintTransparent>
 
-      {userStatisticsStore.isLoading ? (
+      {userStatisticsStore.userStatisticsRequest.isLoading ? (
         <DeckLoading speed={1} />
       ) : (
         <CardRow>
@@ -55,7 +55,7 @@ export const UserStatisticsScreen = observer(() => {
       )}
       <HintTransparent>{t("user_stats_learning_hint")}</HintTransparent>
 
-      {userStatisticsStore.isLoading ? (
+      {userStatisticsStore.userStatisticsRequest.isLoading ? (
         <DeckLoading speed={1} />
       ) : (
         <CardRow>
@@ -65,7 +65,7 @@ export const UserStatisticsScreen = observer(() => {
       )}
       <HintTransparent>{t("user_stats_total_hint")}</HintTransparent>
 
-      {!userStatisticsStore.isLoading ? (
+      {!userStatisticsStore.userStatisticsRequest.isLoading ? (
         <>
           <div
             className={css({

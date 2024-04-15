@@ -14,7 +14,7 @@ import {
   aiUserCredentialsCheckRequest,
   upsertUserAiCredentialsRequest,
 } from "../../../api/api.ts";
-import { RequestStore } from "../../../lib/mobx-request/requestStore.ts";
+import { RequestStore } from "../../../lib/mobx-request/request-store.ts";
 import { screenStore } from "../../../store/screen-store.ts";
 import { assert } from "../../../lib/typescript/assert.ts";
 import { notifySuccess } from "../../shared/snackbar.tsx";
