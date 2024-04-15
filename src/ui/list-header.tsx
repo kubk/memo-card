@@ -20,7 +20,7 @@ export const ListHeader = (props: Props) => {
         paddingTop: 4,
         paddingBottom: 0,
         marginBottom: 4,
-        position: "relative",
+        position: rightSlot ? "relative" : undefined,
         color: theme.hintColor,
         textTransform: "uppercase",
       })}

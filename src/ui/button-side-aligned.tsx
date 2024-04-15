@@ -41,7 +41,7 @@ export const ButtonSideAligned = (props: Props) => {
           backgroundColor: mainColor,
           cursor: "pointer",
           ":disabled": {
-            backgroundColor: parsedColor.lighten(0.15).toHex(),
+            opacity: 0.4,
             cursor: "not-allowed",
           },
           color: theme.buttonTextColorComputed,
@@ -55,7 +55,7 @@ export const ButtonSideAligned = (props: Props) => {
           position: "relative",
           transitionTimingFunction: "ease-in-out",
           transitionProperty: "background-color, border, box-shadow, color",
-          ":active": {
+          ":active:not(:disabled)": {
             transform: "scale(0.97)",
           },
         }),

@@ -6,7 +6,6 @@ import {
 } from "./deck-form-store.ts";
 import { action, makeAutoObservable } from "mobx";
 import {
-  BooleanToggle,
   formTouchAll,
   isFormDirty,
   isFormEmpty,
@@ -20,7 +19,10 @@ import { assert } from "../../../lib/typescript/assert.ts";
 import { AddCardRequest } from "../../../../functions/add-card.ts";
 import { deckListStore } from "../../../store/deck-list-store.ts";
 import { t } from "../../../translations/t.ts";
-import { CardFormStoreInterface } from "./card-form-store-interface.ts";
+import {
+  CardFormStoreInterface,
+  CardInnerScreenType,
+} from "./card-form-store-interface.ts";
 import { DeckSpeakFieldEnum } from "../../../../functions/db/deck/decks-with-cards-schema.ts";
 
 export class QuickAddCardFormStore implements CardFormStoreInterface {
@@ -33,7 +35,7 @@ export class QuickAddCardFormStore implements CardFormStoreInterface {
     answers: createAnswerListField([], () => this.cardForm),
   };
   isSending = false;
-  isCardPreviewSelected = new BooleanToggle(false);
+  cardInnerScreen = new TextField<CardInnerScreenType>(null);
 
   constructor(
     public form?: {

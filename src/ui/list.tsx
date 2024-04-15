@@ -5,7 +5,7 @@ import { tapScale } from "../lib/animations/tap-scale.ts";
 import React, { ReactNode } from "react";
 
 export type ListItemType = {
-  text: string;
+  text: ReactNode;
   isLinkColor?: boolean;
   onClick?: () => void;
   icon?: ReactNode;

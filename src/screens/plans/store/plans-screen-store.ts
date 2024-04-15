@@ -1,17 +1,15 @@
-import { action, makeAutoObservable } from "mobx";
-import { AllPlansResponse } from "../../../../functions/plans.ts";
-import {
-  fromPromise,
-  IPromiseBasedObservable,
-} from "../../../lib/mobx-from-promise/from-promise.ts";
+import { makeAutoObservable } from "mobx";
 import { allPlansRequest, createOrderRequest } from "../../../api/api.ts";
 import { getBuyText } from "../translations.ts";
 import { assert } from "../../../lib/typescript/assert.ts";
 import WebApp from "@twa-dev/sdk";
+import { RequestStore } from "../../../lib/mobx-request/requestStore.ts";
+import { notifyError } from "../../shared/snackbar.tsx";
+import { t } from "../../../translations/t.ts";
 
 export class PlansScreenStore {
-  plansRequest?: IPromiseBasedObservable<AllPlansResponse>;
-  isCreatingOrder = false;
+  plansRequest = new RequestStore(allPlansRequest);
+  createOrderRequest = new RequestStore(createOrderRequest);
   selectedPlanId: number | null = null;
 
   constructor() {
@@ -19,12 +17,12 @@ export class PlansScreenStore {
   }
 
   load() {
-    this.plansRequest = fromPromise(allPlansRequest());
+    this.plansRequest.execute();
   }
 
   get plans() {
-    return this.plansRequest?.state === "fulfilled"
-      ? this.plansRequest.value.plans
+    return this.plansRequest.result.status === "success"
+      ? this.plansRequest.result.data.plans
       : [];
   }
 
@@ -49,18 +47,18 @@ export class PlansScreenStore {
     return getBuyText(selectedPlan);
   }
 
-  createOrder() {
+  async createOrder() {
     assert(this.selectedPlanId !== null);
 
-    this.isCreatingOrder = true;
-    createOrderRequest(this.selectedPlanId)
-      .then((response) => {
-        WebApp.openTelegramLink(response.payLink);
-      })
-      .finally(
-        action(() => {
-          this.isCreatingOrder = false;
-        }),
-      );
+    const result = await this.createOrderRequest.execute(this.selectedPlanId);
+    if (result.status !== "success") {
+      notifyError(t("error_try_again"), {
+        info: "Order creation failed",
+        plan: this.selectedPlanId,
+      });
+      return;
+    }
+
+    WebApp.openTelegramLink(result.data.payLink);
   }
 }

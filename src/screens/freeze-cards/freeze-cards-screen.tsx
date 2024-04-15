@@ -41,7 +41,7 @@ export const FreezeCardsScreen = observer(() => {
               backgroundColor={theme.icons.turquoise}
               icon={"mdi-snowflake"}
             />
-            {t("freeze_how")}
+            {t("how")}
           </>
         }
         body={

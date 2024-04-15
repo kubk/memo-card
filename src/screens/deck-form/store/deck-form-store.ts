@@ -1,6 +1,5 @@
 import {
   BooleanField,
-  BooleanToggle,
   formTouchAll,
   isFormDirty,
   isFormEmpty,
@@ -28,7 +27,10 @@ import { SpeakLanguageEnum } from "../../../lib/voice-playback/speak.ts";
 import { t } from "../../../translations/t.ts";
 import { CardAnswerType } from "../../../../functions/db/custom-types.ts";
 import { v4 } from "uuid";
-import { CardFormStoreInterface } from "./card-form-store-interface.ts";
+import {
+  CardFormStoreInterface,
+  CardInnerScreenType,
+} from "./card-form-store-interface.ts";
 import { UpsertDeckRequest } from "../../../../functions/upsert-deck.ts";
 import { UnwrapArray } from "../../../lib/typescript/unwrap-array.ts";
 
@@ -168,10 +170,10 @@ export type CardFilterDirection = "desc" | "asc";
 export class DeckFormStore implements CardFormStoreInterface {
   cardFormIndex?: number;
   cardFormType?: "new" | "edit";
-  isCardPreviewSelected = new BooleanToggle(false);
   form?: DeckFormType;
   isSending = false;
-  isCardList = false;
+  cardInnerScreen = new TextField<CardInnerScreenType>(null);
+  deckInnerScreen?: "cardList" | "speakingCards";
   cardFilter = {
     text: new TextField(""),
     sortBy: new TextField<CardFilterSortBy>("createdAt"),
@@ -186,8 +188,8 @@ export class DeckFormStore implements CardFormStoreInterface {
     if (this.cardFormIndex !== undefined) {
       return "cardForm";
     }
-    if (this.isCardList) {
-      return "cardList";
+    if (this.deckInnerScreen) {
+      return this.deckInnerScreen;
     }
     return "deckForm";
   }
@@ -217,6 +219,13 @@ export class DeckFormStore implements CardFormStoreInterface {
     }
   }
 
+  goToSpeakingCards() {
+    if (!this.form || !isFormValid(this.form)) {
+      return;
+    }
+    this.deckInnerScreen = "speakingCards";
+  }
+
   goToCardList() {
     if (!this.form) {
       return;
@@ -225,11 +234,11 @@ export class DeckFormStore implements CardFormStoreInterface {
       formTouchAll(this.form);
       return;
     }
-    this.isCardList = true;
+    this.deckInnerScreen = "cardList";
   }
 
-  quitCardList() {
-    this.isCardList = false;
+  quitInnerScreen() {
+    this.deckInnerScreen = undefined;
   }
 
   get filteredCards() {
@@ -468,7 +477,7 @@ export class DeckFormStore implements CardFormStoreInterface {
     this.onDeckSave()
       .then(
         action(() => {
-          this.isCardList = true;
+          this.deckInnerScreen = "cardList";
           this.cardFormIndex = undefined;
           this.cardFormType = undefined;
         }),

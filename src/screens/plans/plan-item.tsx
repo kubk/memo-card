@@ -4,9 +4,11 @@ import { Flex } from "../../ui/flex.tsx";
 import React from "react";
 import { HorizontalDivider } from "../../ui/horizontal-divider.tsx";
 import { t } from "../../translations/t.ts";
+import { reset } from "../../ui/reset.ts";
 
 type Props = {
   title: string;
+  price: string;
   description?: string[];
   onClick?: () => void;
   isSelected?: boolean;
@@ -14,7 +16,7 @@ type Props = {
 };
 
 export const PlanItem = (props: Props) => {
-  const { title, description, onClick, isSelected, paidUntil } = props;
+  const { title, description, onClick, isSelected, paidUntil, price } = props;
 
   return (
     <div
@@ -36,22 +38,50 @@ export const PlanItem = (props: Props) => {
         }),
         isSelected &&
           css({
-            border: "4px solid " + theme.buttonColor,
+            border: `2px solid ${theme.buttonColor}`,
             borderRadius: theme.borderRadius,
           }),
       )}
     >
-      <Flex alignItems={"center"} gap={8} justifyContent={"center"}>
-        <h3 className={css({ color: "inherit" })}>{title}</h3>
+      <Flex
+        direction={"column"}
+        alignItems={"center"}
+        justifyContent={"center"}
+      >
+        <h3
+          className={css({
+            fontSize: 18,
+            color: theme.textColor,
+            padding: 0,
+            margin: 0,
+          })}
+        >
+          {title}
+        </h3>
+        <h2 className={css({ color: "inherit", padding: 0, margin: 0 })}>
+          {price}
+        </h2>
       </Flex>
       {description && (
         <ul
           className={cx(
-            css({ fontSize: 14, paddingLeft: 26, color: theme.hintColor }),
+            reset.ul,
+            css({
+              paddingLeft: 0,
+              color: theme.textColor,
+            }),
           )}
         >
           {description.map((item, i) => (
-            <li key={i}>{item}</li>
+            <li key={i}>
+              <i
+                className={cx(
+                  "mdi mdi-check-circle",
+                  css({ color: theme.success }),
+                )}
+              />{" "}
+              {item}
+            </li>
           ))}
         </ul>
       )}

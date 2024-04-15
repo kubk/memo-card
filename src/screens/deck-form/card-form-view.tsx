@@ -1,36 +1,30 @@
-import { observer, useLocalObservable } from "mobx-react-lite";
+import { observer } from "mobx-react-lite";
 import { CardFormStoreInterface } from "./store/card-form-store-interface.ts";
 import { assert } from "../../lib/typescript/assert.ts";
 import { useMainButton } from "../../lib/telegram/use-main-button.tsx";
 import { t } from "../../translations/t.ts";
 import { useTelegramProgress } from "../../lib/telegram/use-telegram-progress.tsx";
 import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
-import {
-  BooleanToggle,
-  isFormDirty,
-  isFormTouched,
-  isFormValid,
-} from "mobx-form-lite";
+import { isFormValid } from "mobx-form-lite";
 import { Screen } from "../shared/screen.tsx";
 import { Label } from "../../ui/label.tsx";
 import { HintTransparent } from "../../ui/hint-transparent.tsx";
-import { CardRow } from "../../ui/card-row.tsx";
-import { RadioSwitcher } from "../../ui/radio-switcher.tsx";
-import { action } from "mobx";
-import { createAnswerForm } from "./store/deck-form-store.ts";
-import { css, cx } from "@emotion/css";
+import { css } from "@emotion/css";
 import { theme } from "../../ui/theme.tsx";
 import { ButtonGrid } from "../../ui/button-grid.tsx";
 import { ButtonSideAligned } from "../../ui/button-side-aligned.tsx";
 import React from "react";
-import { ValidationError } from "../../ui/validation-error.tsx";
 import { WysiwygField } from "../../ui/wysiwyg-field/wysiwig-field.tsx";
 import { userStore } from "../../store/user-store.ts";
 import { Input } from "../../ui/input.tsx";
 import { FormattingSwitcher } from "./formatting-switcher.tsx";
 import { Flex } from "../../ui/flex.tsx";
 import { List } from "../../ui/list.tsx";
-import { SelectWithChevron } from "../../ui/select-with-chevron.tsx";
+import { FilledIcon } from "../../ui/filled-icon.tsx";
+import { ListHeader } from "../../ui/list-header.tsx";
+import { formatCardType } from "./format-card-type.ts";
+import { ListRightText } from "../../ui/list-right-text.tsx";
+import { CardAnswerErrors } from "./card-answer-errors.tsx";
 
 type Props = {
   cardFormStore: CardFormStoreInterface;
@@ -50,12 +44,6 @@ export const CardFormView = observer((props: Props) => {
   useBackButton(() => {
     cardFormStore.onBackCard();
   });
-
-  const localStore = useLocalObservable(() => ({
-    isAdvancedOn: new BooleanToggle(
-      cardForm.answerType.value !== "remember" || !!cardForm.example.value,
-    ),
-  }));
 
   const isCardFormattingOn = userStore.isCardFormattingOn.value;
 
@@ -91,138 +79,67 @@ export const CardFormView = observer((props: Props) => {
         </Label>
       </Flex>
 
-      <CardRow>
-        <span>{t("card_advanced")}</span>
-        <RadioSwitcher
-          isOn={localStore.isAdvancedOn.value}
-          onToggle={localStore.isAdvancedOn.toggle}
+      <div>
+        <ListHeader text={t("advanced")} />
+        <List
+          items={[
+            {
+              icon: (
+                <FilledIcon
+                  backgroundColor={theme.icons.violet}
+                  icon={"mdi-card-text-outline"}
+                />
+              ),
+              text: t("card_field_example_title"),
+              onClick: () => {
+                cardFormStore.cardInnerScreen.onChange("example");
+              },
+              right: <ListRightText text={cardForm.example.value} cut />,
+            },
+            {
+              icon: (
+                <FilledIcon
+                  backgroundColor={theme.icons.blue}
+                  icon={"mdi-layers-triple"}
+                />
+              ),
+              text: t("card_answer_type"),
+              right: (
+                <ListRightText
+                  text={formatCardType(cardForm.answerType.value)}
+                />
+              ),
+              onClick: () => {
+                cardFormStore.cardInnerScreen.onChange("cardType");
+              },
+            },
+          ]}
         />
-      </CardRow>
-
-      {localStore.isAdvancedOn.value && (
-        <>
-          <Label
-            isPlain
-            text={t("card_field_example_title")}
-            slotRight={<FormattingSwitcher />}
-          >
-            {isCardFormattingOn ? (
-              <WysiwygField field={cardForm.example} />
-            ) : (
-              <Input field={cardForm.example} type={"textarea"} rows={2} />
-            )}
-            <HintTransparent>{t("card_field_example_hint")}</HintTransparent>
-          </Label>
-
-          <Flex direction={"column"} gap={4}>
-            <Flex ml={12} mt={8} alignItems={"center"} gap={16}>
-              <div
-                className={css({
-                  color: theme.hintColor,
-                  textTransform: "uppercase",
-                  fontSize: 14,
-                })}
-              >
-                {t("answer")}
-              </div>
-              <SelectWithChevron
-                value={cardForm.answerType.value}
-                onChange={(value) => {
-                  cardForm?.answerType.onChange(value);
-                }}
-                options={[
-                  { label: t("yes_no"), value: "remember" },
-                  { label: t("answer_type_choice"), value: "choice_single" },
-                ]}
-              />
-            </Flex>
-            <HintTransparent>
-              {(() => {
-                switch (cardForm.answerType.value) {
-                  case "remember":
-                    return t("answer_type_explanation_remember");
-                  case "choice_single":
-                    return t("answer_type_explanation_choice");
-                  default:
-                    return cardForm.answerType.value satisfies never;
-                }
-              })()}
-            </HintTransparent>
-          </Flex>
-        </>
-      )}
-
-      {localStore.isAdvancedOn.value && (
-        <>
-          {cardForm.answerType.value === "choice_single" && (
-            <>
-              <List
-                items={cardForm.answers.value.map((answerForm) => {
-                  return {
-                    onClick: action(() => {
-                      cardForm.answerId = answerForm.id;
-                      cardForm.answerFormType = "edit";
-                    }),
-                    text: answerForm.text.value,
-                    right: answerForm.isCorrect.value ? (
-                      <i
-                        className={cx(
-                          "mdi mdi-check-circle",
-                          css({ color: theme.success }),
-                        )}
-                      />
-                    ) : null,
-                  };
-                })}
-              />
-
-              {cardForm.answers.error &&
-                (isFormTouched({ answers: cardForm.answers }) ||
-                  isFormDirty({ answers: cardForm.answers })) && (
-                  <ValidationError error={cardForm.answers.error} />
-                )}
-              <CardRow
-                onClick={action(() => {
-                  const answerForm = createAnswerForm();
-                  cardForm.answers.push(answerForm);
-                  cardForm.answerId = answerForm.id;
-                  cardForm.answerFormType = "new";
-                })}
-              >
-                <span className={css({ color: theme.linkColor })}>
-                  <i
-                    className={cx("mdi mdi-plus", css({ color: "inherit" }))}
-                  />{" "}
-                  {t("add_answer")}
-                </span>
-              </CardRow>
-            </>
-          )}
-        </>
-      )}
+        {cardFormStore.cardForm ? (
+          <CardAnswerErrors cardForm={cardFormStore.cardForm} />
+        ) : null}
+      </div>
 
       <div className={css({ marginTop: 12 })}>
         <ButtonGrid>
           {cardForm.id && (
             <>
-              {cardFormStore.isPreviousCardVisible && (
-                <ButtonSideAligned
-                  onClick={cardFormStore.onPreviousCard}
-                  icon={"mdi-arrow-left mdi-24px"}
-                  outline
-                >
-                  {t("card_previous")}
-                </ButtonSideAligned>
-              )}
-              {cardFormStore.isNextCardVisible && (
-                <ButtonSideAligned
-                  onClick={cardFormStore.onNextCard}
-                  icon={"mdi-arrow-right mdi-24px"}
-                  outline
-                >
-                  {t("card_next")}
-                </ButtonSideAligned>
-              )}
+              <ButtonSideAligned
+                onClick={cardFormStore.onPreviousCard}
+                icon={"mdi-arrow-left mdi-24px"}
+                disabled={!cardFormStore.isPreviousCardVisible}
+                outline
+              >
+                {t("card_previous")}
+              </ButtonSideAligned>
+              <ButtonSideAligned
+                onClick={cardFormStore.onNextCard}
+                icon={"mdi-arrow-right mdi-24px"}
+                disabled={!cardFormStore.isNextCardVisible}
+                outline
+              >
+                {t("card_next")}
+              </ButtonSideAligned>
             </>
           )}
 
@@ -230,7 +147,9 @@ export const CardFormView = observer((props: Props) => {
             <ButtonSideAligned
               icon={"mdi-eye-check-outline mdi-24px"}
               outline
-              onClick={cardFormStore.isCardPreviewSelected.setTrue}
+              onClick={() => {
+                cardFormStore.cardInnerScreen.onChange("cardPreview");
+              }}
             >
               {t("card_preview")}
             </ButtonSideAligned>

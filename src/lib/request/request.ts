@@ -41,7 +41,7 @@ export const request = async <Output, Input = object>(
   try {
     return await requestInner(path, method, body);
   } catch (error) {
-    if (method === "GET") {
+    if (method === "GET" || path === "/upsert-deck") {
       return requestInner(path, method, body);
     }
     throw error;

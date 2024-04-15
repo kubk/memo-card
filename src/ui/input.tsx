@@ -11,12 +11,13 @@ interface Props {
   placeholder?: string;
   type?: "input" | "textarea";
   field: TextField<string>;
+  isDisabled?: boolean;
   rows?: number;
   icon?: string;
 }
 
 export const Input = observer((props: Props) => {
-  const { field, placeholder, type, rows, icon } = props;
+  const { field, placeholder, type, rows, icon, isDisabled } = props;
   const { onChange, value, isTouched, error, onBlur } = field;
   const inputRef = useRef<HTMLTextAreaElement | HTMLInputElement | null>(null);
 
@@ -57,11 +58,16 @@ export const Input = observer((props: Props) => {
           borderRadius: theme.borderRadius,
           backgroundColor: theme.bgColor,
           transition: "border-color 0.3s",
+          ":disabled": {
+            opacity: 0.4,
+            cursor: "not-allowed",
+          },
           ":focus": {
             borderColor: isTouched && error ? theme.danger : theme.buttonColor,
             outline: "none",
           },
         })}
+        disabled={isDisabled}
         type="text"
         rows={rows}
         value={value}

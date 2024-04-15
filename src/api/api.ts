@@ -51,6 +51,19 @@ import {
   CardsFreezeResponse,
 } from "../../functions/cards-freeze.ts";
 import { DeleteFolderResponse } from "../../functions/delete-folder.ts";
+import { UserAiCredentialsResponse } from "../../functions/user-ai-credentials.ts";
+import {
+  UpsertUserAiCredentialsRequest,
+  UpsertUserAiCredentialsResponse,
+} from "../../functions/upsert-user-ai-credentials.ts";
+import {
+  AddCardsMultipleRequest,
+  AddCardsMultipleResponse,
+} from "../../functions/add-cards-multiple.ts";
+import {
+  AiMassGenerateRequest,
+  AiMassGenerateResponse,
+} from "../../functions/ai-mass-generate.ts";
 
 export const healthRequest = () => {
   return request<HealthResponse>("/health");
@@ -200,6 +213,36 @@ export const myStatisticsRequest = () => {
 export const cardsFreezeRequest = (body: CardsFreezeRequest) => {
   return request<CardsFreezeResponse, CardsFreezeRequest>(
     "/cards-freeze",
+    "POST",
+    body,
+  );
+};
+
+export const aiMassGenerateRequest = (body: AiMassGenerateRequest) => {
+  return request<AiMassGenerateResponse, AiMassGenerateRequest>(
+    // TODO: remove mock
+    "/ai-mass-generate-mock",
+    "POST",
+    body,
+  );
+};
+
+export const aiUserCredentialsCheckRequest = () => {
+  return request<UserAiCredentialsResponse>("/user-ai-credentials", "GET");
+};
+
+export const upsertUserAiCredentialsRequest = (
+  body: UpsertUserAiCredentialsRequest,
+) => {
+  return request<
+    UpsertUserAiCredentialsResponse,
+    UpsertUserAiCredentialsRequest
+  >("/upsert-user-ai-credentials", "POST", body);
+};
+
+export const addCardsMultipleRequest = (body: AddCardsMultipleRequest) => {
+  return request<AddCardsMultipleResponse, AddCardsMultipleRequest>(
+    "/add-cards-multiple",
     "POST",
     body,
   );

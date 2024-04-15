@@ -78,7 +78,7 @@ export const AnswerFormView = observer((props: Props) => {
   });
 
   useMainButton(
-    t("card_answer_back"),
+    t("go_back"),
     () => {
       onSave();
     },

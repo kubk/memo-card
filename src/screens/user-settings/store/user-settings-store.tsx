@@ -9,10 +9,12 @@ import { assert } from "../../../lib/typescript/assert.ts";
 import { DateTime } from "luxon";
 import { formatTime } from "../generate-time-range.tsx";
 import { userSettingsRequest } from "../../../api/api.ts";
-import { screenStore } from "../../../store/screen-store.ts";
 import { UserSettingsRequest } from "../../../../functions/user-settings.ts";
 import { userStore } from "../../../store/user-store.ts";
 import { hapticNotification } from "../../../lib/telegram/haptics.ts";
+import { RequestStore } from "../../../lib/mobx-request/requestStore.ts";
+import { notifyError, notifySuccess } from "../../shared/snackbar.tsx";
+import { t } from "../../../translations/t.ts";
 
 const DEFAULT_TIME = "12:00";
 
@@ -22,7 +24,7 @@ export class UserSettingsStore {
     isSpeakingCardsEnabled: BooleanField;
     time: TextField<string>;
   };
-  isSending = false;
+  userSettingsRequest = new RequestStore(userSettingsRequest);
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
@@ -52,14 +54,12 @@ export class UserSettingsStore {
     );
   }
 
-  submit() {
+  async submit() {
     assert(this.form);
     if (!isFormValid(this.form)) {
       formTouchAll(this.form);
       return;
     }
-
-    this.isSending = true;
 
     const [hour, minute] = this.form.time.value.split(":");
 
@@ -76,20 +76,21 @@ export class UserSettingsStore {
         .toString(),
     };
 
-    userSettingsRequest(body)
-      .then(() => {
-        hapticNotification("success");
-        userStore.updateSettings({
-          is_remind_enabled: body.isRemindNotifyEnabled,
-          last_reminded_date: body.remindNotificationTime,
-          is_speaking_card_enabled: body.isSpeakingCardEnabled,
-        });
-        screenStore.go({ type: "main" });
-      })
-      .finally(
-        action(() => {
-          this.isSending = false;
-        }),
-      );
+    const result = await this.userSettingsRequest.execute(body);
+
+    if (result.status === "error") {
+      notifyError(t("error_try_again"), {
+        info: "Error updating user settings",
+      });
+      return;
+    }
+
+    hapticNotification("success");
+    notifySuccess(t("user_settings_updated"));
+    userStore.updateSettings({
+      is_remind_enabled: body.isRemindNotifyEnabled,
+      last_reminded_date: body.remindNotificationTime,
+      is_speaking_card_enabled: body.isSpeakingCardEnabled,
+    });
   }
 }

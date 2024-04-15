@@ -12,22 +12,20 @@ import { useTelegramProgress } from "../../lib/telegram/use-telegram-progress.ts
 import { assert } from "../../lib/typescript/assert.ts";
 import { CardRow } from "../../ui/card-row.tsx";
 import { Button } from "../../ui/button.tsx";
-import { HintTransparent } from "../../ui/hint-transparent.tsx";
-import { RadioSwitcher } from "../../ui/radio-switcher.tsx";
-import { Select } from "../../ui/select.tsx";
-import { enumEntries } from "../../lib/typescript/enum-values.ts";
-import {
-  languageKeyToHuman,
-  SpeakLanguageEnum,
-} from "../../lib/voice-playback/speak.ts";
-import { DeckSpeakFieldEnum } from "../../../functions/db/deck/decks-with-cards-schema.ts";
 import { theme } from "../../ui/theme.tsx";
 import { t } from "../../translations/t.ts";
 import { deckListStore } from "../../store/deck-list-store.ts";
 import { reset } from "../../ui/reset.ts";
 import { Screen } from "../shared/screen.tsx";
 import { CenteredUnstyledButton } from "../../ui/centered-unstyled-button.tsx";
+import { ListHeader } from "../../ui/list-header.tsx";
+import { List } from "../../ui/list.tsx";
+import { FilledIcon } from "../../ui/filled-icon.tsx";
+import { ListRightText } from "../../ui/list-right-text.tsx";
 import { Flex } from "../../ui/flex.tsx";
+import { boolNarrow } from "../../lib/typescript/bool-narrow.ts";
+import { isFormValid } from "mobx-form-lite";
+import { userStore } from "../../store/user-store.ts";
 
 export const DeckForm = observer(() => {
   const deckFormStore = useDeckFormStore();
@@ -98,56 +96,77 @@ export const DeckForm = observer(() => {
             deckFormStore.goToCardList();
           }}
         >
-          <span>{t("cards")}</span>
-          <span>{deckFormStore.form.cards.length}</span>
+          <Flex gap={8} alignItems={"center"}>
+            <FilledIcon
+              backgroundColor={theme.icons.violet}
+              icon={"mdi-cards"}
+            />
+            {t("cards")}
+          </Flex>
+          <span
+            className={css({
+              color: theme.hintColor,
+            })}
+          >
+            {deckFormStore.form.cards.length}
+          </span>
         </CardRow>
       )}
 
-      <CardRow>
-        <span>{t("speaking_cards")}</span>
-        <RadioSwitcher
-          isOn={deckFormStore.isSpeakingCardEnabled}
-          onToggle={deckFormStore.toggleIsSpeakingCardEnabled}
-        />
-      </CardRow>
-      {deckFormStore.isSpeakingCardEnabled ? (
-        <Flex justifyContent={"space-between"} ml={12} mr={12}>
-          <div>
-            <div className={css({ fontSize: 14, color: theme.hintColor })}>
-              {t("voice_language")}
-            </div>
-            {deckFormStore.form.speakingCardsLocale.value ? (
-              <Select<string>
-                value={deckFormStore.form.speakingCardsLocale.value}
-                onChange={deckFormStore.form.speakingCardsLocale.onChange}
-                options={enumEntries(SpeakLanguageEnum).map(([name, key]) => ({
-                  value: key,
-                  label: languageKeyToHuman(name),
-                }))}
-              />
-            ) : null}
-          </div>
-
-          <div>
-            <div className={css({ fontSize: 14, color: theme.hintColor })}>
-              {t("card_speak_side")}
-            </div>
-            {deckFormStore.form.speakingCardsField.value ? (
-              <Select<DeckSpeakFieldEnum>
-                value={deckFormStore.form.speakingCardsField.value}
-                onChange={deckFormStore.form.speakingCardsField.onChange}
-                options={[
-                  { value: "front", label: t("card_speak_side_front") },
-                  { value: "back", label: t("card_speak_side_back") },
-                ]}
-              />
-            ) : null}
-          </div>
-        </Flex>
-      ) : (
-        <>
-          <HintTransparent>{t("card_speak_description")}</HintTransparent>
-        </>
+      {deckFormStore.form.cards.length > 0 && (
+        <div>
+          <ListHeader text={t("advanced")} />
+          <List
+            items={[
+              {
+                text: t("speaking_cards"),
+                icon: (
+                  <FilledIcon
+                    icon={"mdi-account-voice"}
+                    backgroundColor={theme.icons.blue}
+                  />
+                ),
+                onClick: () => {
+                  deckFormStore.goToSpeakingCards();
+                },
+                right: (
+                  <ListRightText
+                    text={
+                      deckFormStore.form.speakingCardsLocale.value
+                        ? t("is_on")
+                        : t("is_off")
+                    }
+                  />
+                ),
+              },
+              userStore.canUseAiMassGenerate
+                ? {
+                    text: "Generate cards with AI",
+                    icon: (
+                      <FilledIcon
+                        backgroundColor={theme.icons.turquoise}
+                        icon={"mdi-robot"}
+                      />
+                    ),
+                    onClick: () => {
+                      if (
+                        !deckFormStore.form ||
+                        !isFormValid(deckFormStore.form)
+                      ) {
+                        return;
+                      }
+                      assert(screen.deckId, "Deck ID should be defined");
+                      screenStore.go({
+                        type: "aiMassCreation",
+                        deckId: screen.deckId,
+                        deckTitle: deckFormStore.form.title.value,
+                      });
+                    },
+                  }
+                : undefined,
+            ].filter(boolNarrow)}
+          />
+        </div>
       )}
 
       <div className={css({ marginTop: 18 })} />

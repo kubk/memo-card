@@ -79,7 +79,11 @@ export const BtnRed = createButton(
 export const BtnClearFormatting = createButton(
   t("wysiwyg_clear_formatting"),
   <i className={"mdi mdi-format-clear"} />,
-  "removeFormat",
+  () => {
+    document.execCommand("removeFormat", false);
+    // A hack is used since removeFormat doesn't support clearing H1-H6 tags
+    document.execCommand("formatBlock", false, "div");
+  },
 );
 
 type Props = {

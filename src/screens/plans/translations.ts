@@ -20,13 +20,13 @@ export const getPlanDescription = (plan: PlanDb) => {
     case "plus":
       switch (lang) {
         case "en":
-          return ["Duplicate folder, deck", "Priority support"];
+          return ["Duplicate folder, deck"];
         case "ru":
-          return ["Дублирование папок, колод", "Приоритетная поддержка"];
+          return ["Дублирование папок, колод"];
         case "es":
-          return ["Duplicar carpeta, baraja", "Soporte prioritario"];
+          return ["Duplicar carpeta, baraja"];
         case "pt-br":
-          return ["Duplicar pasta, baralho", "Suporte prioritário"];
+          return ["Duplicar pasta, baralho"];
         default:
           return lang satisfies never;
       }
@@ -34,6 +34,7 @@ export const getPlanDescription = (plan: PlanDb) => {
       switch (lang) {
         case "en":
           return [
+            "Card mass creation tools using AI",
             "Duplicate folder, deck",
             "One time deck links and one time folder links",
             "Specify deck and folder access duration",
@@ -41,6 +42,7 @@ export const getPlanDescription = (plan: PlanDb) => {
           ];
         case "ru":
           return [
+            "Инструменты массового создания карточек с использованием ИИ",
             "Дублирование папок, колод",
             "Одноразовые ссылки на колоды и папки",
             "Указание длительность доступа к колодам и папкам",
@@ -48,6 +50,7 @@ export const getPlanDescription = (plan: PlanDb) => {
           ];
         case "es":
           return [
+            "Herramientas de creación masiva de tarjetas utilizando IA",
             "Duplicar carpeta, baraja",
             "Enlaces de carpeta y baraja de un solo uso",
             "Especificar la duración del acceso a la carpeta y la baraja",
@@ -55,6 +58,7 @@ export const getPlanDescription = (plan: PlanDb) => {
           ];
         case "pt-br":
           return [
+            "Ferramentas de criação em massa de cartões usando IA",
             "Duplicar pasta, baralho",
             "Links de pasta e baralho de uso único",
             "Especificar a duração do acesso à pasta e ao baralho",
@@ -70,17 +74,17 @@ export const getPlanDescription = (plan: PlanDb) => {
   }
 };
 
-export const getPlanFullTile = (plan: PlanDb) => {
+export const getPlanFullPrice = (plan: PlanDb) => {
   const lang = translator.getLang();
   switch (lang) {
     case "en":
-      return `${getPlanTitle(plan)} (${formatPlanPrice(plan)}/mo.)`;
+      return `${formatPlanPrice(plan)}/mo.`;
     case "ru":
-      return `${getPlanTitle(plan)} (${formatPlanPrice(plan)}/мес.)`;
+      return `${formatPlanPrice(plan)}/мес.`;
     case "es":
-      return `${getPlanTitle(plan)} (${formatPlanPrice(plan)}/mes)`;
+      return `${formatPlanPrice(plan)}/mes`;
     case "pt-br":
-      return `${getPlanTitle(plan)} (${formatPlanPrice(plan)}/mês)`;
+      return `${formatPlanPrice(plan)}/mês`;
     default:
       return lang satisfies never;
   }

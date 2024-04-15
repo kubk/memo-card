@@ -14,6 +14,7 @@ import { Screen } from "../shared/screen.tsx";
 import { removeAllTags } from "../../lib/sanitize-html/remove-all-tags.ts";
 import { tapScale } from "../../lib/animations/tap-scale.ts";
 import { Flex } from "../../ui/flex.tsx";
+import { CardNumber } from "../../ui/card-number.tsx";
 
 export const CardList = observer(() => {
   const deckFormStore = useDeckFormStore();
@@ -21,7 +22,7 @@ export const CardList = observer(() => {
   assert(screen.type === "deckForm");
 
   useBackButton(() => {
-    deckFormStore.quitCardList();
+    deckFormStore.quitInnerScreen();
   });
 
   if (!deckFormStore.form) {
@@ -96,7 +97,10 @@ export const CardList = observer(() => {
             ...tapScale,
           })}
         >
-          <div>{removeAllTags(cardForm.front.value)}</div>
+          <div>
+            <CardNumber number={i + 1} />
+            {removeAllTags(cardForm.front.value)}
+          </div>
           <div className={css({ color: theme.hintColor })}>
             {removeAllTags(cardForm.back.value)}
           </div>

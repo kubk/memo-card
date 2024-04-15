@@ -3,6 +3,7 @@ import { ReactNode } from "react";
 import { CardPreviewStory } from "./card-preview-story.tsx";
 import { SelectStory } from "./select-story.tsx";
 import { PieChartCanvasStory } from "./pie-chart-canvas-story.tsx";
+import { SnackbarStory } from "./snackbar-story.tsx";
 
 export type Component = {
   name: string;
@@ -50,5 +51,9 @@ export const components: Array<Component> = [
   {
     name: "PieChart",
     component: <PieChartCanvasStory />,
+  },
+  {
+    name: SnackbarStory.name,
+    component: <SnackbarStory />,
   },
 ];

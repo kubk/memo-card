@@ -5,6 +5,7 @@ import { useDeckFormStore } from "./store/deck-form-store-context.tsx";
 import { CardList } from "./card-list.tsx";
 import { CardFormWrapper } from "./card-form-wrapper.tsx";
 import { PreventTelegramSwipeDownClosingIos } from "../../lib/telegram/prevent-telegram-swipe-down-closing.tsx";
+import { SpeakingCards } from "./speaking-cards.tsx";
 
 export const DeckFormScreen = observer(() => {
   const deckFormStore = useDeckFormStore();
@@ -21,6 +22,14 @@ export const DeckFormScreen = observer(() => {
     return (
       <PreventTelegramSwipeDownClosingIos>
         <CardFormWrapper cardFormStore={deckFormStore} />
+      </PreventTelegramSwipeDownClosingIos>
+    );
+  }
+
+  if (deckFormStore.deckFormScreen === "speakingCards") {
+    return (
+      <PreventTelegramSwipeDownClosingIos>
+        <SpeakingCards />
       </PreventTelegramSwipeDownClosingIos>
     );
   }

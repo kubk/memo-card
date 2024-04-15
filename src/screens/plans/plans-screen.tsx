@@ -9,7 +9,11 @@ import { useMainButton } from "../../lib/telegram/use-main-button.tsx";
 import { Hint } from "../../ui/hint.tsx";
 import { useMount } from "../../lib/react/use-mount.ts";
 import { FullScreenLoader } from "../../ui/full-screen-loader.tsx";
-import { getPlanDescription, getPlanFullTile } from "./translations.ts";
+import {
+  getPlanDescription,
+  getPlanFullPrice,
+  getPlanTitle,
+} from "./translations.ts";
 import { PlansScreenStore } from "./store/plans-screen-store.ts";
 import { useTelegramProgress } from "../../lib/telegram/use-telegram-progress.tsx";
 import { userStore } from "../../store/user-store.ts";
@@ -35,9 +39,9 @@ export const PlansScreen = observer(() => {
     () => store.isBuyButtonVisible,
   );
 
-  useTelegramProgress(() => store.isCreatingOrder);
+  useTelegramProgress(() => store.createOrderRequest.isLoading);
 
-  if (store.plansRequest?.state === "pending") {
+  if (store.plansRequest.result.status === "loading") {
     return <FullScreenLoader />;
   }
 
@@ -64,7 +68,8 @@ export const PlansScreen = observer(() => {
             return (
               <PlanItem
                 key={plan.id}
-                title={getPlanFullTile(plan)}
+                title={getPlanTitle(plan)}
+                price={getPlanFullPrice(plan)}
                 isSelected={store.selectedPlanId === plan.id}
                 paidUntil={paidUntil}
                 description={getPlanDescription(plan)}

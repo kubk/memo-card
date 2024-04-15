@@ -34,7 +34,7 @@ export const UserSettingsScreen = observer(() => {
   useBackButton(() => {
     screenStore.back();
   });
-  useTelegramProgress(() => userSettingsStore.isSending);
+  useTelegramProgress(() => userSettingsStore.userSettingsRequest.isLoading);
 
   if (!deckListStore.myInfo || !userSettingsStore.form) {
     return null;

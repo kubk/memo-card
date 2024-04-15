@@ -33,6 +33,9 @@ import {
 import { PlansScreen } from "./plans/plans-screen.tsx";
 import { isRunningWithinTelegram } from "../lib/telegram/is-running-within-telegram.ts";
 import { FreezeCardsScreenLazy } from "./freeze-cards/freeze-cards-screen-lazy.tsx";
+import { AiMassCreationScreen } from "./ai-mass-creation/ai-mass-creation-screen.tsx";
+import { AiMassCreationStoreProvider } from "./ai-mass-creation/store/ai-mass-creation-store-provider.tsx";
+import { SnackbarProviderWrapper } from "./shared/snackbar.tsx";
 
 export const App = observer(() => {
   useRestoreFullScreenExpand();
@@ -56,6 +59,7 @@ export const App = observer(() => {
   return (
     <div>
       <VersionWarning />
+      <SnackbarProviderWrapper />
       {screenStore.screen.type === "main" && (
         <PreventTelegramSwipeDownClosingIos>
           <MainScreen />
@@ -146,6 +150,13 @@ export const App = observer(() => {
           <UserStatisticsStoreProvider>
             <UserStatisticsScreen />
           </UserStatisticsStoreProvider>
+        </PreventTelegramSwipeDownClosingIos>
+      )}
+      {screenStore.screen.type === "aiMassCreation" && (
+        <PreventTelegramSwipeDownClosingIos>
+          <AiMassCreationStoreProvider>
+            <AiMassCreationScreen />
+          </AiMassCreationStoreProvider>
         </PreventTelegramSwipeDownClosingIos>
       )}
     </div>

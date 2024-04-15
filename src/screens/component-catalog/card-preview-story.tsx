@@ -1,7 +1,10 @@
 import { CardPreview } from "../deck-form/card-preview.tsx";
 import { useState } from "react";
-import { CardFormStoreInterface } from "../deck-form/store/card-form-store-interface.ts";
-import { TextField, BooleanToggle, ListField } from "mobx-form-lite";
+import {
+  CardFormStoreInterface,
+  CardInnerScreenType,
+} from "../deck-form/store/card-form-store-interface.ts";
+import { ListField, TextField } from "mobx-form-lite";
 import { CardAnswerType } from "../../../functions/db/custom-types.ts";
 import { CardAnswerFormType } from "../deck-form/store/deck-form-store.ts";
 
@@ -22,7 +25,7 @@ const createCardPreviewForm = (card: {
       answerId: "0",
     },
     form: undefined,
-    isCardPreviewSelected: new BooleanToggle(false),
+    cardInnerScreen: new TextField<CardInnerScreenType>(null),
     onBackCard: () => {},
     onSaveCard: () => {},
     isSending: false,

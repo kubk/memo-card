@@ -5,6 +5,7 @@ import { type PlansForUser } from "../../functions/db/plan/get-active-plans-for-
 import { BooleanToggle } from "mobx-form-lite";
 import { persistableField } from "../lib/mobx-form-lite-persistable/persistable-field.ts";
 import { canAdvancedShare } from "../../shared/access/can-advanced-share.ts";
+import { canUseAiMassGenerate } from "../../shared/access/can-use-ai-mass-generate.ts";
 
 export class UserStore {
   userInfo?: UserDbType;
@@ -53,6 +54,14 @@ export class UserStore {
   updateSettings(body: Partial<UserDbType>) {
     assert(this.userInfo, "myInfo is not loaded in optimisticUpdateSettings");
     Object.assign(this.userInfo, body);
+  }
+
+  get canUseAiMassGenerate() {
+    const user = this.user;
+    if (!user) {
+      return false;
+    }
+    return canUseAiMassGenerate(user, userStore.plans);
   }
 }
 
