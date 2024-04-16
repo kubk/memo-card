@@ -1,5 +1,5 @@
 <p align="center">
-<img width="600" alt="Screenshot 2023-10-13 at 19 41 35" src="https://github.com/kubk/memo-card/assets/22447849/35dc9b15-a36e-4714-9dcc-a118ba3642b3"></p>
+<img width="600" alt="Screenshot 2023-10-13 at 19 41 35" src="https://github.com/kubk/memo-card/assets/22447849/7f754776-3e57-4669-becc-410e1b285199"></p>
 
 <p align="center">
   Available in: <a href="./README.md">English</a>, <a href="./README.ru.md">Русский</a>, <a href="./README.ua.md">Українська</a>
