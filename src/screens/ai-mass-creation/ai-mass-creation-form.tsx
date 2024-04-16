@@ -13,19 +13,25 @@ import React from "react";
 import { ValidationError } from "../../ui/validation-error.tsx";
 import { useMainButton } from "../../lib/telegram/use-main-button.tsx";
 import { useTelegramProgress } from "../../lib/telegram/use-telegram-progress.tsx";
+import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
+import { screenStore } from "../../store/screen-store.ts";
 
 export const AiMassCreationForm = observer(() => {
   const store = useAiMassCreationStore();
   const { promptForm } = store;
 
-  useMainButton("Generate cards", () => {
+  useMainButton(t("ai_cards_generate"), () => {
     store.submitPromptForm();
+  });
+
+  useBackButton(() => {
+    screenStore.back();
   });
 
   useTelegramProgress(() => store.aiMassGenerateRequest.isLoading);
 
   return (
-    <Screen title={"Generate cards with AI"}>
+    <Screen title={t("ai_cards_title")}>
       <Flex direction={"column"} gap={0}>
         <List
           items={[
@@ -42,7 +48,7 @@ export const AiMassCreationForm = observer(() => {
               },
             },
             {
-              text: "API keys",
+              text: t("ai_cards_api_keys"),
               icon: (
                 <FilledIcon
                   backgroundColor={theme.icons.blue}
@@ -55,8 +61,8 @@ export const AiMassCreationForm = observer(() => {
                     store.isApiKeysSetRequest.isLoading
                       ? t("ui_loading")
                       : store.isApiKeysSet
-                      ? "Configured"
-                      : "Not configured"
+                      ? t("ai_cards_api_keys_configured")
+                      : t("ai_cards_api_keys_not_configured")
                   }
                 />
               ),
@@ -71,15 +77,15 @@ export const AiMassCreationForm = observer(() => {
         )}
       </Flex>
 
-      <Label text={"Prompt"} isRequired>
+      <Label text={t("ai_cards_prompt")} isRequired>
         <Input field={promptForm.prompt} rows={3} type={"textarea"} />
       </Label>
 
-      <Label isRequired text={"Card front description"}>
+      <Label isRequired text={t("ai_cards_prompt_front")}>
         <Input field={promptForm.frontPrompt} />
       </Label>
 
-      <Label isRequired text={"Card back description"}>
+      <Label isRequired text={t("ai_cards_prompt_back")}>
         <Input field={promptForm.backPrompt} />
       </Label>
     </Screen>

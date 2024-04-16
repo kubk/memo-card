@@ -68,7 +68,7 @@ export class AiMassCreationStore {
     apiKey: new TextField("", {
       validate: () => {
         if (!this.isApiKeysSet) {
-          return "API key is required";
+          return t("ai_cards_validation_key_required");
         }
       },
     }),
@@ -117,28 +117,8 @@ export class AiMassCreationStore {
     return !this.isApiKeysSet;
   }
 
-  submitApiKeysForm() {
-    if (!isFormValid(this.apiKeysForm)) {
-      formTouchAll(this.apiKeysForm);
-      return;
-    }
-
-    this.upsertUserAiCredentialsRequest
-      .execute({
-        open_ai_key: this.apiKeysForm.apiKey.value,
-        open_ai_model: this.apiKeysForm.model.value,
-      })
-      .then(() => {
-        this.load();
-        this.screen.onChange(null);
-        this.apiKeysForm.apiKey.onChange("");
-      });
-  }
-
   private async onQuit(redirect: () => void) {
-    const isConfirmed = await showConfirm(
-      "Are you sure you want to quit without saving?",
-    );
+    const isConfirmed = await showConfirm(t("quit_without_saving"));
     if (isConfirmed) {
       redirect();
     }
@@ -159,6 +139,42 @@ export class AiMassCreationStore {
     this.onQuit(() => {
       this.screen.onChange(null);
     });
+  }
+
+  async deleteGeneratedCard(index: number) {
+    if (!this.canDeleteGeneratedCard) {
+      return;
+    }
+    const isConfirmed = await showConfirm(t("ai_cards_confirm_delete"));
+    if (!isConfirmed) {
+      return;
+    }
+    this.massCreationForm?.cards.removeByIndex(index);
+  }
+
+  get canDeleteGeneratedCard() {
+    if (!this.massCreationForm) {
+      return false;
+    }
+    return this.massCreationForm.cards.value.length > 1;
+  }
+
+  submitApiKeysForm() {
+    if (!isFormValid(this.apiKeysForm)) {
+      formTouchAll(this.apiKeysForm);
+      return;
+    }
+
+    this.upsertUserAiCredentialsRequest
+      .execute({
+        open_ai_key: this.apiKeysForm.apiKey.value,
+        open_ai_model: this.apiKeysForm.model.value,
+      })
+      .then(() => {
+        this.load();
+        this.screen.onChange(null);
+        this.apiKeysForm.apiKey.onChange("");
+      });
   }
 
   submitPromptForm() {
@@ -216,7 +232,7 @@ export class AiMassCreationStore {
       throw new Error("Failed to add cards");
     }
 
-    notifySuccess("Cards added to the deck");
+    notifySuccess(t("ai_cards_added"));
     deckListStore.replaceDeck(result.data.deck);
     screenStore.go({
       type: "deckForm",

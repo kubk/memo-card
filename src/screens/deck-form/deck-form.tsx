@@ -141,7 +141,7 @@ export const DeckForm = observer(() => {
               },
               userStore.canUseAiMassGenerate
                 ? {
-                    text: "Generate cards with AI",
+                    text: t("ai_cards_title"),
                     icon: (
                       <FilledIcon
                         backgroundColor={theme.icons.turquoise}

@@ -34,14 +34,13 @@ export const ApiKeysScreen = observer(() => {
   const isRegularInput = store.isApiKeyRegularInput;
 
   return (
-    <Screen title={"API keys"}>
-      <Label isRequired text={"ChatGPT API key"}>
+    <Screen title={t("ai_cards_api_keys")}>
+      <Label isRequired text={t("ai_cards_api_keys_gpt")}>
         {!isRegularInput ? (
           <div className={css({ position: "relative" })}>
             <Input isDisabled field={new TextField("*****")} />
             <span
               onClick={() => {
-                console.log("update key");
                 store.forceUpdateApiKey.setTrue();
               }}
               className={css({
@@ -52,7 +51,7 @@ export const ApiKeysScreen = observer(() => {
                 color: theme.linkColor,
               })}
             >
-              Update key
+              {t("ai_cards_api_keys_update")}
             </span>
           </div>
         ) : (
@@ -60,9 +59,9 @@ export const ApiKeysScreen = observer(() => {
         )}
 
         <HintTransparent>
-          Grab the key on the{" "}
+          {t("ai_cards_gpt_grab_key")}{" "}
           <ExternalLink href={"https://platform.openai.com/api-keys"}>
-            OpenAI platform
+            {t("ai_cards_gpt_dashboard")}
           </ExternalLink>
         </HintTransparent>
       </Label>
@@ -75,7 +74,7 @@ export const ApiKeysScreen = observer(() => {
             fontSize: 14,
           })}
         >
-          Model
+          {t("ai_cards_gpt_model")}
         </div>
         <SelectWithChevron
           value={apiKeysForm.model.value}

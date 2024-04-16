@@ -220,8 +220,7 @@ export const cardsFreezeRequest = (body: CardsFreezeRequest) => {
 
 export const aiMassGenerateRequest = (body: AiMassGenerateRequest) => {
   return request<AiMassGenerateResponse, AiMassGenerateRequest>(
-    // TODO: remove mock
-    "/ai-mass-generate-mock",
+    "/ai-mass-generate",
     "POST",
     body,
   );

@@ -7,6 +7,7 @@ import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
 import { useAiMassCreationStore } from "./store/ai-mass-creation-store-provider.tsx";
 import { useMainButton } from "../../lib/telegram/use-main-button.tsx";
 import { theme } from "../../ui/theme.tsx";
+import { translateHowMassCreationWorksText } from "./translations.ts";
 
 export const HowMassCreationWorksScreen = observer(() => {
   const store = useAiMassCreationStore();
@@ -15,9 +16,11 @@ export const HowMassCreationWorksScreen = observer(() => {
     store.screen.onChange(null);
   });
 
-  useMainButton("Understood", () => {
+  useMainButton(t("understood"), () => {
     store.screen.onChange(null);
   });
+
+  const translations = translateHowMassCreationWorksText();
 
   return (
     <Screen title={t("how")}>
@@ -31,12 +34,9 @@ export const HowMassCreationWorksScreen = observer(() => {
           borderRadius: theme.borderRadius,
         })}
       >
+        <div>{translations.description}</div>
         <div>
-          This option allows you to generate multiple cards at once using AI and
-          your own API key.
-        </div>
-        <div>
-          <span>Example 1:</span>
+          <span>{translations.example1}:</span>
           <ul
             className={css({
               paddingLeft: 24,
@@ -45,23 +45,20 @@ export const HowMassCreationWorksScreen = observer(() => {
             })}
           >
             <li>
-              <b>Prompt</b>: Generate 3 cards with capitals of the world
+              <b>{t("ai_cards_prompt")}</b>: {translations.promptExample1}
             </li>
             <li>
-              <b>Card front description</b>: Country
+              <b>{t("ai_cards_prompt_front")}</b>: {translations.frontExample1}
             </li>
             <li>
-              <b>Card back description</b>: Capital
+              <b>{t("ai_cards_prompt_back")}</b>: {translations.backExample1}
             </li>
           </ul>
-          <div>
-            You will get cards like Germany - Berlin, France - Paris, Canada -
-            Ottawa
-          </div>
+          <div>{translations.resultExample1}</div>
         </div>
 
         <div>
-          <span>Example 2:</span>
+          <span>{translations.example2}</span>
           <ul
             className={css({
               paddingLeft: 24,
@@ -70,17 +67,16 @@ export const HowMassCreationWorksScreen = observer(() => {
             })}
           >
             <li>
-              <b>Prompt</b>: Generate 2 cards with English French words related
-              to fruits
+              <b>{t("ai_cards_prompt")}</b>: {translations.promptExample2}
             </li>
             <li>
-              <b>Card front description</b>: Fruit in English
+              <b>{t("ai_cards_prompt_front")}</b>: {translations.frontExample2}
             </li>
             <li>
-              <b>Card back description</b>: Fruit in French
+              <b>{t("ai_cards_prompt_back")}</b>: {translations.backExample2}
             </li>
           </ul>
-          <div>You will get cards like Apple - Pomme, Banana - Banane</div>
+          <div>{translations.resultExample2}</div>
         </div>
       </div>
     </Screen>
