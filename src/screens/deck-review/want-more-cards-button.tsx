@@ -29,7 +29,7 @@ export const WantMoreCardsButton = observer((props: Props) => {
           screenStore.go({ type: "main" });
         }}
       >
-        {newCardsCount} {translateNewCardsCount(newCardsCount)}
+        {translateNewCardsCount(newCardsCount)}
       </span>{" "}
       {t("review_finished_to_review")}
     </>

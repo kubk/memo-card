@@ -9,13 +9,13 @@ export const translateNewCardsCount = (count: number) => {
 
     switch (result) {
       case "one":
-        return "новая карточка";
+        return `${count} новая карточка`;
       case "few":
-        return "новые карточки";
+        return `${count} новые карточки`;
       case "many":
-        return "новых карточек";
+        return `${count} новых карточек`;
       case "two":
-        return "новые карточки";
+        return `${count} новые карточки`;
     }
   }
 
@@ -25,9 +25,9 @@ export const translateNewCardsCount = (count: number) => {
 
     switch (result) {
       case "one":
-        return "nueva tarjeta";
+        return `${count} nueva tarjeta`;
       case "other":
-        return "nuevas tarjetas";
+        return `${count} nuevas tarjetas`;
     }
   }
 
@@ -37,14 +37,14 @@ export const translateNewCardsCount = (count: number) => {
 
     switch (result) {
       case "one":
-        return "novo cartão";
+        return `${count} novo cartão`;
       case "other":
-        return "novos cartões";
+        return `${count} novos cartões`;
     }
   }
 
   if (count === 1) {
-    return `new card`;
+    return `${count} new card`;
   }
-  return `new cards`;
+  return `${count} new cards`;
 };
