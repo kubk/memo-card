@@ -6,6 +6,7 @@ import { userStore } from "../../../store/user-store.ts";
 import { hapticNotification } from "../../../lib/telegram/haptics.ts";
 import { t } from "../../../translations/t.ts";
 import { ClearSnackbar } from "./clear-snackbar.tsx";
+import "./notistack.css";
 
 const sharedStyles = {
   borderRadius: theme.borderRadius,

@@ -10,8 +10,20 @@ export const SnackbarStory = () => {
         Show success snackbar
       </button>
 
-      <button onClick={() => notifyError({}, { duration: 10000 })}>
+      <button onClick={() => notifyError(false, { duration: 10000 })}>
         Show error snackbar
+      </button>
+
+      <button
+        onClick={() =>
+          notifyError(false, {
+            duration: 100 * 1000,
+            message:
+              "Unable to generate cards. Please try updating your prompt",
+          })
+        }
+      >
+        Show long error snackbar
       </button>
     </div>
   );
