@@ -17,7 +17,7 @@ import {
 import { RequestStore } from "../../../lib/mobx-request/request-store.ts";
 import { screenStore } from "../../../store/screen-store.ts";
 import { assert } from "../../../lib/typescript/assert.ts";
-import { notifySuccess } from "../../shared/snackbar/snackbar.tsx";
+import { notifyError, notifySuccess } from "../../shared/snackbar/snackbar.tsx";
 import { deckListStore } from "../../../store/deck-list-store.ts";
 import { showConfirm } from "../../../lib/telegram/show-confirm.ts";
 
@@ -177,39 +177,37 @@ export class AiMassCreationStore {
       });
   }
 
-  submitPromptForm() {
+  async submitPromptForm() {
     if (!isFormValid(this.promptForm)) {
       formTouchAll(this.promptForm);
       return;
     }
 
-    this.aiMassGenerateRequest
-      .execute({
-        prompt: this.promptForm.prompt.value,
-        frontPrompt: this.promptForm.frontPrompt.value,
-        backPrompt: this.promptForm.backPrompt.value,
-      })
-      .then((result) => {
-        if (result.status === "success") {
-          const innerResult = result.data;
-          if (innerResult.data) {
-            this.massCreationForm = {
-              cards: new ListField<{ front: string; back: string }>(
-                innerResult.data.cards.map((card) => ({
-                  front: card.front,
-                  back: card.back,
-                })),
-              ),
-            };
-            this.screen.onChange("cardsGenerated");
-          } else {
-            console.log(innerResult.error);
-            console.log("Error");
-          }
-        } else {
-          throw new Error("Failed to generate cards");
-        }
-      });
+    const result = await this.aiMassGenerateRequest.execute({
+      prompt: this.promptForm.prompt.value,
+      frontPrompt: this.promptForm.frontPrompt.value,
+      backPrompt: this.promptForm.backPrompt.value,
+    });
+
+    if (result.status === "error") {
+      notifyError({ e: result.error, info: "Failed to generated cards" });
+      return;
+    }
+
+    const innerResult = result.data;
+    if (innerResult.data) {
+      this.massCreationForm = {
+        cards: new ListField<{ front: string; back: string }>(
+          innerResult.data.cards.map((card) => ({
+            front: card.front,
+            back: card.back,
+          })),
+        ),
+      };
+      this.screen.onChange("cardsGenerated");
+    } else {
+      notifyError(false, { message: innerResult.error });
+    }
   }
 
   async submitMassCreationForm() {
