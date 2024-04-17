@@ -188,6 +188,13 @@ vi.mock("../../../store/user-store.ts", () => {
   };
 });
 
+vi.mock("../../shared/snackbar/snackbar.tsx", () => {
+  return {
+    notifyError: vi.fn(),
+    notifySuccess: vi.fn(),
+  };
+});
+
 const cardToSnapshot = (card: CardUnderReviewStore) => ({
   back: card.back,
   deckName: card.deckName,
@@ -311,7 +318,7 @@ describe("card form store", () => {
 
     reviewStore.open();
     reviewStore.changeState(CardState.Never);
-    await when(() => !reviewStore.isSendingInProgress);
+    await when(() => !reviewStore.reviewCardsRequestInProgress.isLoading);
 
     expect(reviewStore.sentResult).toEqual({
       neverIds: [5],
@@ -334,7 +341,7 @@ describe("card form store", () => {
     reviewStore.changeState(CardState.Remember);
     reviewStore.open();
     reviewStore.changeState(CardState.Remember);
-    await when(() => !reviewStore.isSendingInProgress);
+    await when(() => !reviewStore.reviewCardsRequestInProgress.isLoading);
 
     expect(reviewCardsReviewMock).toHaveBeenCalledTimes(2);
     expect(reviewStore.sentResult).toEqual({
@@ -345,7 +352,7 @@ describe("card form store", () => {
 
     reviewStore.open();
     reviewStore.changeState(CardState.Remember);
-    await when(() => !reviewStore.isSendingInProgress);
+    await when(() => !reviewStore.reviewCardsRequestInProgress.isLoading);
 
     expect(reviewCardsReviewMock).toHaveBeenCalledTimes(2);
     expect(reviewStore.cardsToSend).toEqual([{ id: 9, outcome: "correct" }]);

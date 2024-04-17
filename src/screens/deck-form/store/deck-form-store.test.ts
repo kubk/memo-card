@@ -163,6 +163,13 @@ vi.mock("../../../store/user-store.ts", () => {
   };
 });
 
+vi.mock("../../shared/snackbar/snackbar.tsx", () => {
+  return {
+    notifyError: vi.fn(),
+    notifySuccess: vi.fn(),
+  };
+});
+
 describe("deck form store", () => {
   afterEach(() => {
     vi.clearAllMocks();

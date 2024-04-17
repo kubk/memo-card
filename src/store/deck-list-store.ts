@@ -1,4 +1,4 @@
-import { action, makeAutoObservable, when } from "mobx";
+import { action, makeAutoObservable, runInAction, when } from "mobx";
 import {
   addDeckToMineRequest,
   addFolderToMineRequest,
@@ -37,6 +37,8 @@ import {
   notifyPaymentFailed,
   notifyPaymentSuccess,
 } from "../screens/shared/notify-payment.ts";
+import { RequestStore } from "../lib/mobx-request/request-store.ts";
+import { notifyError } from "../screens/shared/snackbar/snackbar.tsx";
 
 export enum StartParamType {
   RepeatAll = "repeat_all",
@@ -72,8 +74,10 @@ export type DeckListItem = {
 const collapsedDecksLimit = 3;
 
 export class DeckListStore {
-  myInfo?: Omit<MyInfoResponse, "user">;
-  isMyInfoLoading = false;
+  myInfo?: MyInfoResponse;
+  myInfoRequest = new RequestStore(myInfoRequest, {
+    staleWhileRevalidate: true,
+  });
 
   isFullScreenLoaderVisible = false;
   isSharedDeckLoaded = false;
@@ -82,12 +86,12 @@ export class DeckListStore {
 
   skeletonLoaderData = { publicCount: 3, myDecksCount: 3 };
 
-  isDeckCardsLoading = false;
+  deckWithCardsRequest = new RequestStore(deckWithCardsRequest);
 
   isMyDecksExpanded = new BooleanToggle(false);
 
   catalogFolder?: FolderWithDecksWithCards;
-  isCatalogFolderLoading = false;
+  getFolderWithDecksCards = new RequestStore(getFolderWithDecksCards);
 
   constructor() {
     makeAutoObservable(
@@ -98,7 +102,10 @@ export class DeckListStore {
   }
 
   get isCatalogItemLoading() {
-    return this.isDeckCardsLoading || this.isCatalogFolderLoading;
+    return (
+      this.deckWithCardsRequest.isLoading ||
+      this.getFolderWithDecksCards.isLoading
+    );
   }
 
   loadFirstTime(startParam?: string) {
@@ -106,24 +113,15 @@ export class DeckListStore {
     this.handleStartParam(startParam);
   }
 
-  load() {
-    if (!this.myInfo) {
-      // Stale-while-revalidate approach
-      this.isMyInfoLoading = true;
+  async load() {
+    const result = await this.myInfoRequest.execute();
+    if (result.status === "error") {
+      return;
     }
-
-    myInfoRequest()
-      .then(
-        action((result) => {
-          this.myInfo = result;
-          userStore.setUser(result.user, result.plans);
-        }),
-      )
-      .finally(
-        action(() => {
-          this.isMyInfoLoading = false;
-        }),
-      );
+    runInAction(() => {
+      this.myInfo = result.data;
+    });
+    userStore.setUser(result.data.user, result.data.plans);
   }
 
   async onDuplicateDeck(deckId: number) {
@@ -276,7 +274,7 @@ export class DeckListStore {
     screenStore.go({ type: "folderPreview", folderId: folder.id });
   }
 
-  openFolderFromCatalog(folderWithoutDecks: CatalogFolderDbType) {
+  async openFolderFromCatalog(folderWithoutDecks: CatalogFolderDbType) {
     assert(this.myInfo);
     if (
       this.myInfo.folders.find(
@@ -290,28 +288,25 @@ export class DeckListStore {
       return;
     }
 
-    this.isCatalogFolderLoading = true;
     this.catalogFolder = {
       ...folderWithoutDecks,
       decks: [],
     };
     screenStore.go({ type: "folderPreview", folderId: this.catalogFolder.id });
-    getFolderWithDecksCards(folderWithoutDecks.id)
-      .then(
-        action(({ folder }) => {
-          this.catalogFolder = folder;
-        }),
-      )
-      .catch((e) => {
-        reportHandledError("Error while retrieving folder", e, {
-          folderId: folderWithoutDecks.id,
-        });
-      })
-      .finally(
-        action(() => {
-          this.isCatalogFolderLoading = false;
-        }),
-      );
+
+    const result = await this.getFolderWithDecksCards.execute(
+      folderWithoutDecks.id,
+    );
+    if (result.status === "error") {
+      notifyError({
+        e: result.error,
+        info: `Error while retrieving folder: ${folderWithoutDecks.id}`,
+      });
+      return;
+    }
+
+    const { folder } = result.data;
+    this.catalogFolder = folder;
   }
 
   get canReview() {
@@ -375,7 +370,7 @@ export class DeckListStore {
     return deck.author_id === userStore.myId || userStore.isAdmin;
   }
 
-  openDeckFromCatalog(deck: DeckWithCardsDbType, isMine: boolean) {
+  async openDeckFromCatalog(deck: DeckWithCardsDbType, isMine: boolean) {
     assert(this.myInfo);
     if (isMine) {
       screenStore.go({ type: "deckMine", deckId: deck.id });
@@ -386,16 +381,12 @@ export class DeckListStore {
     }
     screenStore.go({ type: "deckPublic", deckId: deck.id });
 
-    this.isDeckCardsLoading = true;
-    deckWithCardsRequest(deck.id)
-      .then((deckWithCards) => {
-        this.replaceDeck(deckWithCards);
-      })
-      .finally(
-        action(() => {
-          this.isDeckCardsLoading = false;
-        }),
-      );
+    const result = await this.deckWithCardsRequest.execute(deck.id);
+    if (result.status === "error") {
+      notifyError({ e: result.error, info: `Error opening deck: ${deck.id}` });
+      return;
+    }
+    this.replaceDeck(result.data);
   }
 
   goDeckById(deckId: number, backScreen?: RouteType) {

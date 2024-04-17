@@ -25,6 +25,8 @@ vi.mock("../screens/shared/notify-payment.ts", () => {
 
 vi.mock("../api/api.ts", () => {
   return {
+    deckWithCardsRequest: () => {},
+    getFolderWithDecksCards: () => {},
     reviewCardsRequest: () => {},
     myInfoRequest: (): Promise<MyInfoResponse> => {
       return Promise.resolve({
@@ -174,6 +176,13 @@ vi.mock("../lib/telegram/show-confirm.ts", () => {
 vi.mock("../translations/t.ts", () => {
   return {
     t: (arg: any) => arg,
+  };
+});
+
+vi.mock("../screens/shared/snackbar/snackbar.tsx", () => {
+  return {
+    notifySuccess: () => {},
+    notifyError: () => {},
   };
 });
 

@@ -80,7 +80,7 @@ export const FolderPreview = observer(() => {
         <div>
           <DeckFolderDescription deck={folder} />
         </div>
-        {!deckListStore.isCatalogFolderLoading && (
+        {!deckListStore.getFolderWithDecksCards.isLoading && (
           <div
             className={css({
               display: "flex",

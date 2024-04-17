@@ -1,5 +1,5 @@
 import { CardState, CardUnderReviewStore } from "./card-under-review-store.ts";
-import { action, makeAutoObservable } from "mobx";
+import { makeAutoObservable, runInAction } from "mobx";
 import { assert } from "../../../lib/typescript/assert.ts";
 import { reviewCardsRequest } from "../../../api/api.ts";
 import { ReviewOutcome } from "../../../../functions/services/review-card.ts";
@@ -11,6 +11,8 @@ import {
 } from "../../../lib/telegram/haptics.ts";
 import { showConfirm } from "../../../lib/telegram/show-confirm.ts";
 import { t } from "../../../translations/t.ts";
+import { RequestStore } from "../../../lib/mobx-request/request-store.ts";
+import { notifyError } from "../../shared/snackbar/snackbar.tsx";
 
 // Don't wait until the user has finished reviewing all the cards to send the progress
 const cardProgressSend = 3;
@@ -32,10 +34,10 @@ export class ReviewStore {
     rememberIds: [],
     neverIds: [],
   };
-  isSendingInProgress = false;
   initialCardCount?: number;
 
-  isReviewSending = false;
+  reviewCardsRequest = new RequestStore(reviewCardsRequest);
+  reviewCardsRequestInProgress = new RequestStore(reviewCardsRequest);
   isStudyAnyway = false;
 
   constructor() {
@@ -216,46 +218,46 @@ export class ReviewStore {
     this.sendProgress();
   }
 
-  private sendProgress() {
-    if (this.isReviewSending || this.isSendingInProgress) {
+  private async sendProgress() {
+    if (
+      this.reviewCardsRequest.isLoading ||
+      this.reviewCardsRequestInProgress.isLoading
+    ) {
       return;
     }
 
     const cardsToSendInProgress = this.cardsToSend.filter(
       (card) => card.outcome === "correct" || card.outcome === "never",
     );
-    if (cardsToSendInProgress.length >= cardProgressSend) {
-      this.isSendingInProgress = true;
 
-      reviewCardsRequest({
-        cards: cardsToSendInProgress,
-        isStudyAnyway: this.isStudyAnyway,
-      })
-        .then(
-          action(() => {
-            this.sentResult.rememberIds.push(
-              ...cardsToSendInProgress
-                .filter((sentCard) => sentCard.outcome === "correct")
-                .map((sentCard) => sentCard.id),
-            );
-            this.sentResult.neverIds.push(
-              ...cardsToSendInProgress
-                .filter((sentCard) => sentCard.outcome === "never")
-                .map((sentCard) => sentCard.id),
-            );
-          }),
-        )
-        .catch(
-          action(() => {
-            console.error("Unable to send card progress");
-          }),
-        )
-        .finally(
-          action(() => {
-            this.isSendingInProgress = false;
-          }),
-        );
+    const shouldSendInProgress =
+      cardsToSendInProgress.length >= cardProgressSend;
+    if (!shouldSendInProgress) {
+      return;
     }
+
+    const result = await this.reviewCardsRequestInProgress.execute({
+      cards: cardsToSendInProgress,
+      isStudyAnyway: this.isStudyAnyway,
+    });
+
+    if (result.status === "error") {
+      notifyError({ e: result.error, info: "Error sending review progress" });
+      return;
+    }
+
+    runInAction(() => {
+      this.sentResult.rememberIds.push(
+        ...cardsToSendInProgress
+          .filter((sentCard) => sentCard.outcome === "correct")
+          .map((sentCard) => sentCard.id),
+      );
+      this.sentResult.neverIds.push(
+        ...cardsToSendInProgress
+          .filter((sentCard) => sentCard.outcome === "never")
+          .map((sentCard) => sentCard.id),
+      );
+    });
   }
 
   get isFinished() {
@@ -313,17 +315,15 @@ export class ReviewStore {
       return;
     }
 
-    this.isReviewSending = true;
-
-    return reviewCardsRequest({
+    const result = await this.reviewCardsRequest.execute({
       cards: this.cardsToSend,
       isStudyAnyway: this.isStudyAnyway,
-    }).finally(
-      action(() => {
-        onReviewSuccess?.();
-        hapticNotification("success");
-        this.isReviewSending = false;
-      }),
-    );
+    });
+    if (result.status === "error") {
+      notifyError({ e: result.error, info: "Error submitting review" });
+      return;
+    }
+    onReviewSuccess?.();
+    hapticNotification("success");
   }
 }

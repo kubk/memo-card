@@ -4,8 +4,7 @@ import { getBuyText } from "../translations.ts";
 import { assert } from "../../../lib/typescript/assert.ts";
 import WebApp from "@twa-dev/sdk";
 import { RequestStore } from "../../../lib/mobx-request/request-store.ts";
-import { notifyError } from "../../shared/snackbar.tsx";
-import { t } from "../../../translations/t.ts";
+import { notifyError } from "../../shared/snackbar/snackbar.tsx";
 
 export class PlansScreenStore {
   plansRequest = new RequestStore(allPlansRequest);
@@ -51,12 +50,9 @@ export class PlansScreenStore {
     assert(this.selectedPlanId !== null);
 
     const result = await this.createOrderRequest.execute(this.selectedPlanId);
-    if (result.status !== "success") {
-      notifyError(t("error_try_again"), {
-        info: "Order creation failed",
-        e: result.error,
-        plan: this.selectedPlanId,
-      });
+    if (result.status === "error") {
+      const info = `Order creation failed. Plan: ${this.selectedPlanId}`;
+      notifyError({ info: info, e: result.error });
       return;
     }
 

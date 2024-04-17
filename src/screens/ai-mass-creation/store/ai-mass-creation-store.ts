@@ -17,7 +17,7 @@ import {
 import { RequestStore } from "../../../lib/mobx-request/request-store.ts";
 import { screenStore } from "../../../store/screen-store.ts";
 import { assert } from "../../../lib/typescript/assert.ts";
-import { notifySuccess } from "../../shared/snackbar.tsx";
+import { notifySuccess } from "../../shared/snackbar/snackbar.tsx";
 import { deckListStore } from "../../../store/deck-list-store.ts";
 import { showConfirm } from "../../../lib/telegram/show-confirm.ts";
 
@@ -228,7 +228,7 @@ export class AiMassCreationStore {
       cards: this.massCreationForm.cards.value,
     });
 
-    if (result.status !== "success") {
+    if (result.status === "error") {
       throw new Error("Failed to add cards");
     }
 

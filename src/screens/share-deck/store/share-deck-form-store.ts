@@ -11,7 +11,7 @@ import {
 import { DeckAccessType } from "../../../../functions/db/custom-types.ts";
 import { persistableField } from "../../../lib/mobx-form-lite-persistable/persistable-field.ts";
 import { RequestStore } from "../../../lib/mobx-request/request-store.ts";
-import { notifyError } from "../../shared/snackbar.tsx";
+import { notifyError } from "../../shared/snackbar/snackbar.tsx";
 
 const getRequestFiltersForScreen = () => {
   const screen = screenStore.screen;
@@ -90,8 +90,8 @@ export class ShareDeckFormStore {
         : null,
     });
 
-    if (result.status !== "success") {
-      notifyError(t("error_try_again"), {
+    if (result.status === "error") {
+      notifyError({
         info: "Error sharing deck or folder",
         e: result.error,
         deckId,

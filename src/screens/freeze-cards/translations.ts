@@ -6,7 +6,7 @@ export const formatFrozenCards = (cards: number) => {
     case "en": {
       return cards === 1
         ? `1 card has been frozen`
-        : `${cards} have been frozen`;
+        : `${cards} cards have been frozen`;
     }
     case "ru": {
       const rules = new Intl.PluralRules("ru-RU");

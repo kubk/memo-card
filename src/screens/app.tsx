@@ -35,7 +35,8 @@ import { isRunningWithinTelegram } from "../lib/telegram/is-running-within-teleg
 import { FreezeCardsScreenLazy } from "./freeze-cards/freeze-cards-screen-lazy.tsx";
 import { AiMassCreationScreen } from "./ai-mass-creation/ai-mass-creation-screen.tsx";
 import { AiMassCreationStoreProvider } from "./ai-mass-creation/store/ai-mass-creation-store-provider.tsx";
-import { SnackbarProviderWrapper } from "./shared/snackbar.tsx";
+
+import { SnackbarProviderWrapper } from "./shared/snackbar/snackbar-provider-wrapper.tsx";
 
 export const App = observer(() => {
   useRestoreFullScreenExpand();

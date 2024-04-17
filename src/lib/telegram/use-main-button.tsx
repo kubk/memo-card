@@ -6,22 +6,31 @@ import { autorun } from "mobx";
 // Track visible state to avoid flickering
 let isVisible = false;
 
+const hide = () => {
+  if (WebApp.platform !== "ios" && WebApp.platform !== "android") {
+    WebApp.MainButton.hide();
+    isVisible = false;
+    return;
+  }
+
+  // Avoid flickering of the Telegram main button
+  isVisible = false;
+  setTimeout(() => {
+    if (isVisible) {
+      return;
+    }
+    WebApp.MainButton.hide();
+    isVisible = false;
+  }, 100);
+};
+
 export const useMainButton = (
   text: string | (() => string),
   onClick: () => void,
   condition?: () => boolean,
 ) => {
   const hideMainButton = () => {
-    // Avoid flickering of the Telegram main button
-    isVisible = false;
-    setTimeout(() => {
-      if (isVisible) {
-        return;
-      }
-      WebApp.MainButton.hide();
-      isVisible = false;
-    }, 300);
-
+    hide();
     WebApp.MainButton.offClick(onClick);
     WebApp.MainButton.hideProgress();
   };

@@ -27,7 +27,7 @@ export const DeckPreview = observer(() => {
     screenStore.back();
   });
 
-  useTelegramProgress(() => deckListStore.isDeckCardsLoading);
+  useTelegramProgress(() => deckListStore.deckWithCardsRequest.isLoading);
   useScrollToTopOnMount();
 
   useMainButton(
@@ -78,7 +78,7 @@ export const DeckPreview = observer(() => {
         <div>
           <DeckFolderDescription deck={deck} />
         </div>
-        {!deckListStore.isDeckCardsLoading && (
+        {!deckListStore.deckWithCardsRequest.isLoading && (
           <div
             className={css({
               display: "flex",

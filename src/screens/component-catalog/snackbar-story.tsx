@@ -1,9 +1,6 @@
 import React from "react";
-import {
-  notifyError,
-  notifySuccess,
-  SnackbarProviderWrapper,
-} from "../shared/snackbar.tsx";
+import { notifyError, notifySuccess } from "../shared/snackbar/snackbar.tsx";
+import { SnackbarProviderWrapper } from "../shared/snackbar/snackbar-provider-wrapper.tsx";
 
 export const SnackbarStory = () => {
   return (
@@ -13,7 +10,7 @@ export const SnackbarStory = () => {
         Show success snackbar
       </button>
 
-      <button onClick={() => notifyError("This is a success message")}>
+      <button onClick={() => notifyError({}, { duration: 10000 })}>
         Show error snackbar
       </button>
     </div>

@@ -37,7 +37,7 @@ export const FolderForm = observer(() => {
     folderStore.onBack();
   });
 
-  useTelegramProgress(() => folderStore.isSending);
+  useTelegramProgress(() => folderStore.folderUpsertRequest.isLoading);
 
   if (!folderForm) {
     return null;

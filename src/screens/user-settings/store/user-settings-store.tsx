@@ -11,9 +11,8 @@ import { formatTime } from "../generate-time-range.tsx";
 import { userSettingsRequest } from "../../../api/api.ts";
 import { UserSettingsRequest } from "../../../../functions/user-settings.ts";
 import { userStore } from "../../../store/user-store.ts";
-import { hapticNotification } from "../../../lib/telegram/haptics.ts";
 import { RequestStore } from "../../../lib/mobx-request/request-store.ts";
-import { notifyError, notifySuccess } from "../../shared/snackbar.tsx";
+import { notifyError, notifySuccess } from "../../shared/snackbar/snackbar.tsx";
 import { t } from "../../../translations/t.ts";
 
 const DEFAULT_TIME = "12:00";
@@ -79,14 +78,10 @@ export class UserSettingsStore {
     const result = await this.userSettingsRequest.execute(body);
 
     if (result.status === "error") {
-      notifyError(t("error_try_again"), {
-        e: result.error,
-        info: "Error updating user settings",
-      });
+      notifyError({ e: result.error, info: "Error updating user settings" });
       return;
     }
 
-    hapticNotification("success");
     notifySuccess(t("user_settings_updated"));
     userStore.updateSettings({
       is_remind_enabled: body.isRemindNotifyEnabled,

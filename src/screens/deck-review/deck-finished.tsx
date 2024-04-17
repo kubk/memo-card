@@ -29,7 +29,7 @@ export const DeckFinished = observer((props: Props) => {
   useMainButton(t("go_back"), () => {
     screenStore.go({ type: "main" });
   });
-  useTelegramProgress(() => reviewStore.isReviewSending);
+  useTelegramProgress(() => reviewStore.reviewCardsRequest.isLoading);
 
   return (
     <DeckFinishedModal>

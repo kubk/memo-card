@@ -2,14 +2,18 @@ import WebApp from "@twa-dev/sdk";
 
 const isIos = WebApp.platform === "ios";
 
-export const hapticNotification = (type: "error" | "success" | "warning") => {
+export type HapticNotificationType = "error" | "success" | "warning";
+
+export const hapticNotification = (type: HapticNotificationType) => {
   if (!isIos) {
     return;
   }
   WebApp.HapticFeedback.notificationOccurred(type);
 };
 
-export const hapticImpact = (type: "light" | "medium" | "heavy") => {
+export type HapticImpactType = "light" | "medium" | "heavy";
+
+export const hapticImpact = (type: HapticImpactType) => {
   if (!isIos) {
     return;
   }

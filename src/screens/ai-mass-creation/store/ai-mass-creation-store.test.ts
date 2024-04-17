@@ -20,9 +20,10 @@ vi.mock("../../../translations/t.ts", () => {
   };
 });
 
-vi.mock("../../shared/snackbar.tsx", () => {
+vi.mock("../../shared/snackbar/snackbar.tsx", () => {
   return {
-    showSnackBar: vi.fn(),
+    notifyError: vi.fn(),
+    notifySuccess: vi.fn(),
   };
 });
 

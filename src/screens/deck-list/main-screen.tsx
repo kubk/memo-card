@@ -40,7 +40,7 @@ export const MainScreen = observer(() => {
           }
         />
         <Flex direction={"column"} gap={6}>
-          {deckListStore.isMyInfoLoading &&
+          {deckListStore.myInfoRequest.isLoading &&
             range(deckListStore.skeletonLoaderData.myDecksCount).map((i) => (
               <DeckLoading key={i} />
             ))}
@@ -154,7 +154,7 @@ export const MainScreen = observer(() => {
             </>
           ) : null}
 
-          {deckListStore.isMyInfoLoading &&
+          {deckListStore.myInfoRequest.isLoading &&
             range(deckListStore.skeletonLoaderData.publicCount).map((i) => (
               <DeckLoading key={i} />
             ))}

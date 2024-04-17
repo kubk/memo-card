@@ -5,7 +5,7 @@ describe("formatPaidUntil", () => {
   it("returns a formatted date when a valid ISO date string is provided", () => {
     vi.stubGlobal("navigator", { language: "en-US" });
     const input = "2023-04-01";
-    const expected = "April 1, 2023"; // Adjust the expected result based on your locale
+    const expected = "April 1, 2023";
     expect(formatPaidUntil(input)).toBe(expected);
   });
 });

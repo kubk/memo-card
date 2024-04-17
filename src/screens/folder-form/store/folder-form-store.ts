@@ -8,13 +8,15 @@ import {
   validators,
 } from "mobx-form-lite";
 import { t } from "../../../translations/t.ts";
-import { action, makeAutoObservable } from "mobx";
+import { makeAutoObservable } from "mobx";
 import { screenStore } from "../../../store/screen-store.ts";
 import { assert } from "../../../lib/typescript/assert.ts";
 import { decksMineRequest, folderUpsertRequest } from "../../../api/api.ts";
 import { deckListStore } from "../../../store/deck-list-store.ts";
 import { showConfirm } from "../../../lib/telegram/show-confirm.ts";
 import { RequestStore } from "../../../lib/mobx-request/request-store.ts";
+import { notifyError } from "../../shared/snackbar/snackbar.tsx";
+import { hapticNotification } from "../../../lib/telegram/haptics.ts";
 
 const createFolderTitleField = (title: string) => {
   return new TextField(title, {
@@ -40,7 +42,7 @@ type FolderForm = {
 
 export class FolderFormStore {
   folderForm?: FolderForm;
-  isSending = false;
+  folderUpsertRequest = new RequestStore(folderUpsertRequest);
   decksMineRequest = new RequestStore(() =>
     decksMineRequest().then((response) => response.decks),
   );
@@ -107,7 +109,7 @@ export class FolderFormStore {
     });
   }
 
-  onFolderSave() {
+  async onFolderSave() {
     if (!this.folderForm) {
       return;
     }
@@ -118,24 +120,24 @@ export class FolderFormStore {
     const screen = screenStore.screen;
     assert(screen.type === "folderForm");
 
-    this.isSending = true;
-
-    folderUpsertRequest({
+    const result = await this.folderUpsertRequest.execute({
       id: screen.folderId,
       title: this.folderForm.title.value,
       description: this.folderForm.description.value,
       deckIds: this.folderForm.decks.value.map((deck) => deck.id),
-    })
-      .then(({ folders, folder }) => {
-        deckListStore.updateFolders(folders);
-        assert(this.folderForm);
-        formUnTouchAll(this.folderForm);
-        screenStore.go({ type: "folderPreview", folderId: folder.id });
-      })
-      .finally(
-        action(() => {
-          this.isSending = false;
-        }),
-      );
+    });
+
+    if (result.status === "error") {
+      const info = `Error saving folder ${screen.folderId ?? ""}`;
+      notifyError({ e: result.error, info: info });
+      return;
+    }
+
+    const { folders, folder } = result.data;
+    deckListStore.updateFolders(folders);
+    assert(this.folderForm);
+    formUnTouchAll(this.folderForm);
+    screenStore.go({ type: "folderPreview", folderId: folder.id });
+    hapticNotification("success");
   }
 }

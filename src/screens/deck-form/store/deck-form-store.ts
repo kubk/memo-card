@@ -9,7 +9,7 @@ import {
   TextField,
   validators,
 } from "mobx-form-lite";
-import { action, makeAutoObservable } from "mobx";
+import { action, makeAutoObservable, runInAction } from "mobx";
 import { assert } from "../../../lib/typescript/assert.ts";
 import { upsertDeckRequest } from "../../../api/api.ts";
 import { screenStore } from "../../../store/screen-store.ts";
@@ -33,6 +33,8 @@ import {
 } from "./card-form-store-interface.ts";
 import { UpsertDeckRequest } from "../../../../functions/upsert-deck.ts";
 import { UnwrapArray } from "../../../lib/typescript/unwrap-array.ts";
+import { RequestStore } from "../../../lib/mobx-request/request-store.ts";
+import { notifyError } from "../../shared/snackbar/snackbar.tsx";
 
 export type CardAnswerFormType = {
   id: string;
@@ -171,7 +173,7 @@ export class DeckFormStore implements CardFormStoreInterface {
   cardFormIndex?: number;
   cardFormType?: "new" | "edit";
   form?: DeckFormType;
-  isSending = false;
+  upsertDeckRequest = new RequestStore(upsertDeckRequest);
   cardInnerScreen = new TextField<CardInnerScreenType>(null);
   deckInnerScreen?: "cardList" | "speakingCards";
   cardFilter = {
@@ -182,6 +184,10 @@ export class DeckFormStore implements CardFormStoreInterface {
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
+  }
+
+  get isSending() {
+    return this.upsertDeckRequest.isLoading;
   }
 
   get deckFormScreen() {
@@ -364,7 +370,7 @@ export class DeckFormStore implements CardFormStoreInterface {
 
   onSaveCard() {
     const isEdit = this.cardForm?.id;
-    this.onDeckSave().then(
+    this.onDeckSave(
       action(() => {
         if (isEdit) {
           return;
@@ -474,22 +480,20 @@ export class DeckFormStore implements CardFormStoreInterface {
 
     deckListStore.isFullScreenLoaderVisible = true;
 
-    this.onDeckSave()
-      .then(
-        action(() => {
-          this.deckInnerScreen = "cardList";
-          this.cardFormIndex = undefined;
-          this.cardFormType = undefined;
-        }),
-      )
-      .finally(
-        action(() => {
-          deckListStore.isFullScreenLoaderVisible = false;
-        }),
-      );
+    this.onDeckSave(
+      action(() => {
+        this.deckInnerScreen = "cardList";
+        this.cardFormIndex = undefined;
+        this.cardFormType = undefined;
+      }),
+    ).finally(
+      action(() => {
+        deckListStore.isFullScreenLoaderVisible = false;
+      }),
+    );
   }
 
-  onDeckSave() {
+  async onDeckSave(onSuccess?: () => void) {
     assert(this.form, "onDeckSave: form is empty");
 
     if (this.form.cards.length === 0) {
@@ -508,8 +512,6 @@ export class DeckFormStore implements CardFormStoreInterface {
       return Promise.reject();
     }
 
-    this.isSending = true;
-
     // Avoid sending huge collections on every save
     // Only new and touched cards are sent to the server
     const newCards = this.form.cards.filter((card) => !card.id);
@@ -518,7 +520,7 @@ export class DeckFormStore implements CardFormStoreInterface {
     );
     const cardsToSend = newCards.concat(touchedCards).map(cardFormToApi);
 
-    return upsertDeckRequest({
+    const result = await this.upsertDeckRequest.execute({
       id: this.form.id,
       title: this.form.title.value,
       description: this.form.description.value,
@@ -527,20 +529,22 @@ export class DeckFormStore implements CardFormStoreInterface {
       speakField: this.form.speakingCardsField.value,
       folderId: this.form.folderId,
       cardsToRemoveIds: this.form.cardsToRemoveIds,
-    })
-      .then(
-        action(({ deck, folders, cardsToReview }) => {
-          this.form = createUpdateForm(deck.id, deck, () => this.cardForm);
-          deckListStore.replaceDeck(deck, true);
-          deckListStore.updateFolders(folders);
-          deckListStore.updateCardsToReview(cardsToReview);
-        }),
-      )
-      .finally(
-        action(() => {
-          this.isSending = false;
-        }),
-      );
+    });
+
+    if (result.status === "error") {
+      notifyError({ e: result.error, info: "Error saving deck" });
+      return;
+    }
+
+    const { deck, folders, cardsToReview } = result.data;
+
+    runInAction(() => {
+      this.form = createUpdateForm(deck.id, deck, () => this.cardForm);
+      deckListStore.replaceDeck(deck, true);
+      deckListStore.updateFolders(folders);
+      deckListStore.updateCardsToReview(cardsToReview);
+      onSuccess?.();
+    });
   }
 
   quitCardForm() {

@@ -10,6 +10,7 @@ type ExecuteResult<T> = SuccessResult<T> | ErrorResult;
 
 type Options = {
   cacheId?: string;
+  staleWhileRevalidate?: boolean;
 };
 
 const cacheStorage = new Map<string, any>();
@@ -37,7 +38,12 @@ export class RequestStore<T, Args extends any[] = []> {
       return this.result as unknown as ExecuteResult<T>;
     }
 
-    this.result = { data: null, status: "loading" };
+    if (
+      !this.options?.staleWhileRevalidate ||
+      this.result.status !== "success"
+    ) {
+      this.result = { data: null, status: "loading" };
+    }
 
     try {
       const data = await this.fetchFn(...args);

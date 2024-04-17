@@ -10,7 +10,7 @@ import { useMainButton } from "../../lib/telegram/use-main-button.tsx";
 import { Input } from "../../ui/input.tsx";
 import { DateTime } from "luxon";
 import { Chip } from "../../ui/chip.tsx";
-import { FreezeCardsStore } from "./freeze-cards-store.ts";
+import { FreezeCardsStore } from "./store/freeze-cards-store.ts";
 import { FilledIcon } from "../../ui/filled-icon.tsx";
 import { Accordion } from "../../ui/accordion.tsx";
 import { useTelegramProgress } from "../../lib/telegram/use-telegram-progress.tsx";
@@ -30,7 +30,7 @@ export const FreezeCardsScreen = observer(() => {
     store.freeze,
     () => store.isFreezeButtonVisible,
   );
-  useTelegramProgress(() => store.isLoading);
+  useTelegramProgress(() => store.cardsFreezeRequest.isLoading);
 
   return (
     <Screen title={t("freeze_title")}>

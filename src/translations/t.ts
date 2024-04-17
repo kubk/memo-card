@@ -27,6 +27,7 @@ const en = {
   wysiwyg_clear_formatting: "Clear formatting",
   my_decks: "My decks",
   formatting: "Formatting",
+  card_added: "Card has been added",
   choose_what_to_create: "Choose what to create",
   deck: "Deck",
   deck_description: "A collection of cards",
@@ -205,7 +206,6 @@ const en = {
   validate_under_100: "Please enter a number less than 100",
   freeze_confirm_freeze:
     "Are you sure you want to freeze your cards? This action can't be undone.",
-  freeze_error: "Failed to freeze cards. Please try again later",
   freeze_title: "Freeze cards",
   how: "How it works",
   freeze_how_title: `When you freeze cards, they will be postponed for the selected number of days, allowing you to take a break. Use it on holidays or whenever you need a rest.`,
@@ -223,7 +223,8 @@ const en = {
   ui_loading: "Loading...",
   is_on: "On",
   is_off: "Off",
-  error_try_again: "An error occurred. We're solving the issue",
+  error_solving: "We're solving the issue",
+  error: "Error",
   user_settings_updated: "Settings have been updated",
   ai_cards_generate: "Generate cards",
   ai_cards_title: "Generate cards with AI",
@@ -248,6 +249,7 @@ const en = {
 type Translation = typeof en;
 
 const ru: Translation = {
+  error: "Ошибка",
   user_settings_updated: "Настройки обновлены",
   is_on: "Включено",
   is_off: "Выключено",
@@ -349,6 +351,7 @@ const ru: Translation = {
   category_History: "История",
   save: "Сохранить",
   add_card: "Добавить карточку",
+  card_added: "Карточка была добавлена",
   card_front_title: "Лицевая сторона",
   card_back_title: "Обратная сторона",
   card_front_side_hint: "Вопрос или подсказка",
@@ -453,7 +456,6 @@ const ru: Translation = {
   freeze_confirm_freeze:
     "Вы уверены, что хотите заморозить карточки? Это действие нельзя отменить.",
   freeze_title: "Заморозить карточки",
-  freeze_error: "Не удалось заморозить карточки. Пожалуйста, попробуйте позже",
   freeze_for_or_manual: "или введите вручную",
   freeze_how_title: `Когда вы замораживаете карточки, они будут отложены на выбранное количество дней, позволяя вам отдохнуть. Используйте это во время отпуска или когда вам нужен перерыв.`,
   freeze_rule_2:
@@ -465,7 +467,7 @@ const ru: Translation = {
   validate_under_100: "Пожалуйста, введите число меньше 100",
   freeze_hint: "Отложите изучение карточек",
   ui_loading: "Загрузка...",
-  error_try_again: "Произошла ошибка. Мы решаем проблему",
+  error_solving: "Мы решаем проблему",
   ai_cards_added: "Карточки добавлены",
   quit_without_saving: "Выйти без сохранения?",
   ai_cards_validation_key_required: "API ключ обязателен",
@@ -695,8 +697,6 @@ const es: Translation = {
   validate_positive: "Por favor, introduce un número positivo",
   freeze_confirm_freeze:
     "¿Estás seguro de que quieres congelar tus tarjetas? Esta acción no se puede deshacer.",
-  freeze_error:
-    "No se pudieron congelar las tarjetas. Por favor, inténtalo de nuevo más tarde",
   freeze_for: "Congelar durante",
   freeze_for_or_manual: "o escribe manualmente",
   how: "Cómo funciona",
@@ -711,7 +711,7 @@ const es: Translation = {
   freeze_rule_3: "La congelación de tarjetas no se puede deshacer.",
   freeze_title: "Congelar tarjetas",
   freeze_hint: "Posponer el estudio de las tarjetas",
-  error_try_again: "Ocurrió un error. Estamos resolviendo el problema",
+  error_solving: "Estamos resolviendo el problema",
   ai_cards_title: "Creación de tarjetas con IA",
   ai_cards_confirm_delete: "¿Eliminar esta tarjeta?",
   ai_cards_by_ai: "Tarjetas generadas",
@@ -728,14 +728,18 @@ const es: Translation = {
   ai_cards_prompt_back: "Dorso de la tarjeta",
   ai_cards_api_keys: "Clave de API",
   understood: "Entendido",
+  card_added: "Tarjeta añadida",
   quit_without_saving: "¿Salir sin guardar?",
   ai_cards_validation_key_required: "Se requiere una clave de API",
   ai_cards_added: "Tarjetas añadidas",
+  error: "Error",
 };
 
 const ptBr: Translation = {
+  error: "Erro",
   user_settings_updated: "Configurações atualizadas",
-  error_try_again: "Ocorreu um erro. Estamos resolvendo o problema",
+  error_solving: "Estamos resolvendo o problema",
+  card_added: "Cartão adicionado",
   is_on: "Ligado",
   is_off: "Desligado",
   folder_form_no_decks: "Não há baralhos na pasta",
@@ -951,8 +955,6 @@ const ptBr: Translation = {
   how: "Como funciona",
   freeze_for: "Congelar por",
   freeze_for_or_manual: "ou digite manualmente",
-  freeze_error:
-    "Não foi possível congelar os cartões. Por favor, tente novamente mais tarde",
   freeze_confirm_freeze:
     "Tem certeza de que deseja congelar seus cartões? Esta ação não pode ser desfeita.",
   validate_positive: "Por favor, insira um número positivo",

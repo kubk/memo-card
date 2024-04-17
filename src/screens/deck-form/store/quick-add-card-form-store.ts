@@ -4,7 +4,7 @@ import {
   createAnswerTypeField,
   createCardSideField,
 } from "./deck-form-store.ts";
-import { action, makeAutoObservable } from "mobx";
+import { makeAutoObservable } from "mobx";
 import {
   formTouchAll,
   isFormDirty,
@@ -24,6 +24,8 @@ import {
   CardInnerScreenType,
 } from "./card-form-store-interface.ts";
 import { DeckSpeakFieldEnum } from "../../../../functions/db/deck/decks-with-cards-schema.ts";
+import { RequestStore } from "../../../lib/mobx-request/request-store.ts";
+import { notifyError, notifySuccess } from "../../shared/snackbar/snackbar.tsx";
 
 export class QuickAddCardFormStore implements CardFormStoreInterface {
   cardForm: CardFormType = {
@@ -34,7 +36,7 @@ export class QuickAddCardFormStore implements CardFormStoreInterface {
     options: null,
     answers: createAnswerListField([], () => this.cardForm),
   };
-  isSending = false;
+  addCardRequest = new RequestStore(addCardRequest);
   cardInnerScreen = new TextField<CardInnerScreenType>(null);
 
   constructor(
@@ -46,7 +48,11 @@ export class QuickAddCardFormStore implements CardFormStoreInterface {
     makeAutoObservable(this, {}, { autoBind: true });
   }
 
-  onSaveCard() {
+  get isSending() {
+    return this.addCardRequest.isLoading;
+  }
+
+  async onSaveCard() {
     if (!isFormValid(this.cardForm)) {
       formTouchAll(this.cardForm);
       return;
@@ -54,8 +60,6 @@ export class QuickAddCardFormStore implements CardFormStoreInterface {
 
     const screen = screenStore.screen;
     assert(screen.type === "cardQuickAddForm");
-
-    this.isSending = true;
 
     const body: AddCardRequest = {
       deckId: screen.deckId,
@@ -72,16 +76,15 @@ export class QuickAddCardFormStore implements CardFormStoreInterface {
       },
     };
 
-    return addCardRequest(body)
-      .then(() => {
-        screenStore.back();
-        deckListStore.load();
-      })
-      .finally(
-        action(() => {
-          this.isSending = false;
-        }),
-      );
+    const result = await this.addCardRequest.execute(body);
+    if (result.status === "error") {
+      notifyError({ e: result.error, info: "Error adding quick card" });
+      return;
+    }
+
+    screenStore.back();
+    deckListStore.load();
+    notifySuccess(t("card_added"));
   }
 
   async onBackCard() {

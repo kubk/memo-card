@@ -1,17 +1,16 @@
 import { formTouchAll, isFormValid, TextField } from "mobx-form-lite";
-import { action, makeAutoObservable, runInAction } from "mobx";
-import { cardsFreezeRequest } from "../../api/api.ts";
-import { assert } from "../../lib/typescript/assert.ts";
-import { reportHandledError } from "../../lib/rollbar/rollbar.tsx";
-import { showAlert } from "../../lib/telegram/show-alert.ts";
-import { screenStore } from "../../store/screen-store.ts";
-import { hapticImpact } from "../../lib/telegram/haptics.ts";
-import { showConfirm } from "../../lib/telegram/show-confirm.ts";
-import { t } from "../../translations/t.ts";
-import { formatFrozenCards } from "./translations.ts";
+import { makeAutoObservable } from "mobx";
+import { cardsFreezeRequest } from "../../../api/api.ts";
+import { assert } from "../../../lib/typescript/assert.ts";
+import { screenStore } from "../../../store/screen-store.ts";
+import { showConfirm } from "../../../lib/telegram/show-confirm.ts";
+import { t } from "../../../translations/t.ts";
+import { formatFrozenCards } from "../translations.ts";
+import { RequestStore } from "../../../lib/mobx-request/request-store.ts";
+import { notifyError, notifySuccess } from "../../shared/snackbar/snackbar.tsx";
 
 export class FreezeCardsStore {
-  isLoading = false;
+  cardsFreezeRequest = new RequestStore(cardsFreezeRequest);
   form = {
     freezeCardSelect: new TextField<number | null>(null, {
       onChangeCallback: (value) => {
@@ -78,24 +77,17 @@ export class FreezeCardsStore {
       return;
     }
 
-    runInAction(() => {
-      this.isLoading = true;
-    });
     assert(this.freezeDays !== null, "freezeDays is null");
-    cardsFreezeRequest({ days: this.freezeDays })
-      .then(({ frozenCards }) => {
-        screenStore.go({ type: "main" });
-        hapticImpact("heavy");
-        showAlert(formatFrozenCards(frozenCards));
-      })
-      .catch((error) => {
-        reportHandledError("Failed to freeze cards", error);
-        showAlert(t("freeze_error"));
-      })
-      .finally(
-        action(() => {
-          this.isLoading = false;
-        }),
-      );
+    const result = await this.cardsFreezeRequest.execute({
+      days: this.freezeDays,
+    });
+    if (result.status === "error") {
+      notifyError({ info: "Error freezing cards", e: result.error });
+      return;
+    }
+
+    const { frozenCards } = result.data;
+    screenStore.go({ type: "main" });
+    notifySuccess(formatFrozenCards(frozenCards));
   }
 }

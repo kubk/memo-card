@@ -33,3 +33,23 @@ test("request - cache", async () => {
   await when(() => request2.result.status === "success");
   expect(fn2).toBeCalledTimes(2);
 });
+
+test("request - loading - default", async () => {
+  const fn = () => new Promise((resolve) => setTimeout(resolve, 300));
+  const request = new RequestStore(fn);
+  request.execute();
+  expect(request.result.status).toBe("loading");
+  await when(() => request.result.status === "success");
+  request.execute();
+  expect(request.result.status).toBe("loading");
+});
+
+test("request - loading - swr", async () => {
+  const fn = () => new Promise((resolve) => setTimeout(resolve, 300));
+  const request = new RequestStore(fn, { staleWhileRevalidate: true });
+  request.execute();
+  expect(request.result.status).toBe("loading");
+  await when(() => request.result.status === "success");
+  request.execute();
+  expect(request.result.status).toBe("success");
+});
