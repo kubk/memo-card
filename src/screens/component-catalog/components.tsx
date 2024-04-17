@@ -4,6 +4,7 @@ import { CardPreviewStory } from "./card-preview-story.tsx";
 import { SelectStory } from "./select-story.tsx";
 import { PieChartCanvasStory } from "./pie-chart-canvas-story.tsx";
 import { SnackbarStory } from "./snackbar-story.tsx";
+import { ListStory } from "./list-story.tsx";
 
 export type Component = {
   name: string;
@@ -45,15 +46,19 @@ export const components: Array<Component> = [
     ),
   },
   {
-    name: "Select",
+    name: SelectStory.name,
     component: <SelectStory />,
   },
   {
-    name: "PieChart",
+    name: PieChartCanvasStory.name,
     component: <PieChartCanvasStory />,
   },
   {
     name: SnackbarStory.name,
     component: <SnackbarStory />,
+  },
+  {
+    name: ListStory.name,
+    component: <ListStory />,
   },
 ];

@@ -203,7 +203,11 @@ export const FolderPreview = observer(() => {
               deckListStore.goDeckById(deck.id);
             },
             text: deck.name,
-            right: <CardsToReview item={deck} />,
+            right: (
+              <div className={css({ position: "relative", marginRight: -12 })}>
+                <CardsToReview item={deck} />
+              </div>
+            ),
           }))}
         />
         {folder.cardsToReview.length === 0 &&

@@ -92,14 +92,7 @@ export const List = observer((props: Props) => {
                   {item.text}
                 </span>
                 {item.right ? (
-                  <span
-                    className={css({
-                      position: "absolute",
-                      right: 12,
-                    })}
-                  >
-                    {item.right}
-                  </span>
+                  <div className={css({ marginRight: 10 })}>{item.right}</div>
                 ) : null}
               </div>
             </div>
