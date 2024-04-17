@@ -89,12 +89,16 @@ export class DeckListStore {
   catalogFolder?: FolderWithDecksWithCards;
   isCatalogFolderLoading = false;
 
-  get isCatalogItemLoading() {
-    return this.isDeckCardsLoading || this.isCatalogFolderLoading;
+  constructor() {
+    makeAutoObservable(
+      this,
+      { searchDeckById: false, hasFolderInMine: false },
+      { autoBind: true },
+    );
   }
 
-  constructor() {
-    makeAutoObservable(this, { searchDeckById: false }, { autoBind: true });
+  get isCatalogItemLoading() {
+    return this.isDeckCardsLoading || this.isCatalogFolderLoading;
   }
 
   loadFirstTime(startParam?: string) {
@@ -477,7 +481,15 @@ export class DeckListStore {
     if (!folder) {
       return false;
     }
+    if (!this.hasFolderInMine(folder.id)) {
+      return false;
+    }
+
     return folder.authorId === userStore.myId || userStore.isAdmin;
+  }
+
+  hasFolderInMine(folderId: number) {
+    return !!this.myFoldersAsDecks.find(({ id }) => id === folderId);
   }
 
   get canDuplicateSelectedFolder() {

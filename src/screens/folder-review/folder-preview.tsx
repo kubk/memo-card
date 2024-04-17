@@ -149,48 +149,50 @@ export const FolderPreview = observer(() => {
               {t("duplicate")}
             </ButtonSideAligned>
           )}
-          {deckListStore.canEditFolder ? (
-            <ButtonSideAligned
-              icon={"mdi-pencil-circle mdi-24px"}
-              outline
-              onClick={() => {
-                screenStore.go({ type: "folderForm", folderId: folder.id });
-              }}
-            >
-              {t("edit")}
-            </ButtonSideAligned>
-          ) : null}
           {deckListStore.canEditFolder && (
-            <ButtonSideAligned
-              icon={"mdi-share-circle mdi-24px"}
-              outline
-              onClick={() => {
-                if (userStore.canAdvancedShare) {
-                  screenStore.go({
-                    type: "shareFolder",
-                    folderId: folder.id,
-                    shareId: folder.shareId,
-                  });
-                } else {
-                  redirectUserToDeckOrFolderLink(folder.shareId);
-                }
-              }}
-            >
-              {t("share")}
-            </ButtonSideAligned>
+            <>
+              <ButtonSideAligned
+                icon={"mdi-pencil-circle mdi-24px"}
+                outline
+                onClick={() => {
+                  screenStore.go({ type: "folderForm", folderId: folder.id });
+                }}
+              >
+                {t("edit")}
+              </ButtonSideAligned>
+              <ButtonSideAligned
+                icon={"mdi-share-circle mdi-24px"}
+                outline
+                onClick={() => {
+                  if (userStore.canAdvancedShare) {
+                    screenStore.go({
+                      type: "shareFolder",
+                      folderId: folder.id,
+                      shareId: folder.shareId,
+                    });
+                  } else {
+                    redirectUserToDeckOrFolderLink(folder.shareId);
+                  }
+                }}
+              >
+                {t("share")}
+              </ButtonSideAligned>
+              <ButtonSideAligned
+                icon={"mdi-delete-circle mdi-24px"}
+                outline
+                onClick={async () => {
+                  const isConfirmed = await showConfirm(
+                    t("delete_folder_confirm"),
+                  );
+                  if (isConfirmed) {
+                    deckListStore.deleteFolder();
+                  }
+                }}
+              >
+                {t("delete")}
+              </ButtonSideAligned>
+            </>
           )}
-          <ButtonSideAligned
-            icon={"mdi-delete-circle mdi-24px"}
-            outline
-            onClick={async () => {
-              const isConfirmed = await showConfirm(t("delete_folder_confirm"));
-              if (isConfirmed) {
-                deckListStore.deleteFolder();
-              }
-            }}
-          >
-            {t("delete")}
-          </ButtonSideAligned>
         </ButtonGrid>
       </div>
       <Flex pt={6} direction={"column"}>
