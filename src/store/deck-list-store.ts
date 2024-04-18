@@ -79,15 +79,13 @@ export class DeckListStore {
     staleWhileRevalidate: true,
   });
 
-  isFullScreenLoaderVisible = false;
+  isAppLoading = false;
   isSharedDeckLoaded = false;
-
   isReviewAllLoaded = false;
 
   skeletonLoaderData = { publicCount: 3, myDecksCount: 3 };
 
   deckWithCardsRequest = new RequestStore(deckWithCardsRequest);
-
   isMyDecksExpanded = new BooleanToggle(false);
 
   catalogFolder?: FolderWithDecksWithCards;
@@ -111,138 +109,6 @@ export class DeckListStore {
   loadFirstTime(startParam?: string) {
     this.load();
     this.handleStartParam(startParam);
-  }
-
-  async load() {
-    const result = await this.myInfoRequest.execute();
-    if (result.status === "error") {
-      return;
-    }
-    runInAction(() => {
-      this.myInfo = result.data;
-    });
-    userStore.setUser(result.data.user, result.data.plans);
-  }
-
-  async onDuplicateDeck(deckId: number) {
-    const isConfirmed = await showConfirm(t("duplicate_deck_confirm"));
-    if (!isConfirmed) {
-      return;
-    }
-
-    hapticImpact("heavy");
-    runInAction(() => {
-      this.isFullScreenLoaderVisible = true;
-    });
-    duplicateDeckRequest(deckId)
-      .then(() => {
-        screenStore.go({ type: "main" });
-      })
-      .finally(
-        action(() => {
-          this.isFullScreenLoaderVisible = false;
-        }),
-      );
-  }
-
-  async onDuplicateFolder(folderId: number) {
-    const isConfirmed = await showConfirm(t("duplicate_folder_confirm"));
-    if (!isConfirmed) {
-      return;
-    }
-
-    hapticImpact("heavy");
-    runInAction(() => {
-      this.isFullScreenLoaderVisible = true;
-    });
-    duplicateFolderRequest(folderId)
-      .then(() => {
-        screenStore.go({ type: "main" });
-      })
-      .finally(
-        action(() => {
-          this.isFullScreenLoaderVisible = false;
-        }),
-      );
-  }
-
-  async handleStartParam(startParam?: string) {
-    if (!startParam) {
-      return;
-    }
-
-    if (startParam === StartParamType.RepeatAll) {
-      if (this.isReviewAllLoaded) {
-        return;
-      }
-
-      this.isFullScreenLoaderVisible = true;
-      when(() => !!this.myInfo)
-        .then(() => {
-          screenStore.go({ type: "reviewAll" });
-        })
-        .finally(
-          action(() => {
-            this.isFullScreenLoaderVisible = false;
-            this.isReviewAllLoaded = true;
-          }),
-        );
-    } else if (startParam === StartParamType.WalletPaymentSuccessful) {
-      notifyPaymentSuccess();
-    } else if (startParam === StartParamType.WalletPaymentFailed) {
-      notifyPaymentFailed();
-    } else {
-      if (this.isSharedDeckLoaded) {
-        return;
-      }
-
-      this.isFullScreenLoaderVisible = true;
-      await when(() => !!this.myInfo);
-
-      getSharedDeckRequest(startParam)
-        .then(
-          action((sharedDeckResponse) => {
-            if ("deck" in sharedDeckResponse) {
-              const deck = sharedDeckResponse.deck;
-              assert(this.myInfo);
-              if (this.myInfo.myDecks.find((myDeck) => myDeck.id === deck.id)) {
-                screenStore.go({ type: "deckMine", deckId: deck.id });
-                return;
-              }
-
-              if (
-                this.publicDecks.find((publicDeck) => publicDeck.id === deck.id)
-              ) {
-                this.replaceDeck(deck);
-                screenStore.go({
-                  type: "deckPublic",
-                  deckId: deck.id,
-                });
-                return;
-              }
-
-              this.myInfo.publicDecks.push(deck);
-              screenStore.go({ type: "deckPublic", deckId: deck.id });
-            }
-
-            if ("folder" in sharedDeckResponse) {
-              const folder = sharedDeckResponse.folder;
-              this.addFolder(folder);
-            }
-          }),
-        )
-        .catch((e) => {
-          reportHandledError("Error while retrieving shared deck", e, {
-            shareId: startParam,
-          });
-        })
-        .finally(
-          action(() => {
-            this.isFullScreenLoaderVisible = false;
-            this.isSharedDeckLoaded = true;
-          }),
-        );
-    }
   }
 
   private addFolder(folder: FolderWithDecksWithCards) {
@@ -715,7 +581,7 @@ export class DeckListStore {
     }
 
     hapticImpact("heavy");
-    this.isFullScreenLoaderVisible = true;
+    this.isAppLoading = true;
 
     deleteFolderRequest(folder.id)
       .then(() => myInfoRequest())
@@ -730,7 +596,7 @@ export class DeckListStore {
       })
       .finally(
         action(() => {
-          this.isFullScreenLoaderVisible = false;
+          this.isAppLoading = false;
         }),
       );
   }
@@ -742,7 +608,7 @@ export class DeckListStore {
     }
 
     hapticImpact("heavy");
-    this.isFullScreenLoaderVisible = true;
+    this.isAppLoading = true;
 
     removeDeckFromMineRequest({ deckId: deck.id })
       .then(() => myInfoRequest())
@@ -757,7 +623,7 @@ export class DeckListStore {
       })
       .finally(
         action(() => {
-          this.isFullScreenLoaderVisible = false;
+          this.isAppLoading = false;
         }),
       );
   }
@@ -770,6 +636,138 @@ export class DeckListStore {
   updateCardsToReview(body: CardToReviewDbType[]) {
     assert(this.myInfo, "myInfo is not loaded in updateCardsToReview");
     this.myInfo.cardsToReview = body;
+  }
+
+  async load() {
+    const result = await this.myInfoRequest.execute();
+    if (result.status === "error") {
+      return;
+    }
+    runInAction(() => {
+      this.myInfo = result.data;
+    });
+    userStore.setUser(result.data.user, result.data.plans);
+  }
+
+  async onDuplicateDeck(deckId: number) {
+    const isConfirmed = await showConfirm(t("duplicate_deck_confirm"));
+    if (!isConfirmed) {
+      return;
+    }
+
+    hapticImpact("heavy");
+    runInAction(() => {
+      this.isAppLoading = true;
+    });
+    duplicateDeckRequest(deckId)
+      .then(() => {
+        screenStore.go({ type: "main" });
+      })
+      .finally(
+        action(() => {
+          this.isAppLoading = false;
+        }),
+      );
+  }
+
+  async onDuplicateFolder(folderId: number) {
+    const isConfirmed = await showConfirm(t("duplicate_folder_confirm"));
+    if (!isConfirmed) {
+      return;
+    }
+
+    hapticImpact("heavy");
+    runInAction(() => {
+      this.isAppLoading = true;
+    });
+    duplicateFolderRequest(folderId)
+      .then(() => {
+        screenStore.go({ type: "main" });
+      })
+      .finally(
+        action(() => {
+          this.isAppLoading = false;
+        }),
+      );
+  }
+
+  async handleStartParam(startParam?: string) {
+    if (!startParam) {
+      return;
+    }
+
+    if (startParam === StartParamType.RepeatAll) {
+      if (this.isReviewAllLoaded) {
+        return;
+      }
+
+      this.isAppLoading = true;
+      when(() => !!this.myInfo)
+        .then(() => {
+          screenStore.go({ type: "reviewAll" });
+        })
+        .finally(
+          action(() => {
+            this.isAppLoading = false;
+            this.isReviewAllLoaded = true;
+          }),
+        );
+    } else if (startParam === StartParamType.WalletPaymentSuccessful) {
+      notifyPaymentSuccess();
+    } else if (startParam === StartParamType.WalletPaymentFailed) {
+      notifyPaymentFailed();
+    } else {
+      if (this.isSharedDeckLoaded) {
+        return;
+      }
+
+      this.isAppLoading = true;
+      await when(() => !!this.myInfo);
+
+      getSharedDeckRequest(startParam)
+        .then(
+          action((sharedDeckResponse) => {
+            if ("deck" in sharedDeckResponse) {
+              const deck = sharedDeckResponse.deck;
+              assert(this.myInfo);
+              if (this.myInfo.myDecks.find((myDeck) => myDeck.id === deck.id)) {
+                screenStore.go({ type: "deckMine", deckId: deck.id });
+                return;
+              }
+
+              if (
+                this.publicDecks.find((publicDeck) => publicDeck.id === deck.id)
+              ) {
+                this.replaceDeck(deck);
+                screenStore.go({
+                  type: "deckPublic",
+                  deckId: deck.id,
+                });
+                return;
+              }
+
+              this.myInfo.publicDecks.push(deck);
+              screenStore.go({ type: "deckPublic", deckId: deck.id });
+            }
+
+            if ("folder" in sharedDeckResponse) {
+              const folder = sharedDeckResponse.folder;
+              this.addFolder(folder);
+            }
+          }),
+        )
+        .catch((e) => {
+          reportHandledError("Error while retrieving shared deck", e, {
+            shareId: startParam,
+          });
+        })
+        .finally(
+          action(() => {
+            this.isAppLoading = false;
+            this.isSharedDeckLoaded = true;
+          }),
+        );
+    }
   }
 }
 

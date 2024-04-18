@@ -479,7 +479,7 @@ export class DeckFormStore implements CardFormStoreInterface {
       }
 
       this.form.cardsToRemoveIds.push(selectedCard.id);
-      deckListStore.isFullScreenLoaderVisible = true;
+      deckListStore.isAppLoading = true;
     });
 
     this.onDeckSave(
@@ -490,7 +490,7 @@ export class DeckFormStore implements CardFormStoreInterface {
       }),
     ).finally(
       action(() => {
-        deckListStore.isFullScreenLoaderVisible = false;
+        deckListStore.isAppLoading = false;
       }),
     );
   }

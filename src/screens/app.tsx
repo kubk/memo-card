@@ -53,7 +53,7 @@ export const App = observer(() => {
     screenStore.go({ type: "userSettings" });
   });
 
-  if (deckListStore.isFullScreenLoaderVisible) {
+  if (deckListStore.isAppLoading) {
     return <FullScreenLoader />;
   }
 
