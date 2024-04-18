@@ -278,7 +278,8 @@ export class AiMassCreationStore {
     });
 
     if (result.status === "error") {
-      throw new Error("Failed to add cards");
+      notifyError({ e: result.error, info: "Failed to add multiple cards" });
+      return;
     }
 
     notifySuccess(t("ai_cards_added"));
