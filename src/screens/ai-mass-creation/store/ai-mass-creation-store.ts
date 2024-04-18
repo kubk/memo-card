@@ -91,6 +91,7 @@ export class AiMassCreationStore {
   };
 
   massCreationForm?: {
+    selectedCardIndex: TextField<null | number>;
     cards: ListField<{
       front: string;
       back: string;
@@ -148,6 +149,28 @@ export class AiMassCreationStore {
     this.onQuit(() => {
       this.screen.onChange(null);
     });
+  }
+
+  get massCreationFormPreviewCard() {
+    if (!this.massCreationForm) {
+      return null;
+    }
+    if (this.massCreationForm.selectedCardIndex.value === null) {
+      return null;
+    }
+
+    const card =
+      this.massCreationForm.cards.value[
+        this.massCreationForm.selectedCardIndex.value
+      ];
+    if (!card) {
+      return null;
+    }
+
+    return {
+      ...card,
+      example: card.example || undefined,
+    };
   }
 
   async deleteGeneratedCard(index: number) {
@@ -223,6 +246,7 @@ export class AiMassCreationStore {
     const innerResult = result.data;
     if (innerResult.data) {
       this.massCreationForm = {
+        selectedCardIndex: new TextField<number | null>(null),
         cards: new ListField(
           innerResult.data.cards.map((card) => ({
             front: card.front,

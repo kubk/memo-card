@@ -1,37 +1,6 @@
 import { CardPreview } from "../deck-form/card-preview.tsx";
 import { useState } from "react";
-import {
-  CardFormStoreInterface,
-  CardInnerScreenType,
-} from "../deck-form/store/card-form-store-interface.ts";
-import { ListField, TextField } from "mobx-form-lite";
-import { CardAnswerType } from "../../../functions/db/custom-types.ts";
-import { CardAnswerFormType } from "../deck-form/store/deck-form-store.ts";
-
-const createCardPreviewForm = (card: {
-  front: string;
-  back: string;
-  example?: string;
-}): CardFormStoreInterface => {
-  return {
-    cardForm: {
-      front: new TextField<string>(card.front),
-      back: new TextField<string>(card.back),
-      example: new TextField<string>(card.example ?? ""),
-      answerType: new TextField<CardAnswerType>("remember"),
-      answerFormType: "new",
-      options: null,
-      answers: new ListField<CardAnswerFormType>([]),
-      answerId: "0",
-    },
-    form: undefined,
-    cardInnerScreen: new TextField<CardInnerScreenType>(null),
-    onBackCard: () => {},
-    onSaveCard: () => {},
-    isSending: false,
-    markCardAsRemoved: () => {},
-  };
-};
+import { createMockCardPreviewForm } from "../deck-form/create-mock-card-preview-form.ts";
 
 export const CardPreviewStory = (props: {
   card: {
@@ -40,7 +9,7 @@ export const CardPreviewStory = (props: {
     example?: string;
   };
 }) => {
-  const [form] = useState(createCardPreviewForm(props.card));
+  const [form] = useState(createMockCardPreviewForm(props.card));
 
   return <CardPreview form={form} onBack={() => {}} />;
 };

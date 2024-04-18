@@ -64,8 +64,11 @@ export const CardsGeneratedScreen = observer(() => {
       <div>
         <ListHeader text={t("ai_cards_by_ai")} />
         <List
-          animateTap={false}
           items={store.massCreationForm.cards.value.map((card, i) => ({
+            onClick: () => {
+              assert(store.massCreationForm);
+              store.massCreationForm.selectedCardIndex.onChange(i);
+            },
             text: (
               <div>
                 <div>
@@ -88,7 +91,8 @@ export const CardsGeneratedScreen = observer(() => {
                   reset.button,
                   css({ paddingTop: 4, fontSize: 16 }),
                 )}
-                onClick={() => {
+                onClick={(e) => {
+                  e.stopPropagation();
                   store.deleteGeneratedCard(i);
                 }}
               >

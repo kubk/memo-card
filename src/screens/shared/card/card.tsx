@@ -84,12 +84,14 @@ export const Card = observer((props: Props) => {
         >
           <Dropdown
             items={[
-              {
-                text: t("hide_card_forever"),
-                onClick: () => {
-                  onHideCardForever?.();
-                },
-              },
+              onHideCardForever
+                ? {
+                    text: t("hide_card_forever"),
+                    onClick: () => {
+                      onHideCardForever();
+                    },
+                  }
+                : undefined,
               card.canSpeak
                 ? {
                     text: userStore.isSpeakingCardsMuted.value

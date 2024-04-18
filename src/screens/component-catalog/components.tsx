@@ -5,6 +5,7 @@ import { SelectStory } from "./select-story.tsx";
 import { PieChartCanvasStory } from "./pie-chart-canvas-story.tsx";
 import { SnackbarStory } from "./snackbar-story.tsx";
 import { ListStory } from "./list-story.tsx";
+import { ListStoryMultipleIcons } from "./list-story-multiple-icons.tsx";
 
 export type Component = {
   name: string;
@@ -60,5 +61,9 @@ export const components: Array<Component> = [
   {
     name: ListStory.name,
     component: <ListStory />,
+  },
+  {
+    name: ListStoryMultipleIcons.name,
+    component: <ListStoryMultipleIcons />,
   },
 ];
