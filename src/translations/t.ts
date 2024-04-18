@@ -3,6 +3,7 @@ import { getUserLanguage } from "./get-user-language.ts";
 
 const en = {
   folder_form_no_decks: "No decks in the folder",
+  cards_add: "Add cards",
   card_next: "Next",
   card_previous: "Previous",
   user_stats_empty_text: "Study more cards to see the data",
@@ -228,6 +229,7 @@ const en = {
   user_settings_updated: "Settings have been updated",
   ai_cards_generate: "Generate cards",
   ai_cards_title: "Generate cards with AI",
+  ai_cards_previous_prompts: "Prompt history",
   ai_cards_prompt: "Prompt",
   ai_cards_prompt_front: "Card front description",
   ai_cards_prompt_back: "Card back description",
@@ -243,6 +245,7 @@ const en = {
   ai_cards_confirm_delete: "Are you sure you want to delete this card?",
   ai_cards_validation_key_required: "API key is required",
   ai_cards_added: "Cards have been added",
+  ai_cards_use_template: "Use template",
   understood: "Understood",
 };
 
@@ -474,6 +477,8 @@ const ru: Translation = {
   ai_cards_prompt_back: "Обратная сторона карточки",
   ai_cards_prompt_front: "Лицевая сторона карточки",
   ai_cards_prompt: "Описание колоды",
+  ai_cards_previous_prompts: "История запросов",
+  ai_cards_use_template: "Использовать шаблон",
   understood: "Понятно",
   ai_cards_gpt_model: "Модель",
   ai_cards_gpt_grab_key: "Получите ключ на",
@@ -487,6 +492,7 @@ const ru: Translation = {
   ai_cards_by_ai: "Сгенерированные карточки",
   ai_cards_confirm_delete: "Удалить эту карточку?",
   ai_cards_title: "Создание карточек с помощью ИИ",
+  cards_add: "Добавить карточки",
 };
 
 const es: Translation = {
@@ -724,6 +730,8 @@ const es: Translation = {
   ai_cards_gpt_grab_key: "Obtén una clave en",
   ai_cards_gpt_model: "Modelo",
   ai_cards_prompt: "Descripción del mazo",
+  ai_cards_use_template: "Usar plantilla",
+  ai_cards_previous_prompts: "Historial de solicitudes",
   ai_cards_prompt_front: "Cara de la tarjeta",
   ai_cards_prompt_back: "Dorso de la tarjeta",
   ai_cards_api_keys: "Clave de API",
@@ -733,9 +741,11 @@ const es: Translation = {
   ai_cards_validation_key_required: "Se requiere una clave de API",
   ai_cards_added: "Tarjetas añadidas",
   error: "Error",
+  cards_add: "Añadir tarjeta",
 };
 
 const ptBr: Translation = {
+  cards_add: "Adicionar cartão",
   error: "Erro",
   user_settings_updated: "Configurações atualizadas",
   error_solving: "Estamos resolvendo o problema",
@@ -976,6 +986,8 @@ const ptBr: Translation = {
   ai_cards_gpt_grab_key: "Obtenha uma chave em",
   ai_cards_gpt_model: "Modelo",
   ai_cards_prompt: "Descrição do baralho",
+  ai_cards_previous_prompts: "Histórico de solicitações",
+  ai_cards_use_template: "Usar modelo",
   ai_cards_gpt_dashboard: "painel da OpenAI",
   ai_cards_prompt_back: "Verso do cartão",
   ai_cards_prompt_front: "Frente do cartão",

@@ -41,7 +41,7 @@ export const CardsGeneratedScreen = observer(() => {
 
   return (
     <Screen
-      title={"Add cards"}
+      title={t("cards_add")}
       subtitle={
         screen.deckTitle ? (
           <div className={css({ textAlign: "center", fontSize: 14 })}>

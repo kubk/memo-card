@@ -131,7 +131,9 @@ export class DeckListStore {
     }
 
     hapticImpact("heavy");
-    this.isFullScreenLoaderVisible = true;
+    runInAction(() => {
+      this.isFullScreenLoaderVisible = true;
+    });
     duplicateDeckRequest(deckId)
       .then(() => {
         screenStore.go({ type: "main" });
@@ -150,7 +152,9 @@ export class DeckListStore {
     }
 
     hapticImpact("heavy");
-    this.isFullScreenLoaderVisible = true;
+    runInAction(() => {
+      this.isFullScreenLoaderVisible = true;
+    });
     duplicateFolderRequest(folderId)
       .then(() => {
         screenStore.go({ type: "main" });

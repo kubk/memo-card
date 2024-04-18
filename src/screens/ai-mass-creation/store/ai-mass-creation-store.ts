@@ -13,6 +13,7 @@ import {
   aiMassGenerateRequest,
   aiUserCredentialsCheckRequest,
   upsertUserAiCredentialsRequest,
+  userPreviousPromptsRequest,
 } from "../../../api/api.ts";
 import { RequestStore } from "../../../lib/mobx-request/request-store.ts";
 import { screenStore } from "../../../store/screen-store.ts";
@@ -43,6 +44,8 @@ export const chatGptModels = [
 
 type ChatGptModel = (typeof chatGptModels)[number];
 
+type InnerScreen = "how" | "apiKeys" | "cardsGenerated" | "previousPrompts";
+
 export class AiMassCreationStore {
   upsertUserAiCredentialsRequest = new RequestStore(
     upsertUserAiCredentialsRequest,
@@ -50,8 +53,9 @@ export class AiMassCreationStore {
   isApiKeysSetRequest = new RequestStore(aiUserCredentialsCheckRequest);
   aiMassGenerateRequest = new RequestStore(aiMassGenerateRequest);
   addCardsMultipleRequest = new RequestStore(addCardsMultipleRequest);
+  userPreviousPromptsRequest = new RequestStore(userPreviousPromptsRequest);
 
-  screen = new TextField<"how" | "apiKeys" | "cardsGenerated" | null>(null);
+  screen = new TextField<InnerScreen | null>(null);
   forceUpdateApiKey = new BooleanToggle(false);
 
   promptForm = {
@@ -64,6 +68,7 @@ export class AiMassCreationStore {
     backPrompt: new TextField("", {
       validate: validators.required(t("validation_required")),
     }),
+    examplePrompt: new TextField(""),
     // A field to just show error on submit
     apiKey: new TextField("", {
       validate: () => {
@@ -86,7 +91,11 @@ export class AiMassCreationStore {
   };
 
   massCreationForm?: {
-    cards: ListField<{ front: string; back: string }>;
+    cards: ListField<{
+      front: string;
+      back: string;
+      example: string | null | undefined;
+    }>;
   };
 
   constructor() {
@@ -159,6 +168,22 @@ export class AiMassCreationStore {
     return this.massCreationForm.cards.value.length > 1;
   }
 
+  usePreviousPrompt(index: TextField<number | null>) {
+    assert(
+      this.userPreviousPromptsRequest.result.status === "success",
+      "Invalid status",
+    );
+    assert(index.value !== null, "Empty index");
+    const log = this.userPreviousPromptsRequest.result.data[index.value];
+    assert(log, "Invalid log index");
+    this.promptForm.prompt.onChange(log.payload.prompt);
+    this.promptForm.frontPrompt.onChange(log.payload.frontPrompt);
+    this.promptForm.backPrompt.onChange(log.payload.backPrompt);
+    const examplePrompt = log.payload.examplePrompt || "";
+    this.promptForm.examplePrompt.onChange(examplePrompt);
+    this.screen.onChange(null);
+  }
+
   submitApiKeysForm() {
     if (!isFormValid(this.apiKeysForm)) {
       formTouchAll(this.apiKeysForm);
@@ -187,6 +212,7 @@ export class AiMassCreationStore {
       prompt: this.promptForm.prompt.value,
       frontPrompt: this.promptForm.frontPrompt.value,
       backPrompt: this.promptForm.backPrompt.value,
+      examplePrompt: this.promptForm.examplePrompt.value,
     });
 
     if (result.status === "error") {
@@ -197,10 +223,11 @@ export class AiMassCreationStore {
     const innerResult = result.data;
     if (innerResult.data) {
       this.massCreationForm = {
-        cards: new ListField<{ front: string; back: string }>(
+        cards: new ListField(
           innerResult.data.cards.map((card) => ({
             front: card.front,
             back: card.back,
+            example: card.example,
           })),
         ),
       };

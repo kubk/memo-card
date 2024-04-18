@@ -39,7 +39,7 @@ export const AiMassCreationForm = observer(() => {
               text: t("how"),
               icon: (
                 <FilledIcon
-                  backgroundColor={theme.icons.turquoise}
+                  backgroundColor={theme.icons.violet}
                   icon={"mdi-help"}
                 />
               ),
@@ -70,6 +70,18 @@ export const AiMassCreationForm = observer(() => {
                 store.goApiKeysScreen();
               },
             },
+            {
+              text: t("ai_cards_previous_prompts"),
+              icon: (
+                <FilledIcon
+                  backgroundColor={theme.icons.turquoise}
+                  icon={"mdi-history"}
+                />
+              ),
+              onClick: () => {
+                store.screen.onChange("previousPrompts");
+              },
+            },
           ]}
         />
         {promptForm.apiKey.isTouched && promptForm.apiKey.error && (
@@ -87,6 +99,10 @@ export const AiMassCreationForm = observer(() => {
 
       <Label isRequired text={t("ai_cards_prompt_back")}>
         <Input field={promptForm.backPrompt} />
+      </Label>
+
+      <Label text={t("card_field_example_title")}>
+        <Input field={promptForm.examplePrompt} />
       </Label>
     </Screen>
   );

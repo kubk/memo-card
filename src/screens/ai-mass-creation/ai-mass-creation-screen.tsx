@@ -6,6 +6,7 @@ import { HowMassCreationWorksScreen } from "./how-mass-creation-works-screen.tsx
 import { ApiKeysScreen } from "./api-keys-screen.tsx";
 import { useMount } from "../../lib/react/use-mount.ts";
 import { CardsGeneratedScreen } from "./cards-generated-screen.tsx";
+import { PreviousPromptsScreen } from "./previous-prompts-screen.tsx";
 
 export const AiMassCreationScreen = observer(() => {
   const store = useAiMassCreationStore();
@@ -22,6 +23,9 @@ export const AiMassCreationScreen = observer(() => {
   }
   if (store.screen.value === "cardsGenerated") {
     return <CardsGeneratedScreen />;
+  }
+  if (store.screen.value === "previousPrompts") {
+    return <PreviousPromptsScreen />;
   }
   return <AiMassCreationForm />;
 });

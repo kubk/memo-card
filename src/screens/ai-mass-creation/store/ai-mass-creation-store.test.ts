@@ -7,6 +7,7 @@ const aiUserCredentialsCheckRequestMock = vi.hoisted(() => vi.fn());
 
 vi.mock("../../../api/api.ts", () => {
   return {
+    userPreviousPromptsRequest: vi.fn(() => Promise.resolve()),
     aiUserCredentialsCheckRequest: aiUserCredentialsCheckRequestMock,
     upsertUserAiCredentialsRequest: vi.fn(() => Promise.resolve()),
     aiMassGenerateRequest: vi.fn(() => Promise.resolve()),

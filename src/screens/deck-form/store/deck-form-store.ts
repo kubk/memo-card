@@ -468,17 +468,19 @@ export class DeckFormStore implements CardFormStoreInterface {
       return;
     }
 
-    const selectedCard = this.cardForm;
-    if (!selectedCard) {
-      return;
-    }
-    assert(this.form, "markCardAsRemoved: form is empty");
-    if (!selectedCard.id) {
-      return;
-    }
-    this.form.cardsToRemoveIds.push(selectedCard.id);
+    runInAction(() => {
+      const selectedCard = this.cardForm;
+      if (!selectedCard) {
+        return;
+      }
+      assert(this.form, "markCardAsRemoved: form is empty");
+      if (!selectedCard.id) {
+        return;
+      }
 
-    deckListStore.isFullScreenLoaderVisible = true;
+      this.form.cardsToRemoveIds.push(selectedCard.id);
+      deckListStore.isFullScreenLoaderVisible = true;
+    });
 
     this.onDeckSave(
       action(() => {

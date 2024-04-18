@@ -64,6 +64,7 @@ import {
   AiMassGenerateRequest,
   AiMassGenerateResponse,
 } from "../../functions/ai-mass-generate.ts";
+import { UserPreviousPromptsResponse } from "../../functions/user-previous-prompts.ts";
 
 export const healthRequest = () => {
   return request<HealthResponse>("/health");
@@ -245,4 +246,8 @@ export const addCardsMultipleRequest = (body: AddCardsMultipleRequest) => {
     "POST",
     body,
   );
+};
+
+export const userPreviousPromptsRequest = () => {
+  return request<UserPreviousPromptsResponse>("/user-previous-prompts");
 };
