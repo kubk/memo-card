@@ -64,13 +64,17 @@ export const FolderForm = observer(() => {
           items={folderForm.decks.value.map((deck, i) => {
             return {
               text: deck.name,
+              onClick: () => {
+                folderStore.onSelectDeck(deck.id);
+              },
               right: (
                 <button
                   className={cx(
                     reset.button,
                     css({ paddingTop: 4, fontSize: 16 }),
                   )}
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.stopPropagation();
                     assert(folderForm);
                     return folderForm.decks.removeByIndex(i);
                   }}

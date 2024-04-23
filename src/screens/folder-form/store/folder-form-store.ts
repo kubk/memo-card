@@ -81,12 +81,12 @@ export class FolderFormStore {
     }
   }
 
-  async onBack() {
+  async onQuit(redirect: () => void) {
     if (!this.folderForm) {
       return;
     }
     if (!isFormDirty(this.folderForm)) {
-      screenStore.back();
+      redirect();
       return;
     }
 
@@ -94,7 +94,19 @@ export class FolderFormStore {
     if (!isConfirmed) {
       return;
     }
-    screenStore.back();
+    redirect();
+  }
+
+  onBack() {
+    this.onQuit(() => {
+      screenStore.back();
+    });
+  }
+
+  onSelectDeck(deckId: number) {
+    this.onQuit(() => {
+      deckListStore.goDeckById(deckId);
+    });
   }
 
   get decksMineFiltered() {

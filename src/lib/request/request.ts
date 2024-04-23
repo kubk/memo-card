@@ -41,7 +41,11 @@ export const request = async <Output, Input = object>(
   try {
     return await requestInner(path, method, body);
   } catch (error) {
-    if (method === "GET" || path === "/upsert-deck" || path === '/review-cards') {
+    if (
+      method === "GET" ||
+      path === "/upsert-deck" ||
+      path === "/review-cards"
+    ) {
       return requestInner(path, method, body);
     }
     throw error;
