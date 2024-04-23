@@ -374,4 +374,27 @@ describe("deck form store", () => {
     expect(store.isNextCardVisible).toBeTruthy();
     expect(store.cardForm?.id).toBe(4);
   });
+
+  it("bug with changing card form leads to reorder", () => {
+    const store = new DeckFormStore();
+
+    expect(store.isPreviousCardVisible).toBeFalsy();
+    expect(store.isNextCardVisible).toBeFalsy();
+
+    store.loadForm();
+    assert(store.form);
+    expect(store.form.cards).toHaveLength(3);
+
+    expect(store.filteredCards.map((card) => card.id)).toStrictEqual([5, 4, 3]);
+    store.cardFilter.sortBy.onChange("frontAlpha");
+    store.cardFilter.sortDirection.onChange("asc");
+
+    store.editCardFormById(3);
+    const indexBefore = store.cardFormIndex;
+    store.cardForm?.front.onChange("0");
+    const indexAfter = store.cardFormIndex;
+
+    expect(store.filteredCards.map((card) => card.id)).toStrictEqual([3, 5, 4]);
+    expect(indexBefore).toBe(indexAfter);
+  });
 });
