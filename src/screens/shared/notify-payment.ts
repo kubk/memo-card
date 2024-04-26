@@ -1,5 +1,6 @@
 import confetti from "canvas-confetti";
-import { showAlert } from "../../lib/telegram/show-alert.ts";
+import { notifyError, notifySuccess } from "./snackbar/snackbar.tsx";
+import { t } from "../../translations/t.ts";
 
 export const notifyPaymentSuccess = () => {
   confetti({
@@ -7,11 +8,17 @@ export const notifyPaymentSuccess = () => {
     spread: 70,
     origin: { y: 0.6 },
   });
-  showAlert("Payment is successful. Enjoy additional features 😊");
+  notifySuccess(t("payment_success"));
 };
 
 export const notifyPaymentFailed = () => {
-  showAlert(
-    "Payment failed. We're aware of the issue and working on it. Please contact support via Settings > Support.",
+  notifyError(
+    {
+      info: "Payment failed",
+    },
+    {
+      message: t("payment_failed"),
+      duration: 10000,
+    },
   );
 };

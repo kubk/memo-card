@@ -39,9 +39,11 @@ import {
 } from "../screens/shared/notify-payment.ts";
 import { RequestStore } from "../lib/mobx-request/request-store.ts";
 import { notifyError } from "../screens/shared/snackbar/snackbar.tsx";
+import { executeOnce } from "../lib/function/execute-once.ts";
 
 export enum StartParamType {
   RepeatAll = "repeat_all",
+  DeckCatalog = "catalog",
   WalletPaymentSuccessful = "wp_success",
   WalletPaymentFailed = "wp_fail",
 }
@@ -712,10 +714,18 @@ export class DeckListStore {
             this.isReviewAllLoaded = true;
           }),
         );
+    } else if (startParam === StartParamType.DeckCatalog) {
+      executeOnce(startParam, () => {
+        screenStore.go({ type: "deckCatalog" });
+      });
     } else if (startParam === StartParamType.WalletPaymentSuccessful) {
-      notifyPaymentSuccess();
+      executeOnce(startParam, () => {
+        notifyPaymentSuccess();
+      });
     } else if (startParam === StartParamType.WalletPaymentFailed) {
-      notifyPaymentFailed();
+      executeOnce(startParam, () => {
+        notifyPaymentFailed();
+      });
     } else {
       if (this.isSharedDeckLoaded) {
         return;

@@ -247,11 +247,18 @@ const en = {
   ai_cards_added: "Cards have been added",
   ai_cards_use_template: "Use template",
   understood: "Understood",
+  payment_success: "Payment is successful. Enjoy additional features 😊",
+  payment_failed:
+    "Payment failed. We're aware of the issue and working on it. Please contact support via Settings > Support.",
 };
 
 type Translation = typeof en;
 
 const ru: Translation = {
+  payment_success:
+    "Оплата прошла успешно. Наслаждайтесь дополнительными возможностями 😊",
+  payment_failed:
+    "Оплата не прошла. Мы знаем о проблеме и работаем над ней. Пожалуйста, свяжитесь с поддержкой через Настройки > Поддержка",
   error: "Ошибка",
   user_settings_updated: "Настройки обновлены",
   is_on: "Включено",
@@ -496,6 +503,10 @@ const ru: Translation = {
 };
 
 const es: Translation = {
+  payment_success:
+    "El pago se ha realizado con éxito. Disfruta de las funciones adicionales 😊",
+  payment_failed:
+    "El pago ha fallado. Estamos al tanto del problema y trabajando en ello. Por favor, contacta con soporte a través de Configuración > Soporte",
   user_settings_updated: "Configuración actualizada",
   is_off: "Apagado",
   is_on: "Encendido",
@@ -745,6 +756,10 @@ const es: Translation = {
 };
 
 const ptBr: Translation = {
+  payment_success:
+    "Pagamento realizado com sucesso. Aproveite os recursos adicionais 😊",
+  payment_failed:
+    "Pagamento falhou. Estamos cientes do problema e trabalhando nele. Por favor, entre em contato com o suporte através de Configurações > Suporte",
   cards_add: "Adicionar cartão",
   error: "Erro",
   user_settings_updated: "Configurações atualizadas",
