@@ -13,7 +13,7 @@ export class FreezeCardsStore {
   cardsFreezeRequest = new RequestStore(cardsFreezeRequest);
   form = {
     freezeCardSelect: new TextField<number | null>(null, {
-      onChangeCallback: (value) => {
+      afterChange: (value) => {
         if (value) {
           this.form.freezeCardInput.onChange("");
         }
@@ -31,7 +31,7 @@ export class FreezeCardsStore {
           return t("validate_under_100");
         }
       },
-      onChangeCallback: (value) => {
+      afterChange: (value) => {
         if (!this.form.freezeCardInput.error && value) {
           this.form.freezeCardSelect.onChange(null);
         }
