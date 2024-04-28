@@ -3,10 +3,9 @@ import { translator } from "../../translations/t.ts";
 
 export const getPlanTitle = (plan: PlanDb) => {
   switch (plan.type) {
-    case "plus":
-      return `Plus`;
     case "pro":
       return `Pro`;
+    case "plus":
     case "deck_producer":
       return "";
     default:
@@ -17,19 +16,6 @@ export const getPlanTitle = (plan: PlanDb) => {
 export const getPlanDescription = (plan: PlanDb) => {
   const lang = translator.getLang();
   switch (plan.type) {
-    case "plus":
-      switch (lang) {
-        case "en":
-          return ["Duplicate folder, deck"];
-        case "ru":
-          return ["Дублирование папок, колод"];
-        case "es":
-          return ["Duplicar carpeta, baraja"];
-        case "pt-br":
-          return ["Duplicar pasta, baralho"];
-        default:
-          return lang satisfies never;
-      }
     case "pro":
       switch (lang) {
         case "en":
@@ -67,6 +53,7 @@ export const getPlanDescription = (plan: PlanDb) => {
         default:
           return lang satisfies never;
       }
+    case "plus":
     case "deck_producer":
       return [];
     default:
