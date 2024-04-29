@@ -9,12 +9,18 @@ import { Hint } from "../../ui/hint.tsx";
 import { t } from "../../translations/t.ts";
 import { WantMoreCardsButton } from "./want-more-cards-button.tsx";
 import { Flex } from "../../ui/flex.tsx";
+import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
+import { screenStore } from "../../store/screen-store.ts";
 
 export const RepeatAllScreen = observer(() => {
   const reviewStore = useReviewStore();
 
   useMount(() => {
     reviewStore.startAllRepeatReview(deckListStore.myDecks);
+  });
+
+  useBackButton(() => {
+    screenStore.back();
   });
 
   if (reviewStore.isFinished) {
