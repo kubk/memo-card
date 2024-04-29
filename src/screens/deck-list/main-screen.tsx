@@ -90,27 +90,18 @@ export const MainScreen = observer(() => {
             : null}
 
           {deckListStore.myInfo && !deckListStore.myDecks.length ? (
-            <Hint>
-              {t("no_personal_decks_start")}{" "}
-              <span
-                className={css({
-                  color: theme.linkColor,
-                })}
-                onClick={() => {
-                  screenStore.go({ type: "deckForm" });
-                }}
-              >
-                {t("no_personal_decks_create")}
-              </span>{" "}
-              {t("no_personal_decks_explore")}
-            </Hint>
+            <Hint>{t("no_personal_decks_start")}</Hint>
           ) : null}
 
           {deckListStore.myInfo && deckListStore.myDecks.length > 0 ? (
             <Button
               icon={"mdi-plus"}
               onClick={() => {
-                screenStore.go({ type: "deckOrFolderChoose" });
+                if (deckListStore.myDecks.length > 0) {
+                  screenStore.go({ type: "deckOrFolderChoose" });
+                } else {
+                  screenStore.go({ type: "deckForm" });
+                }
               }}
             >
               {t("add")}

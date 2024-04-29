@@ -41,10 +41,8 @@ const en = {
   no_decks_to_add: "No more decks to add",
   show_all_decks: "Show all",
   hide_all_decks: "Hide",
-  no_personal_decks_start: "You don't have any personal deck yet. Feel free to",
-  no_personal_decks_create: "create one",
-  no_personal_decks_explore:
-    "or explore the public decks below. Happy learning! 😊",
+  no_personal_decks_start:
+    "You don't have any personal deck yet. Feel free to create one below. Happy learning! 😊",
   add_deck: "Add deck",
   add: "Add",
   edit_deck: "Edit deck",
@@ -329,9 +327,8 @@ const ru: Translation = {
   deck_preview: "Предпросмотр колоды",
   show_all_decks: "Показать",
   hide_all_decks: "Скрыть",
-  no_personal_decks_start: "У вас еще нет персональных колод. Вы можете",
-  no_personal_decks_create: "создать колоду",
-  no_personal_decks_explore: "или выбрать публичную колоду ниже. Удачи! 😊",
+  no_personal_decks_start:
+    "У вас еще нет персональных колод. Вы можете создать колоду ниже. Удачного изучения 😊",
   add_deck: "Добавить колоду",
   add: "Добавить",
   edit_deck: "Редактировать колоду",
@@ -585,10 +582,7 @@ const es: Translation = {
   deck_preview: "Vista previa del mazo",
   hide_all_decks: "Ocultar",
   no_personal_decks_start:
-    "Todavía no tienes ningún mazo personal. Siéntete libre de",
-  no_personal_decks_create: "crear uno",
-  no_personal_decks_explore:
-    "o explorar los mazos públicos a continuación. ¡Feliz aprendizaje! 😊",
+    "Todavía no tienes ningún mazo personal. Siéntete libre de crear uno a continuación. ¡Feliz aprendizaje! 😊",
   add_deck: "Añadir mazo",
   deck_form_remove_card_confirm:
     "¿Estás seguro de que quieres eliminar la tarjeta? Todas las revisiones de tarjetas de todos los usuarios se perderán",
@@ -841,12 +835,9 @@ const ptBr: Translation = {
   hide_all_decks: "Ocultar",
   deck_preview: "Visualização do baralho",
   no_personal_decks_start:
-    "Você ainda não tem nenhum baralho pessoal. Sinta-se à vontade para",
+    "Você ainda não tem nenhum baralho pessoal. Sinta-se à vontade para criar um abaixo. Boa aprendizagem! 😊",
   deck_form_remove_card_confirm:
     "Tem certeza de que deseja remover o cartão? Todas as revisões de cartões de todos os usuários serão perdidas",
-  no_personal_decks_create: "criar um",
-  no_personal_decks_explore:
-    "ou explorar os baralhos públicos abaixo. Bom aprendizado! 😊",
   add_deck: "Adicionar baralho",
   add: "Adicionar",
   edit_deck: "Editar baralho",
