@@ -173,7 +173,6 @@ export const DeckForm = observer(() => {
 
       <Button
         icon={"mdi mdi-plus"}
-        outline
         onClick={() => {
           deckFormStore.openNewCardForm();
         }}
