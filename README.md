@@ -9,7 +9,7 @@ People tend to forget things. Within an hour, up to 60% of new information can s
 
 Run the bot: [https://t.me/memo_card_bot](https://t.me/memo_card_bot)
 
-About (ru): https://habr.com/ru/articles/779508 
+About: https://teletype.in/@alteregor/memocard-telegram-contest-win 
 
 ## Example use cases
 - You're a tourist in a new country and want to acquire basic knowledge of the foreign language. 
