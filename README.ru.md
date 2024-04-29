@@ -8,7 +8,7 @@
 
 Запустите бота: [https://t.me/memo_card_bot](https://t.me/memo_card_bot)
 
-О проекте: https://habr.com/ru/articles/779508
+О проекте: https://teletype.in/@alteregor/memocard-telegram-contest-win
 
 ## Примеры использования
 - Вы турист в новой стране и хотите овладеть основами иностранного языка.

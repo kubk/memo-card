@@ -9,7 +9,7 @@
 
 Запустіть бота: [https://t.me/memo_card_bot](https://t.me/memo_card_bot)
 
-Хабр: https://habr.com/ru/articles/779508
+Хабр: https://teletype.in/@alteregor/memocard-telegram-contest-win
 
 ## Приклади використання
 - Ви турист у новій країні і хочете вивчити основи іноземної мови.
