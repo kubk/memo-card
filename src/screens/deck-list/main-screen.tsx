@@ -96,6 +96,7 @@ export const MainScreen = observer(() => {
           {deckListStore.myInfo && deckListStore.myDecks.length > 0 ? (
             <Button
               icon={"mdi-plus"}
+              outline
               onClick={() => {
                 if (deckListStore.myDecks.length > 0) {
                   screenStore.go({ type: "deckOrFolderChoose" });
