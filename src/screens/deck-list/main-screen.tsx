@@ -93,7 +93,7 @@ export const MainScreen = observer(() => {
             <Hint>{t("no_personal_decks_start")}</Hint>
           ) : null}
 
-          {deckListStore.myInfo && deckListStore.myDecks.length > 0 ? (
+          {deckListStore.myInfo ? (
             <Button
               icon={"mdi-plus"}
               outline
