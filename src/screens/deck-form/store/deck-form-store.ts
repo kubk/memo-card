@@ -15,7 +15,6 @@ import { upsertDeckRequest } from "../../../api/api.ts";
 import { screenStore } from "../../../store/screen-store.ts";
 import { deckListStore } from "../../../store/deck-list-store.ts";
 import { showConfirm } from "../../../lib/telegram/show-confirm.ts";
-import { showAlert } from "../../../lib/telegram/show-alert.ts";
 import { fuzzySearch } from "../../../lib/string/fuzzy-search.ts";
 import {
   DeckCardDbType,
@@ -458,11 +457,6 @@ export class DeckFormStore implements CardFormStoreInterface {
   }
 
   async markCardAsRemoved() {
-    if (this.form?.cards.length === 1) {
-      showAlert(t("deck_form_remove_warning"));
-      return;
-    }
-
     const result = await showConfirm(t("deck_form_remove_card_confirm"));
     if (!result) {
       return;
@@ -497,11 +491,6 @@ export class DeckFormStore implements CardFormStoreInterface {
 
   async onDeckSave(onSuccess?: () => void) {
     assert(this.form, "onDeckSave: form is empty");
-
-    if (this.form.cards.length === 0) {
-      showAlert(t("deck_form_no_cards_alert"));
-      return Promise.reject();
-    }
 
     if (!isFormValid(this.form)) {
       formTouchAll(this.form);
