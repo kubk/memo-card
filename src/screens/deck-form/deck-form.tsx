@@ -113,7 +113,7 @@ export const DeckForm = observer(() => {
         </CardRow>
       )}
 
-      {deckFormStore.form.cards.length > 0 && (
+      {deckFormStore.form.id && (
         <div>
           <ListHeader text={t("advanced")} />
           <List
@@ -155,10 +155,11 @@ export const DeckForm = observer(() => {
                       ) {
                         return;
                       }
-                      assert(screen.deckId, "Deck ID should be defined");
+                      const deckId = deckFormStore.form.id;
+                      assert(deckId, "Deck id should be defined");
                       screenStore.go({
                         type: "aiMassCreation",
-                        deckId: screen.deckId,
+                        deckId: deckId,
                         deckTitle: deckFormStore.form.title.value,
                       });
                     },

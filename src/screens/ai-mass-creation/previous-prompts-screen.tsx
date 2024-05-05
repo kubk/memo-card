@@ -12,6 +12,7 @@ import { useMainButton } from "../../lib/telegram/use-main-button.tsx";
 import { TextField } from "mobx-form-lite";
 import { boolNarrow } from "../../lib/typescript/bool-narrow.ts";
 import { t } from "../../translations/t.ts";
+import { EmptyState } from "../../ui/empty-state.tsx";
 
 export const PreviousPromptsScreen = observer(() => {
   const store = useAiMassCreationStore();
@@ -42,6 +43,10 @@ export const PreviousPromptsScreen = observer(() => {
     <Screen title={t("ai_cards_previous_prompts")}>
       <Flex direction={"column"} gap={4}>
         {store.userPreviousPromptsRequest.isLoading && <ScreenLoader />}
+        {store.userPreviousPromptsRequest.result.status === "success" &&
+          store.userPreviousPromptsRequest.result.data.length === 0 && (
+            <EmptyState>{t("ai_cards_no_previous_prompts")}</EmptyState>
+          )}
         {store.userPreviousPromptsRequest.result.status === "success" && (
           <>
             {store.userPreviousPromptsRequest.result.data.map((log, i) => {
