@@ -37,6 +37,7 @@ import { AiMassCreationScreen } from "./ai-mass-creation/ai-mass-creation-screen
 import { AiMassCreationStoreProvider } from "./ai-mass-creation/store/ai-mass-creation-store-provider.tsx";
 
 import { SnackbarProviderWrapper } from "./shared/snackbar/snackbar-provider-wrapper.tsx";
+import { Debug } from "./debug/debug.tsx";
 
 export const App = observer(() => {
   useRestoreFullScreenExpand();
@@ -64,6 +65,11 @@ export const App = observer(() => {
       {screenStore.screen.type === "main" && (
         <PreventTelegramSwipeDownClosingIos>
           <MainScreen />
+        </PreventTelegramSwipeDownClosingIos>
+      )}
+      {screenStore.screen.type === "debug" && (
+        <PreventTelegramSwipeDownClosingIos>
+          <Debug />
         </PreventTelegramSwipeDownClosingIos>
       )}
       {screenStore.isDeckPreviewScreen && (

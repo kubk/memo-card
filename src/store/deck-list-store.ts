@@ -45,6 +45,7 @@ export enum StartParamType {
   DeckCatalog = "catalog",
   WalletPaymentSuccessful = "wp_success",
   WalletPaymentFailed = "wp_fail",
+  Debug = "debug",
 }
 
 export type DeckCardDbTypeWithType = DeckCardDbType & {
@@ -717,6 +718,8 @@ export class DeckListStore {
       notifyPaymentSuccess();
     } else if (startParam === StartParamType.WalletPaymentFailed) {
       notifyPaymentFailed();
+    } else if (startParam === StartParamType.Debug) {
+      screenStore.go({ type: "debug" });
     } else {
       this.isAppLoading = true;
       await when(() => !!this.myInfo);

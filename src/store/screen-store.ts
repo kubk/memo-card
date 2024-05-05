@@ -17,6 +17,7 @@ type Route =
   | { type: "shareFolder"; folderId: number; shareId: string }
   | { type: "aiMassCreation"; deckId: number; deckTitle: string | null }
   | { type: "plans" }
+  | { type: "debug" }
   | { type: "componentCatalog" }
   | { type: "freezeCards" }
   | { type: "userStatistics" }

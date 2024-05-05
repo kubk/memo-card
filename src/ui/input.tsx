@@ -14,9 +14,11 @@ interface Props {
   isDisabled?: boolean;
   rows?: number;
   icon?: string;
+  noAutoSize?: boolean;
 }
 
 export const Input = observer((props: Props) => {
+  const noAutoSize = props.noAutoSize || false;
   const { field, placeholder, type, rows, icon, isDisabled } = props;
   const { onChange, value, isTouched, error, onBlur } = field;
   const inputRef = useRef<HTMLTextAreaElement | HTMLInputElement | null>(null);
@@ -31,9 +33,11 @@ export const Input = observer((props: Props) => {
 
   useEffect(() => {
     if (type === "textarea" && inputRef.current && WebApp.platform !== "ios") {
-      autosize(inputRef.current);
+      if (!noAutoSize) {
+        autosize(inputRef.current);
+      }
     }
-  }, [type]);
+  }, [type, noAutoSize]);
 
   return (
     <div
