@@ -4,7 +4,7 @@ import { PlatformSchemaType } from "../../../functions/services/get-user.ts";
 export const collectClientData = () => {
   try {
     const data: PlatformSchemaType = {
-      version: WebApp.version,
+      platform: WebApp.platform,
       colorScheme: WebApp.colorScheme,
       tgVersion: WebApp.version,
     };
