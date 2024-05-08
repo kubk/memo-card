@@ -9,7 +9,7 @@ vi.mock("mobx-persist-store", () => {
   };
 });
 
-vi.mock('./user-store.ts', () => {
+vi.mock("./user-store.ts", () => {
   return {
     userStore: {
       myId: 111,

@@ -5,7 +5,8 @@ import { TextField } from "mobx-form-lite";
 import { observer } from "mobx-react-lite";
 import autosize from "autosize";
 import { ValidationError } from "./validation-error.tsx";
-import WebApp from "@twa-dev/sdk";
+import { platform } from "../lib/platform/platform.ts";
+import { TelegramPlatform } from "../lib/platform/telegram/telegram-platform.ts";
 
 interface Props {
   placeholder?: string;
@@ -32,7 +33,11 @@ export const Input = observer((props: Props) => {
   const Tag = type === "textarea" ? "textarea" : "input";
 
   useEffect(() => {
-    if (type === "textarea" && inputRef.current && WebApp.platform !== "ios") {
+    if (platform instanceof TelegramPlatform && platform.isIos()) {
+      return;
+    }
+
+    if (type === "textarea" && inputRef.current) {
       if (!noAutoSize) {
         autosize(inputRef.current);
       }

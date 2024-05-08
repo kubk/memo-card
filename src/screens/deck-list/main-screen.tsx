@@ -10,7 +10,6 @@ import { theme } from "../../ui/theme.tsx";
 import { screenStore } from "../../store/screen-store.ts";
 import { Button } from "../../ui/button.tsx";
 import { DeckLoading } from "../shared/deck-loading.tsx";
-import WebApp from "@twa-dev/sdk";
 import { ListHeader } from "../../ui/list-header.tsx";
 import { range } from "../../lib/array/range.ts";
 import { reset } from "../../ui/reset.ts";
@@ -26,7 +25,7 @@ import { platform } from "../../lib/platform/platform.ts";
 
 export const MainScreen = observer(() => {
   useMount(() => {
-    deckListStore.loadFirstTime(WebApp.initDataUnsafe.start_param);
+    deckListStore.loadFirstTime(platform.getStartParam());
   });
 
   return (

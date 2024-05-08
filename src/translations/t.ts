@@ -1,5 +1,5 @@
 import { Translator } from "../lib/translator/translator.ts";
-import { getUserLanguage } from "./get-user-language.ts";
+import { platform } from "../lib/platform/platform.ts";
 
 const en = {
   folder_form_no_decks: "No decks in the folder",
@@ -1010,7 +1010,7 @@ export const translateCategory = (category: string) => {
 
 export const translator = new Translator<Language, Translation>(
   translations,
-  getUserLanguage(),
+  platform.getLanguage(),
 );
 
 export const t = (key: keyof Translation, defaultValue?: string) => {

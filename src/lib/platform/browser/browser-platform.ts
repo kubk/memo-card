@@ -2,6 +2,8 @@ import { Platform, PlatformTheme } from "../platform.ts";
 import { makeAutoObservable } from "mobx";
 import { assert } from "../../typescript/assert.ts";
 import { BooleanToggle } from "mobx-form-lite";
+import { PlatformSchemaType } from "../../../../functions/services/get-user.ts";
+import { Language } from "../../../translations/t.ts";
 
 const cssVariables = {
   "--tg-theme-hint-color": "#999999",
@@ -55,6 +57,18 @@ export class BrowserPlatform implements Platform {
       hintColor: cssVariables["--tg-theme-hint-color"],
       buttonTextColor: cssVariables["--tg-theme-button-text-color"],
     };
+  }
+
+  getLanguage(): Language {
+    return "en";
+  }
+
+  getStartParam(): string | undefined {
+    return undefined;
+  }
+
+  getClientData(): PlatformSchemaType {
+    return {};
   }
 
   showMainButton(text: string, onClick: () => void, condition?: () => boolean) {

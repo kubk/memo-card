@@ -1,14 +1,8 @@
-import WebApp from "@twa-dev/sdk";
-import { PlatformSchemaType } from "../../../functions/services/get-user.ts";
+import { platform } from "../platform/platform.ts";
 
 export const collectClientData = () => {
   try {
-    const data: PlatformSchemaType = {
-      platform: WebApp.platform,
-      colorScheme: WebApp.colorScheme,
-      tgVersion: WebApp.version,
-    };
-
+    const data = platform.getClientData();
     return JSON.stringify(data);
   } catch (e) {
     return "";

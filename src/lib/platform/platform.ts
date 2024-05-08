@@ -1,6 +1,8 @@
 import { TelegramPlatform } from "./telegram/telegram-platform.ts";
 import { BrowserPlatform } from "./browser/browser-platform.ts";
 import { isRunningWithinTelegram } from "./is-running-within-telegram.ts";
+import { PlatformSchemaType } from "../../../functions/services/get-user.ts";
+import { Language } from "../../translations/t.ts";
 
 export type PlatformTheme = {
   buttonColor: string;
@@ -9,11 +11,14 @@ export type PlatformTheme = {
 };
 
 export interface Platform {
-  getInitData(): string;
   initialize(): void;
+  getInitData(): string;
   openExternalLink(link: string): void;
   openInternalLink(link: string): void;
   getTheme(): PlatformTheme;
+  getClientData(): PlatformSchemaType;
+  getLanguage(): Language;
+  getStartParam(): string | undefined;
 }
 
 export type UseMainButtonType = (

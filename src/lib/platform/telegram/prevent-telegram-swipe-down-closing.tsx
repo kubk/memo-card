@@ -1,7 +1,9 @@
 import React, { ReactNode, useEffect, useRef } from "react";
-import WebApp from "@twa-dev/sdk";
 import { css } from "@emotion/css";
 import { throttle } from "../../throttle/throttle.ts";
+import { platform } from "../platform.ts";
+import { TelegramPlatform } from "./telegram-platform.ts";
+import WebApp from "@twa-dev/sdk";
 
 type Props = {
   condition: boolean;
@@ -75,8 +77,9 @@ export const PreventTelegramSwipeDownClosing = (props: Props) => {
 export const PreventTelegramSwipeDownClosingIos = (props: {
   children: ReactNode;
 }) => {
+  const isEnabled = platform instanceof TelegramPlatform && platform.isIos();
   return (
-    <PreventTelegramSwipeDownClosing condition={WebApp.platform === "ios"}>
+    <PreventTelegramSwipeDownClosing condition={isEnabled}>
       {props.children}
     </PreventTelegramSwipeDownClosing>
   );
@@ -85,9 +88,14 @@ export const PreventTelegramSwipeDownClosingIos = (props: {
 // A hacky way to force expand app back whenever user pull app down
 export const useRestoreFullScreenExpand = () => {
   useEffect(() => {
-    if (WebApp.platform !== "android" && WebApp.platform !== "ios") {
+    if (!(platform instanceof TelegramPlatform)) {
       return;
     }
+
+    if (!platform.isIos() && !platform.isAndroid()) {
+      return;
+    }
+
     const onViewPortChanged = () => {
       WebApp.expand();
     };
