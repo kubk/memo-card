@@ -6,7 +6,7 @@ import throttle from "just-throttle";
 import { CardState } from "./store/card-under-review-store.ts";
 import { ProgressBar } from "../../ui/progress-bar.tsx";
 import { useReviewStore } from "./store/review-store-context.tsx";
-import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
+import { useBackButton } from "../../lib/platform/use-back-button.ts";
 import { useHotkeys } from "react-hotkeys-hook";
 import { ReviewDeckName } from "./review-deck-name.tsx";
 import { CardReviewWithControls } from "./card-review-with-controls.tsx";

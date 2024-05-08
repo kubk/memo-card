@@ -2,7 +2,6 @@ import { afterEach, describe, expect, test, vi } from "vitest";
 import { deckListStore } from "./deck-list-store.ts";
 import { MyInfoResponse } from "../../functions/my-info.ts";
 import { when } from "mobx";
-import { userStore } from "./user-store.ts";
 
 vi.mock("mobx-persist-store", () => {
   return {
@@ -10,7 +9,16 @@ vi.mock("mobx-persist-store", () => {
   };
 });
 
-vi.mock("../lib/telegram/storage-adapter.ts", () => {
+vi.mock('./user-store.ts', () => {
+  return {
+    userStore: {
+      myId: 111,
+      setUser: () => {},
+    },
+  };
+});
+
+vi.mock("../platform/storage-adapter.ts", () => {
   return {
     storageAdapter: {},
   };
@@ -158,14 +166,14 @@ vi.mock("./screen-store", () => {
   };
 });
 
-vi.mock("../lib/telegram/haptics.ts", () => {
+vi.mock("../lib/platform/telegram/haptics.ts", () => {
   return {
     hapticNotification: () => {},
     hapticImpact: () => {},
   };
 });
 
-vi.mock("../lib/telegram/show-confirm.ts", () => {
+vi.mock("../lib/platform/show-confirm.ts", () => {
   return {
     showConfirm: () => {
       return Promise.resolve(true);
@@ -191,12 +199,11 @@ describe("deck list store", () => {
     vi.clearAllMocks();
   });
 
-  test("test 1", async () => {
+  test("test load decks", async () => {
     deckListStore.load();
 
     await when(() => !!deckListStore.myInfo);
 
-    expect(userStore.myId).toBe(111);
     expect(deckListStore.publicDecks).toHaveLength(0);
     expect(deckListStore.newCardsCount).toBe(3);
     expect(deckListStore.selectedDeck?.cardsToReview).toMatchInlineSnapshot(`

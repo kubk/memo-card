@@ -4,22 +4,22 @@ import { deckListStore } from "../../store/deck-list-store.ts";
 import React from "react";
 import { useMount } from "../../lib/react/use-mount.ts";
 import { generateTimeRange } from "./generate-time-range.tsx";
-import { useMainButton } from "../../lib/telegram/use-main-button.tsx";
-import { useTelegramProgress } from "../../lib/telegram/use-telegram-progress.tsx";
+import { useMainButton } from "../../lib/platform/use-main-button.ts";
+import { useMainButtonProgress } from "../../lib/platform/use-main-button-progress.tsx";
 import { RadioSwitcher } from "../../ui/radio-switcher.tsx";
 import { theme } from "../../ui/theme.tsx";
 import { Select } from "../../ui/select.tsx";
 import { css } from "@emotion/css";
-import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
+import { useBackButton } from "../../lib/platform/use-back-button.ts";
 import { screenStore } from "../../store/screen-store.ts";
 import { HintTransparent } from "../../ui/hint-transparent.tsx";
 import { t } from "../../translations/t.ts";
 import { Screen } from "../shared/screen.tsx";
-import WebApp from "@twa-dev/sdk";
 import { links } from "../shared/links.ts";
 import { List } from "../../ui/list.tsx";
 import { FilledIcon } from "../../ui/filled-icon.tsx";
 import { boolNarrow } from "../../lib/typescript/bool-narrow.ts";
+import { platform } from "../../lib/platform/platform.ts";
 
 export const timeRanges = generateTimeRange();
 
@@ -34,7 +34,7 @@ export const UserSettingsScreen = observer(() => {
   useBackButton(() => {
     screenStore.back();
   });
-  useTelegramProgress(() => userSettingsStore.userSettingsRequest.isLoading);
+  useMainButtonProgress(() => userSettingsStore.userSettingsRequest.isLoading);
 
   if (!deckListStore.myInfo || !userSettingsStore.form) {
     return null;
@@ -189,7 +189,7 @@ export const UserSettingsScreen = observer(() => {
               ),
               text: t("settings_contact_support"),
               onClick: () => {
-                WebApp.openTelegramLink(links.supportChat);
+                platform.openInternalLink(links.supportChat);
               },
               isLinkColor: true,
             },

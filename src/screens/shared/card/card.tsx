@@ -12,7 +12,7 @@ import { Dropdown } from "../../../ui/dropdown.tsx";
 import { t } from "../../../translations/t.ts";
 import { boolNarrow } from "../../../lib/typescript/bool-narrow.ts";
 import { userStore } from "../../../store/user-store.ts";
-import { hapticSelection } from "../../../lib/telegram/haptics.ts";
+import { hapticSelection } from "../../../lib/platform/telegram/haptics.ts";
 
 export const cardSize = 310;
 export const IDK_ID = "idk";

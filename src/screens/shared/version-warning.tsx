@@ -1,10 +1,15 @@
-import WebApp from "@twa-dev/sdk";
 import { css } from "@emotion/css";
 import { theme } from "../../ui/theme.tsx";
 import { t } from "../../translations/t.ts";
+import { platform } from "../../lib/platform/platform.ts";
+import { TelegramPlatform } from "../../lib/platform/telegram/telegram-platform.ts";
 
 export const VersionWarning = () => {
-  if (WebApp.isVersionAtLeast("6.1")) {
+  if (!(platform instanceof TelegramPlatform)) {
+    return null;
+  }
+
+  if (!platform.isOutdated()) {
     return null;
   }
 

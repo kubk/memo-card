@@ -1,5 +1,5 @@
 import { trimEnd, trimStart } from "../string/trim.ts";
-import WebApp from "@twa-dev/sdk";
+import { platform } from "../platform/platform.ts";
 import { collectClientData } from "./collect-client-data.ts";
 import { UserHeaders } from "../../../functions/services/get-user.ts";
 
@@ -17,7 +17,7 @@ const requestInner = async <Output, Input = object>(
     method,
     body: bodyAsString,
     headers: {
-      [UserHeaders.Hash]: WebApp.initData,
+      [UserHeaders.Hash]: platform.getInitData(),
       [UserHeaders.Platform]: collectClientData(),
     },
   });

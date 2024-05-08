@@ -9,8 +9,8 @@ import { HintTransparent } from "../../ui/hint-transparent.tsx";
 import React from "react";
 import { userStore } from "../../store/user-store.ts";
 import { CardFormType } from "./store/deck-form-store.ts";
-import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
-import { useMainButton } from "../../lib/telegram/use-main-button.tsx";
+import { useBackButton } from "../../lib/platform/use-back-button.ts";
+import { useMainButton } from "../../lib/platform/use-main-button.ts";
 
 type Props = {
   cardForm: CardFormType;

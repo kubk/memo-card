@@ -1,7 +1,7 @@
-import { useMount } from "../react/use-mount.ts";
+import { useMount } from "../../react/use-mount.ts";
 import WebApp from "@twa-dev/sdk";
 
-export const useBackButton = (fn: () => void) => {
+export const useBackButtonTelegram = (fn: () => void) => {
   useMount(() => {
     WebApp.BackButton.show();
     WebApp.BackButton.onClick(fn);

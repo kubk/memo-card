@@ -1,5 +1,5 @@
 import { makePersistable } from "mobx-persist-store";
-import { storageAdapter } from "../telegram/storage-adapter.ts";
+import { storageAdapter } from "../platform/storage-adapter.ts";
 import { FieldWithValue } from "mobx-form-lite";
 
 export const persistableField = <T extends FieldWithValue<unknown>>(

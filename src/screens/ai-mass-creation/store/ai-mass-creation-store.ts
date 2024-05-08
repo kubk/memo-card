@@ -20,7 +20,7 @@ import { screenStore } from "../../../store/screen-store.ts";
 import { assert } from "../../../lib/typescript/assert.ts";
 import { notifyError, notifySuccess } from "../../shared/snackbar/snackbar.tsx";
 import { deckListStore } from "../../../store/deck-list-store.ts";
-import { showConfirm } from "../../../lib/telegram/show-confirm.ts";
+import { showConfirm } from "../../../lib/platform/show-confirm.ts";
 
 export const chatGptModels = [
   "gpt-4-0125-preview",

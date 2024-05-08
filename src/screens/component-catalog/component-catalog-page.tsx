@@ -1,6 +1,6 @@
 import { Screen } from "../shared/screen.tsx";
 import { useState } from "react";
-import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
+import { useBackButton } from "../../lib/platform/use-back-button.ts";
 import { css } from "@emotion/css";
 import { theme } from "../../ui/theme.tsx";
 import { Component, components } from "./components.tsx";

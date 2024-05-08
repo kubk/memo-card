@@ -4,8 +4,8 @@ import { DeckFinishedModal } from "./deck-finished-modal.tsx";
 import { useReviewStore } from "./store/review-store-context.tsx";
 import { useMount } from "../../lib/react/use-mount.ts";
 import { screenStore } from "../../store/screen-store.ts";
-import { useMainButton } from "../../lib/telegram/use-main-button.tsx";
-import { useTelegramProgress } from "../../lib/telegram/use-telegram-progress.tsx";
+import { useMainButton } from "../../lib/platform/use-main-button.ts";
+import { useMainButtonProgress } from "../../lib/platform/use-main-button-progress.tsx";
 import { t } from "../../translations/t.ts";
 import { getEncouragingMessage } from "../../translations/get-encouraging-message.tsx";
 import { WantMoreCardsButton } from "./want-more-cards-button.tsx";
@@ -29,7 +29,7 @@ export const DeckFinished = observer((props: Props) => {
   useMainButton(t("go_back"), () => {
     screenStore.go({ type: "main" });
   });
-  useTelegramProgress(() => reviewStore.reviewCardsRequest.isLoading);
+  useMainButtonProgress(() => reviewStore.reviewCardsRequest.isLoading);
 
   return (
     <DeckFinishedModal>

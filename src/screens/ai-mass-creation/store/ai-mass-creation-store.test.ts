@@ -28,7 +28,7 @@ vi.mock("../../shared/snackbar/snackbar.tsx", () => {
   };
 });
 
-vi.mock("../../../lib/telegram/show-confirm.ts", () => {
+vi.mock("../../../lib/platform/show-confirm.ts", () => {
   return {
     showConfirm: vi.fn(),
   };

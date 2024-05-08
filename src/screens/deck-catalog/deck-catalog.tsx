@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
+import { useBackButton } from "../../lib/platform/use-back-button.ts";
 import { screenStore } from "../../store/screen-store.ts";
 import { css } from "@emotion/css";
 import React from "react";

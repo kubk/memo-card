@@ -125,13 +125,13 @@ vi.mock("./../../../store/deck-list-store.ts", () => {
   };
 });
 
-vi.mock("../../../lib/telegram/show-confirm.ts", () => {
+vi.mock("../../../lib/platform/show-confirm.ts", () => {
   return {
     showConfirm: () => {},
   };
 });
 
-vi.mock("../../../lib/telegram/show-alert.ts", () => {
+vi.mock("../../../lib/platform/show-alert.ts", () => {
   return {
     showAlert: () => {},
   };

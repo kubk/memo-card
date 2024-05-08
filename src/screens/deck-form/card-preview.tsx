@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
+import { useBackButton } from "../../lib/platform/use-back-button.ts";
 import { css } from "@emotion/css";
 import { CardReviewWithControls } from "../deck-review/card-review-with-controls.tsx";
 import React, { useState } from "react";

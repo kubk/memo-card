@@ -26,10 +26,10 @@ import { ReviewStore } from "../screens/deck-review/store/review-store.ts";
 import { reportHandledError } from "../lib/rollbar/rollbar.tsx";
 import { BooleanToggle } from "mobx-form-lite";
 import { userStore } from "./user-store.ts";
-import { showConfirm } from "../lib/telegram/show-confirm.ts";
+import { showConfirm } from "../lib/platform/show-confirm.ts";
 import { t } from "../translations/t.ts";
 import { canDuplicateDeckOrFolder } from "../../shared/access/can-duplicate-deck-or-folder.ts";
-import { hapticImpact } from "../lib/telegram/haptics.ts";
+import { hapticImpact } from "../lib/platform/telegram/haptics.ts";
 import { FolderWithDecksWithCards } from "../../functions/db/folder/get-folder-with-decks-with-cards-db.ts";
 import { type FolderWithDeckIdDbType } from "../../functions/db/folder/schema.ts";
 import { CatalogFolderDbType } from "../../functions/db/folder/get-public-folders-with-decks-db.ts";
@@ -182,7 +182,9 @@ export class DeckListStore {
 
   get canReview() {
     const deck = this.selectedDeck;
-    assert(deck, "canReview requires a deck to be selected");
+    if (!deck) {
+      return false;
+    }
 
     return (
       deck.cardsToReview.length > 0 || screenStore.screen.type === "deckPublic"
@@ -297,8 +299,7 @@ export class DeckListStore {
 
   get selectedFolder() {
     const screen = screenStore.screen;
-    assert(screen.type === "folderPreview", "screen is not folder preview");
-    if (!this.myInfo) {
+    if (screen.type !== "folderPreview" || !this.myInfo) {
       return null;
     }
 
@@ -396,7 +397,11 @@ export class DeckListStore {
 
   get selectedDeck(): DeckWithCardsWithReviewType | null {
     const screen = screenStore.screen;
-    assert(screen.type === "deckPublic" || screen.type === "deckMine");
+    const isSelectedDeckVisible =
+      screen.type === "deckPublic" || screen.type === "deckMine";
+    if (!isSelectedDeckVisible) {
+      return null;
+    }
     if (!screen.deckId || !this.myInfo) {
       return null;
     }

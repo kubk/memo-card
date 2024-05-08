@@ -15,15 +15,14 @@ import {
 import { DeckSpeakFieldEnum } from "../../../functions/db/deck/decks-with-cards-schema.ts";
 import { HintTransparent } from "../../ui/hint-transparent.tsx";
 import React from "react";
-import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
-import { useMainButton } from "../../lib/telegram/use-main-button.tsx";
+import { useBackButton } from "../../lib/platform/use-back-button.ts";
+import { useMainButton } from "../../lib/platform/use-main-button.ts";
 import { useDeckFormStore } from "./store/deck-form-store-context.tsx";
 
 export const SpeakingCards = observer(() => {
   const deckFormStore = useDeckFormStore();
 
   if (!deckFormStore.form) {
-    console.log("SpeakingCards: no deck form");
     return null;
   }
 

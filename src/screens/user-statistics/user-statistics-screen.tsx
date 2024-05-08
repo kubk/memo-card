@@ -2,7 +2,7 @@ import { Screen } from "../shared/screen.tsx";
 import { observer } from "mobx-react-lite";
 import { useMount } from "../../lib/react/use-mount.ts";
 import { useUserStatisticsStore } from "./store/user-statistics-store-context.tsx";
-import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
+import { useBackButton } from "../../lib/platform/use-back-button.ts";
 import { screenStore } from "../../store/screen-store.ts";
 import { CardRow } from "../../ui/card-row.tsx";
 import { HintTransparent } from "../../ui/hint-transparent.tsx";

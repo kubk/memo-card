@@ -1,16 +1,5 @@
 import { colord } from "colord";
-
-const cssVarToValue = (cssProperty: string) => {
-  const cssPropertyClean = cssProperty.replace("var(", "").replace(")", "");
-  const result = getComputedStyle(document.documentElement).getPropertyValue(
-    cssPropertyClean,
-  );
-  if (!result) {
-    console.warn("Variable " + cssPropertyClean + " is not available");
-    return "#00000";
-  }
-  return result;
-};
+import { platform } from "../lib/platform/platform.ts";
 
 const secondaryBgColor = "var(--tg-theme-secondary-bg-color)";
 const buttonColor = "var(--tg-theme-button-color)";
@@ -20,21 +9,21 @@ const textColor = "var(--tg-theme-text-color)";
 const hintColor = "var(--tg-theme-hint-color)";
 const linkColor = "var(--tg-theme-link-color)";
 
-const buttonColorComputed = cssVarToValue(buttonColor);
+const platformTheme = platform.getTheme();
 
 export const theme = {
   bgColor,
   textColor,
   hintColor,
-  hintColorComputed: cssVarToValue(hintColor),
+  hintColorComputed: platformTheme.hintColor,
   linkColor,
   buttonColor,
   buttonTextColor,
   secondaryBgColor,
 
-  buttonColorComputed: buttonColorComputed,
-  buttonColorLighter: colord(buttonColorComputed).lighten(0.4).toHex(),
-  buttonTextColorComputed: cssVarToValue(buttonTextColor),
+  buttonColorComputed: platformTheme.buttonColor,
+  buttonColorLighter: colord(platformTheme.buttonColor).lighten(0.4).toHex(),
+  buttonTextColorComputed: platformTheme.buttonTextColor,
 
   success: "#2ecb47",
   successLight: colord("#2ecb47").alpha(0.4).toHex(),
@@ -54,4 +43,9 @@ export const theme = {
 
   borderRadius: 12,
   boxShadow: "0 12px 24px 0 rgba(0, 0, 0, .05)",
+
+  zIndex: {
+    confirmAlert: 1000,
+    mainButton: 999,
+  },
 };

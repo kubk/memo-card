@@ -11,9 +11,9 @@ import { Label } from "../../ui/label.tsx";
 import { Input } from "../../ui/input.tsx";
 import React from "react";
 import { ValidationError } from "../../ui/validation-error.tsx";
-import { useMainButton } from "../../lib/telegram/use-main-button.tsx";
-import { useTelegramProgress } from "../../lib/telegram/use-telegram-progress.tsx";
-import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
+import { useMainButton } from "../../lib/platform/use-main-button.ts";
+import { useMainButtonProgress } from "../../lib/platform/use-main-button-progress.tsx";
+import { useBackButton } from "../../lib/platform/use-back-button.ts";
 import { screenStore } from "../../store/screen-store.ts";
 
 export const AiMassCreationForm = observer(() => {
@@ -28,7 +28,7 @@ export const AiMassCreationForm = observer(() => {
     screenStore.back();
   });
 
-  useTelegramProgress(() => store.aiMassGenerateRequest.isLoading);
+  useMainButtonProgress(() => store.aiMassGenerateRequest.isLoading);
 
   return (
     <Screen title={t("ai_cards_title")}>

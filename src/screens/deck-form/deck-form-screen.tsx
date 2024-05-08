@@ -4,7 +4,7 @@ import { DeckForm } from "./deck-form.tsx";
 import { useDeckFormStore } from "./store/deck-form-store-context.tsx";
 import { CardList } from "./card-list.tsx";
 import { CardFormWrapper } from "./card-form-wrapper.tsx";
-import { PreventTelegramSwipeDownClosingIos } from "../../lib/telegram/prevent-telegram-swipe-down-closing.tsx";
+import { PreventTelegramSwipeDownClosingIos } from "../../lib/platform/telegram/prevent-telegram-swipe-down-closing.tsx";
 import { SpeakingCards } from "./speaking-cards.tsx";
 
 export const DeckFormScreen = observer(() => {

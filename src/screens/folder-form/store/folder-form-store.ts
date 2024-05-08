@@ -13,10 +13,10 @@ import { screenStore } from "../../../store/screen-store.ts";
 import { assert } from "../../../lib/typescript/assert.ts";
 import { decksMineRequest, folderUpsertRequest } from "../../../api/api.ts";
 import { deckListStore } from "../../../store/deck-list-store.ts";
-import { showConfirm } from "../../../lib/telegram/show-confirm.ts";
+import { showConfirm } from "../../../lib/platform/show-confirm.ts";
 import { RequestStore } from "../../../lib/mobx-request/request-store.ts";
 import { notifyError } from "../../shared/snackbar/snackbar.tsx";
-import { hapticNotification } from "../../../lib/telegram/haptics.ts";
+import { hapticNotification } from "../../../lib/platform/telegram/haptics.ts";
 
 const createFolderTitleField = (title: string) => {
   return new TextField(title, {

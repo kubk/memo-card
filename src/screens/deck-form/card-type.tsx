@@ -11,8 +11,8 @@ import { action } from "mobx";
 import { CardRow } from "../../ui/card-row.tsx";
 import { CardFormType, createAnswerForm } from "./store/deck-form-store.ts";
 import React from "react";
-import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
-import { useMainButton } from "../../lib/telegram/use-main-button.tsx";
+import { useBackButton } from "../../lib/platform/use-back-button.ts";
+import { useMainButton } from "../../lib/platform/use-main-button.ts";
 import {
   formatCardType,
   formatCardTypeDescription,

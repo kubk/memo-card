@@ -1,5 +1,5 @@
 import WebApp from "@twa-dev/sdk";
 
-export const showAlert = (text: string) => {
+export const showAlertTelegram = (text: string) => {
   WebApp.showAlert(text);
 };

@@ -4,11 +4,11 @@ import { Label } from "../../ui/label.tsx";
 import { t } from "../../translations/t.ts";
 import { Input } from "../../ui/input.tsx";
 import React from "react";
-import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
+import { useBackButton } from "../../lib/platform/use-back-button.ts";
 import { screenStore } from "../../store/screen-store.ts";
-import { useTelegramProgress } from "../../lib/telegram/use-telegram-progress.tsx";
+import { useMainButtonProgress } from "../../lib/platform/use-main-button-progress.tsx";
 import { useMount } from "../../lib/react/use-mount.ts";
-import { useMainButton } from "../../lib/telegram/use-main-button.tsx";
+import { useMainButton } from "../../lib/platform/use-main-button.ts";
 import { assert } from "../../lib/typescript/assert.ts";
 import { reset } from "../../ui/reset.ts";
 import { css, cx } from "@emotion/css";
@@ -37,7 +37,7 @@ export const FolderForm = observer(() => {
     folderStore.onBack();
   });
 
-  useTelegramProgress(() => folderStore.folderUpsertRequest.isLoading);
+  useMainButtonProgress(() => folderStore.folderUpsertRequest.isLoading);
 
   if (!folderForm) {
     return null;

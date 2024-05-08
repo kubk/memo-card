@@ -3,7 +3,7 @@ import { css } from "@emotion/css";
 import { theme } from "../../../ui/theme.tsx";
 import { reportHandledError } from "../../../lib/rollbar/rollbar.tsx";
 import { userStore } from "../../../store/user-store.ts";
-import { hapticNotification } from "../../../lib/telegram/haptics.ts";
+import { hapticNotification } from "../../../lib/platform/telegram/haptics.ts";
 import { t } from "../../../translations/t.ts";
 import { ClearSnackbar } from "./clear-snackbar.tsx";
 import "./notistack.css";

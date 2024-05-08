@@ -3,9 +3,9 @@ import { Screen } from "../shared/screen.tsx";
 import { t } from "../../translations/t.ts";
 import { css } from "@emotion/css";
 import React from "react";
-import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
+import { useBackButton } from "../../lib/platform/use-back-button.ts";
 import { useAiMassCreationStore } from "./store/ai-mass-creation-store-provider.tsx";
-import { useMainButton } from "../../lib/telegram/use-main-button.tsx";
+import { useMainButton } from "../../lib/platform/use-main-button.ts";
 import { theme } from "../../ui/theme.tsx";
 import { translateHowMassCreationWorksText } from "./translations.ts";
 

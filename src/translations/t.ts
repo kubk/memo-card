@@ -245,6 +245,8 @@ const en = {
   ai_cards_use_template: "Use template",
   understood: "Understood",
   payment_success: "Payment is successful. Enjoy additional features 😊",
+  confirm_cancel: "Cancel",
+  confirm_ok: "Confirm",
   payment_failed:
     "Payment failed. We're aware of the issue and working on it. Please contact support via Settings > Support.",
 };
@@ -252,6 +254,8 @@ const en = {
 type Translation = typeof en;
 
 const ru: Translation = {
+  confirm_cancel: "Отмена",
+  confirm_ok: "Подтвердить",
   payment_success:
     "Оплата прошла успешно. Наслаждайтесь дополнительными возможностями 😊",
   payment_failed:
@@ -498,6 +502,8 @@ const ru: Translation = {
 };
 
 const es: Translation = {
+  confirm_ok: "Confirmar",
+  confirm_cancel: "Cancelar",
   payment_success:
     "El pago se ha realizado con éxito. Disfruta de las funciones adicionales 😊",
   payment_failed:
@@ -746,6 +752,8 @@ const es: Translation = {
 };
 
 const ptBr: Translation = {
+  confirm_ok: "Confirmar",
+  confirm_cancel: "Cancelar",
   payment_success:
     "Pagamento realizado com sucesso. Aproveite os recursos adicionais 😊",
   payment_failed:

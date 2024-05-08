@@ -1,7 +1,7 @@
 import React, { ReactNode, useEffect, useRef } from "react";
 import WebApp from "@twa-dev/sdk";
 import { css } from "@emotion/css";
-import { throttle } from "../throttle/throttle.ts";
+import { throttle } from "../../throttle/throttle.ts";
 
 type Props = {
   condition: boolean;

@@ -1,10 +1,10 @@
 import { observer } from "mobx-react-lite";
 import { CardFormStoreInterface } from "./store/card-form-store-interface.ts";
 import { assert } from "../../lib/typescript/assert.ts";
-import { useMainButton } from "../../lib/telegram/use-main-button.tsx";
+import { useMainButton } from "../../lib/platform/use-main-button.ts";
 import { t } from "../../translations/t.ts";
-import { useTelegramProgress } from "../../lib/telegram/use-telegram-progress.tsx";
-import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
+import { useMainButtonProgress } from "../../lib/platform/use-main-button-progress.tsx";
+import { useBackButton } from "../../lib/platform/use-back-button.ts";
 import { isFormValid } from "mobx-form-lite";
 import { Screen } from "../shared/screen.tsx";
 import { Label } from "../../ui/label.tsx";
@@ -39,7 +39,7 @@ export const CardFormView = observer((props: Props) => {
     cardFormStore.onSaveCard();
   });
 
-  useTelegramProgress(() => cardFormStore.isSending);
+  useMainButtonProgress(() => cardFormStore.isSending);
 
   useBackButton(() => {
     cardFormStore.onBackCard();

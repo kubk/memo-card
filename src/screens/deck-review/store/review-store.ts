@@ -8,8 +8,8 @@ import { type DeckWithCardsWithReviewType } from "../../../store/deck-list-store
 import {
   hapticImpact,
   hapticNotification,
-} from "../../../lib/telegram/haptics.ts";
-import { showConfirm } from "../../../lib/telegram/show-confirm.ts";
+} from "../../../lib/platform/telegram/haptics.ts";
+import { showConfirm } from "../../../lib/platform/show-confirm.ts";
 import { t } from "../../../translations/t.ts";
 import { RequestStore } from "../../../lib/mobx-request/request-store.ts";
 import { notifyError } from "../../shared/snackbar/snackbar.tsx";

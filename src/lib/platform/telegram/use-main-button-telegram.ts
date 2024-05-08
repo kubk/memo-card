@@ -1,7 +1,8 @@
-import { useMount } from "../react/use-mount.ts";
+import { useMount } from "../../react/use-mount.ts";
 import WebApp from "@twa-dev/sdk";
 import { useHotkeys } from "react-hotkeys-hook";
 import { autorun } from "mobx";
+import { UseMainButtonType } from "../platform.ts";
 
 // Track visible state to avoid flickering
 let isVisible = false;
@@ -24,10 +25,10 @@ const hide = () => {
   }, 100);
 };
 
-export const useMainButton = (
-  text: string | (() => string),
-  onClick: () => void,
-  condition?: () => boolean,
+export const useMainButtonTelegram: UseMainButtonType = (
+  text,
+  onClick,
+  condition,
 ) => {
   const hideMainButton = () => {
     hide();

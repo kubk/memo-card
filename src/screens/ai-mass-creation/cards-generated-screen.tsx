@@ -1,8 +1,8 @@
 import { observer } from "mobx-react-lite";
 import { Screen } from "../shared/screen.tsx";
-import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
+import { useBackButton } from "../../lib/platform/use-back-button.ts";
 import { useAiMassCreationStore } from "./store/ai-mass-creation-store-provider.tsx";
-import { useMainButton } from "../../lib/telegram/use-main-button.tsx";
+import { useMainButton } from "../../lib/platform/use-main-button.ts";
 import { List } from "../../ui/list.tsx";
 import { ListHeader } from "../../ui/list-header.tsx";
 import { assert } from "../../lib/typescript/assert.ts";
@@ -12,7 +12,7 @@ import { theme } from "../../ui/theme.tsx";
 import React from "react";
 import { t } from "../../translations/t.ts";
 import { screenStore } from "../../store/screen-store.ts";
-import { useTelegramProgress } from "../../lib/telegram/use-telegram-progress.tsx";
+import { useMainButtonProgress } from "../../lib/platform/use-main-button-progress.tsx";
 import { CardNumber } from "../../ui/card-number.tsx";
 import { translateAddCards } from "./translations.ts";
 
@@ -37,7 +37,7 @@ export const CardsGeneratedScreen = observer(() => {
     },
   );
 
-  useTelegramProgress(() => store.addCardsMultipleRequest.isLoading);
+  useMainButtonProgress(() => store.addCardsMultipleRequest.isLoading);
 
   return (
     <Screen

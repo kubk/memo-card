@@ -1,10 +1,10 @@
-import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
 import { screenStore } from "../../store/screen-store.ts";
 import { Label } from "../../ui/label.tsx";
 import { Input } from "../../ui/input.tsx";
 import { observer, useLocalObservable } from "mobx-react-lite";
 import { TextField } from "mobx-form-lite";
 import { css } from "@emotion/css";
+import { useBackButton } from "../../lib/platform/use-back-button.ts";
 
 export const Debug = observer(() => {
   const store = useLocalObservable(() => ({

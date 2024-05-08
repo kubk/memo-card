@@ -13,7 +13,7 @@ import { FullScreenLoader } from "../ui/full-screen-loader.tsx";
 import {
   PreventTelegramSwipeDownClosingIos,
   useRestoreFullScreenExpand,
-} from "../lib/telegram/prevent-telegram-swipe-down-closing.tsx";
+} from "../lib/platform/telegram/prevent-telegram-swipe-down-closing.tsx";
 import { RepeatAllScreen } from "./deck-review/repeat-all-screen.tsx";
 import { DeckCatalog } from "./deck-catalog/deck-catalog.tsx";
 import { DeckOrFolderChoose } from "./deck-or-folder-choose/deck-or-folder-choose.tsx";
@@ -21,7 +21,7 @@ import { FolderForm } from "./folder-form/folder-form.tsx";
 import { DeckCatalogStoreContextProvider } from "./deck-catalog/store/deck-catalog-store-context.tsx";
 import { FolderFormStoreProvider } from "./folder-form/store/folder-form-store-context.tsx";
 import { FolderScreen } from "./folder-review/folder-screen.tsx";
-import { useSettingsButton } from "../lib/telegram/use-settings-button.ts";
+import { useSettingsButton } from "../lib/platform/telegram/use-settings-button.ts";
 import { UserStatisticsStoreProvider } from "./user-statistics/store/user-statistics-store-context.tsx";
 import { UserStatisticsScreen } from "./user-statistics/user-statistics-screen.tsx";
 import { UserSettingsLazy } from "./user-settings/user-settings-lazy.tsx";
@@ -31,18 +31,20 @@ import {
   ShareFolderScreenLazy,
 } from "./share-deck/share-deck-screen-lazy.tsx";
 import { PlansScreen } from "./plans/plans-screen.tsx";
-import { isRunningWithinTelegram } from "../lib/telegram/is-running-within-telegram.ts";
+import { isRunningWithinTelegram } from "../lib/platform/is-running-within-telegram.ts";
 import { FreezeCardsScreenLazy } from "./freeze-cards/freeze-cards-screen-lazy.tsx";
 import { AiMassCreationScreen } from "./ai-mass-creation/ai-mass-creation-screen.tsx";
 import { AiMassCreationStoreProvider } from "./ai-mass-creation/store/ai-mass-creation-store-provider.tsx";
 
 import { SnackbarProviderWrapper } from "./shared/snackbar/snackbar-provider-wrapper.tsx";
 import { Debug } from "./debug/debug.tsx";
+import { BrowserHeader } from "./shared/browser-platform/browser-header.tsx";
+import { BrowserMainButton } from "./shared/browser-platform/browser-main-button.tsx";
 
 export const App = observer(() => {
   useRestoreFullScreenExpand();
 
-  if (!isRunningWithinTelegram()) {
+  if (import.meta.env.PROD && !isRunningWithinTelegram()) {
     return <div>This app can only be run within Telegram.</div>;
   }
 
@@ -60,6 +62,7 @@ export const App = observer(() => {
 
   return (
     <div>
+      <BrowserHeader />
       <VersionWarning />
       <SnackbarProviderWrapper />
       {screenStore.screen.type === "main" && (
@@ -166,6 +169,7 @@ export const App = observer(() => {
           </AiMassCreationStoreProvider>
         </PreventTelegramSwipeDownClosingIos>
       )}
+      <BrowserMainButton />
     </div>
   );
 });

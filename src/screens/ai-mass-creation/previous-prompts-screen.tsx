@@ -4,11 +4,11 @@ import { useAiMassCreationStore } from "./store/ai-mass-creation-store-provider.
 import { useMount } from "../../lib/react/use-mount.ts";
 import React from "react";
 import { ScreenLoader } from "../../ui/full-screen-loader.tsx";
-import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
+import { useBackButton } from "../../lib/platform/use-back-button.ts";
 import { Flex } from "../../ui/flex.tsx";
 import { css, cx } from "@emotion/css";
 import { theme } from "../../ui/theme.tsx";
-import { useMainButton } from "../../lib/telegram/use-main-button.tsx";
+import { useMainButton } from "../../lib/platform/use-main-button.ts";
 import { TextField } from "mobx-form-lite";
 import { boolNarrow } from "../../lib/typescript/bool-narrow.ts";
 import { t } from "../../translations/t.ts";

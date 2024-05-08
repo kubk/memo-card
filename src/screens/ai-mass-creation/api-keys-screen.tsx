@@ -6,15 +6,15 @@ import React from "react";
 import { useAiMassCreationStore } from "./store/ai-mass-creation-store-provider.tsx";
 import { HintTransparent } from "../../ui/hint-transparent.tsx";
 import { ExternalLink } from "../../ui/external-link.tsx";
-import { useMainButton } from "../../lib/telegram/use-main-button.tsx";
+import { useMainButton } from "../../lib/platform/use-main-button.ts";
 import { t } from "../../translations/t.ts";
 import { SelectWithChevron } from "../../ui/select-with-chevron.tsx";
 import { css } from "@emotion/css";
 import { theme } from "../../ui/theme.tsx";
 import { Flex } from "../../ui/flex.tsx";
 import { chatGptModels } from "./store/ai-mass-creation-store.ts";
-import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
-import { useTelegramProgress } from "../../lib/telegram/use-telegram-progress.tsx";
+import { useBackButton } from "../../lib/platform/use-back-button.ts";
+import { useMainButtonProgress } from "../../lib/platform/use-main-button-progress.tsx";
 import { TextField } from "mobx-form-lite";
 
 export const ApiKeysScreen = observer(() => {
@@ -29,7 +29,7 @@ export const ApiKeysScreen = observer(() => {
     store.screen.onChange(null);
   });
 
-  useTelegramProgress(() => store.upsertUserAiCredentialsRequest.isLoading);
+  useMainButtonProgress(() => store.upsertUserAiCredentialsRequest.isLoading);
 
   const isRegularInput = store.isApiKeyRegularInput;
 

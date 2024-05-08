@@ -3,12 +3,12 @@ import { css, cx } from "@emotion/css";
 import { Label } from "../../ui/label.tsx";
 import { Input } from "../../ui/input.tsx";
 import React from "react";
-import { useMainButton } from "../../lib/telegram/use-main-button.tsx";
+import { useMainButton } from "../../lib/platform/use-main-button.ts";
 import { useDeckFormStore } from "./store/deck-form-store-context.tsx";
 import { screenStore } from "../../store/screen-store.ts";
 import { useMount } from "../../lib/react/use-mount.ts";
-import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
-import { useTelegramProgress } from "../../lib/telegram/use-telegram-progress.tsx";
+import { useBackButton } from "../../lib/platform/use-back-button.ts";
+import { useMainButtonProgress } from "../../lib/platform/use-main-button-progress.tsx";
 import { assert } from "../../lib/typescript/assert.ts";
 import { CardRow } from "../../ui/card-row.tsx";
 import { Button } from "../../ui/button.tsx";
@@ -43,10 +43,9 @@ export const DeckForm = observer(() => {
       screenStore.go({ type: "main" });
     });
   });
-  useTelegramProgress(() => deckFormStore.isSending);
+  useMainButtonProgress(() => deckFormStore.isSending);
 
   if (!deckFormStore.form) {
-    console.log("no deck form");
     return null;
   }
 

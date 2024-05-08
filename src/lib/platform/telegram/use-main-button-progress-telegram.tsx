@@ -1,8 +1,8 @@
-import { useMount } from "../react/use-mount.ts";
+import { useMount } from "../../react/use-mount.ts";
 import { autorun } from "mobx";
 import WebApp from "@twa-dev/sdk";
 
-export const useTelegramProgress = (cb: () => boolean) => {
+export const useMainButtonProgressTelegram = (cb: () => boolean) => {
   return useMount(() => {
     return autorun(() => {
       if (cb()) {

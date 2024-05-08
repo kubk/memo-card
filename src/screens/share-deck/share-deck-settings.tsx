@@ -1,9 +1,9 @@
 import { observer } from "mobx-react-lite";
-import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
+import { useBackButton } from "../../lib/platform/use-back-button.ts";
 import { screenStore } from "../../store/screen-store.ts";
-import { useMainButton } from "../../lib/telegram/use-main-button.tsx";
+import { useMainButton } from "../../lib/platform/use-main-button.ts";
 import { t } from "../../translations/t.ts";
-import { useTelegramProgress } from "../../lib/telegram/use-telegram-progress.tsx";
+import { useMainButtonProgress } from "../../lib/platform/use-main-button-progress.tsx";
 import { CardRow } from "../../ui/card-row.tsx";
 import { RadioSwitcher } from "../../ui/radio-switcher.tsx";
 import { HintTransparent } from "../../ui/hint-transparent.tsx";
@@ -32,7 +32,7 @@ export const ShareDeckSettings = observer(() => {
     () => store.isSaveButtonVisible,
   );
 
-  useTelegramProgress(() => store.addDeckAccessRequest.isLoading);
+  useMainButtonProgress(() => store.addDeckAccessRequest.isLoading);
 
   return (
     <Screen title={t("share_deck_settings")}>

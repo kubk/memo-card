@@ -1,14 +1,19 @@
 import { ReactNode } from "react";
 import { css } from "@emotion/css";
-import WebApp from "@twa-dev/sdk";
 import { theme } from "./theme.tsx";
+import { platform } from "../lib/platform/platform.ts";
 
-export const ExternalLink = (props: { href: string; children: ReactNode }) => {
+type Props = {
+  href: string;
+  children: ReactNode;
+};
+
+export const ExternalLink = (props: Props) => {
   const { href, children } = props;
   return (
     <span
       onClick={() => {
-        WebApp.openLink(href);
+        platform.openExternalLink(href);
       }}
       className={css({
         color: theme.buttonColor,

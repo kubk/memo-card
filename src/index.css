@@ -59,3 +59,8 @@ div,
 a {
   -webkit-tap-highlight-color: transparent;
 }
+
+/* fix for browser version to avoid monospace */
+textarea {
+  font-family: inherit;
+}

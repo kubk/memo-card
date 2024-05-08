@@ -13,7 +13,7 @@ import {
   TextField,
 } from "mobx-form-lite";
 import { screenStore } from "../../../store/screen-store.ts";
-import { showConfirm } from "../../../lib/telegram/show-confirm.ts";
+import { showConfirm } from "../../../lib/platform/show-confirm.ts";
 import { addCardRequest } from "../../../api/api.ts";
 import { assert } from "../../../lib/typescript/assert.ts";
 import { AddCardRequest } from "../../../../functions/add-card.ts";

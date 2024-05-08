@@ -13,7 +13,7 @@ vi.mock("mobx-persist-store", () => {
   };
 });
 
-vi.mock("../../../lib/telegram/show-confirm.ts", () => {
+vi.mock("../../../lib/platform/show-confirm.ts", () => {
   return {
     showAlert: () => {},
   };
@@ -147,7 +147,7 @@ const newCardsMock: DeckCardDbTypeWithType[] = [
   },
 ];
 
-vi.mock("../lib/telegram/storage-adapter.ts", () => {
+vi.mock("../lib/platform/storage-adapter.ts", () => {
   return {
     storageAdapter: {},
   };
@@ -175,7 +175,7 @@ vi.mock("../../../lib/voice-playback/speak.ts", async () => {
   };
 });
 
-vi.mock("../../../lib/telegram/haptics.ts", () => {
+vi.mock("../../../lib/platform/telegram/haptics.ts", () => {
   return {
     hapticImpact: () => {},
     hapticNotification: () => {},

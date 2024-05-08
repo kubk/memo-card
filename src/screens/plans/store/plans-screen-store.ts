@@ -2,9 +2,9 @@ import { makeAutoObservable } from "mobx";
 import { allPlansRequest, createOrderRequest } from "../../../api/api.ts";
 import { getBuyText } from "../translations.ts";
 import { assert } from "../../../lib/typescript/assert.ts";
-import WebApp from "@twa-dev/sdk";
 import { RequestStore } from "../../../lib/mobx-request/request-store.ts";
 import { notifyError } from "../../shared/snackbar/snackbar.tsx";
+import { platform } from "../../../lib/platform/platform.ts";
 
 export class PlansScreenStore {
   plansRequest = new RequestStore(allPlansRequest);
@@ -56,6 +56,6 @@ export class PlansScreenStore {
       return;
     }
 
-    WebApp.openTelegramLink(result.data.payLink);
+    platform.openInternalLink(result.data.payLink);
   }
 }

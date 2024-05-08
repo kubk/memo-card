@@ -22,6 +22,7 @@ import { Flex } from "../../ui/flex.tsx";
 import { List } from "../../ui/list.tsx";
 import { FilledIcon } from "../../ui/filled-icon.tsx";
 import { CardsToReview } from "../../ui/cards-to-review.tsx";
+import { platform } from "../../lib/platform/platform.ts";
 
 export const MainScreen = observer(() => {
   useMount(() => {
@@ -168,7 +169,7 @@ export const MainScreen = observer(() => {
                     />
                   ),
                   onClick: () => {
-                    WebApp.openTelegramLink(links.botChannel);
+                    platform.openInternalLink(links.botChannel);
                   },
                 },
               ]}

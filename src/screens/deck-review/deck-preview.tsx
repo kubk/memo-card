@@ -6,11 +6,11 @@ import React from "react";
 import { useReviewStore } from "./store/review-store-context.tsx";
 import { screenStore } from "../../store/screen-store.ts";
 import { Hint } from "../../ui/hint.tsx";
-import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
-import { useMainButton } from "../../lib/telegram/use-main-button.tsx";
-import { showConfirm } from "../../lib/telegram/show-confirm.ts";
+import { useBackButton } from "../../lib/platform/use-back-button.ts";
+import { useMainButton } from "../../lib/platform/use-main-button.ts";
+import { showConfirm } from "../../lib/platform/show-confirm.ts";
 import { ButtonSideAligned } from "../../ui/button-side-aligned.tsx";
-import { useTelegramProgress } from "../../lib/telegram/use-telegram-progress.tsx";
+import { useMainButtonProgress } from "../../lib/platform/use-main-button-progress.tsx";
 import { t } from "../../translations/t.ts";
 import { ButtonGrid } from "../../ui/button-grid.tsx";
 import { Button } from "../../ui/button.tsx";
@@ -27,7 +27,7 @@ export const DeckPreview = observer(() => {
     screenStore.back();
   });
 
-  useTelegramProgress(() => deckListStore.deckWithCardsRequest.isLoading);
+  useMainButtonProgress(() => deckListStore.deckWithCardsRequest.isLoading);
   useScrollToTopOnMount();
 
   useMainButton(

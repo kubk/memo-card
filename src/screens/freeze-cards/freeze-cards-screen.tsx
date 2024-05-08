@@ -1,19 +1,19 @@
 import { observer } from "mobx-react-lite";
 import { Screen } from "../shared/screen.tsx";
-import { useBackButton } from "../../lib/telegram/use-back-button.tsx";
+import { useBackButton } from "../../lib/platform/use-back-button.ts";
 import { screenStore } from "../../store/screen-store.ts";
 import { css } from "@emotion/css";
 import { useState } from "react";
 import { theme } from "../../ui/theme.tsx";
 import { Flex } from "../../ui/flex.tsx";
-import { useMainButton } from "../../lib/telegram/use-main-button.tsx";
+import { useMainButton } from "../../lib/platform/use-main-button.ts";
 import { Input } from "../../ui/input.tsx";
 import { DateTime } from "luxon";
 import { Chip } from "../../ui/chip.tsx";
 import { FreezeCardsStore } from "./store/freeze-cards-store.ts";
 import { FilledIcon } from "../../ui/filled-icon.tsx";
 import { Accordion } from "../../ui/accordion.tsx";
-import { useTelegramProgress } from "../../lib/telegram/use-telegram-progress.tsx";
+import { useMainButtonProgress } from "../../lib/platform/use-main-button-progress.tsx";
 import { t } from "../../translations/t.ts";
 import { formatDays } from "./translations.ts";
 
@@ -30,7 +30,7 @@ export const FreezeCardsScreen = observer(() => {
     store.freeze,
     () => store.isFreezeButtonVisible,
   );
-  useTelegramProgress(() => store.cardsFreezeRequest.isLoading);
+  useMainButtonProgress(() => store.cardsFreezeRequest.isLoading);
 
   return (
     <Screen title={t("freeze_title")}>

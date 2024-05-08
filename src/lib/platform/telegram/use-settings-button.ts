@@ -1,5 +1,5 @@
 import WebApp from "@twa-dev/sdk";
-import { useMount } from "../react/use-mount.ts";
+import { useMount } from "../../react/use-mount.ts";
 
 export const useSettingsButton = (fn: () => void) => {
   useMount(() => {

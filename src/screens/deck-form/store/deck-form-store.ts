@@ -14,7 +14,7 @@ import { assert } from "../../../lib/typescript/assert.ts";
 import { upsertDeckRequest } from "../../../api/api.ts";
 import { screenStore } from "../../../store/screen-store.ts";
 import { deckListStore } from "../../../store/deck-list-store.ts";
-import { showConfirm } from "../../../lib/telegram/show-confirm.ts";
+import { showConfirm } from "../../../lib/platform/show-confirm.ts";
 import { fuzzySearch } from "../../../lib/string/fuzzy-search.ts";
 import {
   DeckCardDbType,
