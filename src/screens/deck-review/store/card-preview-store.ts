@@ -65,8 +65,8 @@ export class CardPreviewStore implements LimitedCardUnderReviewStore {
     this.deckSpeakLocale = deckForm.speakingCardsLocale.value ?? null;
     this.deckSpeakField = deckForm.speakingCardsField.value ?? null;
 
-    if (form.options?.voice) {
-      const audio = new Audio(form.options.voice);
+    if (form.options.value?.voice) {
+      const audio = new Audio(form.options.value.voice);
       // Preload audio to avoid slow delay when playing voice
       audio.load();
       this.voice = audio;

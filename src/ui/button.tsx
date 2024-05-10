@@ -71,6 +71,10 @@ export const Button = (props: Props) => {
             ":hover": {
               backgroundColor: parsedColor.lighten(0.4).darken(0.08).toHex(),
             },
+            ":disabled": {
+              backgroundColor: parsedColor.lighten(0.4).toHex(),
+              cursor: "not-allowed",
+            },
           }),
         className,
       )}

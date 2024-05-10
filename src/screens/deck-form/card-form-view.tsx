@@ -5,7 +5,7 @@ import { useMainButton } from "../../lib/platform/use-main-button.ts";
 import { t } from "../../translations/t.ts";
 import { useMainButtonProgress } from "../../lib/platform/use-main-button-progress.tsx";
 import { useBackButton } from "../../lib/platform/use-back-button.ts";
-import { isFormValid } from "mobx-form-lite";
+import { formTouchAll, isFormValid } from "mobx-form-lite";
 import { Screen } from "../shared/screen.tsx";
 import { Label } from "../../ui/label.tsx";
 import { HintTransparent } from "../../ui/hint-transparent.tsx";
@@ -25,6 +25,7 @@ import { ListHeader } from "../../ui/list-header.tsx";
 import { formatCardType } from "./format-card-type.ts";
 import { ListRightText } from "../../ui/list-right-text.tsx";
 import { CardAnswerErrors } from "./card-answer-errors.tsx";
+import { boolNarrow } from "../../lib/typescript/bool-narrow.ts";
 
 type Props = {
   cardFormStore: CardFormStoreInterface;
@@ -113,7 +114,28 @@ export const CardFormView = observer((props: Props) => {
                 cardFormStore.cardInnerScreen.onChange("cardType");
               },
             },
-          ]}
+            userStore.canUseAiMassGenerate
+              ? {
+                  icon: (
+                    <FilledIcon
+                      backgroundColor={theme.icons.turquoise}
+                      icon={"mdi-account-voice"}
+                    />
+                  ),
+                  text: t("ai_speech_title"),
+                  onClick: () => {
+                    if (!isFormValid(cardForm)) {
+                      formTouchAll(cardForm);
+                      return;
+                    }
+                    cardFormStore.cardInnerScreen.onChange("aiSpeech");
+                  },
+                  right: cardForm.options.value?.voice ? (
+                    <ListRightText text={t("yes")} />
+                  ) : undefined,
+                }
+              : undefined,
+          ].filter(boolNarrow)}
         />
         {cardFormStore.cardForm ? (
           <CardAnswerErrors cardForm={cardFormStore.cardForm} />

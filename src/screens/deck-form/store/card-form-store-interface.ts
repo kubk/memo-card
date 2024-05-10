@@ -2,7 +2,12 @@ import { CardFormType } from "./deck-form-store.ts";
 import { TextField } from "mobx-form-lite";
 import { DeckSpeakFieldEnum } from "../../../../functions/db/deck/decks-with-cards-schema.ts";
 
-export type CardInnerScreenType = "cardPreview" | "cardType" | "example" | null;
+export type CardInnerScreenType =
+  | "cardPreview"
+  | "cardType"
+  | "example"
+  | "aiSpeech"
+  | null;
 
 export interface CardFormStoreInterface {
   cardForm?: CardFormType | null;

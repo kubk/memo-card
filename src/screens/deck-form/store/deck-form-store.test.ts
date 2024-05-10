@@ -213,6 +213,7 @@ describe("deck form store", () => {
             "example": "",
             "front": "1 (new)",
             "id": undefined,
+            "options": null,
           },
         ]
       `);
@@ -252,6 +253,7 @@ describe("deck form store", () => {
             "example": "",
             "front": "1 (new)",
             "id": undefined,
+            "options": null,
           },
           {
             "answerType": "remember",
@@ -260,6 +262,7 @@ describe("deck form store", () => {
             "example": "",
             "front": "2 (edited)",
             "id": 3,
+            "options": null,
           },
           {
             "answerType": "remember",
@@ -268,6 +271,7 @@ describe("deck form store", () => {
             "example": "",
             "front": "3 (edited)",
             "id": 4,
+            "options": null,
           },
         ]
       `);

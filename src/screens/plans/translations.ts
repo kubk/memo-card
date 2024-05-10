@@ -20,35 +20,35 @@ export const getPlanDescription = (plan: PlanDb) => {
       switch (lang) {
         case "en":
           return [
-            "Card mass creation tools using AI",
+            "Card mass creation using AI",
+            "High quality AI speech generation for cards",
             "Duplicate folder, deck",
             "One time deck links and one time folder links",
             "Specify deck and folder access duration",
-            "High priority support",
           ];
         case "ru":
           return [
-            "Инструменты массового создания карточек с использованием ИИ",
+            "Массовое создание карточек с использованием ИИ",
+            "Озвучка карточек с использованием ИИ",
             "Дублирование папок, колод",
             "Одноразовые ссылки на колоды и папки",
-            "Указание длительность доступа к колодам и папкам",
-            "Приоритетная поддержка",
+            "Управление длительностью доступа к колодам и папкам",
           ];
         case "es":
           return [
             "Herramientas de creación masiva de tarjetas utilizando IA",
+            "Doblaje de alta calidad para tarjetas",
             "Duplicar carpeta, baraja",
             "Enlaces de carpeta y baraja de un solo uso",
             "Especificar la duración del acceso a la carpeta y la baraja",
-            "Soporte prioritario",
           ];
         case "pt-br":
           return [
             "Ferramentas de criação em massa de cartões usando IA",
+            "Dublagem de alta qualidade para cartões",
             "Duplicar pasta, baralho",
             "Links de pasta e baralho de uso único",
             "Especificar a duração do acesso à pasta e ao baralho",
-            "Suporte prioritário",
           ];
         default:
           return lang satisfies never;

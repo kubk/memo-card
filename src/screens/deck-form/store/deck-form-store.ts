@@ -50,7 +50,7 @@ export type CardFormType = {
   answerId?: string;
   answerFormType?: "new" | "edit";
   id?: number;
-  options: DeckCardOptionsDbType;
+  options: TextField<DeckCardOptionsDbType>;
 };
 
 type DeckFormType = {
@@ -132,7 +132,7 @@ const createUpdateForm = (
       back: createCardSideField(card.back),
       example: new TextField(card.example || ""),
       answerType: createAnswerTypeField(card),
-      options: card.options,
+      options: new TextField<DeckCardOptionsDbType>(card.options ?? null),
       answers: createAnswerListField(
         card.answers
           ? card.answers.map((answer) => ({
@@ -157,6 +157,7 @@ const cardFormToApi = (
     back: card.back.value,
     example: card.example.value,
     answerType: card.answerType.value,
+    options: card.options.value,
     answers: card.answers.value.map((answer) => ({
       id: answer.id,
       text: answer.text.value,
@@ -347,7 +348,7 @@ export class DeckFormStore implements CardFormStoreInterface {
       back: createCardSideField(""),
       example: new TextField(""),
       answerType: createAnswerTypeField(),
-      options: null,
+      options: new TextField<DeckCardOptionsDbType>(null),
       answers: createAnswerListField([], () => this.cardForm),
     });
   }

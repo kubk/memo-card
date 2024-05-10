@@ -23,7 +23,10 @@ import {
   CardFormStoreInterface,
   CardInnerScreenType,
 } from "./card-form-store-interface.ts";
-import { DeckSpeakFieldEnum } from "../../../../functions/db/deck/decks-with-cards-schema.ts";
+import {
+  DeckCardOptionsDbType,
+  DeckSpeakFieldEnum,
+} from "../../../../functions/db/deck/decks-with-cards-schema.ts";
 import { RequestStore } from "../../../lib/mobx-request/request-store.ts";
 import { notifyError, notifySuccess } from "../../shared/snackbar/snackbar.tsx";
 
@@ -33,7 +36,7 @@ export class QuickAddCardFormStore implements CardFormStoreInterface {
     front: createCardSideField(""),
     example: new TextField(""),
     answerType: createAnswerTypeField(),
-    options: null,
+    options: new TextField<DeckCardOptionsDbType>(null),
     answers: createAnswerListField([], () => this.cardForm),
   };
   addCardRequest = new RequestStore(addCardRequest);

@@ -5,6 +5,7 @@ import {
 import { ListField, TextField } from "mobx-form-lite";
 import { CardAnswerType } from "../../../functions/db/custom-types.ts";
 import { CardAnswerFormType } from "./store/deck-form-store.ts";
+import { DeckCardOptionsDbType } from "../../../functions/db/deck/decks-with-cards-schema.ts";
 
 export const createMockCardPreviewForm = (card: {
   front: string;
@@ -18,7 +19,7 @@ export const createMockCardPreviewForm = (card: {
       example: new TextField<string>(card.example ?? ""),
       answerType: new TextField<CardAnswerType>("remember"),
       answerFormType: "new",
-      options: null,
+      options: new TextField<DeckCardOptionsDbType>(null),
       answers: new ListField<CardAnswerFormType>([]),
       answerId: "0",
     },

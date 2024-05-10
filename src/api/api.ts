@@ -65,6 +65,10 @@ import {
   AiMassGenerateResponse,
 } from "../../functions/ai-mass-generate.ts";
 import { UserPreviousPromptsResponse } from "../../functions/user-previous-prompts.ts";
+import {
+  AiSpeechGenerateRequest,
+  AiSpeechGenerateResponse,
+} from "../../functions/ai-speech-generate.ts";
 
 export const healthRequest = () => {
   return request<HealthResponse>("/health");
@@ -250,4 +254,12 @@ export const addCardsMultipleRequest = (body: AddCardsMultipleRequest) => {
 
 export const userPreviousPromptsRequest = () => {
   return request<UserPreviousPromptsResponse>("/user-previous-prompts");
+};
+
+export const aiSpeechGenerateRequest = (body: AiSpeechGenerateRequest) => {
+  return request<AiSpeechGenerateResponse, AiSpeechGenerateRequest>(
+    "/ai-speech-generate",
+    "POST",
+    body,
+  );
 };

@@ -72,8 +72,8 @@ export const SpeakingCards = observer(() => {
                 value={deckFormStore.form.speakingCardsField.value}
                 onChange={deckFormStore.form.speakingCardsField.onChange}
                 options={[
-                  { value: "front", label: t("card_speak_side_front") },
-                  { value: "back", label: t("card_speak_side_back") },
+                  { value: "front", label: t("front") },
+                  { value: "back", label: t("back") },
                 ]}
               />
             ) : null}

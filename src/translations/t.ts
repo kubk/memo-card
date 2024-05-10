@@ -90,8 +90,8 @@ const en = {
   speaking_cards: "Speaking cards",
   voice_language: "Voice language",
   card_speak_side: "Speak side",
-  card_speak_side_front: "Front",
-  card_speak_side_back: "Back",
+  front: "Front",
+  back: "Back",
   card_speak_description:
     "Play spoken audio for each flashcard to listen to the pronunciation",
   review_deck_finished: `You have finished this deck for now 🎉`,
@@ -176,6 +176,7 @@ const en = {
   review_idk: "I don't know",
   card_answer_type: "Card type",
   yes_no: "Remember",
+  yes: 'Yes',
   answer_type_choice: "Quiz",
   answer_type_explanation_remember: `A card with "Remember" and "Don't remember" buttons`,
   answer_type_explanation_choice: `A card with answer choices`,
@@ -249,11 +250,22 @@ const en = {
   confirm_ok: "Confirm",
   payment_failed:
     "Payment failed. We're aware of the issue and working on it. Please contact support via Settings > Support.",
+  ai_speech_title: "AI speech",
+  ai_speech_empty: "No AI speech generated. Choose the card side below.",
+  ai_speech_type: "Or type the needed text",
+  ai_speech_generate: "Generate",
+  ai_speech_validate: "Please either select side or type the text",
 };
 
 type Translation = typeof en;
 
 const ru: Translation = {
+  yes: 'Да',
+  ai_speech_title: "ИИ речь",
+  ai_speech_empty: "Речь не создана. Выберите сторону карточки ниже.",
+  ai_speech_generate: "Сгенерировать речь",
+  ai_speech_type: "Или введите текст",
+  ai_speech_validate: "Пожалуйста выберите сторону или введите текст",
   confirm_cancel: "Отмена",
   confirm_ok: "Подтвердить",
   payment_success:
@@ -378,8 +390,8 @@ const ru: Translation = {
   speaking_cards: "Озвучка карточек",
   voice_language: "Язык озвучки",
   card_speak_side: "Сторона карточки",
-  card_speak_side_front: "Лицевая",
-  card_speak_side_back: "Обратная",
+  front: "Лицевая",
+  back: "Обратная",
   card_speak_description: "Позволяет услышать произношение",
   review_deck_finished: `Колода пройдена 🎉`,
   review_all_cards: `Вы повторили все карточки на сегодня 🎉`,
@@ -502,6 +514,13 @@ const ru: Translation = {
 };
 
 const es: Translation = {
+  yes: 'Sí',
+  ai_speech_validate: "Por favor, selecciona una cara o escribe el texto",
+  ai_speech_type: "O escribe el texto necesario",
+  ai_speech_empty:
+    "No se ha generado ninguna voz de IA. Elige el lado de la tarjeta a continuación.",
+  ai_speech_title: "Voz de IA",
+  ai_speech_generate: "Generar",
   confirm_ok: "Confirmar",
   confirm_cancel: "Cancelar",
   payment_success:
@@ -632,8 +651,8 @@ const es: Translation = {
   speaking_cards: "Tarjetas habladas",
   voice_language: "Idioma de voz",
   card_speak_side: "Lado de la tarjeta",
-  card_speak_side_front: "Frente",
-  card_speak_side_back: "Dorso",
+  front: "Frente",
+  back: "Dorso",
   card_speak_description:
     "Reproducir audio hablado para cada tarjeta de memoria para escuchar la pronunciación.",
   review_deck_finished: `Has terminado este mazo por ahora 🎉`,
@@ -752,6 +771,12 @@ const es: Translation = {
 };
 
 const ptBr: Translation = {
+  yes: 'Sim',
+  ai_speech_generate: "Gerar",
+  ai_speech_title: "Voz de IA",
+  ai_speech_empty: "Nenhuma voz de IA gerada. Escolha o lado do cartão abaixo.",
+  ai_speech_type: "Ou digite o texto necessário",
+  ai_speech_validate: "Por favor, selecione um lado ou digite o texto",
   confirm_ok: "Confirmar",
   confirm_cancel: "Cancelar",
   payment_success:
@@ -885,8 +910,8 @@ const ptBr: Translation = {
   speaking_cards: "Cartões com voz",
   voice_language: "Idioma da voz",
   card_speak_side: "Lado do cartão",
-  card_speak_side_front: "Frente",
-  card_speak_side_back: "Verso",
+  front: "Frente",
+  back: "Verso",
   card_speak_description:
     "Reproduzir áudio falado para cada flashcard para ouvir a pronúncia.",
   review_deck_finished: `Parabéns! Você terminou este baralho por enquanto. 🎉`,
