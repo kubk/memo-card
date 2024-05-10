@@ -65,7 +65,7 @@ export const Button = (props: Props) => {
         outline &&
           css({
             backgroundColor: parsedColor
-              .lighten(isDarkTheme() ? 0.25 : 0.4)
+              .lighten(isDarkTheme() ? 0.3 : 0.4)
               .toHex(),
             color: mainColor,
             ":hover": {
