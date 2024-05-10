@@ -116,22 +116,29 @@ export class CardUnderReviewStore {
   }
 
   isCardSpeakerVisible(type: "front" | "back") {
+    if (!userStore.isSpeakingCardsEnabled) {
+      return false;
+    }
+
     if (this.voice) {
-      return type === "back";
+      return this.isOpened && type === this.deckSpeakField;
     }
 
     return (
       isSpeechSynthesisSupported &&
       this.isOpened &&
-      type === this.deckSpeakField &&
-      userStore.isSpeakingCardsEnabled
+      type === this.deckSpeakField
     );
   }
 
   get canSpeak() {
+    if (this.voice) {
+      return true;
+    }
+
     if (!isSpeechSynthesisSupported) {
       return false;
     }
-    return Boolean(this.voice || (this.deckSpeakLocale && this.deckSpeakField));
+    return Boolean(this.deckSpeakLocale && this.deckSpeakField);
   }
 }
