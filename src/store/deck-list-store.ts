@@ -16,7 +16,7 @@ import {
   type DeckCardDbType,
   type DeckWithCardsDbType,
 } from "../../functions/db/deck/decks-with-cards-schema.ts";
-import { type RouteType, screenStore } from "./screen-store.ts";
+import { screenStore } from "./screen-store.ts";
 import {
   CardReviewType,
   type CardToReviewDbType,
@@ -262,18 +262,18 @@ export class DeckListStore {
     this.replaceDeck(result.data);
   }
 
-  goDeckById(deckId: number, backScreen?: RouteType) {
+  goDeckById(deckId: number) {
     if (!this.myInfo) {
       return null;
     }
     const myDeck = this.myInfo.myDecks.find((deck) => deck.id === deckId);
     if (myDeck) {
-      screenStore.go({ type: "deckMine", deckId, backScreen });
+      screenStore.go({ type: "deckMine", deckId });
       return;
     }
     const publicDeck = this.publicDecks.find((deck) => deck.id === deckId);
     if (publicDeck) {
-      screenStore.go({ type: "deckPublic", deckId, backScreen });
+      screenStore.go({ type: "deckPublic", deckId });
       return;
     }
   }

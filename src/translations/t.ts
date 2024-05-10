@@ -176,7 +176,7 @@ const en = {
   review_idk: "I don't know",
   card_answer_type: "Card type",
   yes_no: "Remember",
-  yes: 'Yes',
+  yes: "Yes",
   answer_type_choice: "Quiz",
   answer_type_explanation_remember: `A card with "Remember" and "Don't remember" buttons`,
   answer_type_explanation_choice: `A card with answer choices`,
@@ -260,7 +260,7 @@ const en = {
 type Translation = typeof en;
 
 const ru: Translation = {
-  yes: 'Да',
+  yes: "Да",
   ai_speech_title: "ИИ речь",
   ai_speech_empty: "Речь не создана. Выберите сторону карточки ниже.",
   ai_speech_generate: "Сгенерировать речь",
@@ -514,7 +514,7 @@ const ru: Translation = {
 };
 
 const es: Translation = {
-  yes: 'Sí',
+  yes: "Sí",
   ai_speech_validate: "Por favor, selecciona una cara o escribe el texto",
   ai_speech_type: "O escribe el texto necesario",
   ai_speech_empty:
@@ -771,7 +771,7 @@ const es: Translation = {
 };
 
 const ptBr: Translation = {
-  yes: 'Sim',
+  yes: "Sim",
   ai_speech_generate: "Gerar",
   ai_speech_title: "Voz de IA",
   ai_speech_empty: "Nenhuma voz de IA gerada. Escolha o lado do cartão abaixo.",

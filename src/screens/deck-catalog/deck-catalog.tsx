@@ -28,7 +28,7 @@ export const DeckCatalog = observer(() => {
   });
 
   useBackButton(() => {
-    screenStore.go({ type: "main" });
+    screenStore.back();
   });
 
   return (

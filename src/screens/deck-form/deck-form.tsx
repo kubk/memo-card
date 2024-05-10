@@ -40,7 +40,7 @@ export const DeckForm = observer(() => {
   });
   useBackButton(() => {
     deckFormStore.onDeckBack(() => {
-      screenStore.go({ type: "main" });
+      screenStore.back();
     });
   });
   useMainButtonProgress(() => deckFormStore.isSending);
@@ -185,7 +185,7 @@ export const DeckForm = observer(() => {
           onClick={() => {
             assert(deckFormStore.form);
             assert(deckFormStore.form.id);
-            deckListStore.goDeckById(deckFormStore.form.id, "main");
+            deckListStore.goDeckById(deckFormStore.form.id);
           }}
         >
           {t("deck_preview")}
