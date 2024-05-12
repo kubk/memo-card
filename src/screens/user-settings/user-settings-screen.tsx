@@ -5,7 +5,7 @@ import React from "react";
 import { useMount } from "../../lib/react/use-mount.ts";
 import { generateTimeRange } from "./generate-time-range.tsx";
 import { useMainButton } from "../../lib/platform/use-main-button.ts";
-import { useMainButtonProgress } from "../../lib/platform/use-main-button-progress.tsx";
+import { useProgress } from "../../lib/platform/use-progress.tsx";
 import { RadioSwitcher } from "../../ui/radio-switcher.tsx";
 import { theme } from "../../ui/theme.tsx";
 import { Select } from "../../ui/select.tsx";
@@ -34,7 +34,7 @@ export const UserSettingsScreen = observer(() => {
   useBackButton(() => {
     screenStore.back();
   });
-  useMainButtonProgress(() => userSettingsStore.userSettingsRequest.isLoading);
+  useProgress(() => userSettingsStore.userSettingsRequest.isLoading);
 
   if (!deckListStore.myInfo || !userSettingsStore.form) {
     return null;

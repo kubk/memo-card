@@ -10,7 +10,7 @@ import { useBackButton } from "../../lib/platform/use-back-button.ts";
 import { useMainButton } from "../../lib/platform/use-main-button.ts";
 import { showConfirm } from "../../lib/platform/show-confirm.ts";
 import { ButtonSideAligned } from "../../ui/button-side-aligned.tsx";
-import { useMainButtonProgress } from "../../lib/platform/use-main-button-progress.tsx";
+import { useProgress } from "../../lib/platform/use-progress.tsx";
 import { t } from "../../translations/t.ts";
 import { ButtonGrid } from "../../ui/button-grid.tsx";
 import { Button } from "../../ui/button.tsx";
@@ -27,7 +27,7 @@ export const DeckPreview = observer(() => {
     screenStore.back();
   });
 
-  useMainButtonProgress(() => deckListStore.deckWithCardsRequest.isLoading);
+  useProgress(() => deckListStore.deckWithCardsRequest.isLoading);
   useScrollToTopOnMount();
 
   useMainButton(

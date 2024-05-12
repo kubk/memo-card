@@ -15,7 +15,7 @@ import {
   PieChartCanvas,
 } from "./pie-chart-canvas.tsx";
 import { LegendItem } from "./legend-item.tsx";
-import { DeckLoading } from "../shared/deck-loading.tsx";
+import { CardRowLoading } from "../shared/card-row-loading.tsx";
 import { EmptyStudyFrequencyChartText } from "./empty-study-frequency-chart-text.tsx";
 import { Flex } from "../../ui/flex.tsx";
 
@@ -36,7 +36,7 @@ export const UserStatisticsScreen = observer(() => {
   return (
     <Screen title={t("user_stats_page")}>
       {userStatisticsStore.userStatisticsRequest.isLoading ? (
-        <DeckLoading speed={1} />
+        <CardRowLoading speed={1} />
       ) : (
         <CardRow>
           <span>{t("user_stats_remembered")}</span>
@@ -46,7 +46,7 @@ export const UserStatisticsScreen = observer(() => {
       <HintTransparent>{t("user_stats_remembered_hint")}</HintTransparent>
 
       {userStatisticsStore.userStatisticsRequest.isLoading ? (
-        <DeckLoading speed={1} />
+        <CardRowLoading speed={1} />
       ) : (
         <CardRow>
           <span>{t("user_stats_learning")}</span>
@@ -56,7 +56,7 @@ export const UserStatisticsScreen = observer(() => {
       <HintTransparent>{t("user_stats_learning_hint")}</HintTransparent>
 
       {userStatisticsStore.userStatisticsRequest.isLoading ? (
-        <DeckLoading speed={1} />
+        <CardRowLoading speed={1} />
       ) : (
         <CardRow>
           <span>{t("user_stats_total")}</span>

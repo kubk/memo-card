@@ -9,7 +9,7 @@ import { useBackButton } from "../../lib/platform/use-back-button.ts";
 import { useMainButton } from "../../lib/platform/use-main-button.ts";
 import { showConfirm } from "../../lib/platform/show-confirm.ts";
 import { ButtonSideAligned } from "../../ui/button-side-aligned.tsx";
-import { useMainButtonProgress } from "../../lib/platform/use-main-button-progress.tsx";
+import { useProgress } from "../../lib/platform/use-progress.tsx";
 import { t } from "../../translations/t.ts";
 import { useReviewStore } from "../deck-review/store/review-store-context.tsx";
 import { ListHeader } from "../../ui/list-header.tsx";
@@ -29,7 +29,7 @@ export const FolderPreview = observer(() => {
     screenStore.back();
   });
 
-  useMainButtonProgress(() => deckListStore.isCatalogItemLoading);
+  useProgress(() => deckListStore.isCatalogItemLoading);
   useScrollToTopOnMount();
 
   useMainButton(

@@ -2,6 +2,9 @@ import { Translator } from "../lib/translator/translator.ts";
 import { platform } from "../lib/platform/platform.ts";
 
 const en = {
+  card_input_mode_changed: "Card input mode has been changed",
+  card_input_mode_screen: "Card input mode",
+  generate: "Generate",
   folder_form_no_decks: "No decks in the folder",
   cards_add: "Add cards",
   card_next: "Next",
@@ -260,6 +263,9 @@ const en = {
 type Translation = typeof en;
 
 const ru: Translation = {
+  card_input_mode_changed: "Режим ввода карточки изменен",
+  card_input_mode_screen: "Режим ввода карточки",
+  generate: "Сгенерировать",
   yes: "Да",
   ai_speech_title: "ИИ речь",
   ai_speech_empty: "Речь не создана. Выберите сторону карточки ниже.",
@@ -514,6 +520,9 @@ const ru: Translation = {
 };
 
 const es: Translation = {
+  card_input_mode_changed: "Modo de entrada de tarjeta cambiado",
+  generate: "Generar",
+  card_input_mode_screen: "Modo de entrada de tarjeta",
   yes: "Sí",
   ai_speech_validate: "Por favor, selecciona una cara o escribe el texto",
   ai_speech_type: "O escribe el texto necesario",
@@ -771,6 +780,9 @@ const es: Translation = {
 };
 
 const ptBr: Translation = {
+  card_input_mode_changed: "Modo de entrada de cartão alterado",
+  generate: "Gerar",
+  card_input_mode_screen: "Modo de entrada de cartão",
   yes: "Sim",
   ai_speech_generate: "Gerar",
   ai_speech_title: "Voz de IA",

@@ -4,6 +4,9 @@ import { App } from "./screens/app.tsx";
 import "./index.css";
 import "@mdi/font/css/materialdesignicons.min.css";
 import { platform } from "./lib/platform/platform.ts";
+import { applyFormatters } from "mobx-log";
+
+applyFormatters();
 
 platform.initialize();
 

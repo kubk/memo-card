@@ -12,7 +12,7 @@ import { theme } from "../../ui/theme.tsx";
 import React from "react";
 import { t } from "../../translations/t.ts";
 import { screenStore } from "../../store/screen-store.ts";
-import { useMainButtonProgress } from "../../lib/platform/use-main-button-progress.tsx";
+import { useProgress } from "../../lib/platform/use-progress.tsx";
 import { CardNumber } from "../../ui/card-number.tsx";
 import { translateAddCards } from "./translations.ts";
 
@@ -37,7 +37,7 @@ export const CardsGeneratedScreen = observer(() => {
     },
   );
 
-  useMainButtonProgress(() => store.addCardsMultipleRequest.isLoading);
+  useProgress(() => store.addCardsMultipleRequest.isLoading);
 
   return (
     <Screen

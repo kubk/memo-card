@@ -270,10 +270,12 @@ export class AiMassCreationStore {
       return;
     }
 
-    assert(screenStore.screen.type === "aiMassCreation", "Invalid screen type");
+    const { screen } = screenStore;
+
+    assert(screen.type === "aiMassCreation", "Invalid screen type");
 
     const result = await this.addCardsMultipleRequest.execute({
-      deckId: screenStore.screen.deckId,
+      deckId: screen.deckId,
       cards: this.massCreationForm.cards.value,
     });
 
@@ -284,9 +286,10 @@ export class AiMassCreationStore {
 
     notifySuccess(t("ai_cards_added"));
     deckListStore.replaceDeck(result.data.deck);
+    deckListStore.updateCardsToReview(result.data.cardsToReview);
     screenStore.go({
       type: "deckForm",
-      deckId: screenStore.screen.deckId,
+      deckId: screen.deckId,
     });
   }
 }

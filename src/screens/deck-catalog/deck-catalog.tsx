@@ -10,7 +10,7 @@ import { Select } from "../../ui/select.tsx";
 import { DeckLanguage } from "./store/deck-catalog-store.ts";
 import { DeckListItemWithDescription } from "../../ui/deck-list-item-with-description.tsx";
 import { range } from "../../lib/array/range.ts";
-import { DeckLoading } from "../shared/deck-loading.tsx";
+import { CardRowLoading } from "../shared/card-row-loading.tsx";
 import { NoDecksMatchingFilters } from "./no-decks-matching-filters.tsx";
 import { deckListStore } from "../../store/deck-list-store.ts";
 import { DeckAddedLabel } from "./deck-added-label.tsx";
@@ -70,7 +70,7 @@ export const DeckCatalog = observer(() => {
 
       {(() => {
         if (store.catalogRequest.result.status === "loading") {
-          return range(5).map((i) => <DeckLoading key={i} />);
+          return range(5).map((i) => <CardRowLoading key={i} />);
         }
 
         if (store.catalogRequest.result.status === "success") {

@@ -12,7 +12,7 @@ import { Input } from "../../ui/input.tsx";
 import React from "react";
 import { ValidationError } from "../../ui/validation-error.tsx";
 import { useMainButton } from "../../lib/platform/use-main-button.ts";
-import { useMainButtonProgress } from "../../lib/platform/use-main-button-progress.tsx";
+import { useProgress } from "../../lib/platform/use-progress.tsx";
 import { useBackButton } from "../../lib/platform/use-back-button.ts";
 import { screenStore } from "../../store/screen-store.ts";
 
@@ -28,7 +28,7 @@ export const AiMassCreationForm = observer(() => {
     screenStore.back();
   });
 
-  useMainButtonProgress(() => store.aiMassGenerateRequest.isLoading);
+  useProgress(() => store.aiMassGenerateRequest.isLoading);
 
   return (
     <Screen title={t("ai_cards_title")}>

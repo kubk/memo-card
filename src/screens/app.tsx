@@ -3,9 +3,9 @@ import { MainScreen } from "./deck-list/main-screen.tsx";
 import { DeckScreen } from "./deck-review/deck-screen.tsx";
 import { ReviewStoreProvider } from "./deck-review/store/review-store-context.tsx";
 import { screenStore } from "../store/screen-store.ts";
-import { DeckFormScreen } from "./deck-form/deck-form-screen.tsx";
-import { DeckFormStoreProvider } from "./deck-form/store/deck-form-store-context.tsx";
-import { QuickAddCardFormPage } from "./deck-form/quick-add-card-form-page.tsx";
+import { DeckFormScreen } from "./deck-form/deck-form/deck-form-screen.tsx";
+import { DeckFormStoreProvider } from "./deck-form/deck-form/store/deck-form-store-context.tsx";
+import { QuickAddCardFormPage } from "./deck-form/card-form/quick-add-card-form-page.tsx";
 import { VersionWarning } from "./shared/version-warning.tsx";
 import React from "react";
 import { deckListStore } from "../store/deck-list-store.ts";
@@ -40,6 +40,7 @@ import { SnackbarProviderWrapper } from "./shared/snackbar/snackbar-provider-wra
 import { Debug } from "./debug/debug.tsx";
 import { BrowserHeader } from "./shared/browser-platform/browser-header.tsx";
 import { BrowserMainButton } from "./shared/browser-platform/browser-main-button.tsx";
+import { CardInputModeScreen } from "./card-input-mode/card-input-mode-screen.tsx";
 
 export const App = observer(() => {
   useRestoreFullScreenExpand();
@@ -167,6 +168,11 @@ export const App = observer(() => {
           <AiMassCreationStoreProvider>
             <AiMassCreationScreen />
           </AiMassCreationStoreProvider>
+        </PreventTelegramSwipeDownClosingIos>
+      )}
+      {screenStore.screen.type === "cardInputMode" && (
+        <PreventTelegramSwipeDownClosingIos>
+          <CardInputModeScreen />
         </PreventTelegramSwipeDownClosingIos>
       )}
       <BrowserMainButton />

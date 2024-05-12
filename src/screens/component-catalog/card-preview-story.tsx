@@ -1,6 +1,6 @@
-import { CardPreview } from "../deck-form/card-preview.tsx";
+import { CardPreview } from "../deck-form/card-form/card-preview.tsx";
 import { useState } from "react";
-import { createMockCardPreviewForm } from "../deck-form/create-mock-card-preview-form.ts";
+import { createMockCardPreviewForm } from "../deck-form/card-form/create-mock-card-preview-form.ts";
 
 export const CardPreviewStory = (props: {
   card: {

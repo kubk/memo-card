@@ -41,6 +41,7 @@ const createDeckWithCards = (cards: DeckCardDbTypeWithType[]) => {
     available_in: null,
     deck_category: null,
     category_id: null,
+    card_input_mode_id: null,
   };
   return deckMock;
 };

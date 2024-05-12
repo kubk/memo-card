@@ -71,6 +71,7 @@ vi.mock("../api/api.ts", () => {
             speak_field: null,
             category_id: null,
             deck_category: null,
+            card_input_mode_id: null,
             deck_card: [
               {
                 id: 1,
@@ -131,6 +132,7 @@ vi.mock("../api/api.ts", () => {
             speak_field: null,
             deck_category: null,
             category_id: null,
+            card_input_mode_id: null,
             deck_card: [
               {
                 id: 4,

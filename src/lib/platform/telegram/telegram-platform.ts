@@ -1,7 +1,7 @@
 import WebApp from "@twa-dev/sdk";
 import { Platform, PlatformTheme } from "../platform.ts";
 import { cssVarToValue } from "./css-var-to-value.ts";
-import { PlatformSchemaType } from "../../../../functions/services/get-user.ts";
+import { PlatformSchemaType } from "../../../../functions/services/get-telegram-user.ts";
 import { Language } from "../../../translations/t.ts";
 
 const buttonColor = "var(--tg-theme-button-color)";

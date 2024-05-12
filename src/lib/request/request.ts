@@ -1,7 +1,7 @@
 import { trimEnd, trimStart } from "../string/trim.ts";
 import { platform } from "../platform/platform.ts";
 import { collectClientData } from "./collect-client-data.ts";
-import { UserHeaders } from "../../../functions/services/get-user.ts";
+import { UserHeaders } from "../../../functions/services/get-telegram-user.ts";
 
 const baseUrl = import.meta.env.VITE_API_URL || "";
 

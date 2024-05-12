@@ -9,7 +9,7 @@ import { Hint } from "../../ui/hint.tsx";
 import { theme } from "../../ui/theme.tsx";
 import { screenStore } from "../../store/screen-store.ts";
 import { Button } from "../../ui/button.tsx";
-import { DeckLoading } from "../shared/deck-loading.tsx";
+import { CardRowLoading } from "../shared/card-row-loading.tsx";
 import { ListHeader } from "../../ui/list-header.tsx";
 import { range } from "../../lib/array/range.ts";
 import { reset } from "../../ui/reset.ts";
@@ -42,7 +42,7 @@ export const MainScreen = observer(() => {
         <Flex direction={"column"} gap={6}>
           {deckListStore.myInfoRequest.isLoading &&
             range(deckListStore.skeletonLoaderData.myDecksCount).map((i) => (
-              <DeckLoading key={i} />
+              <CardRowLoading key={i} />
             ))}
           {deckListStore.myInfo
             ? deckListStore.myDeckItemsVisible.map((listItem) => {
@@ -148,7 +148,7 @@ export const MainScreen = observer(() => {
 
           {deckListStore.myInfoRequest.isLoading &&
             range(deckListStore.skeletonLoaderData.publicCount).map((i) => (
-              <DeckLoading key={i} />
+              <CardRowLoading key={i} />
             ))}
         </Flex>
       </div>

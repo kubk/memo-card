@@ -1,11 +1,17 @@
 import { makeAutoObservable } from "mobx";
-import { CardFormType } from "../screens/deck-form/store/deck-form-store.ts";
+import { CardFormType } from "../screens/deck-form/deck-form/store/deck-form-store.ts";
+import { makeLoggable } from "mobx-log";
 
 type Route =
   | { type: "main" }
   | { type: "deckMine"; deckId: number }
   | { type: "deckPublic"; deckId: number }
-  | { type: "deckForm"; deckId?: number; folder?: { id: number; name: string } }
+  | {
+      type: "deckForm";
+      deckId?: number;
+      folder?: { id: number; name: string };
+      cardId?: number;
+    }
   | { type: "cardPreview"; form: CardFormType }
   | { type: "folderForm"; folderId?: number }
   | { type: "folderPreview"; folderId: number }
@@ -16,6 +22,11 @@ type Route =
   | { type: "shareDeck"; deckId: number; shareId: string }
   | { type: "shareFolder"; folderId: number; shareId: string }
   | { type: "aiMassCreation"; deckId: number; deckTitle: string | null }
+  | {
+      type: "cardInputMode";
+      deckId: number;
+      cardInputModeId: string | null;
+    }
   | { type: "plans" }
   | { type: "debug" }
   | { type: "componentCatalog" }
@@ -30,6 +41,7 @@ export class ScreenStore {
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
+    makeLoggable(this);
   }
 
   go(historyData: Route) {

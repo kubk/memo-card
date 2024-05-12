@@ -15,7 +15,7 @@ import {
   getPlanTitle,
 } from "./translations.ts";
 import { PlansScreenStore } from "./store/plans-screen-store.ts";
-import { useMainButtonProgress } from "../../lib/platform/use-main-button-progress.tsx";
+import { useProgress } from "../../lib/platform/use-progress.tsx";
 import { userStore } from "../../store/user-store.ts";
 import { ExternalLink } from "../../ui/external-link.tsx";
 import { t } from "../../translations/t.ts";
@@ -39,7 +39,7 @@ export const PlansScreen = observer(() => {
     () => store.isBuyButtonVisible,
   );
 
-  useMainButtonProgress(() => store.createOrderRequest.isLoading);
+  useProgress(() => store.createOrderRequest.isLoading);
 
   if (store.plansRequest.result.status === "loading") {
     return <FullScreenLoader />;

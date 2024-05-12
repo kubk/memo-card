@@ -13,7 +13,7 @@ import { Chip } from "../../ui/chip.tsx";
 import { FreezeCardsStore } from "./store/freeze-cards-store.ts";
 import { FilledIcon } from "../../ui/filled-icon.tsx";
 import { Accordion } from "../../ui/accordion.tsx";
-import { useMainButtonProgress } from "../../lib/platform/use-main-button-progress.tsx";
+import { useProgress } from "../../lib/platform/use-progress.tsx";
 import { t } from "../../translations/t.ts";
 import { formatDays } from "./translations.ts";
 
@@ -30,7 +30,7 @@ export const FreezeCardsScreen = observer(() => {
     store.freeze,
     () => store.isFreezeButtonVisible,
   );
-  useMainButtonProgress(() => store.cardsFreezeRequest.isLoading);
+  useProgress(() => store.cardsFreezeRequest.isLoading);
 
   return (
     <Screen title={t("freeze_title")}>

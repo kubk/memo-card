@@ -3,7 +3,7 @@ import { useBackButton } from "../../lib/platform/use-back-button.ts";
 import { screenStore } from "../../store/screen-store.ts";
 import { useMainButton } from "../../lib/platform/use-main-button.ts";
 import { t } from "../../translations/t.ts";
-import { useMainButtonProgress } from "../../lib/platform/use-main-button-progress.tsx";
+import { useProgress } from "../../lib/platform/use-progress.tsx";
 import { CardRow } from "../../ui/card-row.tsx";
 import { RadioSwitcher } from "../../ui/radio-switcher.tsx";
 import { HintTransparent } from "../../ui/hint-transparent.tsx";
@@ -32,7 +32,7 @@ export const ShareDeckSettings = observer(() => {
     () => store.isSaveButtonVisible,
   );
 
-  useMainButtonProgress(() => store.addDeckAccessRequest.isLoading);
+  useProgress(() => store.addDeckAccessRequest.isLoading);
 
   return (
     <Screen title={t("share_deck_settings")}>

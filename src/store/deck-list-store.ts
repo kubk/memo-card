@@ -145,6 +145,18 @@ export class DeckListStore {
     screenStore.go({ type: "folderPreview", folderId: folder.id });
   }
 
+  addCardOptimistic(card: DeckCardDbType) {
+    const deck = this.searchDeckById(card.deck_id);
+    if (!deck || !this.myInfo) {
+      return;
+    }
+    deck.deck_card.push(card);
+    this.myInfo.cardsToReview.push({
+      ...card,
+      type: "new",
+    });
+  }
+
   async openFolderFromCatalog(folderWithoutDecks: CatalogFolderDbType) {
     assert(this.myInfo);
     if (
@@ -447,6 +459,14 @@ export class DeckListStore {
     }
   }
 
+  updateDeckCardInputMode(deckId: number, cardInputModeId: string | null) {
+    const deck = this.searchDeckById(deckId);
+    if (!deck) {
+      return null;
+    }
+    deck.card_input_mode_id = cardInputModeId;
+  }
+
   get publicDecks() {
     if (!this.myInfo) {
       return [];
@@ -635,12 +655,16 @@ export class DeckListStore {
   }
 
   updateFolders(body: FolderWithDeckIdDbType[]) {
-    assert(this.myInfo, "myInfo is not loaded in updateFolders");
+    if (!this.myInfo) {
+      return;
+    }
     this.myInfo.folders = body;
   }
 
   updateCardsToReview(body: CardToReviewDbType[]) {
-    assert(this.myInfo, "myInfo is not loaded in updateCardsToReview");
+    if (!this.myInfo) {
+      return;
+    }
     this.myInfo.cardsToReview = body;
   }
 

@@ -6,7 +6,7 @@ import { Input } from "../../ui/input.tsx";
 import React from "react";
 import { useBackButton } from "../../lib/platform/use-back-button.ts";
 import { screenStore } from "../../store/screen-store.ts";
-import { useMainButtonProgress } from "../../lib/platform/use-main-button-progress.tsx";
+import { useProgress } from "../../lib/platform/use-progress.tsx";
 import { useMount } from "../../lib/react/use-mount.ts";
 import { useMainButton } from "../../lib/platform/use-main-button.ts";
 import { assert } from "../../lib/typescript/assert.ts";
@@ -37,7 +37,7 @@ export const FolderForm = observer(() => {
     folderStore.onBack();
   });
 
-  useMainButtonProgress(() => folderStore.folderUpsertRequest.isLoading);
+  useProgress(() => folderStore.folderUpsertRequest.isLoading);
 
   if (!folderForm) {
     return null;

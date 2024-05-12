@@ -69,6 +69,15 @@ import {
   AiSpeechGenerateRequest,
   AiSpeechGenerateResponse,
 } from "../../functions/ai-speech-generate.ts";
+import {
+  AiSingleCardRequest,
+  AiSingleCardResponse,
+} from "../../functions/ai-single-card-generate.ts";
+import { CardInputModeListResponse } from "../../functions/card-input-mode-list.ts";
+import {
+  CardInputModeChangeRequest,
+  CardInputModeChangeResponse,
+} from "../../functions/card-input-mode-change.ts";
 
 export const healthRequest = () => {
   return request<HealthResponse>("/health");
@@ -260,6 +269,28 @@ export const aiSpeechGenerateRequest = (body: AiSpeechGenerateRequest) => {
   return request<AiSpeechGenerateResponse, AiSpeechGenerateRequest>(
     "/ai-speech-generate",
     "POST",
+    body,
+  );
+};
+
+export const aiSingleCardGenerateRequest = (body: AiSingleCardRequest) => {
+  return request<AiSingleCardResponse, AiSingleCardRequest>(
+    "/ai-single-card-generate",
+    "POST",
+    body,
+  );
+};
+
+export const cardInputModeListRequest = () => {
+  return request<CardInputModeListResponse>("/card-input-mode-list");
+};
+
+export const deckChangeInputModeRequest = (
+  body: CardInputModeChangeRequest,
+) => {
+  return request<CardInputModeChangeResponse, CardInputModeChangeRequest>(
+    "/card-input-mode-change",
+    "PUT",
     body,
   );
 };

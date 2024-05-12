@@ -1,4 +1,4 @@
-import { observer, useLocalStore } from "mobx-react-lite";
+import { observer, useLocalObservable } from "mobx-react-lite";
 import { Screen } from "../shared/screen.tsx";
 import { useAiMassCreationStore } from "./store/ai-mass-creation-store-provider.tsx";
 import { useMount } from "../../lib/react/use-mount.ts";
@@ -16,7 +16,7 @@ import { EmptyState } from "../../ui/empty-state.tsx";
 
 export const PreviousPromptsScreen = observer(() => {
   const store = useAiMassCreationStore();
-  const localStore = useLocalStore(() => ({
+  const localStore = useLocalObservable(() => ({
     selectedIndex: new TextField<number | null>(null),
     get isMainButtonVisible() {
       return localStore.selectedIndex.value !== null;
@@ -41,7 +41,7 @@ export const PreviousPromptsScreen = observer(() => {
 
   return (
     <Screen title={t("ai_cards_previous_prompts")}>
-      <Flex direction={"column"} gap={4}>
+      <Flex direction={"column"} gap={8}>
         {store.userPreviousPromptsRequest.isLoading && <ScreenLoader />}
         {store.userPreviousPromptsRequest.result.status === "success" &&
           store.userPreviousPromptsRequest.result.data.length === 0 && (
@@ -72,7 +72,7 @@ export const PreviousPromptsScreen = observer(() => {
                     }),
                     isSelected &&
                       css({
-                        border: `2px solid ${theme.buttonColor}`,
+                        outline: `2px solid ${theme.buttonColor}`,
                       }),
                   )}
                   key={i}

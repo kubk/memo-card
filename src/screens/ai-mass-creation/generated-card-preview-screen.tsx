@@ -2,8 +2,8 @@ import { observer } from "mobx-react-lite";
 import { useAiMassCreationStore } from "./store/ai-mass-creation-store-provider.tsx";
 import { assert } from "../../lib/typescript/assert.ts";
 import { useState } from "react";
-import { createMockCardPreviewForm } from "../deck-form/create-mock-card-preview-form.ts";
-import { CardPreview } from "../deck-form/card-preview.tsx";
+import { createMockCardPreviewForm } from "../deck-form/card-form/create-mock-card-preview-form.ts";
+import { CardPreview } from "../deck-form/card-form/card-preview.tsx";
 
 type Props = {
   card: { front: string; back: string; example?: string };

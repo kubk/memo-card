@@ -14,7 +14,7 @@ import { theme } from "../../ui/theme.tsx";
 import { Flex } from "../../ui/flex.tsx";
 import { chatGptModels } from "./store/ai-mass-creation-store.ts";
 import { useBackButton } from "../../lib/platform/use-back-button.ts";
-import { useMainButtonProgress } from "../../lib/platform/use-main-button-progress.tsx";
+import { useProgress } from "../../lib/platform/use-progress.tsx";
 import { TextField } from "mobx-form-lite";
 
 export const ApiKeysScreen = observer(() => {
@@ -29,7 +29,7 @@ export const ApiKeysScreen = observer(() => {
     store.screen.onChange(null);
   });
 
-  useMainButtonProgress(() => store.upsertUserAiCredentialsRequest.isLoading);
+  useProgress(() => store.upsertUserAiCredentialsRequest.isLoading);
 
   const isRegularInput = store.isApiKeyRegularInput;
 

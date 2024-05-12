@@ -1,7 +1,7 @@
 import { TelegramPlatform } from "./telegram/telegram-platform.ts";
 import { BrowserPlatform } from "./browser/browser-platform.ts";
 import { isRunningWithinTelegram } from "./is-running-within-telegram.ts";
-import { PlatformSchemaType } from "../../../functions/services/get-user.ts";
+import { PlatformSchemaType } from "../../../functions/services/get-telegram-user.ts";
 import { Language } from "../../translations/t.ts";
 
 export type PlatformTheme = {

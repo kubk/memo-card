@@ -13,7 +13,7 @@ import {
   SpeakLanguageEnum,
 } from "../../../lib/voice-playback/speak.ts";
 import { removeAllTags } from "../../../lib/sanitize-html/remove-all-tags.ts";
-import { CardFormStoreInterface } from "../../deck-form/store/card-form-store-interface.ts";
+import { CardFormStoreInterface } from "../../deck-form/deck-form/store/card-form-store-interface.ts";
 import { assert } from "../../../lib/typescript/assert.ts";
 import { BooleanToggle } from "mobx-form-lite";
 
@@ -57,7 +57,7 @@ export class CardPreviewStore implements LimitedCardUnderReviewStore {
       isCorrect: answer.isCorrect.value,
     }));
 
-    const deckForm = cardFormStore.form;
+    const deckForm = cardFormStore.deckForm;
     if (!deckForm) {
       return;
     }
@@ -113,7 +113,6 @@ export class CardPreviewStore implements LimitedCardUnderReviewStore {
 
     speak(removeAllTags(text), this.deckSpeakLocale);
   }
-
 
   isCardSpeakerVisible(type: "front" | "back") {
     if (!userStore.isSpeakingCardsEnabled) {
