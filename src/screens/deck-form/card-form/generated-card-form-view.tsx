@@ -14,9 +14,6 @@ import { Input } from "../../../ui/input.tsx";
 import { HintTransparent } from "../../../ui/hint-transparent.tsx";
 import { CardRowLoading } from "../../shared/card-row-loading.tsx";
 import { CardRow } from "../../../ui/card-row.tsx";
-import { css } from "@emotion/css";
-import { theme } from "../../../ui/theme.tsx";
-import { screenStore } from "../../../store/screen-store.ts";
 
 type Props = { cardFormStore: CardFormStoreInterface };
 
@@ -68,21 +65,6 @@ export const GeneratedCardFormView = observer((props: Props) => {
               return (
                 <CardRow>
                   <span>{inputMode.title}</span>
-                  <span
-                    onClick={() => {
-                      screenStore.go({
-                        type: "cardInputMode",
-                        cardInputModeId: cardInputModeId,
-                        deckId: localStore.deckId,
-                      });
-                    }}
-                    className={css({
-                      cursor: "pointer",
-                      color: theme.linkColor,
-                    })}
-                  >
-                    {t("edit")}
-                  </span>
                 </CardRow>
               );
             })()

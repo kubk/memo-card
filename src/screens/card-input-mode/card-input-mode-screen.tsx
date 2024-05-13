@@ -1,7 +1,6 @@
 import { observer } from "mobx-react-lite";
 import { Screen } from "../shared/screen.tsx";
 import { useBackButton } from "../../lib/platform/use-back-button.ts";
-import { screenStore } from "../../store/screen-store.ts";
 import { useState } from "react";
 import { CardInputModeStore } from "./store/card-input-mode-store.ts";
 import { useMount } from "../../lib/react/use-mount.ts";
@@ -10,12 +9,16 @@ import { RadioList } from "../../ui/radio-list/radio-list.tsx";
 import { useMainButton } from "../../lib/platform/use-main-button.ts";
 import { useProgress } from "../../lib/platform/use-progress.tsx";
 import { t } from "../../translations/t.ts";
+import { DeckFormStore } from "../deck-form/deck-form/store/deck-form-store.ts";
 
-export const CardInputModeScreen = observer(() => {
-  const [store] = useState(() => new CardInputModeStore());
+type Props = { deckFormStore: DeckFormStore };
+
+export const CardInputModeScreen = observer((props: Props) => {
+  const { deckFormStore } = props;
+  const [store] = useState(() => new CardInputModeStore(deckFormStore));
 
   useBackButton(() => {
-    screenStore.back();
+    deckFormStore.quitInnerScreen();
   });
 
   useMount(() => {
@@ -31,7 +34,7 @@ export const CardInputModeScreen = observer(() => {
   });
 
   return (
-    <Screen title={t('card_input_mode_screen')}>
+    <Screen title={t("card_input_mode_screen")}>
       {store.cardInputModesRequest.result.status === "loading" ? (
         <FullScreenLoader />
       ) : null}

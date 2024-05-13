@@ -1,4 +1,4 @@
-import { test, vi, expect } from "vitest";
+import { expect, test, vi } from "vitest";
 import { AiMassCreationStore } from "./ai-mass-creation-store.ts";
 import { when } from "mobx";
 import { isFormValid } from "mobx-form-lite";

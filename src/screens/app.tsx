@@ -40,7 +40,6 @@ import { SnackbarProviderWrapper } from "./shared/snackbar/snackbar-provider-wra
 import { Debug } from "./debug/debug.tsx";
 import { BrowserHeader } from "./shared/browser-platform/browser-header.tsx";
 import { BrowserMainButton } from "./shared/browser-platform/browser-main-button.tsx";
-import { CardInputModeScreen } from "./card-input-mode/card-input-mode-screen.tsx";
 
 export const App = observer(() => {
   useRestoreFullScreenExpand();
@@ -168,11 +167,6 @@ export const App = observer(() => {
           <AiMassCreationStoreProvider>
             <AiMassCreationScreen />
           </AiMassCreationStoreProvider>
-        </PreventTelegramSwipeDownClosingIos>
-      )}
-      {screenStore.screen.type === "cardInputMode" && (
-        <PreventTelegramSwipeDownClosingIos>
-          <CardInputModeScreen />
         </PreventTelegramSwipeDownClosingIos>
       )}
       <BrowserMainButton />

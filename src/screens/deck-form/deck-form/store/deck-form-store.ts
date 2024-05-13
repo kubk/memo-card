@@ -177,7 +177,7 @@ export class DeckFormStore implements CardFormStoreInterface {
   deckForm?: DeckFormType;
   upsertDeckRequest = new RequestStore(upsertDeckRequest);
   cardInnerScreen = new TextField<CardInnerScreenType>(null);
-  deckInnerScreen?: "cardList" | "speakingCards";
+  deckInnerScreen?: "cardList" | "speakingCards" | "cardInputMode";
   cardFilter = {
     text: new TextField(""),
     sortBy: new TextField<CardFilterSortBy>("createdAt"),
@@ -203,10 +203,6 @@ export class DeckFormStore implements CardFormStoreInterface {
   }
 
   loadForm() {
-    if (this.deckForm) {
-      return;
-    }
-
     const screen = screenStore.screen;
     assert(screen.type === "deckForm");
 
@@ -252,6 +248,17 @@ export class DeckFormStore implements CardFormStoreInterface {
       return;
     }
     this.deckInnerScreen = "cardList";
+  }
+
+  goCardInputMode() {
+    if (!this.deckForm) {
+      return;
+    }
+    if (!isFormValid(this.deckForm)) {
+      formTouchAll(this.deckForm);
+      return;
+    }
+    this.deckInnerScreen = "cardInputMode";
   }
 
   quitInnerScreen() {

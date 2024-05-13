@@ -1,5 +1,4 @@
 import { createCardSideField } from "../../deck-form/store/deck-form-store.ts";
-import { createCachedCardInputModesRequest } from "../../../card-input-mode/store/card-input-mode-store.ts";
 import { RequestStore } from "../../../../lib/mobx-request/request-store.ts";
 import { makeAutoObservable } from "mobx";
 import { formTouchAll, isFormValid } from "mobx-form-lite";
@@ -8,6 +7,7 @@ import { assert } from "../../../../lib/typescript/assert.ts";
 import { notifyError } from "../../../shared/snackbar/snackbar.tsx";
 import { aiSingleCardGenerateRequest } from "../../../../api/api.ts";
 import { deckListStore } from "../../../../store/deck-list-store.ts";
+import { createCachedCardInputModesRequest } from "../../../../api/create-cached-card-input-modes-request.ts";
 
 export class AiGeneratedCardFormStore {
   form = {
@@ -25,7 +25,6 @@ export class AiGeneratedCardFormStore {
       formTouchAll(this.form);
       return;
     }
-
 
     const result = await this.aiSingleCardGenerateRequest.execute({
       text: this.form.prompt.value,
@@ -47,7 +46,11 @@ export class AiGeneratedCardFormStore {
 
     const { card } = result.data.data;
     deckListStore.addCardOptimistic(card);
-    screenStore.go({ type: "deckForm", deckId: card.deck_id, cardId: card.id });
+    screenStore.goOnce({
+      type: "deckForm",
+      deckId: card.deck_id,
+      cardId: card.id,
+    });
   }
 
   get deckId() {

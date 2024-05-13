@@ -25,6 +25,7 @@ import { ButtonGrid } from "../../../ui/button-grid.tsx";
 import { boolNarrow } from "../../../lib/typescript/bool-narrow.ts";
 import { CardAnswerErrors } from "./card-answer-errors.tsx";
 import { css } from "@emotion/css";
+import { screenStore } from "../../../store/screen-store.ts";
 
 type Props = { cardFormStore: CardFormStoreInterface };
 
@@ -40,6 +41,13 @@ export const ManualCardFormView = observer((props: Props) => {
   useProgress(() => cardFormStore.isSending);
 
   useBackButton(() => {
+
+    const screen = screenStore.screen;
+    // Avoid duplicated 'deckForm' in the router history
+    if (screen.type === "deckForm" && screen.cardId) {
+      screenStore.back();
+    }
+
     cardFormStore.onBackCard();
   });
 

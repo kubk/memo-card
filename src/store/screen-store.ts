@@ -22,11 +22,6 @@ type Route =
   | { type: "shareDeck"; deckId: number; shareId: string }
   | { type: "shareFolder"; folderId: number; shareId: string }
   | { type: "aiMassCreation"; deckId: number; deckTitle: string | null }
-  | {
-      type: "cardInputMode";
-      deckId: number;
-      cardInputModeId: string | null;
-    }
   | { type: "plans" }
   | { type: "debug" }
   | { type: "componentCatalog" }
@@ -34,27 +29,40 @@ type Route =
   | { type: "userStatistics" }
   | { type: "userSettings" };
 
-export type RouteType = Route["type"];
-
 export class ScreenStore {
-  history: Route[] = [{ type: "main" }];
+  private history: Route[] = [{ type: "main" }];
+  private onceRoute?: Route;
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
     makeLoggable(this);
   }
 
-  go(historyData: Route) {
-    this.history.push(historyData);
+  go(route: Route) {
+    if (this.onceRoute) {
+      this.onceRoute = undefined;
+    }
+    this.history.push(route);
+  }
+
+  goOnce(route: Route) {
+    this.onceRoute = route;
   }
 
   back() {
+    if (this.onceRoute) {
+      this.onceRoute = undefined;
+      return;
+    }
     if (this.history.length > 1) {
       this.history.pop();
     }
   }
 
   get screen(): Route {
+    if (this.onceRoute) {
+      return this.onceRoute;
+    }
     return this.history[this.history.length - 1];
   }
 

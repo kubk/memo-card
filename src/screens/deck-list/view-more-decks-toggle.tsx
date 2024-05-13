@@ -26,7 +26,7 @@ export const ViewMoreDecksToggle = observer(() => {
       )}
       onClick={deckListStore.isMyDecksExpanded.toggle}
     >
-      <span className={css({ transform: "translateY(2px)" })}>
+      <span className={css({ transform: "translateY(2px)", focus: "none" })}>
         <ChevronIcon
           direction={deckListStore.isMyDecksExpanded.value ? "top" : "bottom"}
         />

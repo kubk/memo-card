@@ -119,7 +119,7 @@ export const DeckPreview = observer(() => {
               icon={"mdi-plus-circle mdi-24px"}
               outline
               onClick={() => {
-                screenStore.go({
+                screenStore.goOnce({
                   type: "cardQuickAddForm",
                   deckId: deck.id,
                 });

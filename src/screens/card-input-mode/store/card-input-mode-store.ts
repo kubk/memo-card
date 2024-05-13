@@ -1,36 +1,28 @@
 import { RequestStore } from "../../../lib/mobx-request/request-store.ts";
-import {
-  cardInputModeListRequest,
-  deckChangeInputModeRequest,
-} from "../../../api/api.ts";
+import { deckChangeInputModeRequest } from "../../../api/api.ts";
 import { makeAutoObservable } from "mobx";
 import { TextField } from "mobx-form-lite";
-import { screenStore } from "../../../store/screen-store.ts";
 import { assert } from "../../../lib/typescript/assert.ts";
 import { notifyError, notifySuccess } from "../../shared/snackbar/snackbar.tsx";
 import { deckListStore } from "../../../store/deck-list-store.ts";
 import { t } from "../../../translations/t.ts";
-
-export const createCachedCardInputModesRequest = () => {
-  return new RequestStore(cardInputModeListRequest, {
-    cacheId: "cardInputModeList",
-  });
-};
+import { DeckFormStore } from "../../deck-form/deck-form/store/deck-form-store.ts";
+import { createCachedCardInputModesRequest } from "../../../api/create-cached-card-input-modes-request.ts";
 
 export class CardInputModeStore {
   cardInputModesRequest = createCachedCardInputModesRequest();
   deckChangeInputModeRequest = new RequestStore(deckChangeInputModeRequest);
   modeId = new TextField<string | null>(null);
 
-  constructor() {
+  constructor(private deckFormStore: DeckFormStore) {
     makeAutoObservable(this, {}, { autoBind: true });
   }
 
   load() {
-    const { screen } = screenStore;
-    assert(screen.type === "cardInputMode");
+    assert(this.deckFormStore.deckForm, "Deck form should be loaded");
+    const cardInputModeId = this.deckFormStore.deckForm.cardInputModeId;
 
-    this.modeId.onChange(screen.cardInputModeId);
+    this.modeId.onChange(cardInputModeId);
     this.cardInputModesRequest.execute();
   }
 
@@ -39,11 +31,12 @@ export class CardInputModeStore {
       return;
     }
 
-    const { screen } = screenStore;
-    assert(screen.type === "cardInputMode");
+    assert(this.deckFormStore.deckForm, "Deck form should be loaded");
+    const deckId = this.deckFormStore.deckForm.id;
+    assert(deckId, "Deck id should be defined");
 
     const result = await this.deckChangeInputModeRequest.execute({
-      deckId: screen.deckId,
+      deckId: deckId,
       cardInputModeId: this.modeId.value,
     });
 
@@ -55,11 +48,8 @@ export class CardInputModeStore {
       return;
     }
 
-    deckListStore.updateDeckCardInputMode(screen.deckId, this.modeId.value);
+    deckListStore.updateDeckCardInputMode(deckId, this.modeId.value);
     notifySuccess(t("card_input_mode_changed"));
-    screenStore.go({
-      type: "deckForm",
-      deckId: screen.deckId,
-    });
+    this.deckFormStore.quitInnerScreen();
   }
 }

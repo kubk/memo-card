@@ -2,7 +2,7 @@ import { useReviewStore } from "./store/review-store-context.tsx";
 import { css } from "@emotion/css";
 import { theme } from "../../ui/theme.tsx";
 import React from "react";
-import { m, AnimatePresence } from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
 import { observer } from "mobx-react-lite";
 import { LazyLoadFramerMotion } from "../../lib/framer-motion/lazy-load-framer-motion.tsx";
 

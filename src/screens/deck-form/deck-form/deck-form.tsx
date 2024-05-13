@@ -46,6 +46,7 @@ export const DeckForm = observer(() => {
   useProgress(() => deckFormStore.isSending);
 
   if (!deckFormStore.deckForm) {
+    console.log("Deck form is not loaded");
     return null;
   }
 
@@ -174,19 +175,7 @@ export const DeckForm = observer(() => {
                       />
                     ),
                     onClick: () => {
-                      if (
-                        !deckFormStore.deckForm ||
-                        !isFormValid(deckFormStore.deckForm)
-                      ) {
-                        return;
-                      }
-                      const deckId = deckFormStore.deckForm.id;
-                      assert(deckId, "Deck id should be defined");
-                      screenStore.go({
-                        type: "cardInputMode",
-                        deckId: deckId,
-                        cardInputModeId: deckFormStore.deckForm.cardInputModeId,
-                      });
+                      deckFormStore.goCardInputMode();
                     },
                   }
                 : undefined,
