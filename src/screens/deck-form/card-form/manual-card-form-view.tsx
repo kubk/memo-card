@@ -41,7 +41,6 @@ export const ManualCardFormView = observer((props: Props) => {
   useProgress(() => cardFormStore.isSending);
 
   useBackButton(() => {
-
     const screen = screenStore.screen;
     // Avoid duplicated 'deckForm' in the router history
     if (screen.type === "deckForm" && screen.cardId) {
