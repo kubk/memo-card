@@ -54,6 +54,7 @@ const en = {
   public_decks: "Public decks",
   explore_public_decks: "Explore more decks",
   news_and_updates: "News and updates",
+  youtube_channel: "YouTube channel",
   profile_section: "Profile",
   telegram_channel: "Telegram channel",
   settings: "Settings",
@@ -263,6 +264,7 @@ const en = {
 type Translation = typeof en;
 
 const ru: Translation = {
+  youtube_channel: "YouTube канал",
   card_input_mode_changed: "Режим ввода карточки изменен",
   card_input_mode_screen: "Режим ввода карточки",
   generate: "Сгенерировать",
@@ -520,6 +522,7 @@ const ru: Translation = {
 };
 
 const es: Translation = {
+  youtube_channel: "Canal de YouTube",
   card_input_mode_changed: "Modo de entrada de tarjeta cambiado",
   generate: "Generar",
   card_input_mode_screen: "Modo de entrada de tarjeta",
@@ -780,6 +783,7 @@ const es: Translation = {
 };
 
 const ptBr: Translation = {
+  youtube_channel: "Canal do YouTube",
   card_input_mode_changed: "Modo de entrada de cartão alterado",
   generate: "Gerar",
   card_input_mode_screen: "Modo de entrada de cartão",

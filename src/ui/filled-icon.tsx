@@ -1,13 +1,15 @@
 import { css, cx } from "@emotion/css";
-import React from "react";
+import React, { ReactNode } from "react";
 
 type Props = {
   backgroundColor: string;
-  icon: string;
+  icon: string | ReactNode;
 };
 
 export const FilledIcon = (props: Props) => {
   const { backgroundColor, icon } = props;
+  const isIconString = typeof icon === "string";
+
   return (
     <div
       className={css({
@@ -20,7 +22,11 @@ export const FilledIcon = (props: Props) => {
         alignItems: "center",
       })}
     >
-      <i className={cx("mdi", icon, css({ color: "#fff" }))} />
+      {isIconString ? (
+        <i className={cx("mdi", icon, css({ color: "#fff" }))} />
+      ) : (
+        icon
+      )}
     </div>
   );
 };
