@@ -3,6 +3,7 @@ import { Platform, PlatformTheme } from "../platform.ts";
 import { cssVarToValue } from "./css-var-to-value.ts";
 import { PlatformSchemaType } from "../../../../functions/services/get-telegram-user.ts";
 import { Language } from "../../../translations/t.ts";
+import { isRuProxy } from "../../urls/is-ru-proxy.ts";
 
 const buttonColor = "var(--tg-theme-button-color)";
 const buttonTextColor = "var(--tg-theme-button-text-color)";
@@ -56,6 +57,7 @@ export class TelegramPlatform implements Platform {
       platform: WebApp.platform,
       colorScheme: WebApp.colorScheme,
       tgVersion: WebApp.version,
+      isRuProxy: isRuProxy(),
     };
   }
 
