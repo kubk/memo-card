@@ -185,7 +185,7 @@ export const MainScreen = observer(() => {
                     />
                   ),
                   onClick: () => {
-                    platform.openInternalLink(getYouTubeChannelLink());
+                    platform.openExternalLink(getYouTubeChannelLink());
                   },
                 },
               ].filter(boolNarrow)}
