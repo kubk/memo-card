@@ -27,7 +27,6 @@ import {
   YouTubeIcon,
 } from "../shared/youtube/youtube.tsx";
 import { boolNarrow } from "../../lib/typescript/bool-narrow.ts";
-import { ListRightText } from "../../ui/list-right-text.tsx";
 
 export const MainScreen = observer(() => {
   useMount(() => {
@@ -177,24 +176,18 @@ export const MainScreen = observer(() => {
                     platform.openInternalLink(links.botChannel);
                   },
                 },
-                platform.getLanguage() === "ru"
-                  ? {
-                      text: t("youtube_channel"),
-                      right:
-                        platform.getLanguage() === "ru" ? undefined : (
-                          <ListRightText text={"ENG"} />
-                        ),
-                      icon: (
-                        <FilledIcon
-                          icon={<YouTubeIcon />}
-                          backgroundColor={theme.danger}
-                        />
-                      ),
-                      onClick: () => {
-                        platform.openInternalLink(getYouTubeChannelLink());
-                      },
-                    }
-                  : undefined,
+                {
+                  text: t("youtube_channel"),
+                  icon: (
+                    <FilledIcon
+                      icon={<YouTubeIcon />}
+                      backgroundColor={theme.danger}
+                    />
+                  ),
+                  onClick: () => {
+                    platform.openInternalLink(getYouTubeChannelLink());
+                  },
+                },
               ].filter(boolNarrow)}
             />
           </div>

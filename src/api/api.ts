@@ -78,6 +78,7 @@ import {
   CardInputModeChangeRequest,
   CardInputModeChangeResponse,
 } from "../../functions/card-input-mode-change.ts";
+import { ActivePlansResponse } from "../../functions/active-plans.ts";
 
 export const healthRequest = () => {
   return request<HealthResponse>("/health");
@@ -293,4 +294,8 @@ export const deckChangeInputModeRequest = (
     "PUT",
     body,
   );
+};
+
+export const activePlanesRequest = () => {
+  return request<ActivePlansResponse>("/active-plans");
 };

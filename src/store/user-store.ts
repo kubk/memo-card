@@ -6,6 +6,9 @@ import { BooleanToggle } from "mobx-form-lite";
 import { persistableField } from "../lib/mobx-form-lite-persistable/persistable-field.ts";
 import { canAdvancedShare } from "../../shared/access/can-advanced-share.ts";
 import { canUseAiMassGenerate } from "../../shared/access/can-use-ai-mass-generate.ts";
+import { RequestStore } from "../lib/mobx-request/request-store.ts";
+import { activePlanesRequest } from "../api/api.ts";
+import { reportHandledError } from "../lib/rollbar/rollbar.tsx";
 
 export class UserStore {
   userInfo?: UserDbType;
@@ -15,6 +18,7 @@ export class UserStore {
     "isCardFormattingOn",
   );
   isSpeakingCardsMuted = new BooleanToggle(false);
+  activePlansRequest = new RequestStore(activePlanesRequest);
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
@@ -49,6 +53,21 @@ export class UserStore {
       return false;
     }
     return canAdvancedShare(this.user, this.plans);
+  }
+
+  get isPaid() {
+    return this.plans?.some((plan) => plan.plan_id) ?? false;
+  }
+
+  async fetchActivePlans() {
+    const plans = await this.activePlansRequest.execute();
+    if (plans.status === "success") {
+      this.plans = plans.data.plans;
+    } else {
+      reportHandledError("Error fetching active plans", plans.error, {
+        userId: this.myId,
+      });
+    }
   }
 
   updateSettings(body: Partial<UserDbType>) {

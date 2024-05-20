@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, test, vi } from "vitest";
-import { deckListStore } from "./deck-list-store.ts";
 import { MyInfoResponse } from "../../functions/my-info.ts";
 import { when } from "mobx";
+import { DeckListStore, StartParamType } from "./deck-list-store.ts";
 
 vi.mock("mobx-persist-store", () => {
   return {
@@ -9,12 +9,15 @@ vi.mock("mobx-persist-store", () => {
   };
 });
 
+const userStoreMock = vi.hoisted(() => ({
+  myId: 111,
+  setUser: () => {},
+  isPaid: true,
+}));
+
 vi.mock("./user-store.ts", () => {
   return {
-    userStore: {
-      myId: 111,
-      setUser: () => {},
-    },
+    userStore: userStoreMock,
   };
 });
 
@@ -24,10 +27,13 @@ vi.mock("../platform/storage-adapter.ts", () => {
   };
 });
 
+const notifyPaymentSuccessMock = vi.hoisted(() => vi.fn());
+const notifyPaymentFailedMock = vi.hoisted(() => vi.fn());
+
 vi.mock("../screens/shared/notify-payment.ts", () => {
   return {
-    notifyPaymentFailed: () => {},
-    notifyPaymentSuccess: () => {},
+    notifyPaymentFailed: notifyPaymentFailedMock,
+    notifyPaymentSuccess: notifyPaymentSuccessMock,
   };
 });
 
@@ -202,13 +208,14 @@ describe("deck list store", () => {
   });
 
   test("test load decks", async () => {
-    deckListStore.load();
+    const store = new DeckListStore();
+    store.load();
 
-    await when(() => !!deckListStore.myInfo);
+    await when(() => !!store.myInfo);
 
-    expect(deckListStore.publicDecks).toHaveLength(0);
-    expect(deckListStore.newCardsCount).toBe(3);
-    expect(deckListStore.selectedDeck?.cardsToReview).toMatchInlineSnapshot(`
+    expect(store.publicDecks).toHaveLength(0);
+    expect(store.newCardsCount).toBe(3);
+    expect(store.selectedDeck?.cardsToReview).toMatchInlineSnapshot(`
       [
         {
           "answer_type": "remember",
@@ -260,5 +267,15 @@ describe("deck list store", () => {
         },
       ]
     `);
+  });
+
+  test("waits for the plans to load after wallet payment", async () => {
+    const store = new DeckListStore();
+    store.loadFirstTime(StartParamType.WalletPaymentSuccessful);
+
+    await when(() => !!store.myInfo);
+
+    expect(notifyPaymentSuccessMock).toHaveBeenCalled();
+    expect(notifyPaymentFailedMock).not.toHaveBeenCalled();
   });
 });

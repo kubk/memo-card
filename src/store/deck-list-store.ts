@@ -76,7 +76,7 @@ export type DeckListItem = {
 const collapsedDecksLimit = 3;
 
 export class DeckListStore {
-  myInfo?: MyInfoResponse;
+  myInfo?: Exclude<MyInfoResponse, "plans" | "user">;
   myInfoRequest = new RequestStore(myInfoRequest, {
     staleWhileRevalidate: true,
   });
@@ -744,7 +744,7 @@ export class DeckListStore {
     } else if (startParam === StartParamType.DeckCatalog) {
       screenStore.go({ type: "deckCatalog" });
     } else if (startParam === StartParamType.WalletPaymentSuccessful) {
-      notifyPaymentSuccess();
+      this.startCheckingUserWithPlanStatus();
     } else if (startParam === StartParamType.WalletPaymentFailed) {
       notifyPaymentFailed();
     } else if (startParam === StartParamType.Debug) {
@@ -796,6 +796,23 @@ export class DeckListStore {
           }),
         );
     }
+  }
+
+  private startCheckingUserWithPlanStatus() {
+    if (userStore.isPaid) {
+      this.isAppLoading = false;
+      notifyPaymentSuccess();
+      return;
+    }
+
+    this.isAppLoading = true;
+    userStore.fetchActivePlans();
+    setTimeout(
+      action(() => {
+        this.startCheckingUserWithPlanStatus();
+      }),
+      2000,
+    );
   }
 }
 
