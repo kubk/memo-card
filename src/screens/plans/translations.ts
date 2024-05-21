@@ -45,7 +45,6 @@ export const getPlanDescription = (plan: PlanDb) => {
         case "pt-br":
           return [
             "Criação de até 1000 cartões por mês usando IA",
-            "Ferramentas de criação em massa de cartões usando IA",
             "Dublagem de alta qualidade para cartões",
             "Duplicar pasta, baralho",
             "Links de pasta e baralho de uso único",
