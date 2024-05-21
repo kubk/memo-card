@@ -5,12 +5,10 @@ import { Flex } from "../../ui/flex.tsx";
 import { List } from "../../ui/list.tsx";
 import { FilledIcon } from "../../ui/filled-icon.tsx";
 import { theme } from "../../ui/theme.tsx";
-import { ListRightText } from "../../ui/list-right-text.tsx";
 import { t } from "../../translations/t.ts";
 import { Label } from "../../ui/label.tsx";
 import { Input } from "../../ui/input.tsx";
 import React from "react";
-import { ValidationError } from "../../ui/validation-error.tsx";
 import { useMainButton } from "../../lib/platform/use-main-button.ts";
 import { useProgress } from "../../lib/platform/use-progress.tsx";
 import { useBackButton } from "../../lib/platform/use-back-button.ts";
@@ -48,29 +46,6 @@ export const AiMassCreationForm = observer(() => {
               },
             },
             {
-              text: t("ai_cards_api_keys"),
-              icon: (
-                <FilledIcon
-                  backgroundColor={theme.icons.blue}
-                  icon={"mdi-key"}
-                />
-              ),
-              right: (
-                <ListRightText
-                  text={
-                    store.isApiKeysSetRequest.isLoading
-                      ? t("ui_loading")
-                      : store.isApiKeysSet
-                      ? t("ai_cards_api_keys_configured")
-                      : t("ai_cards_api_keys_not_configured")
-                  }
-                />
-              ),
-              onClick: () => {
-                store.goApiKeysScreen();
-              },
-            },
-            {
               text: t("ai_cards_previous_prompts"),
               icon: (
                 <FilledIcon
@@ -84,9 +59,6 @@ export const AiMassCreationForm = observer(() => {
             },
           ]}
         />
-        {promptForm.apiKey.isTouched && promptForm.apiKey.error && (
-          <ValidationError error={promptForm.apiKey.error} />
-        )}
       </Flex>
 
       <Label text={t("ai_cards_prompt")} isRequired>

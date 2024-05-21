@@ -20,7 +20,7 @@ export const getPlanDescription = (plan: PlanDb) => {
       switch (lang) {
         case "en":
           return [
-            "Card mass creation using AI",
+            "Generate up to 1000 cards per month using AI",
             "High quality AI speech generation for cards",
             "Duplicate folder, deck",
             "One time deck links and one time folder links",
@@ -28,7 +28,7 @@ export const getPlanDescription = (plan: PlanDb) => {
           ];
         case "ru":
           return [
-            "Массовое создание карточек с использованием ИИ",
+            "Создание до 1000 карточек в месяц с использованием ИИ",
             "Озвучка карточек с использованием ИИ",
             "Дублирование папок, колод",
             "Одноразовые ссылки на колоды и папки",
@@ -36,7 +36,7 @@ export const getPlanDescription = (plan: PlanDb) => {
           ];
         case "es":
           return [
-            "Herramientas de creación masiva de tarjetas utilizando IA",
+            "Creación de hasta 1000 tarjetas al mes mediante IA",
             "Doblaje de alta calidad para tarjetas",
             "Duplicar carpeta, baraja",
             "Enlaces de carpeta y baraja de un solo uso",
@@ -44,6 +44,7 @@ export const getPlanDescription = (plan: PlanDb) => {
           ];
         case "pt-br":
           return [
+            "Criação de até 1000 cartões por mês usando IA",
             "Ferramentas de criação em massa de cartões usando IA",
             "Dublagem de alta qualidade para cartões",
             "Duplicar pasta, baralho",

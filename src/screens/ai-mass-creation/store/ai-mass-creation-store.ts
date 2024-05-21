@@ -1,6 +1,5 @@
 import { makeAutoObservable } from "mobx";
 import {
-  BooleanToggle,
   formTouchAll,
   isFormValid,
   ListField,
@@ -11,8 +10,6 @@ import { t } from "../../../translations/t.ts";
 import {
   addCardsMultipleRequest,
   aiMassGenerateRequest,
-  aiUserCredentialsCheckRequest,
-  upsertUserAiCredentialsRequest,
   userPreviousPromptsRequest,
 } from "../../../api/api.ts";
 import { RequestStore } from "../../../lib/mobx-request/request-store.ts";
@@ -22,41 +19,14 @@ import { notifyError, notifySuccess } from "../../shared/snackbar/snackbar.tsx";
 import { deckListStore } from "../../../store/deck-list-store.ts";
 import { showConfirm } from "../../../lib/platform/show-confirm.ts";
 
-export const chatGptModels = [
-  "gpt-4-0125-preview",
-  "gpt-4-turbo-preview",
-  "gpt-4-1106-preview",
-  "gpt-4-vision-preview",
-  "gpt-4",
-  "gpt-4-0314",
-  "gpt-4-0613",
-  "gpt-4-32k",
-  "gpt-4-32k-0314",
-  "gpt-4-32k-0613",
-  "gpt-3.5-turbo",
-  "gpt-3.5-turbo-16k",
-  "gpt-3.5-turbo-0301",
-  "gpt-3.5-turbo-0613",
-  "gpt-3.5-turbo-1106",
-  "gpt-3.5-turbo-0125",
-  "gpt-3.5-turbo-16k-0613",
-];
-
-type ChatGptModel = (typeof chatGptModels)[number];
-
-type InnerScreen = "how" | "apiKeys" | "cardsGenerated" | "previousPrompts";
+type InnerScreen = "how" | "cardsGenerated" | "previousPrompts";
 
 export class AiMassCreationStore {
-  upsertUserAiCredentialsRequest = new RequestStore(
-    upsertUserAiCredentialsRequest,
-  );
-  isApiKeysSetRequest = new RequestStore(aiUserCredentialsCheckRequest);
   aiMassGenerateRequest = new RequestStore(aiMassGenerateRequest);
   addCardsMultipleRequest = new RequestStore(addCardsMultipleRequest);
   userPreviousPromptsRequest = new RequestStore(userPreviousPromptsRequest);
 
   screen = new TextField<InnerScreen | null>(null);
-  forceUpdateApiKey = new BooleanToggle(false);
 
   promptForm = {
     prompt: new TextField("", {
@@ -69,25 +39,6 @@ export class AiMassCreationStore {
       validate: validators.required(t("validation_required")),
     }),
     examplePrompt: new TextField(""),
-    // A field to just show error on submit
-    apiKey: new TextField("", {
-      validate: () => {
-        if (!this.isApiKeysSet) {
-          return t("ai_cards_validation_key_required");
-        }
-      },
-    }),
-  };
-
-  apiKeysForm = {
-    apiKey: new TextField("", {
-      validate: (value) => {
-        if (!this.isApiKeysSet || this.forceUpdateApiKey.value) {
-          return validators.required(t("validation_required"))(value);
-        }
-      },
-    }),
-    model: new TextField<ChatGptModel>("gpt-3.5-turbo"),
   };
 
   massCreationForm?: {
@@ -101,30 +52,6 @@ export class AiMassCreationStore {
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
-  }
-
-  load() {
-    this.isApiKeysSetRequest.execute();
-  }
-
-  goApiKeysScreen() {
-    if (!this.isApiKeysSetRequest.isSuccess) {
-      return;
-    }
-    this.screen.onChange("apiKeys");
-  }
-
-  get isApiKeysSet() {
-    return this.isApiKeysSetRequest.result.status === "success"
-      ? this.isApiKeysSetRequest.result.data.is_ai_credentials_set
-      : false;
-  }
-
-  get isApiKeyRegularInput() {
-    if (this.forceUpdateApiKey.value) {
-      return true;
-    }
-    return !this.isApiKeysSet;
   }
 
   private async onQuit(redirect: () => void) {
@@ -205,24 +132,6 @@ export class AiMassCreationStore {
     const examplePrompt = log.payload.examplePrompt || "";
     this.promptForm.examplePrompt.onChange(examplePrompt);
     this.screen.onChange(null);
-  }
-
-  submitApiKeysForm() {
-    if (!isFormValid(this.apiKeysForm)) {
-      formTouchAll(this.apiKeysForm);
-      return;
-    }
-
-    this.upsertUserAiCredentialsRequest
-      .execute({
-        open_ai_key: this.apiKeysForm.apiKey.value,
-        open_ai_model: this.apiKeysForm.model.value,
-      })
-      .then(() => {
-        this.load();
-        this.screen.onChange(null);
-        this.apiKeysForm.apiKey.onChange("");
-      });
   }
 
   async submitPromptForm() {
