@@ -46,6 +46,7 @@ export enum StartParamType {
   WalletPaymentSuccessful = "wp_success",
   WalletPaymentFailed = "wp_fail",
   Debug = "debug",
+  Break = 'break',
 }
 
 export type DeckCardDbTypeWithType = DeckCardDbType & {
@@ -749,6 +750,8 @@ export class DeckListStore {
       notifyPaymentFailed();
     } else if (startParam === StartParamType.Debug) {
       screenStore.go({ type: "debug" });
+    } else if (startParam === StartParamType.Break) {
+      throw new Error('Test exception for debugging');
     } else {
       this.isAppLoading = true;
       await when(() => !!this.myInfo);

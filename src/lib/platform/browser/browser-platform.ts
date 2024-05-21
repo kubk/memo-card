@@ -64,6 +64,11 @@ export class BrowserPlatform implements Platform {
   }
 
   getStartParam(): string | undefined {
+    const urlParams = new URLSearchParams(window.location.search);
+    const start = urlParams.get("start");
+    if (typeof start === "string") {
+      return start;
+    }
     return undefined;
   }
 
