@@ -43,6 +43,7 @@ export class BrowserPlatform implements Platform {
         getInitData: false,
         initialize: false,
         openInternalLink: false,
+        getStartParam: false,
         openExternalLink: false,
       },
       {
