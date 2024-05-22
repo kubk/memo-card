@@ -32,9 +32,9 @@ export const ChevronIcon = (props: Props) => {
         animate={{ rotate: getRotation(direction) }}
         initial={false}
         className={css({
-          ':focus': {
-            outline: 'none',
-          }
+          ":focus": {
+            outline: "none",
+          },
         })}
         {...restProps}
       >

@@ -5,7 +5,7 @@ import { t } from "../../translations/t.ts";
 export const notifyPaymentSuccess = () => {
   setTimeout(() => {
     notifySuccess(t("payment_success"));
-  })
+  });
   confetti({
     particleCount: 100,
     spread: 70,

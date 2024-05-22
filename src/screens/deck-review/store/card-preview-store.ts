@@ -6,16 +6,13 @@ import {
 import { CardAnswerType } from "../../../../functions/db/custom-types.ts";
 import { makeAutoObservable } from "mobx";
 import { userStore } from "../../../store/user-store.ts";
-import { isEnumValid } from "../../../lib/typescript/is-enum-valid.ts";
-import {
-  isSpeechSynthesisSupported,
-  speak,
-  SpeakLanguageEnum,
-} from "../../../lib/voice-playback/speak.ts";
-import { removeAllTags } from "../../../lib/sanitize-html/remove-all-tags.ts";
 import { CardFormStoreInterface } from "../../deck-form/deck-form/store/card-form-store-interface.ts";
 import { assert } from "../../../lib/typescript/assert.ts";
 import { BooleanToggle } from "mobx-form-lite";
+import {
+  createVoicePlayer,
+  VoicePlayer,
+} from "../voice-player/create-voice-player.ts";
 
 export class CardPreviewStore implements LimitedCardUnderReviewStore {
   id: number;
@@ -26,8 +23,7 @@ export class CardPreviewStore implements LimitedCardUnderReviewStore {
   answers: CardAnswerDbType[] = [];
   answer?: CardAnswerDbType;
 
-  voice?: HTMLAudioElement;
-  deckSpeakLocale: string | null = null;
+  voicePlayer?: VoicePlayer;
   deckSpeakField: DeckSpeakFieldEnum | null = null;
 
   isOpened = false;
@@ -62,14 +58,22 @@ export class CardPreviewStore implements LimitedCardUnderReviewStore {
       return;
     }
 
-    this.deckSpeakLocale = deckForm.speakingCardsLocale.value ?? null;
     this.deckSpeakField = deckForm.speakingCardsField.value ?? null;
 
-    if (form.options.value?.voice) {
-      const audio = new Audio(form.options.value.voice);
-      // Preload audio to avoid slow delay when playing voice
-      audio.load();
-      this.voice = audio;
+    const voicePlayer = createVoicePlayer(
+      {
+        voice: form.options.value?.voice,
+        back: form.back.value,
+        front: form.front.value,
+      },
+      {
+        speakingCardsLocale: deckForm.speakingCardsLocale.value ?? null,
+        speakingCardsField: deckForm.speakingCardsField.value ?? null,
+      },
+    );
+
+    if (voicePlayer) {
+      this.voicePlayer = voicePlayer;
     }
   }
 
@@ -96,48 +100,14 @@ export class CardPreviewStore implements LimitedCardUnderReviewStore {
       return;
     }
 
-    if (this.voice) {
-      this.voice.play();
-      return;
-    }
-
-    if (!this.deckSpeakLocale || !this.deckSpeakField) {
-      return;
-    }
-
-    if (!isEnumValid(this.deckSpeakLocale, SpeakLanguageEnum)) {
-      return;
-    }
-
-    const text = this[this.deckSpeakField];
-
-    speak(removeAllTags(text), this.deckSpeakLocale);
+    this.voicePlayer?.play();
   }
 
   isCardSpeakerVisible(type: "front" | "back") {
-    if (!userStore.isSpeakingCardsEnabled) {
+    if (!userStore.isSpeakingCardsEnabled || !this.voicePlayer) {
       return false;
     }
 
-    if (this.voice) {
-      return this.isOpened && type === this.deckSpeakField;
-    }
-
-    return (
-      isSpeechSynthesisSupported &&
-      this.isOpened &&
-      type === this.deckSpeakField
-    );
-  }
-
-  get canSpeak() {
-    if (this.voice) {
-      return true;
-    }
-
-    if (!isSpeechSynthesisSupported) {
-      return false;
-    }
-    return Boolean(this.deckSpeakLocale && this.deckSpeakField);
+    return this.isOpened && type === this.deckSpeakField;
   }
 }

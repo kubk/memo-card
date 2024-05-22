@@ -55,8 +55,7 @@ export const translateHowMassCreationWorksText = () => {
     return {
       example1: "Example 1",
       example2: "Example 2",
-      description:
-        "Generate multiple cards at once using AI",
+      description: "Generate multiple cards at once using AI",
       promptExample1: "Generate 3 cards with capitals of the world",
       frontExample1: "Country",
       backExample1: "Capital",
@@ -74,8 +73,7 @@ export const translateHowMassCreationWorksText = () => {
     return {
       example1: "Пример 1",
       example2: "Пример 2",
-      description:
-        "Генерируйте множество карточек за раз с использованием ИИ",
+      description: "Генерируйте множество карточек за раз с использованием ИИ",
       promptExample1: "Сгенерируй 3 карточки со столицами мира",
       frontExample1: "Страна",
       backExample1: "Столица",
@@ -93,8 +91,7 @@ export const translateHowMassCreationWorksText = () => {
     return {
       example1: "Ejemplo 1",
       example2: "Ejemplo 2",
-      description:
-        "Genere múltiples tarjetas a la vez utilizando IA",
+      description: "Genere múltiples tarjetas a la vez utilizando IA",
       promptExample1: "Generar 3 tarjetas con capitales del mundo",
       frontExample1: "País",
       backExample1: "Capital",
@@ -112,8 +109,7 @@ export const translateHowMassCreationWorksText = () => {
     return {
       example1: "Exemplo 1",
       example2: "Exemplo 2",
-      description:
-        "Gere várias cartas de uma vez usando IA",
+      description: "Gere várias cartas de uma vez usando IA",
       promptExample1: "Gerar 3 cartas com capitais do mundo",
       frontExample1: "País",
       backExample1: "Capital",

@@ -32,7 +32,7 @@ export type LimitedCardUnderReviewStore = Pick<
   | "open"
   | "isOverflowing"
   | "isCardSpeakerVisible"
-  | "canSpeak"
+  | "voicePlayer"
 >;
 
 type Props = {
@@ -92,7 +92,7 @@ export const Card = observer((props: Props) => {
                     },
                   }
                 : undefined,
-              card.canSpeak
+              card.voicePlayer
                 ? {
                     text: userStore.isSpeakingCardsMuted.value
                       ? t("unmute_cards")
