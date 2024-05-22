@@ -1,43 +1,62 @@
+// disable eslint for the whole file
+/* eslint-disable */
 import { screenStore } from "../../store/screen-store.ts";
-import { Label } from "../../ui/label.tsx";
-import { Input } from "../../ui/input.tsx";
-import { observer, useLocalObservable } from "mobx-react-lite";
-import { TextField } from "mobx-form-lite";
-import { css } from "@emotion/css";
+import { observer } from "mobx-react-lite";
 import { useBackButton } from "../../lib/platform/use-back-button.ts";
+// @ts-ignore
+import EasySpeech from "easy-speech";
 
 export const Debug = observer(() => {
-  const store = useLocalObservable(() => ({
-    field1: new TextField(""),
-    field2: new TextField(""),
-  }));
-
   useBackButton(() => {
     screenStore.back();
   });
 
   return (
     <div>
-      <Label text={"Поле ввода 1"}>
-        <div className={css({ fontSize: 16, padding: 8 })}>
-          <input />
-        </div>
-      </Label>
+      <button
+        onClick={() => {
+          console.log("clicked 1");
+          let utterance = new SpeechSynthesisUtterance("hello");
+          let voice = speechSynthesis.getVoices()[0];
+          utterance.voice = voice;
+          speechSynthesis.speak(utterance);
+        }}
+      >
+        Голос 1
+      </button>
+      <button
+        onClick={() => {
+          console.log("clicked 1");
+          let utterance = new SpeechSynthesisUtterance("hello");
+          let voice = speechSynthesis.getVoices()[0];
+          utterance.voice = voice; // required for iOS
+          utterance.lang = voice.lang; // required for Android Chrome
+          // @ts-ignore
+          utterance.voiceURI = voice.voiceURI; // unclear if needed
+          speechSynthesis.speak(utterance);
+        }}
+      >
+        Голос 2
+      </button>
 
-      <label>
-        Поле ввода 2
-        <div className={css({ fontSize: 16, padding: 8 })}>
-          <input />
-        </div>
-      </label>
-
-      <Label text={"Поле ввода 3"}>
-        <Input field={store.field1} noAutoSize />
-      </Label>
-
-      <Label text={"Поле ввода 4"}>
-        <Input field={store.field2} />
-      </Label>
+      <button
+        onClick={() => {
+          EasySpeech.init({ maxTimeout: 5000, interval: 250 }).then(
+            async () => {
+              await EasySpeech.speak({
+                text: "Hello",
+                pitch: 1,
+                rate: 1,
+                volume: 1,
+                // @ts-ignore
+                boundary: (e) => console.debug("boundary reached"),
+              });
+            },
+          );
+        }}
+      >
+        Голос 3
+      </button>
     </div>
   );
 });

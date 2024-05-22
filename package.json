@@ -37,6 +37,7 @@
     "canvas-confetti": "^1.9.2",
     "colord": "^2.9.3",
     "dompurify": "^3.0.9",
+    "easy-speech": "^2.3.1",
     "framer-motion": "^10.16.4",
     "grammy": "^1.19.1",
     "just-throttle": "^4.2.0",
