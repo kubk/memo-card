@@ -10,7 +10,7 @@ import { useMainButton } from "../../lib/platform/use-main-button.ts";
 import { useProgress } from "../../lib/platform/use-progress.tsx";
 import { t } from "../../translations/t.ts";
 import { DeckFormStore } from "../deck-form/deck-form/store/deck-form-store.ts";
-import { css } from "@emotion/css";
+import { css, cx } from "@emotion/css";
 import { theme } from "../../ui/theme.tsx";
 import { BottomSheet } from "../../ui/bottom-sheet.tsx";
 import { Flex } from "../../ui/flex.tsx";
@@ -94,23 +94,41 @@ export const CardInputModeScreen = observer((props: Props) => {
             <Flex direction={"column"} alignItems={"center"} pb={24}>
               <h2
                 className={css({
+                  width: "100%",
+                  textAlign: "center",
+                  position: "relative",
                   alignSelf: "center",
                   paddingTop: 8,
                   paddingBottom: 24,
                 })}
               >
                 {viewMode.title}
+                <span
+                  className={css({
+                    position: "absolute",
+                    right: 8,
+                    top: 10,
+                    cursor: "pointer",
+                    backgroundColor: theme.secondaryBgColor,
+                    borderRadius: "50%",
+                    width: 35,
+                    height: 35,
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  })}
+                  onClick={() => {
+                    store.viewModeId.onChange(null);
+                  }}
+                >
+                  <i className={cx("mdi mdi-close")} />
+                </span>
               </h2>
 
               <div className={css({ width: 250 })}>
-                <div
-                  className={css({
-                    textAlign: "center",
-                    paddingBottom: 16,
-                  })}
-                >
+                <Flex pb={16} justifyContent={"center"}>
                   {t("card_input_mode_type")}
-                </div>
+                </Flex>
                 <div
                   className={css({
                     padding: "12px 10px",
@@ -123,15 +141,9 @@ export const CardInputModeScreen = observer((props: Props) => {
                   {viewMode.preview_front}
                 </div>
 
-                <div
-                  className={css({
-                    paddingTop: 16,
-                    paddingBottom: 16,
-                    textAlign: "center",
-                  })}
-                >
+                <Flex pt={16} pb={16} justifyContent={"center"}>
                   {t("card_input_mode_get")}
-                </div>
+                </Flex>
 
                 <Flex gap={8} direction={"column"}>
                   <CardSidePreview

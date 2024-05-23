@@ -3,6 +3,16 @@ import { AnimatePresence, motion } from "framer-motion";
 import { theme } from "./theme.tsx";
 import { css } from "@emotion/css";
 
+const variants = {
+  open: { y: 0 },
+  closed: { y: "100%" },
+};
+
+const overlayVariants = {
+  open: { opacity: 1 },
+  closed: { opacity: 0 },
+};
+
 type Props = {
   isOpen: boolean;
   onClose: () => void;
@@ -11,20 +21,6 @@ type Props = {
 
 export const BottomSheet = (props: Props) => {
   const { isOpen, onClose, children } = props;
-
-  const variants = {
-    open: { y: 0 },
-    closed: { y: "100%" },
-  };
-
-  const overlayVariants = {
-    open: { opacity: 1 },
-    closed: { opacity: 0 },
-  };
-
-  const handleOverlayClick = () => {
-    onClose();
-  };
 
   return (
     <AnimatePresence>
@@ -46,8 +42,8 @@ export const BottomSheet = (props: Props) => {
             animate="open"
             exit="closed"
             variants={overlayVariants}
-            transition={{ duration: 0.3 }}
-            onClick={handleOverlayClick}
+            transition={{ duration: 0.2 }}
+            onClick={onClose}
           />
           <motion.div
             className={css({
@@ -66,7 +62,7 @@ export const BottomSheet = (props: Props) => {
             animate="open"
             exit="closed"
             variants={variants}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.2 }}
           >
             {children}
           </motion.div>

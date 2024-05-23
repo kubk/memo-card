@@ -27,7 +27,7 @@ export const RadioList = <T extends RadioItemId>(props: Props<T>) => {
               display: "flex",
               alignItems: "center",
               gap: 8,
-              padding: 8,
+              padding: '16px 8px',
               backgroundColor: theme.bgColor,
               outline: isSelected
                 ? `2px solid ${theme.buttonColor}`
