@@ -1,39 +1,47 @@
-import { describe, expect, it, vi } from "vitest";
-import { PreloadQueue } from "./preload-queue.ts";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { CallbackQueue } from "./callback-queue.ts";
 
-describe("PreloadQueue", () => {
+describe("CallbackQueue", () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
   it("should execute functions with a delay of 1 second", async () => {
-    const preloadQueue = new PreloadQueue();
+    const queue = new CallbackQueue();
     const mockFn1 = vi.fn();
     const mockFn2 = vi.fn();
 
-    preloadQueue.add(mockFn1);
-    preloadQueue.add(mockFn2);
+    queue.add(mockFn1);
+    queue.add(mockFn2);
 
     expect(mockFn1).toHaveBeenCalled();
     expect(mockFn2).not.toHaveBeenCalled();
 
-    await new Promise((resolve) => setTimeout(resolve, 1100));
+    vi.advanceTimersByTime(1100);
     expect(mockFn1).toHaveBeenCalled();
     expect(mockFn2).toHaveBeenCalled();
 
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    vi.advanceTimersByTime(1000);
     expect(mockFn2).toHaveBeenCalled();
   });
 
-  it("t", async () => {
-    const preloadQueue = new PreloadQueue();
+  it("should execute many functions with a delay", async () => {
+    const queue = new CallbackQueue();
     const mockFn1 = vi.fn();
     const mockFn2 = vi.fn();
     const mockFn3 = vi.fn();
     const mockFn4 = vi.fn();
     const mockFn5 = vi.fn();
 
-    preloadQueue.add(mockFn1);
-    preloadQueue.add(mockFn2);
-    preloadQueue.add(mockFn3);
-    preloadQueue.add(mockFn4);
-    preloadQueue.add(mockFn5);
+    queue.add(mockFn1);
+    queue.add(mockFn2);
+    queue.add(mockFn3);
+    queue.add(mockFn4);
+    queue.add(mockFn5);
 
     expect(mockFn1).toHaveBeenCalled();
     expect(mockFn2).not.toHaveBeenCalled();
@@ -41,7 +49,7 @@ describe("PreloadQueue", () => {
     expect(mockFn4).not.toHaveBeenCalled();
     expect(mockFn5).not.toHaveBeenCalled();
 
-    await new Promise((resolve) => setTimeout(resolve, 1100));
+    vi.advanceTimersByTime(1100);
 
     expect(mockFn1).toHaveBeenCalled();
     expect(mockFn2).toHaveBeenCalled();

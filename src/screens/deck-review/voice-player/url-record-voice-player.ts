@@ -1,5 +1,5 @@
 import { VoicePlayer } from "./create-voice-player.ts";
-import { preloadQueue } from "./preload-queue.ts";
+import { callbackQueue } from "./callback-queue.ts";
 
 export class UrlRecordVoicePlayer implements VoicePlayer {
   private audio: HTMLAudioElement;
@@ -7,7 +7,7 @@ export class UrlRecordVoicePlayer implements VoicePlayer {
   constructor(url: string) {
     this.audio = new Audio(url);
     this.audio.preload = "none";
-    preloadQueue.add(() => this.audio.load());
+    callbackQueue.add(() => this.audio.load());
   }
 
   play() {

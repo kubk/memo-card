@@ -1,6 +1,6 @@
 const limitMs = 1000;
 
-export class PreloadQueue {
+export class CallbackQueue {
   private queue: (() => void)[];
   private isExecuting: boolean;
 
@@ -34,4 +34,4 @@ export class PreloadQueue {
   }
 }
 
-export const preloadQueue = new PreloadQueue();
+export const callbackQueue = new CallbackQueue();
