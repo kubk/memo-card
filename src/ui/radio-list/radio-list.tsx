@@ -38,7 +38,13 @@ export const RadioList = <T extends RadioItemId>(props: Props<T>) => {
             onClick={() => onChange(option.id)}
           >
             {isSelected ? <RadioBoxFilled /> : <RadioBoxEmpty />}
-            <span>{option.title}</span>
+            <div
+              className={css({
+                width: "100%",
+              })}
+            >
+              {option.title}
+            </div>
           </div>
         );
       })}

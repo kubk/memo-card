@@ -46,6 +46,8 @@ export const theme = {
 
   zIndex: {
     confirmAlert: 1000,
+    bottomSheetForeground: 1000,
+    bottomSheetBackground: 999,
     mainButton: 999,
   },
 };

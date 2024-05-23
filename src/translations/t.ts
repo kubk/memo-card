@@ -3,6 +3,9 @@ import { platform } from "../lib/platform/platform.ts";
 
 const en = {
   card_input_mode_changed: "Card input mode has been changed",
+  card_input_mode_manual: "Manual input",
+  card_input_mode_type: "If you type",
+  card_input_mode_get: "You will get a card like this",
   card_input_mode_screen: "Card input mode",
   generate: "Generate",
   folder_form_no_decks: "No decks in the folder",
@@ -266,6 +269,9 @@ type Translation = typeof en;
 const ru: Translation = {
   youtube_channel: "YouTube канал",
   card_input_mode_changed: "Режим ввода карточки изменен",
+  card_input_mode_manual: "Ручной ввод",
+  card_input_mode_get: "Если вы введете",
+  card_input_mode_type: "Вы получите карточку",
   card_input_mode_screen: "Режим ввода карточки",
   generate: "Сгенерировать",
   yes: "Да",
@@ -524,6 +530,9 @@ const ru: Translation = {
 const es: Translation = {
   youtube_channel: "Canal de YouTube",
   card_input_mode_changed: "Modo de entrada de tarjeta cambiado",
+  card_input_mode_type: "Obtendrás una tarjeta",
+  card_input_mode_get: "Si escribes",
+  card_input_mode_manual: "Entrada manual",
   generate: "Generar",
   card_input_mode_screen: "Modo de entrada de tarjeta",
   yes: "Sí",
@@ -785,6 +794,9 @@ const es: Translation = {
 const ptBr: Translation = {
   youtube_channel: "Canal do YouTube",
   card_input_mode_changed: "Modo de entrada de cartão alterado",
+  card_input_mode_type: "Você receberá um cartão",
+  card_input_mode_manual: "Entrada manual",
+  card_input_mode_get: "Se você digitar",
   generate: "Gerar",
   card_input_mode_screen: "Modo de entrada de cartão",
   yes: "Sim",

@@ -7,6 +7,7 @@ import { SnackbarStory } from "./snackbar-story.tsx";
 import { ListStory } from "./list-story.tsx";
 import { ListStoryMultipleIcons } from "./list-story-multiple-icons.tsx";
 import { RadioListStory } from "./radio-list-story.tsx";
+import { BottomSheetStory } from "./bottom-sheet-story.tsx";
 
 export type Component = {
   name: string;
@@ -70,5 +71,9 @@ export const components: Array<Component> = [
   {
     name: RadioListStory.name,
     component: <RadioListStory />,
+  },
+  {
+    name: BottomSheetStory.name,
+    component: <BottomSheetStory />,
   },
 ];

@@ -43,6 +43,7 @@ import { notifyError } from "../screens/shared/snackbar/snackbar.tsx";
 export enum StartParamType {
   RepeatAll = "repeat_all",
   DeckCatalog = "catalog",
+  Components = "ui_kit",
   WalletPaymentSuccessful = "wp_success",
   WalletPaymentFailed = "wp_fail",
   Debug = "debug",
@@ -750,6 +751,8 @@ export class DeckListStore {
       notifyPaymentFailed();
     } else if (startParam === StartParamType.Debug) {
       screenStore.go({ type: "debug" });
+    } else if (startParam === StartParamType.Components) {
+      screenStore.go({ type: "componentCatalog" });
     } else if (startParam === StartParamType.Break) {
       throw new Error("Test exception for debugging");
     } else {

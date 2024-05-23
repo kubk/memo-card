@@ -3,12 +3,14 @@ import React, { SVGProps } from "react";
 import { LazyLoadFramerMotion } from "../lib/framer-motion/lazy-load-framer-motion.tsx";
 import { css } from "@emotion/css";
 
-type Direction = "top" | "bottom";
+type Direction = "top" | "bottom" | "right";
 
 const getRotation = (direction: Direction) => {
   switch (direction) {
     case "top":
       return 0;
+    case "right":
+      return 90;
     case "bottom":
       return 180;
   }
