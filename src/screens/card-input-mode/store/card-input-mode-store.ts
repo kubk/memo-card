@@ -65,4 +65,8 @@ export class CardInputModeStore {
       ) || null
     );
   }
+
+  get isBottomSheetScreen() {
+    return this.viewModeId.value !== null;
+  }
 }

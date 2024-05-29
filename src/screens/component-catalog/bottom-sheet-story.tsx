@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { BottomSheet } from "../../ui/bottom-sheet.tsx";
+import { BottomSheet } from "../../ui/bottom-sheet/bottom-sheet.tsx";
 
 export const BottomSheetStory = () => {
   const [isOpen, setIsOpen] = useState(false);

@@ -13,14 +13,19 @@ import { useMainButton } from "../../lib/platform/use-main-button.ts";
 import { useProgress } from "../../lib/platform/use-progress.tsx";
 import { useBackButton } from "../../lib/platform/use-back-button.ts";
 import { screenStore } from "../../store/screen-store.ts";
+import { HowMassCreationWorksBottomSheet } from "./how-mass-creation-works-bottom-sheet.tsx";
 
 export const AiMassCreationForm = observer(() => {
   const store = useAiMassCreationStore();
   const { promptForm } = store;
 
-  useMainButton(t("ai_cards_generate"), () => {
-    store.submitPromptForm();
-  });
+  useMainButton(
+    t("ai_cards_generate"),
+    () => {
+      store.submitPromptForm();
+    },
+    () => !store.isBottomSheetScreen,
+  );
 
   useBackButton(() => {
     screenStore.back();
@@ -76,6 +81,8 @@ export const AiMassCreationForm = observer(() => {
       <Label text={t("card_field_example_title")}>
         <Input field={promptForm.examplePrompt} />
       </Label>
+
+      <HowMassCreationWorksBottomSheet />
     </Screen>
   );
 });

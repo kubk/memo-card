@@ -118,6 +118,10 @@ export class AiMassCreationStore {
     return this.massCreationForm.cards.value.length > 1;
   }
 
+  get isBottomSheetScreen() {
+    return this.screen.value === "how";
+  }
+
   usePreviousPrompt(index: TextField<number | null>) {
     assert(
       this.userPreviousPromptsRequest.result.status === "success",

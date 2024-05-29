@@ -1,6 +1,6 @@
 import React from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { theme } from "./theme.tsx";
+import { theme } from "../theme.tsx";
 import { css } from "@emotion/css";
 
 const variants = {

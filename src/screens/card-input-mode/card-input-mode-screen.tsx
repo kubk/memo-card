@@ -10,11 +10,12 @@ import { useMainButton } from "../../lib/platform/use-main-button.ts";
 import { useProgress } from "../../lib/platform/use-progress.tsx";
 import { t } from "../../translations/t.ts";
 import { DeckFormStore } from "../deck-form/deck-form/store/deck-form-store.ts";
-import { css, cx } from "@emotion/css";
+import { css } from "@emotion/css";
 import { theme } from "../../ui/theme.tsx";
-import { BottomSheet } from "../../ui/bottom-sheet.tsx";
+import { BottomSheet } from "../../ui/bottom-sheet/bottom-sheet.tsx";
 import { Flex } from "../../ui/flex.tsx";
 import { CardSidePreview } from "./card-side-preview.tsx";
+import { BottomSheetTitle } from "../../ui/bottom-sheet/bottom-sheet-title.tsx";
 
 type Props = { deckFormStore: DeckFormStore };
 
@@ -22,25 +23,21 @@ export const CardInputModeScreen = observer((props: Props) => {
   const { deckFormStore } = props;
   const [store] = useState(() => new CardInputModeStore(deckFormStore));
 
-  useBackButton(() => {
-    deckFormStore.quitInnerScreen();
-  });
-
   useMount(() => {
     store.load();
   });
 
+  useBackButton(() => {
+    deckFormStore.quitInnerScreen();
+  });
+
   useMainButton(
     t("save"),
-    () => {
-      store.submit();
-    },
-    () => store.viewModeId.value === null,
+    () => store.submit(),
+    () => !store.isBottomSheetScreen,
   );
 
-  useProgress(() => {
-    return store.cardInputModesRequest.isLoading;
-  });
+  useProgress(() => store.cardInputModesRequest.isLoading);
 
   return (
     <Screen title={t("card_input_mode_screen")}>
@@ -96,39 +93,12 @@ export const CardInputModeScreen = observer((props: Props) => {
 
           return (
             <Flex direction={"column"} alignItems={"center"} pb={24}>
-              <h2
-                className={css({
-                  width: "100%",
-                  textAlign: "center",
-                  position: "relative",
-                  alignSelf: "center",
-                  paddingTop: 8,
-                  paddingBottom: 24,
-                })}
-              >
-                {viewMode.title}
-                <span
-                  className={css({
-                    position: "absolute",
-                    right: 8,
-                    top: 10,
-                    cursor: "pointer",
-                    backgroundColor: theme.secondaryBgColor,
-                    borderRadius: "50%",
-                    width: 35,
-                    height: 35,
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  })}
-                  onClick={() => {
-                    store.viewModeId.onChange(null);
-                  }}
-                >
-                  <i className={cx("mdi mdi-close")} />
-                </span>
-              </h2>
-
+              <BottomSheetTitle
+                title={viewMode.title}
+                onClose={() => {
+                  store.viewModeId.onChange(null);
+                }}
+              />
               <div className={css({ width: 250 })}>
                 <Flex pb={16} justifyContent={"center"}>
                   {t("card_input_mode_type")}
