@@ -51,7 +51,7 @@ export const BottomSheet = (props: Props) => {
               bottom: 0,
               left: 0,
               right: 0,
-              backgroundColor: "white",
+              backgroundColor: theme.bgColor,
               borderTopLeftRadius: 20,
               borderTopRightRadius: 20,
               padding: 20,

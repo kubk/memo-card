@@ -30,9 +30,13 @@ export const CardInputModeScreen = observer((props: Props) => {
     store.load();
   });
 
-  useMainButton(t("save"), () => {
-    store.submit();
-  });
+  useMainButton(
+    t("save"),
+    () => {
+      store.submit();
+    },
+    () => store.viewModeId.value === null,
+  );
 
   useProgress(() => {
     return store.cardInputModesRequest.isLoading;
