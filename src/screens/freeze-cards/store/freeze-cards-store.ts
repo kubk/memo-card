@@ -1,4 +1,9 @@
-import { formTouchAll, isFormValid, TextField } from "mobx-form-lite";
+import {
+  BooleanToggle,
+  formTouchAll,
+  isFormValid,
+  TextField
+} from "mobx-form-lite";
 import { makeAutoObservable } from "mobx";
 import { cardsFreezeRequest } from "../../../api/api.ts";
 import { assert } from "../../../lib/typescript/assert.ts";
@@ -11,6 +16,8 @@ import { notifyError, notifySuccess } from "../../shared/snackbar/snackbar.tsx";
 
 export class FreezeCardsStore {
   cardsFreezeRequest = new RequestStore(cardsFreezeRequest);
+  isHowOpen = new BooleanToggle(false);
+
   form = {
     freezeCardSelect: new TextField<number | null>(null, {
       afterChange: (value) => {
@@ -57,6 +64,10 @@ export class FreezeCardsStore {
   }
 
   get isFreezeButtonVisible() {
+    if (this.isHowOpen.value) {
+      return false;
+    }
+
     return (
       this.form.freezeCardSelect.value !== null ||
       this.form.freezeCardInput.value !== ""

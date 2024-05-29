@@ -12,10 +12,12 @@ import { DateTime } from "luxon";
 import { Chip } from "../../ui/chip.tsx";
 import { FreezeCardsStore } from "./store/freeze-cards-store.ts";
 import { FilledIcon } from "../../ui/filled-icon.tsx";
-import { Accordion } from "../../ui/accordion.tsx";
 import { useProgress } from "../../lib/platform/use-progress.tsx";
 import { t } from "../../translations/t.ts";
 import { formatDays } from "./translations.ts";
+import { List } from "../../ui/list.tsx";
+import { BottomSheet } from "../../ui/bottom-sheet/bottom-sheet.tsx";
+import { BottomSheetTitle } from "../../ui/bottom-sheet/bottom-sheet-title.tsx";
 
 export const FreezeCardsScreen = observer(() => {
   const [store] = useState(() => new FreezeCardsStore());
@@ -34,32 +36,23 @@ export const FreezeCardsScreen = observer(() => {
 
   return (
     <Screen title={t("freeze_title")}>
-      <Accordion
-        title={
-          <>
-            <FilledIcon
-              backgroundColor={theme.icons.turquoise}
-              icon={"mdi-snowflake"}
-            />
-            {t("how")}
-          </>
-        }
-        body={
-          <>
-            {t("freeze_how_title")}
-            <ul className={css({ paddingLeft: 24 })}>
-              {[
-                t("freeze_rule_1"),
-                t("freeze_rule_2"),
-                t("freeze_rule_3"),
-                t("freeze_rule_4"),
-              ].map((item, i) => {
-                return <li key={i}>{item}</li>;
-              })}
-            </ul>
-          </>
-        }
+      <List
+        items={[
+          {
+            text: t("how"),
+            icon: (
+              <FilledIcon
+                backgroundColor={theme.icons.turquoise}
+                icon={"mdi-snowflake"}
+              />
+            ),
+            onClick: () => {
+              store.isHowOpen.setTrue();
+            },
+          },
+        ]}
       />
+
       <div
         className={css({
           alignSelf: "center",
@@ -104,6 +97,23 @@ export const FreezeCardsScreen = observer(() => {
             .toLocaleString(DateTime.DATE_HUGE)}
         </div>
       ) : null}
+
+      <BottomSheet
+        isOpen={store.isHowOpen.value}
+        onClose={store.isHowOpen.setFalse}
+      >
+        <BottomSheetTitle title={t("how")} onClose={store.isHowOpen.setFalse} />
+        <ul className={css({ paddingLeft: 24 })}>
+          {[
+            t("freeze_rule_1"),
+            t("freeze_rule_2"),
+            t("freeze_rule_3"),
+            t("freeze_rule_4"),
+          ].map((item, i) => {
+            return <li key={i}>{item}</li>;
+          })}
+        </ul>
+      </BottomSheet>
     </Screen>
   );
 });
