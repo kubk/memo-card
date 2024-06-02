@@ -1,9 +1,11 @@
 import WebApp from "@twa-dev/sdk";
 import { Platform, PlatformTheme } from "../platform.ts";
 import { cssVarToValue } from "./css-var-to-value.ts";
-import { PlatformSchemaType } from "../../../../functions/services/get-telegram-user.ts";
 import { Language } from "../../../translations/t.ts";
 import { isRuProxy } from "../../urls/is-ru-proxy.ts";
+import {
+  PlatformSchemaType
+} from "../../../../functions/db/user/upsert-user-db.ts";
 
 const buttonColor = "var(--tg-theme-button-color)";
 const buttonTextColor = "var(--tg-theme-button-text-color)";

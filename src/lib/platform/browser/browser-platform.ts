@@ -2,8 +2,10 @@ import { Platform, PlatformTheme } from "../platform.ts";
 import { makeAutoObservable } from "mobx";
 import { assert } from "../../typescript/assert.ts";
 import { BooleanToggle } from "mobx-form-lite";
-import { PlatformSchemaType } from "../../../../functions/services/get-telegram-user.ts";
 import { Language } from "../../../translations/t.ts";
+import {
+  PlatformSchemaType
+} from "../../../../functions/db/user/upsert-user-db.ts";
 
 const cssVariables = {
   "--tg-theme-hint-color": "#999999",
