@@ -22,7 +22,12 @@
     "bundle-visualize": "npx vite-bundle-visualizer",
     "export-public-code": "[[ $(git symbolic-ref --short HEAD 2>/dev/null) == \"main\" ]] && npm run __export-public-code || echo \"Current branch is not 'main'\"",
     "__export-public-code": "npx betterplace-gitexporter gitexporter.config.json && cd ../memocard-public && git checkout -b main && git remote add origin git@github.com:kubk/memo-card.git && git push",
-    "generate-db-types": "docker info > /dev/null 2>&1 && export $(cat .dev.vars | grep -v '^#' | xargs) && npx supabase gen types typescript --db-url $DB_URL >./functions/db/databaseTypes.ts"
+    "generate-db-types": "docker info > /dev/null 2>&1 && export $(cat .dev.vars | grep -v '^#' | xargs) && npx supabase gen types typescript --db-url $DB_URL >./functions/db/databaseTypes.ts",
+    "dev:db:start": "npx supabase start",
+    "dev:db:get-ui-migrations": "npx supabase db pull",
+    "dev:db:apply-ui-migrations-locally": "npx supabase migration up",
+    "dev:db:dump-create": "npx supabase db dump --data-only > supabase/dump-data.sql",
+    "dev:db:dump-apply": "docker exec -i supabase_db_memo-card psql -U postgres < ./supabase/dump-data.sql"
   },
   "pre-commit": [
     "lint",
