@@ -5,7 +5,7 @@ import { ReactNode } from "react";
 import { RadioBoxFilled } from "./radio-box-filled.tsx";
 import { RadioBoxEmpty } from "./radio-box-empty.tsx";
 
-type RadioItemId = string | null;
+type RadioItemId = string | number | null;
 
 type Props<T extends RadioItemId> = {
   selectedId: T;
@@ -17,7 +17,7 @@ export const RadioList = <T extends RadioItemId>(props: Props<T>) => {
   const { selectedId, options, onChange } = props;
 
   return (
-    <Flex direction={"column"} gap={6}>
+    <Flex fullWidth direction={"column"} gap={6}>
       {options.map((option) => {
         const isSelected = selectedId === option.id;
         return (
@@ -27,7 +27,7 @@ export const RadioList = <T extends RadioItemId>(props: Props<T>) => {
               display: "flex",
               alignItems: "center",
               gap: 8,
-              padding: '16px 8px',
+              padding: "16px 8px",
               backgroundColor: theme.bgColor,
               outline: isSelected
                 ? `2px solid ${theme.buttonColor}`

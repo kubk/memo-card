@@ -21,13 +21,11 @@ export const useMainButtonBrowser: UseMainButtonType = (
         return;
       }
 
+      const buttonText = typeof text === "string" ? text : text();
+
       runInAction(() => {
         assert(platform instanceof BrowserPlatform);
-        platform.showMainButton(
-          typeof text === "string" ? text : text(),
-          onClick,
-          condition,
-        );
+        platform.showMainButton(buttonText, onClick, condition);
       });
     });
 

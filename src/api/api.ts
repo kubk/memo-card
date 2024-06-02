@@ -79,6 +79,7 @@ import {
   CardInputModeChangeResponse,
 } from "../../functions/card-input-mode-change.ts";
 import { ActivePlansResponse } from "../../functions/active-plans.ts";
+import { PlanDuration } from "../../shared/plan-calculator/calc-plan-price.ts";
 
 export const healthRequest = () => {
   return request<HealthResponse>("/health");
@@ -207,12 +208,13 @@ export const decksMineRequest = () => {
   return request<DecksMineResponse>("/decks-mine");
 };
 
-export const createOrderRequest = (planId: number) => {
+export const createOrderRequest = (planId: number, duration: PlanDuration) => {
   return request<CreateOrderResponse, CreateOrderRequest>(
     `/order-plan`,
     "POST",
     {
       planId,
+      duration: duration.toString(),
     },
   );
 };

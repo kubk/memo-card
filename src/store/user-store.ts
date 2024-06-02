@@ -9,6 +9,7 @@ import { canUseAiMassGenerate } from "../../shared/access/can-use-ai-mass-genera
 import { RequestStore } from "../lib/mobx-request/request-store.ts";
 import { activePlanesRequest } from "../api/api.ts";
 import { reportHandledError } from "../lib/rollbar/rollbar.tsx";
+import { formatPaidUntil } from "../screens/plans/format-paid-until.tsx";
 
 export class UserStore {
   userInfo?: UserDbType;
@@ -57,6 +58,14 @@ export class UserStore {
 
   get isPaid() {
     return this.plans?.some((plan) => plan.plan_id) ?? false;
+  }
+
+  get paidUntil() {
+    const plan = this.plans ? this.plans[0] : undefined;
+    if (!plan) {
+      return null;
+    }
+    return formatPaidUntil(plan.until_date || "") || undefined;
   }
 
   async fetchActivePlans() {

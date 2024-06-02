@@ -4,15 +4,14 @@ import { useBackButton } from "../../lib/platform/use-back-button.ts";
 import { screenStore } from "../../store/screen-store.ts";
 import { Flex } from "../../ui/flex.tsx";
 import React, { useState } from "react";
-import { PlanItem } from "./plan-item.tsx";
 import { useMainButton } from "../../lib/platform/use-main-button.ts";
 import { Hint } from "../../ui/hint.tsx";
 import { useMount } from "../../lib/react/use-mount.ts";
 import { FullScreenLoader } from "../../ui/full-screen-loader.tsx";
 import {
+  formatPrice,
   getPlanDescription,
-  getPlanFullPrice,
-  getPlanTitle,
+  translateDuration,
 } from "./translations.ts";
 import { PlansScreenStore } from "./store/plans-screen-store.ts";
 import { useProgress } from "../../lib/platform/use-progress.tsx";
@@ -20,6 +19,30 @@ import { userStore } from "../../store/user-store.ts";
 import { ExternalLink } from "../../ui/external-link.tsx";
 import { t } from "../../translations/t.ts";
 import { formatPaidUntil } from "./format-paid-until.tsx";
+import { RadioList } from "../../ui/radio-list/radio-list.tsx";
+import { css } from "@emotion/css";
+import { theme } from "../../ui/theme.tsx";
+import {
+  calcPlanPrice,
+  durationsWithDiscount,
+  PlanDuration,
+} from "../../../shared/plan-calculator/calc-plan-price.ts";
+import { Tag } from "./tag.tsx";
+import { Label } from "../../ui/label.tsx";
+import { List } from "../../ui/list.tsx";
+import { FilledIcon } from "../../ui/filled-icon.tsx";
+import { assert } from "../../lib/typescript/assert.ts";
+
+const planItems: Array<{
+  iconText: string;
+  iconColor: string;
+}> = [
+  { iconColor: theme.icons.pink, iconText: "mdi-robot" },
+  { iconColor: theme.icons.violet, iconText: "mdi-account-voice" },
+  { iconColor: theme.icons.blue, iconText: "mdi-content-copy" },
+  { iconColor: theme.icons.turquoise, iconText: "mdi-link-variant" },
+  { iconColor: theme.icons.sea, iconText: "mdi-clock-time-ten" },
+];
 
 export const PlansScreen = observer(() => {
   const [store] = useState(() => new PlansScreenStore());
@@ -41,9 +64,11 @@ export const PlansScreen = observer(() => {
 
   useProgress(() => store.createOrderRequest.isLoading);
 
-  if (store.plansRequest.result.status === "loading") {
+  if (store.plansRequest.result.status !== "success") {
     return <FullScreenLoader />;
   }
+
+  const planDescription = getPlanDescription();
 
   return (
     <Screen title={t("payment_page_title")}>
@@ -53,45 +78,101 @@ export const PlansScreen = observer(() => {
         justifyContent={"center"}
         gap={16}
         mt={4}
-        mb={16}
+        mb={52}
         fullWidth
       >
-        <Flex direction={"column"} gap={16} fullWidth>
-          {store.plans.map((plan) => {
-            const paidPlan = userStore.plans?.find(
-              (p) => p.plan_id === plan.id,
-            );
+        {userStore.paidUntil ? (
+          <div className={css({ width: "100%" })}>
+            <Hint>
+              <Flex direction={"column"}>
+                <div>
+                  {t("payment_paid_until")}:{" "}
+                  {formatPaidUntil(userStore.paidUntil)}
+                </div>
+                <div>
+                  {t("ai_cards_left")}: {store.aiCardsLeft}
+                </div>
+              </Flex>
+            </Hint>
+          </div>
+        ) : null}
 
-            const paidUntil =
-              formatPaidUntil(paidPlan?.until_date || "") || undefined;
+        <Label fullWidth text={t("payment_choose_duration")}>
+          <RadioList<PlanDuration | null>
+            selectedId={store.selectedPlanDuration.value}
+            options={durationsWithDiscount.map((durationsWithDiscount) => {
+              const proPlan = store.proPlan;
+              assert(proPlan);
+              return {
+                id: durationsWithDiscount.duration,
+                title: (
+                  <div className={css({ display: "flex", gap: 8 })}>
+                    <span>
+                      {translateDuration(durationsWithDiscount.duration)}
+                    </span>
+                    {durationsWithDiscount.discount > 0 && (
+                      <Tag text={`-${durationsWithDiscount.discount * 100}%`} />
+                    )}
+                    <div
+                      className={css({
+                        color: theme.hintColor,
+                        marginLeft: "auto",
+                        paddingRight: 8,
+                      })}
+                    >
+                      {formatPrice(
+                        calcPlanPrice(
+                          proPlan.price,
+                          durationsWithDiscount.duration,
+                        ),
+                      )}
+                    </div>
+                  </div>
+                ),
+              };
+            })}
+            onChange={store.selectedPlanDuration.onChange}
+          />
+        </Label>
+        <Label text={t("payment_included")}>
+          <List
+            items={planItems.map((item, i) => ({
+              icon: (
+                <FilledIcon
+                  backgroundColor={item.iconColor}
+                  icon={item.iconText}
+                />
+              ),
+              text: (
+                <Flex direction={"column"}>
+                  <div>{planDescription[i].title}</div>
+                  <div
+                    className={css({
+                      fontSize: 14,
+                      color: theme.hintColor,
+                      paddingRight: 4,
+                    })}
+                  >
+                    {planDescription[i].description}
+                  </div>
+                </Flex>
+              ),
+            }))}
+          />
+        </Label>
 
-            return (
-              <PlanItem
-                key={plan.id}
-                title={getPlanTitle(plan)}
-                price={getPlanFullPrice(plan)}
-                isSelected={store.selectedPlanId === plan.id}
-                paidUntil={paidUntil}
-                description={getPlanDescription(plan)}
-                onClick={() => {
-                  if (!paidUntil) {
-                    store.selectPlan(plan.id);
-                  }
-                }}
-              />
-            );
-          })}
-        </Flex>
-        <Hint>
-          {t("payment_tos_and_pp_agree")}
-          <ExternalLink href={"/terms-of-service.html"}>
-            {t("payment_tos")}
-          </ExternalLink>
-          {t("payment_and")}
-          <ExternalLink href={"/privacy-policy.html"}>
-            {t("payment_pp")}
-          </ExternalLink>
-        </Hint>
+        <div className={css({ width: "100%" })}>
+          <Hint>
+            {t("payment_tos_and_pp_agree")}
+            <ExternalLink href={"/terms-of-service.html"}>
+              {t("payment_tos")}
+            </ExternalLink>
+            {t("payment_and")}
+            <ExternalLink href={"/privacy-policy.html"}>
+              {t("payment_pp")}
+            </ExternalLink>
+          </Hint>
+        </div>
       </Flex>
     </Screen>
   );

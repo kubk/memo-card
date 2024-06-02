@@ -2,7 +2,7 @@ import {
   BooleanToggle,
   formTouchAll,
   isFormValid,
-  TextField
+  TextField,
 } from "mobx-form-lite";
 import { makeAutoObservable } from "mobx";
 import { cardsFreezeRequest } from "../../../api/api.ts";

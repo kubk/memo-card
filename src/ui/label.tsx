@@ -11,17 +11,23 @@ type Props = {
   // Helps to avoid nested <label> tags
   isPlain?: boolean;
   slotRight?: ReactNode;
+  fullWidth?: boolean;
 };
 
 export const Label = (props: Props) => {
   const Tag = props.isPlain ? "span" : "label";
-  const { slotRight } = props;
+  const { slotRight, fullWidth } = props;
 
   return (
     <Tag
       className={cx(
         reset.label,
-        css({ display: "flex", flexDirection: "column", gap: 0 }),
+        css({
+          display: "flex",
+          flexDirection: "column",
+          gap: 0,
+          width: fullWidth ? "100%" : undefined,
+        }),
       )}
     >
       <Flex ml={12} alignItems={"center"}>
