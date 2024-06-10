@@ -219,7 +219,10 @@ export const walletOrderRequest = (planId: number, duration: PlanDuration) => {
   );
 };
 
-export const starsOrderPlanRequest = (planId: number, duration: PlanDuration) => {
+export const starsOrderPlanRequest = (
+  planId: number,
+  duration: PlanDuration,
+) => {
   return request<CreateOrderResponse, CreateOrderRequest>(
     `/stars-order-plan`,
     "POST",
@@ -229,7 +232,6 @@ export const starsOrderPlanRequest = (planId: number, duration: PlanDuration) =>
     },
   );
 };
-
 
 export const allPlansRequest = () => {
   return request<AllPlansResponse>("/plans");

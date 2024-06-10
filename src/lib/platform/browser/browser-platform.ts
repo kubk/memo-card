@@ -3,9 +3,7 @@ import { makeAutoObservable } from "mobx";
 import { assert } from "../../typescript/assert.ts";
 import { BooleanToggle } from "mobx-form-lite";
 import { Language } from "../../../translations/t.ts";
-import {
-  PlatformSchemaType
-} from "../../../../functions/db/user/upsert-user-db.ts";
+import { PlatformSchemaType } from "../../../../functions/db/user/upsert-user-db.ts";
 
 const cssVariables = {
   "--tg-theme-hint-color": "#999999",

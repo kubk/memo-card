@@ -3,9 +3,7 @@ import { Platform, PlatformTheme } from "../platform.ts";
 import { cssVarToValue } from "./css-var-to-value.ts";
 import { Language } from "../../../translations/t.ts";
 import { isRuProxy } from "../../urls/is-ru-proxy.ts";
-import {
-  PlatformSchemaType
-} from "../../../../functions/db/user/upsert-user-db.ts";
+import { PlatformSchemaType } from "../../../../functions/db/user/upsert-user-db.ts";
 
 const buttonColor = "var(--tg-theme-button-color)";
 const buttonTextColor = "var(--tg-theme-button-text-color)";
@@ -81,5 +79,13 @@ export class TelegramPlatform implements Platform {
 
   openExternalLink(link: string) {
     WebApp.openLink(link);
+  }
+
+  openInvoiceLink(link: string) {
+    WebApp.openInvoice(link, (status) => {
+      if (status === "paid") {
+        WebApp.close();
+      }
+    });
   }
 }
