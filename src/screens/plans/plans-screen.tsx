@@ -8,30 +8,29 @@ import { useMainButton } from "../../lib/platform/use-main-button.ts";
 import { Hint } from "../../ui/hint.tsx";
 import { useMount } from "../../lib/react/use-mount.ts";
 import { FullScreenLoader } from "../../ui/full-screen-loader.tsx";
-import {
-  formatPrice,
-  getPlanDescription,
-  translateDuration,
-} from "./translations.ts";
 import { PlansScreenStore } from "./store/plans-screen-store.ts";
 import { useProgress } from "../../lib/platform/use-progress.tsx";
 import { userStore } from "../../store/user-store.ts";
 import { ExternalLink } from "../../ui/external-link.tsx";
-import { t } from "../../translations/t.ts";
+import { t, translator } from "../../translations/t.ts";
 import { formatPaidUntil } from "./format-paid-until.tsx";
 import { RadioList } from "../../ui/radio-list/radio-list.tsx";
 import { css } from "@emotion/css";
 import { theme } from "../../ui/theme.tsx";
 import {
-  calcPlanPrice,
+  calcPlanPriceForDuration,
   durationsWithDiscount,
   PlanDuration,
-} from "../../../shared/plan-calculator/calc-plan-price.ts";
+} from "../../../shared/pro/calc-plan-price-for-duration.ts";
 import { Tag } from "./tag.tsx";
 import { Label } from "../../ui/label.tsx";
 import { List } from "../../ui/list.tsx";
 import { FilledIcon } from "../../ui/filled-icon.tsx";
 import { assert } from "../../lib/typescript/assert.ts";
+import { translateProDuration } from "../../../shared/pro/translate-plan-duration.ts";
+import { formatStarsPrice } from "../../../shared/pro/format-price.ts";
+import { translateProDescription } from "../../../shared/pro/translate-pro-description.ts";
+import { formatDiscount } from "../../../shared/pro/format-discount.ts";
 
 const planItems: Array<{
   iconText: string;
@@ -68,7 +67,7 @@ export const PlansScreen = observer(() => {
     return <FullScreenLoader />;
   }
 
-  const planDescription = getPlanDescription();
+  const planDescription = translateProDescription(translator.getLang());
 
   return (
     <Screen title={t("payment_page_title")}>
@@ -108,10 +107,17 @@ export const PlansScreen = observer(() => {
                 title: (
                   <div className={css({ display: "flex", gap: 8 })}>
                     <span>
-                      {translateDuration(durationsWithDiscount.duration)}
+                      {translateProDuration(
+                        durationsWithDiscount.duration,
+                        translator.getLang(),
+                      )}
                     </span>
-                    {durationsWithDiscount.discount > 0 && (
-                      <Tag text={`-${durationsWithDiscount.discount * 100}%`} />
+                    {durationsWithDiscount.discountStars > 0 && (
+                      <Tag
+                        text={formatDiscount(
+                          durationsWithDiscount.discountStars,
+                        )}
+                      />
                     )}
                     <div
                       className={css({
@@ -120,9 +126,10 @@ export const PlansScreen = observer(() => {
                         paddingRight: 8,
                       })}
                     >
-                      {formatPrice(
-                        calcPlanPrice(
-                          proPlan.price,
+                      {formatStarsPrice(
+                        calcPlanPriceForDuration(
+                          "stars",
+                          proPlan.price_stars,
                           durationsWithDiscount.duration,
                         ),
                       )}

@@ -1,16 +1,16 @@
 import { makeAutoObservable } from "mobx";
-import { allPlansRequest, createOrderRequest } from "../../../api/api.ts";
+import { allPlansRequest, starsOrderPlanRequest } from "../../../api/api.ts";
 import { getBuyText } from "../translations.ts";
 import { assert } from "../../../lib/typescript/assert.ts";
 import { RequestStore } from "../../../lib/mobx-request/request-store.ts";
 import { notifyError } from "../../shared/snackbar/snackbar.tsx";
 import { platform } from "../../../lib/platform/platform.ts";
 import { TextField } from "mobx-form-lite";
-import { type PlanDuration } from "../../../../shared/plan-calculator/calc-plan-price.ts";
+import { type PlanDuration } from "../../../../shared/pro/calc-plan-price-for-duration.ts";
 
 export class PlansScreenStore {
   plansRequest = new RequestStore(allPlansRequest);
-  createOrderRequest = new RequestStore(createOrderRequest);
+  createOrderRequest = new RequestStore(starsOrderPlanRequest);
   selectedPlanDuration = new TextField<PlanDuration | null>(null);
 
   constructor() {

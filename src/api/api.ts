@@ -39,7 +39,7 @@ import { DecksMineResponse } from "../../functions/decks-mine.ts";
 import {
   CreateOrderRequest,
   CreateOrderResponse,
-} from "../../functions/order-plan.ts";
+} from "../../functions/wallet-order-plan.ts";
 import { DuplicateFolderResponse } from "../../functions/duplicate-folder.ts";
 import { MyStatisticsResponse } from "../../functions/my-statistics.ts";
 import { AllPlansResponse } from "../../functions/plans.ts";
@@ -79,7 +79,7 @@ import {
   CardInputModeChangeResponse,
 } from "../../functions/card-input-mode-change.ts";
 import { ActivePlansResponse } from "../../functions/active-plans.ts";
-import { PlanDuration } from "../../shared/plan-calculator/calc-plan-price.ts";
+import { PlanDuration } from "../../shared/pro/calc-plan-price-for-duration.ts";
 
 export const healthRequest = () => {
   return request<HealthResponse>("/health");
@@ -208,9 +208,9 @@ export const decksMineRequest = () => {
   return request<DecksMineResponse>("/decks-mine");
 };
 
-export const createOrderRequest = (planId: number, duration: PlanDuration) => {
+export const walletOrderRequest = (planId: number, duration: PlanDuration) => {
   return request<CreateOrderResponse, CreateOrderRequest>(
-    `/order-plan`,
+    `/wallet-order-plan`,
     "POST",
     {
       planId,
@@ -218,6 +218,18 @@ export const createOrderRequest = (planId: number, duration: PlanDuration) => {
     },
   );
 };
+
+export const starsOrderPlanRequest = (planId: number, duration: PlanDuration) => {
+  return request<CreateOrderResponse, CreateOrderRequest>(
+    `/stars-order-plan`,
+    "POST",
+    {
+      planId,
+      duration: duration.toString(),
+    },
+  );
+};
+
 
 export const allPlansRequest = () => {
   return request<AllPlansResponse>("/plans");
