@@ -4,9 +4,10 @@ import { getBuyText } from "../translations.ts";
 import { assert } from "../../../lib/typescript/assert.ts";
 import { RequestStore } from "../../../lib/mobx-request/request-store.ts";
 import { notifyError } from "../../shared/snackbar/snackbar.tsx";
-import { platform } from "../../../lib/platform/platform.ts";
+// import { platform } from "../../../lib/platform/platform.ts";
 import { TextField } from "mobx-form-lite";
 import { type PlanDuration } from "../../../../shared/pro/calc-plan-price-for-duration.ts";
+import WebApp from "@twa-dev/sdk";
 
 export class PlansScreenStore {
   plansRequest = new RequestStore(allPlansRequest);
@@ -64,6 +65,9 @@ export class PlansScreenStore {
       return;
     }
 
-    platform.openInternalLink(result.data.payLink);
+    WebApp.openInvoice(result.data.payLink, (status) => {
+      WebApp.showAlert(status);
+    })
+    // platform.openInternalLink(result.data.payLink);
   }
 }
