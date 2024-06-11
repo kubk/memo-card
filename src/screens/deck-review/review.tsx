@@ -2,7 +2,6 @@ import React from "react";
 import { cardSize } from "../shared/card/card.tsx";
 import { observer } from "mobx-react-lite";
 import { css } from "@emotion/css";
-import throttle from "just-throttle";
 import { CardState } from "./store/card-under-review-store.ts";
 import { ProgressBar } from "../../ui/progress-bar.tsx";
 import { useReviewStore } from "./store/review-store-context.tsx";
@@ -11,6 +10,7 @@ import { useHotkeys } from "react-hotkeys-hook";
 import { ReviewDeckName } from "./review-deck-name.tsx";
 import { CardReviewWithControls } from "./card-review-with-controls.tsx";
 import { createPortal } from "react-dom";
+import { throttle } from "../../lib/throttle/throttle.ts";
 
 export const Review = observer(() => {
   const reviewStore = useReviewStore();
@@ -18,21 +18,13 @@ export const Review = observer(() => {
     reviewStore.submitUnfinished();
   });
 
-  const onWrong = throttle(
-    () => {
-      reviewStore.changeState(CardState.Forget);
-    },
-    100,
-    { leading: true },
-  );
+  const onWrong = throttle(() => {
+    reviewStore.changeState(CardState.Forget);
+  }, 10);
 
-  const onCorrect = throttle(
-    () => {
-      reviewStore.changeState(CardState.Remember);
-    },
-    100,
-    { leading: true },
-  );
+  const onCorrect = throttle(() => {
+    reviewStore.changeState(CardState.Remember);
+  }, 10);
 
   useHotkeys("1", () => {
     if (reviewStore.currentCard?.isOpened) {
