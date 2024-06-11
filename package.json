@@ -42,7 +42,6 @@
     "canvas-confetti": "^1.9.2",
     "colord": "^2.9.3",
     "dompurify": "^3.0.9",
-    "easy-speech": "^2.3.1",
     "framer-motion": "^10.16.4",
     "grammy": "^1.24.1",
     "just-throttle": "^4.2.0",
@@ -63,7 +62,6 @@
     "short-unique-id": "^5.0.3",
     "supabase": "^1.110.1",
     "uuid": "^9.0.1",
-    "vaul": "^0.9.1",
     "zod": "^3.22.3",
     "zod-to-json-schema": "^3.22.5"
   },
