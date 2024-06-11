@@ -44,7 +44,6 @@
     "dompurify": "^3.0.9",
     "framer-motion": "^10.16.4",
     "grammy": "^1.24.1",
-    "just-throttle": "^4.2.0",
     "luxon": "^3.4.3",
     "mathml-tag-names": "^3.0.2",
     "mobx": "^6.10.2",
