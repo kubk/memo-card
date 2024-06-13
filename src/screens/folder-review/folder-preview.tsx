@@ -177,22 +177,20 @@ export const FolderPreview = observer(() => {
               >
                 {t("share")}
               </ButtonSideAligned>
-              <ButtonSideAligned
-                icon={"mdi-delete-circle mdi-24px"}
-                outline
-                onClick={async () => {
-                  const isConfirmed = await showConfirm(
-                    t("delete_folder_confirm"),
-                  );
-                  if (isConfirmed) {
-                    deckListStore.deleteFolder();
-                  }
-                }}
-              >
-                {t("delete")}
-              </ButtonSideAligned>
             </>
           )}
+          <ButtonSideAligned
+            icon={"mdi-delete-circle mdi-24px"}
+            outline
+            onClick={async () => {
+              const isConfirmed = await showConfirm(t("delete_folder_confirm"));
+              if (isConfirmed) {
+                deckListStore.deleteFolder();
+              }
+            }}
+          >
+            {t("delete")}
+          </ButtonSideAligned>
         </ButtonGrid>
       </div>
       <Flex pt={6} direction={"column"} gap={8}>
