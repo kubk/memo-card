@@ -195,21 +195,25 @@ export const FolderPreview = observer(() => {
           )}
         </ButtonGrid>
       </div>
-      <Flex pt={6} direction={"column"}>
-        <ListHeader text={t("decks")} />
-        <List
-          items={folder.decks.map((deck) => ({
-            onClick: () => {
-              deckListStore.goDeckById(deck.id);
-            },
-            text: deck.name,
-            right: (
-              <div className={css({ position: "relative", marginRight: -12 })}>
-                <CardsToReview item={deck} />
-              </div>
-            ),
-          }))}
-        />
+      <Flex pt={6} direction={"column"} gap={8}>
+        <div>
+          <ListHeader text={t("decks")} />
+          <List
+            items={folder.decks.map((deck) => ({
+              onClick: () => {
+                deckListStore.goDeckById(deck.id);
+              },
+              text: deck.name,
+              right: (
+                <div
+                  className={css({ position: "relative", marginRight: -12 })}
+                >
+                  <CardsToReview item={deck} />
+                </div>
+              ),
+            }))}
+          />
+        </div>
         {folder.cardsToReview.length === 0 &&
         !deckListStore.isCatalogItemLoading ? (
           <Hint>{t("no_cards_to_review_in_deck")}</Hint>
