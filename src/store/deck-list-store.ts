@@ -98,7 +98,11 @@ export class DeckListStore {
   constructor() {
     makeAutoObservable(
       this,
-      { searchDeckById: false, hasFolderInMine: false },
+      {
+        searchDeckById: false,
+        hasFolderInMine: false,
+        isDeckFolderAdded: false,
+      },
       { autoBind: true },
     );
   }
@@ -808,6 +812,23 @@ export class DeckListStore {
         );
     }
   }
+
+  isDeckFolderAdded = (item: {
+    type: "folder" | "deck";
+    id: number;
+  }): { isMineDeck: boolean; isMineFolder: boolean } => {
+    const myDeckIds = deckListStore.myDecks.map((deck) => deck.id);
+    const myFoldersIds = deckListStore.myFoldersAsDecks.map(
+      (folder) => folder.id,
+    );
+
+    const isMineFolder =
+      item.type === "folder" ? myFoldersIds.includes(item.id) : false;
+    const isMineDeck =
+      item.type === "deck" ? myDeckIds.includes(item.id) : false;
+
+    return { isMineFolder, isMineDeck };
+  };
 
   private startCheckingUserWithPlanStatus() {
     if (userStore.isPaid) {

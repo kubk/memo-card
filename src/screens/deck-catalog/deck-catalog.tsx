@@ -80,19 +80,13 @@ export const DeckCatalog = observer(() => {
             return <NoDecksMatchingFilters />;
           }
 
-          const myDeckIds = deckListStore.myDecks.map((deck) => deck.id);
-          const myFoldersIds = deckListStore.myFoldersAsDecks.map(
-            (folder) => folder.id,
-          );
-
           return filteredCatalogItems.map((item) => {
-            const isMineFolder =
-              item.type === "folder"
-                ? myFoldersIds.includes(item.data.id)
-                : false;
-            const isMineDeck =
-              item.type === "deck" ? myDeckIds.includes(item.data.id) : false;
-            const isAdded = isMineDeck || isMineFolder;
+            const result = deckListStore.isDeckFolderAdded({
+              type: item.type,
+              id: item.data.id,
+            });
+            const isAdded = result.isMineDeck || result.isMineFolder;
+            const isMineDeck = result.isMineDeck;
 
             return (
               <DeckListItemWithDescription
