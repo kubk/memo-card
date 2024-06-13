@@ -141,7 +141,7 @@ export const PlansScreen = observer(() => {
             onChange={store.selectedPlanDuration.onChange}
           />
         </Label>
-        <Label text={t("payment_included")}>
+        <Label text={t("payment_included")} fullWidth>
           <List
             items={planItems.map((item, i) => ({
               icon: (
