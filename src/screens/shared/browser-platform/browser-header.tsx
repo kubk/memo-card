@@ -7,6 +7,10 @@ import { assert } from "../../../lib/typescript/assert.ts";
 import { theme } from "../../../ui/theme.tsx";
 
 export const BrowserHeader = observer(() => {
+  if (!(platform instanceof BrowserPlatform)) {
+    return null;
+  }
+
   return (
     <div
       className={css({
@@ -16,7 +20,7 @@ export const BrowserHeader = observer(() => {
         paddingTop: 12,
       })}
     >
-      {platform instanceof BrowserPlatform && platform.isBackButtonVisible ? (
+      {platform.isBackButtonVisible ? (
         <i
           className={cx(
             "mdi mdi-arrow-left-circle mdi-24px",

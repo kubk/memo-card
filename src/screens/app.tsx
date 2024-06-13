@@ -40,6 +40,9 @@ import { SnackbarProviderWrapper } from "./shared/snackbar/snackbar-provider-wra
 import { Debug } from "./debug/debug.tsx";
 import { BrowserHeader } from "./shared/browser-platform/browser-header.tsx";
 import { BrowserMainButton } from "./shared/browser-platform/browser-main-button.tsx";
+import { css } from "@emotion/css";
+import { platform } from "../lib/platform/platform.ts";
+import { BrowserPlatform } from "../lib/platform/browser/browser-platform.ts";
 
 export const App = observer(() => {
   useRestoreFullScreenExpand();
@@ -61,7 +64,17 @@ export const App = observer(() => {
   }
 
   return (
-    <div>
+    <div
+      className={
+        platform instanceof BrowserPlatform
+          ? css({
+              margin: "0 auto",
+              marginTop: 24,
+              maxWidth: platform.maxWidth,
+            })
+          : undefined
+      }
+    >
       <BrowserHeader />
       <VersionWarning />
       <SnackbarProviderWrapper />

@@ -21,6 +21,10 @@ body {
   color: var(--tg-theme-text-color);
 }
 
+#root {
+  width: 100%;
+}
+
 h1,
 h2,
 h3,

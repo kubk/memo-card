@@ -194,7 +194,7 @@ export class DeckListStore {
     const { folder } = result.data;
     runInAction(() => {
       this.catalogFolder = folder;
-    })
+    });
   }
 
   get canReview() {

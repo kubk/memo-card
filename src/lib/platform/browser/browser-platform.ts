@@ -1,5 +1,5 @@
 import { Platform, PlatformTheme } from "../platform.ts";
-import { makeAutoObservable } from "mobx";
+import { action, makeAutoObservable } from "mobx";
 import { assert } from "../../typescript/assert.ts";
 import { BooleanToggle } from "mobx-form-lite";
 import { Language } from "../../../translations/t.ts";
@@ -25,6 +25,9 @@ const cssVariables = {
 };
 
 export class BrowserPlatform implements Platform {
+  maxWidth = 600;
+  isMobile = false;
+
   mainButtonInfo?: {
     text: string;
     onClick: () => void;
@@ -39,6 +42,7 @@ export class BrowserPlatform implements Platform {
     makeAutoObservable(
       this,
       {
+        maxWidth: false,
         getTheme: false,
         getInitData: false,
         initialize: false,
@@ -50,6 +54,8 @@ export class BrowserPlatform implements Platform {
         autoBind: true,
       },
     );
+
+    this.listenIsMobile();
   }
 
   getTheme(): PlatformTheme {
@@ -129,5 +135,16 @@ export class BrowserPlatform implements Platform {
 
   openExternalLink(link: string) {
     window.open(link, "_blank");
+  }
+
+  listenIsMobile() {
+    const isMobileQuery = window.matchMedia(`(max-width: ${this.maxWidth}px)`);
+    this.isMobile = isMobileQuery.matches;
+    isMobileQuery.addEventListener(
+      "change",
+      action((e) => {
+        this.isMobile = e.matches;
+      }),
+    );
   }
 }
