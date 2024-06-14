@@ -1,27 +1,22 @@
 import { makeAutoObservable } from "mobx";
-import { catalogGetRequest, deckCategoriesRequest } from "../../../api/api.ts";
+import { catalogGetRequest } from "../../../api/api.ts";
 import { TextField } from "mobx-form-lite";
 import { persistableField } from "../../../lib/mobx-form-lite-persistable/persistable-field.ts";
 import { CatalogItem } from "../../../../functions/catalog.ts";
 import { RequestStore } from "../../../lib/mobx-request/request-store.ts";
+import { LanguageCatalogItemAvailableIn } from "../../../../shared/language/language-shared.ts";
+import { createCachedCategoriesRequest } from "../../../api/create-cached-categories-request.ts";
 
-export enum DeckLanguage {
-  Any = "any",
-  English = "en",
-  Spanish = "es",
-  Russian = "ru",
-}
+export type DeckLanguage = "any" | LanguageCatalogItemAvailableIn;
 
 export class DeckCatalogStore {
   catalogRequest = new RequestStore(catalogGetRequest, {
     cacheId: "catalogRequest",
   });
-  categoriesRequest = new RequestStore(deckCategoriesRequest, {
-    cacheId: "categoriesRequest",
-  });
+  categoriesRequest = createCachedCategoriesRequest();
 
   filters = {
-    language: persistableField(new TextField(DeckLanguage.Any), "catalogLn"),
+    language: persistableField(new TextField<DeckLanguage>("any"), "catalogLn"),
     categoryId: new TextField(""),
   };
 
@@ -44,14 +39,14 @@ export class DeckCatalogStore {
 
     return this.catalogRequest.result.data.filter((catalogItem) => {
       const item = catalogItem.data;
-      if (language !== DeckLanguage.Any && item.available_in !== language) {
+      if (language !== "any" && item.available_in !== language) {
         return false;
       }
 
+      // noinspection RedundantIfStatementJS
       if (!!categoryId && item.category_id !== categoryId) {
         return false;
       }
-
       return true;
     });
   }

@@ -3,20 +3,22 @@ import { theme } from "./theme.tsx";
 import { css } from "@emotion/css";
 import { t } from "../translations/t.ts";
 
-type Option<T extends string | number> = {
+type OptionType = string | number | null;
+
+type Option<T extends OptionType> = {
   label: string;
   value: T;
 };
 
-type Props<T extends string | number> = {
-  value: string;
+type Props<T extends OptionType> = {
+  value: T;
   onChange: (newValue: T) => void;
   options: Option<T>[];
   isLoading?: boolean;
   selectRef?: any;
 };
 
-export const Select = <T extends string | number>(props: Props<T>) => {
+export const Select = <T extends OptionType>(props: Props<T>) => {
   const { value, onChange, options, isLoading, selectRef } = props;
   if (isLoading) {
     return (
@@ -37,11 +39,11 @@ export const Select = <T extends string | number>(props: Props<T>) => {
         cursor: "pointer",
         color: theme.linkColor,
       })}
-      value={value}
+      value={value || ""}
       onChange={(e) => onChange(e.target.value as T)}
     >
       {options.map((option) => (
-        <option key={option.value} value={option.value}>
+        <option key={option.value} value={option.value || ""}>
           {option.label}
         </option>
       ))}

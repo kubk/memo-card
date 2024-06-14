@@ -91,6 +91,10 @@ export class UserStore {
     }
     return canUseAiMassGenerate(user, userStore.plans);
   }
+
+  get canUpdateCatalogSettings() {
+    return this.isAdmin;
+  }
 }
 
 export const userStore = new UserStore();

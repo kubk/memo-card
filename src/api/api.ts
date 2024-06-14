@@ -80,6 +80,14 @@ import {
 } from "../../functions/card-input-mode-change.ts";
 import { ActivePlansResponse } from "../../functions/active-plans.ts";
 import { PlanDuration } from "../../shared/pro/calc-plan-price-for-duration.ts";
+import {
+  CatalogItemSettingsRequest,
+  CatalogItemSettingsResponse,
+} from "../../functions/catalog-item-settings.ts";
+import {
+  UpdateCatalogItemSettingsRequest,
+  UpdateCatalogItemSettingsResponse,
+} from "../../functions/update-catalog-item-settings.ts";
 
 export const healthRequest = () => {
   return request<HealthResponse>("/health");
@@ -97,6 +105,24 @@ export const getFolderWithDecksCards = (folderId?: number) => {
   return request<FolderWithDecksWithCardsResponse>(
     `/folder-with-decks-cards?folder_id=${folderId}`,
   );
+};
+
+export const catalogItemSettingsGetRequest = (
+  query: CatalogItemSettingsRequest,
+) => {
+  const queryString = new URLSearchParams(query as any).toString();
+  return request<CatalogItemSettingsResponse>(
+    `/catalog-item-settings?${queryString}`,
+  );
+};
+
+export const updateCatalogItemSettingsRequest = (
+  body: UpdateCatalogItemSettingsRequest,
+) => {
+  return request<
+    UpdateCatalogItemSettingsResponse,
+    UpdateCatalogItemSettingsRequest
+  >(`/update-catalog-item-settings`, "POST", body);
 };
 
 export const addDeckToMineRequest = (body: AddDeckToMineRequest) => {

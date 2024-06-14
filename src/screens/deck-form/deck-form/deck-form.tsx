@@ -179,6 +179,26 @@ export const DeckForm = observer(() => {
                     },
                   }
                 : undefined,
+              userStore.canUpdateCatalogSettings
+                ? {
+                    text: "Catalog",
+                    icon: (
+                      <FilledIcon
+                        backgroundColor={theme.orange}
+                        icon={"mdi-view-list-outline"}
+                      />
+                    ),
+                    onClick: () => {
+                      const deckId = deckFormStore.deckForm?.id;
+                      assert(deckId, "Deck id should be defined");
+                      screenStore.go({
+                        type: "catalogSettings",
+                        itemType: "deck",
+                        id: deckId,
+                      });
+                    },
+                  }
+                : undefined,
             ].filter(boolNarrow)}
           />
         </div>

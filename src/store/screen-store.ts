@@ -22,6 +22,7 @@ type Route =
   | { type: "shareDeck"; deckId: number; shareId: string }
   | { type: "shareFolder"; folderId: number; shareId: string }
   | { type: "aiMassCreation"; deckId: number; deckTitle: string | null }
+  | { type: "catalogSettings"; id: number; itemType: "folder" | "deck" }
   | { type: "plans" }
   | { type: "debug" }
   | { type: "componentCatalog" }

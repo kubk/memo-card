@@ -19,6 +19,7 @@ import { enumValues } from "../../lib/typescript/enum-values.ts";
 import { Screen } from "../shared/screen.tsx";
 import { Flex } from "../../ui/flex.tsx";
 import { languageFilterToNativeName } from "./translations.ts";
+import { LanguageCatalogItemAvailableIn } from "../../../shared/language/language-shared.ts";
 
 export const DeckCatalog = observer(() => {
   const store = useDeckCatalogStore();
@@ -61,10 +62,14 @@ export const DeckCatalog = observer(() => {
         <Select<DeckLanguage>
           value={store.filters.language.value}
           onChange={store.filters.language.onChange}
-          options={enumValues(DeckLanguage).map((key) => ({
-            value: key,
-            label: languageFilterToNativeName(key),
-          }))}
+          options={(
+            enumValues(LanguageCatalogItemAvailableIn) as DeckLanguage[]
+          )
+            .concat(["any"])
+            .map((key) => ({
+              value: key,
+              label: languageFilterToNativeName(key),
+            }))}
         />
       </Flex>
 

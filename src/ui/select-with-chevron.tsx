@@ -5,21 +5,21 @@ import { ChevronIcon } from "./chevron-icon.tsx";
 import { Select } from "./select.tsx";
 import { t } from "../translations/t.ts";
 
-type Option<T extends string | number> = {
+type OptionType = string | number;
+
+type Option<T extends OptionType> = {
   label: string;
   value: T;
 };
 
-type Props<T extends string | number> = {
-  value: string;
+type Props<T extends OptionType> = {
+  value: T;
   onChange: (newValue: T) => void;
   options: Option<T>[];
   isLoading?: boolean;
 };
 
-export const SelectWithChevron = <T extends string | number>(
-  props: Props<T>,
-) => {
+export const SelectWithChevron = <T extends OptionType>(props: Props<T>) => {
   const { isLoading } = props;
 
   const selectRef = useRef<HTMLSelectElement | null>(null);

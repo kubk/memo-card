@@ -18,6 +18,8 @@ import { useFolderFormStore } from "./store/folder-form-store-context.tsx";
 import { EmptyState } from "../../ui/empty-state.tsx";
 import { List } from "../../ui/list.tsx";
 import { ValidationError } from "../../ui/validation-error.tsx";
+import { userStore } from "../../store/user-store.ts";
+import { FilledIcon } from "../../ui/filled-icon.tsx";
 
 export const FolderForm = observer(() => {
   const folderStore = useFolderFormStore();
@@ -51,6 +53,34 @@ export const FolderForm = observer(() => {
       <Label text={t("description")}>
         <Input field={folderForm.description} rows={3} type={"textarea"} />
       </Label>
+
+      {userStore.canUpdateCatalogSettings && screen.folderId ? (
+        <Label text={t("advanced")} isPlain>
+          <List
+            items={[
+              {
+                text: "Catalog",
+                icon: (
+                  <FilledIcon
+                    backgroundColor={theme.orange}
+                    icon={"mdi-view-list-outline"}
+                  />
+                ),
+                onClick: () => {
+                  const folderId = screen.folderId;
+                  assert(folderId, "Folder id must be defined");
+                  screenStore.go({
+                    type: "catalogSettings",
+                    itemType: "folder",
+                    id: folderId,
+                  });
+                },
+              },
+            ]}
+          />
+        </Label>
+      ) : null}
+
       <Label text={t("decks")} isPlain>
         {folderForm.decks.value.length === 0 && (
           <div className={css({ marginBottom: 10 })}>

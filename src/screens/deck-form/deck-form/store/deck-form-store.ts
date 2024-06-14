@@ -171,13 +171,15 @@ const cardFormToApi = (
 export type CardFilterSortBy = "createdAt" | "frontAlpha" | "backAlpha";
 export type CardFilterDirection = "desc" | "asc";
 
+type DeckInnerScreen = "cardList" | "speakingCards" | "cardInputMode";
+
 export class DeckFormStore implements CardFormStoreInterface {
   cardFormIndex?: number;
   cardFormType?: "new" | "edit";
   deckForm?: DeckFormType;
   upsertDeckRequest = new RequestStore(upsertDeckRequest);
   cardInnerScreen = new TextField<CardInnerScreenType>(null);
-  deckInnerScreen?: "cardList" | "speakingCards" | "cardInputMode";
+  deckInnerScreen?: DeckInnerScreen;
   cardFilter = {
     text: new TextField(""),
     sortBy: new TextField<CardFilterSortBy>("createdAt"),
@@ -233,24 +235,18 @@ export class DeckFormStore implements CardFormStoreInterface {
   }
 
   goToSpeakingCards() {
-    if (!this.deckForm || !isFormValid(this.deckForm)) {
-      return;
-    }
-    this.deckInnerScreen = "speakingCards";
+    this.goInnerScreen("speakingCards");
   }
 
   goToCardList() {
-    if (!this.deckForm) {
-      return;
-    }
-    if (!isFormValid(this.deckForm)) {
-      formTouchAll(this.deckForm);
-      return;
-    }
-    this.deckInnerScreen = "cardList";
+    this.goInnerScreen("cardList");
   }
 
   goCardInputMode() {
+    this.goInnerScreen("cardInputMode");
+  }
+
+  private goInnerScreen(innerScreen: DeckInnerScreen) {
     if (!this.deckForm) {
       return;
     }
@@ -258,7 +254,7 @@ export class DeckFormStore implements CardFormStoreInterface {
       formTouchAll(this.deckForm);
       return;
     }
-    this.deckInnerScreen = "cardInputMode";
+    this.deckInnerScreen = innerScreen;
   }
 
   quitInnerScreen() {

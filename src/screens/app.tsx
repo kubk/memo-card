@@ -15,10 +15,10 @@ import {
   useRestoreFullScreenExpand,
 } from "../lib/platform/telegram/prevent-telegram-swipe-down-closing.tsx";
 import { RepeatAllScreen } from "./deck-review/repeat-all-screen.tsx";
-import { DeckCatalog } from "./deck-catalog/deck-catalog.tsx";
+import { DeckCatalog } from "./catalog/deck-catalog.tsx";
 import { DeckOrFolderChoose } from "./deck-or-folder-choose/deck-or-folder-choose.tsx";
 import { FolderForm } from "./folder-form/folder-form.tsx";
-import { DeckCatalogStoreContextProvider } from "./deck-catalog/store/deck-catalog-store-context.tsx";
+import { DeckCatalogStoreContextProvider } from "./catalog/store/deck-catalog-store-context.tsx";
 import { FolderFormStoreProvider } from "./folder-form/store/folder-form-store-context.tsx";
 import { FolderScreen } from "./folder-review/folder-screen.tsx";
 import { useSettingsButton } from "../lib/platform/telegram/use-settings-button.ts";
@@ -43,6 +43,7 @@ import { BrowserMainButton } from "./shared/browser-platform/browser-main-button
 import { css } from "@emotion/css";
 import { platform } from "../lib/platform/platform.ts";
 import { BrowserPlatform } from "../lib/platform/browser/browser-platform.ts";
+import { CatalogSettingsScreenLazy } from "./catalog-settings/catalog-settings-screen-lazy.tsx";
 
 export const App = observer(() => {
   useRestoreFullScreenExpand();
@@ -180,6 +181,11 @@ export const App = observer(() => {
           <AiMassCreationStoreProvider>
             <AiMassCreationScreen />
           </AiMassCreationStoreProvider>
+        </PreventTelegramSwipeDownClosingIos>
+      )}
+      {screenStore.screen.type === "catalogSettings" && (
+        <PreventTelegramSwipeDownClosingIos>
+          <CatalogSettingsScreenLazy />
         </PreventTelegramSwipeDownClosingIos>
       )}
       <BrowserMainButton />
