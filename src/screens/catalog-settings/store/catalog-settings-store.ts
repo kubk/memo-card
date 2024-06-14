@@ -15,7 +15,7 @@ import { LanguageCatalogItemAvailableIn } from "../../../../shared/language/lang
 import { createCachedCategoriesRequest } from "../../../api/create-cached-categories-request.ts";
 import { screenStore } from "../../../store/screen-store.ts";
 import { assert } from "../../../lib/typescript/assert.ts";
-import { notifySuccess } from "../../shared/snackbar/snackbar.tsx";
+import { notifyError, notifySuccess } from "../../shared/snackbar/snackbar.tsx";
 
 export type CatalogSettingsForm = {
   isPublic: BooleanField;
@@ -48,7 +48,7 @@ export class CatalogSettingsStore {
       id: screen.id,
     });
     if (result.status === "error") {
-      console.log(result.error);
+      notifyError({ e: result.error, info: "Failed to load catalog item setting" });
       return;
     }
 
@@ -86,6 +86,7 @@ export class CatalogSettingsStore {
     });
 
     if (result.status === "error") {
+      notifyError({ e: result.error, info: "Failed to update catalog item setting" });
       return;
     }
 
