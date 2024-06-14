@@ -21,7 +21,7 @@ export const languageCatalogItemAvailableInToNative = (
     case LanguageCatalogItemAvailableIn.Uk:
       return "Українська";
     case LanguageCatalogItemAvailableIn.PtBr:
-      return "Português (Brasil)";
+      return "Português";
     default:
       return type;
   }
