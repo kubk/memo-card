@@ -37,6 +37,7 @@
     "@emotion/css": "^11.11.2",
     "@mdi/font": "^5.9.55",
     "@supabase/supabase-js": "^2.38.0",
+    "@telegram-auth/react": "^1.0.3",
     "@twa-dev/sdk": "^7.0.0",
     "autosize": "^6.0.1",
     "canvas-confetti": "^1.9.2",
