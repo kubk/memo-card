@@ -28,6 +28,7 @@ type Route =
   | { type: "componentCatalog" }
   | { type: "freezeCards" }
   | { type: "userStatistics" }
+  | { type: "tgLoginWidget" }
   | { type: "userSettings" };
 
 export class ScreenStore {

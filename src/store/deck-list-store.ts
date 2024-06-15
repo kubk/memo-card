@@ -622,6 +622,9 @@ export class DeckListStore {
       .then(() => myInfoRequest())
       .then(
         action((result) => {
+          if (!result) {
+            return;
+          }
           this.myInfo = result;
           screenStore.go({ type: "main" });
         }),
@@ -649,6 +652,9 @@ export class DeckListStore {
       .then(() => myInfoRequest())
       .then(
         action((result) => {
+          if (!result) {
+            return;
+          }
           this.myInfo = result;
           screenStore.go({ type: "main" });
         }),
@@ -682,10 +688,14 @@ export class DeckListStore {
     if (result.status === "error") {
       return;
     }
+    const userData = result.data;
+    if (!userData) {
+      return;
+    }
     runInAction(() => {
-      this.myInfo = result.data;
+      this.myInfo = userData;
     });
-    userStore.setUser(result.data.user, result.data.plans);
+    userStore.setUser(userData.user, userData.plans);
   }
 
   async onDuplicateDeck(deckId: number) {

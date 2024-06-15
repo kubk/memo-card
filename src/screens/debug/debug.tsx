@@ -7,5 +7,5 @@ export const Debug = observer(() => {
     screenStore.back();
   });
 
-  return <div>Debug page</div>;
+  return <div>Debug</div>;
 });

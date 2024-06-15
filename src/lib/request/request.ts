@@ -2,6 +2,8 @@ import { trimEnd, trimStart } from "../string/trim.ts";
 import { platform } from "../platform/platform.ts";
 import { collectClientData } from "./collect-client-data.ts";
 import { UserHeaders } from "../../../functions/services/get-telegram-user.ts";
+import { BrowserPlatform } from "../platform/browser/browser-platform.ts";
+import { screenStore } from "../../store/screen-store.ts";
 
 const baseUrl = import.meta.env.VITE_API_URL || "";
 
@@ -13,13 +15,27 @@ const requestInner = async <Output, Input = object>(
   const endpoint = `${trimEnd(baseUrl, "/")}/${trimStart(path, "/")}`;
   const bodyAsString = body ? JSON.stringify(body) : undefined;
 
+  const initData = platform.getInitData();
+
+  if (initData === null) {
+    if (screenStore.screen.type !== "tgLoginWidget") {
+      screenStore.go({ type: "tgLoginWidget" });
+    }
+    return null as Output;
+  }
+
+  const headers: Record<any, any> = {
+    [UserHeaders.Hash]: initData,
+    [UserHeaders.Platform]: collectClientData(),
+  };
+  if (platform instanceof BrowserPlatform && !import.meta.env.VITE_USER_QUERY) {
+    headers[UserHeaders.TelegramLogin] = "1";
+  }
+
   const response = await fetch(endpoint, {
     method,
     body: bodyAsString,
-    headers: {
-      [UserHeaders.Hash]: platform.getInitData(),
-      [UserHeaders.Platform]: collectClientData(),
-    },
+    headers: headers,
   });
   if (response.status === 200) {
     return response.json() as Output;

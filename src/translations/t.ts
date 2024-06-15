@@ -2,6 +2,7 @@ import { Translator } from "../lib/translator/translator.ts";
 import { platform } from "../lib/platform/platform.ts";
 
 const en = {
+  login: 'Login',
   card_input_mode_changed: "Card input mode has been changed",
   card_input_mode_manual: "Manual input",
   card_input_mode_type: "If you type",
@@ -271,6 +272,7 @@ const en = {
 type Translation = typeof en;
 
 const ru: Translation = {
+  login: 'Войти',
   youtube_channel: "YouTube канал",
   card_input_mode_changed: "Режим ввода карточки изменен",
   card_input_mode_manual: "Ручной ввод",
@@ -536,6 +538,7 @@ const ru: Translation = {
 };
 
 const es: Translation = {
+  login: 'Iniciar sesión',
   youtube_channel: "Canal de YouTube",
   card_input_mode_changed: "Modo de entrada de tarjeta cambiado",
   card_input_mode_type: "Si escribes",
@@ -804,6 +807,7 @@ const es: Translation = {
 };
 
 const ptBr: Translation = {
+  login: 'Entrar',
   youtube_channel: "Canal do YouTube",
   card_input_mode_changed: "Modo de entrada de cartão alterado",
   card_input_mode_type: "Se você digitar",

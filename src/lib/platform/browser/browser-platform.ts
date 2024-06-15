@@ -1,6 +1,5 @@
 import { Platform, PlatformTheme } from "../platform.ts";
 import { action, makeAutoObservable } from "mobx";
-import { assert } from "../../typescript/assert.ts";
 import { BooleanToggle } from "mobx-form-lite";
 import { Language } from "../../../translations/t.ts";
 import { PlatformSchemaType } from "../../../../functions/db/user/upsert-user-db.ts";
@@ -23,6 +22,8 @@ const cssVariables = {
   "--tg-theme-link-color": "#2481cc",
   "--tg-viewport-stable-height": "100vh",
 };
+
+const telegramLoginWidgetDataKey = "tlg";
 
 export class BrowserPlatform implements Platform {
   maxWidth = 600;
@@ -113,10 +114,19 @@ export class BrowserPlatform implements Platform {
     return this.backButtonInfo !== undefined;
   }
 
-  getInitData(): string {
+  getInitData(): string | null {
     const userQuery = import.meta.env.VITE_USER_QUERY;
-    assert(typeof userQuery === "string", "VITE_USER_QUERY is not defined");
-    return userQuery;
+    if (userQuery) {
+      return userQuery;
+    }
+    const tlgLoginWidgetData = localStorage.getItem(telegramLoginWidgetDataKey);
+    return tlgLoginWidgetData || null;
+  }
+
+  // Telegram auth outside Telegram mini app
+  handleTelegramWidgetLogin(data: Record<any, any>) {
+    localStorage.setItem(telegramLoginWidgetDataKey, JSON.stringify(data));
+    window.location.reload();
   }
 
   initialize() {

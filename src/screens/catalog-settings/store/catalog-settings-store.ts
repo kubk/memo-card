@@ -48,7 +48,10 @@ export class CatalogSettingsStore {
       id: screen.id,
     });
     if (result.status === "error") {
-      notifyError({ e: result.error, info: "Failed to load catalog item setting" });
+      notifyError({
+        e: result.error,
+        info: "Failed to load catalog item setting",
+      });
       return;
     }
 
@@ -86,7 +89,10 @@ export class CatalogSettingsStore {
     });
 
     if (result.status === "error") {
-      notifyError({ e: result.error, info: "Failed to update catalog item setting" });
+      notifyError({
+        e: result.error,
+        info: "Failed to update catalog item setting",
+      });
       return;
     }
 

@@ -12,7 +12,7 @@ export type PlatformTheme = {
 
 export interface Platform {
   initialize(): void;
-  getInitData(): string;
+  getInitData(): string | null;
   openExternalLink(link: string): void;
   openInternalLink(link: string): void;
   getTheme(): PlatformTheme;

@@ -31,7 +31,6 @@ import {
   ShareFolderScreenLazy,
 } from "./share-deck/share-deck-screen-lazy.tsx";
 import { PlansScreen } from "./plans/plans-screen.tsx";
-import { isRunningWithinTelegram } from "../lib/platform/is-running-within-telegram.ts";
 import { FreezeCardsScreenLazy } from "./freeze-cards/freeze-cards-screen-lazy.tsx";
 import { AiMassCreationScreen } from "./ai-mass-creation/ai-mass-creation-screen.tsx";
 import { AiMassCreationStoreProvider } from "./ai-mass-creation/store/ai-mass-creation-store-provider.tsx";
@@ -44,13 +43,10 @@ import { css } from "@emotion/css";
 import { platform } from "../lib/platform/platform.ts";
 import { BrowserPlatform } from "../lib/platform/browser/browser-platform.ts";
 import { CatalogSettingsScreenLazy } from "./catalog-settings/catalog-settings-screen-lazy.tsx";
+import { TelegramWidgetLoginScreen } from "./telegram-widget-login/telegram-widget-login-screen.tsx";
 
 export const App = observer(() => {
   useRestoreFullScreenExpand();
-
-  if (import.meta.env.PROD && !isRunningWithinTelegram()) {
-    return <div>This app can only be run within Telegram.</div>;
-  }
 
   useSettingsButton(() => {
     if (screenStore.screen.type === "userSettings") {
@@ -187,6 +183,9 @@ export const App = observer(() => {
         <PreventTelegramSwipeDownClosingIos>
           <CatalogSettingsScreenLazy />
         </PreventTelegramSwipeDownClosingIos>
+      )}
+      {screenStore.screen.type === "tgLoginWidget" && (
+        <TelegramWidgetLoginScreen />
       )}
       <BrowserMainButton />
     </div>
