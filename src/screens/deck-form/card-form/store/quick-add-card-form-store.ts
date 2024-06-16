@@ -77,7 +77,13 @@ export class QuickAddCardFormStore implements CardFormStoreInterface {
 
     const result = await this.addCardRequest.execute(body);
     if (result.status === "error") {
-      notifyError({ e: result.error, info: "Error adding quick card" });
+      notifyError({
+        e: result.error,
+        info: JSON.stringify({
+          body,
+          title: "Error adding quick card",
+        }),
+      });
       return;
     }
 
