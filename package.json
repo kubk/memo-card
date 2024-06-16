@@ -20,6 +20,7 @@
     "prod:api:logs": "npx wrangler pages deployment tail",
     "dev:botfather:description": "export $(cat .dev.vars) && node botfather/update.js",
     "bundle-visualize": "npx vite-bundle-visualizer",
+    "_prevent-push-to-main": "if [[ $(git symbolic-ref --short HEAD 2>/dev/null) == \"main\" ]]; then echo \"You are not allowed to push to main branch directly.\"; exit 1; fi",
     "export-public-code": "[[ $(git symbolic-ref --short HEAD 2>/dev/null) == \"main\" ]] && npm run __export-public-code || echo \"Current branch is not 'main'\"",
     "__export-public-code": "npx betterplace-gitexporter gitexporter.config.json && cd ../memocard-public && git checkout -b main && git remote add origin git@github.com:kubk/memo-card.git && git push",
     "generate-db-types": "docker info > /dev/null 2>&1 && export $(cat .dev.vars | grep -v '^#' | xargs) && npx supabase gen types typescript --db-url $DB_URL >./functions/db/databaseTypes.ts",
@@ -31,7 +32,8 @@
   },
   "pre-commit": [
     "lint",
-    "typecheck"
+    "typecheck",
+    "_prevent-push-to-main"
   ],
   "dependencies": {
     "@emotion/css": "^11.11.2",
