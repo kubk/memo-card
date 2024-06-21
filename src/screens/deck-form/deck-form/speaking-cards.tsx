@@ -18,6 +18,7 @@ import React from "react";
 import { useBackButton } from "../../../lib/platform/use-back-button.ts";
 import { useMainButton } from "../../../lib/platform/use-main-button.ts";
 import { useDeckFormStore } from "./store/deck-form-store-context.tsx";
+import { useProgress } from "../../../lib/platform/use-progress.tsx";
 
 export const SpeakingCards = observer(() => {
   const deckFormStore = useDeckFormStore();
@@ -27,12 +28,14 @@ export const SpeakingCards = observer(() => {
   }
 
   useBackButton(() => {
-    deckFormStore.quitInnerScreen();
+    deckFormStore.quitSpeakingCardsScreen();
   });
 
-  useMainButton(t("go_back"), () => {
-    deckFormStore.quitInnerScreen();
+  useMainButton(t("save"), () => {
+    deckFormStore.saveSpeakingCards();
   });
+
+  useProgress(() => deckFormStore.isSending);
 
   return (
     <Screen title={t("speaking_cards")}>

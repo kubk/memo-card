@@ -261,6 +261,26 @@ export class DeckFormStore implements CardFormStoreInterface {
     this.deckInnerScreen = undefined;
   }
 
+  async quitSpeakingCardsScreen() {
+    if (!this.deckForm) {
+      return;
+    }
+    if (!isFormDirty(this.deckForm)) {
+      this.quitInnerScreen();
+      return;
+    }
+    const isConfirmed = await showConfirm(t("quit_without_saving"));
+    if (isConfirmed) {
+      this.quitInnerScreen();
+    }
+  }
+
+  saveSpeakingCards() {
+    this.onDeckSave(() => {
+      this.quitInnerScreen()
+    })
+  }
+
   get filteredCards() {
     if (!this.deckForm) {
       return [];
