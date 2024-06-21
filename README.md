@@ -25,7 +25,7 @@ About: https://teletype.in/@alteregor/memocard-telegram-contest-win
 While there are free applications like Anki available, they come with platform limitations and feature gaps:
 - Anki doesn't offer a direct approach for users to privately share decks with friends or colleagues outside of its public shared decks feature. Moreover, sharing a deck demands a switch between the desktop and web versions of Anki. With the Memo Card bot, users can effortlessly share decks directly within Telegram.
 - For additional functionality in Anki, users must install plugins, which are limited only to the desktop version. In contrast, the Memo Card bot is accessible on Mac, Windows, iOS, Android, and web versions of Telegram.
-- Anki lacks automatic push notifications to alert users of upcoming reviews. It can be easily solved with Telegram push notifications
+- Anki lacks automatic push notifications to alert users of upcoming reviews. It is easy to solve with Telegram push notifications
 
 ## For Developers
 
