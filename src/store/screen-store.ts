@@ -51,6 +51,10 @@ export class ScreenStore {
     this.onceRoute = route;
   }
 
+  restoreHistory() {
+    this.history = [{ type: "main" }];
+  }
+
   back() {
     if (this.onceRoute) {
       this.onceRoute = undefined;

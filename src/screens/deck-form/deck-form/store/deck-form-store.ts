@@ -405,14 +405,21 @@ export class DeckFormStore implements CardFormStoreInterface {
   }
 
   onSaveCard() {
-    const isEdit = this.cardForm?.id;
+    const isEditCard = this.cardForm?.id;
+    const isNewDeck = !this.deckForm?.id;
     this.onDeckSave(
       action(() => {
-        if (isEdit) {
+        if (isEditCard) {
           return;
+        } else {
+          this.cardFormIndex = undefined;
+          this.cardFormType = undefined;
         }
-        this.cardFormIndex = undefined;
-        this.cardFormType = undefined;
+
+        if (isNewDeck && this.deckForm?.id) {
+          screenStore.restoreHistory();
+          screenStore.go({ type: 'deckForm', deckId: this.deckForm.id })
+        }
       }),
     );
   }
