@@ -51,6 +51,7 @@ export class ScreenStore {
     this.onceRoute = route;
   }
 
+  // TODO: Remove this when we have a proper navigation
   restoreHistory() {
     this.history = [{ type: "main" }];
   }

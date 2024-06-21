@@ -9,6 +9,7 @@ import { t } from "../../../translations/t.ts";
 import { DeckFormStore } from "../../deck-form/deck-form/store/deck-form-store.ts";
 import { createCachedCardInputModesRequest } from "../../../api/create-cached-card-input-modes-request.ts";
 import { CardInputModeDb } from "../../../../functions/db/card-input-mode/schema.ts";
+import { screenStore } from "../../../store/screen-store.ts";
 
 export class CardInputModeStore {
   cardInputModesRequest = createCachedCardInputModesRequest();
@@ -53,6 +54,9 @@ export class CardInputModeStore {
     deckListStore.updateDeckCardInputMode(deckId, this.modeId.value);
     notifySuccess(t("card_input_mode_changed"));
     this.deckFormStore.quitInnerScreen();
+
+    screenStore.restoreHistory();
+    screenStore.go({ type: 'deckForm', deckId });
   }
 
   get viewMode(): CardInputModeDb | null {
