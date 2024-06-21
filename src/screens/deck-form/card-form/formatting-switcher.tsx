@@ -10,6 +10,7 @@ import React from "react";
 export const FormattingSwitcher = observer(() => {
   return (
     <button
+      tabIndex={-1}
       onClick={() => {
         userStore.isCardFormattingOn.toggle();
       }}

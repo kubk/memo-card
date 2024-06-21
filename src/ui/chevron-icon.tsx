@@ -25,6 +25,7 @@ export const ChevronIcon = (props: Props) => {
   return (
     <LazyLoadFramerMotion>
       <m.svg
+        tabIndex={-1}
         width="16"
         height="16"
         viewBox="0 0 16 16"
