@@ -21,7 +21,7 @@ export const TelegramWidgetLoginScreen = observer(() => {
         alignItems: "center",
         flexDirection: "column",
         gap: 12,
-        padding: '0 24px',
+        padding: "0 24px",
       })}
     >
       <h2>{t("login")}</h2>

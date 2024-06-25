@@ -277,8 +277,8 @@ export class DeckFormStore implements CardFormStoreInterface {
 
   saveSpeakingCards() {
     this.onDeckSave(() => {
-      this.quitInnerScreen()
-    })
+      this.quitInnerScreen();
+    });
   }
 
   get filteredCards() {
@@ -418,7 +418,7 @@ export class DeckFormStore implements CardFormStoreInterface {
 
         if (isNewDeck && this.deckForm?.id) {
           screenStore.restoreHistory();
-          screenStore.go({ type: 'deckForm', deckId: this.deckForm.id })
+          screenStore.go({ type: "deckForm", deckId: this.deckForm.id });
         }
       }),
     );

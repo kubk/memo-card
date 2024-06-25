@@ -1,6 +1,7 @@
 import React, { ReactNode } from "react";
 import { observer } from "mobx-react-lite";
 import { css } from "@emotion/css";
+import { BrowserBackButton } from "./browser-platform/browser-back-button.tsx";
 
 type Props = {
   children: ReactNode;
@@ -10,6 +11,7 @@ type Props = {
 
 export const Screen = observer((props: Props) => {
   const { children, title, subtitle } = props;
+
   return (
     <div
       className={css({
@@ -21,6 +23,15 @@ export const Screen = observer((props: Props) => {
       })}
     >
       <div>
+        <div
+          className={css({
+            position: "absolute",
+            top: -4,
+            left: 0,
+          })}
+        >
+          <BrowserBackButton />
+        </div>
         <h3 className={css({ textAlign: "center" })}>{title}</h3>
         {subtitle}
       </div>

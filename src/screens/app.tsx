@@ -37,7 +37,6 @@ import { AiMassCreationStoreProvider } from "./ai-mass-creation/store/ai-mass-cr
 
 import { SnackbarProviderWrapper } from "./shared/snackbar/snackbar-provider-wrapper.tsx";
 import { Debug } from "./debug/debug.tsx";
-import { BrowserHeader } from "./shared/browser-platform/browser-header.tsx";
 import { BrowserMainButton } from "./shared/browser-platform/browser-main-button.tsx";
 import { css } from "@emotion/css";
 import { platform } from "../lib/platform/platform.ts";
@@ -72,7 +71,6 @@ export const App = observer(() => {
           : undefined
       }
     >
-      <BrowserHeader />
       <VersionWarning />
       <SnackbarProviderWrapper />
       {screenStore.screen.type === "main" && (

@@ -19,6 +19,7 @@ import { useScrollToTopOnMount } from "../../lib/react/use-scroll-to-top-mount.t
 import { userStore } from "../../store/user-store.ts";
 import { redirectUserToDeckOrFolderLink } from "../share-deck/redirect-user-to-deck-or-folder-link.tsx";
 import { Flex } from "../../ui/flex.tsx";
+import { BrowserBackButton } from "../shared/browser-platform/browser-back-button.tsx";
 
 export const DeckPreview = observer(() => {
   const reviewStore = useReviewStore();
@@ -62,6 +63,9 @@ export const DeckPreview = observer(() => {
             textAlign: "center",
           })}
         >
+          <div className={css({ position: "absolute", left: 0, top: 6 })}>
+            <BrowserBackButton />
+          </div>
           <h3
             className={css({
               paddingTop: 12,

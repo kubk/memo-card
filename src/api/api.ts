@@ -94,7 +94,7 @@ export const healthRequest = () => {
 };
 
 export const myInfoRequest = () => {
-  return request<MyInfoResponse|null>("/my-info");
+  return request<MyInfoResponse | null>("/my-info");
 };
 
 export const getSharedDeckRequest = (shareId?: string) => {

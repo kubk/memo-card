@@ -6,7 +6,7 @@ import { BrowserPlatform } from "../../../lib/platform/browser/browser-platform.
 import { assert } from "../../../lib/typescript/assert.ts";
 import { theme } from "../../../ui/theme.tsx";
 
-export const BrowserHeader = observer(() => {
+export const BrowserBackButton = observer(() => {
   if (!(platform instanceof BrowserPlatform)) {
     return null;
   }
@@ -16,8 +16,6 @@ export const BrowserHeader = observer(() => {
       className={css({
         display: "flex",
         justifyContent: "space-between",
-        padding: 8,
-        paddingTop: 12,
       })}
     >
       {platform.isBackButtonVisible ? (

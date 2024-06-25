@@ -21,6 +21,7 @@ import { userStore } from "../../store/user-store.ts";
 import { Flex } from "../../ui/flex.tsx";
 import { List } from "../../ui/list.tsx";
 import { CardsToReview } from "../../ui/cards-to-review.tsx";
+import { BrowserBackButton } from "../shared/browser-platform/browser-back-button.tsx";
 
 export const FolderPreview = observer(() => {
   const reviewStore = useReviewStore();
@@ -64,6 +65,9 @@ export const FolderPreview = observer(() => {
             textAlign: "center",
           })}
         >
+          <div className={css({ position: "absolute", left: 0, top: 6 })}>
+            <BrowserBackButton />
+          </div>
           <h3
             className={css({
               paddingTop: 12,

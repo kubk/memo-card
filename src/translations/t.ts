@@ -2,7 +2,7 @@ import { Translator } from "../lib/translator/translator.ts";
 import { platform } from "../lib/platform/platform.ts";
 
 const en = {
-  login: 'Login',
+  login: "Login",
   card_input_mode_changed: "Card input mode has been changed",
   card_input_mode_manual: "Manual input",
   card_input_mode_type: "If you type",
@@ -163,7 +163,7 @@ const en = {
   share_access_duration_no_limit: "No limit",
   share_deck_access_created_at: "Created at",
   share_no_links: "You haven't created any one-time links for this deck",
-  settings_contact_support: "Contact support",
+  settings_contact_support: "Contact support in Telegram",
   settings_support_hint: "If you have any issues, questions or suggestions",
   payment_description: "Unlock more features ",
   payment_choose_duration: "Choose duration",
@@ -272,7 +272,7 @@ const en = {
 type Translation = typeof en;
 
 const ru: Translation = {
-  login: 'Войти',
+  login: "Войти",
   youtube_channel: "YouTube канал",
   card_input_mode_changed: "Режим ввода карточки изменен",
   card_input_mode_manual: "Ручной ввод",
@@ -471,7 +471,7 @@ const ru: Translation = {
   share_perpetual_link: "Поделиться постоянной ссылкой",
   share_unused: "Не использована",
   go_back: "Назад",
-  settings_contact_support: "Связаться с поддержкой",
+  settings_contact_support: "Связаться с поддержкой в Telegram",
   settings_support_hint: "Если у вас есть вопросы, проблемы или предложения",
   delete_folder_confirm: "Удалить папку?",
   user_stats_btn: "Статистика",
@@ -538,7 +538,7 @@ const ru: Translation = {
 };
 
 const es: Translation = {
-  login: 'Iniciar sesión',
+  login: "Iniciar sesión",
   youtube_channel: "Canal de YouTube",
   card_input_mode_changed: "Modo de entrada de tarjeta cambiado",
   card_input_mode_type: "Si escribes",
@@ -742,7 +742,7 @@ const es: Translation = {
   share_one_time_access_link: "Enlace de acceso de un solo uso",
   share_access_duration_days: "Duración del acceso en días",
   settings_support_hint: "Si tienes algún problema, pregunta o sugerencia",
-  settings_contact_support: "Contactar con soporte",
+  settings_contact_support: "Contactar con soporte en Telegram",
   share_deck_settings: "Compartir un mazo",
   share_perpetual_link: "Compartir enlace perpetuo",
   go_back: "Volver",
@@ -807,7 +807,7 @@ const es: Translation = {
 };
 
 const ptBr: Translation = {
-  login: 'Entrar',
+  login: "Entrar",
   youtube_channel: "Canal do YouTube",
   card_input_mode_changed: "Modo de entrada de cartão alterado",
   card_input_mode_type: "Se você digitar",
@@ -1008,7 +1008,7 @@ const ptBr: Translation = {
   share_days: "Dias",
   share_deck_access_created_at: "Criado em",
   share_one_time_links_usage: "Enlaces descartáveis",
-  settings_contact_support: "Contatar suporte",
+  settings_contact_support: "Contatar suporte no Telegram",
   settings_support_hint: "Se você tiver algum problema, dúvida ou sugestão",
   share_no_links:
     "Você ainda não criou nenhum link de acesso único para este baralho",

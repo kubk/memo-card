@@ -20,6 +20,9 @@ import { List } from "../../ui/list.tsx";
 import { FilledIcon } from "../../ui/filled-icon.tsx";
 import { boolNarrow } from "../../lib/typescript/bool-narrow.ts";
 import { platform } from "../../lib/platform/platform.ts";
+import { BrowserPlatform } from "../../lib/platform/browser/browser-platform.ts";
+import { userStore } from "../../store/user-store.ts";
+import { formatPaidUntil } from "../plans/format-paid-until.tsx";
 
 export const timeRanges = generateTimeRange();
 
@@ -45,6 +48,35 @@ export const UserSettingsScreen = observer(() => {
 
   return (
     <Screen title={t("settings")}>
+      <div>
+        <List
+          items={[
+            {
+              icon: (
+                <FilledIcon
+                  backgroundColor={theme.icons.sea}
+                  icon={"mdi-star"}
+                />
+              ),
+              text: "Pro",
+              onClick: () => {
+                screenStore.go({ type: "plans" });
+              },
+            },
+          ]}
+        />
+
+        <HintTransparent>
+          {userStore.paidUntil ? (
+            <span>
+              {t("payment_paid_until")}: {formatPaidUntil(userStore.paidUntil)}
+            </span>
+          ) : (
+            t("payment_description")
+          )}
+        </HintTransparent>
+      </div>
+
       <div>
         <List
           items={[
@@ -162,27 +194,6 @@ export const UserSettingsScreen = observer(() => {
             {
               icon: (
                 <FilledIcon
-                  backgroundColor={theme.icons.sea}
-                  icon={"mdi-star"}
-                />
-              ),
-              text: "Pro",
-              onClick: () => {
-                screenStore.go({ type: "plans" });
-              },
-            },
-          ]}
-        />
-
-        <HintTransparent>{t("payment_description")}</HintTransparent>
-      </div>
-
-      <div>
-        <List
-          items={[
-            {
-              icon: (
-                <FilledIcon
                   backgroundColor={theme.icons.green}
                   icon={"mdi-face-agent"}
                 />
@@ -193,7 +204,24 @@ export const UserSettingsScreen = observer(() => {
               },
               isLinkColor: true,
             },
-          ]}
+            platform instanceof BrowserPlatform
+              ? {
+                  icon: (
+                    <FilledIcon
+                      backgroundColor={theme.orange}
+                      icon={"mdi-email-edit"}
+                    />
+                  ),
+                  text: (
+                    <span>
+                      <a href={`mailto:${links.supportEmail}`}>
+                        {links.supportEmail}
+                      </a>
+                    </span>
+                  ),
+                }
+              : undefined,
+          ].filter(boolNarrow)}
         />
 
         <HintTransparent>{t("settings_support_hint")}</HintTransparent>
