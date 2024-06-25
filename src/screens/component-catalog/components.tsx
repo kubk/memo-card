@@ -20,6 +20,10 @@ export const components: Array<Component> = [
     component: <Button>Button</Button>,
   },
   {
+    name: "Button - disabled",
+    component: <Button disabled>Button</Button>,
+  },
+  {
     name: "Button - outline",
     component: <Button outline>Button</Button>,
   },

@@ -41,7 +41,6 @@ export const BrowserMainButton = observer(() => {
       <Button
         disabled={platform.isMainButtonLoading.value}
         onClick={mainButtonInfo.onClick}
-        mainColor={theme.buttonColor}
       >
         {platform.isMainButtonLoading.value
           ? t("ui_loading")
