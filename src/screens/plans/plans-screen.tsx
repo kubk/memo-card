@@ -26,11 +26,11 @@ import { Tag } from "./tag.tsx";
 import { Label } from "../../ui/label.tsx";
 import { List } from "../../ui/list.tsx";
 import { FilledIcon } from "../../ui/filled-icon.tsx";
-import { assert } from "../../lib/typescript/assert.ts";
 import { translateProDuration } from "../../../shared/pro/translate-plan-duration.ts";
 import { formatStarsPrice } from "../../../shared/pro/format-price.ts";
 import { translateProDescription } from "../../../shared/pro/translate-pro-description.ts";
 import { formatDiscount } from "../../../shared/pro/format-discount.ts";
+import { assert } from "../../../shared/typescript/assert.ts";
 
 const planItems: Array<{
   iconText: string;

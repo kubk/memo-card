@@ -1,6 +1,5 @@
 import { makeAutoObservable } from "mobx";
 import { type UserDbType } from "../../functions/db/user/upsert-user-db.ts";
-import { assert } from "../lib/typescript/assert.ts";
 import { type PlansForUser } from "../../functions/db/plan/get-active-plans-for-user.ts";
 import { BooleanToggle } from "mobx-form-lite";
 import { persistableField } from "../lib/mobx-form-lite-persistable/persistable-field.ts";
@@ -10,6 +9,7 @@ import { RequestStore } from "../lib/mobx-request/request-store.ts";
 import { activePlanesRequest } from "../api/api.ts";
 import { reportHandledError } from "../lib/rollbar/rollbar.tsx";
 import { formatPaidUntil } from "../screens/plans/format-paid-until.tsx";
+import { assert } from "../../shared/typescript/assert.ts";
 
 export class UserStore {
   userInfo?: UserDbType;

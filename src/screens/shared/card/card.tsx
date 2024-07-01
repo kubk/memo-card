@@ -6,13 +6,13 @@ import { CardUnderReviewStore } from "../../deck-review/store/card-under-review-
 import { HorizontalDivider } from "../../../ui/horizontal-divider.tsx";
 import { CardSpeaker } from "./card-speaker.tsx";
 import { CardFieldView } from "./card-field-view.tsx";
-import { assert } from "../../../lib/typescript/assert.ts";
 import { useIsOverflowing } from "../../../lib/react/use-is-overflowing.ts";
 import { Dropdown } from "../../../ui/dropdown.tsx";
 import { t } from "../../../translations/t.ts";
 import { boolNarrow } from "../../../lib/typescript/bool-narrow.ts";
 import { userStore } from "../../../store/user-store.ts";
 import { hapticSelection } from "../../../lib/platform/telegram/haptics.ts";
+import { assert } from "../../../../shared/typescript/assert.ts";
 
 export const cardSize = 310;
 export const IDK_ID = "idk";

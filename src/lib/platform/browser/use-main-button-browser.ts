@@ -1,8 +1,8 @@
 import { platform, UseMainButtonType } from "../platform.ts";
 import { useMount } from "../../react/use-mount.ts";
-import { assert } from "../../typescript/assert.ts";
 import { BrowserPlatform } from "./browser-platform.ts";
 import { action, autorun, runInAction } from "mobx";
+import { assert } from "../../../../shared/typescript/assert.ts";
 
 export const useMainButtonBrowser: UseMainButtonType = (
   text,

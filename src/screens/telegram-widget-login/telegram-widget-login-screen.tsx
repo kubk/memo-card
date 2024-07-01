@@ -2,11 +2,11 @@ import { observer } from "mobx-react-lite";
 import { LoginButton } from "@telegram-auth/react";
 import { platform } from "../../lib/platform/platform.ts";
 import { BrowserPlatform } from "../../lib/platform/browser/browser-platform.ts";
-import { assert } from "../../lib/typescript/assert.ts";
 import React from "react";
 import { css } from "@emotion/css";
 import { theme } from "../../ui/theme.tsx";
 import { t } from "../../translations/t.ts";
+import { assert } from "../../../shared/typescript/assert.ts";
 
 const BOT_NAME = import.meta.env.VITE_BOT_NAME;
 assert(BOT_NAME, "VITE_BOT_NAME is not set");

@@ -24,4 +24,7 @@ test("Translator - allows to set and retrieve current lang", () => {
 
   expect(ts.getLang()).toEqual("ru");
   expect(ts.translate("hello")).toBe("Привет");
+
+  expect(ts.isSupported("en")).toBe(true);
+  expect(ts.isSupported("asdf")).toBe(false);
 });

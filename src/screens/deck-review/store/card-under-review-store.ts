@@ -6,7 +6,6 @@ import {
 } from "../../../../functions/db/deck/decks-with-cards-schema.ts";
 import { DeckWithCardsWithReviewType } from "../../../store/deck-list-store.ts";
 import { CardAnswerType } from "../../../../functions/db/custom-types.ts";
-import { assert } from "../../../lib/typescript/assert.ts";
 import { userStore } from "../../../store/user-store.ts";
 import { BooleanToggle } from "mobx-form-lite";
 import { CardReviewType } from "../../../../functions/db/deck/get-cards-to-review-db.ts";
@@ -15,6 +14,7 @@ import {
   createVoicePlayer,
   VoicePlayer,
 } from "../voice-player/create-voice-player.ts";
+import { assert } from "../../../../shared/typescript/assert.ts";
 
 export enum CardState {
   Remember = "remember",

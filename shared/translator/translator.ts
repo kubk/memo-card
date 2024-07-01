@@ -24,4 +24,8 @@ export class Translator<
   translate(key: keyof Translation, defaultValue?: string): string {
     return this.storage[this.lang][key] ?? defaultValue;
   }
+
+  isSupported(lang: string): lang is Language {
+    return lang in this.storage;
+  }
 }

@@ -1,8 +1,8 @@
 import { useMount } from "../../react/use-mount.ts";
 import { autorun, runInAction } from "mobx";
 import { platform } from "../platform.ts";
-import { assert } from "../../typescript/assert.ts";
 import { BrowserPlatform } from "./browser-platform.ts";
+import { assert } from "../../../../shared/typescript/assert.ts";
 
 export const useProgressBrowser = (cb: () => boolean) => {
   useMount(() => {

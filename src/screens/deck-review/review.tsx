@@ -10,7 +10,6 @@ import { useHotkeys } from "react-hotkeys-hook";
 import { ReviewDeckName } from "./review-deck-name.tsx";
 import { CardReviewWithControls } from "./card-review-with-controls.tsx";
 import { createPortal } from "react-dom";
-import { throttle } from "../../lib/throttle/throttle.ts";
 
 export const Review = observer(() => {
   const reviewStore = useReviewStore();
@@ -18,13 +17,13 @@ export const Review = observer(() => {
     reviewStore.submitUnfinished();
   });
 
-  const onWrong = throttle(() => {
+  const onWrong = () => {
     reviewStore.changeState(CardState.Forget);
-  }, 10);
+  };
 
-  const onCorrect = throttle(() => {
+  const onCorrect = () => {
     reviewStore.changeState(CardState.Remember);
-  }, 10);
+  };
 
   useHotkeys("1", () => {
     if (reviewStore.currentCard?.isOpened) {

@@ -2,12 +2,12 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { CardFormType, DeckFormStore } from "./deck-form-store.ts";
 import { DeckCardDbType } from "../../../../../functions/db/deck/decks-with-cards-schema.ts";
 import { type DeckWithCardsWithReviewType } from "../../../../store/deck-list-store.ts";
-import { assert } from "../../../../lib/typescript/assert.ts";
 import {
   UpsertDeckRequest,
   UpsertDeckResponse,
 } from "../../../../../functions/upsert-deck.ts";
 import { isFormValid } from "mobx-form-lite";
+import { assert } from "../../../../../shared/typescript/assert.ts";
 
 const mapUpsertDeckRequestToResponse = (
   input: UpsertDeckRequest,

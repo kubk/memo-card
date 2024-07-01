@@ -1,6 +1,5 @@
 import { CardState, CardUnderReviewStore } from "./card-under-review-store.ts";
 import { makeAutoObservable, runInAction } from "mobx";
-import { assert } from "../../../lib/typescript/assert.ts";
 import { reviewCardsRequest } from "../../../api/api.ts";
 import { ReviewOutcome } from "../../../../functions/services/review-card.ts";
 import { screenStore } from "../../../store/screen-store.ts";
@@ -14,6 +13,7 @@ import { t } from "../../../translations/t.ts";
 import { RequestStore } from "../../../lib/mobx-request/request-store.ts";
 import { notifyError } from "../../shared/snackbar/snackbar.tsx";
 import { reportHandledError } from "../../../lib/rollbar/rollbar.tsx";
+import { assert } from "../../../../shared/typescript/assert.ts";
 
 // Don't wait until the user has finished reviewing all the cards to send the progress
 const cardProgressSend = 3;

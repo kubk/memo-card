@@ -5,7 +5,6 @@ import {
   isFormValid,
   TextField,
 } from "mobx-form-lite";
-import { assert } from "../../../lib/typescript/assert.ts";
 import { DateTime } from "luxon";
 import { formatTime } from "../generate-time-range.tsx";
 import { userSettingsRequest } from "../../../api/api.ts";
@@ -14,6 +13,7 @@ import { userStore } from "../../../store/user-store.ts";
 import { RequestStore } from "../../../lib/mobx-request/request-store.ts";
 import { notifyError, notifySuccess } from "../../shared/snackbar/snackbar.tsx";
 import { t } from "../../../translations/t.ts";
+import { assert } from "../../../../shared/typescript/assert.ts";
 
 const DEFAULT_TIME = "12:00";
 

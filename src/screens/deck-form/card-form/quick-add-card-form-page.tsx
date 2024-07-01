@@ -4,8 +4,8 @@ import { QuickAddCardFormStore } from "./store/quick-add-card-form-store.ts";
 import { CardFormWrapper } from "./card-form-wrapper.tsx";
 import { deckListStore } from "../../../store/deck-list-store.ts";
 import { screenStore } from "../../../store/screen-store.ts";
-import { assert } from "../../../lib/typescript/assert.ts";
 import { TextField } from "mobx-form-lite";
+import { assert } from "../../../../shared/typescript/assert.ts";
 
 const createQuickAddCardFormStore = () => {
   const screen = screenStore.screen;

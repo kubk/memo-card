@@ -1,5 +1,5 @@
-import { Translator } from "../lib/translator/translator.ts";
 import { platform } from "../lib/platform/platform.ts";
+import { Translator } from "../../shared/translator/translator.ts";
 
 const en = {
   login: "Login",

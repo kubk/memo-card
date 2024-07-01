@@ -7,12 +7,12 @@ import { CardAnswerType } from "../../../../functions/db/custom-types.ts";
 import { makeAutoObservable } from "mobx";
 import { userStore } from "../../../store/user-store.ts";
 import { CardFormStoreInterface } from "../../deck-form/deck-form/store/card-form-store-interface.ts";
-import { assert } from "../../../lib/typescript/assert.ts";
 import { BooleanToggle } from "mobx-form-lite";
 import {
   createVoicePlayer,
   VoicePlayer,
 } from "../voice-player/create-voice-player.ts";
+import { assert } from "../../../../shared/typescript/assert.ts";
 
 export class CardPreviewStore implements LimitedCardUnderReviewStore {
   id: number;

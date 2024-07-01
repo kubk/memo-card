@@ -8,8 +8,8 @@ import {
 import { css } from "@emotion/css";
 import { Button } from "../../ui/button.tsx";
 import React from "react";
-import { assert } from "../../lib/typescript/assert.ts";
 import { t } from "../../translations/t.ts";
+import { assert } from "../../../shared/typescript/assert.ts";
 
 type Props = {
   card?: LimitedCardUnderReviewStore | null;

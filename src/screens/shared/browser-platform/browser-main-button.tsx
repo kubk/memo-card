@@ -2,10 +2,10 @@ import { observer } from "mobx-react-lite";
 import { Button } from "../../../ui/button.tsx";
 import { theme } from "../../../ui/theme.tsx";
 import { platform } from "../../../lib/platform/platform.ts";
-import { assert } from "../../../lib/typescript/assert.ts";
 import { BrowserPlatform } from "../../../lib/platform/browser/browser-platform.ts";
 import { t } from "../../../translations/t.ts";
 import { css } from "@emotion/css";
+import { assert } from "../../../../shared/typescript/assert.ts";
 
 export const BrowserMainButton = observer(() => {
   if (!(platform instanceof BrowserPlatform)) {

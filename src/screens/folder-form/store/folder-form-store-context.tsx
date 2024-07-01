@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useContext } from "react";
 import { FolderFormStore } from "./folder-form-store.ts";
-import { assert } from "../../../lib/typescript/assert.ts";
+import { assert } from "../../../../shared/typescript/assert.ts";
 
 const Context = createContext<FolderFormStore | null>(null);
 

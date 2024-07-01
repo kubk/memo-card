@@ -15,7 +15,6 @@ import {
 import { screenStore } from "../../../../store/screen-store.ts";
 import { showConfirm } from "../../../../lib/platform/show-confirm.ts";
 import { addCardRequest } from "../../../../api/api.ts";
-import { assert } from "../../../../lib/typescript/assert.ts";
 import { AddCardRequest } from "../../../../../functions/add-card.ts";
 import { deckListStore } from "../../../../store/deck-list-store.ts";
 import { t } from "../../../../translations/t.ts";
@@ -30,6 +29,7 @@ import {
   notifyError,
   notifySuccess,
 } from "../../../shared/snackbar/snackbar.tsx";
+import { assert } from "../../../../../shared/typescript/assert.ts";
 
 export class QuickAddCardFormStore implements CardFormStoreInterface {
   cardForm: CardFormType = {

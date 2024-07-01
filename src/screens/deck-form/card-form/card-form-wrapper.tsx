@@ -1,13 +1,13 @@
 import { observer } from "mobx-react-lite";
 import React from "react";
 import { AnswerFormView } from "./answer-form-view.tsx";
-import { assert } from "../../../lib/typescript/assert.ts";
 import { CardFormStoreInterface } from "../deck-form/store/card-form-store-interface.ts";
 import { CardPreview } from "./card-preview.tsx";
 import { CardFormView } from "./card-form-view.tsx";
 import { CardExample } from "./card-example.tsx";
 import { CardType } from "./card-type.tsx";
 import { CardAiSpeech } from "./card-ai-speech.tsx";
+import { assert } from "../../../../shared/typescript/assert.ts";
 
 type Props = {
   cardFormStore: CardFormStoreInterface;

@@ -10,13 +10,13 @@ import {
 import { t } from "../../../translations/t.ts";
 import { makeAutoObservable } from "mobx";
 import { screenStore } from "../../../store/screen-store.ts";
-import { assert } from "../../../lib/typescript/assert.ts";
 import { decksMineRequest, folderUpsertRequest } from "../../../api/api.ts";
 import { deckListStore } from "../../../store/deck-list-store.ts";
 import { showConfirm } from "../../../lib/platform/show-confirm.ts";
 import { RequestStore } from "../../../lib/mobx-request/request-store.ts";
 import { notifyError } from "../../shared/snackbar/snackbar.tsx";
 import { hapticNotification } from "../../../lib/platform/telegram/haptics.ts";
+import { assert } from "../../../../shared/typescript/assert.ts";
 
 const createFolderTitleField = (title: string) => {
   return new TextField(title, {

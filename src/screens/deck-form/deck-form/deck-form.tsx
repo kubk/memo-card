@@ -9,7 +9,6 @@ import { screenStore } from "../../../store/screen-store.ts";
 import { useMount } from "../../../lib/react/use-mount.ts";
 import { useBackButton } from "../../../lib/platform/use-back-button.ts";
 import { useProgress } from "../../../lib/platform/use-progress.tsx";
-import { assert } from "../../../lib/typescript/assert.ts";
 import { CardRow } from "../../../ui/card-row.tsx";
 import { Button } from "../../../ui/button.tsx";
 import { theme } from "../../../ui/theme.tsx";
@@ -26,6 +25,7 @@ import { Flex } from "../../../ui/flex.tsx";
 import { boolNarrow } from "../../../lib/typescript/bool-narrow.ts";
 import { isFormValid } from "mobx-form-lite";
 import { userStore } from "../../../store/user-store.ts";
+import { assert } from "../../../../shared/typescript/assert.ts";
 
 export const DeckForm = observer(() => {
   const deckFormStore = useDeckFormStore();

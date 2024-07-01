@@ -14,8 +14,8 @@ import {
 import { LanguageCatalogItemAvailableIn } from "../../../../shared/language/language-shared.ts";
 import { createCachedCategoriesRequest } from "../../../api/create-cached-categories-request.ts";
 import { screenStore } from "../../../store/screen-store.ts";
-import { assert } from "../../../lib/typescript/assert.ts";
 import { notifyError, notifySuccess } from "../../shared/snackbar/snackbar.tsx";
+import { assert } from "../../../../shared/typescript/assert.ts";
 
 export type CatalogSettingsForm = {
   isPublic: BooleanField;

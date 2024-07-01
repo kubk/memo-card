@@ -1,6 +1,6 @@
 import React, { createContext, ReactNode, useContext } from "react";
-import { assert } from "../../../lib/typescript/assert.ts";
 import { UserSettingsStore } from "./user-settings-store.tsx";
+import { assert } from "../../../../shared/typescript/assert.ts";
 
 const Context = createContext<UserSettingsStore | null>(null);
 

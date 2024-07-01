@@ -2,7 +2,6 @@ import { RequestStore } from "../../../lib/mobx-request/request-store.ts";
 import { deckChangeInputModeRequest } from "../../../api/api.ts";
 import { makeAutoObservable } from "mobx";
 import { TextField } from "mobx-form-lite";
-import { assert } from "../../../lib/typescript/assert.ts";
 import { notifyError, notifySuccess } from "../../shared/snackbar/snackbar.tsx";
 import { deckListStore } from "../../../store/deck-list-store.ts";
 import { t } from "../../../translations/t.ts";
@@ -10,6 +9,7 @@ import { DeckFormStore } from "../../deck-form/deck-form/store/deck-form-store.t
 import { createCachedCardInputModesRequest } from "../../../api/create-cached-card-input-modes-request.ts";
 import { CardInputModeDb } from "../../../../functions/db/card-input-mode/schema.ts";
 import { screenStore } from "../../../store/screen-store.ts";
+import { assert } from "../../../../shared/typescript/assert.ts";
 
 export class CardInputModeStore {
   cardInputModesRequest = createCachedCardInputModesRequest();

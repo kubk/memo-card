@@ -1,7 +1,7 @@
 import { createContext, ReactNode, useContext } from "react";
 import { ShareDeckFormStore } from "./share-deck-form-store.ts";
-import { assert } from "../../../lib/typescript/assert.ts";
 import { DeckAccessType } from "../../../../functions/db/custom-types.ts";
+import { assert } from "../../../../shared/typescript/assert.ts";
 
 const Context = createContext<ShareDeckFormStore | null>(null);
 

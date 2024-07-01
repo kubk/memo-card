@@ -1,7 +1,7 @@
-import { assert } from "../../lib/typescript/assert.ts";
 import { trimEnd } from "../../lib/string/trim.ts";
 import { platform } from "../../lib/platform/platform.ts";
 import { getBotUrl } from "../../lib/urls/get-bot-url.ts";
+import { assert } from "../../../shared/typescript/assert.ts";
 
 export const getDeckOrFolderLink = (shareId: string) => {
   const botUrl = getBotUrl();

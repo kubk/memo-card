@@ -14,10 +14,10 @@ import {
 } from "../../../api/api.ts";
 import { RequestStore } from "../../../lib/mobx-request/request-store.ts";
 import { screenStore } from "../../../store/screen-store.ts";
-import { assert } from "../../../lib/typescript/assert.ts";
 import { notifyError, notifySuccess } from "../../shared/snackbar/snackbar.tsx";
 import { deckListStore } from "../../../store/deck-list-store.ts";
 import { showConfirm } from "../../../lib/platform/show-confirm.ts";
+import { assert } from "../../../../shared/typescript/assert.ts";
 
 type InnerScreen = "how" | "cardsGenerated" | "previousPrompts";
 

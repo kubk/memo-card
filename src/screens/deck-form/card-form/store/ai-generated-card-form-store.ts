@@ -3,11 +3,11 @@ import { RequestStore } from "../../../../lib/mobx-request/request-store.ts";
 import { makeAutoObservable } from "mobx";
 import { formTouchAll, isFormValid } from "mobx-form-lite";
 import { screenStore } from "../../../../store/screen-store.ts";
-import { assert } from "../../../../lib/typescript/assert.ts";
 import { notifyError } from "../../../shared/snackbar/snackbar.tsx";
 import { aiSingleCardGenerateRequest } from "../../../../api/api.ts";
 import { deckListStore } from "../../../../store/deck-list-store.ts";
 import { createCachedCardInputModesRequest } from "../../../../api/create-cached-card-input-modes-request.ts";
+import { assert } from "../../../../../shared/typescript/assert.ts";
 
 export class AiGeneratedCardFormStore {
   form = {

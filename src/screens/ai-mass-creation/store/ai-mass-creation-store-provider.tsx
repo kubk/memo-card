@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useContext } from "react";
 import { AiMassCreationStore } from "./ai-mass-creation-store.ts";
-import { assert } from "../../../lib/typescript/assert.ts";
+import { assert } from "../../../../shared/typescript/assert.ts";
 
 const Context = createContext<AiMassCreationStore | null>(null);
 

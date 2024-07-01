@@ -21,7 +21,6 @@ import {
   CardReviewType,
   type CardToReviewDbType,
 } from "../../functions/db/deck/get-cards-to-review-db.ts";
-import { assert } from "../lib/typescript/assert.ts";
 import { ReviewStore } from "../screens/deck-review/store/review-store.ts";
 import { reportHandledError } from "../lib/rollbar/rollbar.tsx";
 import { BooleanToggle } from "mobx-form-lite";
@@ -39,6 +38,7 @@ import {
 } from "../screens/shared/notify-payment.ts";
 import { RequestStore } from "../lib/mobx-request/request-store.ts";
 import { notifyError } from "../screens/shared/snackbar/snackbar.tsx";
+import { assert } from "../../shared/typescript/assert.ts";
 
 export enum StartParamType {
   RepeatAll = "repeat_all",

@@ -9,7 +9,6 @@ import { screenStore } from "../../store/screen-store.ts";
 import { useProgress } from "../../lib/platform/use-progress.tsx";
 import { useMount } from "../../lib/react/use-mount.ts";
 import { useMainButton } from "../../lib/platform/use-main-button.ts";
-import { assert } from "../../lib/typescript/assert.ts";
 import { reset } from "../../ui/reset.ts";
 import { css, cx } from "@emotion/css";
 import { theme } from "../../ui/theme.tsx";
@@ -20,6 +19,7 @@ import { List } from "../../ui/list.tsx";
 import { ValidationError } from "../../ui/validation-error.tsx";
 import { userStore } from "../../store/user-store.ts";
 import { FilledIcon } from "../../ui/filled-icon.tsx";
+import { assert } from "../../../shared/typescript/assert.ts";
 
 export const FolderForm = observer(() => {
   const folderStore = useFolderFormStore();

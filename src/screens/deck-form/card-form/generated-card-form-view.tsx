@@ -1,6 +1,5 @@
 import { observer } from "mobx-react-lite";
 import { CardFormStoreInterface } from "../deck-form/store/card-form-store-interface.ts";
-import { assert } from "../../../lib/typescript/assert.ts";
 import { useBackButton } from "../../../lib/platform/use-back-button.ts";
 import React, { useState } from "react";
 import { AiGeneratedCardFormStore } from "./store/ai-generated-card-form-store.ts";
@@ -14,6 +13,7 @@ import { Input } from "../../../ui/input.tsx";
 import { HintTransparent } from "../../../ui/hint-transparent.tsx";
 import { CardRowLoading } from "../../shared/card-row-loading.tsx";
 import { CardRow } from "../../../ui/card-row.tsx";
+import { assert } from "../../../../shared/typescript/assert.ts";
 
 type Props = { cardFormStore: CardFormStoreInterface };
 

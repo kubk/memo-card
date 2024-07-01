@@ -5,7 +5,6 @@ import { t } from "../../translations/t.ts";
 import { Screen } from "../shared/screen.tsx";
 import { useMount } from "../../lib/react/use-mount.ts";
 import React, { useState } from "react";
-import { assert } from "../../lib/typescript/assert.ts";
 import { screenStore } from "../../store/screen-store.ts";
 import { List } from "../../ui/list.tsx";
 import { FilledIcon } from "../../ui/filled-icon.tsx";
@@ -21,6 +20,7 @@ import {
 } from "../../../shared/language/language-shared.ts";
 import { enumValues } from "../../lib/typescript/enum-values.ts";
 import { useProgress } from "../../lib/platform/use-progress.tsx";
+import { assert } from "../../../shared/typescript/assert.ts";
 
 export const CatalogSettingsScreen = observer(() => {
   const [catalogSettingsStore] = useState(() => new CatalogSettingsStore());

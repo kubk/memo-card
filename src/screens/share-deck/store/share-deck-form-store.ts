@@ -1,4 +1,3 @@
-import { assert } from "../../../lib/typescript/assert.ts";
 import { BooleanToggle, isFormValid, TextField } from "mobx-form-lite";
 import { t } from "../../../translations/t.ts";
 import { makeAutoObservable } from "mobx";
@@ -12,6 +11,7 @@ import { DeckAccessType } from "../../../../functions/db/custom-types.ts";
 import { persistableField } from "../../../lib/mobx-form-lite-persistable/persistable-field.ts";
 import { RequestStore } from "../../../lib/mobx-request/request-store.ts";
 import { notifyError } from "../../shared/snackbar/snackbar.tsx";
+import { assert } from "../../../../shared/typescript/assert.ts";
 
 const getRequestFiltersForScreen = () => {
   const screen = screenStore.screen;

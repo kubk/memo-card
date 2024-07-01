@@ -1,6 +1,5 @@
 import { observer } from "mobx-react-lite";
 import { CardFormStoreInterface } from "../deck-form/store/card-form-store-interface.ts";
-import { assert } from "../../../lib/typescript/assert.ts";
 import { useMainButton } from "../../../lib/platform/use-main-button.ts";
 import { t } from "../../../translations/t.ts";
 import { useProgress } from "../../../lib/platform/use-progress.tsx";
@@ -26,6 +25,7 @@ import { boolNarrow } from "../../../lib/typescript/bool-narrow.ts";
 import { CardAnswerErrors } from "./card-answer-errors.tsx";
 import { css } from "@emotion/css";
 import { screenStore } from "../../../store/screen-store.ts";
+import { assert } from "../../../../shared/typescript/assert.ts";
 
 type Props = { cardFormStore: CardFormStoreInterface };
 

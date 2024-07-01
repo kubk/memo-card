@@ -1,7 +1,6 @@
 import { observer } from "mobx-react-lite";
 import { useDeckFormStore } from "./store/deck-form-store-context.tsx";
 import { screenStore } from "../../../store/screen-store.ts";
-import { assert } from "../../../lib/typescript/assert.ts";
 import { useBackButton } from "../../../lib/platform/use-back-button.ts";
 import { css, cx } from "@emotion/css";
 import { Input } from "../../../ui/input.tsx";
@@ -15,6 +14,7 @@ import { removeAllTags } from "../../../lib/sanitize-html/remove-all-tags.ts";
 import { tapScale } from "../../../lib/animations/tap-scale.ts";
 import { Flex } from "../../../ui/flex.tsx";
 import { CardNumber } from "../../../ui/card-number.tsx";
+import { assert } from "../../../../shared/typescript/assert.ts";
 
 export const CardList = observer(() => {
   const deckFormStore = useDeckFormStore();

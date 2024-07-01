@@ -1,6 +1,5 @@
 import { observer } from "mobx-react-lite";
 import { CardFormType } from "../deck-form/store/deck-form-store.ts";
-import { assert } from "../../../lib/typescript/assert.ts";
 import { Screen } from "../../shared/screen.tsx";
 import { Label } from "../../../ui/label.tsx";
 import { Input } from "../../../ui/input.tsx";
@@ -16,6 +15,7 @@ import { ButtonSideAligned } from "../../../ui/button-side-aligned.tsx";
 import { v4 } from "uuid";
 import { BooleanField, isFormValid } from "mobx-form-lite";
 import { action } from "mobx";
+import { assert } from "../../../../shared/typescript/assert.ts";
 
 type Props = {
   cardForm: CardFormType;
