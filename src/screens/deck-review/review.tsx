@@ -55,7 +55,7 @@ export const Review = observer(() => {
         justifyContent: "center",
         height: "100vh",
         position: "relative",
-        overflowX: "hidden",
+        overflow: "hidden",
       })}
     >
       <div
