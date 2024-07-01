@@ -6,7 +6,7 @@
   "scripts": {
     "dev:browser": "npx concurrently --kill-others-on-fail \"npm run dev:frontend\" \"npm run dev:api\"",
     "dev:telegram": "npx concurrently --kill-others-on-fail \"npm run dev:frontend\" \"npm run dev:api\" \"npm run dev:tunnel\"",
-    "dev:frontend": "vite",
+    "dev:frontend": "vite --host",
     "dev:api": "npx wrangler pages dev /functions --compatibility-date=2023-09-22 --compatibility-flags=\"nodejs_compat\"",
     "dev:tunnel": "../ngrok http --domain=causal-magpie-closing.ngrok-free.app 5173",
     "build": "cp index.build.html index.html && vite build",
