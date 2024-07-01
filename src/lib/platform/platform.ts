@@ -19,6 +19,7 @@ export interface Platform {
   getClientData(): PlatformSchemaType;
   getLanguage(): Language;
   getStartParam(): string | undefined;
+  openInvoiceLink(link: string): void;
 }
 
 export type UseMainButtonType = (

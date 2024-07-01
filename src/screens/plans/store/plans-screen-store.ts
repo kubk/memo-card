@@ -7,7 +7,6 @@ import { notifyError } from "../../shared/snackbar/snackbar.tsx";
 import { platform } from "../../../lib/platform/platform.ts";
 import { TextField } from "mobx-form-lite";
 import { type PlanDuration } from "../../../../shared/pro/calc-plan-price-for-duration.ts";
-import { TelegramPlatform } from "../../../lib/platform/telegram/telegram-platform.ts";
 
 export class PlansScreenStore {
   plansRequest = new RequestStore(allPlansRequest);
@@ -65,9 +64,6 @@ export class PlansScreenStore {
       return;
     }
 
-    if (!(platform instanceof TelegramPlatform)) {
-      return;
-    }
     platform.openInvoiceLink(result.data.payLink);
   }
 }

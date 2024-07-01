@@ -157,4 +157,8 @@ export class BrowserPlatform implements Platform {
       }),
     );
   }
+
+  openInvoiceLink(link: string) {
+    this.openExternalLink(link);
+  }
 }
