@@ -7,7 +7,7 @@
 
 People tend to forget things. Within an hour, up to 60% of new information can slip away, and by the end of a week, only about 10% may remain. However, consistent revisiting the information combats this decline. This bot uses the proven flashcard method, assisting users in retaining and mastering languages, history, and more.
 
-Run the bot: [https://t.me/memo_card_bot](https://t.me/memo_card_bot)
+Website: [https://memocard.org](memocard.org)
 
 About: https://teletype.in/@alteregor/memocard-telegram-contest-win 
 
