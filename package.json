@@ -48,6 +48,7 @@
     "colord": "^2.9.3",
     "dompurify": "^3.0.9",
     "framer-motion": "^10.16.4",
+    "google-auth-library": "^9.13.0",
     "grammy": "^1.24.1",
     "luxon": "^3.4.3",
     "mathml-tag-names": "^3.0.2",
@@ -68,6 +69,7 @@
     "short-unique-id": "^5.0.3",
     "supabase": "^1.110.1",
     "uuid": "^9.0.1",
+    "web-auth-library": "^1.0.3",
     "zod": "^3.22.3",
     "zod-to-json-schema": "^3.22.5"
   },
