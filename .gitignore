@@ -25,5 +25,6 @@ dist-ssr
 ngrok
 .dev.vars
 
+supabase/dump-data.sql
 dumper/dump.sql
 .wrangler
