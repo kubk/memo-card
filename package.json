@@ -47,6 +47,7 @@
     "canvas-confetti": "^1.9.2",
     "colord": "^2.9.3",
     "dompurify": "^3.0.9",
+    "easy-speech": "^2.4.0",
     "framer-motion": "^10.16.4",
     "google-auth-library": "^9.13.0",
     "grammy": "^1.24.1",
