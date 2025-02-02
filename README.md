@@ -2,7 +2,7 @@
 <img width="600" alt="Screenshot 2023-10-13 at 19 41 35" src="https://github.com/kubk/memo-card/assets/22447849/7f754776-3e57-4669-becc-410e1b285199"></p>
 
 <p align="center">
-  Readme: <a href="./README.md">English</a>, <a href="./README.ru.md">Русский</a>, <a href="./README.ua.md">Українська</a>, <a href="./README.pr-br.md">Português</a>, <a href="./README.ar.md">العربية</a>, <a href="./README.fa.md">فارسی</a>
+  Readme: <a href="./README.md">English</a>, <a href="./docs/README.ru.md">Русский</a>, <a href="./docs/README.ua.md">Українська</a>, <a href="./docs/README.pr-br.md">Português</a>, <a href="./docs/README.ar.md">العربية</a>, <a href="./docs/README.fa.md">فارسی</a>
 </p>
 
 People tend to forget things. Within an hour, up to 60% of new information can slip away, and by the end of a week, only about 10% may remain. However, consistent revisiting the information combats this decline. This bot uses the proven flashcard method, assisting users in retaining and mastering languages, history, and more.
@@ -26,4 +26,3 @@ While there are free applications like Anki available, they come with platform l
 - Anki doesn't offer a direct approach for users to privately share decks with friends or colleagues outside of its public shared decks feature. Moreover, sharing a deck demands a switch between the desktop and web versions of Anki. With the Memo Card bot, users can effortlessly share decks directly within Telegram.
 - For additional functionality in Anki, users must install plugins, which are limited only to the desktop version. In contrast, the Memo Card bot is accessible on Mac, Windows, iOS, Android, and web versions of Telegram.
 - Anki lacks automatic push notifications to alert users of upcoming reviews. It is easy to solve with Telegram push notifications
-
