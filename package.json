@@ -53,6 +53,7 @@
     "framer-motion": "^10.16.4",
     "google-auth-library": "^9.13.0",
     "grammy": "^1.24.1",
+    "lucide-react": "^0.479.0",
     "luxon": "^3.4.3",
     "mathml-tag-names": "^3.0.2",
     "mobx": "^6.10.2",
