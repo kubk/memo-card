@@ -14,6 +14,8 @@
     "typecheck": "npx tsc",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "prettier:frontend": "npx prettier --write \"src/**/*.{ts,tsx,css}\"",
+    "prettier:backend": "npx prettier --write \"functions/**/*.{ts,tsx}\"",
+    "prettier:fix": "npm run prettier:frontend && npm run prettier:backend",
     "test": "npx concurrently --kill-others-on-fail \"npm run test:api -- --run\" \"npm run test:frontend -- --run\" \"npm run test:shared -- --run\"",
     "test:api": "npx vitest --run --dir functions/",
     "test:shared": "npx vitest --run --dir shared/",
