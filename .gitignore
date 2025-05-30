@@ -28,3 +28,4 @@ ngrok
 supabase/dump-data.sql
 dumper/dump.sql
 .wrangler
+tsconfig.tsbuildinfo
