@@ -9,11 +9,11 @@
     "prettier:fix": "git ls-files -mo --exclude-standard -- './packages' | grep -E '\\.(ts|tsx|mts)$' | xargs -I {} prettier --write {}",
     "typecheck": "npm run typecheck --workspaces",
     "test": "npm run test --workspaces",
-
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+
     "export-public-code": "[[ $(git symbolic-ref --short HEAD 2>/dev/null) == \"main\" ]] && npm run __export-public-code || echo \"Current branch is not 'main'\"",
     "__export-public-code": "npx betterplace-gitexporter gitexporter.config.json && cd ../memocard-public && git checkout -b main && git remote add origin git@github.com:kubk/memo-card.git && git push",
-    "generate-db-types": "docker info > /dev/null 2>&1 && export $(cat .dev.vars | grep -v '^#' | xargs) && npx supabase gen types typescript --db-url $DB_URL >./functions/db/databaseTypes.ts",
+    "generate-db-types": "docker info > /dev/null 2>&1 && export $(cat .dev.vars | grep -v '^#' | xargs) && npx supabase gen types typescript --db-url $DB_URL > ./packages/api/db/databaseTypes.ts",
     "dev:db:start": "npx supabase start",
     "dev:db:get-ui-migrations": "npx supabase db pull",
     "dev:db:apply-ui-migrations-locally": "npx supabase migration up",
