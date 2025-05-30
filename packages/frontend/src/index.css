@@ -1,0 +1,158 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.reset-button {
+  @apply p-0 border-0 outline-none cursor-pointer bg-transparent focus:outline-none;
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+.reset-label {
+  @apply mb-0;
+}
+
+.reset-p {
+  margin: 0;
+}
+
+.reset-link {
+  text-decoration: none;
+  color: inherit;
+}
+.reset-link:hover {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  @apply reset-button;
+}
+
+.border {
+  border-width: 1px;
+  border-style: solid;
+}
+
+.border-b {
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+}
+
+.border-l {
+  border-left-width: 1px;
+  border-left-style: solid;
+}
+
+.border-r {
+  border-right-width: 1px;
+  border-right-style: solid;
+}
+
+.border-t {
+  border-top-width: 1px;
+  border-top-style: solid;
+}
+
+.outline {
+  outline-style: solid;
+  outline-width: 1px;
+}
+
+.outline-none {
+  outline: none;
+}
+
+.outline-1 {
+  outline-style: solid;
+  outline-width: 1px;
+}
+
+.outline-2 {
+  outline-style: solid;
+  outline-width: 2px;
+}
+
+.outline-4 {
+  outline-style: solid;
+  outline-width: 4px;
+}
+
+:root {
+  font-family: -apple-system, Inter, system-ui, Avenir, Helvetica, Arial,
+    sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+  --card-size: 310px;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: 0 16px 0 16px;
+  position: relative;
+  background: var(--tg-theme-secondary-bg-color);
+  color: var(--tg-theme-text-color);
+}
+
+#root {
+  width: 100%;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+i,
+p,
+input,
+select,
+textarea {
+  color: var(--tg-theme-text-color);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  padding: 0;
+  margin: 0;
+  font-weight: bold;
+}
+
+/* for wysiwyg */
+h1 {
+  font-size: 64px;
+}
+
+/* prevent buttons from being colored in blue on click on android */
+input,
+textarea,
+button,
+select,
+div,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* fix for browser version to avoid monospace */
+textarea {
+  font-family: inherit;
+}
+
+/* RTL support */
+[dir="rtl"] {
+  direction: rtl;
+  text-align: right;
+}

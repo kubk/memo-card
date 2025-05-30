@@ -1,0 +1,32 @@
+.rsw-toolbar {
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  color: var(--tg-theme-text-color);
+  background-color: var(--tg-theme-bg-color) !important;
+  @apply dark:!border-separator-dark;
+}
+
+.rsw-toolbar button:hover {
+  background-color: unset !important;
+}
+
+.rsw-editor {
+  border: none !important;
+}
+
+.rsw-editor[data-invalid] .rsw-ce {
+  border: 2px solid #fc2025;
+}
+
+.rsw-ce {
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  background: var(--tg-theme-bg-color);
+  margin-bottom: 8px;
+}
+
+.rsw-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
