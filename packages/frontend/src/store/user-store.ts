@@ -1,0 +1,142 @@
+import { autorun, makeAutoObservable } from "mobx";
+import { type UserDbType } from "api";
+import { type PlansForUser } from "api";
+import { BooleanToggle } from "mobx-form-lite";
+import { persistableField } from "../lib/mobx-form-lite-persistable/persistable-field.ts";
+import { canAdvancedShare } from "api";
+import { RequestStore } from "../lib/mobx-request/request-store.ts";
+import { activePlanesRequest } from "../api/api.ts";
+import { reportHandledError } from "../lib/rollbar/rollbar.tsx";
+import { formatPaidUntil } from "../screens/pro/format-paid-until.tsx";
+import { assert } from "api";
+import { canDeleteItsAccount } from "api";
+import { getUserLanguage } from "api";
+import { LanguageShared } from "api";
+import { platform } from "../lib/platform/platform.ts";
+import { BrowserPlatform } from "../lib/platform/browser/browser-platform.ts";
+
+type PaywallType = "bulk_ai_cards" | "individual_ai_card";
+
+export class UserStore {
+  userInfo?: UserDbType;
+  plans?: PlansForUser;
+  isCardFormattingOn = persistableField(
+    new BooleanToggle(false),
+    "isCardFormattingOn",
+  );
+  isSpeakingCardsMuted = new BooleanToggle(false);
+  activePlansRequest = new RequestStore(activePlanesRequest);
+  selectedPaywall: PaywallType | null = null;
+
+  constructor() {
+    makeAutoObservable(this, {}, { autoBind: true });
+
+    autorun(() => {
+      if (this.isRtl) {
+        document.documentElement.setAttribute("dir", "rtl");
+      } else {
+        document.documentElement.removeAttribute("dir");
+      }
+    });
+  }
+
+  setUser(user: UserDbType, plans: PlansForUser) {
+    this.userInfo = user;
+    this.plans = plans;
+
+    if (platform instanceof BrowserPlatform) {
+      platform.setLanguageCached(getUserLanguage(user));
+    }
+  }
+
+  get language(): LanguageShared {
+    if (!this.userInfo) {
+      return platform.getLanguageCached();
+    }
+
+    return getUserLanguage(this.userInfo);
+  }
+
+  get isRtl() {
+    return this.language === "ar" || this.language === "fa";
+  }
+
+  get isPaid() {
+    return this.plans?.some((plan) => plan.plan_id) ?? false;
+  }
+
+  get user() {
+    return this.userInfo ?? null;
+  }
+
+  get myId() {
+    return this.user?.id;
+  }
+
+  get isAdmin() {
+    return this.user?.is_admin ?? false;
+  }
+
+  get isSpeakingCardsEnabled() {
+    if (this.isSpeakingCardsMuted.value) {
+      return false;
+    }
+    return this.user?.is_speaking_card_enabled ?? false;
+  }
+
+  get canAdvancedShare() {
+    if (!this.user || !this.plans) {
+      return false;
+    }
+    return canAdvancedShare(this.user, this.plans);
+  }
+
+  get paidUntil() {
+    const plan = this.plans ? this.plans[0] : undefined;
+    if (!plan) {
+      return null;
+    }
+    return formatPaidUntil(plan.until_date || "") || undefined;
+  }
+
+  async fetchActivePlans() {
+    const plans = await this.activePlansRequest.execute();
+    if (plans.status === "success") {
+      this.plans = plans.data.plans;
+    } else {
+      reportHandledError("Error fetching active plans", plans.error, {
+        userId: this.myId,
+      });
+    }
+  }
+
+  updateSettings(body: Partial<UserDbType>) {
+    assert(this.userInfo, "myInfo is not loaded in optimisticUpdateSettings");
+    Object.assign(this.userInfo, body);
+  }
+
+  get canUpdateCatalogSettings() {
+    return this.isAdmin;
+  }
+
+  get canDeleteItsAccount() {
+    if (!this.user) {
+      return false;
+    }
+    return canDeleteItsAccount(this.user);
+  }
+
+  executeViaPaywall(feature: PaywallType | null, cb: () => void) {
+    if (this.isPaid) {
+      cb();
+    } else {
+      this.selectedPaywall = feature;
+    }
+  }
+
+  closePaywall() {
+    this.selectedPaywall = null;
+  }
+}
+
+export const userStore = new UserStore();
