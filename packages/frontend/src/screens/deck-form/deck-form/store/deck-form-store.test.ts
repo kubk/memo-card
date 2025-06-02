@@ -2,10 +2,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { CardFormType, DeckFormStore } from "./deck-form-store.ts";
 import { DeckCardDbType } from "api";
 import { type DeckWithCardsWithReviewType } from "../../../../store/deck-list-store.ts";
-import {
-  UpsertDeckRequest,
-  UpsertDeckResponse,
-} from "api";
+import { UpsertDeckRequest, UpsertDeckResponse } from "api";
 import { isFormValid } from "mobx-form-lite";
 import { assert } from "api";
 
