@@ -7,6 +7,7 @@
     "start": "npx concurrently --kill-others-on-fail \"npm run start -w=api\" \"npm run start -w=frontend\"",
     "start:telegram": "npx concurrently --kill-others-on-fail \"npm run start -w=api\" \"npm run start -w=frontend\" \"npm run tunnel -w=api\"",
     "prettier:fix": "git ls-files -mo --exclude-standard -- './packages' | grep -E '\\.(ts|tsx|mts)$' | xargs -I {} prettier --write {}",
+    "prettier:fix:full": "prettier --write \"./packages/**/*.+(ts|tsx|mts)\"",
     "typecheck": "npm run typecheck --workspaces",
     "test": "npm run test --workspaces",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
