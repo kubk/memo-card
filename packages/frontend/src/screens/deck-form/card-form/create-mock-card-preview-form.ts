@@ -5,11 +5,7 @@ import {
 import { BooleanField, TextField } from "mobx-form-lite";
 import { CardAnswerType } from "api";
 import { createAnswerListField } from "../deck-form/store/deck-form-store.ts";
-import {
-  DeckCardDbType,
-  DeckCardOptionsDbType,
-  DeckSpeakFieldEnum,
-} from "api";
+import { DeckCardDbType, DeckCardOptionsDbType, DeckSpeakFieldEnum } from "api";
 import { DeckWithCardsWithReviewType } from "../../../store/deck-list-store.ts";
 
 type DeckCardDbTypePreview = Omit<

@@ -31,7 +31,7 @@ const requestInner = async <Output, Input = object>(
 
   const initData = platform.getInitData();
 
-  console.log('platform', platform);
+  console.log("platform", platform);
 
   if (initData === null) {
     if (screenStore.screen.type !== "browserLogin") {

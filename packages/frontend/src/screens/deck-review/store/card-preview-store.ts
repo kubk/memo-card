@@ -1,8 +1,5 @@
 import { LimitedCardUnderReviewStore } from "../../shared/card/card.tsx";
-import {
-  CardAnswerDbType,
-  DeckSpeakFieldEnum,
-} from "api";
+import { CardAnswerDbType, DeckSpeakFieldEnum } from "api";
 import { CardAnswerType } from "api";
 import { makeAutoObservable } from "mobx";
 import { userStore } from "../../../store/user-store.ts";
