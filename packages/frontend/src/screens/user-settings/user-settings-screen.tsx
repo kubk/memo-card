@@ -24,10 +24,7 @@ import { copyToClipboard } from "../../lib/copy-to-clipboard/copy-to-clipboard.t
 import { assert } from "api";
 import { showConfirm } from "../../lib/platform/show-confirm.ts";
 import { notifyError, notifySuccess } from "../shared/snackbar/snackbar.tsx";
-import {
-  languageSharedToHuman,
-  languagesShared,
-} from "api";
+import { languageSharedToHuman, languagesShared } from "api";
 import {
   BellIcon,
   ClockIcon,
