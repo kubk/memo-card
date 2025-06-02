@@ -29,3 +29,4 @@ supabase/dump-data.sql
 dumper/dump.sql
 .wrangler
 tsconfig.tsbuildinfo
+packages/api/tsconfig.tsbuildinfo
