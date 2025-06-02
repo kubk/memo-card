@@ -6,7 +6,7 @@
   "scripts": {
     "start": "vite",
     "typecheck": "npx tsc -b --noEmit",
-    "test": "npx vitest",
+    "test": "npx vitest run",
     "build": "cp index.build.html index.html && vite build",
     "bundle-visualize": "npx vite-bundle-visualizer"
   },
