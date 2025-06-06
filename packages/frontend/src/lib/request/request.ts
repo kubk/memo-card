@@ -13,6 +13,7 @@ const allowedToReFetch = [
   "/review-cards",
   "/add-card",
   "/add-deck-to-mine",
+  "/user-settings",
 ];
 
 type HttpMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
@@ -71,17 +72,27 @@ const requestInner = async <Output, Input = object>(
   );
 };
 
-// Retry GET request once and some POST/PUT requests
+const MAX_RETRIES = 3;
+
 export const request = async <Output, Input = object>(
   path: `/${string}`,
   method: HttpMethod = "GET",
   body?: Input,
+  retryCount = 0,
 ): Promise<Output> => {
   try {
     return await requestInner(path, method, body);
   } catch (error) {
-    if (method === "GET" || allowedToReFetch.includes(path)) {
-      return requestInner(path, method, body);
+    if (
+      (method === "GET" || allowedToReFetch.includes(path)) &&
+      retryCount < MAX_RETRIES
+    ) {
+      console.log(
+        `Retrying request to ${path} (attempt ${
+          retryCount + 1
+        } of ${MAX_RETRIES})`,
+      );
+      return request(path, method, body, retryCount + 1);
     }
     throw error;
   }
