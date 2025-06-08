@@ -1,6 +1,4 @@
-import { FeaturesResponse, MyInfoResponse } from "api";
-import { request } from "../lib/request/request.ts";
-import { HealthResponse } from "api";
+import { request } from "./request.ts";
 import { AddDeckToMineRequest, AddDeckToMineResponse } from "api";
 import { ReviewCardsRequest, ReviewCardsResponse } from "api";
 import { UpsertDeckRequest, UpsertDeckResponse } from "api";
@@ -10,32 +8,23 @@ import { UserSettingsRequest, UserSettingsResponse } from "api";
 import { RemoveDeckFromMineRequest, RemoveDeckFromMineResponse } from "api";
 import { DeckWithCardsResponse } from "api";
 import { CopyDeckResponse } from "api";
-import { DeckCategoryResponse } from "api";
 import { AddFolderRequest, AddFolderResponse } from "api";
 import { DeckAccessesResponse } from "api";
 import { AddDeckAccessRequest, AddDeckAccessResponse } from "api";
-import { DecksMineResponse } from "api";
 import { DuplicateFolderResponse } from "api";
-import { MyStatisticsResponse } from "api";
-import { AllPlansResponse } from "api";
-import { DeckCatalogResponse } from "api";
 import { FolderWithDecksWithCardsResponse } from "api";
 import { AddFolderToMineRequest } from "api";
 import { CardsFreezeRequest, CardsFreezeResponse } from "api";
 import { DeleteFolderResponse } from "api";
-import { UserAiCredentialsResponse } from "api";
 import {
   UpsertUserAiCredentialsRequest,
   UpsertUserAiCredentialsResponse,
 } from "api";
 import { AddCardsMultipleRequest, AddCardsMultipleResponse } from "api";
 import { AiMassGenerateRequest, AiMassGenerateResponse } from "api";
-import { UserPreviousPromptsResponse } from "api";
 import { AiSpeechGenerateRequest, AiSpeechGenerateResponse } from "api";
 import { AiSingleCardRequest, AiSingleCardResponse } from "api";
-import { CardInputModeListResponse } from "api";
 import { CardInputModeChangeRequest, CardInputModeChangeResponse } from "api";
-import { ActivePlansResponse } from "api";
 import { PlanDuration } from "api";
 import { CatalogItemSettingsRequest, CatalogItemSettingsResponse } from "api";
 import {
@@ -45,14 +34,6 @@ import {
 import { GoogleSignInRequest, GoogleSignInResponse } from "api";
 import { DeleteMyselfResponse } from "api";
 import { CreateOrderRequest, CreateOrderResponse } from "api";
-
-export const healthRequest = () => {
-  return request<HealthResponse>("/health");
-};
-
-export const myInfoRequest = () => {
-  return request<MyInfoResponse | null>("/my-info");
-};
 
 export const getSharedDeckRequest = (shareId?: string) => {
   return request<GetSharedDeckResponse>(`/get-shared-deck?share_id=${shareId}`);
@@ -80,10 +61,6 @@ export const updateCatalogItemSettingsRequest = (
     UpdateCatalogItemSettingsResponse,
     UpdateCatalogItemSettingsRequest
   >(`/update-catalog-item-settings`, "POST", body);
-};
-
-export const myFeaturesRequest = () => {
-  return request<FeaturesResponse>("/my-features");
 };
 
 export const addDeckToMineRequest = (body: AddDeckToMineRequest) => {
@@ -164,16 +141,8 @@ export const removeDeckFromMineRequest = (body: RemoveDeckFromMineRequest) => {
   );
 };
 
-export const catalogGetRequest = () => {
-  return request<DeckCatalogResponse>("/catalog");
-};
-
 export const deckWithCardsRequest = (deckId: number) => {
   return request<DeckWithCardsResponse>(`/deck-with-cards?deck_id=${deckId}`);
-};
-
-export const deckCategoriesRequest = () => {
-  return request<DeckCategoryResponse>("/deck-categories");
 };
 
 export const folderUpsertRequest = (body: AddFolderRequest) => {
@@ -191,10 +160,6 @@ export const deleteFolderRequest = (folderId: number) => {
   );
 };
 
-export const decksMineRequest = () => {
-  return request<DecksMineResponse>("/decks-mine");
-};
-
 export const starsOrderPlanRequest = (
   planId: number,
   duration: PlanDuration,
@@ -207,14 +172,6 @@ export const starsOrderPlanRequest = (
       duration: duration.toString(),
     },
   );
-};
-
-export const allPlansRequest = () => {
-  return request<AllPlansResponse>("/plans");
-};
-
-export const myStatisticsRequest = () => {
-  return request<MyStatisticsResponse>("/my-statistics");
 };
 
 export const cardsFreezeRequest = (body: CardsFreezeRequest) => {
@@ -231,10 +188,6 @@ export const aiMassGenerateRequest = (body: AiMassGenerateRequest) => {
     "POST",
     body,
   );
-};
-
-export const aiUserCredentialsCheckRequest = () => {
-  return request<UserAiCredentialsResponse>("/user-ai-credentials", "GET");
 };
 
 export const upsertUserAiCredentialsRequest = (
@@ -254,10 +207,6 @@ export const addCardsMultipleRequest = (body: AddCardsMultipleRequest) => {
   );
 };
 
-export const userPreviousPromptsRequest = () => {
-  return request<UserPreviousPromptsResponse>("/user-previous-prompts");
-};
-
 export const aiSpeechGenerateRequest = (body: AiSpeechGenerateRequest) => {
   return request<AiSpeechGenerateResponse, AiSpeechGenerateRequest>(
     "/ai-speech-generate",
@@ -274,10 +223,6 @@ export const aiSingleCardGenerateRequest = (body: AiSingleCardRequest) => {
   );
 };
 
-export const cardInputModeListRequest = () => {
-  return request<CardInputModeListResponse>("/card-input-mode-list");
-};
-
 export const deckChangeInputModeRequest = (
   body: CardInputModeChangeRequest,
 ) => {
@@ -286,10 +231,6 @@ export const deckChangeInputModeRequest = (
     "PUT",
     body,
   );
-};
-
-export const activePlanesRequest = () => {
-  return request<ActivePlansResponse>("/active-plans");
 };
 
 export const googleSignInRequest = (input: GoogleSignInRequest) => {
