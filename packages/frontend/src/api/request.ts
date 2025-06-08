@@ -18,17 +18,12 @@ const allowedToReFetch = [
 
 type HttpMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
 
-const encodeHeaderValue = (value: string): string => {
-  return btoa(encodeURIComponent(value));
-};
-
 export function getAuthHeaders() {
   const initData = platform.getInitData();
 
   return {
-    [UserHeaders.Hash]: initData ? encodeHeaderValue(initData) : "",
-    [UserHeaders.Platform]: encodeHeaderValue(collectClientData()),
-    "X-Header-Encoding": "base64",
+    [UserHeaders.Hash]: initData ? initData : "",
+    [UserHeaders.Platform]: collectClientData(),
     "Content-Type": "application/json",
   };
 }
