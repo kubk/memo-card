@@ -159,7 +159,17 @@ const reviewCardsReviewMock = vi.hoisted(() => vi.fn());
 vi.mock("../../../api/api.ts", () => {
   return {
     reviewCardsRequest: reviewCardsReviewMock,
-    myFeaturesRequest: vi.fn(),
+  };
+});
+
+vi.mock("../../../api/trpc-api.ts", () => {
+  return {
+    api: {
+      reviewCardsRequest: reviewCardsReviewMock,
+      "my-features": {
+        query: () => vi.fn(),
+      },
+    },
   };
 });
 
