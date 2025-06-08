@@ -1,10 +1,10 @@
 import { makeAutoObservable } from "mobx";
 import { RequestStore } from "../lib/mobx-request/request-store";
-import { myFeaturesRequest } from "../api/api";
 import { Feature } from "api";
+import { api } from "../api/trpc-api";
 
 class FeaturesStore {
-  featuresRequest = new RequestStore(myFeaturesRequest);
+  featuresRequest = new RequestStore(api["my-features"].query);
 
   constructor() {
     makeAutoObservable(

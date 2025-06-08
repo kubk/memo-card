@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import { allPlansRequest, starsOrderPlanRequest } from "../../../api/api.ts";
+import { starsOrderPlanRequest } from "../../../api/api.ts";
 import { getBuyText } from "../translations.ts";
 import { RequestStore } from "../../../lib/mobx-request/request-store.ts";
 import { notifyError } from "../../shared/snackbar/snackbar.tsx";
@@ -11,11 +11,12 @@ import { PaymentMethodType } from "api";
 import { BrowserPlatform } from "../../../lib/platform/browser/browser-platform.ts";
 import { TelegramPlatform } from "../../../lib/platform/telegram/telegram-platform.ts";
 import { links } from "api";
+import { api } from "../../../api/trpc-api.ts";
 
 export type PreviewItem = "individual_ai_card" | "bulk_ai_cards" | "ai_speech";
 
 export class PlansScreenStore {
-  plansRequest = new RequestStore(allPlansRequest);
+  plansRequest = new RequestStore(api["plans"].query);
   createOrderRequest = new RequestStore(starsOrderPlanRequest);
   selectedPlanDuration = new TextField<PlanDuration | null>(null);
   selectedPreviewPlanFeature?: PreviewItem;
