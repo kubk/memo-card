@@ -10,13 +10,14 @@ import {
 import { t } from "../../../translations/t.ts";
 import { makeAutoObservable } from "mobx";
 import { screenStore } from "../../../store/screen-store.ts";
-import { decksMineRequest, folderUpsertRequest } from "../../../api/api.ts";
+import { folderUpsertRequest } from "../../../api/api.ts";
 import { deckListStore } from "../../../store/deck-list-store.ts";
 import { showConfirm } from "../../../lib/platform/show-confirm.ts";
 import { RequestStore } from "../../../lib/mobx-request/request-store.ts";
 import { notifyError } from "../../shared/snackbar/snackbar.tsx";
 import { hapticNotification } from "../../../lib/platform/telegram/haptics.ts";
 import { assert } from "api";
+import { api } from "../../../api/trpc-api.ts";
 
 const createFolderTitleField = (title: string) => {
   return new TextField(title, {
@@ -44,7 +45,7 @@ export class FolderFormStore {
   folderForm?: FolderForm;
   folderUpsertRequest = new RequestStore(folderUpsertRequest);
   decksMineRequest = new RequestStore(() =>
-    decksMineRequest().then((response) => response.decks),
+    api["decks-mine"].query().then((response) => response.decks),
   );
 
   constructor() {

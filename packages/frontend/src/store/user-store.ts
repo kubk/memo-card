@@ -5,7 +5,6 @@ import { BooleanToggle } from "mobx-form-lite";
 import { persistableField } from "../lib/mobx-form-lite-persistable/persistable-field.ts";
 import { canAdvancedShare } from "api";
 import { RequestStore } from "../lib/mobx-request/request-store.ts";
-import { activePlanesRequest } from "../api/api.ts";
 import { reportHandledError } from "../lib/rollbar/rollbar.tsx";
 import { formatPaidUntil } from "../screens/pro/format-paid-until.tsx";
 import { assert } from "api";
@@ -14,6 +13,7 @@ import { getUserLanguage } from "api";
 import { LanguageShared } from "api";
 import { platform } from "../lib/platform/platform.ts";
 import { BrowserPlatform } from "../lib/platform/browser/browser-platform.ts";
+import { api } from "../api/trpc-api.ts";
 
 type PaywallType = "bulk_ai_cards" | "individual_ai_card";
 
@@ -25,7 +25,7 @@ export class UserStore {
     "isCardFormattingOn",
   );
   isSpeakingCardsMuted = new BooleanToggle(false);
-  activePlansRequest = new RequestStore(activePlanesRequest);
+  activePlansRequest = new RequestStore(api["active-plans"].query);
   selectedPaywall: PaywallType | null = null;
 
   constructor() {

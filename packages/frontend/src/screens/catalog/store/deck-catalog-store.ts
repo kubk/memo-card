@@ -1,16 +1,16 @@
 import { makeAutoObservable } from "mobx";
-import { catalogGetRequest } from "../../../api/api.ts";
 import { TextField } from "mobx-form-lite";
 import { persistableField } from "../../../lib/mobx-form-lite-persistable/persistable-field.ts";
 import { CatalogItem } from "api";
 import { RequestStore } from "../../../lib/mobx-request/request-store.ts";
 import { LanguageCatalogItemAvailableIn } from "api";
 import { createCachedCategoriesRequest } from "../../../api/create-cached-categories-request.ts";
+import { api } from "../../../api/trpc-api.ts";
 
 export type DeckLanguage = "any" | LanguageCatalogItemAvailableIn;
 
 export class DeckCatalogStore {
-  catalogRequest = new RequestStore(catalogGetRequest, {
+  catalogRequest = new RequestStore(api.catalog.query, {
     cacheId: "catalogRequest",
   });
   categoriesRequest = createCachedCategoriesRequest();
