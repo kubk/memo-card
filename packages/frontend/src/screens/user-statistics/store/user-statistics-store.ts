@@ -1,10 +1,10 @@
 import { makeAutoObservable } from "mobx";
-import { myStatisticsRequest } from "../../../api/api.ts";
 import { PieChartData } from "../pie-chart-canvas.tsx";
 import { RequestStore } from "../../../lib/mobx-request/request-store.ts";
+import { api } from "../../../api/trpc-api.ts";
 
 export class UserStatisticsStore {
-  userStatisticsRequest = new RequestStore(myStatisticsRequest);
+  userStatisticsRequest = new RequestStore(api["my-statistics"].query);
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
