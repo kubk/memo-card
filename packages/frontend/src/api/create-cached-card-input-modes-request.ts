@@ -1,8 +1,8 @@
 import { RequestStore } from "../lib/mobx-request/request-store.ts";
-import { cardInputModeListRequest } from "./api.ts";
+import { api } from "./trpc-api.ts";
 
 export const createCachedCardInputModesRequest = () => {
-  return new RequestStore(cardInputModeListRequest, {
+  return new RequestStore(api["card-input-mode-list"].query, {
     cacheId: "cardInputModeList",
   });
 };

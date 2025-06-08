@@ -11,7 +11,6 @@ import { t } from "../../../translations/t.ts";
 import {
   addCardsMultipleRequest,
   aiMassGenerateRequest,
-  userPreviousPromptsRequest,
 } from "../../../api/api.ts";
 import { RequestStore } from "../../../lib/mobx-request/request-store.ts";
 import { screenStore } from "../../../store/screen-store.ts";
@@ -19,13 +18,16 @@ import { notifyError, notifySuccess } from "../../shared/snackbar/snackbar.tsx";
 import { deckListStore } from "../../../store/deck-list-store.ts";
 import { showConfirm } from "../../../lib/platform/show-confirm.ts";
 import { assert } from "api";
+import { api } from "../../../api/trpc-api.ts";
 
 type InnerScreen = "how" | "cardsGenerated" | "previousPrompts";
 
 export class AiMassCreationStore {
   aiMassGenerateRequest = new RequestStore(aiMassGenerateRequest);
   addCardsMultipleRequest = new RequestStore(addCardsMultipleRequest);
-  userPreviousPromptsRequest = new RequestStore(userPreviousPromptsRequest);
+  userPreviousPromptsRequest = new RequestStore(
+    api["user-previous-prompts"].query,
+  );
 
   screen = new TextField<InnerScreen | null>(null);
 

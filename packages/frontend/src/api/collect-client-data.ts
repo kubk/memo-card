@@ -1,4 +1,4 @@
-import { platform } from "../platform/platform.ts";
+import { platform } from "../lib/platform/platform.ts";
 
 export const collectClientData = () => {
   try {

@@ -8,7 +8,6 @@ import {
   duplicateFolderRequest,
   getFolderWithDecksCards,
   getSharedDeckRequest,
-  myInfoRequest,
   removeDeckFromMineRequest,
 } from "../api/api.ts";
 import { type MyInfoResponse } from "api";
@@ -31,6 +30,7 @@ import { notifyError } from "../screens/shared/snackbar/snackbar.tsx";
 import { assert } from "api";
 import { arrayDifference } from "../lib/array/array-difference.ts";
 import { boolNarrow } from "../lib/typescript/bool-narrow.ts";
+import { api } from "../api/trpc-api.ts";
 
 export enum StartParamType {
   RepeatAll = "repeat_all",
@@ -67,6 +67,8 @@ export type DeckListItem = {
       shareId: string;
     }
 );
+
+const myInfoRequest = () => api["my-info"].query();
 
 export class DeckListStore {
   myInfo?: Exclude<MyInfoResponse, "plans" | "user">;

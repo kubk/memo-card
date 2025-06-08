@@ -1,8 +1,8 @@
-import { trimEnd, trimStart } from "../string/trim.ts";
-import { platform } from "../platform/platform.ts";
+import { trimEnd, trimStart } from "../lib/string/trim.ts";
+import { platform } from "../lib/platform/platform.ts";
 import { collectClientData } from "./collect-client-data.ts";
 import { UserHeaders } from "api";
-import { screenStore } from "../../store/screen-store.ts";
+import { screenStore } from "../store/screen-store.ts";
 
 const baseUrl = import.meta.env.VITE_API_URL || "";
 
@@ -22,6 +22,17 @@ const encodeHeaderValue = (value: string): string => {
   return btoa(encodeURIComponent(value));
 };
 
+export function getAuthHeaders() {
+  const initData = platform.getInitData();
+
+  return {
+    [UserHeaders.Hash]: initData ? encodeHeaderValue(initData) : "",
+    [UserHeaders.Platform]: encodeHeaderValue(collectClientData()),
+    "X-Header-Encoding": "base64",
+    "Content-Type": "application/json",
+  };
+}
+
 const requestInner = async <Output, Input = object>(
   path: `/${string}`,
   method: HttpMethod = "GET",
@@ -32,8 +43,6 @@ const requestInner = async <Output, Input = object>(
 
   const initData = platform.getInitData();
 
-  console.log("platform", platform);
-
   if (initData === null) {
     if (screenStore.screen.type !== "browserLogin") {
       screenStore.go({ type: "browserLogin" });
@@ -43,12 +52,7 @@ const requestInner = async <Output, Input = object>(
     }
   }
 
-  const headers: Record<any, any> = {
-    [UserHeaders.Hash]: initData ? encodeHeaderValue(initData) : "",
-    [UserHeaders.Platform]: encodeHeaderValue(collectClientData()),
-    "X-Header-Encoding": "base64",
-    "Content-Type": "application/json",
-  };
+  const headers = getAuthHeaders();
 
   const response = await fetch(endpoint, {
     method,
