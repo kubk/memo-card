@@ -1,145 +1,93 @@
-import { request } from "./request.ts";
-import { AddDeckToMineRequest, AddDeckToMineResponse } from "api";
-import { ReviewCardsRequest, ReviewCardsResponse } from "api";
-import { UpsertDeckRequest, UpsertDeckResponse } from "api";
-import { GetSharedDeckResponse } from "api";
-import { AddCardRequest, AddCardResponse } from "api";
-import { UserSettingsRequest, UserSettingsResponse } from "api";
-import { RemoveDeckFromMineRequest, RemoveDeckFromMineResponse } from "api";
-import { DeckWithCardsResponse } from "api";
-import { CopyDeckResponse } from "api";
-import { AddFolderRequest, AddFolderResponse } from "api";
-import { DeckAccessesResponse } from "api";
-import { AddDeckAccessRequest, AddDeckAccessResponse } from "api";
-import { DuplicateFolderResponse } from "api";
-import { FolderWithDecksWithCardsResponse } from "api";
+import { AddDeckToMineRequest } from "api";
+import { ReviewCardsRequest } from "api";
+import { UpsertDeckRequest } from "api";
+import { AddCardRequest } from "api";
+import { UserSettingsRequest } from "api";
+import { RemoveDeckFromMineRequest } from "api";
+import { AddFolderRequest } from "api";
+import { AddDeckAccessRequest } from "api";
 import { AddFolderToMineRequest } from "api";
-import { CardsFreezeRequest, CardsFreezeResponse } from "api";
-import { DeleteFolderResponse } from "api";
+import { CardsFreezeRequest } from "api";
 import {
   UpsertUserAiCredentialsRequest,
-  UpsertUserAiCredentialsResponse,
 } from "api";
-import { AddCardsMultipleRequest, AddCardsMultipleResponse } from "api";
-import { AiMassGenerateRequest, AiMassGenerateResponse } from "api";
-import { AiSpeechGenerateRequest, AiSpeechGenerateResponse } from "api";
-import { AiSingleCardRequest, AiSingleCardResponse } from "api";
-import { CardInputModeChangeRequest, CardInputModeChangeResponse } from "api";
+import { AddCardsMultipleRequest } from "api";
+import { AiMassGenerateRequest } from "api";
+import { AiSpeechGenerateRequest } from "api";
+import { AiSingleCardRequest } from "api";
+import { CardInputModeChangeRequest } from "api";
 import { PlanDuration } from "api";
-import { CatalogItemSettingsRequest, CatalogItemSettingsResponse } from "api";
+import { CatalogItemSettingsRequest } from "api";
 import {
   UpdateCatalogItemSettingsRequest,
-  UpdateCatalogItemSettingsResponse,
 } from "api";
-import { GoogleSignInRequest, GoogleSignInResponse } from "api";
-import { DeleteMyselfResponse } from "api";
-import { CreateOrderRequest, CreateOrderResponse } from "api";
+import { GoogleSignInRequest } from "api";
 import { api } from "./trpc-api.ts";
 
-export const getSharedDeckRequest = (shareId?: string) => {
-  return request<GetSharedDeckResponse>(`/get-shared-deck?share_id=${shareId}`);
+export const getSharedDeckRequest = (shareId: string) => {
+  return api["get-shared-deck"].query({ share_id: shareId });
 };
 
-export const getFolderWithDecksCards = (folderId?: number) => {
-  return request<FolderWithDecksWithCardsResponse>(
-    `/folder-with-decks-cards?folder_id=${folderId}`,
-  );
+export const getFolderWithDecksCards = (folderId: number) => {
+  return api["folder-with-decks-cards"].query({ folder_id: folderId });
 };
 
 export const catalogItemSettingsGetRequest = (
   query: CatalogItemSettingsRequest,
 ) => {
-  const queryString = new URLSearchParams(query as any).toString();
-  return request<CatalogItemSettingsResponse>(
-    `/catalog-item-settings?${queryString}`,
-  );
+  return api["catalog-item-settings"].query(query);
 };
 
 export const updateCatalogItemSettingsRequest = (
   body: UpdateCatalogItemSettingsRequest,
 ) => {
-  return request<
-    UpdateCatalogItemSettingsResponse,
-    UpdateCatalogItemSettingsRequest
-  >(`/update-catalog-item-settings`, "POST", body);
+  return api["update-catalog-item-settings"].mutate(body);
 };
 
 export const addDeckToMineRequest = (body: AddDeckToMineRequest) => {
-  return request<AddDeckToMineResponse, AddDeckToMineRequest>(
-    "/add-deck-to-mine",
-    "POST",
-    body,
-  );
+  return api["add-deck-to-mine"].mutate(body);
 };
 
 export const addFolderToMineRequest = (body: AddFolderToMineRequest) => {
-  return request<AddFolderToMineRequest, AddFolderToMineRequest>(
-    "/add-folder-to-mine",
-    "POST",
-    body,
-  );
+  return api["add-folder-to-mine"].mutate(body);
 };
 
 export const getDeckAccessesOfDeckRequest = (
   filters: { deckId: string } | { folderId: string },
 ) => {
-  const queryParams = new URLSearchParams(filters).toString();
-  return request<DeckAccessesResponse>(`/deck-accesses?${queryParams}`);
+  return api["deck-accesses"].query(filters as any);
 };
 
 export const addDeckAccessRequest = (body: AddDeckAccessRequest) => {
-  return request<AddDeckAccessResponse, AddDeckAccessRequest>(
-    "/add-deck-access",
-    "POST",
-    body,
-  );
+  return api["add-deck-access"].mutate(body);
 };
 
 export const duplicateDeckRequest = (deckId: number) => {
-  return request<CopyDeckResponse>(`/duplicate-deck?deck_id=${deckId}`, "POST");
+  return api["duplicate-deck"].mutate({ deck_id: deckId });
 };
 
 export const duplicateFolderRequest = (folderId: number) => {
-  return request<DuplicateFolderResponse>(
-    `/duplicate-folder?folder_id=${folderId}`,
-    "POST",
-  );
+  return api["duplicate-folder"].mutate({ folder_id: folderId });
 };
 
 export const userSettingsRequest = (body: UserSettingsRequest) => {
-  return request<UserSettingsResponse, UserSettingsRequest>(
-    "/user-settings",
-    "PUT",
-    body,
-  );
+  return api["user-settings"].mutate(body);
 };
 
 export const reviewCardsRequest = (body: ReviewCardsRequest) => {
-  return request<ReviewCardsResponse, ReviewCardsRequest>(
-    "/review-cards",
-    "POST",
-    body,
-  );
+  return api["review-cards"].mutate(body);
 };
 
 export const upsertDeckRequest = (body: UpsertDeckRequest) => {
-  return request<UpsertDeckResponse, UpsertDeckRequest>(
-    "/upsert-deck",
-    "POST",
-    body,
-  );
+  return api["upsert-deck"].mutate(body);
 };
 
 export const addCardRequest = (body: AddCardRequest) => {
-  return request<AddCardResponse, AddCardRequest>("/add-card", "POST", body);
+  return api["add-card"].mutate(body);
 };
 
 export const removeDeckFromMineRequest = (body: RemoveDeckFromMineRequest) => {
-  return request<RemoveDeckFromMineResponse, RemoveDeckFromMineRequest>(
-    "/remove-deck-from-mine",
-    "POST",
-    body,
-  );
+  return api["remove-deck-from-mine"].mutate(body);
 };
 
 export const deckWithCardsRequest = (deckId: number) => {
@@ -147,101 +95,59 @@ export const deckWithCardsRequest = (deckId: number) => {
 };
 
 export const folderUpsertRequest = (body: AddFolderRequest) => {
-  return request<AddFolderResponse, AddFolderRequest>(
-    "/upsert-folder",
-    "POST",
-    body,
-  );
+  return api["upsert-folder"].mutate(body);
 };
 
 export const deleteFolderRequest = (folderId: number) => {
-  return request<DeleteFolderResponse>(
-    `/delete-folder?folder_id=${folderId}`,
-    "POST",
-  );
+  return api["delete-folder"].mutate({ folder_id: folderId });
 };
 
 export const starsOrderPlanRequest = (
   planId: number,
   duration: PlanDuration,
 ) => {
-  return request<CreateOrderResponse, CreateOrderRequest>(
-    `/stars-order-plan`,
-    "POST",
-    {
-      planId,
-      duration: duration.toString(),
-    },
-  );
+  return api["stars-order-plan"].mutate({
+    planId,
+    duration: duration.toString(),
+  });
 };
 
 export const cardsFreezeRequest = (body: CardsFreezeRequest) => {
-  return request<CardsFreezeResponse, CardsFreezeRequest>(
-    "/cards-freeze",
-    "POST",
-    body,
-  );
+  return api["cards-freeze"].mutate(body);
 };
 
 export const aiMassGenerateRequest = (body: AiMassGenerateRequest) => {
-  return request<AiMassGenerateResponse, AiMassGenerateRequest>(
-    "/ai-mass-generate",
-    "POST",
-    body,
-  );
+  return api["ai-mass-generate"].mutate(body);
 };
 
 export const upsertUserAiCredentialsRequest = (
   body: UpsertUserAiCredentialsRequest,
 ) => {
-  return request<
-    UpsertUserAiCredentialsResponse,
-    UpsertUserAiCredentialsRequest
-  >("/upsert-user-ai-credentials", "POST", body);
+  return api["upsert-user-ai-credentials"].mutate(body);
 };
 
 export const addCardsMultipleRequest = (body: AddCardsMultipleRequest) => {
-  return request<AddCardsMultipleResponse, AddCardsMultipleRequest>(
-    "/add-cards-multiple",
-    "POST",
-    body,
-  );
+  return api["add-cards-multiple"].mutate(body);
 };
 
 export const aiSpeechGenerateRequest = (body: AiSpeechGenerateRequest) => {
-  return request<AiSpeechGenerateResponse, AiSpeechGenerateRequest>(
-    "/ai-speech-generate",
-    "POST",
-    body,
-  );
+  return api["ai-speech-generate"].mutate(body);
 };
 
 export const aiSingleCardGenerateRequest = (body: AiSingleCardRequest) => {
-  return request<AiSingleCardResponse, AiSingleCardRequest>(
-    "/ai-single-card-generate",
-    "POST",
-    body,
-  );
+  return api["ai-single-card-generate"].mutate(body);
 };
 
 export const deckChangeInputModeRequest = (
   body: CardInputModeChangeRequest,
 ) => {
-  return request<CardInputModeChangeResponse, CardInputModeChangeRequest>(
-    "/card-input-mode-change",
-    "PUT",
-    body,
-  );
+  return api["card-input-mode-change"].mutate(body);
 };
 
 export const googleSignInRequest = (input: GoogleSignInRequest) => {
-  return request<GoogleSignInResponse, GoogleSignInRequest>(
-    "/google-signin",
-    "POST",
-    input,
-  );
+  return api["google-signin"].mutate(input);
 };
 
 export const deleteAccountRequest = () => {
-  return request<DeleteMyselfResponse>("/delete-account", "POST");
+  return api["delete-account"].mutate();
 };
