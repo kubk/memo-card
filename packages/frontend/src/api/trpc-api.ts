@@ -1,21 +1,31 @@
 import { ApiRouter } from "api";
 import { createTRPCClient, httpLink, retryLink } from "@trpc/client";
 import { trimEnd } from "../lib/string/trim";
-import { getAuthHeaders } from "./request";
+import { getAuthHeaders } from "./get-auth-headers";
 
 const baseUrl = import.meta.env.VITE_API_URL || "";
+
+const allowedToReFetch = [
+  "upsert-deck",
+  "review-cards",
+  "add-card",
+  "add-deck-to-mine",
+  "user-settings",
+];
 
 export const api = createTRPCClient<ApiRouter>({
   links: [
     retryLink({
       retry(opts) {
-        // Only GET for now
-        if (opts.op.type !== "query") {
+        const shouldRetry =
+          opts.op.type === "query" || allowedToReFetch.includes(opts.op.path);
+
+        if (!shouldRetry) {
           return false;
         }
+
         return opts.attempts <= 4;
       },
-      // No delay for first attempt, then 1s, then 2s
       retryDelayMs: (attemptIndex) => attemptIndex * 1000,
     }),
     httpLink({
