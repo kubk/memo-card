@@ -34,6 +34,7 @@ import {
 import { GoogleSignInRequest, GoogleSignInResponse } from "api";
 import { DeleteMyselfResponse } from "api";
 import { CreateOrderRequest, CreateOrderResponse } from "api";
+import { api } from "./trpc-api.ts";
 
 export const getSharedDeckRequest = (shareId?: string) => {
   return request<GetSharedDeckResponse>(`/get-shared-deck?share_id=${shareId}`);
@@ -142,7 +143,7 @@ export const removeDeckFromMineRequest = (body: RemoveDeckFromMineRequest) => {
 };
 
 export const deckWithCardsRequest = (deckId: number) => {
-  return request<DeckWithCardsResponse>(`/deck-with-cards?deck_id=${deckId}`);
+  return api["deck-with-cards"].query({ deck_id: deckId });
 };
 
 export const folderUpsertRequest = (body: AddFolderRequest) => {
