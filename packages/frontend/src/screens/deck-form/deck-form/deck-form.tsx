@@ -118,7 +118,7 @@ export function DeckForm() {
         )}
       </Label>
 
-      {deckFormStore.deckForm.cards.length > 0 && (
+      {deckFormStore.deckForm?.id && (
         <List
           items={[
             {
