@@ -8,9 +8,7 @@ import { AddFolderRequest } from "api";
 import { AddDeckAccessRequest } from "api";
 import { AddFolderToMineRequest } from "api";
 import { CardsFreezeRequest } from "api";
-import {
-  UpsertUserAiCredentialsRequest,
-} from "api";
+import { UpsertUserAiCredentialsRequest } from "api";
 import { AddCardsMultipleRequest } from "api";
 import { AiMassGenerateRequest } from "api";
 import { AiSpeechGenerateRequest } from "api";
@@ -18,9 +16,7 @@ import { AiSingleCardRequest } from "api";
 import { CardInputModeChangeRequest } from "api";
 import { PlanDuration } from "api";
 import { CatalogItemSettingsRequest } from "api";
-import {
-  UpdateCatalogItemSettingsRequest,
-} from "api";
+import { UpdateCatalogItemSettingsRequest } from "api";
 import { GoogleSignInRequest } from "api";
 import { api } from "./trpc-api.ts";
 
