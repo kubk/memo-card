@@ -49,7 +49,7 @@ export class PlansScreenStore {
   get bankCardDiscount() {
     const proPlan = this.proPlan;
     if (!proPlan) return 0.2;
-    const starsToUsdApprox = proPlan.price_stars / 50;
+    const starsToUsdApprox = proPlan.priceStars / 50;
 
     return +((starsToUsdApprox - proPlan.price) / starsToUsdApprox).toFixed(1);
   }
