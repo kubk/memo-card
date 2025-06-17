@@ -1,10 +1,11 @@
+import { envSafe } from "../../envSafe";
 import { isRunningWithinTelegram } from "../platform/is-running-within-telegram";
 
 // Load mini-app devtools
 export function loadDevtools() {
   if (
     isRunningWithinTelegram() &&
-    import.meta.env.VITE_STAGE !== "production"
+    envSafe.stage !== "production"
   ) {
     // load it dynamically and append to the dom:
     const erudaScript = document.createElement("script");
