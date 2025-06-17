@@ -30,7 +30,7 @@ export function IndividualCardAiPreview(props: Props) {
             <BottomSheetTitle title={viewMode.title} onClose={onClose} />
             <div className="flex flex-col gap-3 w-[250px]">
               <ReadonlyInput
-                value={viewMode.preview_front}
+                value={viewMode.previewFront}
                 label={t("card_input_mode_type")}
               />
 
@@ -41,9 +41,9 @@ export function IndividualCardAiPreview(props: Props) {
 
                 <CardPaywallPreview
                   size="big"
-                  front={viewMode.preview_front}
-                  back={viewMode.preview_back}
-                  example={viewMode.preview_example}
+                  front={viewMode.previewFront}
+                  back={viewMode.previewBack}
+                  example={viewMode.previewExample}
                 />
               </div>
 
