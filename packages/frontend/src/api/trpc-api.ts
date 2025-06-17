@@ -2,8 +2,7 @@ import { ApiRouter } from "api";
 import { createTRPCClient, httpLink, retryLink } from "@trpc/client";
 import { trimEnd } from "../lib/string/trim";
 import { getAuthHeaders } from "./get-auth-headers";
-
-const baseUrl = import.meta.env.VITE_API_URL || "";
+import { envSafe } from "../envSafe";
 
 const allowedToReFetch = [
   "upsert-deck",
@@ -29,7 +28,7 @@ export const api = createTRPCClient<ApiRouter>({
       retryDelayMs: (attemptIndex) => attemptIndex * 1000,
     }),
     httpLink({
-      url: `${trimEnd(baseUrl, "/")}/`,
+      url: `${trimEnd(envSafe.apiBaseUrl, "/")}/`,
       headers: getAuthHeaders,
     }),
   ],
