@@ -7,7 +7,7 @@ import { BrowserPlatform } from "../../lib/platform/browser/browser-platform.ts"
 import { links } from "api";
 import { copyToClipboard } from "../../lib/copy-to-clipboard/copy-to-clipboard.ts";
 import { t } from "../../translations/t.ts";
-import { notifySuccess } from "../shared/snackbar/snackbar.tsx";
+import { notifySuccess } from "./snackbar/snackbar.tsx";
 
 export const getDeckOrFolderLink = (shareId: string) => {
   if (platform instanceof BrowserPlatform) {
