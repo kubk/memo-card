@@ -13,7 +13,6 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
 
     "export-public-code": "./export-public-code.sh",
-    "generate-db-types": "docker info > /dev/null 2>&1 && export $(cat .dev.vars | grep -v '^#' | xargs) && npx supabase gen types typescript --db-url $DB_URL > ./packages/api/db/databaseTypes.ts",
     "dev:db:start": "npx supabase start",
     "dev:db:get-ui-migrations": "npx supabase db pull",
     "dev:db:apply-ui-migrations-locally": "npx supabase migration up",
