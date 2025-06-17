@@ -8,7 +8,6 @@ import { AddFolderRequest } from "api";
 import { AddDeckAccessRequest } from "api";
 import { AddFolderToMineRequest } from "api";
 import { CardsFreezeRequest } from "api";
-import { UpsertUserAiCredentialsRequest } from "api";
 import { AddCardsMultipleRequest } from "api";
 import { AiMassGenerateRequest } from "api";
 import { AiSpeechGenerateRequest } from "api";
@@ -114,12 +113,6 @@ export const cardsFreezeRequest = (body: CardsFreezeRequest) => {
 
 export const aiMassGenerateRequest = (body: AiMassGenerateRequest) => {
   return api["ai-mass-generate"].mutate(body);
-};
-
-export const upsertUserAiCredentialsRequest = (
-  body: UpsertUserAiCredentialsRequest,
-) => {
-  return api["upsert-user-ai-credentials"].mutate(body);
 };
 
 export const addCardsMultipleRequest = (body: AddCardsMultipleRequest) => {
