@@ -69,7 +69,6 @@ const planItems: Array<{
     previewItem: "ai_speech",
   },
   { iconColor: theme.icons.turquoise, icon: <Copy size={18} /> },
-  { iconColor: theme.icons.sea, icon: <Link size={18} /> },
 ];
 
 export function PlansScreen() {

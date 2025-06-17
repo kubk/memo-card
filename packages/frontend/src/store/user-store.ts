@@ -3,7 +3,6 @@ import { type UserDbType } from "api";
 import { type PlansForUser } from "api";
 import { BooleanToggle } from "mobx-form-lite";
 import { persistableField } from "../lib/mobx-form-lite-persistable/persistable-field.ts";
-import { canAdvancedShare } from "api";
 import { RequestStore } from "../lib/mobx-request/request-store.ts";
 import { reportHandledError } from "../lib/rollbar/rollbar.tsx";
 import { formatPaidUntil } from "../screens/pro/format-paid-until.tsx";
@@ -82,13 +81,6 @@ export class UserStore {
       return false;
     }
     return this.user?.is_speaking_card_enabled ?? false;
-  }
-
-  get canAdvancedShare() {
-    if (!this.user || !this.plans) {
-      return false;
-    }
-    return canAdvancedShare(this.user, this.plans);
   }
 
   get paidUntil() {

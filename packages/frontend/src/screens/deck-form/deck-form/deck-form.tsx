@@ -36,7 +36,7 @@ import {
 import { FilledIcon, TransparentIcon } from "../../../ui/filled-icon.tsx";
 import { ButtonGrid } from "../../../ui/button-grid.tsx";
 import { ButtonSideAligned } from "../../../ui/button-side-aligned.tsx";
-import { shareMemoCardUrl } from "../../share-deck/share-memo-card-url.tsx";
+import { shareMemoCardUrl } from "../../shared/share-memo-card-url.tsx";
 import { MoreFeaturesButton } from "../../shared/feature-preview/more-features-button.tsx";
 
 export function DeckForm() {
@@ -272,15 +272,7 @@ export function DeckForm() {
               const deck = deckListStore.searchDeckById(deckId);
               if (!deck) return;
 
-              if (userStore.canAdvancedShare) {
-                screenStore.go({
-                  type: "shareDeck",
-                  deckId: deck.id,
-                  shareId: deck.share_id,
-                });
-              } else {
-                shareMemoCardUrl(deck.share_id);
-              }
+              shareMemoCardUrl(deck.share_id);
             }}
           >
             {t("share")}
