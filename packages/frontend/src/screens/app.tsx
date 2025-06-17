@@ -23,10 +23,6 @@ import { UserStatisticsStoreProvider } from "./user-statistics/store/user-statis
 import { UserStatisticsScreen } from "./user-statistics/user-statistics-screen.tsx";
 import { UserSettingsLazy } from "./user-settings/user-settings-lazy.tsx";
 import { ComponentCatalogPageLazy } from "./component-catalog/component-catalog-page-lazy.tsx";
-import {
-  ShareDeckScreenLazy,
-  ShareFolderScreenLazy,
-} from "./share-deck/share-deck-screen-lazy.tsx";
 import { PlansScreen } from "./pro/plans-screen.tsx";
 import { FreezeCardsScreenLazy } from "./freeze-cards/freeze-cards-screen-lazy.tsx";
 import { AiMassCreationScreen } from "./ai-mass-creation/ai-mass-creation-screen.tsx";
@@ -126,16 +122,6 @@ export function App() {
         <DeckFormStoreProvider>
           <DeckFormScreen />
         </DeckFormStoreProvider>
-      )}
-      {screenStore.screen.type === "shareDeck" && (
-        <PreventTelegramSwipeDownClosingIos>
-          <ShareDeckScreenLazy />
-        </PreventTelegramSwipeDownClosingIos>
-      )}
-      {screenStore.screen.type === "shareFolder" && (
-        <PreventTelegramSwipeDownClosingIos>
-          <ShareFolderScreenLazy />
-        </PreventTelegramSwipeDownClosingIos>
       )}
       {screenStore.screen.type === "cardQuickAddForm" && (
         <PreventTelegramSwipeDownClosingIos>

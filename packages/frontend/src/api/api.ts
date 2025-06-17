@@ -5,7 +5,6 @@ import { AddCardRequest } from "api";
 import { UserSettingsRequest } from "api";
 import { RemoveDeckFromMineRequest } from "api";
 import { AddFolderRequest } from "api";
-import { AddDeckAccessRequest } from "api";
 import { AddFolderToMineRequest } from "api";
 import { CardsFreezeRequest } from "api";
 import { AddCardsMultipleRequest } from "api";
@@ -45,16 +44,6 @@ export const addDeckToMineRequest = (body: AddDeckToMineRequest) => {
 
 export const addFolderToMineRequest = (body: AddFolderToMineRequest) => {
   return api["add-folder-to-mine"].mutate(body);
-};
-
-export const getDeckAccessesOfDeckRequest = (
-  filters: { deckId: string } | { folderId: string },
-) => {
-  return api["deck-accesses"].query(filters as any);
-};
-
-export const addDeckAccessRequest = (body: AddDeckAccessRequest) => {
-  return api["add-deck-access"].mutate(body);
 };
 
 export const duplicateDeckRequest = (deckId: number) => {

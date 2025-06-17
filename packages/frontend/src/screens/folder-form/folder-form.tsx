@@ -31,7 +31,7 @@ import {
   TrashIcon,
 } from "lucide-react";
 import { MoreFeaturesButton } from "../shared/feature-preview/more-features-button.tsx";
-import { shareMemoCardUrl } from "../share-deck/share-memo-card-url.tsx";
+import { shareMemoCardUrl } from "../shared/share-memo-card-url.tsx";
 
 export function FolderForm() {
   const folderStore = useFolderFormStore();
@@ -120,15 +120,7 @@ export function FolderForm() {
               icon={<ShareIcon size={24} />}
               outline
               onClick={() => {
-                if (userStore.canAdvancedShare) {
-                  screenStore.go({
-                    type: "shareFolder",
-                    folderId: folder.folder_id,
-                    shareId: folder.folder_share_id,
-                  });
-                } else {
-                  shareMemoCardUrl(folder.folder_share_id);
-                }
+                shareMemoCardUrl(folder.folder_share_id);
               }}
             >
               {t("share")}
