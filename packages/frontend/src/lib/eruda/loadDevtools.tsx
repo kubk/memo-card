@@ -3,10 +3,7 @@ import { isRunningWithinTelegram } from "../platform/is-running-within-telegram"
 
 // Load mini-app devtools
 export function loadDevtools() {
-  if (
-    isRunningWithinTelegram() &&
-    envSafe.stage !== "production"
-  ) {
+  if (isRunningWithinTelegram() && envSafe.stage !== "production") {
     // load it dynamically and append to the dom:
     const erudaScript = document.createElement("script");
     erudaScript.src = "https://cdn.jsdelivr.net/npm/eruda";

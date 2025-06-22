@@ -10,7 +10,6 @@ import {
   validators,
 } from "mobx-form-lite";
 import { action, makeAutoObservable, runInAction } from "mobx";
-import { upsertDeckRequest } from "../../../../api/api.ts";
 import { screenStore } from "../../../../store/screen-store.ts";
 import { deckListStore } from "../../../../store/deck-list-store.ts";
 import { showConfirm } from "../../../../lib/platform/show-confirm.ts";
@@ -34,6 +33,7 @@ import { notifyError } from "../../../shared/snackbar/snackbar.tsx";
 import { assert } from "api";
 import { t } from "../../../../translations/t.ts";
 import { SpeakLanguageEnum } from "../../../../lib/voice-playback/speak.ts";
+import { api } from "../../../../api/trpc-api.ts";
 
 export type CardAnswerFormType = {
   id: string;
@@ -128,7 +128,7 @@ export const createAnswerListField = (
 };
 
 export const createAnswerTypeField = (card?: DeckCardDbType) => {
-  return new TextField<CardAnswerType>(card ? card.answer_type : "remember");
+  return new TextField<CardAnswerType>(card ? card.answerType : "remember");
 };
 
 const createUpdateForm = (
@@ -140,10 +140,10 @@ const createUpdateForm = (
     id: id,
     title: createDeckTitleField(deck.name),
     description: new TextField(deck.description ?? ""),
-    speakingCardsLocale: new TextField(deck.speak_locale),
-    speakingCardsField: new TextField(deck.speak_field),
-    cardInputModeId: deck.card_input_mode_id || null,
-    cards: deck.deck_card.map((card) => ({
+    speakingCardsLocale: new TextField(deck.speakLocale),
+    speakingCardsField: new TextField(deck.speakField),
+    cardInputModeId: deck.cardInputModeId || null,
+    cards: deck.deckCards.map((card) => ({
       id: card.id,
       front: createFrontCardField(card.front),
       back: createBackCardField(card.back, getCardForm),
@@ -206,7 +206,7 @@ export class DeckFormStore implements CardFormStoreInterface {
   cardFormIndex?: number;
   cardFormType?: "new" | "edit";
   deckForm?: DeckFormType;
-  upsertDeckRequest = new RequestStore(upsertDeckRequest);
+  upsertDeckRequest = new RequestStore(api.deckUpsert.mutate);
   cardInnerScreen = new TextField<CardInnerScreenType>(null);
   deckInnerScreen?: DeckInnerScreen;
   cardFilter = createCardFilterForm();

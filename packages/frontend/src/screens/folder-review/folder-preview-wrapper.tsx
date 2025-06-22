@@ -17,7 +17,7 @@ export function FolderPreviewWrapper() {
         isFolderPreview
         subtitle={folderName}
         deck={previewDeck}
-        cards={previewDeck.deck_card}
+        cards={previewDeck.deckCards}
         onBack={() => setPreviewDeck(null)}
       />
     );

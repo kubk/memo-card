@@ -4,7 +4,7 @@ import { RequestStore } from "../../../lib/mobx-request/request-store.ts";
 import { api } from "../../../api/trpc-api.ts";
 
 export class UserStatisticsStore {
-  userStatisticsRequest = new RequestStore(api["my-statistics"].query);
+  userStatisticsRequest = new RequestStore(api.myStatistics.query);
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });

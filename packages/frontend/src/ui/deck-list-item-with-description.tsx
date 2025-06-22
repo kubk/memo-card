@@ -8,8 +8,8 @@ type Props = {
     id: number;
     name: string;
     description: string | null;
-    available_in: string | null;
-    deck_category?: { name: string; logo: string | null } | null;
+    availableIn: string | null;
+    deckCategory?: { name: string; logo: string | null } | null;
   };
   onClick: () => void;
   titleRightSlot?: ReactNode;
@@ -24,10 +24,10 @@ export function DeckListItemWithDescription(props: Props) {
       onClick={onClick}
     >
       <div key={catalogItem.id} className="text-text font-medium relative">
-        {catalogItem.deck_category?.logo ? (
+        {catalogItem.deckCategory?.logo ? (
           <DeckCategoryLogo
-            logo={catalogItem.deck_category.logo}
-            categoryName={catalogItem.deck_category.name}
+            logo={catalogItem.deckCategory.logo}
+            categoryName={catalogItem.deckCategory.name}
           />
         ) : null}{" "}
         {catalogItem.name}

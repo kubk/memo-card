@@ -1,13 +1,13 @@
 import { RequestStore } from "../../../../lib/mobx-request/request-store.ts";
-import { aiSpeechGenerateRequest } from "../../../../api/api.ts";
 import { formTouchAll, isFormValid, TextField } from "mobx-form-lite";
 import { CardFormType } from "../../deck-form/store/deck-form-store.ts";
 import { makeAutoObservable } from "mobx";
 import { notifyError } from "../../../shared/snackbar/snackbar.tsx";
 import { t } from "../../../../translations/t.ts";
+import { api } from "../../../../api/trpc-api.ts";
 
 export class AiSpeechGeneratorStore {
-  speechGenerateRequest = new RequestStore(aiSpeechGenerateRequest);
+  speechGenerateRequest = new RequestStore(api.aiSpeechGenerate.mutate);
 
   form = {
     sourceText: new TextField("", {

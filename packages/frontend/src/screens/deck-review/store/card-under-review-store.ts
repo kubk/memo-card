@@ -49,10 +49,10 @@ export class CardUnderReviewStore implements LimitedCardUnderReviewStore {
     this.front = card.front;
     this.back = card.back;
     this.example = card.example;
-    this.answerType = card.answer_type;
+    this.answerType = card.answerType;
     this.answers = card.answers || [];
     this.deckName = deck.name;
-    this.deckSpeakField = deck.speak_field;
+    this.deckSpeakField = deck.speakField;
 
     const voicePlayer = createVoicePlayer(
       {
@@ -61,8 +61,8 @@ export class CardUnderReviewStore implements LimitedCardUnderReviewStore {
         front: card.front,
       },
       {
-        speakingCardsField: deck.speak_field,
-        speakingCardsLocale: deck.speak_locale,
+        speakingCardsField: deck.speakField,
+        speakingCardsLocale: deck.speakLocale,
       },
     );
 

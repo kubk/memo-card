@@ -13,28 +13,28 @@ const mapUpsertDeckRequestToResponse = (
   cardsToReview: [],
   deck: {
     id: input.id || 9999,
-    available_in: null,
+    availableIn: null,
     description: input.description ?? null,
-    created_at: new Date().toISOString(),
+    createdAt: new Date().toISOString(),
     name: input.title,
-    author_id: 9999,
-    share_id: "share_id_mock",
-    is_public: false,
-    speak_locale: null,
-    speak_field: null,
-    deck_category: null,
-    category_id: null,
-    card_input_mode_id: null,
-    deck_card: input.cards.map((card) => {
+    authorId: 9999,
+    shareId: "share_id_mock",
+    isPublic: false,
+    speakLocale: null,
+    speakField: null,
+    deckCategory: null,
+    categoryId: null,
+    cardInputModeId: null,
+    deckCards: input.cards.map((card) => {
       assert(input.id);
       return {
         id: card.id || 9999,
-        deck_id: input.id,
-        created_at: new Date().toISOString(),
+        deckId: input.id,
+        createdAt: new Date().toISOString(),
         example: card.example ?? null,
         front: card.front,
         back: card.back,
-        answer_type: "remember",
+        answerType: "remember",
         answers: null,
         options: null,
       };
@@ -69,34 +69,34 @@ vi.mock("../../../../store/deck-list-store.ts", () => {
   const deckCardsMock: DeckCardDbType[] = [
     {
       id: 3,
-      deck_id: 1,
-      created_at: "2023-10-06T02:13:20.985Z",
+      deckId: 1,
+      createdAt: "2023-10-06T02:13:20.985Z",
       example: null,
       front: "time",
       back: "Время",
-      answer_type: "remember",
+      answerType: "remember",
       answers: null,
       options: null,
     },
     {
       id: 4,
-      deck_id: 1,
-      created_at: "2023-10-06T02:13:20.985Z",
+      deckId: 1,
+      createdAt: "2023-10-06T02:13:20.985Z",
       example: null,
       front: "year",
       back: "Год",
-      answer_type: "remember",
+      answerType: "remember",
       answers: null,
       options: null,
     },
     {
       id: 5,
-      deck_id: 1,
-      created_at: "2023-10-06T02:13:20.985Z",
+      deckId: 1,
+      createdAt: "2023-10-06T02:13:20.985Z",
       example: null,
       front: "way",
       back: "Дорога",
-      answer_type: "remember",
+      answerType: "remember",
       answers: null,
       options: null,
     },
@@ -106,8 +106,8 @@ vi.mock("../../../../store/deck-list-store.ts", () => {
     {
       id: 1,
       cardsToReview: deckCardsMock.slice(0, 2),
-      share_id: "share_id_mock",
-      deck_card: deckCardsMock,
+      shareId: "share_id_mock",
+      deckCards: deckCardsMock,
       name: "Test",
     },
   ] as DeckWithCardsWithReviewType[];
@@ -143,9 +143,13 @@ vi.mock("../../../../translations/t.ts", () => {
   };
 });
 
-vi.mock("../../../../api/api.ts", () => {
+vi.mock("../../../../api/trpc-api.ts", () => {
   return {
-    upsertDeckRequest: mocks.upsertDeckRequest,
+    api: {
+      deckUpsert: {
+        mutate: mocks.upsertDeckRequest,
+      },
+    },
   };
 });
 

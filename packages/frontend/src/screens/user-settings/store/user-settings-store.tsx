@@ -7,8 +7,7 @@ import {
 } from "mobx-form-lite";
 import { DateTime } from "luxon";
 import { formatTime } from "../generate-time-range.tsx";
-import { deleteAccountRequest, userSettingsRequest } from "../../../api/api.ts";
-import { UserSettingsRequest } from "api";
+import { stringToDate, UserSettingsRequest } from "api";
 import { userStore } from "../../../store/user-store.ts";
 import { RequestStore } from "../../../lib/mobx-request/request-store.ts";
 import { notifyError, notifySuccess } from "../../shared/snackbar/snackbar.tsx";
@@ -18,6 +17,7 @@ import { getUserLanguage } from "api";
 import { platform } from "../../../lib/platform/platform.ts";
 import { BrowserPlatform } from "../../../lib/platform/browser/browser-platform.ts";
 import { LanguageShared } from "api";
+import { api } from "../../../api/trpc-api.ts";
 
 const DEFAULT_TIME = "12:00";
 
@@ -29,8 +29,8 @@ export class UserSettingsStore {
     language: TextField<LanguageShared>;
   };
   isLangChanged = false;
-  userSettingsRequest = new RequestStore(userSettingsRequest);
-  deleteAccountRequest = new RequestStore(deleteAccountRequest);
+  userSettingsRequest = new RequestStore(api.userSettings.mutate);
+  deleteAccountRequest = new RequestStore(api.me.deleteAccount.mutate);
 
   constructor() {
     makeAutoObservable(
@@ -47,19 +47,19 @@ export class UserSettingsStore {
       action(() => {
         assert(userStore.userInfo);
         const userInfo = userStore.userInfo;
-        const remindDate = userInfo.last_reminded_date
-          ? DateTime.fromISO(userInfo.last_reminded_date)
+        const remindDate = userInfo.lastRemindedDate
+          ? stringToDate(userInfo.lastRemindedDate)
           : null;
 
         this.form = {
-          isRemindNotifyEnabled: new BooleanField(userInfo.is_remind_enabled),
+          isRemindNotifyEnabled: new BooleanField(userInfo.isRemindEnabled),
           language: new TextField(getUserLanguage(userInfo), {
             afterChange: () => {
               this.isLangChanged = true;
             },
           }),
           isSpeakingCardsEnabled: new BooleanField(
-            !!userInfo.is_speaking_card_enabled,
+            !!userInfo.isSpeakingCardEnabled,
           ),
           time: new TextField(
             remindDate
@@ -106,10 +106,10 @@ export class UserSettingsStore {
     }
 
     userStore.updateSettings({
-      is_remind_enabled: body.isRemindNotifyEnabled,
-      last_reminded_date: body.remindNotificationTime,
-      is_speaking_card_enabled: body.isSpeakingCardEnabled,
-      force_language_code: this.isLangChanged
+      isRemindEnabled: body.isRemindNotifyEnabled,
+      lastRemindedDate: body.remindNotificationTime,
+      isSpeakingCardEnabled: body.isSpeakingCardEnabled,
+      forceLanguageCode: this.isLangChanged
         ? this.form.language.value
         : undefined,
     });

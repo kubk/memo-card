@@ -10,7 +10,7 @@ import { api } from "../../../api/trpc-api.ts";
 export type DeckLanguage = "any" | LanguageCatalogItemAvailableIn;
 
 export class DeckCatalogStore {
-  catalogRequest = new RequestStore(api.catalog.query, {
+  catalogRequest = new RequestStore(api.catalog.list.query, {
     cacheId: "catalogRequest",
   });
   categoriesRequest = createCachedCategoriesRequest();
@@ -39,12 +39,12 @@ export class DeckCatalogStore {
 
     return this.catalogRequest.result.data.filter((catalogItem) => {
       const item = catalogItem.data;
-      if (language !== "any" && item.available_in !== language) {
+      if (language !== "any" && item.availableIn !== language) {
         return false;
       }
 
       // noinspection RedundantIfStatementJS
-      if (!!categoryId && item.category_id !== categoryId) {
+      if (!!categoryId && item.categoryId !== categoryId) {
         return false;
       }
       return true;

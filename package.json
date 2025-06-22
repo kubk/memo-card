@@ -6,18 +6,12 @@
   "scripts": {
     "start": "npx concurrently --kill-others-on-fail \"npm run start -w=api\" \"npm run start -w=frontend\"",
     "start:telegram": "npx concurrently --kill-others-on-fail \"npm run start -w=api\" \"npm run start -w=frontend\" \"npm run tunnel -w=api\"",
-    "prettier:fix": "git ls-files -mo --exclude-standard -- './packages' | grep -E '\\.(ts|tsx|mts)$' | xargs -I {} prettier --write {}",
-    "prettier:fix:full": "prettier --write \"./packages/**/*.+(ts|tsx|mts)\"",
+    "prettier:fix": "git ls-files -mo --exclude-standard -- './packages' | grep -E '\\.(ts|tsx|mts|json)$' | xargs -I {} prettier --write {}",
+    "prettier:fix:full": "prettier --write \"./packages/**/*.+(ts|tsx|mts|json)\"",
     "typecheck": "npm run typecheck --workspaces",
     "test": "npm run test --workspaces",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-
-    "export-public-code": "./export-public-code.sh",
-    "dev:db:start": "npx supabase start",
-    "dev:db:get-ui-migrations": "npx supabase db pull",
-    "dev:db:apply-ui-migrations-locally": "npx supabase migration up",
-    "dev:db:dump-create": "npx supabase db dump --data-only > supabase/dump-data.sql",
-    "dev:db:dump-apply": "docker exec -i supabase_db_memo-card psql -U postgres < ./supabase/dump-data.sql"
+    "export-public-code": "./export-public-code.sh"
   },
   "workspaces": [
     "./packages/*"
