@@ -59,7 +59,7 @@ export function FolderPreview(props: Props) {
   }
 
   const cardsTotal = folder.decks.reduce(
-    (acc, cur) => cur.deck_card.length + acc,
+    (acc, cur) => cur.deckCards.length + acc,
     0,
   );
 

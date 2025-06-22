@@ -1,15 +1,4 @@
 import { action, makeAutoObservable, runInAction, when } from "mobx";
-import {
-  addDeckToMineRequest,
-  addFolderToMineRequest,
-  deckWithCardsRequest,
-  deleteFolderRequest,
-  duplicateDeckRequest,
-  duplicateFolderRequest,
-  getFolderWithDecksCards,
-  getSharedDeckRequest,
-  removeDeckFromMineRequest,
-} from "../api/api.ts";
 import { type MyInfoResponse } from "api";
 import { type DeckCardDbType, type DeckWithCardsDbType } from "api";
 import { screenStore } from "./screen-store.ts";
@@ -68,11 +57,9 @@ export type DeckListItem = {
     }
 );
 
-const myInfoRequest = () => api["my-info"].query();
-
 export class DeckListStore {
   myInfo?: Exclude<MyInfoResponse, "plans" | "user">;
-  myInfoRequest = new RequestStore(myInfoRequest, {
+  myInfoRequest = new RequestStore(api.me.info.query, {
     staleWhileRevalidate: true,
   });
 
@@ -81,11 +68,13 @@ export class DeckListStore {
 
   skeletonLoaderData = { publicCount: 3, myDecksCount: 3 };
 
-  deckWithCardsRequest = new RequestStore(deckWithCardsRequest);
+  deckWithCardsRequest = new RequestStore(api.deck.deckWithCards.query);
   isMyDecksExpanded = new BooleanToggle(false);
 
   catalogFolder?: FolderWithDecksWithCards;
-  getFolderWithDecksCards = new RequestStore(getFolderWithDecksCards);
+  getFolderWithDecksCards = new RequestStore(
+    api.folder.folderWithDecksCards.query,
+  );
 
   constructor() {
     makeAutoObservable(
@@ -130,18 +119,18 @@ export class DeckListStore {
       this.myInfo.folders.push({
         deck_id: deck.id,
         folder_id: folder.id,
-        folder_author_id: folder.author_id,
+        folder_author_id: folder.authorId,
         folder_description: folder.description,
-        folder_share_id: folder.share_id,
+        folder_share_id: folder.shareId,
         folder_title: folder.title,
       });
       // Push new decks
       this.myInfo.myDecks.push(deck);
       // Push new cards
       this.myInfo.cardsToReview = this.myInfo.cardsToReview.concat(
-        deck.deck_card.map((card) => ({
+        deck.deckCards.map((card) => ({
           id: card.id,
-          deck_id: deck.id,
+          deckId: deck.id,
           type: "new",
         })),
       );
@@ -150,11 +139,11 @@ export class DeckListStore {
   }
 
   addCardOptimistic(card: DeckCardDbType) {
-    const deck = this.searchDeckById(card.deck_id);
+    const deck = this.searchDeckById(card.deckId);
     if (!deck || !this.myInfo) {
       return;
     }
-    deck.deck_card.push(card);
+    deck.deckCards.push(card);
     this.myInfo.cardsToReview.push({
       ...card,
       type: "new",
@@ -181,9 +170,9 @@ export class DeckListStore {
     };
     screenStore.go({ type: "folderPreview", folderId: this.catalogFolder.id });
 
-    const result = await this.getFolderWithDecksCards.execute(
-      folderWithoutDecks.id,
-    );
+    const result = await this.getFolderWithDecksCards.execute({
+      folderId: folderWithoutDecks.id,
+    });
     if (result.status === "error") {
       notifyError({
         e: result.error,
@@ -223,9 +212,10 @@ export class DeckListStore {
   }
 
   addDeckToMine(deckId: number, silent = false) {
-    return addDeckToMineRequest({
-      deckId,
-    })
+    return api.deck.addToMine
+      .mutate({
+        deckId,
+      })
       .then(() => {
         if (silent) {
           return;
@@ -240,9 +230,10 @@ export class DeckListStore {
   }
 
   addFolderToMine(folderId: number) {
-    return addFolderToMineRequest({
-      folderId,
-    })
+    return api.folder.addToMine
+      .mutate({
+        folderId,
+      })
       .then(
         action(() => {
           this.catalogFolder = undefined;
@@ -261,7 +252,7 @@ export class DeckListStore {
     if (!deck) {
       return false;
     }
-    return deckListStore.canEditDeck || deck.is_public;
+    return deckListStore.canEditDeck || deck.isPublic;
   }
 
   get canEditDeck() {
@@ -269,7 +260,7 @@ export class DeckListStore {
     if (!deck) {
       return false;
     }
-    return deck.author_id === userStore.myId || userStore.isAdmin;
+    return deck.authorId === userStore.myId || userStore.isAdmin;
   }
 
   async openDeckFromCatalog(deck: DeckWithCardsDbType, isMine: boolean) {
@@ -283,7 +274,7 @@ export class DeckListStore {
     }
     screenStore.go({ type: "deckPublic", deckId: deck.id });
 
-    const result = await this.deckWithCardsRequest.execute(deck.id);
+    const result = await this.deckWithCardsRequest.execute({ deckId: deck.id });
     if (result.status === "error") {
       notifyError({ e: result.error, info: `Error opening deck: ${deck.id}` });
       return;
@@ -345,7 +336,7 @@ export class DeckListStore {
     if (this.catalogFolder?.id === screen.folderId) {
       const decksWithCardsToReview = this.catalogFolder.decks.map((deck) => ({
         ...deck,
-        cardsToReview: deck.deck_card.map((card) => ({
+        cardsToReview: deck.deckCards.map((card) => ({
           ...card,
           type: "new" as const,
         })),
@@ -358,9 +349,9 @@ export class DeckListStore {
           (acc, deck) => acc.concat(deck.cardsToReview),
           [],
         ),
-        shareId: this.catalogFolder.share_id,
-        authorId: this.catalogFolder.author_id,
-        isPublic: this.catalogFolder.is_public,
+        shareId: this.catalogFolder.shareId,
+        authorId: this.catalogFolder.authorId,
+        isPublic: this.catalogFolder.isPublic,
         name: this.catalogFolder.title,
         id: this.catalogFolder.id,
         description: this.catalogFolder.description,
@@ -405,11 +396,7 @@ export class DeckListStore {
       return false;
     }
 
-    return canDuplicateDeckOrFolder(
-      user,
-      { author_id: folder.authorId, is_public: folder.isPublic },
-      userStore.plans,
-    );
+    return canDuplicateDeckOrFolder(user, folder, userStore.plans);
   }
 
   get canDuplicateSelectedDeck() {
@@ -422,11 +409,7 @@ export class DeckListStore {
       return false;
     }
 
-    return canDuplicateDeckOrFolder(
-      user,
-      { author_id: deck.author_id, is_public: deck.is_public },
-      userStore.plans,
-    );
+    return canDuplicateDeckOrFolder(user, deck, userStore.plans);
   }
 
   get isFolderReviewVisible() {
@@ -453,7 +436,7 @@ export class DeckListStore {
 
     const cardsToReview =
       screen.type === "deckPublic"
-        ? deck.deck_card.map((card) => ({ ...card, type: "new" as const }))
+        ? deck.deckCards.map((card) => ({ ...card, type: "new" as const }))
         : getCardsToReview(deck, this.myInfo.cardsToReview);
 
     return {
@@ -492,7 +475,7 @@ export class DeckListStore {
     if (!deck) {
       return null;
     }
-    deck.card_input_mode_id = cardInputModeId;
+    deck.cardInputModeId = cardInputModeId;
   }
 
   get publicDecks() {
@@ -513,7 +496,7 @@ export class DeckListStore {
 
     return this.myInfo.myDecks.map((deck) => ({
       ...deck,
-      isPublic: deck.is_public,
+      isPublic: deck.isPublic,
       cardsToReview: getCardsToReview(deck, cardsToReview),
     }));
   }
@@ -669,7 +652,7 @@ export class DeckListStore {
 
   get cardsTotalCount() {
     return this.myDecks.reduce((acc, deck) => {
-      return acc + deck.deck_card.length;
+      return acc + deck.deckCards.length;
     }, 0);
   }
 
@@ -687,8 +670,9 @@ export class DeckListStore {
     hapticImpact("heavy");
     this.isAppLoading = true;
 
-    deleteFolderRequest(folder.folder_id)
-      .then(() => myInfoRequest())
+    api.folder.delete
+      .mutate({ folderId: folder.folder_id })
+      .then(() => api.me.info.query())
       .then(
         action((result) => {
           if (!result) {
@@ -709,7 +693,7 @@ export class DeckListStore {
   }
 
   async removeDeck(deck: DeckWithCardsDbType) {
-    const isAuthor = deck.author_id === userStore.myId;
+    const isAuthor = deck.authorId === userStore.myId;
     const confirmMessage = isAuthor
       ? t("delete_deck_confirm_author")
       : t("delete_deck_confirm_shared");
@@ -722,8 +706,9 @@ export class DeckListStore {
     hapticImpact("heavy");
     this.isAppLoading = true;
 
-    removeDeckFromMineRequest({ deckId: deck.id })
-      .then(() => myInfoRequest())
+    api.deck.removeFromMine
+      .mutate({ deckId: deck.id })
+      .then(() => api.me.info.query())
       .then(
         action((result) => {
           if (!result) {
@@ -784,7 +769,8 @@ export class DeckListStore {
     runInAction(() => {
       this.isAppLoading = true;
     });
-    duplicateDeckRequest(deckId)
+    api.deck.duplicate
+      .mutate({ deckId })
       .then(() => {
         screenStore.go({ type: "main" });
       })
@@ -805,7 +791,9 @@ export class DeckListStore {
     runInAction(() => {
       this.isAppLoading = true;
     });
-    duplicateFolderRequest(folderId)
+
+    api.folder.duplicate
+      .mutate({ folderId })
       .then(() => {
         screenStore.go({ type: "main" });
       })
@@ -852,7 +840,8 @@ export class DeckListStore {
       this.isAppLoading = true;
       await when(() => !!this.myInfo);
 
-      getSharedDeckRequest(startParam)
+      api.getByShareId
+        .query({ shareId: startParam })
         .then(
           action((sharedDeckResponse) => {
             if ("deck" in sharedDeckResponse) {
@@ -922,12 +911,12 @@ const getCardsToReview = (
   const map = new Map<number, CardReviewType>();
 
   cardsToReview.forEach((cardToReview) => {
-    if (cardToReview.deck_id == deck.id) {
+    if (cardToReview.deckId == deck.id) {
       map.set(cardToReview.id, cardToReview.type);
     }
   });
 
-  return deck.deck_card
+  return deck.deckCards
     .filter((card) => map.has(card.id))
     .map((card) => ({
       ...card,

@@ -10,7 +10,7 @@ import { DeckWithCardsWithReviewType } from "../../../store/deck-list-store.ts";
 
 type DeckCardDbTypePreview = Omit<
   DeckCardDbType,
-  "id" | "created_at" | "deck_id"
+  "id" | "createdAt" | "deckId"
 >;
 
 export const createMockCardPreviewForm = (
@@ -20,18 +20,18 @@ export const createMockCardPreviewForm = (
   return {
     deckForm: deck
       ? {
-          speakingCardsLocale: new TextField<string | null>(deck.speak_locale),
+          speakingCardsLocale: new TextField<string | null>(deck.speakLocale),
           speakingCardsField: new TextField<DeckSpeakFieldEnum | null>(
-            deck.speak_field,
+            deck.speakField,
           ),
-          cardInputModeId: deck.card_input_mode_id || null,
+          cardInputModeId: deck.cardInputModeId || null,
         }
       : undefined,
     cardForm: {
       front: new TextField<string>(card.front),
       back: new TextField<string>(card.back),
       example: new TextField<string>(card.example ?? ""),
-      answerType: new TextField<CardAnswerType>(card.answer_type || "remember"),
+      answerType: new TextField<CardAnswerType>(card.answerType || "remember"),
       answerFormType: "new",
       options: new TextField<DeckCardOptionsDbType>(card.options || null),
       answers: createAnswerListField(

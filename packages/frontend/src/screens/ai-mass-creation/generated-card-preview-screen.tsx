@@ -19,7 +19,7 @@ export function GeneratedCardPreviewScreen(props: Props) {
       front: card.front,
       answers: [],
       options: null,
-      answer_type: "remember",
+      answerType: "remember",
     }),
   );
 

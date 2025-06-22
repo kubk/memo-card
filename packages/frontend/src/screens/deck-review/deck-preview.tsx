@@ -80,7 +80,7 @@ export function DeckPreview(props: Props) {
             repeatCardsCount={
               deck.cardsToReview.filter((card) => card.type === "repeat").length
             }
-            totalCardsCount={deck.deck_card.length}
+            totalCardsCount={deck.deckCards.length}
           />
 
           <ButtonGrid>
@@ -128,7 +128,7 @@ export function DeckPreview(props: Props) {
 
       {!deckListStore.deckWithCardsRequest.isLoading &&
       deck.cardsToReview.length === 0 &&
-      deck.deck_card.length > 0 ? (
+      deck.deckCards.length > 0 ? (
         <>
           <Hint>
             <Flex direction={"column"} gap={10} mb={4}>

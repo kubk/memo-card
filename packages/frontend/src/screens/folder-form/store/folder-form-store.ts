@@ -10,7 +10,6 @@ import {
 import { t } from "../../../translations/t.ts";
 import { makeAutoObservable } from "mobx";
 import { screenStore } from "../../../store/screen-store.ts";
-import { folderUpsertRequest } from "../../../api/api.ts";
 import { deckListStore } from "../../../store/deck-list-store.ts";
 import { showConfirm } from "../../../lib/platform/show-confirm.ts";
 import { RequestStore } from "../../../lib/mobx-request/request-store.ts";
@@ -43,9 +42,9 @@ type FolderForm = {
 
 export class FolderFormStore {
   folderForm?: FolderForm;
-  folderUpsertRequest = new RequestStore(folderUpsertRequest);
+  folderUpsertRequest = new RequestStore(api.folderUpsert.mutate);
   decksMineRequest = new RequestStore(() =>
-    api["decks-mine"].query().then((response) => response.decks),
+    api.deck.decksCreatedByMe.query().then((response) => response.decks),
   );
 
   constructor() {
@@ -118,7 +117,7 @@ export class FolderFormStore {
       this.folderForm?.decks.value.map((deck) => deck.id) || [];
 
     return this.decksMineRequest.result.data.filter((deck) => {
-      return !deckIdsAdded.includes(deck.id) && !deck.folder_id;
+      return !deckIdsAdded.includes(deck.id) && !deck.folderId;
     });
   }
 
@@ -130,7 +129,7 @@ export class FolderFormStore {
       this.folderForm?.decks.value.map((deck) => deck.id) || [];
 
     return this.decksMineRequest.result.data.filter((deck) => {
-      return !deckIdsAdded.includes(deck.id) && deck.folder_id;
+      return !deckIdsAdded.includes(deck.id) && deck.folderId;
     });
   }
 

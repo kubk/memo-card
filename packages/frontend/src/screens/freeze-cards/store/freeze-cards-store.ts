@@ -5,7 +5,6 @@ import {
   TextField,
 } from "mobx-form-lite";
 import { makeAutoObservable } from "mobx";
-import { cardsFreezeRequest } from "../../../api/api.ts";
 import { screenStore } from "../../../store/screen-store.ts";
 import { showConfirm } from "../../../lib/platform/show-confirm.ts";
 import { t } from "../../../translations/t.ts";
@@ -13,9 +12,10 @@ import { formatFrozenCards } from "../translations.ts";
 import { RequestStore } from "../../../lib/mobx-request/request-store.ts";
 import { notifyError, notifySuccess } from "../../shared/snackbar/snackbar.tsx";
 import { assert } from "api";
+import { api } from "../../../api/trpc-api.ts";
 
 export class FreezeCardsStore {
-  cardsFreezeRequest = new RequestStore(cardsFreezeRequest);
+  cardsFreezeRequest = new RequestStore(api.cardsFreeze.mutate);
   isHowOpen = new BooleanToggle(false);
 
   form = {
