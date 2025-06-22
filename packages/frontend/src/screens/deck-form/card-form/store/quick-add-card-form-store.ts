@@ -16,7 +16,6 @@ import {
 } from "mobx-form-lite";
 import { screenStore } from "../../../../store/screen-store.ts";
 import { showConfirm } from "../../../../lib/platform/show-confirm.ts";
-import { addCardRequest } from "../../../../api/api.ts";
 import { AddCardRequest } from "api";
 import { deckListStore } from "../../../../store/deck-list-store.ts";
 import { t } from "../../../../translations/t.ts";
@@ -32,6 +31,7 @@ import {
   notifySuccess,
 } from "../../../shared/snackbar/snackbar.tsx";
 import { assert } from "api";
+import { api } from "../../../../api/trpc-api.ts";
 
 export class QuickAddCardFormStore implements CardFormStoreInterface {
   cardForm: CardFormType = {
@@ -42,7 +42,7 @@ export class QuickAddCardFormStore implements CardFormStoreInterface {
     options: new TextField<DeckCardOptionsDbType>(null),
     answers: createAnswerListField([], () => this.cardForm),
   };
-  addCardRequest = new RequestStore(addCardRequest);
+  addCardRequest = new RequestStore(api.card.add.mutate);
   cardInnerScreen = new TextField<CardInnerScreenType>(null);
 
   constructor(public deckForm?: LimitedDeckForm) {

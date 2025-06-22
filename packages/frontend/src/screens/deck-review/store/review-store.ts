@@ -1,6 +1,5 @@
 import { CardState, CardUnderReviewStore } from "./card-under-review-store.ts";
 import { makeAutoObservable, runInAction } from "mobx";
-import { reviewCardsRequest } from "../../../api/api.ts";
 import { ReviewOutcome } from "api";
 import { screenStore } from "../../../store/screen-store.ts";
 import {
@@ -17,6 +16,7 @@ import { RequestStore } from "../../../lib/mobx-request/request-store.ts";
 import { notifyError } from "../../shared/snackbar/snackbar.tsx";
 import { reportHandledError } from "../../../lib/rollbar/rollbar.tsx";
 import { assert } from "api";
+import { api } from "../../../api/trpc-api.ts";
 
 // Don't wait until the user has finished reviewing all the cards to send the progress
 const cardProgressSend = 3;
@@ -40,8 +40,8 @@ export class ReviewStore {
   };
   initialCardCount?: number;
 
-  reviewCardsRequest = new RequestStore(reviewCardsRequest);
-  reviewCardsRequestInProgress = new RequestStore(reviewCardsRequest);
+  reviewCardsRequest = new RequestStore(api.cardsReview.mutate);
+  reviewCardsRequestInProgress = new RequestStore(api.cardsReview.mutate);
   isStudyAnyway = false;
 
   constructor() {
@@ -70,7 +70,7 @@ export class ReviewStore {
       return;
     }
     this.cardsToReview = [];
-    deck.deck_card.forEach((card) => {
+    deck.deckCards.forEach((card) => {
       this.cardsToReview.push(new CardUnderReviewStore(card, deck, "repeat"));
     });
     if (this.cardsToReview.length) {
@@ -297,7 +297,7 @@ export class ReviewStore {
       return;
     }
 
-    return reviewCardsRequest({
+    return api.cardsReview.mutate({
       cards: this.cardsToSend,
       isInterrupted: true,
       isStudyAnyway: this.isStudyAnyway,

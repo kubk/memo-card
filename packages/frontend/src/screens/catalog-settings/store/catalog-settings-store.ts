@@ -6,16 +6,12 @@ import {
 } from "mobx-form-lite";
 import { RequestStore } from "../../../lib/mobx-request/request-store.ts";
 import { makeAutoObservable } from "mobx";
-import { CatalogItemSettingsResponse } from "api";
-import {
-  catalogItemSettingsGetRequest,
-  updateCatalogItemSettingsRequest,
-} from "../../../api/api.ts";
-import { LanguageCatalogItemAvailableIn } from "api";
+import { LanguageCatalogItemAvailableIn, RouterOutput } from "api";
 import { createCachedCategoriesRequest } from "../../../api/create-cached-categories-request.ts";
 import { screenStore } from "../../../store/screen-store.ts";
 import { notifyError, notifySuccess } from "../../shared/snackbar/snackbar.tsx";
 import { assert } from "api";
+import { api } from "../../../api/trpc-api.ts";
 
 export type CatalogSettingsForm = {
   isPublic: BooleanField;
@@ -26,11 +22,11 @@ export type CatalogSettingsForm = {
 export class CatalogSettingsStore {
   form?: CatalogSettingsForm;
   catalogItemSettingsGetRequest = new RequestStore(
-    catalogItemSettingsGetRequest,
+    api.catalogItemSettings.get.query,
   );
   categoriesRequest = createCachedCategoriesRequest();
   updateCatalogItemSettingsRequest = new RequestStore(
-    updateCatalogItemSettingsRequest,
+    api.catalogItemSettings.update.mutate,
   );
 
   constructor() {
@@ -58,13 +54,13 @@ export class CatalogSettingsStore {
     this.createCatalogSettingsForm(result.data);
   }
 
-  createCatalogSettingsForm(input: CatalogItemSettingsResponse) {
+  createCatalogSettingsForm(input: RouterOutput["catalogItemSettings"]["get"]) {
     this.form = {
-      isPublic: new BooleanField(input.is_public),
+      isPublic: new BooleanField(input.isPublic),
       availableIn: new TextField<LanguageCatalogItemAvailableIn | null>(
-        input.available_in as LanguageCatalogItemAvailableIn | null,
+        input.availableIn as LanguageCatalogItemAvailableIn | null,
       ),
-      categoryId: new TextField<string | null>(input.category_id),
+      categoryId: new TextField<string | null>(input.categoryId),
     };
   }
 
@@ -83,9 +79,9 @@ export class CatalogSettingsStore {
     const result = await this.updateCatalogItemSettingsRequest.execute({
       type: screen.itemType,
       id: screen.id,
-      category_id: this.form.categoryId.value,
-      available_in: this.form.availableIn.value,
-      is_public: this.form.isPublic.value,
+      categoryId: this.form.categoryId.value,
+      availableIn: this.form.availableIn.value,
+      isPublic: this.form.isPublic.value,
     });
 
     if (result.status === "error") {

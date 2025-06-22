@@ -24,7 +24,7 @@ export class UserStore {
     "isCardFormattingOn",
   );
   isSpeakingCardsMuted = new BooleanToggle(false);
-  activePlansRequest = new RequestStore(api["active-plans"].query);
+  activePlansRequest = new RequestStore(api.activePlans.query);
   selectedPaywall: PaywallType | null = null;
 
   constructor() {
@@ -73,14 +73,14 @@ export class UserStore {
   }
 
   get isAdmin() {
-    return this.user?.is_admin ?? false;
+    return this.user?.isAdmin ?? false;
   }
 
   get isSpeakingCardsEnabled() {
     if (this.isSpeakingCardsMuted.value) {
       return false;
     }
-    return this.user?.is_speaking_card_enabled ?? false;
+    return this.user?.isSpeakingCardEnabled ?? false;
   }
 
   get paidUntil() {

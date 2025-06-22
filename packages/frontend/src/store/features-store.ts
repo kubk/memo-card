@@ -4,7 +4,7 @@ import { Feature } from "api";
 import { api } from "../api/trpc-api";
 
 class FeaturesStore {
-  featuresRequest = new RequestStore(api["my-features"].query);
+  featuresRequest = new RequestStore(api.me.features.query);
 
   constructor() {
     makeAutoObservable(

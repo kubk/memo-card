@@ -272,7 +272,7 @@ export function DeckForm() {
               const deck = deckListStore.searchDeckById(deckId);
               if (!deck) return;
 
-              shareMemoCardUrl(deck.share_id);
+              shareMemoCardUrl(deck.shareId);
             }}
           >
             {t("share")}

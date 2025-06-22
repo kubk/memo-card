@@ -1,5 +1,4 @@
 import { makeAutoObservable } from "mobx";
-import { starsOrderPlanRequest } from "../../../api/api.ts";
 import { getBuyText } from "../translations.ts";
 import { RequestStore } from "../../../lib/mobx-request/request-store.ts";
 import { notifyError } from "../../shared/snackbar/snackbar.tsx";
@@ -16,8 +15,8 @@ import { api } from "../../../api/trpc-api.ts";
 export type PreviewItem = "individual_ai_card" | "bulk_ai_cards" | "ai_speech";
 
 export class PlansScreenStore {
-  plansRequest = new RequestStore(api["plans"].query);
-  createOrderRequest = new RequestStore(starsOrderPlanRequest);
+  plansRequest = new RequestStore(api.plans.query);
+  createOrderRequest = new RequestStore(api.starsOrderPlan.mutate);
   selectedPlanDuration = new TextField<PlanDuration | null>(null);
   selectedPreviewPlanFeature?: PreviewItem;
 
@@ -101,10 +100,10 @@ export class PlansScreenStore {
     assert(this.selectedPlanDuration.value);
 
     if (this.method === PaymentMethodType.Stars) {
-      const result = await this.createOrderRequest.execute(
-        this.proPlan.id,
-        this.selectedPlanDuration.value,
-      );
+      const result = await this.createOrderRequest.execute({
+        planId: this.proPlan.id,
+        duration: this.selectedPlanDuration.value.toString(),
+      });
       if (result.status === "error") {
         const info = `Order creation failed. Plan: ${this.proPlan.id}`;
         notifyError({ info: info, e: result.error });

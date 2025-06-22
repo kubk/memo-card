@@ -216,7 +216,7 @@ export function FolderForm() {
                     gap={4}
                   >
                     <div>{deck.name}</div>
-                    <div className="text-sm text-hint">{deck.folder_title}</div>
+                    <div className="text-sm text-hint">{deck.folderTitle}</div>
                   </Flex>
                 ),
               };

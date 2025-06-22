@@ -18,7 +18,7 @@ export function DeckScreen() {
   }
 
   if (previewStore.value) {
-    const cards = deckListStore.selectedDeck?.deck_card ?? [];
+    const cards = deckListStore.selectedDeck?.deckCards ?? [];
     const deck = deckListStore.selectedDeck || undefined;
     const subtitle = deckListStore.selectedDeck?.name || "";
     return (

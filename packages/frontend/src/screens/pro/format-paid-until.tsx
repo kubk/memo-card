@@ -1,3 +1,4 @@
+import { stringToDate } from "api";
 import { DateTime } from "luxon";
 
 export const formatPaidUntil = (paidUntil: string) => {
@@ -5,9 +6,9 @@ export const formatPaidUntil = (paidUntil: string) => {
     return null;
   }
 
-  const date = DateTime.fromISO(paidUntil);
+  const date = stringToDate(paidUntil);
 
-  if (!date.isValid) {
+  if (!date) {
     return null;
   }
 

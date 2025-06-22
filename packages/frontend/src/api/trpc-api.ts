@@ -5,17 +5,21 @@ import { getAuthHeaders } from "./get-auth-headers";
 import { envSafe } from "../envSafe";
 
 const allowedToReFetch = [
-  "upsert-deck",
-  "review-cards",
-  "add-card",
-  "add-deck-to-mine",
-  "user-settings",
+  "cardsReview",
+  "deckUpsert",
+  "card.add",
+  "card.addMultiple",
+  "userSettings",
 ];
 
 export const api = createTRPCClient<ApiRouter>({
   links: [
     retryLink({
       retry(opts) {
+        if (envSafe.stage === "local") {
+          return false;
+        }
+
         const shouldRetry =
           opts.op.type === "query" || allowedToReFetch.includes(opts.op.path);
 

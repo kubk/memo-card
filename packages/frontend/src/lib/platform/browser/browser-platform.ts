@@ -3,7 +3,6 @@ import { action, makeAutoObservable } from "mobx";
 import { BooleanToggle } from "mobx-form-lite";
 import { PlatformSchemaType } from "api";
 import { isDarkTheme } from "../../color-scheme/is-dark-theme.tsx";
-import { googleSignInRequest } from "../../../api/api.ts";
 import { UserSource } from "api";
 import {
   browserPlatformLangKey,
@@ -11,6 +10,7 @@ import {
 } from "./local-storage-keys.ts";
 import { cssVariablesDark, cssVariablesLight } from "./browser-colors.ts";
 import { LanguageShared } from "api";
+import { api } from "../../../api/trpc-api.ts";
 
 export class BrowserPlatform implements Platform {
   isMobile = false;
@@ -127,7 +127,8 @@ export class BrowserPlatform implements Platform {
 
   // Google auth outside Telegram mini app
   handleGoogleAuth(credential: string) {
-    googleSignInRequest({ token: credential })
+    api.googleSignin
+      .mutate({ token: credential })
       .then((response) => {
         localStorage.setItem(
           browserTokenKey,
