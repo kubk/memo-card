@@ -4,17 +4,19 @@ import { makeAutoObservable } from "mobx";
 import { formTouchAll, isFormValid } from "mobx-form-lite";
 import { screenStore } from "../../../../store/screen-store.ts";
 import { notifyError } from "../../../shared/snackbar/snackbar.tsx";
-import { aiSingleCardGenerateRequest } from "../../../../api/api.ts";
 import { deckListStore } from "../../../../store/deck-list-store.ts";
 import { createCachedCardInputModesRequest } from "../../../../api/create-cached-card-input-modes-request.ts";
 import { assert } from "api";
+import { api } from "../../../../api/trpc-api.ts";
 
 export class AiGeneratedCardFormStore {
   form = {
     prompt: createFrontCardField(""),
   };
   cardInputModesRequest = createCachedCardInputModesRequest();
-  aiSingleCardGenerateRequest = new RequestStore(aiSingleCardGenerateRequest);
+  aiSingleCardGenerateRequest = new RequestStore(
+    api.aiSingleCardGenerate.mutate,
+  );
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
@@ -47,7 +49,7 @@ export class AiGeneratedCardFormStore {
     const { card } = result.data.data;
     deckListStore.addCardOptimistic(card);
     screenStore.goToDeckForm({
-      deckId: card.deck_id,
+      deckId: card.deckId,
       cardId: card.id,
     });
   }

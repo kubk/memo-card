@@ -1,5 +1,4 @@
 import { RequestStore } from "../../../lib/mobx-request/request-store.ts";
-import { deckChangeInputModeRequest } from "../../../api/api.ts";
 import { makeAutoObservable } from "mobx";
 import { TextField } from "mobx-form-lite";
 import { notifyError, notifySuccess } from "../../shared/snackbar/snackbar.tsx";
@@ -10,10 +9,13 @@ import { createCachedCardInputModesRequest } from "../../../api/create-cached-ca
 import { CardInputModeDb } from "api";
 import { screenStore } from "../../../store/screen-store.ts";
 import { assert } from "api";
+import { api } from "../../../api/trpc-api.ts";
 
 export class CardInputModeStore {
   cardInputModesRequest = createCachedCardInputModesRequest();
-  deckChangeInputModeRequest = new RequestStore(deckChangeInputModeRequest);
+  deckChangeInputModeRequest = new RequestStore(
+    api.cardInputMode.change.mutate,
+  );
   modeId = new TextField<string | null>(null);
   viewModeId = new TextField<string | null>(null);
 

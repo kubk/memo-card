@@ -14,9 +14,9 @@ const createQuickAddCardFormStore = () => {
   return new QuickAddCardFormStore(
     deck
       ? {
-          speakingCardsField: new TextField(deck.speak_field),
-          speakingCardsLocale: new TextField(deck.speak_locale),
-          cardInputModeId: deck.card_input_mode_id || null,
+          speakingCardsField: new TextField(deck.speakField),
+          speakingCardsLocale: new TextField(deck.speakLocale),
+          cardInputModeId: deck.cardInputModeId || null,
         }
       : undefined,
   );
