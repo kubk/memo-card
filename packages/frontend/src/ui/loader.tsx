@@ -1,7 +1,9 @@
+import { Loader2 } from "lucide-react";
+
 export function Loader() {
   return (
     <div className="w-full text-center">
-      <i className="mdi mdi-loading mdi-spin mdi-24px" />
+      <Loader2 size={24} className="animate-spin" />
     </div>
   );
 }

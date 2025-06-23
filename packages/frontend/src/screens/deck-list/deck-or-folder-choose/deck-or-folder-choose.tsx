@@ -4,6 +4,7 @@ import { Flex } from "../../../ui/flex.tsx";
 import { Choice } from "./choice.tsx";
 import { BottomSheet } from "../../../ui/bottom-sheet/bottom-sheet.tsx";
 import { BooleanToggle } from "mobx-form-lite";
+import { FolderOpen, CreditCard, LayersIcon } from "lucide-react";
 
 type Props = { toggle: BooleanToggle };
 
@@ -23,7 +24,7 @@ export function DeckOrFolderChoose(props: Props) {
         <h3>{t("choose_what_to_create")}</h3>
         <Flex fullWidth direction={"column"} gap={8}>
           <Choice
-            icon={"mdi mdi-folder-open-outline mdi-36px"}
+            icon={<FolderOpen className="text-button self-center" size={36} />}
             title={t("folder")}
             description={t("folder_description")}
             onClick={() => {
@@ -31,7 +32,7 @@ export function DeckOrFolderChoose(props: Props) {
             }}
           />
           <Choice
-            icon={"mdi mdi-cards-outline mdi-36px"}
+            icon={<LayersIcon className="text-button self-center" size={36} />}
             title={t("deck")}
             description={t("deck_description")}
             onClick={() => {

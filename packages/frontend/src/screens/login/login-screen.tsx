@@ -8,6 +8,7 @@ import { TelegramPlatform } from "../../lib/platform/telegram/telegram-platform.
 import { ErrorScreen } from "../error-screen/error-screen.tsx";
 import { useGoogleOneTapLogin } from "react-google-one-tap-login";
 import { Button } from "../../ui/button.tsx";
+import { Chrome } from "lucide-react";
 
 export function LoginScreen() {
   const BOT_NAME = import.meta.env.VITE_BOT_NAME;
@@ -50,7 +51,7 @@ export function LoginScreen() {
         <div className="w-[219px]">
           <Button
             disabled={isGoogleSignInInProgress}
-            icon={<i className="mdi mdi-google mdi-24px text-current" />}
+            icon={<Chrome size={24} />}
             onClick={() => {
               setGoogleSignInHidden(false);
               setIsGoogleSignInInProgress(true);
