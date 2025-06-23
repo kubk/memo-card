@@ -8,7 +8,7 @@ import { userStore } from "../store/user-store.ts";
 type Props = {
   mainColor?: string;
   outline?: boolean;
-  icon: string | ReactNode;
+  icon: ReactNode;
   column?: boolean;
   align?: "left" | "center";
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
@@ -85,13 +85,7 @@ export function ButtonSideAligned(props: Props) {
           },
         )}
       >
-        {icon ? (
-          typeof icon === "string" ? (
-            <i className={cx("mdi", icon, css({ color: "inherit" }))} />
-          ) : (
-            icon
-          )
-        ) : null}
+        {icon ? icon : null}
         {children}
       </span>
     </button>

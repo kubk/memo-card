@@ -64,13 +64,9 @@ export function Input(props: Props) {
       />
       {icon ? (
         typeof icon === "string" ? (
-          <i
-            className={cn(
-              "mdi",
-              icon,
-              "absolute top-[8px] left-[12px] text-hint",
-            )}
-          />
+          <span className="absolute top-[18px] left-[12px] text-hint">
+            {icon}
+          </span>
         ) : (
           <span className="absolute top-[18px] left-[12px] text-hint">
             {icon}
