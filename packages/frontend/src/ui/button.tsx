@@ -76,13 +76,11 @@ export function Button(props: Props) {
     >
       {icon ? (
         typeof icon === "string" ? (
-          <i
-            className={cx(
-              "mdi",
-              icon,
-              css({ color: "inherit", position: "relative", top: 1 }),
-            )}
-          />
+          <span
+            className={css({ color: "inherit", position: "relative", top: 1 })}
+          >
+            {icon}
+          </span>
         ) : (
           icon
         )

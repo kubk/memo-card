@@ -4,7 +4,7 @@ import { useState } from "react";
 import { createVoicePlayer } from "../../deck-review/voice-player/create-voice-player.ts";
 import { SpeakLanguageEnum } from "../../../lib/voice-playback/speak.ts";
 import { UpgradeProBlock } from "./upgrade-pro-block.tsx";
-import { Play, Mic, LanguagesIcon } from "lucide-react";
+import { Play, Mic, LanguagesIcon, Star } from "lucide-react";
 import { throttle } from "../../../lib/throttle/throttle.ts";
 import { t } from "../../../translations/t.ts";
 import { cn } from "../../../ui/cn.ts";
@@ -92,7 +92,7 @@ export function AiSpeechPreview(props: Props) {
                 </div>
                 <div className="flex gap-1 items-center bg-purple-50 dark:bg-purple-500 dark:bg-opacity-30 text-xs text-purple-600 dark:text-purple-300 px-2 py-1 rounded-full">
                   Pro
-                  <span className="mdi mdi-star mdi" />
+                  <Star size={12} className="fill-current" />
                 </div>
               </div>
               <p className="text-hint text-sm mb-3">

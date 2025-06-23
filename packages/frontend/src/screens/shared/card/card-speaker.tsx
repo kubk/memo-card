@@ -1,5 +1,7 @@
 import { throttle } from "../../../lib/throttle/throttle.ts";
 import { LimitedCardUnderReviewStore } from "./card.tsx";
+import { PlayCircle } from "lucide-react";
+import { motion } from "framer-motion";
 
 type Props = {
   card: LimitedCardUnderReviewStore;
@@ -14,9 +16,12 @@ export function CardSpeaker(props: Props) {
 
   // throttle is needed to avoid user clicking on the speaker many times in a row hence creating many sounds
   return (
-    <i
-      onClick={throttle(card.speak, 500)}
-      className="mdi mdi-play-circle mdi-24px cursor-pointer relative top-[3px] text-button"
-    />
+    <motion.div whileTap={{ scale: 0.9 }}>
+      <PlayCircle
+        onClick={throttle(card.speak, 500)}
+        size={24}
+        className="cursor-pointer relative top-[3px] text-button"
+      />
+    </motion.div>
   );
 }

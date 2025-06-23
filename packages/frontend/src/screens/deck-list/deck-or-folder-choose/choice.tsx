@@ -32,7 +32,7 @@ export function Choice(props: Props) {
       >
         <Flex gap={12}>
           {typeof icon === "string" ? (
-            <i className={cn(icon, "text-button")} />
+            <span className="text-button">{icon}</span>
           ) : (
             icon
           )}

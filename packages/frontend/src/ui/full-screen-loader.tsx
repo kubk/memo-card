@@ -1,4 +1,5 @@
 import { theme } from "./theme.tsx";
+import { Loader2 } from "lucide-react";
 
 type Props = {
   height?: string;
@@ -14,7 +15,7 @@ export function FullScreenLoader(props: Props) {
       className="flex items-center justify-center"
       style={{ height, backgroundColor }}
     >
-      <i className="mdi mdi-loading mdi-spin mdi-48px" />
+      <Loader2 size={48} className="animate-spin" />
     </div>
   );
 }
