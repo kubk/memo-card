@@ -31,7 +31,7 @@ export class SuitableCardInputModeStore {
 
     const defaultInputMode = enInputMode || firstInputMode;
     if (!defaultInputMode) {
-      throw new Error("No input mode found");
+      return null;
     }
 
     return findByPreviewRecommendFor(userStore.language) || defaultInputMode;
