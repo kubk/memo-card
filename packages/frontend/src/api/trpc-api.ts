@@ -1,5 +1,10 @@
 import { ApiRouter } from "api";
-import { createTRPCClient, httpLink, retryLink, loggerLink } from "@trpc/client";
+import {
+  createTRPCClient,
+  httpLink,
+  retryLink,
+  loggerLink,
+} from "@trpc/client";
 import { trimEnd } from "../lib/string/trim";
 import { getAuthHeaders } from "./get-auth-headers";
 import { envSafe } from "../envSafe";
