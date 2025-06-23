@@ -1,5 +1,5 @@
 import { ApiRouter } from "api";
-import { createTRPCClient, httpLink, retryLink } from "@trpc/client";
+import { createTRPCClient, httpLink, retryLink, loggerLink } from "@trpc/client";
 import { trimEnd } from "../lib/string/trim";
 import { getAuthHeaders } from "./get-auth-headers";
 import { envSafe } from "../envSafe";
@@ -30,6 +30,9 @@ export const api = createTRPCClient<ApiRouter>({
         return opts.attempts <= 4;
       },
       retryDelayMs: (attemptIndex) => attemptIndex * 1000,
+    }),
+    loggerLink({
+      enabled: () => envSafe.stage === "staging",
     }),
     httpLink({
       url: `${trimEnd(envSafe.apiBaseUrl, "/")}/`,
