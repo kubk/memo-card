@@ -118,15 +118,17 @@ export function DeckPreview(props: Props) {
                   {t("view")}
                 </ButtonSideAligned>
 
-                <ButtonSideAligned
-                  icon={<TrashIcon size={24} />}
-                  outline
-                  onClick={() => {
-                    deckListStore.removeDeck(deck);
-                  }}
-                >
-                  {t("delete")}
-                </ButtonSideAligned>
+                {deckListStore.myDeckIds.includes(deck.id) && (
+                  <ButtonSideAligned
+                    icon={<TrashIcon size={24} />}
+                    outline
+                    onClick={() => {
+                      deckListStore.removeDeck(deck);
+                    }}
+                  >
+                    {t("delete")}
+                  </ButtonSideAligned>
+                )}
               </>
             )}
 
