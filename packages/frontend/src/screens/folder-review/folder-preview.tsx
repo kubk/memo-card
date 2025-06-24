@@ -123,20 +123,22 @@ export function FolderPreview(props: Props) {
             </>
           ) : (
             <>
-              <ButtonSideAligned
-                icon={<TrashIcon size={24} />}
-                outline
-                onClick={() => {
-                  const folderToRemove = deckListStore.searchFolderById(
-                    folder.id,
-                  );
-                  if (folderToRemove) {
-                    deckListStore.deleteFolder(folderToRemove);
-                  }
-                }}
-              >
-                {t("delete")}
-              </ButtonSideAligned>
+              {deckListStore.myFoldersIds.includes(folder.id) && (
+                <ButtonSideAligned
+                  icon={<TrashIcon size={24} />}
+                  outline
+                  onClick={() => {
+                    const folderToRemove = deckListStore.searchFolderById(
+                      folder.id,
+                    );
+                    if (folderToRemove) {
+                      deckListStore.deleteFolder(folderToRemove);
+                    }
+                  }}
+                >
+                  {t("delete")}
+                </ButtonSideAligned>
+              )}
             </>
           )}
         </ButtonGrid>
