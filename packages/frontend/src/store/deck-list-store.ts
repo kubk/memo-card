@@ -890,10 +890,8 @@ export class DeckListStore {
     type: "folder" | "deck";
     id: number;
   }): { isMineDeck: boolean; isMineFolder: boolean } => {
-    const myDeckIds = deckListStore.myDecks.map((deck) => deck.id);
-    const myFoldersIds = deckListStore.myFoldersAsDecks.map(
-      (folder) => folder.id,
-    );
+    const myDeckIds = this.myDeckIds;
+    const myFoldersIds = this.myFoldersIds;
 
     const isMineFolder =
       item.type === "folder" ? myFoldersIds.includes(item.id) : false;
@@ -902,6 +900,14 @@ export class DeckListStore {
 
     return { isMineFolder, isMineDeck };
   };
+
+  get myFoldersIds() {
+    return this.myFoldersAsDecks.map((folder) => folder.id);
+  }
+
+  get myDeckIds() {
+    return this.myDecks.map((deck) => deck.id);
+  }
 }
 
 const getCardsToReview = (
