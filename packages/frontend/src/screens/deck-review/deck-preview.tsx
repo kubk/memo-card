@@ -19,7 +19,14 @@ import { BrowserPlatform } from "../../lib/platform/browser/browser-platform.ts"
 import { ListHeader } from "../../ui/list-header.tsx";
 import { cn } from "../../ui/cn.ts";
 import { CardReviewStats } from "../shared/deck-stats/card-review-stats.tsx";
-import { EyeIcon, PencilIcon, PlusIcon, RefreshCwIcon } from "lucide-react";
+import {
+  EyeIcon,
+  PencilIcon,
+  PlusIcon,
+  RefreshCwIcon,
+  TrashIcon,
+} from "lucide-react";
+import { assert } from "api";
 
 type Props = { onCardListPreview: () => void };
 
@@ -100,15 +107,27 @@ export function DeckPreview(props: Props) {
             ) : null}
 
             {!deckListStore.canEditDeck && (
-              <ButtonSideAligned
-                icon={<EyeIcon size={24} />}
-                outline
-                onClick={() => {
-                  props.onCardListPreview();
-                }}
-              >
-                {t("view")}
-              </ButtonSideAligned>
+              <>
+                <ButtonSideAligned
+                  icon={<EyeIcon size={24} />}
+                  outline
+                  onClick={() => {
+                    props.onCardListPreview();
+                  }}
+                >
+                  {t("view")}
+                </ButtonSideAligned>
+
+                <ButtonSideAligned
+                  icon={<TrashIcon size={24} />}
+                  outline
+                  onClick={() => {
+                    deckListStore.removeDeck(deck);
+                  }}
+                >
+                  {t("delete")}
+                </ButtonSideAligned>
+              </>
             )}
 
             {deckListStore.canEditDeck ? (
