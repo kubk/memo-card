@@ -23,7 +23,7 @@ import { platform } from "../../lib/platform/platform.ts";
 import { BrowserPlatform } from "../../lib/platform/browser/browser-platform.ts";
 import { cn } from "../../ui/cn.ts";
 import { CardReviewStats } from "../shared/deck-stats/card-review-stats.tsx";
-import { PencilIcon, PlusIcon } from "lucide-react";
+import { PencilIcon, PlusIcon, TrashIcon } from "lucide-react";
 
 type Props = {
   onDeckPreviewOpen: (deck: DeckWithCardsWithReviewType) => void;
@@ -95,7 +95,7 @@ export function FolderPreview(props: Props) {
         />
 
         <ButtonGrid>
-          {deckListStore.canEditFolder && (
+          {deckListStore.canEditFolder ? (
             <>
               <ButtonSideAligned
                 icon={<PlusIcon size={24} />}
@@ -119,6 +119,23 @@ export function FolderPreview(props: Props) {
                 }}
               >
                 {t("edit")}
+              </ButtonSideAligned>
+            </>
+          ) : (
+            <>
+              <ButtonSideAligned
+                icon={<TrashIcon size={24} />}
+                outline
+                onClick={() => {
+                  const folderToRemove = deckListStore.searchFolderById(
+                    folder.id,
+                  );
+                  if (folderToRemove) {
+                    deckListStore.deleteFolder(folderToRemove);
+                  }
+                }}
+              >
+                {t("delete")}
               </ButtonSideAligned>
             </>
           )}
