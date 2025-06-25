@@ -20,6 +20,8 @@ import { assert } from "api";
 import { arrayDifference } from "../lib/array/array-difference.ts";
 import { boolNarrow } from "../lib/typescript/bool-narrow.ts";
 import { api } from "../api/trpc-api.ts";
+import { BrowserPlatform } from "../lib/platform/browser/browser-platform.ts";
+import { platform } from "../lib/platform/platform.ts";
 
 export enum StartParamType {
   RepeatAll = "repeat_all",
@@ -746,6 +748,9 @@ export class DeckListStore {
     const result = await this.myInfoRequest.execute();
     if (result.status === "error") {
       console.log("mc: error in myInfoRequest", result.error);
+      if (platform instanceof BrowserPlatform) {
+        screenStore.go({ type: "browserLogin" });
+      }
       return;
     }
     const userData = result.data;
