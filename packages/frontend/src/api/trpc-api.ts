@@ -25,6 +25,10 @@ export const api = createTRPCClient<ApiRouter>({
           return false;
         }
 
+        if (opts.op.path === "me.info" && opts.error.data?.code === "UNAUTHORIZED") {
+          return false;
+        }
+
         const shouldRetry =
           opts.op.type === "query" || allowedToReFetch.includes(opts.op.path);
 
