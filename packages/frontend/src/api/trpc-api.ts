@@ -25,7 +25,10 @@ export const api = createTRPCClient<ApiRouter>({
           return false;
         }
 
-        if (opts.op.path === "me.info" && opts.error.data?.code === "UNAUTHORIZED") {
+        if (
+          opts.op.path === "me.info" &&
+          opts.error.data?.code === "UNAUTHORIZED"
+        ) {
           return false;
         }
 

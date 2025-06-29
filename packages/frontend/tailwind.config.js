@@ -14,6 +14,10 @@ export default {
         hint: 'var(--tg-theme-hint-color)',
         link: 'var(--tg-theme-link-color)',
         button: 'var(--tg-theme-button-color)',
+        'button-outline-bg-light': '#2481cc33',
+        'button-outline-fg-light': '#2481cc',
+        'button-outline-bg-dark': '#2ea6ff33',
+        'button-outline-fg-dark': '#2ea6ff',
         'button-text': 'var(--tg-theme-button-text-color)',
         'secondary-bg': 'var(--tg-theme-secondary-bg-color)',
 
