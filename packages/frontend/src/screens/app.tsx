@@ -1,4 +1,5 @@
 import { MainScreen } from "./deck-list/main-screen.tsx";
+import { SearchScreen } from "./global-search/search-screen.tsx";
 import { DeckScreen } from "./deck-review/deck-screen.tsx";
 import { ReviewStoreProvider } from "./deck-review/store/review-store-context.tsx";
 import { screenStore } from "../store/screen-store.ts";
@@ -41,6 +42,7 @@ import { useMount } from "../lib/react/use-mount.ts";
 import { featuresStore } from "../store/features-store.ts";
 import { PaywallModals } from "./shared/feature-preview/paywall-modals.tsx";
 import { loadDevtools } from "../lib/eruda/loadDevtools.tsx";
+import { CardPreviewScreen } from "./card-preview/card-preview-screen.tsx";
 
 export function App() {
   useRestoreFullScreenExpand();
@@ -76,6 +78,11 @@ export function App() {
       {screenStore.screen.type === "main" && (
         <PreventTelegramSwipeDownClosingIos>
           <MainScreen />
+        </PreventTelegramSwipeDownClosingIos>
+      )}
+      {screenStore.screen.type === "globalSearch" && (
+        <PreventTelegramSwipeDownClosingIos>
+          <SearchScreen />
         </PreventTelegramSwipeDownClosingIos>
       )}
       {screenStore.screen.type === "debug" && (
@@ -122,6 +129,11 @@ export function App() {
         <DeckFormStoreProvider>
           <DeckFormScreen />
         </DeckFormStoreProvider>
+      )}
+      {screenStore.screen.type === "cardPreviewId" && (
+        <PreventTelegramSwipeDownClosingIos>
+          <CardPreviewScreen />
+        </PreventTelegramSwipeDownClosingIos>
       )}
       {screenStore.screen.type === "cardQuickAddForm" && (
         <PreventTelegramSwipeDownClosingIos>

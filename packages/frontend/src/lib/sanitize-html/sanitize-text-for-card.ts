@@ -32,6 +32,8 @@ const allowedTags = [
   "ol", // Ordered list
   "li", // List item
 
+  "mark",
+
   // html table tags
   "table",
   "thead",

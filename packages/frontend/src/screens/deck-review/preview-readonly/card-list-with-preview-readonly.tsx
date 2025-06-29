@@ -1,50 +1,35 @@
-import { useState } from "react";
 import { DeckCardDbType } from "api";
-import { CardPreviewFromListReadonly } from "./card-preview-from-list-readonly.tsx";
 import { CardListReadonly } from "./card-list-readonly.tsx";
 import { DeckWithCardsWithReviewType } from "../../../store/deck-list-store.ts";
 import { useScrollToTopOnMount } from "../../../lib/react/use-scroll-to-top-mount.ts";
+import { screenStore } from "../../../store/screen-store.ts";
 
 type Props = {
   onBack: () => void;
   cards: DeckCardDbType[];
-  deck?: DeckWithCardsWithReviewType;
+  deck: DeckWithCardsWithReviewType;
   subtitle: string;
   isFolderPreview?: boolean;
 };
 
 export function CardListWithPreviewReadonly(props: Props) {
   const { deck, onBack, cards, subtitle } = props;
-  const [selectedCardId, setSelectedCardId] = useState<number | null>(null);
 
   useScrollToTopOnMount();
 
-  if (!selectedCardId) {
-    return (
-      <CardListReadonly
-        subtitle={subtitle}
-        deck={deck}
-        onClick={(card) => {
-          setSelectedCardId(card.id);
-        }}
-        onBack={onBack}
-        cards={cards}
-      />
-    );
-  }
-
-  const selectedCard = cards.find((card) => card.id === selectedCardId);
-  if (!selectedCard) {
-    return null;
-  }
-
   return (
-    <CardPreviewFromListReadonly
-      card={selectedCard}
+    <CardListReadonly
+      subtitle={subtitle}
       deck={deck}
-      onBack={() => {
-        setSelectedCardId(null);
+      onClick={(card) => {
+        screenStore.go({
+          type: "cardPreviewId",
+          cardId: card.id,
+          deckId: deck.id,
+        });
       }}
+      onBack={onBack}
+      cards={cards}
     />
   );
 }

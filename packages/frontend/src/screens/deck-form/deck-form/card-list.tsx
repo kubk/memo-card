@@ -31,7 +31,7 @@ export function CardList() {
         <>
           <Input
             field={deckFormStore.cardFilter.text}
-            icon={<SearchIcon size={18} />}
+            mainIcon={<SearchIcon size={18} />}
             placeholder={t("search_card")}
           />
           <Flex ml={12} gap={8}>

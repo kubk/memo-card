@@ -35,6 +35,7 @@ import {
 } from "lucide-react";
 import { getTelegramChannelLink } from "../shared/get-telegram-channel-link.ts";
 import { getYouTubeChannelLink } from "../shared/get-youtube-channel-link.ts";
+import { GlobalSearchTrigger } from "../global-search/global-search-trigger.tsx";
 
 export function MainScreen() {
   const [deckFolderToggle] = useState(() => new BooleanToggle(false));
@@ -48,6 +49,7 @@ export function MainScreen() {
     <Flex direction={"column"} gap={12} pb={48}>
       <DeckOrFolderChoose toggle={deckFolderToggle} />
       <RuEduVideoChoice toggle={ruEduVideoToggle} />
+      <GlobalSearchTrigger />
 
       <div>
         <ListHeader

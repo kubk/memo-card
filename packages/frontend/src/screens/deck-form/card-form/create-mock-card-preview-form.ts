@@ -8,14 +8,16 @@ import { createAnswerListField } from "../deck-form/store/deck-form-store.ts";
 import { DeckCardDbType, DeckCardOptionsDbType, DeckSpeakFieldEnum } from "api";
 import { DeckWithCardsWithReviewType } from "../../../store/deck-list-store.ts";
 
-type DeckCardDbTypePreview = Omit<
-  DeckCardDbType,
-  "id" | "createdAt" | "deckId"
+type CardPreviewType = Omit<DeckCardDbType, "id" | "createdAt" | "deckId">;
+
+type DeckPreviewType = Pick<
+  DeckWithCardsWithReviewType,
+  "speakLocale" | "speakField" | "cardInputModeId"
 >;
 
 export const createMockCardPreviewForm = (
-  card: DeckCardDbTypePreview,
-  deck?: DeckWithCardsWithReviewType,
+  card: CardPreviewType,
+  deck?: DeckPreviewType,
 ): CardFormStoreInterface => {
   return {
     deckForm: deck
