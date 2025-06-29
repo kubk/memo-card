@@ -56,7 +56,9 @@ export function ReviewButton() {
               >
                 <CirclePlayIcon
                   style={{
-                    transform: "translate(0.25px, -0.5px)",
+                    transform: userStore.isRtl
+                      ? "translate(0.25px, -0.5px) scaleX(-1)"
+                      : "translate(0.25px, -0.5px)",
                   }}
                   className="h-8 w-8"
                 />
@@ -95,7 +97,7 @@ export function ReviewButton() {
                   <BookOpenIcon className="max-[360px]:hidden h-5 w-5 text-button" />
                   {t("review_all_due")}
                 </span>
-                <span className="bg-orange-100 text-orange-700 px-2 py-1 rounded-full text-sm">
+                <span className="bg-orange-100 dark:bg-orange-900 text-orange-700 dark:text-orange-50 px-2 py-1 rounded-full text-sm">
                   {translateCardCount(deckListStore.cardsToReviewCount)}
                 </span>
               </MenuButton>
@@ -109,7 +111,7 @@ export function ReviewButton() {
                   <BlocksIcon className="max-[360px]:hidden h-5 w-5 text-button" />
                   {t("review_custom")}
                 </span>
-                <span className="bg-slate-100 text-slate-700 px-2 py-1 rounded-full text-sm">
+                <span className="bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-50 px-2 py-1 rounded-full text-sm">
                   {translateCardCount(deckListStore.cardsTotalCount)}
                 </span>
               </MenuButton>

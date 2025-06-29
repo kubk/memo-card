@@ -13,12 +13,7 @@ export function ViewMoreDecksToggle() {
       )}
       onClick={deckListStore.isMyDecksExpanded.toggle}
     >
-      <span
-        className="focus:outline-none"
-        style={{
-          transform: "translateY(1px)",
-        }}
-      >
+      <span className="focus:outline-none">
         <ChevronIcon
           direction={deckListStore.isMyDecksExpanded.value ? "top" : "bottom"}
         />

@@ -18,9 +18,13 @@ export function DeckScreen() {
   }
 
   if (previewStore.value) {
-    const cards = deckListStore.selectedDeck?.deckCards ?? [];
-    const deck = deckListStore.selectedDeck || undefined;
-    const subtitle = deckListStore.selectedDeck?.name || "";
+    const deck = deckListStore.selectedDeck;
+    if (!deck) {
+      console.error("DeckScreen: No selected deck for preview");
+      return null;
+    }
+    const cards = deck.deckCards;
+    const subtitle = deck.name || "";
     return (
       <CardListWithPreviewReadonly
         onBack={previewStore.setFalse}
