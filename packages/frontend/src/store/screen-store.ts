@@ -1,5 +1,4 @@
 import { makeAutoObservable } from "mobx";
-import { CardFormType } from "../screens/deck-form/deck-form/store/deck-form-store.ts";
 import { makeLoggable } from "mobx-log";
 
 type DeckFormRoute = {
@@ -15,7 +14,7 @@ type Route =
   | { type: "deckMine"; deckId: number }
   | { type: "deckPublic"; deckId: number }
   | DeckFormRoute
-  | { type: "cardPreview"; form: CardFormType }
+  | { type: "cardPreviewId"; cardId: number; deckId: number }
   | { type: "folderForm"; folderId?: number }
   | { type: "folderPreview"; folderId: number }
   | { type: "reviewAll" }
@@ -30,7 +29,8 @@ type Route =
   | { type: "freezeCards" }
   | { type: "userStatistics" }
   | { type: "browserLogin" }
-  | { type: "userSettings"; index: number };
+  | { type: "userSettings"; index: number }
+  | { type: "globalSearch" };
 
 let routeIndex = 0;
 
