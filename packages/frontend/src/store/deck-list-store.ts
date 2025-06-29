@@ -590,7 +590,9 @@ export class DeckListStore {
   }
 
   get shouldShowMyDecksToggle() {
-    return this.myDecks.length > this.collapsedDeckLimit;
+    const hasManyDecks = this.myDecks.length > this.collapsedDeckLimit;
+    const hasAtLeastOneFolder = this.myFoldersAsDecks.length > 0;
+    return hasManyDecks || hasAtLeastOneFolder;
   }
 
   get myDeckItemsVisible(): DeckListItem[] {
