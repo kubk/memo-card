@@ -52,8 +52,7 @@ export function List(props: Props) {
               <div
                 className={cn(
                   "flex justify-between select-none items-center flex-1 py-3",
-                  showDivider &&
-                    "border-b border-divider dark:border-separator-dark",
+                  showDivider && "border-b border-secondary-bg",
                 )}
               >
                 <span className={item.isLinkColor ? "text-link" : undefined}>

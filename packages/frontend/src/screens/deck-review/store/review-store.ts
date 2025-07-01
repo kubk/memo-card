@@ -1,6 +1,10 @@
-import { CardState, CardUnderReviewStore } from "./card-under-review-store.ts";
+import { CardUnderReviewStore } from "./card-under-review-store.ts";
 import { makeAutoObservable, runInAction } from "mobx";
-import { ReviewOutcome } from "api";
+import {
+  ReviewOutcome,
+  DEFAULT_EASE_FACTOR,
+  DEFAULT_REPEAT_INTERVAL,
+} from "api";
 import { screenStore } from "../../../store/screen-store.ts";
 import {
   DeckCardDbTypeWithType,
@@ -22,20 +26,29 @@ import { api } from "../../../api/trpc-api.ts";
 const cardProgressSend = 3;
 
 type ReviewResult = {
-  forgotIds: number[];
-  rememberIds: number[];
+  againIds: number[];
+  hardIds: number[];
+  goodIds: number[];
+  easyIds: number[];
   neverIds: number[];
 };
 
-type SilentSendResult = Pick<ReviewResult, "rememberIds" | "neverIds">;
+type SilentSendResult = Pick<ReviewResult, "goodIds" | "easyIds" | "neverIds">;
 
 export class ReviewStore {
   cardsToReview: CardUnderReviewStore[] = [];
   currentCardId?: number;
 
-  result: ReviewResult = { forgotIds: [], rememberIds: [], neverIds: [] };
+  result: ReviewResult = {
+    againIds: [],
+    hardIds: [],
+    goodIds: [],
+    easyIds: [],
+    neverIds: [],
+  };
   sentResult: SilentSendResult = {
-    rememberIds: [],
+    goodIds: [],
+    easyIds: [],
     neverIds: [],
   };
   initialCardCount?: number;
@@ -59,7 +72,7 @@ export class ReviewStore {
     }
 
     deck.cardsToReview.forEach((card) => {
-      this.cardsToReview.push(new CardUnderReviewStore(card, deck, card.type));
+      this.cardsToReview.push(new CardUnderReviewStore(card, deck));
     });
 
     this.initializeInitialCurrentNextCards();
@@ -71,7 +84,13 @@ export class ReviewStore {
     }
     this.cardsToReview = [];
     deck.deckCards.forEach((card) => {
-      this.cardsToReview.push(new CardUnderReviewStore(card, deck, "repeat"));
+      const cardWithReview: DeckCardDbTypeWithType = {
+        ...card,
+        type: "repeat",
+        interval: DEFAULT_REPEAT_INTERVAL,
+        easeFactor: DEFAULT_EASE_FACTOR,
+      };
+      this.cardsToReview.push(new CardUnderReviewStore(cardWithReview, deck));
     });
     if (this.cardsToReview.length) {
       this.isStudyAnyway = true;
@@ -86,9 +105,7 @@ export class ReviewStore {
 
     myDecks.forEach((deck) => {
       deck.cardsToReview.forEach((card) => {
-        this.cardsToReview.push(
-          new CardUnderReviewStore(card, deck, card.type),
-        );
+        this.cardsToReview.push(new CardUnderReviewStore(card, deck));
       });
     });
 
@@ -104,9 +121,7 @@ export class ReviewStore {
       deck.cardsToReview
         .filter((card) => card.type === "repeat")
         .forEach((card) => {
-          this.cardsToReview.push(
-            new CardUnderReviewStore(card, deck, card.type),
-          );
+          this.cardsToReview.push(new CardUnderReviewStore(card, deck));
         });
     });
 
@@ -121,7 +136,7 @@ export class ReviewStore {
     }
 
     decks.forEach(([card, deck]) => {
-      this.cardsToReview.push(new CardUnderReviewStore(card, deck, card.type));
+      this.cardsToReview.push(new CardUnderReviewStore(card, deck));
     });
 
     this.initializeInitialCurrentNextCards();
@@ -162,9 +177,7 @@ export class ReviewStore {
     assert(currentCard, "Current card should not be empty");
 
     assert(currentCard.answerType === "choice_single");
-    const newState = currentCard.answer?.isCorrect
-      ? CardState.Remember
-      : CardState.Forget;
+    const newState = currentCard.answer?.isCorrect ? "good" : "again";
     this.changeState(newState);
   }
 
@@ -174,25 +187,26 @@ export class ReviewStore {
       return;
     }
     hapticImpact("heavy");
-    this.changeState(CardState.Never);
+    this.changeState("never");
   }
 
-  changeState(cardState: CardState) {
+  changeState(cardState: ReviewOutcome) {
     const currentCard = this.currentCard;
     assert(
       currentCard,
       "currentCard should not be null while changing state in review",
     );
     currentCard.changeState(cardState);
+    currentCard.updateAfterReview(cardState);
 
     const currentCardIdx = this.cardsToReview.findIndex(
       (card) => card.id === currentCard.id,
     );
     assert(currentCardIdx !== -1, "currentCardIdx is empty");
     this.cardsToReview.splice(currentCardIdx, 1);
-    if (currentCard.state === CardState.Forget) {
-      if (!this.result.forgotIds.includes(currentCard.id)) {
-        this.result.forgotIds.push(currentCard.id);
+    if (currentCard.state === "again") {
+      if (!this.result.againIds.includes(currentCard.id)) {
+        this.result.againIds.push(currentCard.id);
       }
       currentCard.close();
 
@@ -212,17 +226,37 @@ export class ReviewStore {
     }
 
     if (
-      currentCard.state === CardState.Remember &&
-      !this.result.forgotIds.includes(currentCard.id)
+      currentCard.state === "hard" &&
+      !this.result.againIds.includes(currentCard.id)
     ) {
-      this.result.rememberIds.push(currentCard.id);
+      this.result.hardIds.push(currentCard.id);
     }
 
-    if (currentCard.state === CardState.Never) {
-      this.result.forgotIds = this.result.forgotIds.filter(
+    if (
+      currentCard.state === "good" &&
+      !this.result.againIds.includes(currentCard.id)
+    ) {
+      this.result.goodIds.push(currentCard.id);
+    }
+
+    if (
+      currentCard.state === "easy" &&
+      !this.result.againIds.includes(currentCard.id)
+    ) {
+      this.result.easyIds.push(currentCard.id);
+    }
+
+    if (currentCard.state === "never") {
+      this.result.againIds = this.result.againIds.filter(
         (id) => id !== currentCard.id,
       );
-      this.result.rememberIds = this.result.rememberIds.filter(
+      this.result.hardIds = this.result.hardIds.filter(
+        (id) => id !== currentCard.id,
+      );
+      this.result.goodIds = this.result.goodIds.filter(
+        (id) => id !== currentCard.id,
+      );
+      this.result.easyIds = this.result.easyIds.filter(
         (id) => id !== currentCard.id,
       );
       this.result.neverIds.push(currentCard.id);
@@ -245,7 +279,10 @@ export class ReviewStore {
     }
 
     const cardsToSendInProgress = this.cardsToSend.filter(
-      (card) => card.outcome === "correct" || card.outcome === "never",
+      (card) =>
+        card.outcome === "good" ||
+        card.outcome === "easy" ||
+        card.outcome === "never",
     );
 
     const shouldSendInProgress =
@@ -265,9 +302,14 @@ export class ReviewStore {
     }
 
     runInAction(() => {
-      this.sentResult.rememberIds.push(
+      this.sentResult.goodIds.push(
         ...cardsToSendInProgress
-          .filter((sentCard) => sentCard.outcome === "correct")
+          .filter((sentCard) => sentCard.outcome === "good")
+          .map((sentCard) => sentCard.id),
+      );
+      this.sentResult.easyIds.push(
+        ...cardsToSendInProgress
+          .filter((sentCard) => sentCard.outcome === "easy")
           .map((sentCard) => sentCard.id),
       );
       this.sentResult.neverIds.push(
@@ -284,8 +326,10 @@ export class ReviewStore {
 
   get hasResult() {
     return (
-      this.result.forgotIds.length ||
-      this.result.rememberIds.length ||
+      this.result.againIds.length ||
+      this.result.hardIds.length ||
+      this.result.goodIds.length ||
+      this.result.easyIds.length ||
       this.result.neverIds.length
     );
   }
@@ -305,16 +349,28 @@ export class ReviewStore {
   }
 
   get cardsToSend(): Array<{ id: number; outcome: ReviewOutcome }> {
-    const forgotResult = this.result.forgotIds.map((forgotId) => ({
-      id: forgotId,
-      outcome: "wrong" as const,
+    const againResult = this.result.againIds.map((againId) => ({
+      id: againId,
+      outcome: "again" as const,
     }));
 
-    const rememberResult = this.result.rememberIds
-      .filter((rememberId) => !this.sentResult.rememberIds.includes(rememberId))
-      .map((rememberId) => ({
-        id: rememberId,
-        outcome: "correct" as const,
+    const hardResult = this.result.hardIds.map((hardId) => ({
+      id: hardId,
+      outcome: "hard" as const,
+    }));
+
+    const goodResult = this.result.goodIds
+      .filter((goodId) => !this.sentResult.goodIds.includes(goodId))
+      .map((goodId) => ({
+        id: goodId,
+        outcome: "good" as const,
+      }));
+
+    const easyResult = this.result.easyIds
+      .filter((easyId) => !this.sentResult.easyIds.includes(easyId))
+      .map((easyId) => ({
+        id: easyId,
+        outcome: "easy" as const,
       }));
 
     const neverResult = this.result.neverIds
@@ -324,7 +380,13 @@ export class ReviewStore {
         outcome: "never" as const,
       }));
 
-    return [...forgotResult, ...rememberResult, ...neverResult];
+    return [
+      ...againResult,
+      ...hardResult,
+      ...goodResult,
+      ...easyResult,
+      ...neverResult,
+    ];
   }
 
   async submitFinished(onReviewSuccess?: () => void) {
@@ -343,5 +405,29 @@ export class ReviewStore {
     }
     onReviewSuccess?.();
     hapticNotification("success");
+  }
+
+  onAgain() {
+    if (this.currentCard?.isOpened) {
+      this.changeState("again");
+    }
+  }
+
+  onHard() {
+    if (this.currentCard?.isOpened) {
+      this.changeState("hard");
+    }
+  }
+
+  onGood() {
+    if (this.currentCard?.isOpened) {
+      this.changeState("good");
+    }
+  }
+
+  onEasy() {
+    if (this.currentCard?.isOpened) {
+      this.changeState("easy");
+    }
   }
 }
