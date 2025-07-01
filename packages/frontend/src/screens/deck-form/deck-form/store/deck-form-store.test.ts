@@ -102,10 +102,17 @@ vi.mock("../../../../store/deck-list-store.ts", () => {
     },
   ];
 
+  const cardsToReview = deckCardsMock.slice(0, 2).map((card) => ({
+    ...card,
+    type: "new" as const,
+    interval: 0.4,
+    easeFactor: 2.5,
+  }));
+
   const myDecks = [
     {
       id: 1,
-      cardsToReview: deckCardsMock.slice(0, 2),
+      cardsToReview: cardsToReview,
       shareId: "share_id_mock",
       deckCards: deckCardsMock,
       name: "Test",

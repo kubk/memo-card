@@ -1,10 +1,14 @@
 import { LimitedCardUnderReviewStore } from "../../shared/card/card.tsx";
-import { CardAnswerDbType, DeckSpeakFieldEnum } from "api";
+import {
+  CardAnswerDbType,
+  DeckSpeakFieldEnum,
+  DEFAULT_EASE_FACTOR,
+  DEFAULT_START_INTERVAL,
+} from "api";
 import { CardAnswerType } from "api";
 import { makeAutoObservable } from "mobx";
 import { userStore } from "../../../store/user-store.ts";
 import { CardFormStoreInterface } from "../../deck-form/deck-form/store/card-form-store-interface.ts";
-import { BooleanToggle } from "mobx-form-lite";
 import {
   createVoicePlayer,
   VoicePlayer,
@@ -13,6 +17,10 @@ import { assert } from "api";
 
 export class CardPreviewStore implements LimitedCardUnderReviewStore {
   id: number;
+  cardReviewType: "new" | "repeat" = "new";
+  interval = DEFAULT_START_INTERVAL;
+  easeFactor = DEFAULT_EASE_FACTOR;
+  isAgain = false;
   front: string;
   back: string;
   example: string | null = null;
@@ -24,9 +32,6 @@ export class CardPreviewStore implements LimitedCardUnderReviewStore {
   deckSpeakField: DeckSpeakFieldEnum | null = null;
 
   isOpened = false;
-
-  // A hack for iOS when the card content is too large
-  isOverflowing = new BooleanToggle(false);
 
   constructor(cardFormStore: CardFormStoreInterface) {
     makeAutoObservable(
