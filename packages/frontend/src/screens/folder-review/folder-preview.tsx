@@ -67,18 +67,9 @@ export function FolderPreview(props: Props) {
     <Flex direction={"column"} pb={82}>
       <ListHeader text={t("folder")} />
       <div className="flex flex-col gap-4 rounded-[12px] px-4 pb-4 pt-0 bg-bg">
-        <div className="relative">
-          <div className="absolute left-0 top-1.5">
-            <BrowserBackButton />
-          </div>
-          <h3
-            className={cn(
-              "pt-3",
-              platform instanceof BrowserPlatform ? "pl-8" : "pl-0",
-            )}
-          >
-            {folder.name}
-          </h3>
+        <div className={cn("flex gap-1.5")}>
+          <BrowserBackButton className="mt-3" />
+          <h3 className={cn("pt-3")}>{folder.name}</h3>
         </div>
         <div>
           <DeckFolderDescription deck={folder} />

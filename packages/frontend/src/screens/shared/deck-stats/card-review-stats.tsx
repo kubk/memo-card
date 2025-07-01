@@ -26,7 +26,7 @@ export function CardReviewStats(props: Props) {
         "flex-reverse": userStore.isRtl,
       })}
     >
-      <div className="flex-1 px-1 bg-amber-100 text-amber-800 dark:bg-yellow-900/60 dark:text-yellow-300 rounded-lg py-2 flex flex-col items-center border-t border-amber-50/50 dark:border-yellow-700/50">
+      <div className="flex-1 px-1 bg-amber-100 text-amber-800 dark:bg-yellow-900/60 dark:text-yellow-300 rounded-lg py-2 flex flex-col items-center border border-amber-50/50 dark:border-yellow-700/50">
         {isLoading ? (
           <LoadingPlaceholder />
         ) : (
@@ -39,7 +39,7 @@ export function CardReviewStats(props: Props) {
         </span>
       </div>
 
-      <div className="flex-1 px-1 bg-green-100 text-green-800 dark:bg-green-900/60 dark:text-green-300 rounded-lg py-2 flex flex-col items-center border-t border-green-50/50 dark:border-green-700/50">
+      <div className="flex-1 px-1 bg-green-100 text-green-800 dark:bg-green-900/60 dark:text-green-300 rounded-lg py-2 flex flex-col items-center border border-green-50/50 dark:border-green-700/50">
         {isLoading ? (
           <LoadingPlaceholder />
         ) : (
@@ -52,7 +52,7 @@ export function CardReviewStats(props: Props) {
         </span>
       </div>
 
-      <div className="flex-1 px-1 bg-gray-100 text-gray-800 dark:bg-gray-800/60 dark:text-gray-300 rounded-lg py-2 flex flex-col items-center border-t border-gray-50/50 dark:border-gray-700/50">
+      <div className="flex-1 px-1 bg-gray-100 text-gray-800 dark:bg-gray-800/60 dark:text-gray-300 rounded-lg py-2 flex flex-col items-center border border-gray-50/50 dark:border-gray-700/50">
         {isLoading ? (
           <LoadingPlaceholder />
         ) : (

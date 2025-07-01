@@ -2,7 +2,12 @@ import { action, makeAutoObservable, runInAction, when } from "mobx";
 import { type MyInfoResponse } from "api";
 import { type DeckCardDbType, type DeckWithCardsDbType } from "api";
 import { screenStore } from "./screen-store.ts";
-import { CardReviewType, type CardToReviewDbType } from "api";
+import {
+  CardReviewType,
+  type CardToReviewDbType,
+  DEFAULT_EASE_FACTOR,
+  DEFAULT_START_INTERVAL,
+} from "api";
 import { ReviewStore } from "../screens/deck-review/store/review-store.ts";
 import { reportHandledError } from "../lib/rollbar/rollbar.tsx";
 import { BooleanToggle } from "mobx-form-lite";
@@ -35,6 +40,8 @@ export enum StartParamType {
 
 export type DeckCardDbTypeWithType = DeckCardDbType & {
   type: CardReviewType;
+  interval: number;
+  easeFactor: number;
 };
 
 export type DeckWithCardsWithReviewType = DeckWithCardsDbType & {
@@ -133,7 +140,9 @@ export class DeckListStore {
         deck.deckCards.map((card) => ({
           id: card.id,
           deckId: deck.id,
-          type: "new",
+          type: "new" as const,
+          interval: DEFAULT_START_INTERVAL,
+          easeFactor: DEFAULT_EASE_FACTOR,
         })),
       );
     }
@@ -147,8 +156,11 @@ export class DeckListStore {
     }
     deck.deckCards.push(card);
     this.myInfo.cardsToReview.push({
-      ...card,
+      id: card.id,
+      deckId: card.deckId,
       type: "new",
+      interval: DEFAULT_START_INTERVAL,
+      easeFactor: DEFAULT_EASE_FACTOR,
     });
   }
 
@@ -341,6 +353,8 @@ export class DeckListStore {
         cardsToReview: deck.deckCards.map((card) => ({
           ...card,
           type: "new" as const,
+          interval: DEFAULT_START_INTERVAL,
+          easeFactor: DEFAULT_EASE_FACTOR,
         })),
       }));
 
@@ -438,7 +452,12 @@ export class DeckListStore {
 
     const cardsToReview =
       screen.type === "deckPublic"
-        ? deck.deckCards.map((card) => ({ ...card, type: "new" as const }))
+        ? deck.deckCards.map((card) => ({
+            ...card,
+            type: "new" as const,
+            interval: DEFAULT_START_INTERVAL,
+            easeFactor: DEFAULT_EASE_FACTOR,
+          }))
         : getCardsToReview(deck, this.myInfo.cardsToReview);
 
     return {
@@ -921,20 +940,28 @@ const getCardsToReview = (
   deck: DeckWithCardsDbType,
   cardsToReview: CardToReviewDbType[],
 ) => {
-  const map = new Map<number, CardReviewType>();
+  const map = new Map<number, CardToReviewDbType>();
 
   cardsToReview.forEach((cardToReview) => {
     if (cardToReview.deckId == deck.id) {
-      map.set(cardToReview.id, cardToReview.type);
+      map.set(cardToReview.id, cardToReview);
     }
   });
 
   return deck.deckCards
     .filter((card) => map.has(card.id))
-    .map((card) => ({
-      ...card,
-      type: map.get(card.id)!,
-    }))
+    .map((card) => {
+      const reviewData = map.get(card.id);
+      if (!reviewData) {
+        throw new Error(`Review data not found for card ${card.id}`);
+      }
+      return {
+        ...card,
+        type: reviewData.type,
+        interval: reviewData.interval,
+        easeFactor: reviewData.easeFactor,
+      };
+    })
     .slice()
     .sort((card) => (card.type === "repeat" ? -1 : 1));
 };
