@@ -33,11 +33,20 @@ type ReviewResult = {
   neverIds: number[];
 };
 
+export type ReviewedCard = {
+  id: number;
+  front: string;
+  back: string;
+  outcome: ReviewOutcome;
+  deckName?: string;
+};
+
 type SilentSendResult = Pick<ReviewResult, "goodIds" | "easyIds" | "neverIds">;
 
 export class ReviewStore {
   cardsToReview: CardUnderReviewStore[] = [];
   currentCardId?: number;
+  reviewedCards: ReviewedCard[] = [];
 
   result: ReviewResult = {
     againIds: [],
@@ -71,6 +80,7 @@ export class ReviewStore {
       return;
     }
 
+    this.reviewedCards = [];
     deck.cardsToReview.forEach((card) => {
       this.cardsToReview.push(new CardUnderReviewStore(card, deck));
     });
@@ -83,6 +93,7 @@ export class ReviewStore {
       return;
     }
     this.cardsToReview = [];
+    this.reviewedCards = [];
     deck.deckCards.forEach((card) => {
       const cardWithReview: DeckCardDbTypeWithType = {
         ...card,
@@ -103,6 +114,7 @@ export class ReviewStore {
       return;
     }
 
+    this.reviewedCards = [];
     myDecks.forEach((deck) => {
       deck.cardsToReview.forEach((card) => {
         this.cardsToReview.push(new CardUnderReviewStore(card, deck));
@@ -117,6 +129,7 @@ export class ReviewStore {
       return;
     }
 
+    this.reviewedCards = [];
     myDecks.forEach((deck) => {
       deck.cardsToReview
         .filter((card) => card.type === "repeat")
@@ -135,6 +148,7 @@ export class ReviewStore {
       return;
     }
 
+    this.reviewedCards = [];
     decks.forEach(([card, deck]) => {
       this.cardsToReview.push(new CardUnderReviewStore(card, deck));
     });
@@ -198,6 +212,20 @@ export class ReviewStore {
     );
     currentCard.changeState(cardState);
     currentCard.updateAfterReview(cardState);
+
+    // Collect reviewed card data
+    const existingCardIdx = this.reviewedCards.findIndex(
+      (card) => card.id === currentCard.id,
+    );
+    if (existingCardIdx === -1) {
+      this.reviewedCards.push({
+        id: currentCard.id,
+        front: currentCard.front,
+        back: currentCard.back,
+        outcome: cardState,
+        deckName: currentCard.deckName,
+      });
+    }
 
     const currentCardIdx = this.cardsToReview.findIndex(
       (card) => card.id === currentCard.id,
@@ -429,5 +457,12 @@ export class ReviewStore {
     if (this.currentCard?.isOpened) {
       this.changeState("easy");
     }
+  }
+
+  get sortedReviewedCards() {
+    const outcomeOrder = { again: 0, hard: 1, good: 2, easy: 3, never: 4 };
+    return [...this.reviewedCards].sort(
+      (a, b) => outcomeOrder[a.outcome] - outcomeOrder[b.outcome],
+    );
   }
 }
