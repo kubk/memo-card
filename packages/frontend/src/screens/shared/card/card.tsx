@@ -2,21 +2,19 @@ import { CardUnderReviewStore } from "../../deck-review/store/card-under-review-
 import { HorizontalDivider } from "../../../ui/horizontal-divider.tsx";
 import { CardSpeaker } from "./card-speaker.tsx";
 import { CardFieldView } from "./card-field-view.tsx";
-import { useIsOverflowing } from "../../../lib/react/use-is-overflowing.ts";
-import { Dropdown } from "../../../ui/dropdown.tsx";
 import { t } from "../../../translations/t.ts";
-import { boolNarrow } from "../../../lib/typescript/bool-narrow.ts";
-import { userStore } from "../../../store/user-store.ts";
-import { hapticSelection } from "../../../lib/platform/telegram/haptics.ts";
 import { assert } from "api";
 import { cn } from "../../../ui/cn.ts";
 
-// Export the constant for backward compatibility
 export const cardSize = 310;
 export const IDK_ID = "idk";
 
 export type LimitedCardUnderReviewStore = Pick<
   CardUnderReviewStore,
+  | "id"
+  | "cardReviewType"
+  | "interval"
+  | "easeFactor"
   | "isOpened"
   | "deckSpeakField"
   | "speak"
@@ -28,65 +26,26 @@ export type LimitedCardUnderReviewStore = Pick<
   | "answer"
   | "openWithAnswer"
   | "open"
-  | "isOverflowing"
+  | "isAgain"
   | "isCardSpeakerVisible"
   | "voicePlayer"
 >;
 
 type Props = {
   card: LimitedCardUnderReviewStore;
-  onHideCardForever?: () => void;
 };
 
 export function Card(props: Props) {
-  const { card, onHideCardForever } = props;
-  const { ref: cardRef } = useIsOverflowing(
-    card.isOpened,
-    (is) => card?.isOverflowing.setValue(is),
-  );
+  const { card } = props;
 
   return (
     <div
-      ref={cardRef}
       className={cn(
         card.answerType === "remember"
-          ? "absolute left-1/2 top-0 -ml-card-half h-card w-card box-border rounded-xl text-text flex items-center justify-center p-2.5 bg-bg overflow-x-auto"
+          ? "min-h-[calc(100vh-16rem)] w-full box-border rounded-xl text-text flex items-center justify-center p-2.5 bg-bg overflow-x-auto"
           : "text-text",
       )}
     >
-      {
-        <div
-          className={cn(
-            "absolute -top-1",
-            userStore.isRtl ? "left-[30px]" : "right-[30px]",
-            "cursor-pointer",
-          )}
-        >
-          <Dropdown
-            items={[
-              onHideCardForever
-                ? {
-                    text: t("hide_card_forever"),
-                    onClick: () => {
-                      onHideCardForever();
-                    },
-                  }
-                : undefined,
-              card.voicePlayer
-                ? {
-                    text: userStore.isSpeakingCardsMuted.value
-                      ? t("unmute_cards")
-                      : t("mute_cards"),
-                    onClick: () => {
-                      userStore.isSpeakingCardsMuted.toggle();
-                      hapticSelection();
-                    },
-                  }
-                : undefined,
-            ].filter(boolNarrow)}
-          />
-        </div>
-      }
       <span className="text-center font-semibold text-text">
         <div className="break-words flex gap-2 justify-center items-center">
           <div className="mt-1">

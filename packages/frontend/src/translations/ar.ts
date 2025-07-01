@@ -43,8 +43,10 @@ export const ar: Translation = {
     "هل أنت متأكد أنك تريد إخفاء هذه البطاقة إلى الأبد؟ لن تراها مرة أخرى",
   wysiwyg_big_header: "عنوان كبير",
   next: "التالي",
-  review_wrong_label: "خطأ",
-  review_correct_label: "صحيح",
+  review_again: "مرة أخرى",
+  review_hard: "صعب",
+  review_good: "جيد",
+  review_easy: "سهل",
   wysiwyg_small_header: "عنوان صغير",
   wysiwyg_middle_header: "عنوان متوسط",
   wysiwyg_bold: "عريض",
@@ -157,8 +159,6 @@ export const ar: Translation = {
   no_cards_to_review_in_deck: `عمل رائع! 🌟 لقد قمت بمراجعة جميع البطاقات في هذه المجموعة حتى الآن. عد لاحقًا للمزيد.`,
   repeat_cards_anyway: `كرر البطاقات على أي حال`,
   no_cards_to_review_all: `عمل رائع! 🌟 لقد كررت جميع البطاقات لليوم. عد لاحقًا للمزيد.`,
-  review_need_to_repeat: "مراجعة",
-  review_right: "تذكرته",
   review_show_answer: "عرض الإجابة",
   share: "مشاركة",
   warning_telegram_outdated_title: "تيليجرام الخاص بك قديم",
@@ -207,6 +207,8 @@ export const ar: Translation = {
   answer_text: "نص الإجابة",
   is_correct: "صحيح",
   is_correct_explanation: `يمكن أن يكون هناك إجابة صحيحة واحدة فقط`,
+  review_correct_label: "صحيح",
+  review_wrong_label: "خطأ",
   advanced: "متقدم",
   review_idk: "لا أعرف",
   card_answer_type: "نوع البطاقة",

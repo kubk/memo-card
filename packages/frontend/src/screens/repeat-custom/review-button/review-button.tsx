@@ -11,7 +11,8 @@ import { CustomCloseIcon } from "./icons/custom-close-icon.tsx";
 import { t } from "../../../translations/t.ts";
 import { translateCardCount } from "../translate-card-count.ts";
 import { hapticImpact } from "../../../lib/platform/telegram/haptics.ts";
-import { MenuButton } from "./menu-button.tsx";
+import { AnimatedDropdownBody } from "../../../ui/animated-dropdown/animated-dropdown-body.tsx";
+import { AnimatedDropdownItem } from "../../../ui/animated-dropdown/animated-dropdown-item.tsx";
 
 export function ReviewButton() {
   const [isMenuOpen] = useState(() => new BooleanToggle(false));
@@ -33,7 +34,7 @@ export function ReviewButton() {
             hapticImpact("medium");
             isMenuOpen.toggle();
           }}
-          className="h-14 pt-0.5 w-14 rounded-full bg-button text-white shadow-xl flex items-center justify-center z-20"
+          className="h-14 pt-0.5 w-14 rounded-full bg-button text-white shadow-xl flex items-center justify-center z-20 active:scale-95"
         >
           <AnimatePresence mode="popLayout" initial={false}>
             {isMenuOpen.value ? (
@@ -69,26 +70,8 @@ export function ReviewButton() {
 
         <AnimatePresence>
           {isMenuOpen.value && (
-            <m.div
-              className={cn(
-                "absolute bottom-16 bg-bg rounded-lg shadow-lg border border-secondary-bg overflow-hidden z-10",
-                {
-                  "right-0": !userStore.isRtl,
-                  "left-0": userStore.isRtl,
-                },
-              )}
-              initial={{
-                opacity: 0,
-                scale: 0.8,
-                transformOrigin: userStore.isRtl
-                  ? "bottom left"
-                  : "bottom right",
-              }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.8 }}
-              transition={{ duration: 0.2 }}
-            >
-              <MenuButton
+            <AnimatedDropdownBody origin="bottom">
+              <AnimatedDropdownItem
                 onClick={() => {
                   screenStore.go({ type: "reviewAll" });
                 }}
@@ -100,8 +83,9 @@ export function ReviewButton() {
                 <span className="bg-orange-100 dark:bg-orange-900 text-orange-700 dark:text-orange-50 px-2 py-1 rounded-full text-sm">
                   {translateCardCount(deckListStore.cardsToReviewCount)}
                 </span>
-              </MenuButton>
-              <MenuButton
+              </AnimatedDropdownItem>
+              <AnimatedDropdownItem
+                className="border-t border-secondary-bg"
                 onClick={() => {
                   screenStore.go({ type: "reviewCustom" });
                   hapticImpact("light");
@@ -114,8 +98,8 @@ export function ReviewButton() {
                 <span className="bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-50 px-2 py-1 rounded-full text-sm">
                   {translateCardCount(deckListStore.cardsTotalCount)}
                 </span>
-              </MenuButton>
-            </m.div>
+              </AnimatedDropdownItem>
+            </AnimatedDropdownBody>
           )}
         </AnimatePresence>
       </div>

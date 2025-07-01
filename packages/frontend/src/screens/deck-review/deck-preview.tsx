@@ -27,6 +27,7 @@ import {
   TrashIcon,
 } from "lucide-react";
 import { assert } from "api";
+import { userStore } from "../../store/user-store.ts";
 
 type Props = { onCardListPreview: () => void };
 
@@ -62,18 +63,9 @@ export function DeckPreview(props: Props) {
       <div>
         <ListHeader text={t("deck")} />
         <div className="flex flex-col gap-4 rounded-[12px] px-4 pb-4 pt-0 bg-bg">
-          <div className="relative">
-            <div className="absolute left-0 top-1.5">
-              <BrowserBackButton />
-            </div>
-            <h3
-              className={cn(
-                "pt-3",
-                platform instanceof BrowserPlatform ? "pl-8" : "pl-0",
-              )}
-            >
-              {deck.name}
-            </h3>
+          <div className={cn("flex gap-1.5")}>
+            <BrowserBackButton className="mt-3" />
+            <h3 className={cn("pt-3")}>{deck.name}</h3>
           </div>
           <div>
             <DeckFolderDescription deck={deck} />

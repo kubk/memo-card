@@ -1,13 +1,16 @@
 import { makeAutoObservable } from "mobx";
 import {
+  ReviewOutcome,
   type CardAnswerDbType,
-  type DeckCardDbType,
   type DeckSpeakFieldEnum,
+  reviewCard,
 } from "api";
-import { DeckWithCardsWithReviewType } from "../../../store/deck-list-store.ts";
+import {
+  DeckWithCardsWithReviewType,
+  DeckCardDbTypeWithType,
+} from "../../../store/deck-list-store.ts";
 import { CardAnswerType } from "api";
 import { userStore } from "../../../store/user-store.ts";
-import { BooleanToggle } from "mobx-form-lite";
 import { CardReviewType } from "api";
 import { LimitedCardUnderReviewStore } from "../../shared/card/card.tsx";
 import {
@@ -15,15 +18,13 @@ import {
   VoicePlayer,
 } from "../voice-player/create-voice-player.ts";
 import { assert } from "api";
-
-export enum CardState {
-  Remember = "remember",
-  Forget = "forget",
-  Never = "never",
-}
+import { DateTime } from "luxon";
 
 export class CardUnderReviewStore implements LimitedCardUnderReviewStore {
   id: number;
+  cardReviewType: CardReviewType;
+  interval: number;
+  easeFactor: number;
   front: string;
   back: string;
   example: string | null = null;
@@ -34,18 +35,17 @@ export class CardUnderReviewStore implements LimitedCardUnderReviewStore {
   answers: CardAnswerDbType[] = [];
   answer?: CardAnswerDbType;
 
+  // Used to avoid showing "easy" temporarily
+  isAgain = false;
+
   isOpened = false;
-  state?: CardState;
+  state?: ReviewOutcome;
 
-  // A hack for iOS when the card content is too large
-  isOverflowing = new BooleanToggle(false);
-
-  constructor(
-    card: DeckCardDbType,
-    deck: DeckWithCardsWithReviewType,
-    public cardReviewType: CardReviewType,
-  ) {
+  constructor(card: DeckCardDbTypeWithType, deck: DeckWithCardsWithReviewType) {
     this.id = card.id;
+    this.cardReviewType = card.type;
+    this.interval = card.interval;
+    this.easeFactor = card.easeFactor;
     this.front = card.front;
     this.back = card.back;
     this.example = card.example;
@@ -92,7 +92,7 @@ export class CardUnderReviewStore implements LimitedCardUnderReviewStore {
     this.isOpened = false;
   }
 
-  changeState(state: CardState) {
+  changeState(state: ReviewOutcome) {
     if (!this.isOpened) {
       this.isOpened = true;
     }
@@ -113,5 +113,19 @@ export class CardUnderReviewStore implements LimitedCardUnderReviewStore {
     }
 
     return this.isOpened && type === this.deckSpeakField;
+  }
+
+  updateAfterReview(outcome: ReviewOutcome) {
+    const result = reviewCard(
+      DateTime.now(),
+      this.interval,
+      outcome,
+      this.easeFactor,
+    );
+    this.interval = result.interval;
+    this.easeFactor = result.easeFactor;
+    if (outcome === "again") {
+      this.isAgain = true;
+    }
   }
 }

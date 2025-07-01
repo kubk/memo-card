@@ -1,11 +1,38 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { CardState, CardUnderReviewStore } from "./card-under-review-store.ts";
+import { CardUnderReviewStore } from "./card-under-review-store.ts";
 import { ReviewStore } from "./review-store.ts";
 import {
   DeckCardDbTypeWithType,
   DeckWithCardsWithReviewType,
 } from "../../../store/deck-list-store.ts";
 import { when } from "mobx";
+import {
+  DEFAULT_EASE_FACTOR,
+  DEFAULT_REPEAT_INTERVAL,
+  DEFAULT_START_INTERVAL,
+} from "api";
+
+function createMockCardWithReview(
+  id: number,
+  front: string,
+  back: string,
+  type: "new" | "repeat",
+): DeckCardDbTypeWithType {
+  return {
+    id,
+    deckId: 1,
+    createdAt: "2023-10-06T02:13:20.985Z",
+    example: null,
+    front,
+    back,
+    type,
+    interval: type === "new" ? DEFAULT_START_INTERVAL : DEFAULT_REPEAT_INTERVAL,
+    easeFactor: DEFAULT_EASE_FACTOR,
+    answerType: "remember",
+    answers: null,
+    options: null,
+  };
+}
 
 vi.mock("mobx-persist-store", () => {
   return {
@@ -55,6 +82,8 @@ const repeatCardsMock: DeckCardDbTypeWithType[] = [
     front: "time",
     back: "Время",
     type: "repeat",
+    interval: DEFAULT_REPEAT_INTERVAL,
+    easeFactor: DEFAULT_EASE_FACTOR,
     answerType: "remember",
     answers: null,
     options: null,
@@ -67,6 +96,8 @@ const repeatCardsMock: DeckCardDbTypeWithType[] = [
     front: "year",
     back: "Год",
     type: "repeat",
+    interval: DEFAULT_REPEAT_INTERVAL,
+    easeFactor: DEFAULT_EASE_FACTOR,
     answerType: "remember",
     answers: null,
     options: null,
@@ -79,6 +110,8 @@ const repeatCardsMock: DeckCardDbTypeWithType[] = [
     front: "way",
     back: "Дорога",
     type: "repeat",
+    interval: DEFAULT_REPEAT_INTERVAL,
+    easeFactor: DEFAULT_EASE_FACTOR,
     answerType: "remember",
     answers: null,
     options: null,
@@ -91,6 +124,8 @@ const repeatCardsMock: DeckCardDbTypeWithType[] = [
     front: "card 4",
     back: "card 4",
     type: "repeat",
+    interval: DEFAULT_REPEAT_INTERVAL,
+    easeFactor: DEFAULT_EASE_FACTOR,
     answerType: "remember",
     answers: null,
     options: null,
@@ -106,6 +141,8 @@ const newCardsMock: DeckCardDbTypeWithType[] = [
     front: "time",
     back: "Время",
     type: "new",
+    interval: DEFAULT_START_INTERVAL,
+    easeFactor: DEFAULT_EASE_FACTOR,
     answerType: "remember",
     answers: null,
     options: null,
@@ -118,6 +155,8 @@ const newCardsMock: DeckCardDbTypeWithType[] = [
     front: "year",
     back: "Год",
     type: "new",
+    interval: DEFAULT_START_INTERVAL,
+    easeFactor: DEFAULT_EASE_FACTOR,
     answerType: "remember",
     answers: null,
     options: null,
@@ -130,6 +169,8 @@ const newCardsMock: DeckCardDbTypeWithType[] = [
     front: "way",
     back: "Дорога",
     type: "new",
+    interval: DEFAULT_START_INTERVAL,
+    easeFactor: DEFAULT_EASE_FACTOR,
     answerType: "remember",
     answers: null,
     options: null,
@@ -142,6 +183,8 @@ const newCardsMock: DeckCardDbTypeWithType[] = [
     front: "card 4",
     back: "card 4",
     type: "new",
+    interval: DEFAULT_START_INTERVAL,
+    easeFactor: DEFAULT_EASE_FACTOR,
     answerType: "remember",
     answers: null,
     options: null,
@@ -227,42 +270,9 @@ describe("card form store", () => {
     const reviewStore = new ReviewStore();
     reviewStore.startDeckReview(
       createDeckWithCards([
-        {
-          id: 3,
-          deckId: 1,
-          createdAt: "2023-10-06T02:13:20.985Z",
-          example: null,
-          front: "time",
-          back: "Время",
-          type: "repeat",
-          answerType: "remember",
-          answers: null,
-          options: null,
-        },
-        {
-          id: 4,
-          deckId: 1,
-          createdAt: "2023-10-06T02:13:20.985Z",
-          example: null,
-          front: "year",
-          back: "Год",
-          type: "repeat",
-          answerType: "remember",
-          answers: null,
-          options: null,
-        },
-        {
-          id: 5,
-          deckId: 1,
-          createdAt: "2023-10-06T02:13:20.985Z",
-          example: null,
-          front: "way",
-          back: "Дорога",
-          type: "repeat",
-          answerType: "remember",
-          answers: null,
-          options: null,
-        },
+        createMockCardWithReview(3, "time", "Время", "repeat"),
+        createMockCardWithReview(4, "year", "Год", "repeat"),
+        createMockCardWithReview(5, "way", "Дорога", "repeat"),
         {
           id: 6,
           deckId: 1,
@@ -271,6 +281,8 @@ describe("card form store", () => {
           front: "card 4",
           back: "card 4",
           type: "repeat",
+          interval: DEFAULT_REPEAT_INTERVAL,
+          easeFactor: DEFAULT_EASE_FACTOR,
           answerType: "remember",
           answers: null,
           options: null,
@@ -284,6 +296,8 @@ describe("card form store", () => {
           front: "card 7",
           back: "card 7",
           type: "repeat",
+          interval: DEFAULT_REPEAT_INTERVAL,
+          easeFactor: DEFAULT_EASE_FACTOR,
           answerType: "remember",
           answers: null,
           options: null,
@@ -296,6 +310,8 @@ describe("card form store", () => {
           front: "card 8",
           back: "card 8",
           type: "repeat",
+          interval: DEFAULT_REPEAT_INTERVAL,
+          easeFactor: DEFAULT_EASE_FACTOR,
           answerType: "remember",
           answers: null,
           options: null,
@@ -308,6 +324,8 @@ describe("card form store", () => {
           front: "card 9",
           back: "card 9",
           type: "repeat",
+          interval: DEFAULT_REPEAT_INTERVAL,
+          easeFactor: DEFAULT_EASE_FACTOR,
           answerType: "remember",
           answers: null,
           options: null,
@@ -317,56 +335,63 @@ describe("card form store", () => {
     expect(reviewStore.isFinished).toBeFalsy();
 
     reviewStore.open();
-    reviewStore.changeState(CardState.Remember);
+    reviewStore.changeState("good");
     reviewStore.open();
-    reviewStore.changeState(CardState.Remember);
+    reviewStore.changeState("good");
 
-    expect(reviewStore.sentResult).toEqual({ neverIds: [], rememberIds: [] });
+    expect(reviewStore.sentResult).toEqual({
+      neverIds: [],
+      goodIds: [],
+      easyIds: [],
+    });
     expect(reviewStore.cardsToSend).toEqual([
-      { id: 3, outcome: "correct" },
-      { id: 4, outcome: "correct" },
+      { id: 3, outcome: "good" },
+      { id: 4, outcome: "good" },
     ]);
 
     reviewStore.open();
-    reviewStore.changeState(CardState.Never);
+    reviewStore.changeState("never");
     await when(() => !reviewStore.reviewCardsRequestInProgress.isLoading);
 
     expect(reviewStore.sentResult).toEqual({
       neverIds: [5],
-      rememberIds: [3, 4],
+      goodIds: [3, 4],
+      easyIds: [],
     });
     expect(reviewStore.cardsToSend).toEqual([]);
 
     reviewStore.open();
-    reviewStore.changeState(CardState.Remember);
+    reviewStore.changeState("good");
 
     expect(reviewStore.sentResult).toEqual({
       neverIds: [5],
-      rememberIds: [3, 4],
+      goodIds: [3, 4],
+      easyIds: [],
     });
-    expect(reviewStore.cardsToSend).toEqual([{ id: 6, outcome: "correct" }]);
+    expect(reviewStore.cardsToSend).toEqual([{ id: 6, outcome: "good" }]);
     expect(reviewCardsReviewMock).toHaveBeenCalledTimes(1);
     reviewCardsReviewMock.mockResolvedValueOnce(() => Promise.resolve());
 
     reviewStore.open();
-    reviewStore.changeState(CardState.Remember);
+    reviewStore.changeState("good");
     reviewStore.open();
-    reviewStore.changeState(CardState.Remember);
+    reviewStore.changeState("good");
     await when(() => !reviewStore.reviewCardsRequestInProgress.isLoading);
 
     expect(reviewCardsReviewMock).toHaveBeenCalledTimes(2);
     expect(reviewStore.sentResult).toEqual({
       neverIds: [5],
-      rememberIds: [3, 4, 6, 7, 8],
+      goodIds: [3, 4, 6, 7, 8],
+      easyIds: [],
     });
     expect(reviewStore.cardsToSend).toEqual([]);
 
     reviewStore.open();
-    reviewStore.changeState(CardState.Remember);
+    reviewStore.changeState("good");
     await when(() => !reviewStore.reviewCardsRequestInProgress.isLoading);
 
     expect(reviewCardsReviewMock).toHaveBeenCalledTimes(2);
-    expect(reviewStore.cardsToSend).toEqual([{ id: 9, outcome: "correct" }]);
+    expect(reviewStore.cardsToSend).toEqual([{ id: 9, outcome: "good" }]);
   });
 
   it("basic", () => {
@@ -419,7 +444,7 @@ describe("card form store", () => {
 
     reviewStore.open();
     expect(reviewStore.currentCard?.isOpened).toBeTruthy();
-    reviewStore.changeState(CardState.Remember);
+    reviewStore.changeState("good");
 
     expect(reviewStore.isFinished).toBeFalsy();
     expect(reviewStore.cardsToReview.map(cardToSnapshot))
@@ -457,7 +482,7 @@ describe("card form store", () => {
     expect(reviewStore.currentCard?.id).toBe(4);
 
     reviewStore.open();
-    reviewStore.changeState(CardState.Forget);
+    reviewStore.changeState("again");
 
     expect(reviewStore.isFinished).toBeFalsy();
     expect(reviewStore.cardsToReview.map(cardToSnapshot))
@@ -488,25 +513,25 @@ describe("card form store", () => {
             "front": "year",
             "id": 4,
             "isOpened": false,
-            "state": "forget",
+            "state": "again",
           },
         ]
       `);
 
     reviewStore.open();
-    reviewStore.changeState(CardState.Remember);
+    reviewStore.changeState("good");
     expect(reviewStore.isFinished).toBeFalsy();
     expect(reviewStore.cardsToReview).toHaveLength(2);
 
     reviewStore.open();
-    reviewStore.changeState(CardState.Remember);
+    reviewStore.changeState("good");
 
     reviewStore.open();
-    reviewStore.changeState(CardState.Remember);
+    reviewStore.changeState("good");
     expect(reviewStore.isFinished).toBeTruthy();
 
-    expect(reviewStore.result.forgotIds).toEqual([4]);
-    expect(reviewStore.result.rememberIds).toEqual([3, 5, 6]);
+    expect(reviewStore.result.againIds).toEqual([4]);
+    expect(reviewStore.result.goodIds).toEqual([3, 5, 6]);
   });
 
   it("current next", () => {
@@ -518,32 +543,32 @@ describe("card form store", () => {
     expect(reviewStore.currentCard?.id).toEqual(3);
 
     reviewStore.open();
-    reviewStore.changeState(CardState.Remember);
+    reviewStore.changeState("good");
 
     expect(reviewStore.currentCard?.id).toEqual(4);
 
     reviewStore.open();
-    reviewStore.changeState(CardState.Forget);
+    reviewStore.changeState("again");
 
     expect(reviewStore.currentCard?.id).toEqual(5);
 
     reviewStore.open();
-    reviewStore.changeState(CardState.Remember);
+    reviewStore.changeState("good");
 
     expect(reviewStore.currentCard?.id).toEqual(6);
 
     reviewStore.open();
-    reviewStore.changeState(CardState.Remember);
+    reviewStore.changeState("good");
 
     expect(reviewStore.currentCard?.id).toEqual(4);
 
     reviewStore.open();
-    reviewStore.changeState(CardState.Forget);
+    reviewStore.changeState("again");
 
     expect(reviewStore.currentCard?.id).toEqual(4);
 
     reviewStore.open();
-    reviewStore.changeState(CardState.Remember);
+    reviewStore.changeState("good");
 
     expect(reviewStore.currentCard).toBeFalsy();
   });
@@ -556,43 +581,43 @@ describe("card form store", () => {
     expect(reviewStore.currentCard?.id).toEqual(3);
 
     reviewStore.open();
-    reviewStore.changeState(CardState.Forget);
+    reviewStore.changeState("again");
     expect(reviewStore.currentCard?.id).toEqual(4);
 
     reviewStore.open();
-    reviewStore.changeState(CardState.Forget);
+    reviewStore.changeState("again");
     expect(reviewStore.currentCard?.id).toEqual(5);
 
     reviewStore.open();
-    reviewStore.changeState(CardState.Forget);
+    reviewStore.changeState("again");
     expect(reviewStore.currentCard?.id).toEqual(6);
 
     reviewStore.open();
-    reviewStore.changeState(CardState.Forget);
+    reviewStore.changeState("again");
     expect(reviewStore.currentCard?.id).toEqual(3);
 
     reviewStore.open();
-    reviewStore.changeState(CardState.Forget);
+    reviewStore.changeState("again");
     expect(reviewStore.currentCard?.id).toEqual(4);
 
     reviewStore.open();
-    reviewStore.changeState(CardState.Forget);
+    reviewStore.changeState("again");
     expect(reviewStore.currentCard?.id).toEqual(5);
 
-    expect(reviewStore.result.forgotIds).toHaveLength(4);
-    expect(reviewStore.result.rememberIds).toHaveLength(0);
+    expect(reviewStore.result.againIds).toHaveLength(4);
+    expect(reviewStore.result.goodIds).toHaveLength(0);
 
     reviewStore.open();
-    reviewStore.changeState(CardState.Remember);
+    reviewStore.changeState("good");
 
     reviewStore.open();
-    reviewStore.changeState(CardState.Remember);
+    reviewStore.changeState("good");
 
     reviewStore.open();
-    reviewStore.changeState(CardState.Remember);
+    reviewStore.changeState("good");
 
-    expect(reviewStore.result.forgotIds).toHaveLength(4);
-    expect(reviewStore.result.rememberIds).toHaveLength(0);
+    expect(reviewStore.result.againIds).toHaveLength(4);
+    expect(reviewStore.result.goodIds).toHaveLength(0);
     expect(reviewStore.currentCard?.id).toEqual(4);
   });
 
@@ -604,35 +629,35 @@ describe("card form store", () => {
     expect(reviewStore.currentCard?.id).toEqual(3);
 
     reviewStore.open();
-    reviewStore.changeState(CardState.Forget);
+    reviewStore.changeState("again");
     expect(reviewStore.currentCard?.id).toEqual(4);
 
     reviewStore.open();
-    reviewStore.changeState(CardState.Forget);
+    reviewStore.changeState("again");
     expect(reviewStore.currentCard?.id).toEqual(5);
 
     reviewStore.open();
-    reviewStore.changeState(CardState.Forget);
+    reviewStore.changeState("again");
     expect(reviewStore.currentCard?.id).toEqual(6);
 
     reviewStore.open();
-    reviewStore.changeState(CardState.Never);
+    reviewStore.changeState("never");
     expect(reviewStore.currentCard?.id).toEqual(3);
 
     reviewStore.open();
-    reviewStore.changeState(CardState.Remember);
+    reviewStore.changeState("good");
     expect(reviewStore.currentCard?.id).toEqual(4);
 
     reviewStore.open();
-    reviewStore.changeState(CardState.Remember);
+    reviewStore.changeState("good");
     expect(reviewStore.currentCard?.id).toEqual(5);
 
     reviewStore.open();
-    reviewStore.changeState(CardState.Remember);
+    reviewStore.changeState("good");
     expect(reviewStore.isFinished).toBeTruthy();
 
-    expect(reviewStore.result.forgotIds).toHaveLength(3);
-    expect(reviewStore.result.rememberIds).toHaveLength(0);
+    expect(reviewStore.result.againIds).toHaveLength(3);
+    expect(reviewStore.result.goodIds).toHaveLength(0);
     expect(reviewStore.result.neverIds).toHaveLength(1);
   });
 
@@ -645,43 +670,43 @@ describe("card form store", () => {
     expect(reviewStore.currentCard?.id).toEqual(3);
 
     reviewStore.open();
-    reviewStore.changeState(CardState.Forget);
+    reviewStore.changeState("again");
     expect(reviewStore.currentCard?.id).toEqual(4);
 
     reviewStore.open();
-    reviewStore.changeState(CardState.Forget);
+    reviewStore.changeState("again");
     expect(reviewStore.currentCard?.id).toEqual(5);
 
     reviewStore.open();
-    reviewStore.changeState(CardState.Forget);
+    reviewStore.changeState("again");
     expect(reviewStore.currentCard?.id).toEqual(3);
 
     reviewStore.open();
-    reviewStore.changeState(CardState.Forget);
+    reviewStore.changeState("again");
     expect(reviewStore.currentCard?.id).toEqual(4);
 
     reviewStore.open();
-    reviewStore.changeState(CardState.Forget);
+    reviewStore.changeState("again");
     expect(reviewStore.currentCard?.id).toEqual(5);
 
     reviewStore.open();
-    reviewStore.changeState(CardState.Forget);
+    reviewStore.changeState("again");
     expect(reviewStore.currentCard?.id).toEqual(3);
 
-    expect(reviewStore.result.forgotIds).toHaveLength(3);
-    expect(reviewStore.result.rememberIds).toHaveLength(0);
+    expect(reviewStore.result.againIds).toHaveLength(3);
+    expect(reviewStore.result.goodIds).toHaveLength(0);
 
     reviewStore.open();
-    reviewStore.changeState(CardState.Remember);
+    reviewStore.changeState("good");
 
     reviewStore.open();
-    reviewStore.changeState(CardState.Remember);
+    reviewStore.changeState("good");
 
     reviewStore.open();
-    reviewStore.changeState(CardState.Remember);
+    reviewStore.changeState("good");
 
-    expect(reviewStore.result.forgotIds).toHaveLength(3);
-    expect(reviewStore.result.rememberIds).toHaveLength(0);
+    expect(reviewStore.result.againIds).toHaveLength(3);
+    expect(reviewStore.result.goodIds).toHaveLength(0);
     expect(reviewStore.currentCard?.id).toEqual(6);
   });
 });
