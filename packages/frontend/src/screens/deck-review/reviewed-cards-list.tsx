@@ -54,7 +54,7 @@ export function ReviewedCardsList(props: Props) {
                   </div>
                 </div>
                 <div
-                  className={`px-2 py-1 rounded-md text-xs font-medium ml-3 shrink-0 border ${
+                  className={`px-2 py-1 rounded-md text-xs font-medium shrink-0 border ${
                     reviewOutcomeStyles[card.outcome]
                   }`}
                 >
