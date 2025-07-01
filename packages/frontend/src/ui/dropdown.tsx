@@ -4,12 +4,15 @@ import { AnimatePresence, m } from "framer-motion";
 import { userStore } from "../store/user-store.ts";
 import { cn } from "./cn.ts";
 import { hapticSelection } from "../lib/platform/telegram/haptics.ts";
+import { EllipsisIcon } from "lucide-react";
+import { AnimatedDropdownItem } from "./animated-dropdown/animated-dropdown-item.tsx";
 
 type Props = {
-  items: Array<{ text: ReactNode; onClick: () => void }>;
+  items: Array<{ text: ReactNode; onClick: () => void; icon: ReactNode }>;
+  className?: string;
 };
 
-export function Dropdown({ items }: Props) {
+export function Dropdown({ items, className }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const toggleDropdown = () => {
     hapticSelection();
@@ -32,33 +35,36 @@ export function Dropdown({ items }: Props) {
   }, []);
 
   return (
-    <div ref={dropdownRef} className="absolute inline-block">
-      <div
+    <div ref={dropdownRef} className={cn("inline-block", className)}>
+      <button
         onClick={toggleDropdown}
-        className="dropdown-icon text-2xl select-none cursor-pointer"
+        className="dropdown-icon text-hint select-none cursor-pointer active:scale-90"
       >
-        ...
-      </div>
+        <EllipsisIcon size={24} />
+      </button>
       <LazyLoadFramerMotion>
         <AnimatePresence>
           {isOpen && (
             <m.div
-              exit={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              initial={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
               className={cn(
-                "dropdown-content block absolute bg-secondary-bg min-w-[160px] rounded-[12px] shadow z-10 text-text",
+                "dropdown-content border border-secondary-bg block absolute bg-bg min-w-[160px] rounded-xl shadow z-10 text-text",
                 userStore.isRtl ? "left-0" : "right-0",
               )}
+              initial={{
+                opacity: 0,
+                scale: 0.8,
+                transformOrigin: userStore.isRtl ? "top left" : "top right",
+              }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              transition={{ duration: 0.2 }}
             >
               {items.map((item, i) => (
-                <div
+                <AnimatedDropdownItem
                   key={i}
                   className={cn(
-                    "p-[12px_16px] whitespace-nowrap hover:bg-button hover:text-button-text",
-                    i === 0 && "rounded-t-[12px]",
-                    i === items.length - 1 && "rounded-b-[12px]",
+                    i === 0 ? "rounded-t-xl" : "border-t border-secondary-bg",
+                    i === items.length - 1 && "rounded-b-xl",
                   )}
                   onClick={() => {
                     item.onClick();
@@ -66,8 +72,11 @@ export function Dropdown({ items }: Props) {
                     setIsOpen(false);
                   }}
                 >
-                  {item.text}
-                </div>
+                  <span className={"flex gap-3 items-center text-text"}>
+                    {item.icon}
+                    {item.text}
+                  </span>
+                </AnimatedDropdownItem>
               ))}
             </m.div>
           )}
