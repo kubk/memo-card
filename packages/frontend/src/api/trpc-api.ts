@@ -21,7 +21,7 @@ export const api = createTRPCClient<ApiRouter>({
   links: [
     retryLink({
       retry(opts) {
-        if (envSafe.stage === "local") {
+        if (envSafe.VITE_STAGE === "local") {
           return false;
         }
 
@@ -44,10 +44,10 @@ export const api = createTRPCClient<ApiRouter>({
       retryDelayMs: (attemptIndex) => attemptIndex * 1000,
     }),
     loggerLink({
-      enabled: () => envSafe.stage === "staging",
+      enabled: () => envSafe.VITE_STAGE === "staging",
     }),
     httpLink({
-      url: `${trimEnd(envSafe.apiBaseUrl, "/")}/`,
+      url: `${trimEnd(envSafe.VITE_API_URL, "/")}/`,
       headers: getAuthHeaders,
     }),
   ],

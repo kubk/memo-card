@@ -12,7 +12,7 @@ export const getDeckOrFolderLink = (shareId: string) => {
   if (platform instanceof BrowserPlatform) {
     return `${trimEnd(links.appBrowser, "/")}/?start=${shareId}`;
   }
-  const botUrl = envSafe.appBotUrl;
+  const botUrl = envSafe.VITE_BOT_APP_URL;
   return `${trimEnd(botUrl, "/")}?startapp=${shareId}`;
 };
 

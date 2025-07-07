@@ -1,21 +1,9 @@
-const appBotUrl = import.meta.env.VITE_BOT_APP_URL;
-const stage = import.meta.env.VITE_STAGE;
-const apiBaseUrl = import.meta.env.VITE_API_URL;
+import * as v from 'valibot';
 
-if (!appBotUrl) {
-  throw new Error("VITE_BOT_APP_URL is not set");
-}
+const schema = v.object({
+  VITE_BOT_APP_URL: v.string(),
+  VITE_STAGE: v.picklist(["local", "staging", "production"]),
+  VITE_API_URL: v.string(),
+});
 
-if (!stage) {
-  throw new Error("VITE_STAGE is not set");
-}
-
-if (!apiBaseUrl) {
-  throw new Error("VITE_API_URL is not set");
-}
-
-export const envSafe = {
-  appBotUrl,
-  stage,
-  apiBaseUrl,
-};
+export const envSafe = v.parse(schema, import.meta.env);
