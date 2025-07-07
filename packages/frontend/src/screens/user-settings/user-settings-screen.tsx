@@ -36,7 +36,9 @@ import {
   LogOutIcon,
   UserXIcon,
   LanguagesIcon,
+  FastForwardIcon,
 } from "lucide-react";
+import { envSafe } from "../../envSafe.ts";
 
 export const timeRanges = generateTimeRange();
 
@@ -189,6 +191,35 @@ export function UserSettingsScreen() {
 
         <HintTransparent>{t("card_speak_description")}</HintTransparent>
       </div>
+
+      {(envSafe.VITE_STAGE === "local" || envSafe.VITE_STAGE === "staging") && (
+        <div className="mt-1">
+          <List
+            animateTap={false}
+            items={[
+              {
+                icon: (
+                  <FilledIcon
+                    backgroundColor={theme.orange}
+                    icon={<FastForwardIcon size={18} />}
+                  />
+                ),
+                right: (
+                  <span className="relative top-[3px]">
+                    <RadioSwitcher
+                      isOn={userStore.isSkipReview.value}
+                      onToggle={userStore.isSkipReview.toggle}
+                    />
+                  </span>
+                ),
+                text: "Skip review",
+              },
+            ]}
+          />
+
+          <HintTransparent>Admin actions</HintTransparent>
+        </div>
+      )}
 
       <div className="mt-1">
         <List

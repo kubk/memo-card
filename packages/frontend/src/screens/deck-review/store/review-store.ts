@@ -21,6 +21,7 @@ import { notifyError } from "../../shared/snackbar/snackbar.tsx";
 import { reportHandledError } from "../../../lib/rollbar/rollbar.tsx";
 import { assert } from "api";
 import { api } from "../../../api/trpc-api.ts";
+import { userStore } from "../../../store/user-store.ts";
 
 // Don't wait until the user has finished reviewing all the cards to send the progress
 const cardProgressSend = 3;
@@ -372,6 +373,7 @@ export class ReviewStore {
     return api.cardsReview.mutate({
       cards: this.cardsToSend,
       isInterrupted: true,
+      skipReview: userStore.isSkipReview.value,
       isStudyAnyway: this.isStudyAnyway,
     });
   }
@@ -426,6 +428,7 @@ export class ReviewStore {
     const result = await this.reviewCardsRequest.execute({
       cards: this.cardsToSend,
       isStudyAnyway: this.isStudyAnyway,
+      skipReview: userStore.isSkipReview.value,
     });
     if (result.status === "error") {
       notifyError({ e: result.error, info: "Error submitting review" });
