@@ -1,4 +1,4 @@
-import * as v from 'valibot';
+import * as v from "valibot";
 
 const schema = v.object({
   VITE_BOT_APP_URL: v.string(),

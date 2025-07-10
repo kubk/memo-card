@@ -23,10 +23,7 @@ export class UserStore {
     new BooleanToggle(false),
     "isCardFormattingOn",
   );
-  isSkipReview = persistableField(
-    new BooleanToggle(false),
-    "isSkipReview",
-  );
+  isSkipReview = persistableField(new BooleanToggle(false), "isSkipReview");
   isSpeakingCardsMuted = new BooleanToggle(false);
   activePlansRequest = new RequestStore(api.activePlans.query);
   selectedPaywall: PaywallType | null = null;
