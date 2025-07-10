@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { getTimeEstimate } from "./get-time-estimate.ts";
 import { CardUnderReviewStore } from "./store/card-under-review-store.ts";
+import { formatInterval } from "./format-interval.ts";
 
 import {
   DEFAULT_EASE_FACTOR,
@@ -93,6 +94,61 @@ describe("time estimation for review buttons", () => {
       expect(goodEstimate).toBe("6d");
       expect(easyEstimate).toBe("2w");
       expect(goodEstimate).not.toBe(easyEstimate);
+    });
+  });
+
+  describe("reproducing the reported bug", () => {
+    it("BUG: interval 0 shows the same 10h for hard, good, and easy", () => {
+      const cardWithZeroInterval = {
+        id: 1,
+        // both 'new' and 'repeat' show the same result
+        cardReviewType: "repeat" as const,
+        interval: 0,
+        // doesn't matter
+        easeFactor: 2.8,
+      } as CardUnderReviewStore;
+
+      const estimates = {
+        again: getTimeEstimate("again", cardWithZeroInterval, language),
+        hard: getTimeEstimate("hard", cardWithZeroInterval, language),
+        good: getTimeEstimate("good", cardWithZeroInterval, language),
+        easy: getTimeEstimate("easy", cardWithZeroInterval, language),
+      };
+
+      // BUG: These should all be different
+      expect(estimates.again).toBe("<10m");
+      expect(estimates.hard).toBe("12h");
+      expect(estimates.good).toBe("1d");
+      expect(estimates.easy).toBe("2d");
+    });
+  });
+
+  describe("exponential growth creates huge jumps at high intervals", () => {
+    it("demonstrates the large interval jump problem", () => {
+      // Card that's been reviewed many times (high interval)
+      const cardWith365Days = {
+        id: 1,
+        cardReviewType: "repeat" as const,
+        interval: 365, // 1 year
+        easeFactor: 2.5,
+      } as CardUnderReviewStore;
+
+      const estimates = {
+        hard: getTimeEstimate("hard", cardWith365Days, language),
+        good: getTimeEstimate("good", cardWith365Days, language),
+        easy: getTimeEstimate("easy", cardWith365Days, language),
+      };
+
+      console.log("Large interval exponential growth:");
+      console.log("Starting interval: 365 days (1 year)");
+      console.log("Hard:", estimates.hard); // 365 * 1.2 = 438 days ≈ 1.2y
+      console.log("Good:", estimates.good); // With dampening: much more reasonable
+      console.log("Easy:", estimates.easy); // With dampening: much more reasonable
+
+      // FIXED! The jump is now much more reasonable with dampening
+      expect(estimates.hard).toBe("1y"); // 438 / 365 ≈ 1.2y rounds to 1y (unchanged, hard uses hardIntervalMultiplier)
+      expect(estimates.good).toBe("2y"); // With dampening: reduced from 3y to 2y!
+      expect(estimates.easy).toBe("4y"); // With dampening: reduced from 5y to 4y!
     });
   });
 });
