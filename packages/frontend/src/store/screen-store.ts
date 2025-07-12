@@ -1,53 +1,59 @@
 import { makeAutoObservable } from "mobx";
 import { makeLoggable } from "mobx-log";
-
-type DeckFormRoute = {
-  type: "deckForm";
-  deckId?: number;
-  folder?: { id: number; name: string };
-  cardId?: number;
-  index: number;
-};
-
-type Route =
-  | { type: "main" }
-  | { type: "deckMine"; deckId: number }
-  | { type: "deckPublic"; deckId: number }
-  | DeckFormRoute
-  | { type: "cardPreviewId"; cardId: number; deckId: number }
-  | { type: "folderForm"; folderId?: number }
-  | { type: "folderPreview"; folderId: number }
-  | { type: "reviewAll" }
-  | { type: "reviewCustom" }
-  | { type: "cardQuickAddForm"; deckId: number }
-  | { type: "deckCatalog" }
-  | { type: "aiMassCreation"; deckId: number; deckTitle: string | null }
-  | { type: "catalogSettings"; id: number; itemType: "folder" | "deck" }
-  | { type: "plans" }
-  | { type: "debug" }
-  | { type: "componentCatalog" }
-  | { type: "freezeCards" }
-  | { type: "userStatistics" }
-  | { type: "browserLogin" }
-  | { type: "userSettings"; index: number }
-  | { type: "globalSearch" };
+import { routeToUrl, urlToRoute } from "./routing/url-sync.ts";
+import { platform } from "../lib/platform/platform.ts";
+import { BrowserPlatform } from "../lib/platform/browser/browser-platform.ts";
+import { Route, DeckFormRoute } from "./routing/route-types.ts";
 
 let routeIndex = 0;
 
 export class ScreenStore {
   private history: Route[] = [{ type: "main" }];
   private onceRoute?: Route;
+  private isNavigatingFromPopstate = false;
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
     makeLoggable(this);
+
+    if (platform instanceof BrowserPlatform) {
+      this.initializeUrlSync();
+    }
   }
+
+  private initializeUrlSync() {
+    const initialRoute = urlToRoute(window.location.href);
+    if (initialRoute) {
+      this.history = [initialRoute];
+    }
+
+    // Listen for browser back/forward
+    window.addEventListener("popstate", this.handlePopstate);
+  }
+
+  private handlePopstate = () => {
+    const route = urlToRoute(window.location.href);
+    if (route) {
+      this.isNavigatingFromPopstate = true;
+      this.history = [route];
+      this.isNavigatingFromPopstate = false;
+    }
+  };
 
   go(route: Route) {
     if (this.onceRoute) {
       this.onceRoute = undefined;
     }
     this.history.push(route);
+
+    if (platform instanceof BrowserPlatform && !this.isNavigatingFromPopstate) {
+      const url = routeToUrl(route);
+      const currentUrl = window.location.pathname + window.location.search;
+
+      if (url !== currentUrl) {
+        window.history.pushState(null, "", url);
+      }
+    }
   }
 
   goOnce(route: Route) {
@@ -64,6 +70,12 @@ export class ScreenStore {
       this.onceRoute = undefined;
       return;
     }
+
+    if (platform instanceof BrowserPlatform) {
+      window.history.back();
+      return;
+    }
+
     if (this.history.length > 1) {
       this.history.pop();
     }

@@ -27,16 +27,7 @@ import { boolNarrow } from "../lib/typescript/bool-narrow.ts";
 import { api } from "../api/trpc-api.ts";
 import { BrowserPlatform } from "../lib/platform/browser/browser-platform.ts";
 import { platform } from "../lib/platform/platform.ts";
-
-export enum StartParamType {
-  RepeatAll = "repeat_all",
-  DeckCatalog = "catalog",
-  Pro = "pro",
-  Settings = "settings",
-  Components = "ui_kit",
-  Debug = "debug",
-  Break = "break",
-}
+import { StartParamType } from "./routing/route-types.ts";
 
 export type DeckCardDbTypeWithType = DeckCardDbType & {
   type: CardReviewType;
