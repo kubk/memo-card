@@ -2,7 +2,6 @@ import { Fragment, useState } from "react";
 import { PublicDeck } from "./public-deck.tsx";
 import { DeckRowWithCardsToReview } from "../shared/deck-row-with-cards-to-review/deck-row-with-cards-to-review.tsx";
 import { deckListStore } from "../../store/deck-list-store.ts";
-import { useMount } from "../../lib/react/use-mount.ts";
 import { Hint } from "../../ui/hint.tsx";
 import { theme } from "../../ui/theme.tsx";
 import { screenStore } from "../../store/screen-store.ts";
@@ -40,10 +39,6 @@ import { GlobalSearchTrigger } from "../global-search/global-search-trigger.tsx"
 export function MainScreen() {
   const [deckFolderToggle] = useState(() => new BooleanToggle(false));
   const [ruEduVideoToggle] = useState(() => new BooleanToggle(false));
-
-  useMount(() => {
-    deckListStore.loadFirstTime(platform.getStartParam());
-  });
 
   return (
     <Flex direction={"column"} gap={12} pb={48}>
