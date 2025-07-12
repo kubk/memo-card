@@ -6,7 +6,7 @@
   "scripts": {
     "start": "vite",
     "typecheck": "npx tsc -b --noEmit",
-    "test": "npx vitest run",
+    "test": "npx vitest run --environment jsdom",
     "build": "cp index.build.html index.html && vite build",
     "bundle-visualize": "npx vite-bundle-visualizer"
   },
@@ -34,6 +34,7 @@
     "mobx-react-observer": "^1.0.3",
     "notistack": "^3.0.1",
     "postcss": "^8.4.41",
+    "qs": "^6.14.0",
     "react": "^18.3.1",
     "react-content-loader": "^6.2.1",
     "react-dom": "^18.3.1",
@@ -57,6 +58,7 @@
     "@types/dompurify": "^3.0.5",
     "@types/luxon": "^3.4.0",
     "@types/node": "^20.8.0",
+    "@types/qs": "^6.14.0",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
     "@types/sanitize-html": "^2.9.5",
@@ -68,6 +70,7 @@
     "eslint-plugin-react-hooks": "^5.1.0",
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^15.15.0",
+    "jsdom": "^26.1.0",
     "mobx-log": "^2.2.3",
     "prettier": "^3.0.3",
     "typescript": "~5.7.2",
