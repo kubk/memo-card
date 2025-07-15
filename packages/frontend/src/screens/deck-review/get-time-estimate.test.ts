@@ -146,9 +146,65 @@ describe("time estimation for review buttons", () => {
       console.log("Easy:", estimates.easy); // With dampening: much more reasonable
 
       // FIXED! The jump is now much more reasonable with dampening
-      expect(estimates.hard).toBe("1y"); // 438 / 365 ≈ 1.2y rounds to 1y (unchanged, hard uses hardIntervalMultiplier)
+      expect(estimates.hard).toBe("1.2y"); // 438 / 365 ≈ 1.2y (unchanged, hard uses hardIntervalMultiplier)
       expect(estimates.good).toBe("2y"); // With dampening: reduced from 3y to 2y!
-      expect(estimates.easy).toBe("4y"); // With dampening: reduced from 5y to 4y!
+      expect(estimates.easy).toBe("3.9y"); // With dampening: reduced from 5y to 3.9y!
+    });
+  });
+
+  describe("decimal year formatting", () => {
+    it.each([
+      { days: 456.25, expected: "1.5y" },
+      { days: 547.5, expected: "1.8y" },
+      { days: 638.54, expected: "2.1y" },
+      { days: 839.5, expected: "2.8y" },
+      { days: 912.5, expected: "3y" },
+      { days: 1003.47, expected: "3.3y" },
+      { days: 1277.08, expected: "4.2y" },
+    ])("formats $days days as $expected", ({ days, expected }) => {
+      const card = {
+        id: 1,
+        cardReviewType: "repeat" as const,
+        interval: days,
+        easeFactor: 2.5,
+      } as CardUnderReviewStore;
+
+      const estimate = getTimeEstimate("hard", card, "en");
+      expect(estimate).toBe(expected);
+    });
+
+    it.each([
+      { lang: "en" as const, days: 547.5, expected: "1.8y" },
+      { lang: "ru" as const, days: 547.5, expected: "1.8г" },
+      { lang: "uk" as const, days: 547.5, expected: "1.8р" },
+      { lang: "es" as const, days: 547.5, expected: "1.8a" },
+      { lang: "pt-br" as const, days: 547.5, expected: "1.8a" },
+      { lang: "fa" as const, days: 547.5, expected: "1.8سال" },
+      { lang: "ar" as const, days: 547.5, expected: "1.8سنتين" },
+      { lang: "en" as const, days: 456.25, expected: "1.5y" },
+      { lang: "ru" as const, days: 456.25, expected: "1.5г" },
+      { lang: "uk" as const, days: 456.25, expected: "1.5р" },
+      { lang: "es" as const, days: 456.25, expected: "1.5a" },
+      { lang: "pt-br" as const, days: 456.25, expected: "1.5a" },
+      { lang: "fa" as const, days: 456.25, expected: "1.5سال" },
+      { lang: "ar" as const, days: 456.25, expected: "1.5سنتين" },
+      { lang: "en" as const, days: 912.5, expected: "3y" },
+      { lang: "ru" as const, days: 912.5, expected: "3 г" },
+      { lang: "uk" as const, days: 912.5, expected: "3 р" },
+      { lang: "es" as const, days: 912.5, expected: "3 a" },
+      { lang: "pt-br" as const, days: 912.5, expected: "3 a" },
+      { lang: "fa" as const, days: 912.5, expected: "۳ سال" },
+      { lang: "ar" as const, days: 912.5, expected: "3 سنوات" },
+    ])("formats $days days as $expected in $lang", ({ lang, days, expected }) => {
+      const card = {
+        id: 1,
+        cardReviewType: "repeat" as const,
+        interval: days,
+        easeFactor: 2.5,
+      } as CardUnderReviewStore;
+
+      const estimate = getTimeEstimate("hard", card, lang);
+      expect(estimate).toBe(expected);
     });
   });
 });
