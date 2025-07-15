@@ -1,5 +1,4 @@
 import { makeAutoObservable } from "mobx";
-import { makeLoggable } from "mobx-log";
 import { routeToUrl, urlToRoute } from "./routing/url-sync.ts";
 import { platform } from "../lib/platform/platform.ts";
 import { BrowserPlatform } from "../lib/platform/browser/browser-platform.ts";
@@ -14,8 +13,6 @@ export class ScreenStore {
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
-    makeLoggable(this);
-
     if (platform instanceof BrowserPlatform) {
       this.initializeUrlSync();
     }
