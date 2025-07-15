@@ -147,8 +147,8 @@ describe("time estimation for review buttons", () => {
 
       // FIXED! The jump is now much more reasonable with dampening
       expect(estimates.hard).toBe("1.2y"); // 438 / 365 ≈ 1.2y (unchanged, hard uses hardIntervalMultiplier)
-      expect(estimates.good).toBe("2y"); // With dampening: reduced from 3y to 2y!
-      expect(estimates.easy).toBe("3.9y"); // With dampening: reduced from 5y to 3.9y!
+      expect(estimates.good).toBe("1.8y"); // With dampening: reduced from 3y to 1.8y!
+      expect(estimates.easy).toBe("3.6y"); // With dampening: reduced from 5y to 3.6y!
     });
   });
 
@@ -195,16 +195,19 @@ describe("time estimation for review buttons", () => {
       { lang: "pt-br" as const, days: 912.5, expected: "3 a" },
       { lang: "fa" as const, days: 912.5, expected: "۳ سال" },
       { lang: "ar" as const, days: 912.5, expected: "3 سنوات" },
-    ])("formats $days days as $expected in $lang", ({ lang, days, expected }) => {
-      const card = {
-        id: 1,
-        cardReviewType: "repeat" as const,
-        interval: days,
-        easeFactor: 2.5,
-      } as CardUnderReviewStore;
+    ])(
+      "formats $days days as $expected in $lang",
+      ({ lang, days, expected }) => {
+        const card = {
+          id: 1,
+          cardReviewType: "repeat" as const,
+          interval: days,
+          easeFactor: 2.5,
+        } as CardUnderReviewStore;
 
-      const estimate = getTimeEstimate("hard", card, lang);
-      expect(estimate).toBe(expected);
-    });
+        const estimate = getTimeEstimate("hard", card, lang);
+        expect(estimate).toBe(expected);
+      },
+    );
   });
 });
