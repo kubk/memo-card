@@ -9,6 +9,8 @@ import { screenStore } from "../../store/screen-store.ts";
 import { CardContextMenu } from "./card-context-menu.tsx";
 import { hapticImpact } from "../../lib/platform/telegram/haptics.ts";
 import { deckListStore } from "../../store/deck-list-store.ts";
+import { cn } from "../../ui/cn.ts";
+import { userStore } from "../../store/user-store.ts";
 
 export function Review() {
   const reviewStore = useReviewStore();
@@ -33,7 +35,10 @@ export function Review() {
     <div className="flex flex-col items-center justify-center h-screen relative overflow-hidden">
       <div className="w-full flex items-center gap-2 absolute top-2 left-0">
         <button
-          className="text-hint active:scale-90 cursor-pointer"
+          className={cn(
+            "text-hint active:scale-90 cursor-pointer",
+            userStore.isRtl ? "-mr-[3px]" : "-ml-[3px]",
+          )}
           onClick={() => {
             hapticImpact("medium");
             screenStore.back();
@@ -49,7 +54,14 @@ export function Review() {
           />
         )}
 
-        <CardContextMenu />
+        <div
+          className={cn(
+            "mt-[4px]",
+            userStore.isRtl ? "-mr-[3px]" : "-ml-[3px]",
+          )}
+        >
+          <CardContextMenu />
+        </div>
       </div>
 
       <ReviewDeckName />
