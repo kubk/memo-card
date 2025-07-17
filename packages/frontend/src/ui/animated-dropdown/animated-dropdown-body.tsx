@@ -13,11 +13,7 @@ export function AnimatedDropdownBody({
   return (
     <m.div
       className={cn(
-        "absolute bottom-16 bg-bg rounded-xl shadow-lg border border-secondary-bg overflow-hidden z-10",
-        {
-          "right-0": !userStore.isRtl,
-          "left-0": userStore.isRtl,
-        },
+        "absolute bottom-16 bg-bg rounded-xl shadow-lg border border-secondary-bg overflow-hidden z-10 end-0",
       )}
       initial={{
         opacity: 0,

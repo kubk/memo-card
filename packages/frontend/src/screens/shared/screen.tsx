@@ -3,7 +3,6 @@ import { cn } from "../../ui/cn.ts";
 import { BrowserBackButton } from "./browser-platform/browser-back-button.tsx";
 import { platform } from "../../lib/platform/platform.ts";
 import { BrowserPlatform } from "../../lib/platform/browser/browser-platform.ts";
-import { userStore } from "../../store/user-store.ts";
 
 type Props = {
   children: ReactNode;
@@ -22,12 +21,7 @@ export function Screen(props: Props) {
       )}
     >
       <div>
-        <div
-          className={cn("absolute -top-1", {
-            "left-0": !userStore.isRtl,
-            "right-0": userStore.isRtl,
-          })}
-        >
+        <div className={cn("absolute -top-1")}>
           <BrowserBackButton />
         </div>
         <h3 className="text-center text-lg">{title}</h3>

@@ -3,7 +3,6 @@ import { observer } from "mobx-react-lite";
 import { cn } from "../../ui/cn";
 import { screenStore } from "../../store/screen-store";
 import { deckListStore } from "../../store/deck-list-store";
-import { userStore } from "../../store/user-store";
 import { t } from "../../translations/t";
 
 export const GlobalSearchTrigger = observer(() => {
@@ -18,17 +17,11 @@ export const GlobalSearchTrigger = observer(() => {
     <div className="flex flex-col gap-[4px] relative">
       <button
         className={cn(
-          "flex py-2.5 px-2.5 text-base border-2 border-solid border-secondary-bg rounded-xl bg-bg w-full",
-          userStore.isRtl ? "pr-10" : "pl-10",
+          "flex py-2.5 px-2.5 text-base border-2 border-solid border-secondary-bg rounded-xl bg-bg w-full ps-10",
         )}
         onClick={() => screenStore.go({ type: "globalSearch" })}
       >
-        <span
-          className={cn(
-            "absolute top-[14px] text-hint",
-            userStore.isRtl ? "right-[12px]" : "left-[12px]",
-          )}
-        >
+        <span className={cn("absolute top-[14px] text-hint start-[12px]")}>
           <SearchIcon size={18} />
         </span>
         <span className="text-hint">{t("global_search_placeholder")}</span>
