@@ -14,7 +14,6 @@ export function CardContextMenu() {
 
   return (
     <Dropdown
-      className="mt-[4px]"
       items={[
         {
           icon: <EyeOffIcon className="h-5 w-5 text-button" />,
