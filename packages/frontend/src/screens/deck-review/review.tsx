@@ -12,24 +12,22 @@ import { deckListStore } from "../../store/deck-list-store.ts";
 
 export function Review() {
   const reviewStore = useReviewStore();
-  useBackButton(() => {
+
+  const onSubmitUnfinished = () => {
     reviewStore.submitUnfinished()?.then(() => {
       deckListStore.load();
     });
+  };
+
+  useBackButton(() => {
+    onSubmitUnfinished();
   });
 
   useHotkeys("1", reviewStore.onAgain);
   useHotkeys("2", reviewStore.onHard);
   useHotkeys("3", reviewStore.onGood);
   useHotkeys("4", reviewStore.onEasy);
-
-  useHotkeys("enter", () => {
-    if (reviewStore.currentCard?.isOpened) {
-      reviewStore.onGood();
-    } else {
-      reviewStore.open();
-    }
-  });
+  useHotkeys("enter", reviewStore.onNext);
 
   return (
     <div className="flex flex-col items-center justify-center h-screen relative overflow-hidden">
@@ -39,9 +37,7 @@ export function Review() {
           onClick={() => {
             hapticImpact("medium");
             screenStore.back();
-            reviewStore.submitUnfinished()?.then(() => {
-              deckListStore.load();
-            });
+            onSubmitUnfinished();
           }}
         >
           <XIcon size={24} />
