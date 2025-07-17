@@ -35,10 +35,7 @@ export function Review() {
     <div className="flex flex-col items-center justify-center h-screen relative overflow-hidden">
       <div className="w-full flex items-center gap-2 absolute top-2 left-0">
         <button
-          className={cn(
-            "text-hint active:scale-90 cursor-pointer",
-            userStore.isRtl ? "-mr-[3px]" : "-ml-[3px]",
-          )}
+          className={cn("text-hint active:scale-90 cursor-pointer -ms-[3px]")}
           onClick={() => {
             hapticImpact("medium");
             screenStore.back();
@@ -54,12 +51,7 @@ export function Review() {
           />
         )}
 
-        <div
-          className={cn(
-            "mt-[4px]",
-            userStore.isRtl ? "-mr-[3px]" : "-ml-[3px]",
-          )}
-        >
+        <div className={cn("mt-[4px] -ms-[4px]")}>
           <CardContextMenu />
         </div>
       </div>

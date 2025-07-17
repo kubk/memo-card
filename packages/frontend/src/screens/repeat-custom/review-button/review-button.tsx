@@ -23,12 +23,7 @@ export function ReviewButton() {
 
   return (
     <LazyLoadFramerMotion>
-      <div
-        className={cn("fixed bottom-6", {
-          "right-6": !userStore.isRtl,
-          "left-6": userStore.isRtl,
-        })}
-      >
+      <div className={cn("fixed bottom-6 end-6")}>
         <button
           onClick={() => {
             hapticImpact("medium");
