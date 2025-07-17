@@ -8,11 +8,14 @@ import { XIcon } from "lucide-react";
 import { screenStore } from "../../store/screen-store.ts";
 import { CardContextMenu } from "./card-context-menu.tsx";
 import { hapticImpact } from "../../lib/platform/telegram/haptics.ts";
+import { deckListStore } from "../../store/deck-list-store.ts";
 
 export function Review() {
   const reviewStore = useReviewStore();
   useBackButton(() => {
-    reviewStore.submitUnfinished();
+    reviewStore.submitUnfinished()?.then(() => {
+      deckListStore.load();
+    });
   });
 
   useHotkeys("1", reviewStore.onAgain);
@@ -36,7 +39,9 @@ export function Review() {
           onClick={() => {
             hapticImpact("medium");
             screenStore.back();
-            reviewStore.submitUnfinished();
+            reviewStore.submitUnfinished()?.then(() => {
+              deckListStore.load();
+            });
           }}
         >
           <XIcon size={24} />
