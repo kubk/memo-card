@@ -462,10 +462,18 @@ export class ReviewStore {
     }
   }
 
+  onNext() {
+    if (this.currentCard?.isOpened) {
+      this.onGood();
+    } else {
+      this.open();
+    }
+  }
+
   get sortedReviewedCards() {
     const outcomeOrder = { again: 0, hard: 1, good: 2, easy: 3, never: 4 };
-    return [...this.reviewedCards].sort(
-      (a, b) => outcomeOrder[a.outcome] - outcomeOrder[b.outcome],
-    );
+    return this.reviewedCards
+      .slice()
+      .sort((a, b) => outcomeOrder[a.outcome] - outcomeOrder[b.outcome]);
   }
 }
