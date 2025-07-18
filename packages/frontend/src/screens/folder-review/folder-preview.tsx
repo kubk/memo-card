@@ -36,10 +36,6 @@ export function FolderPreview(props: Props) {
     screenStore.back();
   });
 
-  useMount(() => {
-    deckListStore.checkFolderRequiresUpdating();
-  });
-
   useProgress(() => deckListStore.isCatalogItemLoading);
   useScrollToTopOnMount();
 

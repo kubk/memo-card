@@ -526,27 +526,6 @@ export class DeckListStore {
       }));
   }
 
-  checkFolderRequiresUpdating() {
-    const folder = this.selectedFolder;
-    if (!folder || !this.myInfo) return;
-
-    const authorsDecksIds = this.myInfo.folders
-      .filter((f) => f.folder_id === folder.id)
-      .map((d) => d.deck_id)
-      .filter(boolNarrow);
-
-    const usersDeckIds = folder.decks.map((d) => d.id);
-
-    const decksInFolderNotAddedByUser = arrayDifference(
-      authorsDecksIds,
-      usersDeckIds,
-    );
-
-    decksInFolderNotAddedByUser.forEach((deckId) => {
-      this.addDeckToMine(deckId, true);
-    });
-  }
-
   get myFoldersAsDecks(): DeckListItem[] {
     if (!this.myInfo || this.myInfo.folders.length === 0) {
       return [];
