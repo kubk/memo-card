@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://memocard.org
+
+# Sitemaps
+Sitemap: https://memocard.org/sitemap.xml

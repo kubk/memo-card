@@ -1,4 +1,4 @@
-import { links } from "api/src/shared/links/links.ts";
+import { links } from "api";
 import { userStore } from "../../store/user-store.ts";
 
 export const getYouTubeChannelLink = () => {

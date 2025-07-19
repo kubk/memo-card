@@ -1,0 +1,14 @@
+{
+    "compatibility_date": "2025-06-12",
+    "assets": {
+        "directory": "./out"
+    },
+    "env": {
+        "development": {
+            "name": "memocard-landing-dev"
+        },
+        "production": {
+            "name": "memocard-landing"
+        }
+    }
+}
