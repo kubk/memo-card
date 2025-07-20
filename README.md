@@ -5,15 +5,7 @@
   Readme: <a href="./README.md">English</a>, <a href="./docs/README.ru.md">Русский</a>, <a href="./docs/README.ua.md">Українська</a>, <a href="./docs/README.es.md">Español</a>, <a href="./docs/README.pt-br.md">Português</a>, <a href="./docs/README.ar.md">العربية</a>, <a href="./docs/README.fa.md">فارسی</a>
 </p>
 
-## About MemoCard
-
-MemoCard was born because existing apps like Anki are just too clunky. Sure, they're powerful, but they demand endless setup, don't remind you when it matters, and look like they're stuck in the past.
-
-During the Telegram Mini App Contest, I built the flashcard app I'd been dreaming of. No configuration needed, smart reminders, and an interface that just makes sense.
-
-Under the hood is Ebbinghaus's proven spaced repetition method. Cards pop up exactly when you're starting to forget - that's when your brain learns best.
-
-MemoCard won a prize at the contest. Now thousands of people around the world use it to learn better.
+MemoCard was born because existing apps like Anki are just too clunky. Sure, they're powerful, but they demand endless setup, don't remind you when it matters, and look like they're stuck in the past. During the Telegram Mini App Contest, I built the flashcard app I'd been dreaming of. No configuration needed, smart reminders, and an interface that just makes sense. Under the hood is Ebbinghaus's proven spaced repetition method. Cards pop up exactly when you're starting to forget - that's when your brain learns best. MemoCard won a prize at the contest. Now thousands of people around the world use it to learn better.
 
 Website: [memocard.org](https://memocard.org)
 
