@@ -118,6 +118,10 @@ const globalSearchRouteSchema = v.object({
   type: v.literal("globalSearch"),
 });
 
+const aboutRouteSchema = v.object({
+  type: v.literal("about"),
+});
+
 export const routeSchema = v.union([
   mainRouteSchema,
   deckMineRouteSchema,
@@ -140,6 +144,7 @@ export const routeSchema = v.union([
   browserLoginRouteSchema,
   userSettingsRouteSchema,
   globalSearchRouteSchema,
+  aboutRouteSchema,
 ]);
 
 export type Route = v.InferOutput<typeof routeSchema>;
