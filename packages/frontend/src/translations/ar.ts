@@ -307,4 +307,17 @@ export const ar: Translation = {
   global_search_tabs_folders: "المجلدات",
   global_search_context_folder: "مجلد",
   global_search_context_deck: "مجموعة",
+
+  // About page
+  about_title: "حول التطبيق",
+  about_paragraph_1:
+    "صنعت MemoCard لأن تطبيقات مثل Anki صعبة الاستخدام. نعم هي قوية، لكنها تحتاج ساعات من الإعدادات، لا تذكرك بالمراجعة، وشكلها قديم.",
+  about_paragraph_2:
+    "في مسابقة تطبيقات Telegram الصغيرة، صنعت تطبيق البطاقات الذي أحلم به. لا يحتاج أي إعدادات، التذكيرات تعمل تلقائياً، وكل شيء بسيط.",
+  about_paragraph_3:
+    "يعتمد على طريقة التكرار المتباعد العلمية لإبنجهاوس. البطاقات تظهر في الوقت المناسب - عندما تبدأ بالنسيان. هكذا تحفظ أفضل.",
+  about_paragraph_4:
+    "MemoCard فاز بجائزة في المسابقة. الآن يستخدمه آلاف الناس حول العالم.",
+  about_visit_website: "زيارة الموقع →",
+  about_github_frontend: "مستودع GitHub للواجهة الأمامية →",
 };
