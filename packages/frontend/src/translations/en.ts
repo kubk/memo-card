@@ -308,6 +308,19 @@ export const en = {
   global_search_tabs_folders: "Folders",
   global_search_context_folder: "Folder",
   global_search_context_deck: "Deck",
+
+  // About page
+  about_title: "About",
+  about_paragraph_1:
+    "MemoCard was born from a simple frustration: existing spaced repetition apps like Anki are powerful but lack the human touch. They require endless configuration, miss smart notifications, and feel outdated.",
+  about_paragraph_2:
+    "During the Telegram Mini App Contest, I decided to build the flashcard app I always wanted. No plugins needed, smart reminders built-in, and a clean interface.",
+  about_paragraph_3:
+    "The app uses the scientifically-proven spaced repetition algorithm based on the Ebbinghaus forgetting curve. It helps you memorize languages, facts, or any information efficiently by showing cards exactly when you need to review them.",
+  about_paragraph_4:
+    "MemoCard scored prize in the contest. Today, thousands of people use it to learn and remember better.",
+  about_visit_website: "Visit Website →",
+  about_github_frontend: "GitHub Frontend Repository →",
 };
 
 export type Translation = typeof en;

@@ -306,4 +306,17 @@ export const es: Translation = {
   global_search_tabs_folders: "Carpetas",
   global_search_context_folder: "Carpeta",
   global_search_context_deck: "Mazo",
+
+  // About page
+  about_title: "Acerca de",
+  about_paragraph_1:
+    "MemoCard existe porque apps como Anki son un dolor de cabeza. Sí, son potentes, pero hay que configurar mil cosas, no te avisan cuando repasar y parecen de los 90.",
+  about_paragraph_2:
+    "En el concurso de Mini Apps de Telegram hice la app de tarjetas que siempre quise. No hay que configurar nada, los recordatorios ya funcionan y todo es simple.",
+  about_paragraph_3:
+    "Usa el método científico de repetición espaciada de Ebbinghaus. Las tarjetas aparecen justo cuando empiezas a olvidar - así es como mejor se memoriza.",
+  about_paragraph_4:
+    "MemoCard ganó premio en el concurso. Ahora lo usan miles de personas en todo el mundo.",
+  about_visit_website: "Visitar sitio web →",
+  about_github_frontend: "Repositorio de GitHub del frontend →",
 };

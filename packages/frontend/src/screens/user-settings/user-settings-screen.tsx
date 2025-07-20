@@ -37,6 +37,7 @@ import {
   UserXIcon,
   LanguagesIcon,
   FastForwardIcon,
+  InfoIcon,
 } from "lucide-react";
 import { envSafe } from "../../envSafe.ts";
 
@@ -302,6 +303,19 @@ export function UserSettingsScreen() {
                     {links.supportEmail}
                   </span>
                 ),
+            },
+            {
+              icon: (
+                <FilledIcon
+                  backgroundColor={theme.icons.green}
+                  icon={<InfoIcon size={18} />}
+                />
+              ),
+              text: t("about_title"),
+              onClick: () => {
+                screenStore.go({ type: "about" });
+              },
+              isLinkColor: true,
             },
           ]}
         />
