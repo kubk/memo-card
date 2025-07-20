@@ -2,14 +2,22 @@
 <img width="600" alt="Screenshot 2023-10-13 at 19 41 35" src="https://github.com/kubk/memo-card/assets/22447849/7f754776-3e57-4669-becc-410e1b285199"></p>
 
 <p align="center">
-  Readme: <a href="./README.md">English</a>, <a href="./docs/README.ru.md">Русский</a>, <a href="./docs/README.ua.md">Українська</a>, <a href="./docs/README.pr-br.md">Português</a>, <a href="./docs/README.ar.md">العربية</a>, <a href="./docs/README.fa.md">فارسی</a>
+  Readme: <a href="./README.md">English</a>, <a href="./docs/README.ru.md">Русский</a>, <a href="./docs/README.ua.md">Українська</a>, <a href="./docs/README.es.md">Español</a>, <a href="./docs/README.pt-br.md">Português</a>, <a href="./docs/README.ar.md">العربية</a>, <a href="./docs/README.fa.md">فارسی</a>
 </p>
 
-People tend to forget things. Within an hour, up to 60% of new information can slip away, and by the end of a week, only about 10% may remain. However, consistent revisiting the information combats this decline. This bot uses the proven flashcard method, assisting users in retaining and mastering languages, history, and more.
+## About MemoCard
+
+MemoCard was born because existing apps like Anki are just too clunky. Sure, they're powerful, but they demand endless setup, don't remind you when it matters, and look like they're stuck in the past.
+
+During the Telegram Mini App Contest, I built the flashcard app I'd been dreaming of. No configuration needed, smart reminders, and an interface that just makes sense.
+
+Under the hood is Ebbinghaus's proven spaced repetition method. Cards pop up exactly when you're starting to forget - that's when your brain learns best.
+
+MemoCard won a prize at the contest. Now thousands of people around the world use it to learn better.
 
 Website: [memocard.org](https://memocard.org)
 
-About: https://teletype.in/@alteregor/memocard-telegram-contest-win 
+Contest story: https://teletype.in/@alteregor/memocard-telegram-contest-win 
 
 ## Example use cases
 - You're a tourist in a new country and want to acquire basic knowledge of the foreign language. 

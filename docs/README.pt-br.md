@@ -2,14 +2,22 @@
 <img width="600" alt="Screenshot 2023-10-13 at 19 41 35" src="https://github.com/kubk/memo-card/assets/22447849/7f754776-3e57-4669-becc-410e1b285199"></p>
 
 <p align="center">
-  Readme: <a href="./README.md">English</a>, <a href="./README.ru.md">Русский</a>, <a href="./README.ua.md">Українська</a>, <a href="./README.pr-br.md">Português</a>
+  Readme: <a href="../README.md">English</a>, <a href="./README.ru.md">Русский</a>, <a href="./README.ua.md">Українська</a>, <a href="./README.es.md">Español</a>, <a href="./README.pt-br.md">Português</a>, <a href="./README.ar.md">العربية</a>, <a href="./README.fa.md">فارسی</a>
 </p>
 
-As pessoas tendem a esquecer as coisas. Dentro de uma hora, até 60% das novas informações podem desaparecer, e ao final de uma semana, apenas cerca de 10% pode permanecer. No entanto, revisitar consistentemente as informações combate essa perda. Este bot usa o método comprovado de flashcards, auxiliando os usuários a reter e dominar idiomas, história e mais.
+## Sobre o MemoCard
+
+MemoCard existe porque apps como Anki são chatos de usar. São poderosos, mas você perde horas configurando, não avisam quando revisar e parecem coisa antiga.
+
+No concurso de Mini Apps do Telegram, fiz o app de cartões que sempre quis. Não precisa configurar nada, os lembretes já funcionam e tudo é simples.
+
+Usa o método científico de repetição espaçada do Ebbinghaus. Os cartões aparecem na hora certa - quando você está quase esquecendo. É assim que se memoriza melhor.
+
+MemoCard ganhou prêmio no concurso. Hoje milhares de pessoas usam no mundo todo.
 
 Website: [memocard.org](https://memocard.org)
 
-Sobre: https://teletype.in/@alteregor/memocard-telegram-contest-win
+História do concurso: https://teletype.in/@alteregor/memocard-telegram-contest-win
 
 ## Exemplos de casos de uso
 - Você é um turista em um novo país e deseja adquirir conhecimentos básicos do idioma estrangeiro.

@@ -2,14 +2,22 @@
 <img width="600" alt="Screenshot 2023-10-13 at 19 41 35" src="https://github.com/kubk/memo-card/assets/22447849/7f754776-3e57-4669-becc-410e1b285199"></p>
 
 <p align="center">
-  Readme: <a href="./README.md">English</a>, <a href="./README.ru.md">Русский</a>, <a href="./README.ua.md">Українська</a>, <a href="./README.pr-br.md">Português</a>, <a href="./README.ar.md">العربية</a>
+  Readme: <a href="../README.md">English</a>, <a href="./README.ru.md">Русский</a>, <a href="./README.ua.md">Українська</a>, <a href="./README.es.md">Español</a>, <a href="./README.pt-br.md">Português</a>, <a href="./README.ar.md">العربية</a>, <a href="./README.fa.md">فارسی</a>
 </p>
 
-يميل الناس إلى نسيان الأشياء. في غضون ساعة، يمكن أن يتلاشى ما يصل إلى 60٪ من المعلومات الجديدة، وبحلول نهاية الأسبوع، قد يتبقى حوالي 10٪ فقط. ومع ذلك، فإن المراجعة المستمرة للمعلومات تقاوم هذا التراجع. يستخدم هذا البوت طريقة البطاقات التعليمية المثبتة، مما يساعد المستخدمين على الاحتفاظ باللغات والتاريخ والمزيد.
+## حول MemoCard
+
+صنعت MemoCard لأن تطبيقات مثل Anki صعبة الاستخدام. نعم هي قوية، لكنها تحتاج ساعات من الإعدادات، لا تذكرك بالمراجعة، وشكلها قديم.
+
+في مسابقة تطبيقات Telegram الصغيرة، صنعت تطبيق البطاقات الذي أحلم به. لا يحتاج أي إعدادات، التذكيرات تعمل تلقائياً، وكل شيء بسيط.
+
+يعتمد على طريقة التكرار المتباعد العلمية لإبنجهاوس. البطاقات تظهر في الوقت المناسب - عندما تبدأ بالنسيان. هكذا تحفظ أفضل.
+
+MemoCard فاز بجائزة في المسابقة. الآن يستخدمه آلاف الناس حول العالم.
 
 الموقع الإلكتروني: [memocard.org](https://memocard.org)
 
-حول: https://teletype.in/@alteregor/memocard-telegram-contest-win 
+قصة المسابقة: https://teletype.in/@alteregor/memocard-telegram-contest-win 
 
 ## أمثلة على حالات الاستخدام
 - أنت سائح في بلد جديد وتريد اكتساب المعرفة الأساسية باللغة الأجنبية.
