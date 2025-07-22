@@ -1,7 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { getTimeEstimate } from "./get-time-estimate.ts";
 import { CardUnderReviewStore } from "./store/card-under-review-store.ts";
-import { formatInterval } from "./format-interval.ts";
 
 import {
   DEFAULT_EASE_FACTOR,

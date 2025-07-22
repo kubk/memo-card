@@ -14,6 +14,10 @@
     "jsx": "preserve",
     "incremental": false,
     "downlevelIteration": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true,
     "plugins": [
       {
         "name": "next"

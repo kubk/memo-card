@@ -14,8 +14,6 @@ import { useScrollToTopOnMount } from "../../lib/react/use-scroll-to-top-mount.t
 import { Flex } from "../../ui/flex.tsx";
 import { BrowserBackButton } from "../shared/browser-platform/browser-back-button.tsx";
 import { useHotkeys } from "react-hotkeys-hook";
-import { platform } from "../../lib/platform/platform.ts";
-import { BrowserPlatform } from "../../lib/platform/browser/browser-platform.ts";
 import { ListHeader } from "../../ui/list-header.tsx";
 import { cn } from "../../ui/cn.ts";
 import { CardReviewStats } from "../shared/deck-stats/card-review-stats.tsx";
@@ -26,8 +24,6 @@ import {
   RefreshCwIcon,
   TrashIcon,
 } from "lucide-react";
-import { assert } from "api";
-import { userStore } from "../../store/user-store.ts";
 
 type Props = { onCardListPreview: () => void };
 

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+// @ts-ignore
 import "./globals.css";
 import { ReactNode } from "react";
 import { Inter as FontSans } from "next/font/google";

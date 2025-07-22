@@ -10,7 +10,6 @@ import { CardContextMenu } from "./card-context-menu.tsx";
 import { hapticImpact } from "../../lib/platform/telegram/haptics.ts";
 import { deckListStore } from "../../store/deck-list-store.ts";
 import { cn } from "../../ui/cn.ts";
-import { userStore } from "../../store/user-store.ts";
 
 export function Review() {
   const reviewStore = useReviewStore();

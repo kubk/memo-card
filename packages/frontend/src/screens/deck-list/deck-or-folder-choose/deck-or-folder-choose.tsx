@@ -4,7 +4,7 @@ import { Flex } from "../../../ui/flex.tsx";
 import { Choice } from "./choice.tsx";
 import { BottomSheet } from "../../../ui/bottom-sheet/bottom-sheet.tsx";
 import { BooleanToggle } from "mobx-form-lite";
-import { FolderOpen, CreditCard, LayersIcon } from "lucide-react";
+import { FolderOpen, LayersIcon } from "lucide-react";
 
 type Props = { toggle: BooleanToggle };
 
