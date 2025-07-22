@@ -1,4 +1,4 @@
-import { makeAutoObservable, action } from "mobx";
+import { makeAutoObservable } from "mobx";
 import { TextField } from "mobx-form-lite";
 import { deckListStore } from "../../store/deck-list-store.ts";
 import { removeAllTags } from "../../lib/sanitize-html/remove-all-tags.ts";
@@ -299,8 +299,8 @@ export class GlobalSearchStore {
       frontMatches && frontText.length > MAX_TEXT_LENGTH
         ? this.getContextAroundMatch(frontText, query)
         : frontText.length > MAX_TEXT_LENGTH
-        ? frontText.substring(0, MAX_TEXT_LENGTH) + "..."
-        : frontText;
+          ? frontText.substring(0, MAX_TEXT_LENGTH) + "..."
+          : frontText;
 
     matches.push({
       field: "front",
@@ -315,8 +315,8 @@ export class GlobalSearchStore {
       backMatches && backText.length > MAX_TEXT_LENGTH
         ? this.getContextAroundMatch(backText, query)
         : backText.length > MAX_TEXT_LENGTH
-        ? backText.substring(0, MAX_TEXT_LENGTH) + "..."
-        : backText;
+          ? backText.substring(0, MAX_TEXT_LENGTH) + "..."
+          : backText;
 
     matches.push({
       field: "back",

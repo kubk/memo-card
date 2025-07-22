@@ -38,15 +38,7 @@ import { PaymentMethodType } from "api";
 import { platform } from "../../lib/platform/platform.ts";
 import { BrowserPlatform } from "../../lib/platform/browser/browser-platform.ts";
 import { formatDiscountAsText } from "api";
-import {
-  Bot,
-  ChevronLeft,
-  ChevronRight,
-  Copy,
-  Link,
-  Mic,
-  Zap,
-} from "lucide-react";
+import { Bot, ChevronLeft, ChevronRight, Copy, Mic, Zap } from "lucide-react";
 
 const planItems: Array<{
   icon: React.ReactNode;
