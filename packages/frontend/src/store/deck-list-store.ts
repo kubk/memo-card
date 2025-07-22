@@ -22,8 +22,6 @@ import { CatalogFolderDbType } from "api";
 import { RequestStore } from "../lib/mobx-request/request-store.ts";
 import { notifyError } from "../screens/shared/snackbar/snackbar.tsx";
 import { assert } from "api";
-import { arrayDifference } from "../lib/array/array-difference.ts";
-import { boolNarrow } from "../lib/typescript/bool-narrow.ts";
 import { api } from "../api/trpc-api.ts";
 import { BrowserPlatform } from "../lib/platform/browser/browser-platform.ts";
 import { platform } from "../lib/platform/platform.ts";
