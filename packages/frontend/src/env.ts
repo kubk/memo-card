@@ -6,4 +6,4 @@ const schema = v.object({
   VITE_API_URL: v.string(),
 });
 
-export const envSafe = v.parse(schema, import.meta.env);
+export const env = v.parse(schema, import.meta.env);
