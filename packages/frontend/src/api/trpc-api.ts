@@ -7,7 +7,7 @@ import {
 } from "@trpc/client";
 import { trimEnd } from "../lib/string/trim";
 import { getAuthHeaders } from "./get-auth-headers";
-import { envSafe } from "../envSafe";
+import { env } from "../env";
 
 const allowedToReFetch = [
   "cardsReview",
@@ -21,7 +21,7 @@ export const api = createTRPCClient<ApiRouter>({
   links: [
     retryLink({
       retry(opts) {
-        if (envSafe.VITE_STAGE === "local") {
+        if (env.VITE_STAGE === "local") {
           return false;
         }
 
@@ -44,10 +44,10 @@ export const api = createTRPCClient<ApiRouter>({
       retryDelayMs: (attemptIndex) => attemptIndex * 1000,
     }),
     loggerLink({
-      enabled: () => envSafe.VITE_STAGE === "staging",
+      enabled: () => env.VITE_STAGE === "staging",
     }),
     httpLink({
-      url: `${trimEnd(envSafe.VITE_API_URL, "/")}/`,
+      url: `${trimEnd(env.VITE_API_URL, "/")}/`,
       headers: getAuthHeaders,
     }),
   ],
