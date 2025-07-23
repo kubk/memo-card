@@ -6,13 +6,13 @@ import { links } from "api";
 import { copyToClipboard } from "../../lib/copy-to-clipboard/copy-to-clipboard.ts";
 import { t } from "../../translations/t.ts";
 import { notifySuccess } from "./snackbar/snackbar.tsx";
-import { envSafe } from "../../envSafe.ts";
+import { env } from "../../env.ts";
 
 export const getDeckOrFolderLink = (shareId: string) => {
   if (platform instanceof BrowserPlatform) {
     return `${trimEnd(links.appBrowser, "/")}/?start=${shareId}`;
   }
-  const botUrl = envSafe.VITE_BOT_APP_URL;
+  const botUrl = env.VITE_BOT_APP_URL;
   return `${trimEnd(botUrl, "/")}?startapp=${shareId}`;
 };
 

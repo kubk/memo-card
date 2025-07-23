@@ -39,7 +39,7 @@ import {
   FastForwardIcon,
   InfoIcon,
 } from "lucide-react";
-import { envSafe } from "../../envSafe.ts";
+import { env } from "../../env.ts";
 
 export const timeRanges = generateTimeRange();
 
@@ -193,7 +193,7 @@ export function UserSettingsScreen() {
         <HintTransparent>{t("card_speak_description")}</HintTransparent>
       </div>
 
-      {(envSafe.VITE_STAGE === "local" || envSafe.VITE_STAGE === "staging") && (
+      {(env.VITE_STAGE === "local" || env.VITE_STAGE === "staging") && (
         <div className="mt-1">
           <List
             animateTap={false}
