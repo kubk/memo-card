@@ -11,15 +11,16 @@ import {
   Music2,
   Stethoscope,
 } from "lucide-react";
-import { getTranslation, LanguageEnum } from "@/shared/translations";
+import { getTranslation } from "@/shared/translations";
 import { LanguageSwitcher } from "./languageSwitcher";
 import { FeatureCard } from "./featureCard";
 import { PlanCard } from "./planCard";
 import { TryActionButton } from "./tryActionButton";
 import { renderHighlightedText } from "./renderHighlightedText";
 import { demoPreviews } from "./demoPreviews";
+import { LandingLanguage } from "api";
 
-export function MemoCardPage(props: { language: LanguageEnum }) {
+export function MemoCardPage(props: { language: LandingLanguage }) {
   const { language } = props;
   const translation = getTranslation(language);
   const youtubeChannelLink =
