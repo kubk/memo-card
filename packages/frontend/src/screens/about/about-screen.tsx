@@ -2,8 +2,9 @@ import { Screen } from "../shared/screen.tsx";
 import { useBackButton } from "../../lib/platform/use-back-button.ts";
 import { screenStore } from "../../store/screen-store.ts";
 import { platform } from "../../lib/platform/platform.ts";
-import { links } from "api";
+import { landingLanguages, links } from "api";
 import { t } from "../../translations/t.ts";
+import { userStore } from "../../store/user-store.ts";
 
 export function AboutScreen() {
   useBackButton(() => {
@@ -21,7 +22,12 @@ export function AboutScreen() {
         <div className="mt-6 space-y-2">
           <div
             onClick={() => {
-              platform.openExternalLink(links.landing);
+              let link = links.landing;
+              // @ts-expect-error landing languages is a subset of all available app languages
+              if (landingLanguages.includes(userStore.language)) {
+                link += `/${userStore.language}`;
+              }
+              platform.openExternalLink(link);
             }}
             className="text-link inline-block cursor-pointer"
           >
