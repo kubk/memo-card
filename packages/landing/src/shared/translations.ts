@@ -7,33 +7,7 @@ import {
   PenTool,
   Zap,
 } from "lucide-react";
-
-export enum LanguageEnum {
-  en = "en",
-  ru = "ru",
-  es = "es",
-  ptBr = "pt-br",
-  uk = "uk",
-}
-
-export const languages = Object.values(LanguageEnum) as LanguageEnum[];
-
-export const formatLanguageEnum = (lang: LanguageEnum): string => {
-  switch (lang) {
-    case LanguageEnum.en:
-      return "English";
-    case LanguageEnum.ru:
-      return "Русский";
-    case LanguageEnum.es:
-      return "Español";
-    case LanguageEnum.ptBr:
-      return "Português";
-    case LanguageEnum.uk:
-      return "Українська";
-    default:
-      return lang satisfies never;
-  }
-};
+import { LandingLanguage } from "api";
 
 const en = {
   footer: {
@@ -839,17 +813,17 @@ const uk: Translation = {
   },
 };
 
-export const getTranslation = (lang: LanguageEnum): Translation => {
+export const getTranslation = (lang: LandingLanguage): Translation => {
   switch (lang) {
-    case LanguageEnum.en:
+    case LandingLanguage.en:
       return en;
-    case LanguageEnum.ru:
+    case LandingLanguage.ru:
       return ru;
-    case LanguageEnum.es:
+    case LandingLanguage.es:
       return es;
-    case LanguageEnum.ptBr:
+    case LandingLanguage.ptBr:
       return ptBr;
-    case LanguageEnum.uk:
+    case LandingLanguage.uk:
       return uk;
     default:
       return lang satisfies never;

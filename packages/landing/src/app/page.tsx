@@ -1,6 +1,6 @@
 import { MemoCardPage } from "@/components/landing-page/memocardPage";
-import { LanguageEnum } from "@/shared/translations";
+import { LandingLanguage } from "api";
 
 export default function Page() {
-  return <MemoCardPage language={LanguageEnum.en} />;
+  return <MemoCardPage language={LandingLanguage.en} />;
 }
