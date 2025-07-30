@@ -11,9 +11,13 @@
     "typecheck": "npm run typecheck --workspaces",
     "test": "npm run test --workspaces",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "export-public-code": "./export-public-code.sh"
+    "export-public-code": "./export-public-code.sh",
+    "postinstall": "patch-package"
   },
   "workspaces": [
     "./packages/*"
-  ]
+  ],
+  "dependencies": {
+    "patch-package": "^8.0.0"
+  }
 }

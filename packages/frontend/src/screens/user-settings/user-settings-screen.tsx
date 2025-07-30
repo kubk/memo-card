@@ -38,6 +38,7 @@ import {
   LanguagesIcon,
   FastForwardIcon,
   InfoIcon,
+  BugIcon,
 } from "lucide-react";
 import { env } from "../../env.ts";
 
@@ -214,6 +215,18 @@ export function UserSettingsScreen() {
                   </span>
                 ),
                 text: "Skip review",
+              },
+              {
+                icon: (
+                  <FilledIcon
+                    backgroundColor={theme.orange}
+                    icon={<BugIcon size={18} />}
+                  />
+                ),
+                text: "Debug",
+                onClick: () => {
+                  screenStore.go({ type: "debug" });
+                },
               },
             ]}
           />
