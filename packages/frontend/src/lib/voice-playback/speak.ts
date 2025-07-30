@@ -1,6 +1,7 @@
 import { userStore } from "../../store/user-store.ts";
 import { camelCaseToHuman } from "../string/camel-case-to-human.ts";
 import EasySpeech from "easy-speech";
+import { arrayIntersection, highQualityVoices } from "./highQualityVoices.ts";
 
 export enum SpeakLanguageEnum {
   USEnglish = "en-US",
@@ -78,9 +79,6 @@ export const speak = async (text: string, language: SpeakLanguageEnum) => {
         }
       } else {
         // Search for high quality voice and cache the result
-        const { arrayIntersection, highQualityVoices } = await import(
-          "./highQualityVoices.ts"
-        );
         const hqvByLanguage = highQualityVoices[language] || [];
         const existingHqv = arrayIntersection(
           hqvByLanguage,
