@@ -1,7 +1,7 @@
 import { SpeakLanguageEnum } from "./speak";
 
 export const highQualityVoices: Partial<Record<SpeakLanguageEnum, string[]>> = {
-  [SpeakLanguageEnum.USEnglish]: [
+  ["en-US"]: [
     "Microsoft EmmaMultilingual Online (Natural) - English (United States)",
     "Microsoft AvaMultilingual Online (Natural) - English (United States)",
     "Microsoft Jenny Online (Natural) - English (United States)",
@@ -40,7 +40,7 @@ export const highQualityVoices: Partial<Record<SpeakLanguageEnum, string[]>> = {
     "Google US English 3 (Natural)",
     "Google US English 6 (Natural)",
   ],
-  [SpeakLanguageEnum.UKEnglish]: [
+  "en-GB": [
     "Microsoft Sonia Online (Natural) - English (United Kingdom)",
     "Microsoft Libby Online (Natural) - English (United Kingdom)",
     "Microsoft Maisie Online (Natural) - English (United Kingdom)",
