@@ -28,11 +28,7 @@ export function CardInputModeFormScreen({
     deckFormStore.quitInnerScreen();
   });
 
-  useMainButton(
-    t("save"),
-    () => store.submit(),
-    () => !store.isAnyRequestLoading,
-  );
+  useMainButton(t("save"), () => store.submit());
 
   useProgress(() => store.isAnyRequestLoading);
 
