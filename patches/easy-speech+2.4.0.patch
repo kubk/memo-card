@@ -1,0 +1,16 @@
+diff --git a/node_modules/easy-speech/dist/index.d.ts b/node_modules/easy-speech/dist/index.d.ts
+index 27dd03b..7c8e422 100644
+--- a/node_modules/easy-speech/dist/index.d.ts
++++ b/node_modules/easy-speech/dist/index.d.ts
+@@ -91,4 +91,11 @@ export default class EasySpeech {
+   public static pause(): void;
+ 
+   public static reset(): void;
++
++  public static filterVoices(options: {
++    name?: string;
++    language?: string;
++    localService?: boolean;
++    voiceURI?: string;
++  }): SpeechSynthesisVoice[];
+ }
