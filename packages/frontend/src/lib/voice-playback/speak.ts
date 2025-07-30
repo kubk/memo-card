@@ -52,6 +52,9 @@ export const isSpeechSynthesisSupported =
   "speechSynthesis" in window &&
   typeof SpeechSynthesisUtterance !== "undefined";
 
+// Cache for high quality voices by language
+const voiceCache = new Map<SpeakLanguageEnum, SpeechSynthesisVoice | null>();
+
 export const speak = async (text: string, language: SpeakLanguageEnum) => {
   if (!isSpeechSynthesisSupported) {
     return;
@@ -66,20 +69,31 @@ export const speak = async (text: string, language: SpeakLanguageEnum) => {
     let voice = exactVoices[0] || voicesFamily[0];
 
     if (userStore.isPaid) {
-      const { arrayIntersection, highQualityVoices } = await import(
-        "./highQualityVoices.ts"
-      );
-      const hqvByLanguage = highQualityVoices[language] || [];
-      const existingHqv = arrayIntersection(
-        hqvByLanguage,
-        exactVoices.map((v) => v.name),
-      );
-      const foundHqv = exactVoices.find((v) => v.name === existingHqv[0]);
-      if (foundHqv) {
-        voice = foundHqv;
-        console.log("Found high quality voice", voice);
+      // Check cache first
+      if (voiceCache.has(language)) {
+        const cachedVoice = voiceCache.get(language);
+        if (cachedVoice) {
+          voice = cachedVoice;
+          console.log("Using cached high quality voice", voice);
+        }
       } else {
-        console.warn("No high quality voice found");
+        // Search for high quality voice and cache the result
+        const { arrayIntersection, highQualityVoices } = await import(
+          "./highQualityVoices.ts"
+        );
+        const hqvByLanguage = highQualityVoices[language] || [];
+        const existingHqv = arrayIntersection(
+          hqvByLanguage,
+          exactVoices.map((v) => v.name),
+        );
+        const foundHqv = exactVoices.find((v) => v.name === existingHqv[0]);
+        if (foundHqv) {
+          voice = foundHqv;
+          voiceCache.set(language, foundHqv);
+          console.log("Found and cached high quality voice", voice);
+        } else {
+          console.warn("No high quality voice found");
+        }
       }
     }
 
