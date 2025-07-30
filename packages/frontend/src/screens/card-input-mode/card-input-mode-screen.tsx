@@ -86,15 +86,13 @@ export function CardInputModeScreen(props: Props) {
             onChange={store.modeId.onChange}
           />
           <div className="mb-6">
-            <ButtonGrid>
-              <ButtonSideAligned
-                outline
-                onClick={() => deckFormStore.goCardInputModeForm()}
-                icon={<PlusIcon size={24} />}
-              >
-                {t("card_input_mode_add_button")}
-              </ButtonSideAligned>
-            </ButtonGrid>
+            <ButtonSideAligned
+              outline
+              onClick={() => deckFormStore.goCardInputModeForm()}
+              icon={<PlusIcon size={24} />}
+            >
+              {t("card_input_mode_add_button")}
+            </ButtonSideAligned>
           </div>
         </>
       ) : null}
