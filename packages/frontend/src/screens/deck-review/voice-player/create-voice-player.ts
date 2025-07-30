@@ -8,7 +8,6 @@ import { isEnumValid } from "../../../lib/typescript/is-enum-valid.ts";
 import { BrowserWebSpeechApiPlayer } from "./browser-web-speech-api-player.ts";
 import { UrlRecordVoicePlayer } from "./url-record-voice-player.ts";
 import { GoogleTtsVoicePlayer } from "./google-tts-voice-player.ts";
-import { featuresStore } from "../../../store/features-store.ts";
 
 export interface VoicePlayer {
   play(): void;
@@ -34,10 +33,6 @@ export const createVoicePlayer = (
   }
 
   const text = removeAllTags(card[deckForm.speakingCardsField]);
-
-  if (featuresStore.isFeatureEnabled("googleTts")) {
-    return new GoogleTtsVoicePlayer(deckForm.speakingCardsLocale, text);
-  }
 
   if (isSpeechSynthesisSupported) {
     if (!isEnumValid(deckForm.speakingCardsLocale, SpeakLanguageEnum)) {

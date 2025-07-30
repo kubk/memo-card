@@ -1,3 +1,4 @@
+import { userStore } from "../../store/user-store.ts";
 import { camelCaseToHuman } from "../string/camel-case-to-human.ts";
 import EasySpeech from "easy-speech";
 
@@ -59,17 +60,37 @@ export const speak = async (text: string, language: SpeakLanguageEnum) => {
   try {
     await EasySpeech.init({ maxTimeout: 5000, interval: 250 });
 
-    // Get voices for the specific language
-    // @ts-expect-error
-    const voices = EasySpeech.filterVoices({ language });
-    if (!voices.length) {
+    const voicesFamily = EasySpeech.filterVoices({ language });
+    const exactVoices = voicesFamily.filter((v) => v.lang === language);
+
+    let voice = exactVoices[0] || voicesFamily[0];
+
+    if (userStore.isPaid) {
+      const { arrayIntersection, highQualityVoices } = await import(
+        "./highQualityVoices.ts"
+      );
+      const hqvByLanguage = highQualityVoices[language] || [];
+      const existingHqv = arrayIntersection(
+        hqvByLanguage,
+        exactVoices.map((v) => v.name),
+      );
+      const foundHqv = exactVoices.find((v) => v.name === existingHqv[0]);
+      if (foundHqv) {
+        voice = foundHqv;
+        console.log("Found high quality voice", voice);
+      } else {
+        console.warn("No high quality voice found");
+      }
+    }
+
+    if (!voice) {
       console.warn(`No voice found for language ${language}`);
       return;
     }
 
     await EasySpeech.speak({
       text,
-      voice: voices[0], // Use the first available voice for this language
+      voice,
     });
   } catch (e) {
     console.error("Speech synthesis failed:", e);
