@@ -44,7 +44,7 @@ export function DeckFinished(props: Props) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0, duration: 0.4 }}
-            className="mx-auto flex flex-col p-6 bg-bg rounded-[12px]"
+            className="w-full flex flex-col p-6 bg-bg rounded-[12px]"
           >
             <span className="mb-2">
               {type === "deck"
