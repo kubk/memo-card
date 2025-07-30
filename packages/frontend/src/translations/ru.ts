@@ -318,4 +318,21 @@ export const ru: Translation = {
     "MemoCard получил приз в конкурсе. Сегодня тысячи людей используют его для лучшего обучения и запоминания.",
   about_visit_website: "Посетить сайт →",
   about_github_frontend: "GitHub репозиторий фронтенда →",
+
+  // Card Input Mode Form
+  card_input_mode_form_title: "Название",
+  card_input_mode_form_ai_prompt: "AI запрос",
+  card_input_mode_form_create_title: "Создать режим ввода",
+  card_input_mode_form_edit_title: "Редактировать режим ввода",
+  card_input_mode_form_delete_confirm: "Удалить этот режим ввода?",
+  card_input_mode_add_button: "Добавить режим ввода",
+  card_input_mode_form_title_placeholder: "напр. Английские определения",
+  card_input_mode_form_prompt_placeholder:
+    "напр. Сгенерируй карточку с определением для слова :template_word",
+  card_input_mode_form_front_placeholder: "напр. Слово или термин",
+  card_input_mode_form_back_placeholder: "напр. Простое определение",
+  card_input_mode_form_example_placeholder:
+    "напр. Пример использования или контекст",
+  card_input_mode_form_save_success: "Режим ввода сохранен",
+  card_input_mode_form_delete_success: "Режим ввода удален",
 };

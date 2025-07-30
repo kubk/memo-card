@@ -324,4 +324,20 @@ export const fa: Translation = {
     "MemoCard تو مسابقه جایزه برد. حالا هزاران نفر در سراسر دنیا ازش استفاده می‌کنن.",
   about_visit_website: "بازدید از وب‌سایت ←",
   about_github_frontend: "مخزن GitHub فرانت‌اند ←",
+
+  // Card Input Mode Form
+  card_input_mode_form_title: "عنوان",
+  card_input_mode_form_ai_prompt: "درخواست هوش مصنوعی",
+  card_input_mode_form_create_title: "ایجاد حالت ورودی",
+  card_input_mode_form_edit_title: "ویرایش حالت ورودی",
+  card_input_mode_form_delete_confirm: "حذف این حالت ورودی؟",
+  card_input_mode_add_button: "افزودن حالت ورودی",
+  card_input_mode_form_title_placeholder: "مثلاً: تعریفات انگلیسی",
+  card_input_mode_form_prompt_placeholder:
+    "مثلاً: یک کارت تعریف برای کلمه‌ی :template_word بساز",
+  card_input_mode_form_front_placeholder: "مثلاً: کلمه یا اصطلاح",
+  card_input_mode_form_back_placeholder: "مثلاً: تعریف ساده",
+  card_input_mode_form_example_placeholder: "مثلاً: مثال استفاده یا زمینه",
+  card_input_mode_form_save_success: "حالت ورودی ذخیره شد",
+  card_input_mode_form_delete_success: "حالت ورودی حذف شد",
 };

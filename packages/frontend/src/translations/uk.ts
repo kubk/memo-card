@@ -323,4 +323,21 @@ export const uk: Translation = {
     "MemoCard виграв приз на конкурсі. Зараз ним користуються тисячі людей по всьому світу.",
   about_visit_website: "Відвідати сайт →",
   about_github_frontend: "GitHub репозиторій фронтенду →",
+
+  // Card Input Mode Form
+  card_input_mode_form_title: "Назва",
+  card_input_mode_form_ai_prompt: "AI запит",
+  card_input_mode_form_create_title: "Створити режим введення",
+  card_input_mode_form_edit_title: "Редагувати режим введення",
+  card_input_mode_form_delete_confirm: "Видалити цей режим введення?",
+  card_input_mode_add_button: "Додати режим введення",
+  card_input_mode_form_title_placeholder: "напр. Англійські визначення",
+  card_input_mode_form_prompt_placeholder:
+    "напр. Створи картку визначення для слова :template_word",
+  card_input_mode_form_front_placeholder: "напр. Слово або термін",
+  card_input_mode_form_back_placeholder: "напр. Просте визначення",
+  card_input_mode_form_example_placeholder:
+    "напр. Приклад використання або контекст",
+  card_input_mode_form_save_success: "Режим введення збережено",
+  card_input_mode_form_delete_success: "Режим введення видалено",
 };
