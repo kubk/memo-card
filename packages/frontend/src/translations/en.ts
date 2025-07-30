@@ -321,6 +321,22 @@ export const en = {
     "MemoCard won a prize at the contest. Now thousands of people around the world use it to learn better.",
   about_visit_website: "Visit Website →",
   about_github_frontend: "GitHub Frontend Repository →",
+
+  // Card Input Mode Form
+  card_input_mode_form_title: "Title",
+  card_input_mode_form_ai_prompt: "AI Prompt",
+  card_input_mode_form_create_title: "Create input mode",
+  card_input_mode_form_edit_title: "Edit input mode",
+  card_input_mode_form_delete_confirm: "Delete this input mode?",
+  card_input_mode_add_button: "Add input mode",
+  card_input_mode_form_title_placeholder: "e.g. English Definitions",
+  card_input_mode_form_prompt_placeholder:
+    "e.g. Generate a definition flashcard for the word :template_word",
+  card_input_mode_form_front_placeholder: "e.g. Word or term",
+  card_input_mode_form_back_placeholder: "e.g. Simple definition",
+  card_input_mode_form_example_placeholder: "e.g. Usage example or context",
+  card_input_mode_form_save_success: "Input mode saved",
+  card_input_mode_form_delete_success: "Input mode deleted",
 };
 
 export type Translation = typeof en;

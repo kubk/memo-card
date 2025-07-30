@@ -186,7 +186,11 @@ const cardFormToApi = (
 export type CardFilterSortBy = "createdAt" | "frontAlpha" | "backAlpha";
 export type CardFilterDirection = "desc" | "asc";
 
-type DeckInnerScreen = "cardList" | "speakingCards" | "cardInputMode";
+type DeckInnerScreen =
+  | "cardList"
+  | "speakingCards"
+  | "cardInputMode"
+  | "cardInputModeForm";
 
 export type CardFilterForm = {
   text: TextField<string>;
@@ -209,6 +213,7 @@ export class DeckFormStore implements CardFormStoreInterface {
   upsertDeckRequest = new RequestStore(api.deckUpsert.mutate);
   cardInnerScreen = new TextField<CardInnerScreenType>(null);
   deckInnerScreen?: DeckInnerScreen;
+  cardInputModeIdForForm: string | null = null;
   cardFilter = createCardFilterForm();
 
   constructor() {
@@ -269,6 +274,11 @@ export class DeckFormStore implements CardFormStoreInterface {
 
   goCardInputMode() {
     this.goInnerScreen("cardInputMode");
+  }
+
+  goCardInputModeForm(cardInputModeId?: string) {
+    this.cardInputModeIdForForm = cardInputModeId || null;
+    this.goInnerScreen("cardInputModeForm");
   }
 
   private goInnerScreen(innerScreen: DeckInnerScreen) {

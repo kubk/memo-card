@@ -319,4 +319,20 @@ export const ptBr: Translation = {
     "MemoCard ganhou prêmio no concurso. Hoje milhares de pessoas usam no mundo todo.",
   about_visit_website: "Visitar site →",
   about_github_frontend: "Repositório do GitHub do frontend →",
+
+  // Card Input Mode Form
+  card_input_mode_form_title: "Título",
+  card_input_mode_form_ai_prompt: "Prompt de IA",
+  card_input_mode_form_create_title: "Criar modo de entrada",
+  card_input_mode_form_edit_title: "Editar modo de entrada",
+  card_input_mode_form_delete_confirm: "Excluir este modo de entrada?",
+  card_input_mode_add_button: "Adicionar modo de entrada",
+  card_input_mode_form_title_placeholder: "ex. Definições em Inglês",
+  card_input_mode_form_prompt_placeholder:
+    "ex. Gere um cartão de definição para a palavra :template_word",
+  card_input_mode_form_front_placeholder: "ex. Palavra ou termo",
+  card_input_mode_form_back_placeholder: "ex. Definição simples",
+  card_input_mode_form_example_placeholder: "ex. Exemplo de uso ou contexto",
+  card_input_mode_form_save_success: "Modo de entrada salvo",
+  card_input_mode_form_delete_success: "Modo de entrada excluído",
 };
