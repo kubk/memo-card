@@ -5,6 +5,7 @@ import { CardFormWrapper } from "../card-form/card-form-wrapper.tsx";
 import { PreventTelegramSwipeDownClosingIos } from "../../../lib/platform/telegram/prevent-telegram-swipe-down-closing.tsx";
 import { SpeakingCards } from "./speaking-cards.tsx";
 import { CardInputModeScreen } from "../../card-input-mode/card-input-mode-screen.tsx";
+import { CardInputModeFormScreen } from "../../card-input-mode/card-input-mode-form-screen.tsx";
 
 export function DeckFormScreen() {
   const deckFormStore = useDeckFormStore();
@@ -37,6 +38,14 @@ export function DeckFormScreen() {
     return (
       <PreventTelegramSwipeDownClosingIos>
         <CardInputModeScreen deckFormStore={deckFormStore} />
+      </PreventTelegramSwipeDownClosingIos>
+    );
+  }
+
+  if (deckFormStore.deckFormScreen === "cardInputModeForm") {
+    return (
+      <PreventTelegramSwipeDownClosingIos>
+        <CardInputModeFormScreen deckFormStore={deckFormStore} />
       </PreventTelegramSwipeDownClosingIos>
     );
   }

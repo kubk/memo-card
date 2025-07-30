@@ -320,4 +320,20 @@ export const ar: Translation = {
     "MemoCard فاز بجائزة في المسابقة. الآن يستخدمه آلاف الناس حول العالم.",
   about_visit_website: "زيارة الموقع →",
   about_github_frontend: "مستودع GitHub للواجهة الأمامية →",
+
+  // Card Input Mode Form
+  card_input_mode_form_title: "العنوان",
+  card_input_mode_form_ai_prompt: "طلب الذكاء الاصطناعي",
+  card_input_mode_form_create_title: "إنشاء وضع الإدخال",
+  card_input_mode_form_edit_title: "تحرير وضع الإدخال",
+  card_input_mode_form_delete_confirm: "حذف وضع الإدخال هذا؟",
+  card_input_mode_add_button: "إضافة وضع إدخال",
+  card_input_mode_form_title_placeholder: "مثال: تعريفات إنجليزية",
+  card_input_mode_form_prompt_placeholder:
+    "مثال: أنشئ بطاقة تعريف للكلمة :template_word",
+  card_input_mode_form_front_placeholder: "مثال: كلمة أو مصطلح",
+  card_input_mode_form_back_placeholder: "مثال: تعريف بسيط",
+  card_input_mode_form_example_placeholder: "مثال: مثال استخدام أو سياق",
+  card_input_mode_form_save_success: "تم حفظ وضع الإدخال",
+  card_input_mode_form_delete_success: "تم حذف وضع الإدخال",
 };

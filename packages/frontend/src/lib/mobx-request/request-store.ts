@@ -71,4 +71,11 @@ export class RequestStore<T, Args extends any[] = []> {
   get isSuccess() {
     return this.result.status === "success";
   }
+
+  invalidate = (...args: Args) => {
+    if (this.options?.cacheId) {
+      cacheStorage.delete(this.options.cacheId);
+    }
+    return this.execute(...args);
+  };
 }
