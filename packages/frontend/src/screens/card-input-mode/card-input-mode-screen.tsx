@@ -12,7 +12,6 @@ import { DeckFormStore } from "../deck-form/deck-form/store/deck-form-store.ts";
 import { IndividualCardAiPreview } from "../shared/feature-preview/individual-card-ai-preview.tsx";
 import { CircleHelpIcon, EditIcon, PlusIcon } from "lucide-react";
 import { ButtonSideAligned } from "../../ui/button-side-aligned.tsx";
-import { ButtonGrid } from "../../ui/button-grid.tsx";
 
 type Props = { deckFormStore: DeckFormStore };
 
