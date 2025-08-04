@@ -1,3 +1,4 @@
+
 import { globalSearchStore } from "./global-search-store.ts";
 import { SearchResults } from "./search-results.tsx";
 import { Input } from "../../ui/input.tsx";
@@ -11,7 +12,10 @@ import { userStore } from "../../store/user-store.ts";
 import { cn } from "../../ui/cn.ts";
 import { t } from "../../translations/t.ts";
 
+const searchInputId = "global-search-input";
+
 export function SearchScreen() {
+
   useBackButton(() => {
     screenStore.back();
     globalSearchStore.clearSearch();
@@ -23,12 +27,16 @@ export function SearchScreen() {
         <div className="flex items-center pb-3 gap-2">
           <div className="flex-1">
             <Input
+              id={searchInputId}
               field={globalSearchStore.searchQuery}
               mainIcon={<SearchIcon size={18} />}
               autoFocus
               secondaryIcon={
                 globalSearchStore.isSearchActive ? (
-                  <button onClick={() => globalSearchStore.clearSearch()}>
+                  <button onClick={() => {
+                    globalSearchStore.clearSearch();
+                    document.getElementById(searchInputId)?.focus();
+                  }}>
                     <CircleXIcon size={18} className="text-hint" />
                   </button>
                 ) : null
