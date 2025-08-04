@@ -64,8 +64,10 @@ export const SpeechTest = observer(() => {
       return;
     }
 
-    const [voiceName, voiceLang] = selectedVoice.split('|');
-    const voice = voices.find((v) => v.name === voiceName && v.lang === voiceLang);
+    const [voiceName, voiceLang] = selectedVoice.split("|");
+    const voice = voices.find(
+      (v) => v.name === voiceName && v.lang === voiceLang,
+    );
     if (!voice) {
       console.warn("Selected voice not found");
       return;
