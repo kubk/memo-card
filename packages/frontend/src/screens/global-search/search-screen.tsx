@@ -1,4 +1,3 @@
-
 import { globalSearchStore } from "./global-search-store.ts";
 import { SearchResults } from "./search-results.tsx";
 import { Input } from "../../ui/input.tsx";
@@ -15,7 +14,6 @@ import { t } from "../../translations/t.ts";
 const searchInputId = "global-search-input";
 
 export function SearchScreen() {
-
   useBackButton(() => {
     screenStore.back();
     globalSearchStore.clearSearch();
@@ -33,10 +31,12 @@ export function SearchScreen() {
               autoFocus
               secondaryIcon={
                 globalSearchStore.isSearchActive ? (
-                  <button onClick={() => {
-                    globalSearchStore.clearSearch();
-                    document.getElementById(searchInputId)?.focus();
-                  }}>
+                  <button
+                    onClick={() => {
+                      globalSearchStore.clearSearch();
+                      document.getElementById(searchInputId)?.focus();
+                    }}
+                  >
                     <CircleXIcon size={18} className="text-hint" />
                   </button>
                 ) : null
@@ -70,8 +70,8 @@ export function SearchScreen() {
                       tab.value === globalSearchStore.activeTab
                         ? "default"
                         : tab.disabled
-                        ? "disabled"
-                        : "secondary"
+                          ? "disabled"
+                          : "secondary"
                     }
                   >
                     {tab.count}

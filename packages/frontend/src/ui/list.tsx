@@ -22,8 +22,8 @@ export function List(props: Props) {
     items.length > 1
       ? false
       : props.animateTap === undefined
-      ? true
-      : props.animateTap;
+        ? true
+        : props.animateTap;
 
   return (
     <div className="flex flex-col">
