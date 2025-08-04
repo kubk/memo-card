@@ -19,6 +19,7 @@ type Props = {
   secondaryIcon?: ReactNode;
   noAutoSize?: boolean;
   autoFocus?: boolean;
+  id?: string;
 };
 
 export function Input(props: Props) {
@@ -32,6 +33,7 @@ export function Input(props: Props) {
     secondaryIcon,
     isDisabled,
     autoFocus,
+    id,
   } = props;
   const { onChange, value, isTouched, error, onBlur } = field;
   const inputRef = useRef<HTMLTextAreaElement | HTMLInputElement | null>(null);
@@ -79,6 +81,7 @@ export function Input(props: Props) {
         onBlur={onBlur}
         onChange={handleInputChange}
         autoFocus={autoFocus}
+        id={id}
       />
       {mainIcon ? (
         <span
