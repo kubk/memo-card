@@ -2,16 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  font-family: "Twemoji Country Flags", system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
 .reset-button {
   @apply p-0 border-0 outline-none cursor-pointer bg-transparent focus:outline-none;
   font-family: inherit;
@@ -89,7 +79,7 @@ button {
 }
 
 :root {
-  font-family: -apple-system, Inter, system-ui, Avenir, Helvetica, Arial,
+  font-family: "Twemoji Country Flags", -apple-system, Inter, system-ui, Avenir, Helvetica, Arial,
     sans-serif;
   line-height: 1.5;
   font-weight: 400;
