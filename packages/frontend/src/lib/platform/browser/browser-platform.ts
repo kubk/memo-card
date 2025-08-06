@@ -176,10 +176,6 @@ export class BrowserPlatform implements Platform {
     this.openExternalLink(link);
   }
 
-  isWindows() {
-    return navigator.platform.indexOf("Win") > -1;
-  }
-
   logout() {
     localStorage.removeItem(browserTokenKey);
     window.location.reload();
