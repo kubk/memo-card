@@ -122,7 +122,7 @@ export class BrowserPlatform implements Platform {
       browserTokenKey,
       `${UserSource.Telegram} ${JSON.stringify(data)}`,
     );
-    window.location.reload();
+    window.location.href = "/";
   }
 
   // Google auth outside Telegram mini app
@@ -134,7 +134,7 @@ export class BrowserPlatform implements Platform {
           browserTokenKey,
           `${UserSource.Google} ${response.browserToken}`,
         );
-        window.location.reload();
+        window.location.href = "/";
       })
       .catch(console.error);
   }
@@ -178,7 +178,7 @@ export class BrowserPlatform implements Platform {
 
   logout() {
     localStorage.removeItem(browserTokenKey);
-    window.location.reload();
+    window.location.href = "/";
   }
 
   getLanguageCached(): LanguageShared {
