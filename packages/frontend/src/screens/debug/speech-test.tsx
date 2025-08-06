@@ -36,6 +36,7 @@ export const SpeechTest = observer(() => {
     };
 
     initSpeech();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Load voices when language changes
@@ -43,6 +44,7 @@ export const SpeechTest = observer(() => {
     if (isInitialized) {
       loadVoices();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedLanguage, isInitialized]);
 
   const loadVoices = () => {

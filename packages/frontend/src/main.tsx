@@ -3,6 +3,7 @@ import { App } from "./screens/app.tsx";
 import "./index.css";
 import { platform } from "./lib/platform/platform.ts";
 import { applyFormatters } from "mobx-log";
+import "country-flag-emoji-polyfill";
 
 applyFormatters();
 
