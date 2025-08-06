@@ -29,7 +29,7 @@ import { FreezeCardsScreenLazy } from "./freeze-cards/freeze-cards-screen-lazy.t
 import { AiMassCreationScreen } from "./ai-mass-creation/ai-mass-creation-screen.tsx";
 import { AiMassCreationStoreProvider } from "./ai-mass-creation/store/ai-mass-creation-store-provider.tsx";
 import { SnackbarProviderWrapper } from "./shared/snackbar/snackbar-provider-wrapper.tsx";
-import { Debug } from "./debug/debug.tsx";
+import { DebugLazy } from "./debug/debug-lazy.tsx";
 import { BrowserMainButton } from "./shared/browser-platform/browser-main-button.tsx";
 import { platform } from "../lib/platform/platform.ts";
 import { BrowserPlatform } from "../lib/platform/browser/browser-platform.ts";
@@ -87,7 +87,7 @@ export function App() {
       )}
       {screenStore.screen.type === "debug" && (
         <PreventTelegramSwipeDownClosingIos>
-          <Debug />
+          <DebugLazy />
         </PreventTelegramSwipeDownClosingIos>
       )}
       {screenStore.screen.type === "browserLogin" && <LoginScreen />}
