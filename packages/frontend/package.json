@@ -21,6 +21,7 @@
     "canvas-confetti": "^1.9.2",
     "clsx": "^2.1.1",
     "colord": "^2.9.3",
+    "country-flag-emoji-polyfill": "^0.1.8",
     "dompurify": "^3.0.9",
     "easy-speech": "^2.4.0",
     "framer-motion": "^10.16.4",
