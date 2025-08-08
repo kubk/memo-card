@@ -1,12 +1,9 @@
 import { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
 import { screenStore } from "../../../store/screen-store.ts";
 import { BlocksIcon, BookOpenIcon, CirclePlayIcon } from "lucide-react";
 import { deckListStore } from "../../../store/deck-list-store.ts";
 import { BooleanToggle } from "mobx-form-lite";
 import { cn } from "../../../ui/cn.ts";
-import { userStore } from "../../../store/user-store.ts";
-import { CustomCloseIcon } from "./icons/custom-close-icon.tsx";
 import { t } from "../../../translations/t.ts";
 import { translateCardCount } from "../translate-card-count.ts";
 import { hapticImpact } from "../../../lib/platform/telegram/haptics.ts";
