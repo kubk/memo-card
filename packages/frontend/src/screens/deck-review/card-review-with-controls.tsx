@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Card,
   IDK_ID,
@@ -23,6 +24,7 @@ type Props = {
   onEasy: () => void;
   onShowAnswer: () => void;
   onReviewCardWithAnswers: () => void;
+  cardOpenedRow?: React.ReactNode;
 };
 
 export function CardReviewWithControls(props: Props) {
@@ -34,6 +36,7 @@ export function CardReviewWithControls(props: Props) {
     onEasy,
     onShowAnswer,
     onReviewCardWithAnswers,
+    cardOpenedRow,
   } = props;
 
   return (
@@ -44,82 +47,86 @@ export function CardReviewWithControls(props: Props) {
       {card && card.answerType === "remember" && (
         <div className="flex absolute bottom-16 gap-2 w-full [&>button]:flex-1">
           {card.isOpened ? (
-            <div className="bg-bg flex gap-2 w-full p-2 rounded-2xl">
-              <button
-                key={"again"}
-                onClick={() => onAgain()}
-                className={reviewOutcomeButtonStyles.again}
-              >
-                <Hotkey
-                  shortcut="1"
-                  className={reviewOutcomeHotkeyStyles.again}
-                />
-                <div className="flex flex-col items-center">
-                  <span className="whitespace-nowrap text-sm font-semibold">
-                    {reviewOutcomeLabels.again()}
-                  </span>
-                  <span className="text-xs opacity-70 font-semibold">
-                    {getTimeEstimate("again", card, userStore.language)}
-                  </span>
-                </div>
-              </button>
-              <button
-                key={"hard"}
-                onClick={() => onHard()}
-                className={reviewOutcomeButtonStyles.hard}
-              >
-                <Hotkey
-                  shortcut="2"
-                  className={reviewOutcomeHotkeyStyles.hard}
-                />
-                <div className="flex flex-col items-center">
-                  <span className="whitespace-nowrap text-sm font-semibold">
-                    {reviewOutcomeLabels.hard()}
-                  </span>
-                  <span className="text-xs opacity-70 font-semibold">
-                    {getTimeEstimate("hard", card, userStore.language)}
-                  </span>
-                </div>
-              </button>
-              <button
-                key={"good"}
-                onClick={() => onGood()}
-                className={reviewOutcomeButtonStyles.good}
-              >
-                <Hotkey
-                  shortcut="3"
-                  className={reviewOutcomeHotkeyStyles.good}
-                />
-                <div className="flex flex-col items-center">
-                  <span className="whitespace-nowrap text-sm font-semibold">
-                    {reviewOutcomeLabels.good()}
-                  </span>
-                  <span className="text-xs opacity-70 font-semibold">
-                    {getTimeEstimate("good", card, userStore.language)}
-                  </span>
-                </div>
-              </button>
-              {!card.isAgain && (
+            cardOpenedRow ? (
+              cardOpenedRow
+            ) : (
+              <div className="bg-bg flex gap-2 w-full p-2 rounded-2xl">
                 <button
-                  key={"easy"}
-                  onClick={() => onEasy()}
-                  className={reviewOutcomeButtonStyles.easy}
+                  key={"again"}
+                  onClick={() => onAgain()}
+                  className={reviewOutcomeButtonStyles.again}
                 >
                   <Hotkey
-                    shortcut="4"
-                    className={reviewOutcomeHotkeyStyles.easy}
+                    shortcut="1"
+                    className={reviewOutcomeHotkeyStyles.again}
                   />
                   <div className="flex flex-col items-center">
                     <span className="whitespace-nowrap text-sm font-semibold">
-                      {reviewOutcomeLabels.easy()}
+                      {reviewOutcomeLabels.again()}
                     </span>
                     <span className="text-xs opacity-70 font-semibold">
-                      {getTimeEstimate("easy", card, userStore.language)}
+                      {getTimeEstimate("again", card, userStore.language)}
                     </span>
                   </div>
                 </button>
-              )}
-            </div>
+                <button
+                  key={"hard"}
+                  onClick={() => onHard()}
+                  className={reviewOutcomeButtonStyles.hard}
+                >
+                  <Hotkey
+                    shortcut="2"
+                    className={reviewOutcomeHotkeyStyles.hard}
+                  />
+                  <div className="flex flex-col items-center">
+                    <span className="whitespace-nowrap text-sm font-semibold">
+                      {reviewOutcomeLabels.hard()}
+                    </span>
+                    <span className="text-xs opacity-70 font-semibold">
+                      {getTimeEstimate("hard", card, userStore.language)}
+                    </span>
+                  </div>
+                </button>
+                <button
+                  key={"good"}
+                  onClick={() => onGood()}
+                  className={reviewOutcomeButtonStyles.good}
+                >
+                  <Hotkey
+                    shortcut="3"
+                    className={reviewOutcomeHotkeyStyles.good}
+                  />
+                  <div className="flex flex-col items-center">
+                    <span className="whitespace-nowrap text-sm font-semibold">
+                      {reviewOutcomeLabels.good()}
+                    </span>
+                    <span className="text-xs opacity-70 font-semibold">
+                      {getTimeEstimate("good", card, userStore.language)}
+                    </span>
+                  </div>
+                </button>
+                {!card.isAgain && (
+                  <button
+                    key={"easy"}
+                    onClick={() => onEasy()}
+                    className={reviewOutcomeButtonStyles.easy}
+                  >
+                    <Hotkey
+                      shortcut="4"
+                      className={reviewOutcomeHotkeyStyles.easy}
+                    />
+                    <div className="flex flex-col items-center">
+                      <span className="whitespace-nowrap text-sm font-semibold">
+                        {reviewOutcomeLabels.easy()}
+                      </span>
+                      <span className="text-xs opacity-70 font-semibold">
+                        {getTimeEstimate("easy", card, userStore.language)}
+                      </span>
+                    </div>
+                  </button>
+                )}
+              </div>
+            )
           ) : (
             <Button
               key={"show"}
