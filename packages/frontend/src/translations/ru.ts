@@ -335,4 +335,5 @@ export const ru: Translation = {
     "напр. Пример использования или контекст",
   card_input_mode_form_save_success: "Режим ввода сохранен",
   card_input_mode_form_delete_success: "Режим ввода удален",
+  quit_card: "Закрыть карточку",
 };
