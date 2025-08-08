@@ -30,33 +30,32 @@ export function GeneratedCardFormView(props: Props) {
     cardFormStore.onBackCard();
   });
 
-  const [localStore] = useState(() => new AiGeneratedCardFormStore());
+  const [formStore] = useState(() => new AiGeneratedCardFormStore());
 
   useMainButton(t("generate"), () => {
-    localStore.submit();
+    formStore.submit();
   });
 
-  useProgress(() => localStore.isSaveLoading);
+  useProgress(() => formStore.isSaveLoading);
 
   useMount(() => {
-    localStore.cardInputModesRequest.execute();
+    formStore.cardInputModesRequest.execute();
   });
 
   return (
     <Screen title={t("add_card")}>
-      <Label text={t("card_front_title")} isPlain isRequired>
-        <Input field={localStore.form.prompt} type={"textarea"} rows={2} />
-        <HintTransparent>{t("card_front_side_hint")}</HintTransparent>
+      <Label text={t("card_front_side_hint")} isPlain>
+        <Input field={formStore.form.prompt} type={"textarea"} rows={2} />
       </Label>
 
       <Label text={t("card_input_mode_screen")} isPlain>
-        {localStore.cardInputModesRequest.result.status === "loading" ? (
+        {formStore.cardInputModesRequest.result.status === "loading" ? (
           <CardRowLoading speed={1} />
         ) : null}
-        {localStore.cardInputModesRequest.result.status === "success"
+        {formStore.cardInputModesRequest.result.status === "success"
           ? (() => {
               const inputMode =
-                localStore.cardInputModesRequest.result.data.find(
+                formStore.cardInputModesRequest.result.data.find(
                   (inputMode) => inputMode.id === cardInputModeId,
                 );
               assert(inputMode, "Input mode should be found");
