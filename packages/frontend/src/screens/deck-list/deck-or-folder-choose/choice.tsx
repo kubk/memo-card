@@ -29,7 +29,7 @@ export function Choice(props: Props) {
         fullWidth
         gap={12}
       >
-        <Flex gap={12}>
+        <Flex gap={16}>
           {typeof icon === "string" ? (
             <span className="text-button">{icon}</span>
           ) : (
@@ -41,7 +41,7 @@ export function Choice(props: Props) {
           </Flex>
         </Flex>
         <div className="text-button">
-          <ChevronIcon direction={"right"} />
+          <ChevronIcon size={20} direction={"right"} />
         </div>
       </Flex>
     </div>

@@ -112,7 +112,6 @@ export const ru: Translation = {
   review_wrong_label: "Неправильно",
   validation_at_least_one_answer_required: "Укажите хотя бы 1 ответ",
   is_correct_explanation: `Может быть только один правильный ответ`,
-  choose_what_to_create: "Выберите что создать",
   card_preview: "Предпросмотр",
   deck: "Колода",
   add_deck_short: "Колода",

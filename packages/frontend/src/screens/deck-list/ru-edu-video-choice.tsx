@@ -25,8 +25,8 @@ export function RuEduVideoChoice(props: Props) {
         gap={48}
         fullWidth
       >
-        <h3>Где смотреть уроки</h3>
         <Flex fullWidth direction={"column"} gap={8}>
+          <h3 className="text-center mb-2">Где смотреть уроки</h3>
           <Choice
             title={"YouTube"}
             description={"Если нет проблем с YouTube"}

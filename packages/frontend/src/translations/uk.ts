@@ -131,7 +131,6 @@ export const uk: Translation = {
   folder: "Папка",
   deck_description: "Колекція карток",
   deck: "Колода",
-  choose_what_to_create: "Виберіть, що створити",
   edit_folder: "Редагувати папку",
   add_folder: "Додати папку",
   add_deck_to_folder: "Додати колоду до папки",
