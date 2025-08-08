@@ -1,31 +1,45 @@
+import { BrowserPlatform } from "../browser/browser-platform.ts";
+import { platform } from "../platform.ts";
 import { getWebApp } from "./telegram-web-app.ts";
+import { webMobileHaptic } from "./webMobileHaptic.ts";
 
-const isIos = () => getWebApp().platform === "ios";
-const isAndroid = () => getWebApp().platform === "android";
+function isTelegramMobile() {
+  return getWebApp().platform === "ios" || getWebApp().platform === "android";
+}
 
-const isHapticEnabled = isIos() || isAndroid();
+function isWebMobile() {
+  // Returns true if the platform is browser (not Telegram) and it's iOS or Android
+  return platform instanceof BrowserPlatform && platform.isMobile;
+}
 
 export type HapticNotificationType = "error" | "success" | "warning";
-
-export const hapticNotification = (type: HapticNotificationType) => {
-  if (!isHapticEnabled) {
-    return;
-  }
-  getWebApp().HapticFeedback.notificationOccurred(type);
-};
-
 export type HapticImpactType = "light" | "medium" | "heavy";
 
-export const hapticImpact = (type: HapticImpactType) => {
-  if (!isHapticEnabled) {
-    return;
+export const hapticNotification = (type: HapticNotificationType) => {
+  if (isTelegramMobile()) {
+    getWebApp().HapticFeedback.notificationOccurred(type);
   }
-  getWebApp().HapticFeedback.impactOccurred(type);
+
+  if (isWebMobile()) {
+    webMobileHaptic(type);
+  }
+};
+
+export const hapticImpact = (type: HapticImpactType) => {
+  if (isTelegramMobile()) {
+    getWebApp().HapticFeedback.impactOccurred(type);
+  }
+
+  if (isWebMobile()) {
+    webMobileHaptic(type);
+  }
 };
 
 export const hapticSelection = () => {
-  if (!isHapticEnabled) {
-    return;
+  if (isTelegramMobile()) {
+    getWebApp().HapticFeedback.selectionChanged();
   }
-  getWebApp().HapticFeedback.selectionChanged();
+  if (isWebMobile()) {
+    webMobileHaptic("selection");
+  }
 };
