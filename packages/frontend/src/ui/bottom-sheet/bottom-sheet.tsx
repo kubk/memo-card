@@ -33,17 +33,18 @@ export function BottomSheet(props: Props) {
 
   const bottomSheetBody =
     platform instanceof BrowserPlatform && !platform.isMobile ? (
-      <div
-        className={cn(
-          "fixed bottom-0 right-0 bg-bg p-5 rounded-[20px] h-fit z-bottom-sheet-fg w-2xl",
-          "top-1/2 left-1/2",
-        )}
-        style={{
-          boxShadow: "0 -2px 10px rgba(0, 0, 0, 0.1)",
-          transform: "translate(-50%, -50%)",
-        }}
-      >
-        {children}
+      <div className="fixed inset-0 z-bottom-sheet-fg grid place-items-center pointer-events-none">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 16 }}
+          transition={{ duration: 0.2, ease: "easeOut" }}
+          className={cn(
+            "pointer-events-auto shadow bg-bg p-5 rounded-[20px] h-fit max-w-2xl w-full",
+          )}
+        >
+          {children}
+        </motion.div>
       </div>
     ) : (
       <motion.div
@@ -62,6 +63,7 @@ export function BottomSheet(props: Props) {
         {children}
       </motion.div>
     );
+
   return (
     <AnimatePresence>
       {isOpen && (
