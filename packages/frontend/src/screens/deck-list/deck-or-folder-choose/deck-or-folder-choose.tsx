@@ -23,7 +23,7 @@ export function DeckOrFolderChoose(props: Props) {
       >
         <Flex fullWidth direction={"column"} gap={8}>
           <Choice
-            icon={<FolderOpen className="text-button self-center" size={18} />}
+            icon={<FolderOpen className="text-text self-center" size={18} />}
             title={t("add_folder")}
             description={t("folder_description")}
             onClick={() => {
@@ -31,7 +31,7 @@ export function DeckOrFolderChoose(props: Props) {
             }}
           />
           <Choice
-            icon={<LayersIcon className="text-button self-center" size={18} />}
+            icon={<LayersIcon className="text-text self-center" size={18} />}
             title={t("add_deck")}
             description={t("deck_description")}
             onClick={() => {

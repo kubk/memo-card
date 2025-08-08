@@ -48,7 +48,7 @@ export function ReviewButton() {
           <Flex fullWidth direction={"column"} gap={8}>
             <Choice
               icon={
-                <BookOpenIcon className="text-button self-center" size={18} />
+                <BookOpenIcon className="text-text self-center" size={18} />
               }
               title={t("review_all_due")}
               description={translateCardCount(deckListStore.cardsToReviewCount)}
@@ -59,9 +59,7 @@ export function ReviewButton() {
               }}
             />
             <Choice
-              icon={
-                <BlocksIcon className="text-button self-center" size={18} />
-              }
+              icon={<BlocksIcon className="text-text self-center" size={18} />}
               title={t("review_custom")}
               description={translateCardCount(deckListStore.cardsTotalCount)}
               onClick={() => {
