@@ -46,7 +46,6 @@ export const en = {
   my_decks: "My decks",
   formatting: "Formatting",
   card_added: "Card has been added",
-  choose_what_to_create: "Choose what to create",
   deck: "Deck",
   deck_description: "A collection of cards",
   folder: "Folder",

@@ -59,7 +59,6 @@ export const ar: Translation = {
   my_decks: "مجموعاتي",
   formatting: "التنسيق",
   card_added: "تمت إضافة البطاقة",
-  choose_what_to_create: "اختر ما تريد إنشاؤه",
   deck: "مجموعة",
   deck_description: "مجموعة من البطاقات",
   folder: "مجلد",

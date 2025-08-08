@@ -21,19 +21,18 @@ export function DeckOrFolderChoose(props: Props) {
         gap={48}
         fullWidth
       >
-        <h3>{t("choose_what_to_create")}</h3>
         <Flex fullWidth direction={"column"} gap={8}>
           <Choice
-            icon={<FolderOpen className="text-button self-center" size={36} />}
-            title={t("folder")}
+            icon={<FolderOpen className="text-button self-center" size={18} />}
+            title={t("add_folder")}
             description={t("folder_description")}
             onClick={() => {
               screenStore.go({ type: "folderForm" });
             }}
           />
           <Choice
-            icon={<LayersIcon className="text-button self-center" size={36} />}
-            title={t("deck")}
+            icon={<LayersIcon className="text-button self-center" size={18} />}
+            title={t("add_deck")}
             description={t("deck_description")}
             onClick={() => {
               screenStore.goToDeckForm({});
