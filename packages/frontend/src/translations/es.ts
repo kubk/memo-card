@@ -130,7 +130,6 @@ export const es: Translation = {
   folder: "Carpeta",
   deck_description: "Una colección de tarjetas",
   deck: "Mazo",
-  choose_what_to_create: "Elige qué crear",
   edit_folder: "Editar carpeta",
   add_folder: "Añadir carpeta",
   add_deck_to_folder: "Añadir mazo a la carpeta",

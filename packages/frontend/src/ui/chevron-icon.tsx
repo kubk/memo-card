@@ -21,16 +21,17 @@ const getRotation = (direction: Direction) => {
 
 type Props = Pick<SVGProps<SVGSVGElement>, "onClick" | "className"> & {
   direction: Direction;
+  size?: 16 | 20 | 24;
 };
 
 export function ChevronIcon(props: Props) {
-  const { direction, ...restProps } = props;
+  const { direction, size = 16, ...restProps } = props;
   return (
     <LazyLoadFramerMotion>
       <m.svg
         tabIndex={-1}
-        width="16"
-        height="16"
+        width={size}
+        height={size}
         viewBox="0 0 16 16"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"

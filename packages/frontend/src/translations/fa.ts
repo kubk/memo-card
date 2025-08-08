@@ -70,7 +70,6 @@ export const fa: Translation = {
   my_decks: "دسته کارت‌های من",
   formatting: "قالب‌بندی",
   card_added: "کارت اضافه شد",
-  choose_what_to_create: "انتخاب کنید چه چیزی بسازید",
   deck: "دسته کارت",
   deck_description: "مجموعه‌ای از کارت‌ها",
   folder: "پوشه",

@@ -130,7 +130,6 @@ export const ptBr: Translation = {
   card_preview: "Visualização",
   review_folder: "Revisar pasta",
   add_deck_short: "Baralho",
-  choose_what_to_create: "Escolha o que criar",
   deck: "Baralho",
   deck_description: "Uma coleção de cartões",
   folder: "Pasta",
