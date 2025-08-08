@@ -7,6 +7,7 @@ import { platform } from "../../../lib/platform/platform.ts";
 import { BrowserPlatform } from "../../../lib/platform/browser/browser-platform.ts";
 import { BrowserBackButton } from "../../shared/browser-platform/browser-back-button.tsx";
 import { RotateCcwIcon } from "lucide-react";
+import { Button } from "../../../ui/button.tsx";
 
 type Props = {
   form: CardFormStoreInterface;
@@ -47,6 +48,15 @@ export function CardPreview(props: Props) {
         onShowAnswer={() => {
           cardPreviewStore.open();
         }}
+        cardOpenedRow={
+          <Button
+            onClick={() => {
+              onBack();
+            }}
+          >
+            Quit card
+          </Button>
+        }
         card={cardPreviewStore}
         onReviewCardWithAnswers={() => {}}
       />
