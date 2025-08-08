@@ -25,6 +25,7 @@
     "dompurify": "^3.0.9",
     "easy-speech": "^2.4.0",
     "framer-motion": "^10.16.4",
+    "ios-haptics": "^0.1.0",
     "lucide-react": "^0.479.0",
     "luxon": "^3.4.3",
     "mathml-tag-names": "^3.0.2",
