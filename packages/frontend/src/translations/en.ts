@@ -337,6 +337,7 @@ export const en = {
   card_input_mode_form_example_placeholder: "e.g. Usage example or context",
   card_input_mode_form_save_success: "Input mode saved",
   card_input_mode_form_delete_success: "Input mode deleted",
+  quit_card: "Quit card",
 };
 
 export type Translation = typeof en;

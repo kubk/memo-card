@@ -340,4 +340,5 @@ export const uk: Translation = {
     "напр. Приклад використання або контекст",
   card_input_mode_form_save_success: "Режим введення збережено",
   card_input_mode_form_delete_success: "Режим введення видалено",
+  quit_card: "Закрити картку",
 };

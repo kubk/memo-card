@@ -335,4 +335,5 @@ export const ptBr: Translation = {
   card_input_mode_form_example_placeholder: "ex. Exemplo de uso ou contexto",
   card_input_mode_form_save_success: "Modo de entrada salvo",
   card_input_mode_form_delete_success: "Modo de entrada excluído",
+  quit_card: "Sair do cartão",
 };

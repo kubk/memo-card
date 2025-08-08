@@ -336,4 +336,5 @@ export const ar: Translation = {
   card_input_mode_form_example_placeholder: "مثال: مثال استخدام أو سياق",
   card_input_mode_form_save_success: "تم حفظ وضع الإدخال",
   card_input_mode_form_delete_success: "تم حذف وضع الإدخال",
+  quit_card: "الخروج من البطاقة",
 };

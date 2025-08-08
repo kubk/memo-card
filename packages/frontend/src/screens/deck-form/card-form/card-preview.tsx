@@ -8,6 +8,7 @@ import { BrowserPlatform } from "../../../lib/platform/browser/browser-platform.
 import { BrowserBackButton } from "../../shared/browser-platform/browser-back-button.tsx";
 import { RotateCcwIcon } from "lucide-react";
 import { Button } from "../../../ui/button.tsx";
+import { t } from "../../../translations/t.ts";
 
 type Props = {
   form: CardFormStoreInterface;
@@ -54,7 +55,7 @@ export function CardPreview(props: Props) {
               onBack();
             }}
           >
-            Quit card
+            {t("quit_card")}
           </Button>
         }
         card={cardPreviewStore}
