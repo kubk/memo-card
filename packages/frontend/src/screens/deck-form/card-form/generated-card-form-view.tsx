@@ -9,7 +9,6 @@ import { useMount } from "../../../lib/react/use-mount.ts";
 import { Screen } from "../../shared/screen.tsx";
 import { Label } from "../../../ui/label.tsx";
 import { Input } from "../../../ui/input.tsx";
-import { HintTransparent } from "../../../ui/hint-transparent.tsx";
 import { CardRowLoading } from "../../shared/card-row-loading.tsx";
 import { CardRow } from "../../../ui/card-row.tsx";
 import { assert } from "api";

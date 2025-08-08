@@ -10,7 +10,6 @@
     "prettier:fix:full": "prettier --write \"./packages/**/*.+(ts|tsx|mts|json)\"",
     "typecheck": "npm run typecheck --workspaces",
     "test": "npm run test --workspaces",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "export-public-code": "./export-public-code.sh",
     "postinstall": "patch-package"
   },
