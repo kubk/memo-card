@@ -1,7 +1,7 @@
 import { LoginButton } from "@telegram-auth/react";
 import { platform } from "../../lib/platform/platform.ts";
 import { BrowserPlatform } from "../../lib/platform/browser/browser-platform.ts";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { t } from "../../translations/t.ts";
 import { assert } from "api";
 import { TelegramPlatform } from "../../lib/platform/telegram/telegram-platform.ts";
@@ -9,6 +9,9 @@ import { ErrorScreen } from "../error-screen/error-screen.tsx";
 import { useGoogleOneTapLogin } from "react-google-one-tap-login";
 import { Button } from "../../ui/button.tsx";
 import { Chrome } from "lucide-react";
+import { useMount } from "../../lib/react/use-mount.ts";
+import { when } from "mobx";
+import { userStore } from "../../store/user-store.ts";
 
 export function LoginScreen() {
   const BOT_NAME = import.meta.env.VITE_BOT_NAME;
