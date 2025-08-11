@@ -42,7 +42,7 @@ export type ReviewedCard = {
   deckName?: string;
 };
 
-type SilentSendResult = Pick<ReviewResult, "goodIds" | "easyIds" | "neverIds">;
+type SilentSendResult = Pick<ReviewResult, "hardIds" | "goodIds" | "easyIds" | "neverIds">;
 
 export class ReviewStore {
   cardsToReview: CardUnderReviewStore[] = [];
@@ -57,6 +57,7 @@ export class ReviewStore {
     neverIds: [],
   };
   sentResult: SilentSendResult = {
+    hardIds: [],
     goodIds: [],
     easyIds: [],
     neverIds: [],
@@ -309,6 +310,7 @@ export class ReviewStore {
 
     const cardsToSendInProgress = this.cardsToSend.filter(
       (card) =>
+        card.outcome === "hard" ||
         card.outcome === "good" ||
         card.outcome === "easy" ||
         card.outcome === "never",
@@ -331,6 +333,11 @@ export class ReviewStore {
     }
 
     runInAction(() => {
+      this.sentResult.hardIds.push(
+        ...cardsToSendInProgress
+          .filter((sentCard) => sentCard.outcome === "hard")
+          .map((sentCard) => sentCard.id),
+      );
       this.sentResult.goodIds.push(
         ...cardsToSendInProgress
           .filter((sentCard) => sentCard.outcome === "good")
@@ -384,10 +391,12 @@ export class ReviewStore {
       outcome: "again" as const,
     }));
 
-    const hardResult = this.result.hardIds.map((hardId) => ({
-      id: hardId,
-      outcome: "hard" as const,
-    }));
+    const hardResult = this.result.hardIds
+      .filter((hardId) => !this.sentResult.hardIds.includes(hardId))
+      .map((hardId) => ({
+        id: hardId,
+        outcome: "hard" as const,
+      }));
 
     const goodResult = this.result.goodIds
       .filter((goodId) => !this.sentResult.goodIds.includes(goodId))

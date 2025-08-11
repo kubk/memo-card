@@ -264,6 +264,47 @@ describe("card form store", () => {
     vi.clearAllMocks();
   });
 
+  it("test silent progress send with hard cards", async () => {
+    reviewCardsReviewMock.mockResolvedValueOnce(() => Promise.resolve());
+    expect(reviewCardsReviewMock).toHaveBeenCalledTimes(0);
+    const reviewStore = new ReviewStore();
+    reviewStore.startDeckReview(
+      createDeckWithCards([
+        createMockCardWithReview(1, "card1", "card1", "repeat"),
+        createMockCardWithReview(2, "card2", "card2", "repeat"),
+        createMockCardWithReview(3, "card3", "card3", "repeat"),
+        createMockCardWithReview(4, "card4", "card4", "repeat"),
+        createMockCardWithReview(5, "card5", "card5", "repeat"),
+      ]),
+    );
+
+    // Review 2 cards with "hard" - should not trigger send yet
+    reviewStore.open();
+    reviewStore.changeState("hard");
+    reviewStore.open();
+    reviewStore.changeState("hard");
+
+    expect(reviewStore.sentResult).toEqual({
+      hardIds: [],
+      neverIds: [],
+      goodIds: [],
+      easyIds: [],
+    });
+
+    // Review 3rd card with "hard" - should trigger send
+    reviewStore.open();
+    reviewStore.changeState("hard");
+    await when(() => !reviewStore.reviewCardsRequestInProgress.isLoading);
+
+    expect(reviewCardsReviewMock).toHaveBeenCalledTimes(1);
+    expect(reviewStore.sentResult).toEqual({
+      hardIds: [1, 2, 3],
+      neverIds: [],
+      goodIds: [],
+      easyIds: [],
+    });
+  });
+
   it("test silent progress send", async () => {
     reviewCardsReviewMock.mockResolvedValueOnce(() => Promise.resolve());
     expect(reviewCardsReviewMock).toHaveBeenCalledTimes(0);
@@ -340,6 +381,7 @@ describe("card form store", () => {
     reviewStore.changeState("good");
 
     expect(reviewStore.sentResult).toEqual({
+      hardIds: [],
       neverIds: [],
       goodIds: [],
       easyIds: [],
@@ -354,6 +396,7 @@ describe("card form store", () => {
     await when(() => !reviewStore.reviewCardsRequestInProgress.isLoading);
 
     expect(reviewStore.sentResult).toEqual({
+      hardIds: [],
       neverIds: [5],
       goodIds: [3, 4],
       easyIds: [],
@@ -364,6 +407,7 @@ describe("card form store", () => {
     reviewStore.changeState("good");
 
     expect(reviewStore.sentResult).toEqual({
+      hardIds: [],
       neverIds: [5],
       goodIds: [3, 4],
       easyIds: [],
@@ -380,6 +424,7 @@ describe("card form store", () => {
 
     expect(reviewCardsReviewMock).toHaveBeenCalledTimes(2);
     expect(reviewStore.sentResult).toEqual({
+      hardIds: [],
       neverIds: [5],
       goodIds: [3, 4, 6, 7, 8],
       easyIds: [],
