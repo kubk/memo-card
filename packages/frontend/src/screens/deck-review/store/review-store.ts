@@ -10,10 +10,7 @@ import {
   DeckCardDbTypeWithType,
   type DeckWithCardsWithReviewType,
 } from "../../../store/deck-list-store.ts";
-import {
-  hapticImpact,
-  hapticNotification,
-} from "../../../lib/platform/telegram/haptics.ts";
+import { platform } from "../../../lib/platform/platform.ts";
 import { showConfirm } from "../../../lib/platform/show-confirm.ts";
 import { t } from "../../../translations/t.ts";
 import { RequestStore } from "../../../lib/mobx-request/request-store.ts";
@@ -42,7 +39,10 @@ export type ReviewedCard = {
   deckName?: string;
 };
 
-type SilentSendResult = Pick<ReviewResult, "hardIds" | "goodIds" | "easyIds" | "neverIds">;
+type SilentSendResult = Pick<
+  ReviewResult,
+  "hardIds" | "goodIds" | "easyIds" | "neverIds"
+>;
 
 export class ReviewStore {
   cardsToReview: CardUnderReviewStore[] = [];
@@ -163,7 +163,7 @@ export class ReviewStore {
       return;
     }
 
-    hapticImpact("light");
+    platform.haptic("light");
 
     this.initialCardCount = this.cardsToReview.length;
     this.currentCardId = this.cardsToReview[0].id;
@@ -202,7 +202,7 @@ export class ReviewStore {
     if (!isConfirmed) {
       return;
     }
-    hapticImpact("heavy");
+    platform.haptic("heavy");
     this.changeState("never");
   }
 
@@ -444,7 +444,7 @@ export class ReviewStore {
       return;
     }
     onReviewSuccess?.();
-    hapticNotification("success");
+    platform.haptic("success");
   }
 
   onAgain() {

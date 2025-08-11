@@ -7,7 +7,7 @@ import { CardReviewWithControls } from "./card-review-with-controls.tsx";
 import { XIcon } from "lucide-react";
 import { screenStore } from "../../store/screen-store.ts";
 import { CardContextMenu } from "./card-context-menu.tsx";
-import { hapticImpact } from "../../lib/platform/telegram/haptics.ts";
+import { platform } from "../../lib/platform/platform.ts";
 import { deckListStore } from "../../store/deck-list-store.ts";
 import { cn } from "../../ui/cn.ts";
 
@@ -36,7 +36,7 @@ export function Review() {
         <button
           className={cn("text-hint active:scale-90 cursor-pointer -ms-[3px]")}
           onClick={() => {
-            hapticImpact("medium");
+            platform.haptic("medium");
             screenStore.back();
             onSubmitUnfinished();
           }}

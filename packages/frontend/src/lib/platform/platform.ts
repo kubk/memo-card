@@ -4,6 +4,15 @@ import { isRunningWithinTelegram } from "./is-running-within-telegram.ts";
 import { PlatformSchemaType } from "api";
 import { LanguageShared } from "api";
 
+export type HapticType =
+  | "error"
+  | "success"
+  | "warning"
+  | "light"
+  | "medium"
+  | "heavy"
+  | "selection";
+
 export type PlatformTheme = {
   buttonColor: string;
   hintColor: string;
@@ -20,6 +29,7 @@ export interface Platform {
   getLanguageCached(): LanguageShared;
   getStartParam(): string | undefined;
   openInvoiceLink(link: string): void;
+  haptic(type: HapticType): void;
 }
 
 export type UseMainButtonType = (

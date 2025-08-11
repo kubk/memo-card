@@ -6,7 +6,7 @@ import { BooleanToggle } from "mobx-form-lite";
 import { cn } from "../../../ui/cn.ts";
 import { t } from "../../../translations/t.ts";
 import { translateCardCount } from "../translate-card-count.ts";
-import { hapticImpact } from "../../../lib/platform/telegram/haptics.ts";
+import { platform } from "../../../lib/platform/platform.ts";
 import { BottomSheet } from "../../../ui/bottom-sheet/bottom-sheet.tsx";
 import { Choice } from "../../deck-list/deck-or-folder-choose/choice.tsx";
 import { Flex } from "../../../ui/flex.tsx";
@@ -22,7 +22,7 @@ export function ReviewButton() {
     <div className={cn("fixed bottom-6 end-6")}>
       <button
         onClick={() => {
-          hapticImpact("medium");
+          platform.haptic("medium");
           isMenuOpen.toggle();
         }}
         className="h-14 pt-0.5 w-14 rounded-full bg-button text-white shadow-xl flex items-center justify-center z-20 active:scale-95"
@@ -51,7 +51,7 @@ export function ReviewButton() {
               description={translateCardCount(deckListStore.cardsToReviewCount)}
               onClick={() => {
                 screenStore.go({ type: "reviewAll" });
-                hapticImpact("light");
+                platform.haptic("light");
                 isMenuOpen.setFalse();
               }}
             />
@@ -61,7 +61,7 @@ export function ReviewButton() {
               description={translateCardCount(deckListStore.cardsTotalCount)}
               onClick={() => {
                 screenStore.go({ type: "reviewCustom" });
-                hapticImpact("light");
+                platform.haptic("light");
                 isMenuOpen.setFalse();
               }}
             />
