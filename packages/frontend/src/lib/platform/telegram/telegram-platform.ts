@@ -1,4 +1,4 @@
-import { Platform, PlatformTheme } from "../platform.ts";
+import { Platform, PlatformTheme, HapticType } from "../platform.ts";
 import { cssVarToValue } from "./css-var-to-value.ts";
 import { PlatformSchemaType } from "api";
 import { makeObservable, observable, action } from "mobx";
@@ -148,5 +148,29 @@ export class TelegramPlatform implements Platform {
         getWebApp().close();
       }
     });
+  }
+
+  haptic(type: HapticType) {
+    const isMobile =
+      getWebApp().platform === "ios" || getWebApp().platform === "android";
+    if (!isMobile) return;
+
+    switch (type) {
+      case "error":
+      case "success":
+      case "warning":
+        getWebApp().HapticFeedback.notificationOccurred(type);
+        break;
+      case "light":
+      case "medium":
+      case "heavy":
+        getWebApp().HapticFeedback.impactOccurred(type);
+        break;
+      case "selection":
+        getWebApp().HapticFeedback.selectionChanged();
+        break;
+      default:
+        return type satisfies never;
+    }
   }
 }

@@ -2,7 +2,7 @@ import { enqueueSnackbar } from "notistack";
 import { theme } from "../../../ui/theme.tsx";
 import { reportHandledError } from "../../../lib/rollbar/rollbar.tsx";
 import { userStore } from "../../../store/user-store.ts";
-import { hapticNotification } from "../../../lib/platform/telegram/haptics.ts";
+import { platform } from "../../../lib/platform/platform.ts";
 import { t } from "../../../translations/t.ts";
 import { ClearSnackbar } from "./clear-snackbar.tsx";
 import { cn } from "../../../ui/cn.ts";
@@ -36,7 +36,7 @@ export const notifySuccess = (
     style: sharedStyles,
     autoHideDuration: duration,
   });
-  hapticNotification("success");
+  platform.haptic("success");
 };
 
 export const notifyError = (report?: any, options?: NotifyErrorOptions) => {
@@ -56,7 +56,7 @@ export const notifyError = (report?: any, options?: NotifyErrorOptions) => {
     },
   );
 
-  hapticNotification("error");
+  platform.haptic("error");
 
   if (report) {
     report.userId = userStore.user?.id;

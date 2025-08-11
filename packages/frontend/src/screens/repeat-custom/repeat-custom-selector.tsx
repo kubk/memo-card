@@ -12,7 +12,7 @@ import { theme } from "../../ui/theme.tsx";
 import { cn } from "../../ui/cn.ts";
 import { translateReviewCardsLabel } from "./translate-review-cards-label.ts";
 import { t } from "../../translations/t.ts";
-import { hapticSelection } from "../../lib/platform/telegram/haptics.ts";
+import { platform } from "../../lib/platform/platform.ts";
 import { RadioList } from "../../ui/radio-list/radio-list.tsx";
 import { Flex } from "../../ui/flex.tsx";
 import { boolNarrow } from "../../lib/typescript/bool-narrow.ts";
@@ -56,7 +56,7 @@ export function RepeatCustomSelector({ onClick, store }: Props) {
               ),
               onClick: () => {
                 store.toggleCardType("repeat");
-                hapticSelection();
+                platform.haptic("selection");
               },
               right: (
                 <CardsToReviewCount
@@ -69,7 +69,7 @@ export function RepeatCustomSelector({ onClick, store }: Props) {
             {
               onClick: () => {
                 store.toggleCardType("new");
-                hapticSelection();
+                platform.haptic("selection");
               },
               icon: (
                 <CircleCheckbox
@@ -115,7 +115,7 @@ export function RepeatCustomSelector({ onClick, store }: Props) {
                   </div>
                 }
                 onClick={() => {
-                  hapticSelection();
+                  platform.haptic("selection");
                   store.toggleListRoot(listItem);
                 }}
                 item={listItem}
@@ -126,7 +126,7 @@ export function RepeatCustomSelector({ onClick, store }: Props) {
                     items={listItem.decks.map((deck) => {
                       return {
                         onClick: () => {
-                          hapticSelection();
+                          platform.haptic("selection");
                           store.toggleDeckId(deck.id);
                         },
                         text: deck.name,
@@ -193,7 +193,7 @@ export function RepeatCustomSelector({ onClick, store }: Props) {
           ].filter(boolNarrow)}
           onChange={(sortingType) => {
             store.sortingType.onChange(sortingType);
-            hapticSelection();
+            platform.haptic("selection");
           }}
         />
       </div>

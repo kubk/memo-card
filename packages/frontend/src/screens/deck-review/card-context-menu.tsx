@@ -1,5 +1,5 @@
 import { EyeOffIcon, MicIcon, MicOffIcon } from "lucide-react";
-import { hapticSelection } from "../../lib/platform/telegram/haptics";
+import { platform } from "../../lib/platform/platform.ts";
 import { boolNarrow } from "../../lib/typescript/bool-narrow";
 import { userStore } from "../../store/user-store";
 import { t } from "../../translations/t";
@@ -34,7 +34,7 @@ export function CardContextMenu() {
                 : t("mute_cards"),
               onClick: () => {
                 userStore.isSpeakingCardsMuted.toggle();
-                hapticSelection();
+                platform.haptic("selection");
               },
             }
           : undefined,

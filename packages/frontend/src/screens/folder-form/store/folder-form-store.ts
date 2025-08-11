@@ -14,7 +14,7 @@ import { deckListStore } from "../../../store/deck-list-store.ts";
 import { showConfirm } from "../../../lib/platform/show-confirm.ts";
 import { RequestStore } from "../../../lib/mobx-request/request-store.ts";
 import { notifyError } from "../../shared/snackbar/snackbar.tsx";
-import { hapticNotification } from "../../../lib/platform/telegram/haptics.ts";
+import { platform } from "../../../lib/platform/platform.ts";
 import { assert } from "api";
 import { api } from "../../../api/trpc-api.ts";
 
@@ -162,6 +162,6 @@ export class FolderFormStore {
     assert(this.folderForm);
     formUnTouchAll(this.folderForm);
     screenStore.go({ type: "folderPreview", folderId: folder.id });
-    hapticNotification("success");
+    platform.haptic("success");
   }
 }

@@ -3,7 +3,7 @@ import { LazyLoadFramerMotion } from "../lib/framer-motion/lazy-load-framer-moti
 import { AnimatePresence, m } from "framer-motion";
 import { userStore } from "../store/user-store.ts";
 import { cn } from "./cn.ts";
-import { hapticSelection } from "../lib/platform/telegram/haptics.ts";
+import { platform } from "../lib/platform/platform.ts";
 import { EllipsisIcon } from "lucide-react";
 import { AnimatedDropdownItem } from "./animated-dropdown/animated-dropdown-item.tsx";
 
@@ -15,7 +15,7 @@ type Props = {
 export function Dropdown({ items, className }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const toggleDropdown = () => {
-    hapticSelection();
+    platform.haptic("selection");
     setIsOpen(!isOpen);
   };
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -68,7 +68,7 @@ export function Dropdown({ items, className }: Props) {
                   )}
                   onClick={() => {
                     item.onClick();
-                    hapticSelection();
+                    platform.haptic("selection");
                     setIsOpen(false);
                   }}
                 >
