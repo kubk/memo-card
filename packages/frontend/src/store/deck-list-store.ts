@@ -15,7 +15,7 @@ import { userStore } from "./user-store.ts";
 import { showConfirm } from "../lib/platform/show-confirm.ts";
 import { t } from "../translations/t.ts";
 import { canDuplicateDeckOrFolder } from "api";
-import { hapticImpact } from "../lib/platform/telegram/haptics.ts";
+import { platform } from "../lib/platform/platform.ts";
 import { FolderWithDecksWithCards } from "api";
 import { type FolderWithDeckIdDbType } from "api";
 import { CatalogFolderDbType } from "api";
@@ -24,7 +24,6 @@ import { notifyError } from "../screens/shared/snackbar/snackbar.tsx";
 import { assert } from "api";
 import { api } from "../api/trpc-api.ts";
 import { BrowserPlatform } from "../lib/platform/browser/browser-platform.ts";
-import { platform } from "../lib/platform/platform.ts";
 import { StartParamType } from "./routing/route-types.ts";
 
 export type DeckCardDbTypeWithType = DeckCardDbType & {
@@ -658,7 +657,7 @@ export class DeckListStore {
       return;
     }
 
-    hapticImpact("heavy");
+    platform.haptic("heavy");
     this.isAppLoading = true;
 
     api.folder.delete
@@ -694,7 +693,7 @@ export class DeckListStore {
       return;
     }
 
-    hapticImpact("heavy");
+    platform.haptic("heavy");
     this.isAppLoading = true;
 
     api.deck.removeFromMine
@@ -759,7 +758,7 @@ export class DeckListStore {
       return;
     }
 
-    hapticImpact("heavy");
+    platform.haptic("heavy");
     runInAction(() => {
       this.isAppLoading = true;
     });
@@ -781,7 +780,7 @@ export class DeckListStore {
       return;
     }
 
-    hapticImpact("heavy");
+    platform.haptic("heavy");
     runInAction(() => {
       this.isAppLoading = true;
     });

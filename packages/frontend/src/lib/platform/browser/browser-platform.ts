@@ -1,4 +1,5 @@
-import { Platform, PlatformTheme } from "../platform.ts";
+import { Platform, PlatformTheme, HapticType } from "../platform.ts";
+import { haptic } from "ios-haptics";
 import { action, makeAutoObservable } from "mobx";
 import { BooleanToggle } from "mobx-form-lite";
 import { PlatformSchemaType } from "api";
@@ -188,5 +189,27 @@ export class BrowserPlatform implements Platform {
   setLanguageCached(language: LanguageShared) {
     this.languageCached = language;
     localStorage.setItem(browserPlatformLangKey, language);
+  }
+
+  haptic(type: HapticType) {
+    if (!this.isMobile) return;
+
+    switch (type) {
+      case "success":
+      case "selection":
+      case "light":
+        haptic();
+        break;
+      case "warning":
+      case "medium":
+        haptic.confirm();
+        break;
+      case "error":
+      case "heavy":
+        haptic.error();
+        break;
+      default:
+        return type satisfies never;
+    }
   }
 }
