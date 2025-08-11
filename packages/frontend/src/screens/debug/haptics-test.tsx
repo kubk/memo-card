@@ -1,23 +1,20 @@
 import { haptic } from "ios-haptics";
-import {
-  hapticNotification,
-  hapticImpact,
-  hapticSelection,
-  HapticNotificationType,
-  HapticImpactType,
-} from "../../lib/platform/telegram/haptics.ts";
+import { platform } from "../../lib/platform/platform.ts";
+
+type HapticNotificationType = "error" | "success" | "warning";
+type HapticImpactType = "light" | "medium" | "heavy";
 
 export function HapticsTest() {
   const handleTelegramNotification = (type: HapticNotificationType) => {
-    hapticNotification(type);
+    platform.haptic(type);
   };
 
   const handleTelegramImpact = (type: HapticImpactType) => {
-    hapticImpact(type);
+    platform.haptic(type);
   };
 
   const handleTelegramSelection = () => {
-    hapticSelection();
+    platform.haptic("selection");
   };
 
   const handleIosHaptic = () => {
