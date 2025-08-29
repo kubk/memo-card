@@ -7,7 +7,7 @@ import {
   DeckWithCardsWithReviewType,
 } from "../../store/deck-list-store.ts";
 import { makePersistable, stopPersisting } from "mobx-persist-store";
-import { storageAdapter } from "../../lib/platform/storage-adapter.ts";
+import { getStorageAdapter } from "../../lib/platform/storage-adapter.ts";
 import { TextField } from "mobx-form-lite";
 import { persistableField } from "../../lib/mobx-form-lite-persistable/persistable-field.ts";
 
@@ -41,7 +41,7 @@ export class RepeatCustomSelectorStore {
     makePersistable(this, {
       name: "repeatCustomFormV1",
       properties: ["form"],
-      storage: storageAdapter,
+      storage: getStorageAdapter(),
     });
   }
 

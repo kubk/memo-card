@@ -27,6 +27,7 @@ export interface Platform {
   getTheme(): PlatformTheme;
   getClientData(): PlatformSchemaType;
   getLanguageCached(): LanguageShared;
+  setLanguageCached(language: LanguageShared): void;
   getStartParam(): string | undefined;
   openInvoiceLink(link: string): void;
   haptic(type: HapticType): void;
