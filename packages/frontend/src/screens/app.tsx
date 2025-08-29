@@ -93,11 +93,9 @@ export function App() {
       {screenStore.screen.type === "browserLogin" && <LoginScreen />}
 
       {screenStore.screen.type === "main" && (
-        <SignedIn>
-          <PreventTelegramSwipeDownClosingIos>
-            <MainScreen />
-          </PreventTelegramSwipeDownClosingIos>
-        </SignedIn>
+        <PreventTelegramSwipeDownClosingIos>
+          <MainScreen />
+        </PreventTelegramSwipeDownClosingIos>
       )}
       {screenStore.screen.type === "globalSearch" && (
         <SignedIn>
