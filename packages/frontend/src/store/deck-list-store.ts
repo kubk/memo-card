@@ -400,7 +400,7 @@ export class DeckListStore {
       return false;
     }
 
-    return canDuplicateDeckOrFolder(user, folder, userStore.plans);
+    return canDuplicateDeckOrFolder(user.id, folder, userStore.plans);
   }
 
   get canDuplicateSelectedDeck() {
@@ -413,7 +413,7 @@ export class DeckListStore {
       return false;
     }
 
-    return canDuplicateDeckOrFolder(user, deck, userStore.plans);
+    return canDuplicateDeckOrFolder(user.id, deck, userStore.plans);
   }
 
   get isFolderReviewVisible() {
