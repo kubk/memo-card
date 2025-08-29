@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { observer } from "mobx-react-lite";
 import EasySpeech from "easy-speech";
 import { screenStore } from "../../store/screen-store.ts";
 import { useBackButton } from "../../lib/platform/use-back-button.ts";
@@ -9,7 +8,7 @@ import {
 } from "../../lib/voice-playback/speak.ts";
 import { Select } from "../../ui/select.tsx";
 
-export const SpeechTest = observer(() => {
+export function SpeechTest() {
   const [selectedLanguage, setSelectedLanguage] = useState<SpeakLanguageEnum>(
     SpeakLanguageEnum.USEnglish,
   );
@@ -175,4 +174,4 @@ export const SpeechTest = observer(() => {
       )}
     </div>
   );
-});
+}

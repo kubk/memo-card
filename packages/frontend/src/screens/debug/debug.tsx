@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { observer } from "mobx-react-lite";
 import { screenStore } from "../../store/screen-store.ts";
 import { useBackButton } from "../../lib/platform/use-back-button.ts";
 import { SpeechTest } from "./speech-test.tsx";
@@ -7,7 +6,7 @@ import { HapticsTest } from "./haptics-test.tsx";
 
 type DebugScreen = "menu" | "speechTest" | "hapticsTest";
 
-export const Debug = observer(() => {
+export function Debug() {
   const [currentScreen, setCurrentScreen] = useState<DebugScreen>("menu");
 
   useBackButton(() => {
@@ -45,4 +44,4 @@ export const Debug = observer(() => {
       </button>
     </div>
   );
-});
+}
