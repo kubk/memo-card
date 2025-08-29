@@ -11,7 +11,6 @@ import { canDeleteItsAccount } from "api";
 import { getUserLanguage } from "api";
 import { LanguageShared } from "api";
 import { platform } from "../lib/platform/platform.ts";
-import { BrowserPlatform } from "../lib/platform/browser/browser-platform.ts";
 import { api } from "../api/trpc-api.ts";
 
 type PaywallType = "bulk_ai_cards" | "individual_ai_card";
@@ -44,9 +43,7 @@ export class UserStore {
     this.userInfo = user;
     this.plans = plans;
 
-    if (platform instanceof BrowserPlatform) {
-      platform.setLanguageCached(getUserLanguage(user));
-    }
+    platform.setLanguageCached(getUserLanguage(user));
   }
 
   get language(): LanguageShared {
