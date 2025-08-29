@@ -4,18 +4,38 @@ import { PlatformSchemaType } from "api";
 import { makeObservable, observable, action } from "mobx";
 import { LanguageShared } from "api";
 import { getWebApp } from "./telegram-web-app.ts";
+import { cloudStorageAdapter } from "./cloud-storage.ts";
 
 const buttonColor = "var(--tg-theme-button-color)";
 const buttonTextColor = "var(--tg-theme-button-text-color)";
 const hintColor = "var(--tg-theme-hint-color)";
+const LANGUAGE_CACHE_KEY = "languageCached";
 
 export class TelegramPlatform implements Platform {
   isFullScreen = this.calcIsFullScreen();
+  languageCached: LanguageShared | null = null;
 
   constructor() {
     makeObservable(this, {
       isFullScreen: observable,
+      languageCached: observable,
     });
+
+    if (!this.isCloudStorageAvailable()) {
+      return;
+    }
+
+    // Here we already know we're inside the Telegram platform
+    // We use cloud storage to cache language so we know it before we load user preferences
+    // TS error is because mobx-persist-store StorageController can return different types but we know it's a Promise
+    // @ts-expect-error
+    // prettier-ignore
+    cloudStorageAdapter.getItem<LanguageShared>(LANGUAGE_CACHE_KEY)?.then((languageCached) => {
+        if (!languageCached) {
+          return;
+        }
+        this.languageCached = languageCached;
+      });
   }
 
   getInitData(): string {
@@ -50,7 +70,6 @@ export class TelegramPlatform implements Platform {
     // Def doesn't work on Mac :(
     // Don't know yet about other platform
     getWebApp().onEvent(
-      // @ts-expect-error
       "fullscreenChanged",
       action(() => {
         this.isFullScreen = this.calcIsFullScreen();
@@ -65,7 +84,6 @@ export class TelegramPlatform implements Platform {
     if (getWebApp().platform === "macos") {
       return true;
     }
-    // @ts-expect-error
     return !!getWebApp().isFullscreen;
   }
 
@@ -121,7 +139,17 @@ export class TelegramPlatform implements Platform {
     };
   }
 
+  setLanguageCached(language: LanguageShared) {
+    this.languageCached = language;
+    cloudStorageAdapter.setItem(LANGUAGE_CACHE_KEY, language);
+  }
+
   getLanguageCached(): LanguageShared {
+    if (this.languageCached) {
+      return this.languageCached;
+    }
+    // If there's no cached language - use Telegram's language before we load user preferences
+
     const languageCode = getWebApp().initDataUnsafe.user?.language_code;
     switch (languageCode) {
       case "ru":
