@@ -83,6 +83,8 @@ export const fa: Translation = {
   no_decks_to_add: "دسته کارت دیگری برای افزودن وجود ندارد",
   show_all_decks: "نمایش همه",
   hide_all_decks: "پنهان کردن",
+  select_all: "انتخاب همه",
+  deselect_all: "لغو انتخاب",
   no_personal_decks_start:
     "شما هنوز هیچ دسته کارت شخصی ندارید. می‌توانید یکی در زیر ایجاد کنید. یادگیری خوبی داشته باشید! 😊",
   add_deck: "افزودن دسته کارت",

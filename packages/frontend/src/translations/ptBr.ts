@@ -143,6 +143,8 @@ export const ptBr: Translation = {
   my_decks: "Meus baralhos",
   show_all_decks: "Mostrar todos",
   hide_all_decks: "Ocultar",
+  select_all: "Selecionar tudo",
+  deselect_all: "Desselecionar tudo",
   deck_preview: "Visualização do baralho",
   no_personal_decks_start:
     "Você ainda não tem nenhum baralho pessoal. Sinta-se à vontade para criar um abaixo. Boa aprendizagem! 😊",
