@@ -152,6 +152,36 @@ export class RepeatCustomSelectorStore {
     return this.customCardsToReviewCount > 0;
   }
 
+  private getAllDeckIds() {
+    const deckIds: number[] = [];
+
+    deckListStore.myDeckItems.forEach((item) => {
+      if (item.type === "deck") {
+        deckIds.push(item.id);
+      } else {
+        item.decks.forEach((deck) => deckIds.push(deck.id));
+      }
+    });
+
+    return deckIds;
+  }
+
+  get areAllDecksSelected() {
+    const allIds = this.getAllDeckIds();
+    return (
+      allIds.length > 0 &&
+      allIds.every((id) => this.form.selectedDecksIds.includes(id))
+    );
+  }
+
+  toggleSelectAllDecks() {
+    if (this.areAllDecksSelected) {
+      this.form.selectedDecksIds = [];
+    } else {
+      this.form.selectedDecksIds = this.getAllDeckIds();
+    }
+  }
+
   dispose() {
     stopPersisting(this);
   }
