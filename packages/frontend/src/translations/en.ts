@@ -59,6 +59,8 @@ export const en = {
   no_decks_to_add: "No more decks to add",
   show_all_decks: "Show all",
   hide_all_decks: "Hide",
+  select_all: "Select all",
+  deselect_all: "Deselect all",
   no_personal_decks_start:
     "You don't have any personal deck yet. Feel free to create one below. Happy learning! 😊",
   browser_no_personal_decks_start: "You don't have any personal deck yet",

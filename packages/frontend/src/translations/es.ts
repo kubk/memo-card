@@ -140,6 +140,8 @@ export const es: Translation = {
   show_all_decks: "Mostrar todos",
   deck_preview: "Vista previa del mazo",
   hide_all_decks: "Ocultar",
+  select_all: "Seleccionar todo",
+  deselect_all: "Deseleccionar todo",
   no_personal_decks_start:
     "Todavía no tienes ningún mazo personal. Siéntete libre de crear uno a continuación. ¡Feliz aprendizaje! 😊",
   add_deck: "Añadir mazo",

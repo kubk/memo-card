@@ -16,6 +16,7 @@ import { platform } from "../../lib/platform/platform.ts";
 import { RadioList } from "../../ui/radio-list/radio-list.tsx";
 import { Flex } from "../../ui/flex.tsx";
 import { boolNarrow } from "../../lib/typescript/bool-narrow.ts";
+import { SelectAllToggle } from "./select-all-toggle.tsx";
 
 type Props = {
   onClick: () => void;
@@ -100,7 +101,10 @@ export function RepeatCustomSelector({ onClick, store }: Props) {
       </div>
 
       <div>
-        <ListHeader text={t("decks")} />
+        <ListHeader
+          text={t("decks")}
+          rightSlot={<SelectAllToggle store={store} />}
+        />
         {deckListStore.myDeckItems.map((listItem) => {
           return (
             <div key={listItem.id} className={"flex flex-col gap-2 pb-2"}>
