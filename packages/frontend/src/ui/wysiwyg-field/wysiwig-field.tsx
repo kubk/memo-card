@@ -5,7 +5,6 @@ import {
   EditorProvider,
   Toolbar,
 } from "react-simple-wysiwyg";
-import { useState } from "react";
 import { TextField } from "mobx-form-lite";
 import { ValidationError } from "../validation-error.tsx";
 import { t } from "../../translations/t.ts";
@@ -24,6 +23,7 @@ import {
   UndoIcon,
   HelpCircleIcon,
 } from "lucide-react";
+import { wysiwygStore } from "../../store/wysiwyg-store.ts";
 
 const BtnBigHeader = createButton(
   t("wysiwyg_big_header"),
@@ -60,23 +60,16 @@ export const BtnClearFormatting = createButton(
   },
 );
 
-type Props = {
-  field: TextField<string>;
-};
-
-export function WysiwygField(props: Props) {
+export function WysiwygField(props: { field: TextField<string> }) {
   const { field } = props;
   const { onChange, value, isTouched, error, onBlur } = field;
   const hasError = isTouched && error;
-  const [isTable, setIsTable] = useState(false);
-  const [isColorPicker, setIsColorPicker] = useState(false);
-  const [isHelp, setIsHelp] = useState(false);
 
   const BtnColorPickerWithAction = createButton(
     t("wysiwyg_text_color"),
     <ColorPickerIcon />,
     () => {
-      setIsColorPicker(true);
+      wysiwygStore.openBottomSheet("colorPicker");
     },
   );
 
@@ -84,7 +77,7 @@ export function WysiwygField(props: Props) {
     "Table",
     <TableIcon size={18} className="text-text" />,
     () => {
-      setIsTable(true);
+      wysiwygStore.openBottomSheet("table");
     },
   );
 
@@ -92,7 +85,7 @@ export function WysiwygField(props: Props) {
     "Help",
     <HelpCircleIcon size={18} className="text-text" />,
     () => {
-      setIsHelp(true);
+      wysiwygStore.openBottomSheet("help");
     },
     // @ts-ignore
     false,
@@ -101,27 +94,27 @@ export function WysiwygField(props: Props) {
   return (
     <EditorProvider>
       <BottomSheet
-        isOpen={isTable}
+        isOpen={wysiwygStore.bottomSheet === "table"}
         onClose={() => {
-          setIsTable(false);
+          wysiwygStore.closeBottomSheet();
         }}
       >
         <HtmlTableEditor />
       </BottomSheet>
 
       <BottomSheet
-        isOpen={isColorPicker}
+        isOpen={wysiwygStore.bottomSheet === "colorPicker"}
         onClose={() => {
-          setIsColorPicker(false);
+          wysiwygStore.closeBottomSheet();
         }}
       >
-        <ColorPicker onColorSelect={() => setIsColorPicker(false)} />
+        <ColorPicker onColorSelect={() => wysiwygStore.closeBottomSheet()} />
       </BottomSheet>
 
       <BottomSheet
-        isOpen={isHelp}
+        isOpen={wysiwygStore.bottomSheet === "help"}
         onClose={() => {
-          setIsHelp(false);
+          wysiwygStore.closeBottomSheet();
         }}
       >
         <WysiwygHelp />
