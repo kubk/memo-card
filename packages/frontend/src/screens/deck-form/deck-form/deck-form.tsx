@@ -38,6 +38,7 @@ import { ButtonGrid } from "../../../ui/button-grid.tsx";
 import { ButtonSideAligned } from "../../../ui/button-side-aligned.tsx";
 import { shareMemoCardUrl } from "../../shared/share-memo-card-url.tsx";
 import { MoreFeaturesButton } from "../../shared/feature-preview/more-features-button.tsx";
+import { wysiwygStore } from "../../../store/wysiwyg-store.ts";
 
 export function DeckForm() {
   const deckFormStore = useDeckFormStore();
@@ -60,7 +61,7 @@ export function DeckForm() {
         screenStore.goToDeckForm({ deckId: deck.id });
       });
     },
-    undefined,
+    () => wysiwygStore.bottomSheet === null,
     [screen.index],
   );
 
