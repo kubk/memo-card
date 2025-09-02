@@ -5,25 +5,24 @@ import {
   EditorProvider,
   Toolbar,
 } from "react-simple-wysiwyg";
-import { theme } from "../theme.tsx";
 import { useState } from "react";
 import { TextField } from "mobx-form-lite";
 import { ValidationError } from "../validation-error.tsx";
-import { ColorIcon } from "./color-icon.tsx";
 import { t } from "../../translations/t.ts";
 import { sanitizeTextForCard } from "../../lib/sanitize-html/sanitize-text-for-card.ts";
 import { BottomSheet } from "../bottom-sheet/bottom-sheet.tsx";
 import { HtmlTableEditor } from "./html-table-editor.tsx";
+import { ColorPickerIcon } from "./color-picker-icon.tsx";
+import { ColorPicker } from "./color-picker.tsx";
+import { WysiwygHelp } from "./wysiwyg-help.tsx";
 import {
   BoldIcon,
   Heading1Icon,
-  Heading3Icon,
-  Heading6Icon,
   ItalicIcon,
-  RedoIcon,
   RemoveFormattingIcon,
   TableIcon,
   UndoIcon,
+  HelpCircleIcon,
 } from "lucide-react";
 
 const BtnBigHeader = createButton(
@@ -31,22 +30,6 @@ const BtnBigHeader = createButton(
   <Heading1Icon size={18} className="text-text" />,
   () => {
     document.execCommand("formatBlock", false, "h1");
-  },
-);
-
-const BtnMiddleHeader = createButton(
-  t("wysiwyg_middle_header"),
-  <Heading3Icon size={18} className="text-text" />,
-  () => {
-    document.execCommand("formatBlock", false, "h3");
-  },
-);
-
-const BtnSmallHeader = createButton(
-  t("wysiwyg_small_header"),
-  <Heading6Icon size={18} className="text-text" />,
-  () => {
-    document.execCommand("formatBlock", false, "h6");
   },
 );
 
@@ -65,27 +48,6 @@ export const BtnUndo = createButton(
   t("wysiwyg_undo"),
   <UndoIcon size={18} className="text-text" />,
   "undo",
-);
-export const BtnRedo = createButton(
-  t("wysiwyg_redo"),
-  <RedoIcon size={18} className="text-text" />,
-  "redo",
-);
-
-export const BtnGreen = createButton(
-  t("wysiwyg_green"),
-  <ColorIcon color={theme.success} />,
-  () => {
-    document.execCommand("foreColor", false, theme.success);
-  },
-);
-
-export const BtnRed = createButton(
-  t("wysiwyg_red"),
-  <ColorIcon color={theme.danger} />,
-  () => {
-    document.execCommand("foreColor", false, theme.danger);
-  },
 );
 
 export const BtnClearFormatting = createButton(
@@ -107,12 +69,30 @@ export function WysiwygField(props: Props) {
   const { onChange, value, isTouched, error, onBlur } = field;
   const hasError = isTouched && error;
   const [isTable, setIsTable] = useState(false);
+  const [isColorPicker, setIsColorPicker] = useState(false);
+  const [isHelp, setIsHelp] = useState(false);
+
+  const BtnColorPickerWithAction = createButton(
+    t("wysiwyg_text_color"),
+    <ColorPickerIcon />,
+    () => {
+      setIsColorPicker(true);
+    },
+  );
 
   const BtnTable = createButton(
     "Table",
     <TableIcon size={18} className="text-text" />,
     () => {
       setIsTable(true);
+    },
+  );
+
+  const BtnHelp = createButton(
+    "Help",
+    <HelpCircleIcon size={18} className="text-text" />,
+    () => {
+      setIsHelp(true);
     },
   );
 
@@ -125,6 +105,24 @@ export function WysiwygField(props: Props) {
         }}
       >
         <HtmlTableEditor />
+      </BottomSheet>
+
+      <BottomSheet
+        isOpen={isColorPicker}
+        onClose={() => {
+          setIsColorPicker(false);
+        }}
+      >
+        <ColorPicker onColorSelect={() => setIsColorPicker(false)} />
+      </BottomSheet>
+
+      <BottomSheet
+        isOpen={isHelp}
+        onClose={() => {
+          setIsHelp(false);
+        }}
+      >
+        <WysiwygHelp />
       </BottomSheet>
 
       <Editor
@@ -146,15 +144,12 @@ export function WysiwygField(props: Props) {
         <Toolbar>
           <BtnBold />
           <BtnItalic />
-          <BtnRed />
-          <BtnGreen />
+          <BtnColorPickerWithAction />
           <BtnBigHeader />
-          <BtnMiddleHeader />
-          <BtnSmallHeader />
           <BtnTable />
           <BtnClearFormatting />
           <BtnUndo />
-          <BtnRedo />
+          <BtnHelp />
         </Toolbar>
       </Editor>
       {hasError ? <ValidationError error={error} /> : null}
