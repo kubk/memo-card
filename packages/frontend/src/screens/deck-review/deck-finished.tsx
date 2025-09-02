@@ -8,7 +8,6 @@ import { getEncouragingMessage } from "../../translations/get-encouraging-messag
 import { WantMoreCardsButton } from "./want-more-cards-button.tsx";
 import { deckListStore } from "../../store/deck-list-store.ts";
 import { Flex } from "../../ui/flex.tsx";
-import { useHotkeys } from "react-hotkeys-hook";
 import { ReviewedCardsList } from "./reviewed-cards-list.tsx";
 import { m } from "framer-motion";
 import { LazyLoadFramerMotion } from "../../lib/framer-motion/lazy-load-framer-motion.tsx";

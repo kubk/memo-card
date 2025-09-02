@@ -9,7 +9,6 @@ import { throttle } from "../../../lib/throttle/throttle.ts";
 import { t } from "../../../translations/t.ts";
 import { cn } from "../../../ui/cn.ts";
 import { userStore } from "../../../store/user-store.ts";
-import { theme } from "../../../ui/theme.tsx";
 
 const roboticText = "Life is beautiful";
 const aiSpeechUrl =
