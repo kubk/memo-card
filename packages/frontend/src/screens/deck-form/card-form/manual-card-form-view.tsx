@@ -55,7 +55,8 @@ export function ManualCardFormView(props: Props) {
     () => {
       cardFormStore.onSaveCard();
     },
-    () => wysiwygStore.bottomSheet === null,
+    () =>
+      wysiwygStore.bottomSheet === null && userStore.selectedPaywall === null,
   );
 
   useProgress(() => cardFormStore.isSending);

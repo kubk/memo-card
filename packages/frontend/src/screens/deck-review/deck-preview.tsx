@@ -13,7 +13,6 @@ import { DeckFolderDescription } from "../shared/deck-folder-description.tsx";
 import { useScrollToTopOnMount } from "../../lib/react/use-scroll-to-top-mount.ts";
 import { Flex } from "../../ui/flex.tsx";
 import { BrowserBackButton } from "../shared/browser-platform/browser-back-button.tsx";
-import { useHotkeys } from "react-hotkeys-hook";
 import { ListHeader } from "../../ui/list-header.tsx";
 import { cn } from "../../ui/cn.ts";
 import { CardReviewStats } from "../shared/deck-stats/card-review-stats.tsx";
