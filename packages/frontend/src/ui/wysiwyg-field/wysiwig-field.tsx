@@ -94,6 +94,8 @@ export function WysiwygField(props: Props) {
     () => {
       setIsHelp(true);
     },
+    // @ts-ignore
+    false,
   );
 
   return (

@@ -4,7 +4,7 @@ import { RequestStore } from "../../../lib/mobx-request/request-store.ts";
 import { notifyError } from "../../shared/snackbar/snackbar.tsx";
 import { platform } from "../../../lib/platform/platform.ts";
 import { TextField } from "mobx-form-lite";
-import { durationsWithDiscount, type PlanDuration } from "api";
+import { type PlanDuration } from "api";
 import { assert } from "api";
 import { PaymentMethodType } from "api";
 import { BrowserPlatform } from "../../../lib/platform/browser/browser-platform.ts";
@@ -60,6 +60,9 @@ export class PlansScreenStore {
   }
 
   get isBuyButtonVisible() {
+    if (this.selectedPreviewPlanFeature) {
+      return false;
+    }
     return this.selectedPlanDuration.value !== null;
   }
 
@@ -72,27 +75,7 @@ export class PlansScreenStore {
       selectedPlan,
       this.selectedPlanDuration.value,
       this.method,
-      this.totalDiscount,
     );
-  }
-
-  private get totalDiscount() {
-    const duration = this.selectedPlanDuration.value;
-    if (!duration) return 0;
-    const methodDiscount =
-      this.method === PaymentMethodType.Usd ? this.bankCardDiscount : 0;
-
-    const durationWithDiscount = durationsWithDiscount.find(
-      (item) => item.duration === duration,
-    );
-    if (!durationWithDiscount) return methodDiscount;
-
-    const durationDiscount =
-      this.method === PaymentMethodType.Usd
-        ? durationWithDiscount.discount
-        : durationWithDiscount.discountStars;
-
-    return durationDiscount + methodDiscount;
   }
 
   async createOrder() {
