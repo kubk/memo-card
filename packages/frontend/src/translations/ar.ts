@@ -47,14 +47,10 @@ export const ar: Translation = {
   review_hard: "صعب",
   review_good: "جيد",
   review_easy: "سهل",
-  wysiwyg_small_header: "عنوان صغير",
-  wysiwyg_middle_header: "عنوان متوسط",
+  wysiwyg_text_color: "لون النص",
   wysiwyg_bold: "عريض",
   wysiwyg_italic: "مائل",
   wysiwyg_undo: "تراجع",
-  wysiwyg_redo: "إعادة",
-  wysiwyg_green: "أخضر",
-  wysiwyg_red: "أحمر",
   wysiwyg_clear_formatting: "مسح التنسيق",
   my_decks: "مجموعاتي",
   formatting: "التنسيق",
@@ -74,8 +70,6 @@ export const ar: Translation = {
   hide_all_decks: "إخفاء",
   select_all: "تحديد الكل",
   deselect_all: "إلغاء التحديد",
-  no_personal_decks_start:
-    "ليس لديك أي مجموعة شخصية حتى الآن. لا تتردد في إنشاء واحدة أدناه. تعلم سعيد! 😊",
   browser_no_personal_decks_start: "ليس لديك أي مجموعة شخصية حتى الآن",
   browser_no_personal_decks_link: "تعلم كيفية استخدام MemoCard على ",
   browser_no_personal_decks_end: ". تعلم سعيد! 😊",
@@ -111,7 +105,6 @@ export const ar: Translation = {
   save: "حفظ",
   add_card: "إضافة بطاقة",
   edit_card: "تحرير البطاقة",
-  deck_preview: "معاينة المجموعة",
   card_preview: "معاينة",
   add_card_short: "إضافة بطاقة",
   add_deck_short: "مجموعة",
@@ -176,14 +169,11 @@ export const ar: Translation = {
   deck_form_quit_deck_confirm: "الخروج من تحرير المجموعة دون حفظ؟",
   deck_category: "فئة المجموعة",
   validation_required: "هذا الحقل مطلوب",
-  validation_number: "يجب أن يكون هذا الحقل رقمًا",
-  validation_positive_number: "يجب أن يكون هذا الحقل رقمًا موجبًا",
   share_link_copied: "تم نسخ الرابط إلى الحافظة",
   copied: "تم النسخ",
   copy_code: "نسخ الكود",
   html_column: "عمود",
   html_row: "صف",
-  share_copy_link: "نسخ الرابط",
   settings_contact_support: "الاتصال بالدعم في تيليجرام",
   settings_support_hint: "إذا كان لديك أي مشاكل أو أسئلة أو اقتراحات",
   payment_description: "افتح المزيد من الميزات",
@@ -195,7 +185,6 @@ export const ar: Translation = {
   payment_included: "ما هو مشمول",
   payment_paid_until: "مدفوع حتى",
   ai_cards_left: "بطاقات الذكاء الاصطناعي المتبقية هذا الشهر",
-  payment_page_title: "الخطط",
   payment_tos_and_pp_agree: "بشراء MemoCard، فإنك توافق على",
   payment_tos: "شروط الخدمة",
   payment_and: " و ",
@@ -242,7 +231,6 @@ export const ar: Translation = {
     "هل أنت متأكد أنك تريد تجميد بطاقاتك؟ لا يمكن التراجع عن هذا الإجراء.",
   freeze_title: "تجميد البطاقات",
   how: "كيف يعمل",
-  freeze_how_title: `عندما تقوم بتجميد البطاقات، سيتم تأجيلها لعدد الأيام المحددة، مما يسمح لك بأخذ استراحة. استخدمها في العطلات أو عندما تحتاج إلى راحة.`,
   freeze_rule_1: "سيتم إيقاف جميع بطاقاتك مؤقتًا، ولن تتلقى أي إشعارات.",
   freeze_rule_2:
     "لن يزيد عدد البطاقات التي يجب مراجعتها خلال فترة التجميد؛ سترى نفس عدد البطاقات عند استئناف الدراسة.",
@@ -265,20 +253,10 @@ export const ar: Translation = {
   ai_cards_prompt: "الوصف",
   ai_cards_prompt_front: "وصف واجهة البطاقة",
   ai_cards_prompt_back: "وصف خلفية البطاقة",
-  ai_cards_api_keys: "مفاتيح API",
-  ai_cards_api_keys_gpt: "مفتاح ChatGPT API",
-  ai_cards_api_keys_update: "تحديث المفتاح",
-  ai_cards_gpt_grab_key: "احصل على المفتاح من",
-  ai_cards_gpt_dashboard: "منصة OpenAI",
-  ai_cards_gpt_model: "النموذج",
-  ai_cards_api_keys_configured: "تم التكوين",
-  ai_cards_api_keys_not_configured: "لم يتم التكوين",
   ai_cards_by_ai: "بطاقات تم توليدها بواسطة الذكاء الاصطناعي",
   ai_cards_confirm_delete: "هل أنت متأكد أنك تريد حذف هذه البطاقة؟",
-  ai_cards_validation_key_required: "مفتاح API مطلوب",
   ai_cards_added: "تمت إضافة البطاقات",
   ai_cards_use_template: "استخدام القالب",
-  understood: "فهمت",
   payment_success: "تم الدفع بنجاح. استمتع بالميزات الإضافية 😊",
   confirm_cancel: "إلغاء",
   confirm_ok: "تأكيد",
@@ -338,4 +316,16 @@ export const ar: Translation = {
   card_input_mode_form_save_success: "تم حفظ وضع الإدخال",
   card_input_mode_form_delete_success: "تم حذف وضع الإدخال",
   quit_card: "الخروج من البطاقة",
+
+  // Wysiwyg Help
+  wysiwyg_help_title: "دليل تنسيق النص",
+  wysiwyg_help_step1: "حدد النص الذي تريد تغييره",
+  wysiwyg_help_step2: "اضغط على أي زر من شريط الأدوات",
+  wysiwyg_help_bold: "نص عريض",
+  wysiwyg_help_italic: "نص مائل",
+  wysiwyg_help_color: "تغيير لون النص",
+  wysiwyg_help_heading: "جعل النص أكبر (عنوان)",
+  wysiwyg_help_table: "إدراج جدول",
+  wysiwyg_help_clear: "إزالة جميع التنسيقات",
+  wysiwyg_help_undo: "التراجع عن آخر إجراء",
 };
