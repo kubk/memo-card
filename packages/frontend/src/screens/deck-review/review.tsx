@@ -28,6 +28,7 @@ export function Review() {
   useHotkeys("2", reviewStore.onHard);
   useHotkeys("3", reviewStore.onGood);
   useHotkeys("4", reviewStore.onEasy);
+  useHotkeys("enter", reviewStore.open);
 
   return (
     <div className="flex flex-col items-center justify-center h-screen relative overflow-hidden">

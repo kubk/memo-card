@@ -43,8 +43,6 @@ export function DeckPreview(props: Props) {
     }
   };
 
-  useHotkeys("enter", onStart);
-
   useMainButton(t("review_deck"), onStart, () => deckListStore.canReview, [], {
     forceHide: true,
   });
