@@ -9,6 +9,7 @@ import { userStore } from "../../../store/user-store.ts";
 import { CardFormType } from "../deck-form/store/deck-form-store.ts";
 import { useBackButton } from "../../../lib/platform/use-back-button.ts";
 import { useMainButton } from "../../../lib/platform/use-main-button.ts";
+import { wysiwygStore } from "../../../store/wysiwyg-store.ts";
 
 type Props = {
   cardForm: CardFormType;
@@ -23,9 +24,13 @@ export function CardExample(props: Props) {
     onBack();
   });
 
-  useMainButton(t("go_back"), () => {
-    onBack();
-  });
+  useMainButton(
+    t("go_back"),
+    () => {
+      onBack();
+    },
+    () => wysiwygStore.bottomSheet === null,
+  );
 
   return (
     <Screen title={t("card_field_example_title")}>
