@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { platform } from "../../lib/platform/platform.ts";
 import { BrowserPlatform } from "../../lib/platform/browser/browser-platform.ts";
 import { cn } from "../cn.ts";
+import { TelegramPlatform } from "../../lib/platform/telegram/telegram-platform.ts";
 
 const variants = {
   open: { y: 0 },
@@ -23,9 +24,14 @@ type Props = {
 export function BottomSheet(props: Props) {
   const { isOpen, onClose, children } = props;
 
-  // Disable backdrop scroll
   useEffect(() => {
+    // Disable backdrop scroll
     document.body.style.overflow = isOpen ? "hidden" : "unset";
+
+    if (isOpen && platform instanceof TelegramPlatform) {
+      platform.hideKeyboard();
+    }
+
     return () => {
       document.body.style.overflow = "unset";
     };
@@ -49,7 +55,7 @@ export function BottomSheet(props: Props) {
     ) : (
       <motion.div
         className={cn(
-          "fixed bottom-0 left-0 right-0 bg-bg rounded-t-[20px] p-5 z-bottom-sheet-fg",
+          "fixed bottom-0 left-0 right-0 bg-bg rounded-t-[20px] p-5 pb-10 z-bottom-sheet-fg",
         )}
         style={{
           boxShadow: "0 -2px 10px rgba(0, 0, 0, 0.1)",

@@ -3,7 +3,6 @@ import { translator } from "../../translations/t.ts";
 import { calcPlanPriceForDuration, PlanDuration } from "api";
 import { formatPriceAsText } from "api";
 import { PaymentMethodType } from "api";
-import { formatDiscountAsTextParenthesis } from "api";
 
 export const getPlanTitle = (plan: PlanDb) => {
   switch (plan.type) {
@@ -18,7 +17,6 @@ export const getBuyText = (
   plan: PlanDb,
   duration: PlanDuration,
   method: PaymentMethodType,
-  totalDiscount: number,
 ) => {
   const lang = translator.getLang();
   const price = formatPriceAsText(
@@ -26,26 +24,21 @@ export const getBuyText = (
     method,
   );
 
-  const discountFormatted = formatDiscountAsTextParenthesis(
-    totalDiscount,
-    lang,
-  );
-
   switch (lang) {
     case "en":
-      return `Buy "${getPlanTitle(plan)}" for ${price}${discountFormatted}`;
+      return `Buy "${getPlanTitle(plan)}" for ${price}`;
     case "ru":
-      return `Купить "${getPlanTitle(plan)}" за ${price}${discountFormatted}`;
+      return `Купить "${getPlanTitle(plan)}" за ${price}`;
     case "es":
-      return `Comprar "${getPlanTitle(plan)}" por ${price}${discountFormatted}`;
+      return `Comprar "${getPlanTitle(plan)}" por ${price}`;
     case "pt-br":
-      return `Comprar "${getPlanTitle(plan)}" por ${price}${discountFormatted}`;
+      return `Comprar "${getPlanTitle(plan)}" por ${price}`;
     case "ar":
-      return `اشتري "${getPlanTitle(plan)}" مقابل ${price}${discountFormatted}`;
+      return `اشتري "${getPlanTitle(plan)}" مقابل ${price}`;
     case "fa":
-      return `خرید "${getPlanTitle(plan)}" برای ${price}${discountFormatted}`;
+      return `خرید "${getPlanTitle(plan)}" برای ${price}`;
     case "uk":
-      return `Купити "${getPlanTitle(plan)}" за ${price}${discountFormatted}`;
+      return `Купити "${getPlanTitle(plan)}" за ${price}`;
     default:
       return lang satisfies never;
   }

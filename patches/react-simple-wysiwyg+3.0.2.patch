@@ -1,0 +1,22 @@
+diff --git a/node_modules/react-simple-wysiwyg/lib/index.es.mjs b/node_modules/react-simple-wysiwyg/lib/index.es.mjs
+index 4c45632..e0070cb 100644
+--- a/node_modules/react-simple-wysiwyg/lib/index.es.mjs
++++ b/node_modules/react-simple-wysiwyg/lib/index.es.mjs
+@@ -228,7 +228,7 @@ var BtnNumberedList = createButton('Numbered list', React.createElement(OrderedL
+ var BtnRedo = createButton('Redo', '↷', 'redo');
+ var BtnUnderline = createButton('Underline', React.createElement("span", { style: { textDecoration: 'underline' } }, "\uD835\uDC14"), 'underline');
+ var BtnUndo = createButton('Undo', '↶', 'undo');
+-function createButton(title, content, command) {
++function createButton(title, content, command, focus = true) {
+     ButtonFactory.displayName = title.replace(/\s/g, '');
+     return ButtonFactory;
+     function ButtonFactory(props) {
+@@ -240,7 +240,7 @@ function createButton(title, content, command) {
+         }
+         function onAction(e) {
+             e.preventDefault();
+-            if (document.activeElement !== $el) {
++            if (focus && document.activeElement !== $el) {
+                 $el === null || $el === void 0 ? void 0 : $el.focus();
+             }
+             if (typeof command === 'function') {
