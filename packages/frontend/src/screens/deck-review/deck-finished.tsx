@@ -32,7 +32,6 @@ export function DeckFinished(props: Props) {
     screenStore.go({ type: "main" });
   };
 
-  useHotkeys("enter", onBack);
   useMainButton(t("go_back"), onBack);
   useProgress(() => reviewStore.reviewCardsRequest.isLoading);
 
