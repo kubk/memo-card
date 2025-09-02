@@ -178,6 +178,14 @@ export class TelegramPlatform implements Platform {
     });
   }
 
+  hideKeyboard() {
+    const webApp = getWebApp();
+    if ("hideKeyboard" in webApp) {
+      // @ts-ignore
+      webApp.hideKeyboard();
+    }
+  }
+
   haptic(type: HapticType) {
     const isMobile =
       getWebApp().platform === "ios" || getWebApp().platform === "android";
