@@ -38,6 +38,7 @@ import {
   CreditCardIcon,
   TrashIcon,
 } from "lucide-react";
+import { wysiwygStore } from "../../../store/wysiwyg-store.ts";
 
 type PreviewType = "ai_speech";
 
@@ -49,9 +50,13 @@ export function ManualCardFormView(props: Props) {
   const [previewType, setPreviewType] = useState<PreviewType | null>(null);
   assert(cardForm, "Card should not be empty before editing");
 
-  useMainButton(t("save"), () => {
-    cardFormStore.onSaveCard();
-  });
+  useMainButton(
+    t("save"),
+    () => {
+      cardFormStore.onSaveCard();
+    },
+    () => wysiwygStore.bottomSheet === null,
+  );
 
   useProgress(() => cardFormStore.isSending);
 

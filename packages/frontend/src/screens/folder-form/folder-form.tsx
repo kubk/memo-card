@@ -32,6 +32,7 @@ import {
 } from "lucide-react";
 import { MoreFeaturesButton } from "../shared/feature-preview/more-features-button.tsx";
 import { shareMemoCardUrl } from "../shared/share-memo-card-url.tsx";
+import { wysiwygStore } from "../../store/wysiwyg-store.ts";
 
 export function FolderForm() {
   const folderStore = useFolderFormStore();
@@ -43,9 +44,13 @@ export function FolderForm() {
     folderStore.loadForm();
   });
 
-  useMainButton(t("save"), () => {
-    folderStore.onFolderSave();
-  });
+  useMainButton(
+    t("save"),
+    () => {
+      folderStore.onFolderSave();
+    },
+    () => wysiwygStore.bottomSheet === null,
+  );
 
   useBackButton(() => {
     folderStore.onBack();
