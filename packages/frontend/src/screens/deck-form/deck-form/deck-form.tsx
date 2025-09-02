@@ -61,7 +61,8 @@ export function DeckForm() {
         screenStore.goToDeckForm({ deckId: deck.id });
       });
     },
-    () => wysiwygStore.bottomSheet === null,
+    () =>
+      wysiwygStore.bottomSheet === null && userStore.selectedPaywall === null,
     [screen.index],
   );
 
