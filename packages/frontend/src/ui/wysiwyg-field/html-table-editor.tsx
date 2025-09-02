@@ -112,28 +112,28 @@ export function HtmlTableEditor() {
       <ButtonGrid>
         <ButtonSideAligned
           outline
-          icon={<PlusIcon size={18} className="text-button-text" />}
+          icon={<PlusIcon size={18} />}
           onClick={addColumn}
         >
           {t("html_column")}
         </ButtonSideAligned>
         <ButtonSideAligned
           outline
-          icon={<PlusIcon size={18} className="text-button-text" />}
+          icon={<PlusIcon size={18} />}
           onClick={addRow}
         >
           {t("html_row")}
         </ButtonSideAligned>
         <ButtonSideAligned
           outline
-          icon={<MinusIcon size={18} className="text-button-text" />}
+          icon={<MinusIcon size={18} />}
           onClick={removeColumn}
         >
           {t("html_column")}
         </ButtonSideAligned>
         <ButtonSideAligned
           outline
-          icon={<MinusIcon size={18} className="text-button-text" />}
+          icon={<MinusIcon size={18} />}
           onClick={removeRow}
         >
           {t("html_row")}
@@ -177,7 +177,7 @@ export function HtmlTableEditor() {
             copyToClipboard(generateHtmlCode());
             notifySuccess(t("copied"));
           }}
-          icon={<CopyIcon size={18} className="text-button-text" />}
+          icon={<CopyIcon size={18} />}
         >
           {t("copy_code")}
         </ButtonSideAligned>
