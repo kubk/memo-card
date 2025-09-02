@@ -3,6 +3,7 @@ import { BrowserPlatform } from "./browser-platform.ts";
 import { action, autorun, runInAction } from "mobx";
 import { assert } from "api";
 import { useEffect } from "react";
+import { useHotkeys } from "react-hotkeys-hook";
 
 export const useMainButtonBrowser: UseMainButtonType = (
   text,
@@ -36,4 +37,14 @@ export const useMainButtonBrowser: UseMainButtonType = (
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps);
+
+  useHotkeys("enter", () => {
+    if (condition !== undefined) {
+      if (!condition()) {
+        return;
+      }
+    }
+
+    onClick();
+  });
 };
