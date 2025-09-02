@@ -260,13 +260,13 @@ export const en = {
   payment_failed:
     "Payment failed. We're aware of the issue and working on it. Please contact support via Settings > Support.",
 
-  ai_speech_preview_free_title: "Standard Voice",
+  ai_speech_preview_free_title: "Standard voice",
   ai_speech_preview_free_desc: "Free robotic voice",
-  ai_speech_preview_pro_title: "AI Voice",
+  ai_speech_preview_pro_title: "AI voice",
   ai_speech_preview_pro_desc: "High-quality voice with natural intonation",
   ai_speech_preview_free_lbl: "Free",
   ai_speech_lang_support: "Supports 30+ languages",
-  ai_speech_listen: "Listen Sample",
+  ai_speech_listen: "Listen sample",
 
   ai_card_input_mode_supports: "Different languages are supported",
 
