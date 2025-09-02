@@ -47,10 +47,8 @@ export function AiSpeechPreview(props: Props) {
           <div className="space-y-4">
             <div className="bg-bg rounded-2xl p-4 transition-all border dark:border-gray-700">
               <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center gap-3">
-                  <div className="bg-secondary-bg p-2 rounded-lg">
-                    <Mic className="h-5 w-5 text-hint" />
-                  </div>
+                <div className="flex items-center gap-2">
+                  <Mic className="h-5 w-5 text-hint" />
                   <span className="text-text font-medium">
                     {t("ai_speech_preview_free_title")}
                   </span>
@@ -82,10 +80,8 @@ export function AiSpeechPreview(props: Props) {
               <div className="absolute -left-4 -bottom-4 w-16 h-16 bg-button opacity-10 rounded-full blur-xl"></div>
 
               <div className="flex items-center justify-between mb-3 relative">
-                <div className="flex items-center gap-3">
-                  <div className="p-2 rounded-lg">
-                    <Mic className="h-5 w-5 text-button" />
-                  </div>
+                <div className="flex items-center gap-2">
+                  <Mic className="h-5 w-5 text-button" />
                   <span className="text-text font-medium">
                     {t("ai_speech_preview_pro_title")}
                   </span>
