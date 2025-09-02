@@ -1,7 +1,10 @@
-import { userStore } from "../../store/user-store.ts";
 import { camelCaseToHuman } from "../string/camel-case-to-human.ts";
 import EasySpeech from "easy-speech";
-import { arrayIntersection, highQualityVoices } from "./highQualityVoices.ts";
+
+export async function loadHighQualityVoices() {
+  console.log("Loading high quality voices");
+  return import("./highQualityVoices.ts");
+}
 
 export enum SpeakLanguageEnum {
   USEnglish = "en-US",
@@ -69,29 +72,29 @@ export const speak = async (text: string, language: SpeakLanguageEnum) => {
 
     let voice = exactVoices[0] || voicesFamily[0];
 
-    if (userStore.isPaid) {
-      // Check cache first
-      if (voiceCache.has(language)) {
-        const cachedVoice = voiceCache.get(language);
-        if (cachedVoice) {
-          voice = cachedVoice;
-          console.log("Using cached high quality voice", voice);
-        }
+    if (voiceCache.has(language)) {
+      const cachedVoice = voiceCache.get(language);
+      if (cachedVoice) {
+        voice = cachedVoice;
+        console.log("Using cached high quality voice", voice);
+      }
+    } else {
+      const { highQualityVoices, arrayIntersection } =
+        await loadHighQualityVoices();
+
+      // Search for high quality voice and cache the result
+      const hqvByLanguage = highQualityVoices[language] || [];
+      const existingHqv = arrayIntersection(
+        hqvByLanguage,
+        exactVoices.map((v) => v.name),
+      );
+      const foundHqv = exactVoices.find((v) => v.name === existingHqv[0]);
+      if (foundHqv) {
+        voice = foundHqv;
+        voiceCache.set(language, foundHqv);
+        console.log("Found and cached high quality voice", voice);
       } else {
-        // Search for high quality voice and cache the result
-        const hqvByLanguage = highQualityVoices[language] || [];
-        const existingHqv = arrayIntersection(
-          hqvByLanguage,
-          exactVoices.map((v) => v.name),
-        );
-        const foundHqv = exactVoices.find((v) => v.name === existingHqv[0]);
-        if (foundHqv) {
-          voice = foundHqv;
-          voiceCache.set(language, foundHqv);
-          console.log("Found and cached high quality voice", voice);
-        } else {
-          console.warn("No high quality voice found");
-        }
+        console.warn("No high quality voice found");
       }
     }
 
