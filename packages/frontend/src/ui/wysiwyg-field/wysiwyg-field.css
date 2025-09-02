@@ -3,11 +3,17 @@
   border-top-right-radius: 12px;
   color: var(--tg-theme-text-color);
   background-color: var(--tg-theme-bg-color) !important;
-  @apply dark:!border-separator-dark;
+  @apply !border-secondary-bg;
 }
 
 .rsw-toolbar button:hover {
   background-color: unset !important;
+}
+
+/* Make the Help button align to the right */
+.rsw-toolbar button:last-child {
+  margin-inline-start: auto;
+  padding-inline-end: 2px;
 }
 
 .rsw-editor {
