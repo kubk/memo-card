@@ -55,7 +55,10 @@ export function BottomSheet(props: Props) {
     ) : (
       <motion.div
         className={cn(
-          "fixed bottom-0 left-0 right-0 bg-bg rounded-t-[20px] p-5 pb-10 z-bottom-sheet-fg",
+          "fixed bottom-0 left-0 right-0 bg-bg rounded-t-[20px] p-5 z-bottom-sheet-fg",
+          platform instanceof TelegramPlatform && platform.isIos()
+            ? "pb-10"
+            : "",
         )}
         style={{
           boxShadow: "0 -2px 10px rgba(0, 0, 0, 0.1)",
