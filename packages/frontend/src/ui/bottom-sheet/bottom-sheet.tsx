@@ -81,8 +81,6 @@ export function BottomSheet(props: Props) {
             className="fixed inset-0 z-bottom-sheet-bg"
             style={{
               backgroundColor: "rgba(0, 0, 0, 0.5)",
-              backdropFilter: "blur(4px)",
-              WebkitBackdropFilter: "blur(4px)",
             }}
             initial="closed"
             animate="open"
