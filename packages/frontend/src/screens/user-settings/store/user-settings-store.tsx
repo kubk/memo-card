@@ -7,7 +7,7 @@ import {
 } from "mobx-form-lite";
 import { DateTime } from "luxon";
 import { formatTime } from "../generate-time-range.tsx";
-import { stringToDate, UserSettingsRequest } from "api";
+import { stringToDate, UserDbType, UserSettingsRequest } from "api";
 import { userStore } from "../../../store/user-store.ts";
 import { RequestStore } from "../../../lib/mobx-request/request-store.ts";
 import { notifyError, notifySuccess } from "../../shared/snackbar/snackbar.tsx";
@@ -105,14 +105,17 @@ export class UserSettingsStore {
       platform.setLanguageCached(this.form.language.value);
     }
 
-    userStore.updateSettings({
+    const settings: Partial<UserDbType> = {
       isRemindEnabled: body.isRemindNotifyEnabled,
       lastRemindedDate: body.remindNotificationTime,
       isSpeakingCardEnabled: body.isSpeakingCardEnabled,
-      forceLanguageCode: this.isLangChanged
-        ? this.form.language.value
-        : undefined,
-    });
+    };
+
+    if (this.isLangChanged) {
+      settings.forceLanguageCode = this.form.language.value;
+    }
+
+    userStore.updateSettings(settings);
 
     notifySuccess(t("user_settings_updated"));
   }
