@@ -1,9 +1,9 @@
 import { Button } from "../../../ui/button.tsx";
 import { platform } from "../../../lib/platform/platform.ts";
 import { BrowserPlatform } from "../../../lib/platform/browser/browser-platform.ts";
-import { t } from "../../../translations/t.ts";
 import { assert } from "api";
 import { cn } from "../../../ui/cn.ts";
+import { LoaderCircleIcon } from "lucide-react";
 
 export function BrowserMainButton() {
   if (!(platform instanceof BrowserPlatform)) {
@@ -32,9 +32,11 @@ export function BrowserMainButton() {
         disabled={platform.isMainButtonLoading.value}
         onClick={mainButtonInfo.onClick}
       >
-        {platform.isMainButtonLoading.value
-          ? t("ui_loading")
-          : mainButtonInfo.text}
+        {platform.isMainButtonLoading.value ? (
+          <LoaderCircleIcon className="animate-spin" />
+        ) : (
+          mainButtonInfo.text
+        )}
       </Button>
     </div>
   );
