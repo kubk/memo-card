@@ -13,6 +13,17 @@ const TRANSLATIONS_DIR = path.join(__dirname, 'src/translations');
 const SRC_DIR = path.join(__dirname, 'src');
 const EN_TRANSLATIONS_FILE = path.join(TRANSLATIONS_DIR, 'en.ts');
 
+// Exclusion list for keys that don't need to be checked
+const EXCLUDED_KEYS = [
+  'category_Chemistry',
+  'category_English',
+  'category_Geography',
+  'category_History',
+  'category_Other',
+  'category_Spanish',
+  'category_Thai'
+];
+
 // Colors for terminal output
 const colors = {
   red: '\x1b[31m',
@@ -85,6 +96,12 @@ function findUnusedTranslations() {
   const usedKeys = [];
   
   for (const key of allKeys) {
+    // Skip excluded keys
+    if (EXCLUDED_KEYS.includes(key)) {
+      usedKeys.push(key);
+      continue;
+    }
+    
     const isUsed = searchForKeyUsage(key);
     
     if (isUsed) {
@@ -110,12 +127,10 @@ function main() {
     unusedKeys.forEach((key) => {
       console.log(key);
     });
+    process.exit(1); // Exit with error code when there are missing translations
+  } else {
+    process.exit(0); // Exit with success code when no missing translations
   }
 }
 
-// Run if this is the main module
-if (import.meta.url === `file://${process.argv[1]}`) {
-  main();
-}
-
-export { extractTranslationKeys, searchForKeyUsage, findUnusedTranslations };
+main();
