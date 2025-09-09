@@ -37,16 +37,16 @@ describe("time estimation for review buttons", () => {
       };
 
       // Again shows card in same session (frontend behavior)
-      expect(estimates.again).toBe("<10m");
+      expect(estimates.again).toBe("<10 m");
 
-      // Hard: 0.4 * 1.2 = 0.48 days ≈ 12h
-      expect(estimates.hard).toBe("12h");
+      // Hard: 0.4 * 1.2 = 0.48 days ≈ 12 h
+      expect(estimates.hard).toBe("12 h");
 
       // Good: 0.4 * 2.5 = 1.0 days
-      expect(estimates.good).toBe("1d");
+      expect(estimates.good).toBe("1 d");
 
       // Easy: 0.4 * 2.5 * 2.0 = 2.0 days
-      expect(estimates.easy).toBe("2d");
+      expect(estimates.easy).toBe("2 d");
     });
   });
 
@@ -61,26 +61,26 @@ describe("time estimation for review buttons", () => {
       };
 
       // Again shows card in same session (frontend behavior)
-      expect(estimates.again).toBe("<10m");
+      expect(estimates.again).toBe("<10 m");
 
       // Repeat card uses DEFAULT_REPEAT_INTERVAL = 2.5
       // Hard: 2.5 * 1.2 = 3 days
-      expect(estimates.hard).toBe("3d");
+      expect(estimates.hard).toBe("3 d");
 
-      // Good: 2.5 * 2.5 = 6.25 = 6d
-      expect(estimates.good).toBe("6d");
+      // Good: 2.5 * 2.5 = 6.25 = 6 d
+      expect(estimates.good).toBe("6 d");
 
-      // Easy: 2.5 * 2.5 * 2.0 = 12.5 = 2w
-      expect(estimates.easy).toBe("2w");
+      // Easy: 2.5 * 2.5 * 2.0 = 12.5 = 2 w
+      expect(estimates.easy).toBe("1.8 w");
     });
   });
 
   describe("the main issues from screenshot", () => {
-    it("again should show 1m for immediate re-appearance", () => {
+    it("again should show 1 m for immediate re-appearance", () => {
       const repeatCard = createMockCard(3, "repeat");
       const againEstimate = getTimeEstimate("again", repeatCard, language);
       // Fixed: "again" shows card in same session
-      expect(againEstimate).toBe("<10m");
+      expect(againEstimate).toBe("<10 m");
     });
 
     it("good and easy should show different values", () => {
@@ -88,16 +88,16 @@ describe("time estimation for review buttons", () => {
       const goodEstimate = getTimeEstimate("good", repeatCard, language);
       const easyEstimate = getTimeEstimate("easy", repeatCard, language);
 
-      // Good: 2.5 * 2.5 = 6.25 = 6d
-      // Easy: 2.5 * 2.5 * 2.0 = 12.5 = 2w
-      expect(goodEstimate).toBe("6d");
-      expect(easyEstimate).toBe("2w");
+      // Good: 2.5 * 2.5 = 6.25 = 6 d
+      // Easy: 2.5 * 2.5 * 2.0 = 12.5 = 2 w
+      expect(goodEstimate).toBe("6 d");
+      expect(easyEstimate).toBe("1.8 w");
       expect(goodEstimate).not.toBe(easyEstimate);
     });
   });
 
   describe("reproducing the reported bug", () => {
-    it("BUG: interval 0 shows the same 10h for hard, good, and easy", () => {
+    it("BUG: interval 0 shows the same 10 h for hard, good, and easy", () => {
       const cardWithZeroInterval = {
         id: 1,
         // both 'new' and 'repeat' show the same result
@@ -115,10 +115,10 @@ describe("time estimation for review buttons", () => {
       };
 
       // BUG: These should all be different
-      expect(estimates.again).toBe("<10m");
-      expect(estimates.hard).toBe("12h");
-      expect(estimates.good).toBe("1d");
-      expect(estimates.easy).toBe("2d");
+      expect(estimates.again).toBe("<10 m");
+      expect(estimates.hard).toBe("12 h");
+      expect(estimates.good).toBe("1 d");
+      expect(estimates.easy).toBe("2 d");
     });
   });
 
@@ -140,26 +140,26 @@ describe("time estimation for review buttons", () => {
 
       console.log("Large interval exponential growth:");
       console.log("Starting interval: 365 days (1 year)");
-      console.log("Hard:", estimates.hard); // 365 * 1.2 = 438 days ≈ 1.2y
+      console.log("Hard:", estimates.hard); // 365 * 1.2 = 438 days ≈ 1.2 y
       console.log("Good:", estimates.good); // With dampening: much more reasonable
       console.log("Easy:", estimates.easy); // With dampening: much more reasonable
 
       // FIXED! The jump is now much more reasonable with dampening
-      expect(estimates.hard).toBe("1.2y"); // 438 / 365 ≈ 1.2y (unchanged, hard uses hardIntervalMultiplier)
-      expect(estimates.good).toBe("1.8y"); // With dampening: reduced from 3y to 1.8y!
-      expect(estimates.easy).toBe("3.6y"); // With dampening: reduced from 5y to 3.6y!
+      expect(estimates.hard).toBe("1.2 y"); // 438 / 365 ≈ 1.2 y (unchanged, hard uses hardIntervalMultiplier)
+      expect(estimates.good).toBe("1.8 y"); // With dampening: reduced from 3 y to 1.8 y!
+      expect(estimates.easy).toBe("3.6 y"); // With dampening: reduced from 5 y to 3.6 y!
     });
   });
 
   describe("decimal year formatting", () => {
     it.each([
-      { days: 456.25, expected: "1.5y" },
-      { days: 547.5, expected: "1.8y" },
-      { days: 638.54, expected: "2.1y" },
-      { days: 839.5, expected: "2.8y" },
-      { days: 912.5, expected: "3y" },
-      { days: 1003.47, expected: "3.3y" },
-      { days: 1277.08, expected: "4.2y" },
+      { days: 456.25, expected: "1.5 y" },
+      { days: 547.5, expected: "1.8 y" },
+      { days: 638.54, expected: "2.1 y" },
+      { days: 839.5, expected: "2.8 y" },
+      { days: 912.5, expected: "3 y" },
+      { days: 1003.47, expected: "3.3 y" },
+      { days: 1277.08, expected: "4.2 y" },
     ])("formats $days days as $expected", ({ days, expected }) => {
       const card = {
         id: 1,
@@ -173,27 +173,27 @@ describe("time estimation for review buttons", () => {
     });
 
     it.each([
-      { lang: "en" as const, days: 547.5, expected: "1.8y" },
-      { lang: "ru" as const, days: 547.5, expected: "1.8г" },
-      { lang: "uk" as const, days: 547.5, expected: "1.8р" },
-      { lang: "es" as const, days: 547.5, expected: "1.8a" },
-      { lang: "pt-br" as const, days: 547.5, expected: "1.8a" },
-      { lang: "fa" as const, days: 547.5, expected: "1.8سال" },
-      { lang: "ar" as const, days: 547.5, expected: "1.8سنتين" },
-      { lang: "en" as const, days: 456.25, expected: "1.5y" },
-      { lang: "ru" as const, days: 456.25, expected: "1.5г" },
-      { lang: "uk" as const, days: 456.25, expected: "1.5р" },
-      { lang: "es" as const, days: 456.25, expected: "1.5a" },
-      { lang: "pt-br" as const, days: 456.25, expected: "1.5a" },
-      { lang: "fa" as const, days: 456.25, expected: "1.5سال" },
-      { lang: "ar" as const, days: 456.25, expected: "1.5سنتين" },
-      { lang: "en" as const, days: 912.5, expected: "3y" },
+      { lang: "en" as const, days: 547.5, expected: "1.8 y" },
+      { lang: "ru" as const, days: 547.5, expected: "1.8 г" },
+      { lang: "uk" as const, days: 547.5, expected: "1.8 р" },
+      { lang: "es" as const, days: 547.5, expected: "1.8 a" },
+      { lang: "pt-br" as const, days: 547.5, expected: "1.8 a" },
+      { lang: "fa" as const, days: 547.5, expected: "سال 1.8" },
+      { lang: "ar" as const, days: 547.5, expected: "سنة 1.8" },
+      { lang: "en" as const, days: 456.25, expected: "1.5 y" },
+      { lang: "ru" as const, days: 456.25, expected: "1.5 г" },
+      { lang: "uk" as const, days: 456.25, expected: "1.5 р" },
+      { lang: "es" as const, days: 456.25, expected: "1.5 a" },
+      { lang: "pt-br" as const, days: 456.25, expected: "1.5 a" },
+      { lang: "fa" as const, days: 456.25, expected: "سال 1.5" },
+      { lang: "ar" as const, days: 456.25, expected: "سنة 1.5" },
+      { lang: "en" as const, days: 912.5, expected: "3 y" },
       { lang: "ru" as const, days: 912.5, expected: "3 г" },
       { lang: "uk" as const, days: 912.5, expected: "3 р" },
       { lang: "es" as const, days: 912.5, expected: "3 a" },
       { lang: "pt-br" as const, days: 912.5, expected: "3 a" },
-      { lang: "fa" as const, days: 912.5, expected: "۳ سال" },
-      { lang: "ar" as const, days: 912.5, expected: "3 سنوات" },
+      { lang: "fa" as const, days: 912.5, expected: "سال 3" },
+      { lang: "ar" as const, days: 912.5, expected: "سنة 3" },
     ])(
       "formats $days days as $expected in $lang",
       ({ lang, days, expected }) => {

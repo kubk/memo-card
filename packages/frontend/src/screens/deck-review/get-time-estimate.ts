@@ -6,7 +6,7 @@ import { formatInterval } from "./format-interval.ts";
 function languageToAgainMessage(language: LanguageShared): string {
   switch (language) {
     case "en":
-      return "<10m";
+      return "<10 m";
     case "ru":
       return "<10 мин";
     case "uk":
@@ -16,9 +16,9 @@ function languageToAgainMessage(language: LanguageShared): string {
     case "pt-br":
       return "<10 min";
     case "fa":
-      return "۱۰ د";
+      return "دق 10";
     case "ar":
-      return "١٠ د";
+      return "دق 10";
     default:
       return language satisfies never;
   }
