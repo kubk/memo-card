@@ -16,7 +16,7 @@ export function CardContextMenu() {
     <Dropdown
       items={[
         {
-          icon: <EyeOffIcon className="h-5 w-5 text-button" />,
+          icon: <EyeOffIcon className="h-5 w-5 text-hint" />,
           text: t("hide_card_forever"),
           onClick: () => {
             reviewStore.onHideCardForever();
@@ -25,9 +25,9 @@ export function CardContextMenu() {
         card.voicePlayer
           ? {
               icon: userStore.isSpeakingCardsMuted.value ? (
-                <MicIcon className="h-5 w-5 text-button" />
+                <MicIcon className="h-5 w-5 text-hint" />
               ) : (
-                <MicOffIcon className="h-5 w-5 text-button" />
+                <MicOffIcon className="h-5 w-5 text-hint" />
               ),
               text: userStore.isSpeakingCardsMuted.value
                 ? t("unmute_cards")
