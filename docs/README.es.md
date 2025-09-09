@@ -5,9 +5,9 @@
   Readme: <a href="../README.md">English</a>, <a href="./README.ru.md">Русский</a>, <a href="./README.ua.md">Українська</a>, <a href="./README.es.md">Español</a>, <a href="./README.pt-br.md">Português</a>, <a href="./README.ar.md">العربية</a>, <a href="./README.fa.md">فارسی</a>
 </p>
 
-MemoCard existe porque apps como Anki son un dolor de cabeza. Sí, son potentes, pero hay que configurar mil cosas, no te avisan cuando repasar y parecen de los 90. En el concurso de Mini Apps de Telegram hice la app de tarjetas que siempre quise. No hay que configurar nada, los recordatorios ya funcionan y todo es simple. Usa el método científico de repetición espaciada de Ebbinghaus. Las tarjetas aparecen justo cuando empiezas a olvidar - así es como mejor se memoriza. MemoCard ganó premio en el concurso. Ahora lo usan miles de personas en todo el mundo.
+MemoCard existe porque apps como Anki son un dolor de cabeza. Sí, son potentes, pero hay que configurar mil cosas, no te avisan cuando repasar y parecen de los 90. En el concurso de Telegram hice la app de tarjetas que siempre quise. No hay que configurar nada, los recordatorios ya funcionan y todo es simple. Usa el método científico de repetición espaciada de Ebbinghaus. Las tarjetas aparecen justo cuando empiezas a olvidar - así es como mejor se memoriza. MemoCard ganó premio en el concurso. Ahora lo usan miles de personas en todo el mundo.
 
-Sitio web: [memocard.org](https://memocard.org)
+Sitio web: [memocard.org](https://memocard.org/es)
 
 Historia del concurso: https://teletype.in/@alteregor/memocard-telegram-contest-win
 
