@@ -54,8 +54,6 @@ function searchForKeyUsage(key) {
       `t\\("${key}"\\)`,
       `t\\('${key}'\\)`,
       `t\\\`${key}\\\``,
-      `"${key}".*as.*any`, // for template literal usage like t(`category_${category}` as any)
-      `'${key}'.*as.*any`,
       `\\b${key}\\b` // also search for the key as a word boundary (for dynamic usage)
     ];
     
