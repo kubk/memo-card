@@ -16,9 +16,9 @@ function languageToAgainMessage(language: LanguageShared): string {
     case "pt-br":
       return "<10 min";
     case "fa":
-      return "دق 10";
+      return "10 دق";
     case "ar":
-      return "دق 10";
+      return "10 دق";
     default:
       return language satisfies never;
   }

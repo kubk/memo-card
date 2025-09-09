@@ -210,33 +210,33 @@ describe("formatInterval", () => {
     const language = "ar";
 
     it("should format minutes correctly (RTL)", () => {
-      expect(formatInterval(0.01, language)).toBe("دق 14");
-      expect(formatInterval(0.03, language)).toBe("دق 43");
+      expect(formatInterval(0.01, language)).toBe("14 دق");
+      expect(formatInterval(0.03, language)).toBe("43 دق");
     });
 
     it("should format hours correctly (RTL)", () => {
-      expect(formatInterval(0.05, language)).toBe("سا 1");
-      expect(formatInterval(0.5, language)).toBe("سا 12");
+      expect(formatInterval(0.05, language)).toBe("1 سا");
+      expect(formatInterval(0.5, language)).toBe("12 سا");
     });
 
     it("should format days correctly (RTL)", () => {
-      expect(formatInterval(1, language)).toBe("يوم 1");
-      expect(formatInterval(3, language)).toBe("يوم 3");
+      expect(formatInterval(1, language)).toBe("1 يوم");
+      expect(formatInterval(3, language)).toBe("3 يوم");
     });
 
     it("should format weeks correctly (RTL)", () => {
-      expect(formatInterval(7, language)).toBe("أسب 1");
-      expect(formatInterval(10, language)).toBe("أسب 1.4");
+      expect(formatInterval(7, language)).toBe("1 أسب");
+      expect(formatInterval(10, language)).toBe("1.4 أسب");
     });
 
     it("should format months correctly (RTL)", () => {
-      expect(formatInterval(28, language)).toBe("شهر 1");
-      expect(formatInterval(35, language)).toBe("شهر 1.3");
+      expect(formatInterval(28, language)).toBe("1 شهر");
+      expect(formatInterval(35, language)).toBe("1.3 شهر");
     });
 
     it("should format years correctly (RTL)", () => {
-      expect(formatInterval(365, language)).toBe("سنة 1");
-      expect(formatInterval(547, language)).toBe("سنة 1.5");
+      expect(formatInterval(365, language)).toBe("1 سنة");
+      expect(formatInterval(547, language)).toBe("1.5 سنة");
     });
   });
 });
