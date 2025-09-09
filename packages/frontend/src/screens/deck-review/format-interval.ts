@@ -61,14 +61,11 @@ const UNIT_MAPPINGS: Record<LanguageShared, Record<UnitType, string>> = {
   },
 };
 
-const RTL_LANGUAGES: LanguageShared[] = ["ar", "fa"];
-
 export function formatInterval(
   intervalDays: number,
   language: LanguageShared,
 ): string {
   const units = UNIT_MAPPINGS[language];
-  const isRTL = RTL_LANGUAGES.includes(language);
 
   const minutes = intervalDays * 24 * 60;
   const hours = intervalDays * 24;
@@ -102,10 +99,5 @@ export function formatInterval(
     unit = units.year;
   }
 
-  // Format based on text direction
-  if (isRTL) {
-    return `${unit} ${value}`;
-  } else {
-    return `${value} ${unit}`;
-  }
+  return `${value} ${unit}`;
 }
