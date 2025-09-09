@@ -4,12 +4,15 @@ import "./index.css";
 import { platform } from "./lib/platform/platform.ts";
 import { applyFormatters } from "mobx-log";
 import { polyfillCountryFlagEmojis } from "country-flag-emoji-polyfill";
+import { Settings } from "luxon";
 
 polyfillCountryFlagEmojis();
 
 applyFormatters();
 
 platform.initialize();
+
+Settings.throwOnInvalid = false;
 
 // https://vitejs.dev/guide/build#load-error-handling
 window.addEventListener("vite:preloadError", () => {
