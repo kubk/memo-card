@@ -12,6 +12,7 @@ import {
 import { cssVariablesDark, cssVariablesLight } from "./browser-colors.ts";
 import { LanguageShared } from "api";
 import { api } from "../../../api/trpc-api.ts";
+import { browserGetSafeAreaInset } from "./browser-get-safe-area-inset.ts";
 
 export class BrowserPlatform implements Platform {
   isMobile = false;
@@ -40,6 +41,7 @@ export class BrowserPlatform implements Platform {
         openInternalLink: false,
         getStartParam: false,
         openExternalLink: false,
+        getSafeAreaInset: false,
       },
       {
         autoBind: true,
@@ -189,6 +191,10 @@ export class BrowserPlatform implements Platform {
   setLanguageCached(language: LanguageShared) {
     this.languageCached = language;
     localStorage.setItem(browserPlatformLangKey, language);
+  }
+
+  getSafeAreaInset() {
+    return browserGetSafeAreaInset();
   }
 
   haptic(type: HapticType) {

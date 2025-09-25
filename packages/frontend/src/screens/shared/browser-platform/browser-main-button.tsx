@@ -24,8 +24,11 @@ export function BrowserMainButton() {
   return (
     <div
       className={cn(
-        "z-main-button max-w-2xl w-full fixed left-0 right-0 bottom-6 mx-auto box-border p-4 md:py-4 md:px-0",
+        "z-main-button max-w-2xl w-full fixed left-0 right-0 bottom-0 mx-auto box-border p-4 md:py-4 md:px-0",
       )}
+      style={{
+        bottom: platform.getSafeAreaInset().bottom * 3,
+      }}
     >
       <Button
         className="shadow-lg"

@@ -186,6 +186,10 @@ export class TelegramPlatform implements Platform {
     }
   }
 
+  getSafeAreaInset() {
+    return { top: 0, bottom: 0 };
+  }
+
   haptic(type: HapticType) {
     const isMobile =
       getWebApp().platform === "ios" || getWebApp().platform === "android";
