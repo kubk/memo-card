@@ -31,6 +31,7 @@ export interface Platform {
   getStartParam(): string | undefined;
   openInvoiceLink(link: string): void;
   haptic(type: HapticType): void;
+  getSafeAreaInset(): { top: number; bottom: number };
 }
 
 export type UseMainButtonType = (
