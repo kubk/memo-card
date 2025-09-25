@@ -194,46 +194,44 @@ export function UserSettingsScreen() {
         <HintTransparent>{t("card_speak_description")}</HintTransparent>
       </div>
 
-      {(env.VITE_STAGE === "local" || env.VITE_STAGE === "staging") && (
-        <div className="mt-1">
-          <List
-            animateTap={false}
-            items={[
-              {
-                icon: (
-                  <FilledIcon
-                    backgroundColor={theme.orange}
-                    icon={<FastForwardIcon size={18} />}
+      <div className="mt-1">
+        <List
+          animateTap={false}
+          items={[
+            {
+              icon: (
+                <FilledIcon
+                  backgroundColor={theme.orange}
+                  icon={<FastForwardIcon size={18} />}
+                />
+              ),
+              right: (
+                <span className="relative top-[3px]">
+                  <RadioSwitcher
+                    isOn={userStore.isSkipReview.value}
+                    onToggle={userStore.isSkipReview.toggle}
                   />
-                ),
-                right: (
-                  <span className="relative top-[3px]">
-                    <RadioSwitcher
-                      isOn={userStore.isSkipReview.value}
-                      onToggle={userStore.isSkipReview.toggle}
-                    />
-                  </span>
-                ),
-                text: "Skip review",
+                </span>
+              ),
+              text: "Skip review",
+            },
+            {
+              icon: (
+                <FilledIcon
+                  backgroundColor={theme.orange}
+                  icon={<BugIcon size={18} />}
+                />
+              ),
+              text: "Debug",
+              onClick: () => {
+                screenStore.go({ type: "debug" });
               },
-              {
-                icon: (
-                  <FilledIcon
-                    backgroundColor={theme.orange}
-                    icon={<BugIcon size={18} />}
-                  />
-                ),
-                text: "Debug",
-                onClick: () => {
-                  screenStore.go({ type: "debug" });
-                },
-              },
-            ]}
-          />
+            },
+          ]}
+        />
 
-          <HintTransparent>Admin actions</HintTransparent>
-        </div>
-      )}
+        <HintTransparent>Admin actions</HintTransparent>
+      </div>
 
       <div className="mt-1">
         <List
