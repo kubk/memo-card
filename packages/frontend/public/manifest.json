@@ -8,11 +8,6 @@
   "orientation": "portrait",
   "icons": [
     {
-      "src": "/favicon.png",
-      "sizes": "any",
-      "type": "image/png"
-    },
-    {
       "src": "/img/logo.png",
       "sizes": "any",
       "type": "image/png"
