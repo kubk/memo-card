@@ -1,5 +1,3 @@
-import { getSafeAreaValue } from "../../lib/platform/browser/browser-get-safe-area-inset";
-
 export function SafeAreaTest() {
   return (
     <div className="flex flex-col gap-6 p-4">
@@ -7,10 +5,13 @@ export function SafeAreaTest() {
       <pre>
         {JSON.stringify(
           {
-            pv: getComputedStyle(document.documentElement).getPropertyValue(
+            pt: getComputedStyle(document.documentElement).getPropertyValue(
               "env(safe-area-inset-top)",
             ),
-            parsed: getSafeAreaValue("env(safe-area-inset-top)"),
+
+            pb: getComputedStyle(document.documentElement).getPropertyValue(
+              "env(safe-area-inset-bottom)",
+            ),
           },
           null,
           2,
