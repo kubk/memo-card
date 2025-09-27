@@ -242,16 +242,6 @@ export function ManualCardFormView(props: Props) {
             </ButtonSideAligned>
           ) : null}
 
-          {markCardAsRemoved && cardForm.id && (
-            <ButtonSideAligned
-              icon={<TrashIcon size={24} />}
-              outline
-              onClick={markCardAsRemoved}
-            >
-              {t("delete")}
-            </ButtonSideAligned>
-          )}
-
           {cardForm.id && (
             <>
               <ButtonSideAligned
@@ -264,6 +254,16 @@ export function ManualCardFormView(props: Props) {
                 {t("add_card_short")}
               </ButtonSideAligned>
             </>
+          )}
+
+          {markCardAsRemoved && cardForm.id && (
+            <ButtonSideAligned
+              icon={<TrashIcon size={24} />}
+              outline
+              onClick={markCardAsRemoved}
+            >
+              {t("delete")}
+            </ButtonSideAligned>
           )}
         </ButtonGrid>
       </div>
