@@ -65,7 +65,7 @@ export function formatInterval(
   intervalDays: number,
   language: LanguageShared,
 ): string {
-  const units = UNIT_MAPPINGS[language];
+  const units = UNIT_MAPPINGS[language] || UNIT_MAPPINGS.en;
 
   const minutes = intervalDays * 24 * 60;
   const hours = intervalDays * 24;
