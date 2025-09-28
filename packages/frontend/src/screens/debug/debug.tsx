@@ -54,6 +54,15 @@ export function Debug() {
       >
         Safe Area Test
       </button>
+
+      <button
+        onClick={() => {
+          throw new Error("Test exception triggered from debug menu");
+        }}
+        className="py-3.5 px-4 bg-red-500 text-white font-semibold rounded-xl active:scale-95 transition-all duration-200 text-left"
+      >
+        Trigger Exception
+      </button>
     </div>
   );
 }
