@@ -11,7 +11,7 @@ export function ExampleSwitcher(props: Props) {
   const { activeExample, totalExamples, onExampleChange, className } = props;
 
   return (
-    <div className={cn("flex justify-center gap-4", className)}>
+    <div className={cn("flex justify-center", className)}>
       {Array.from({ length: totalExamples }, (_, index) => {
         const exampleNumber = index + 1;
         return (
@@ -19,10 +19,17 @@ export function ExampleSwitcher(props: Props) {
             key={exampleNumber}
             onClick={() => onExampleChange(exampleNumber)}
             className={cn(
-              "w-3 h-3 rounded-full focus:outline-none",
-              activeExample === exampleNumber ? "bg-button" : "bg-hint",
+              "p-4 focus:outline-none",
+              "flex items-center justify-center",
             )}
-          />
+          >
+            <div
+              className={cn(
+                "w-4 h-4 rounded-full",
+                activeExample === exampleNumber ? "bg-button" : "bg-hint",
+              )}
+            />
+          </button>
         );
       })}
     </div>
