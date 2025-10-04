@@ -1,18 +1,22 @@
 import { UseBackButtonType } from "../platform.ts";
 import { useEffect } from "react";
-import { getWebApp } from "./telegram-web-app.ts";
+import { getWebAppOrNull } from "./telegram-web-app.ts";
 
 export const useBackButtonTelegram: UseBackButtonType = (
   fn: () => void,
   deps = [],
 ) => {
   useEffect(() => {
-    getWebApp().BackButton.show();
-    getWebApp().BackButton.onClick(fn);
+    const webApp = getWebAppOrNull();
+    if (!webApp) {
+      return;
+    }
+    webApp.BackButton.show();
+    webApp.BackButton.onClick(fn);
 
     return () => {
-      getWebApp().BackButton.offClick(fn);
-      getWebApp().BackButton.hide();
+      webApp.BackButton.offClick(fn);
+      webApp.BackButton.hide();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps);

@@ -1,14 +1,17 @@
 import { useMount } from "../../react/use-mount.ts";
 import { autorun } from "mobx";
-import { getWebApp } from "./telegram-web-app.ts";
+import { getWebAppOrNull } from "./telegram-web-app.ts";
 
 export const useProgressTelegram = (cb: () => boolean) => {
   return useMount(() => {
     return autorun(() => {
+      const webApp = getWebAppOrNull();
       if (cb()) {
-        getWebApp().MainButton.showProgress();
+        if (!webApp) return;
+        webApp.MainButton.showProgress();
       } else {
-        getWebApp().MainButton.hideProgress();
+        if (!webApp) return;
+        webApp.MainButton.hideProgress();
       }
     });
   });
