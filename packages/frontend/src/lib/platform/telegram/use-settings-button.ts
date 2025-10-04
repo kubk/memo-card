@@ -1,18 +1,22 @@
 import { useMount } from "../../react/use-mount.ts";
-import { getWebApp } from "./telegram-web-app.ts";
+import { getWebAppOrNull } from "./telegram-web-app.ts";
 
 export const useSettingsButton = (fn: () => void) => {
   useMount(() => {
-    if (!getWebApp().isVersionAtLeast("7.0")) {
+    const webApp = getWebAppOrNull();
+    if (!webApp) {
+      return;
+    }
+    if (!webApp.isVersionAtLeast("7.0")) {
       return;
     }
 
-    getWebApp().SettingsButton.show();
-    getWebApp().SettingsButton.onClick(fn);
+    webApp.SettingsButton.show();
+    webApp.SettingsButton.onClick(fn);
 
     return () => {
-      getWebApp().SettingsButton.hide();
-      getWebApp().SettingsButton.offClick(fn);
+      webApp.SettingsButton.hide();
+      webApp.SettingsButton.offClick(fn);
     };
   });
 };
