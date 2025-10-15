@@ -13,23 +13,15 @@ Contest story: https://teletype.in/@alteregor/memocard-telegram-contest-win
 
 ## Features
 
-📱 **Cross-Platform** - Works seamlessly on Telegram, Browser, iOS, and Android
-
-🗂️ **Organize** - Create unlimited cards, decks, and folders to structure your knowledge
-
-⚡ **Create cards fast** - Generate multiple cards at once for efficient deck building. Use AI to generate cards automatically
-
-🔔 **Smart notifications** - Receive daily reminders for cards that need review, optimizing your study time
-
-✨ **Quality content** - Choose from a catalog of high-quality, pre-made decks
-
-⏸️ **Pause when needed** - Freeze cards when you need a break or are too busy
-
-🔊 **Text-to-Speech** - Learn foreign words with automatic pronunciation features
-
-🎨 **Custom formatting** - Add styling to your cards to emphasize important information
-
-🃏 **Different card types** - Use regular cards or cards with pre-made answers to test your knowledge
+- 📱 **Cross-Platform** - Works seamlessly on Telegram, Browser, iOS, and Android
+- 🗂️ **Organize** - Create unlimited cards, decks, and folders to structure your knowledge
+- ⚡ **Create cards fast** - Generate multiple cards at once for efficient deck building. Use AI to generate cards automatically
+- 🔔 **Smart notifications** - Receive daily reminders for cards that need review, optimizing your study time
+- ✨ **Quality content** - Choose from a catalog of high-quality, pre-made decks
+- ⏸️ **Pause when needed** - Freeze cards when you need a break or are too busy
+- 🔊 **Text-to-Speech** - Learn foreign words with automatic pronunciation features
+- 🎨 **Custom formatting** - Add styling to your cards to emphasize important information
+- 🃏 **Different card types** - Use regular cards or cards with pre-made answers to test your knowledge
 
 ## Example use cases
 - You're a tourist in a new country and want to acquire basic knowledge of the foreign language
