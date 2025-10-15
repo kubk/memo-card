@@ -36,15 +36,15 @@ const en = {
     list: [
       {
         icon: Folder,
-        title: "Organize Your Learning",
+        title: "Create unlimited",
         description:
-          "Create cards, decks, and deck folders to structure your knowledge.",
+          "Create unlimited cards, decks, and folders to structure your knowledge.",
       },
       {
         icon: Zap,
         title: "Rapid Card Creation",
         description:
-          "Generate multiple cards at once for efficient deck building. Use AI to generate cards automatically.",
+          "Use artificial intelligence to create multiple cards or whole decks at once.",
       },
       {
         icon: Bell,
@@ -239,50 +239,50 @@ const ru: Translation = {
     list: [
       {
         icon: Folder,
-        title: "Организуйте своё обучение",
+        title: "Создавайте без ограничений",
         description:
-          "Создавайте карточки, колоды и папки для структурирования знаний.",
-      },
-      {
-        icon: BookOpen,
-        title: "Разные типы карточек",
-        description:
-          "Используйте обычные карточки или карточки с готовыми вариантами ответов для проверки знаний.",
-      },
-      {
-        icon: Bell,
-        title: "Умные уведомления",
-        description:
-          "Получайте ежедневные напоминания о карточках, которые нужно повторить, оптимизируя своё время для учёбы.",
-      },
-      {
-        icon: PenTool,
-        title: "Настройка форматирования",
-        description:
-          "Добавляйте стилизацию к карточкам, чтобы выделить важную информацию.",
-      },
-      {
-        icon: Folder,
-        title: "Качественный контент",
-        description: "Выбирайте из каталога качественных готовых колод.",
-      },
-      {
-        icon: Pause,
-        title: "Гибкое повторение",
-        description:
-          "Замораживайте карточки, когда вам нужен перерыв или вы слишком заняты.",
+          "Создавайте неограниченное количество карточек, колод и папок для структурирования знаний.",
       },
       {
         icon: Zap,
         title: "Быстрое создание карточек",
         description:
-          "Генерируйте несколько карточек сразу для эффективного создания колод. Используйте ИИ для автоматического создания карточек.",
+          "Используйте искусственный интеллект для создания нескольких карточек или целых колод одновременно.",
+      },
+      {
+        icon: Bell,
+        title: "Умные уведомления",
+        description:
+          "Получайте ежедневные напоминания о карточках, которые нужно повторить, оптимизируя время обучения.",
+      },
+      {
+        icon: Folder,
+        title: "Качественный контент",
+        description: "Выбирайте из каталога высококачественных готовых колод.",
+      },
+      {
+        icon: Pause,
+        title: "Пауза при необходимости",
+        description:
+          "Замораживайте карточки, когда нужен перерыв или вы заняты.",
       },
       {
         icon: Headphones,
-        title: "Автоматическая озвучка",
+        title: "Озвучивание текста",
         description:
-          "Учите иностранные слова с автоматической функцией произношения.",
+          "Изучайте иностранные слова с автоматическим произношением.",
+      },
+      {
+        icon: PenTool,
+        title: "Пользовательское форматирование",
+        description:
+          "Добавляйте стили к карточкам для выделения важной информации.",
+      },
+      {
+        icon: BookOpen,
+        title: "Разные типы карточек",
+        description:
+          "Используйте обычные карточки или карточки с готовыми ответами для проверки знаний.",
       },
     ],
   },
@@ -396,55 +396,54 @@ const es: Translation = {
     },
   },
   features: {
-    title: "Características",
+    title: "Funciones",
     list: [
       {
         icon: Folder,
-        title: "Organiza tu aprendizaje",
+        title: "Crea sin límites",
         description:
-          "Crea tarjetas, barajas y carpetas para estructurar tus conocimientos.",
+          "Crea tarjetas, mazos y carpetas ilimitados para estructurar tu conocimiento.",
       },
       {
-        icon: BookOpen,
-        title: "Diferentes tipos de tarjetas",
+        icon: Zap,
+        title: "Crea tarjetas rápido",
         description:
-          "Utiliza tarjetas normales o tarjetas con respuestas predefinidas para probar tus conocimientos.",
+          "Usa inteligencia artificial para crear múltiples tarjetas o mazos completos a la vez.",
       },
       {
         icon: Bell,
         title: "Notificaciones inteligentes",
         description:
-          "Recibe recordatorios diarios de las tarjetas que necesitan revisión, optimizando tu tiempo de estudio.",
-      },
-      {
-        icon: PenTool,
-        title: "Formato personalizado",
-        description:
-          "Agrega estilo a tus tarjetas para resaltar información importante.",
+          "Recibe recordatorios diarios de las tarjetas que necesitas repasar, optimizando tu tiempo de estudio.",
       },
       {
         icon: Folder,
         title: "Contenido de calidad",
-        description:
-          "Elige de un catálogo de barajas predefinidas de alta calidad.",
+        description: "Elige del catálogo de mazos pre-hechos de alta calidad.",
       },
       {
         icon: Pause,
-        title: "Aprendizaje flexible",
+        title: "Pausa cuando necesites",
         description:
-          "Congela las tarjetas cuando necesites un descanso o estés demasiado ocupado.",
-      },
-      {
-        icon: Zap,
-        title: "Creación rápida de tarjetas",
-        description:
-          "Genera varias tarjetas a la vez para construir barajas eficientemente. Utiliza la IA para generar tarjetas automáticamente.",
+          "Congela tarjetas cuando necesites un descanso o estés muy ocupado.",
       },
       {
         icon: Headphones,
         title: "Texto a voz",
         description:
-          "Aprende palabras extranjeras con funciones de pronunciación automática.",
+          "Aprende palabras extranjeras con pronunciación automática.",
+      },
+      {
+        icon: PenTool,
+        title: "Formato personalizado",
+        description:
+          "Añade estilos a tus tarjetas para enfatizar información importante.",
+      },
+      {
+        icon: BookOpen,
+        title: "Diferentes tipos de tarjetas",
+        description:
+          "Usa tarjetas normales o tarjetas con respuestas pre-hechas para probar tu conocimiento.",
       },
     ],
   },
@@ -592,55 +591,54 @@ const ptBr: Translation = {
     ],
   },
   features: {
-    title: "Recursos",
+    title: "Funcionalidades",
     list: [
       {
         icon: Folder,
-        title: "Organize seu aprendizado",
+        title: "Crie sem limites",
         description:
-          "Crie cartões, baralhos e pastas para estruturar seu conhecimento.",
+          "Crie cartões, baralhos e pastas ilimitados para estruturar seu conhecimento.",
       },
       {
-        icon: BookOpen,
-        title: "Diferentes tipos de cartões",
+        icon: Zap,
+        title: "Crie cartões rápido",
         description:
-          "Use cartões regulares ou cartões com respostas pré-definidas para testar seu conhecimento.",
+          "Use inteligência artificial para criar múltiplos cartões ou baralhos completos de uma vez.",
       },
       {
         icon: Bell,
         title: "Notificações inteligentes",
         description:
-          "Receba lembretes diários sobre cartões que precisam ser revisados, otimizando seu tempo de estudo.",
-      },
-      {
-        icon: PenTool,
-        title: "Formatação personalizada",
-        description:
-          "Adicione estilo aos seus cartões para enfatizar informações importantes.",
+          "Receba lembretes diários dos cartões que precisam de revisão, otimizando seu tempo de estudo.",
       },
       {
         icon: Folder,
         title: "Conteúdo de qualidade",
         description:
-          "Escolha de um catálogo de baralhos pré-fabricados de alta qualidade.",
+          "Escolha do catálogo de baralhos prontos de alta qualidade.",
       },
       {
         icon: Pause,
-        title: "Aprendizado flexível",
+        title: "Pause quando precisar",
         description:
-          "Congele cartões quando precisar de uma pausa ou estiver muito ocupado.",
-      },
-      {
-        icon: Zap,
-        title: "Criação rápida de cartões",
-        description:
-          "Gere vários cartões de uma vez para construção eficiente de baralhos. Use IA para gerar cartões automaticamente.",
+          "Congele cartões quando precisar de uma pausa ou estiver ocupado.",
       },
       {
         icon: Headphones,
         title: "Texto para fala",
+        description: "Aprenda palavras estrangeiras com pronúncia automática.",
+      },
+      {
+        icon: PenTool,
+        title: "Formatação personalizada",
         description:
-          "Aprenda palavras estrangeiras com recursos de pronúncia automática.",
+          "Adicione estilos aos seus cartões para destacar informações importantes.",
+      },
+      {
+        icon: BookOpen,
+        title: "Diferentes tipos de cartões",
+        description:
+          "Use cartões normais ou cartões com respostas prontas para testar seu conhecimento.",
       },
     ],
   },
@@ -758,49 +756,49 @@ const uk: Translation = {
     list: [
       {
         icon: Folder,
-        title: "Організуйте своє навчання",
+        title: "Створюйте без обмежень",
         description:
-          "Створюйте картки, колоди та папки для структурування знань.",
-      },
-      {
-        icon: BookOpen,
-        title: "Різні типи карток",
-        description:
-          "Використовуйте звичайні картки або картки з готовими варіантами відповідей для перевірки знань.",
-      },
-      {
-        icon: Bell,
-        title: "Розумні сповіщення",
-        description:
-          "Отримуйте щоденні нагадування про картки, які потрібно повторити, оптимізуючи свій час для навчання.",
-      },
-      {
-        icon: PenTool,
-        title: "Налаштування форматування",
-        description:
-          "Додавайте стилізацію до карток, щоб виділити важливу інформацію.",
-      },
-      {
-        icon: Folder,
-        title: "Якісний контент",
-        description: "Вибирайте з каталогу якісних готових колод.",
-      },
-      {
-        icon: Pause,
-        title: "Гнучке повторення",
-        description:
-          "Заморожуйте картки, коли вам потрібна перерва або ви занадто зайняті.",
+          "Створюйте необмежену кількість карток, колод і папок для структурування знань.",
       },
       {
         icon: Zap,
         title: "Швидке створення карток",
         description:
-          "Генеруйте кілька карток одночасно для ефективного створення колод. Використовуйте ІІ для автоматичного створення карток.",
+          "Використовуйте штучний інтелект для створення кількох карток або цілих колод одночасно.",
+      },
+      {
+        icon: Bell,
+        title: "Розумні сповіщення",
+        description:
+          "Отримуйте щоденні нагадування про картки, які потрібно повторити, оптимізуючи час навчання.",
+      },
+      {
+        icon: Folder,
+        title: "Якісний контент",
+        description: "Обирайте з каталогу високоякісних готових колод.",
+      },
+      {
+        icon: Pause,
+        title: "Пауза коли потрібно",
+        description:
+          "Заморожуйте картки, коли потрібна перерва або ви зайняті.",
       },
       {
         icon: Headphones,
-        title: "Автоматичне озвучування",
-        description: "Вивчайте іноземні слова з автоматичною функцією вимови.",
+        title: "Озвучення тексту",
+        description: "Вивчайте іноземні слова з автоматичною вимовою.",
+      },
+      {
+        icon: PenTool,
+        title: "Власне форматування",
+        description:
+          "Додавайте стилі до карток для виділення важливої інформації.",
+      },
+      {
+        icon: BookOpen,
+        title: "Різні типи карток",
+        description:
+          "Використовуйте звичайні картки або картки з готовими відповідями для перевірки знань.",
       },
     ],
   },
