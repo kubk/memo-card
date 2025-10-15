@@ -11,6 +11,26 @@ Website: [memocard.org](https://memocard.org/pt-br)
 
 História do concurso: https://teletype.in/@alteregor/memocard-telegram-contest-win
 
+## Funcionalidades
+
+📱 **Multiplataforma** - Funciona no Telegram, navegador, iOS e Android
+
+🗂️ **Organize** - Crie cartões, baralhos e pastas ilimitados para estruturar seu conhecimento
+
+⚡ **Crie cartões rápido** - Gere múltiplos cartões de uma vez para montar baralhos de forma eficiente. Use IA para gerar cartões automaticamente
+
+🔔 **Notificações inteligentes** - Receba lembretes diários dos cartões que precisam de revisão, otimizando seu tempo de estudo
+
+✨ **Conteúdo de qualidade** - Escolha do catálogo de baralhos prontos de alta qualidade
+
+⏸️ **Pause quando precisar** - Congele cartões quando precisar de uma pausa ou estiver ocupado
+
+🔊 **Texto para fala** - Aprenda palavras estrangeiras com pronúncia automática
+
+🎨 **Formatação personalizada** - Adicione estilos aos seus cartões para destacar informações importantes
+
+🃏 **Diferentes tipos de cartões** - Use cartões normais ou cartões com respostas prontas para testar seu conhecimento
+
 ## Exemplos de casos de uso
 - Você é um turista em um novo país e deseja adquirir conhecimentos básicos do idioma estrangeiro.
 - Você é um desenvolvedor procurando lembrar comandos complexos do bash ou estruturas de programação mais efetivamente.

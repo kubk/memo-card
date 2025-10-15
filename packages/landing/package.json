@@ -3,13 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "start": "next dev",
     "build-and-serve": "npm run build && npx serve out",
     "postbuild": "next-sitemap",
     "build": "next build && ./fix-html-lang.sh",
     "prettier:fix": "prettier --write \"**/*.+(ts|tsx)\"",
     "typecheck": "npx tsc -b --noEmit",
-    "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
