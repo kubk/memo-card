@@ -14,6 +14,7 @@ import { Screen } from "../../shared/screen.tsx";
 import { ListHeader } from "../../../ui/list-header.tsx";
 import { List } from "../../../ui/list.tsx";
 import { ListRightText } from "../../../ui/list-right-text.tsx";
+import { RadioSwitcher } from "../../../ui/radio-switcher.tsx";
 import { boolNarrow } from "../../../lib/typescript/bool-narrow.ts";
 import { isFormValid } from "mobx-form-lite";
 import { userStore } from "../../../store/user-store.ts";
@@ -32,6 +33,7 @@ import {
   CopyIcon,
   ShareIcon,
   TrashIcon,
+  FilesIcon,
 } from "lucide-react";
 import { FilledIcon, TransparentIcon } from "../../../ui/filled-icon.tsx";
 import { ButtonGrid } from "../../../ui/button-grid.tsx";
@@ -224,6 +226,26 @@ export function DeckForm() {
                   });
                 },
                 right: <WithProIcon />,
+              },
+              {
+                text: t("reverse_cards"),
+                icon: (
+                  <FilledIcon
+                    backgroundColor={theme.icons.green}
+                    icon={<FilesIcon size={18} className="text-white" />}
+                  />
+                ),
+                onClick: () => {
+                  deckFormStore.deckForm?.reverseCards.toggle();
+                },
+                right: (
+                  <RadioSwitcher
+                    isOn={deckFormStore.deckForm.reverseCards.value}
+                    onToggle={() => {
+                      deckFormStore.deckForm?.reverseCards.toggle();
+                    }}
+                  />
+                ),
               },
               userStore.canUpdateCatalogSettings
                 ? {

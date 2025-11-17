@@ -52,11 +52,13 @@ export class CardUnderReviewStore implements LimitedCardUnderReviewStore {
     this.answerType = card.answerType;
     this.answers = card.answers || [];
     this.deckName = deck.name;
-    this.deckSpeakField = deck.speakField;
+    // Use card-level speakField override if provided, otherwise use deck default
+    this.deckSpeakField = card.options?.speakField || deck.speakField;
 
     const voicePlayer = createVoicePlayer(
       {
         voice: card.options?.voice,
+        speakField: card.options?.speakField,
         back: card.back,
         front: card.front,
       },

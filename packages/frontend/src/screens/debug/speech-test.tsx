@@ -3,7 +3,10 @@ import EasySpeech from "easy-speech";
 import { screenStore } from "../../store/screen-store.ts";
 import { useBackButton } from "../../lib/platform/use-back-button.ts";
 import { Select } from "../../ui/select.tsx";
-import { speak as customSpeak, SpeakLanguageEnum } from "../../lib/voice-playback/speak.ts";
+import {
+  speak as customSpeak,
+  SpeakLanguageEnum,
+} from "../../lib/voice-playback/speak.ts";
 
 type Language = {
   code: string;
@@ -245,7 +248,6 @@ export function SpeechTest() {
           )}
         </>
       )}
-
 
       <button
         onClick={handleSpeak}
