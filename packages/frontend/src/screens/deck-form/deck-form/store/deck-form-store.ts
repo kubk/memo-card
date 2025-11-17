@@ -60,6 +60,7 @@ type DeckFormType = {
   cards: CardFormType[];
   speakingCardsLocale: TextField<string | null>;
   speakingCardsField: TextField<DeckSpeakFieldEnum | null>;
+  reverseCards: BooleanField;
   folderId?: number;
   cardInputModeId: string | null;
   cardsToRemoveIds: number[];
@@ -142,6 +143,7 @@ const createUpdateForm = (
     description: new TextField(deck.description ?? ""),
     speakingCardsLocale: new TextField(deck.speakLocale),
     speakingCardsField: new TextField(deck.speakField),
+    reverseCards: new BooleanField(deck.reverseCards),
     cardInputModeId: deck.cardInputModeId || null,
     cards: deck.deckCards.map((card) => ({
       id: card.id,
@@ -253,6 +255,7 @@ export class DeckFormStore implements CardFormStoreInterface {
         cards: [],
         speakingCardsLocale: new TextField<string | null>(null),
         speakingCardsField: new TextField<DeckSpeakFieldEnum | null>(null),
+        reverseCards: new BooleanField(false),
         folderId: screen.folder?.id ?? undefined,
         cardsToRemoveIds: [],
         cardInputModeId: null,
@@ -604,6 +607,7 @@ export class DeckFormStore implements CardFormStoreInterface {
       cards: cardsToSend,
       speakLocale: this.deckForm.speakingCardsLocale.value,
       speakField: this.deckForm.speakingCardsField.value,
+      reverseCards: this.deckForm.reverseCards.value,
       folderId: this.deckForm.folderId,
       cardsToRemoveIds: this.deckForm.cardsToRemoveIds,
     });

@@ -327,4 +327,6 @@ export const ptBr: Translation = {
   wysiwyg_help_table: "Inserir uma tabela",
   wysiwyg_help_clear: "Remover toda a formatação",
   wysiwyg_help_undo: "Desfazer última ação",
+
+  reverse_cards: "Criar cartões reversos",
 };

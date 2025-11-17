@@ -328,4 +328,6 @@ export const ar: Translation = {
   wysiwyg_help_table: "إدراج جدول",
   wysiwyg_help_clear: "إزالة جميع التنسيقات",
   wysiwyg_help_undo: "التراجع عن آخر إجراء",
+
+  reverse_cards: "إنشاء بطاقات عكسية",
 };
