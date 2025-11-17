@@ -22,6 +22,7 @@ const mapUpsertDeckRequestToResponse = (
     isPublic: false,
     speakLocale: null,
     speakField: null,
+    reverseCards: false,
     deckCategory: null,
     categoryId: null,
     cardInputModeId: null,

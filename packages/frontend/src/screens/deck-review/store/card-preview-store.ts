@@ -60,11 +60,16 @@ export class CardPreviewStore implements LimitedCardUnderReviewStore {
       return;
     }
 
-    this.deckSpeakField = deckForm.speakingCardsField.value ?? null;
+    // Use card-level speakField override if provided, otherwise use deck default
+    this.deckSpeakField =
+      form.options.value?.speakField ??
+      deckForm.speakingCardsField.value ??
+      null;
 
     const voicePlayer = createVoicePlayer(
       {
         voice: form.options.value?.voice,
+        speakField: form.options.value?.speakField,
         back: form.back.value,
         front: form.front.value,
       },

@@ -327,4 +327,6 @@ export const ru: Translation = {
   wysiwyg_help_table: "Вставить таблицу",
   wysiwyg_help_clear: "Удалить все форматирование",
   wysiwyg_help_undo: "Отменить последнее действие",
+
+  reverse_cards: "Создавать обратные карточки",
 };
