@@ -2,8 +2,6 @@ import { translator } from "../../../translations/t.ts";
 
 export type MassCreatePaywallTranslation = {
   promptExample1: string;
-  frontExample1: string;
-  backExample1: string;
   resultExample1: [string, string][];
   youllGet: string;
   promptExample2: string;
@@ -18,8 +16,6 @@ export function translateMassCreatePaywall(): MassCreatePaywallTranslation {
   if (language === "en") {
     return {
       promptExample1: "Generate 10 cards with capitals of the world",
-      frontExample1: "Country",
-      backExample1: "Capital",
       resultExample1: [
         ["Germany", "Berlin"],
         ["France", "Paris"],
@@ -52,8 +48,6 @@ export function translateMassCreatePaywall(): MassCreatePaywallTranslation {
   if (language === "ru") {
     return {
       promptExample1: "Сгенерируй 10 карточек со столицами мира",
-      frontExample1: "Страна",
-      backExample1: "Столица",
       resultExample1: [
         ["Германия", "Берлин"],
         ["Франция", "Париж"],
@@ -85,8 +79,6 @@ export function translateMassCreatePaywall(): MassCreatePaywallTranslation {
   if (language === "es") {
     return {
       promptExample1: "Generar 10 tarjetas con capitales del mundo",
-      frontExample1: "País",
-      backExample1: "Capital",
       resultExample1: [
         ["Alemania", "Berlín"],
         ["Francia", "París"],
@@ -118,8 +110,6 @@ export function translateMassCreatePaywall(): MassCreatePaywallTranslation {
   if (language === "pt-br") {
     return {
       promptExample1: "Gerar 10 cartões com capitais do mundo",
-      frontExample1: "País",
-      backExample1: "Capital",
       resultExample1: [
         ["Alemanha", "Berlim"],
         ["França", "Paris"],
@@ -151,8 +141,6 @@ export function translateMassCreatePaywall(): MassCreatePaywallTranslation {
   if (language === "ar") {
     return {
       promptExample1: "إنشاء 10 بطاقات بعواصم العالم",
-      frontExample1: "بلد",
-      backExample1: "عاصمة",
       resultExample1: [
         ["ألمانيا", "برلين"],
         ["فرنسا", "باريس"],
@@ -183,8 +171,6 @@ export function translateMassCreatePaywall(): MassCreatePaywallTranslation {
   if (language === "fa") {
     return {
       promptExample1: "ساخت 10 کارت با پایتخت‌های جهان",
-      frontExample1: "کشور",
-      backExample1: "پایتخت",
       resultExample1: [
         ["آلمان", "برلین"],
         ["فرانسه", "پاریس"],
@@ -215,8 +201,6 @@ export function translateMassCreatePaywall(): MassCreatePaywallTranslation {
   if (language === "uk") {
     return {
       promptExample1: "Згенеруй 10 карток зі столицями світу",
-      frontExample1: "Країна",
-      backExample1: "Столиця",
       resultExample1: [
         ["Німеччина", "Берлін"],
         ["Франція", "Париж"],

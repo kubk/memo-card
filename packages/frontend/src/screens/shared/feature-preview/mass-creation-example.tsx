@@ -34,24 +34,6 @@ export function MassCreationExample(props: {
         }
       />
 
-      <ReadonlyInput
-        label={t("ai_cards_prompt_front")}
-        value={
-          activeExample === 1
-            ? translations.frontExample1
-            : translations.frontExample2
-        }
-      />
-
-      <ReadonlyInput
-        label={t("ai_cards_prompt_back")}
-        value={
-          activeExample === 1
-            ? translations.backExample1
-            : translations.backExample2
-        }
-      />
-
       <div className="my-1 text-sm">{translations.youllGet}</div>
 
       <div className="overflow-x-auto pb-2">
