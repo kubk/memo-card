@@ -329,6 +329,8 @@ export const en = {
   wysiwyg_help_table: "Insert a table",
   wysiwyg_help_clear: "Remove all formatting",
   wysiwyg_help_undo: "Undo last action",
+
+  reverse_cards: "Create reverse cards",
 };
 
 export type Translation = typeof en;

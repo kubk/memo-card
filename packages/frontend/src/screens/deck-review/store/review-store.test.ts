@@ -61,6 +61,7 @@ const createDeckWithCards = (cards: DeckCardDbTypeWithType[]) => {
     cardsToReview: cards,
     speakField: null,
     speakLocale: null,
+    reverseCards: false,
     createdAt: "2023-10-06T02:13:20.985Z",
     authorId: 1,
     shareId: "share_id_mock2",

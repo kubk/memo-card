@@ -16,6 +16,7 @@ export interface VoicePlayer {
 export const createVoicePlayer = (
   card: {
     voice?: string | null;
+    speakField?: DeckSpeakFieldEnum | null;
     front: string;
     back: string;
   },
@@ -28,11 +29,14 @@ export const createVoicePlayer = (
     return new UrlRecordVoicePlayer(card.voice);
   }
 
-  if (!deckForm.speakingCardsLocale || !deckForm.speakingCardsField) {
+  // Use card-level speakField override if provided, otherwise use deck default
+  const effectiveSpeakField = card.speakField || deckForm.speakingCardsField;
+
+  if (!deckForm.speakingCardsLocale || !effectiveSpeakField) {
     return null;
   }
 
-  const text = removeAllTags(card[deckForm.speakingCardsField]);
+  const text = removeAllTags(card[effectiveSpeakField]);
 
   if (isSpeechSynthesisSupported) {
     if (!isEnumValid(deckForm.speakingCardsLocale, SpeakLanguageEnum)) {

@@ -331,4 +331,6 @@ export const fa: Translation = {
   wysiwyg_help_table: "درج جدول",
   wysiwyg_help_clear: "حذف همه قالب‌بندی‌ها",
   wysiwyg_help_undo: "برگردان آخرین عمل",
+
+  reverse_cards: "ایجاد کارت‌های معکوس",
 };

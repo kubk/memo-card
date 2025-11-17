@@ -331,4 +331,6 @@ export const uk: Translation = {
   wysiwyg_help_table: "Вставити таблицю",
   wysiwyg_help_clear: "Видалити все форматування",
   wysiwyg_help_undo: "Скасувати останню дію",
+
+  reverse_cards: "Створювати зворотні картки",
 };

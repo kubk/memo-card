@@ -327,4 +327,6 @@ export const es: Translation = {
   wysiwyg_help_table: "Insertar una tabla",
   wysiwyg_help_clear: "Quitar todo el formato",
   wysiwyg_help_undo: "Deshacer última acción",
+
+  reverse_cards: "Crear tarjetas inversas",
 };
