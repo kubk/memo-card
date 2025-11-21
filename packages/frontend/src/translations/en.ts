@@ -1,11 +1,6 @@
 export const en = {
   card_order: "Card order",
-  card_order_none: "No order",
-  card_order_none_hint: "Cards appear in the order they were added to decks",
-  card_order_review_first: "Due cards first",
-  card_order_review_first_hint: "Shows all cards to review before new cards",
   card_order_random: "Random order",
-  card_order_random_hint: "Cards are displayed in a random order",
   logout: "Logout",
   error_contact_support:
     "An error occurred. Please contact support so we can help you.",

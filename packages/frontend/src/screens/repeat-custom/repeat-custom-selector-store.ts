@@ -10,8 +10,9 @@ import { makePersistable, stopPersisting } from "mobx-persist-store";
 import { getStorageAdapter } from "../../lib/platform/storage-adapter.ts";
 import { TextField } from "mobx-form-lite";
 import { persistableField } from "../../lib/mobx-form-lite-persistable/persistable-field.ts";
+import { platform } from "../../lib/platform/platform.ts";
 
-export type SortingType = "none" | "review-first" | "random";
+export type SortingType = "review-first" | "random";
 
 type RepeatCustomForm = {
   reviewTypes: CardReviewType[];
@@ -25,8 +26,8 @@ export class RepeatCustomSelectorStore {
   };
 
   sortingType = persistableField(
-    new TextField<SortingType>("none"),
-    "repeatSortingType",
+    new TextField<SortingType>("random"),
+    "sortingType",
   );
 
   constructor() {
@@ -53,7 +54,7 @@ export class RepeatCustomSelectorStore {
       }
 
       if (type === "new" && this.sortingType.value === "review-first") {
-        this.sortingType.value = "none";
+        this.sortingType.value = "review-first";
       }
     } else {
       this.form.reviewTypes.push(type);
@@ -180,6 +181,13 @@ export class RepeatCustomSelectorStore {
     } else {
       this.form.selectedDecksIds = this.getAllDeckIds();
     }
+  }
+
+  toggleSortingType() {
+    this.sortingType.onChange(
+      this.sortingType.value === "random" ? "review-first" : "random",
+    );
+    platform.haptic("selection");
   }
 
   dispose() {
