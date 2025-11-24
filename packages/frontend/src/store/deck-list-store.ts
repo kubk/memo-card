@@ -262,7 +262,7 @@ export class DeckListStore {
     if (!deck) {
       return false;
     }
-    return deck.authorId === userStore.myId || userStore.isAdmin;
+    return deck.authorId === userStore.myId;
   }
 
   async openDeckFromCatalog(deck: DeckWithCardsDbType, isMine: boolean) {
@@ -383,7 +383,7 @@ export class DeckListStore {
       return false;
     }
 
-    return folder.authorId === userStore.myId || userStore.isAdmin;
+    return folder.authorId === userStore.myId;
   }
 
   hasFolderInMine(folderId: number) {
