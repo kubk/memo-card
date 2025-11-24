@@ -146,7 +146,6 @@ export function MemoCardPage(props: { language: LandingLanguage }) {
           <div className="grid md:grid-cols-2 gap-8">
             <PlanCard
               title={translation.plans.free}
-              purchaseText={translation.plans.purchasePro}
               features={translation.freePlanFeatures.included
                 .map((item) => ({
                   included: true,
@@ -161,7 +160,6 @@ export function MemoCardPage(props: { language: LandingLanguage }) {
             />
             <PlanCard
               title={translation.plans.pro}
-              purchaseText={translation.plans.purchasePro}
               features={translation.proPlanFeatures.included.map((item) => ({
                 included: true,
                 text: item,

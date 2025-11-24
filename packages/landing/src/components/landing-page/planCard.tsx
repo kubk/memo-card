@@ -1,16 +1,13 @@
 import { Check, X } from "lucide-react";
 import React from "react";
-import { Button } from "@/components/ui/button";
-import { links } from "api";
 
 type Props = {
   title: string;
-  purchaseText: string;
   features: Array<{ included: boolean; text: string }>;
   isProPlan?: boolean;
 };
 
-export function PlanCard({ title, purchaseText, features, isProPlan }: Props) {
+export function PlanCard({ title, features, isProPlan }: Props) {
   return (
     <div
       className={`p-6 rounded-2xl transition-all duration-200 ${
@@ -38,13 +35,6 @@ export function PlanCard({ title, purchaseText, features, isProPlan }: Props) {
           </li>
         ))}
       </ul>
-      {isProPlan ? (
-        <a className="block mt-6" href={links.lsqMonthlySubscription}>
-          <Button variant="pro" size="lg" className="w-full">
-            {purchaseText}
-          </Button>
-        </a>
-      ) : null}
     </div>
   );
 }
