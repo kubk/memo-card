@@ -59,7 +59,7 @@ const en = {
       },
       {
         icon: Pause,
-        title: "Flexible Learning",
+        title: "Pause When Needed",
         description: "Freeze cards when you need a break or are too busy.",
       },
       {
