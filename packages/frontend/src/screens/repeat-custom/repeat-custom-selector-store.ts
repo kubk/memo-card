@@ -52,10 +52,6 @@ export class RepeatCustomSelectorStore {
       if (index !== -1) {
         this.form.reviewTypes.splice(index, 1);
       }
-
-      if (type === "new" && this.sortingType.value === "review-first") {
-        this.sortingType.value = "review-first";
-      }
     } else {
       this.form.reviewTypes.push(type);
     }
