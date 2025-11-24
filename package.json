@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "start": "npx concurrently --kill-others-on-fail \"npm run start -w=api\" \"npm run start -w=frontend\"",
+    "start": "npx concurrently --kill-others-on-fail \"npm run start -w=api\" \"npm run start -w=frontend\" \"npm run start -w=landing\"",
     "start:telegram": "npx concurrently --kill-others-on-fail \"npm run start -w=api\" \"npm run start -w=frontend\" \"npm run tunnel -w=api\"",
     "prettier:fix": "git ls-files -mo --exclude-standard -- './packages' | grep -E '\\.(ts|tsx|mts|json)$' | xargs -I {} prettier --write {}",
     "prettier:fix:full": "prettier --write \"./packages/**/*.+(ts|tsx|mts|json)\"",
