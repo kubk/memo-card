@@ -4,9 +4,6 @@
         "directory": "./out"
     },
     "env": {
-        "development": {
-            "name": "memocard-landing-dev"
-        },
         "production": {
             "name": "memocard-landing"
         }
