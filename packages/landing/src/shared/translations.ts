@@ -129,8 +129,7 @@ const en = {
   plans: {
     title: "Available Plans",
     free: "Free",
-    pro: "Pro",
-    purchasePro: "Purchase for $4/month",
+    pro: "Pro · $4/mo",
   },
   freePlanFeatures: {
     included: [
@@ -147,7 +146,6 @@ const en = {
       "Automatic card generation via AI",
       "High-quality AI speech generation",
       "Duplicate decks and entire folders with decks and cards",
-      "One-time deck and folder links",
     ],
   },
   proPlanFeatures: {
@@ -163,7 +161,6 @@ const en = {
       "Automatic card generation via AI",
       "High-quality AI speech generation",
       "Duplicate decks and entire folders with decks and cards",
-      "One-time deck and folder links",
     ],
   },
 };
@@ -174,8 +171,7 @@ const ru: Translation = {
   plans: {
     title: "Доступные планы",
     free: "Бесплатный",
-    pro: "Pro",
-    purchasePro: "Приобрести за $4/месяц",
+    pro: "Pro · $4/мес",
   },
   what: {
     title: "Что такое MemoCard?",
@@ -333,8 +329,7 @@ const es: Translation = {
   plans: {
     title: "Planes disponibles",
     free: "Gratis",
-    pro: "Pro",
-    purchasePro: "Compra por $4/mes",
+    pro: "Pro · $4/mes",
   },
   what: {
     title: "¿Qué es MemoCard?",
@@ -494,8 +489,7 @@ const ptBr: Translation = {
   plans: {
     title: "Planos disponíveis",
     free: "Grátis",
-    pro: "Pro",
-    purchasePro: "Compre por $4/mês",
+    pro: "Pro · $4/mês",
   },
   what: {
     title: "O que é MemoCard?",
@@ -655,8 +649,7 @@ const uk: Translation = {
   plans: {
     title: "Доступні плани",
     free: "Безкоштовний",
-    pro: "Pro",
-    purchasePro: "Придбати за $4/місяць",
+    pro: "Pro · $4/міс",
   },
   what: {
     title: "Що таке MemoCard?",
