@@ -132,9 +132,13 @@ export const uk: Translation = {
   hide_all_decks: "Приховати",
   select_all: "Вибрати все",
   deselect_all: "Зняти виділення",
+  select: "Вибрати",
+  selected: "Вибрано",
   add_deck: "Додати колоду",
   deck_form_remove_card_confirm:
     "Ви впевнені, що хочете видалити картку? Всі перегляди картки від усіх користувачів буде втрачено",
+  deck_form_remove_cards_confirm:
+    "Ви впевнені, що хочете видалити всі вибрані картки?",
   edit_deck: "Редагувати колоду",
   edit_card: "Редагувати картку",
   add: "Додати",

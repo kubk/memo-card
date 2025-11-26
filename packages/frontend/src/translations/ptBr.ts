@@ -134,8 +134,12 @@ export const ptBr: Translation = {
   hide_all_decks: "Ocultar",
   select_all: "Selecionar tudo",
   deselect_all: "Desselecionar tudo",
+  select: "Selecionar",
+  selected: "Selecionado",
   deck_form_remove_card_confirm:
     "Tem certeza de que deseja remover o cartão? Todas as revisões de cartões de todos os usuários serão perdidas",
+  deck_form_remove_cards_confirm:
+    "Tem certeza de que deseja remover todos os cartões selecionados?",
   add_deck: "Adicionar baralho",
   add: "Adicionar",
   edit_deck: "Editar baralho",

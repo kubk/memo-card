@@ -131,9 +131,13 @@ export const es: Translation = {
   hide_all_decks: "Ocultar",
   select_all: "Seleccionar todo",
   deselect_all: "Deseleccionar todo",
+  select: "Seleccionar",
+  selected: "Seleccionado",
   add_deck: "Añadir mazo",
   deck_form_remove_card_confirm:
     "¿Estás seguro de que quieres eliminar la tarjeta? Todas las revisiones de tarjetas de todos los usuarios se perderán",
+  deck_form_remove_cards_confirm:
+    "¿Estás seguro de que quieres eliminar todas las tarjetas seleccionadas?",
   edit_deck: "Editar mazo",
   edit_card: "Editar tarjeta",
   add: "Añadir",
