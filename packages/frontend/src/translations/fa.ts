@@ -10,7 +10,6 @@ export const fa: Translation = {
   ai_speech_listen: "شنیدن نمونه",
   card_order: "ترتیب کارت‌ها",
   card_order_random: "ترتیب تصادفی",
-  review_all_due: "برای مرور",
   review_custom: "انتخاب موارد مرور",
   custom_new_cards: "کارت‌های جدید",
   custom_due_cards: "کارت‌های مرور",

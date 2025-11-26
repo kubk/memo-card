@@ -11,7 +11,6 @@ export const ptBr: Translation = {
   card_order: "Ordem dos cartões",
   card_order_random: "Ordem aleatória",
   review_custom: "Selecionar o que revisar",
-  review_all_due: "Para revisar",
   custom_new_cards: "Novas cartas",
   custom_due_cards: "Cartas para revisar",
   review_card_type: "Tipo de carta",

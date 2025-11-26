@@ -10,7 +10,6 @@ export const uk: Translation = {
   ai_speech_listen: "Прослухати зразок",
   card_order: "Порядок карток",
   card_order_random: "Випадковий порядок",
-  review_all_due: "Для повторення",
   review_custom: "Виберіть, що повторити",
   review_card_type: "Тип картки",
   custom_due_cards: "Картки для повторення",
