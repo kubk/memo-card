@@ -24,7 +24,6 @@ export const en = {
     "Are you sure you want to hide this card forever? You will never see it again",
   wysiwyg_big_header: "Big header",
   next: "Next",
-  review_all_due: "Review all due",
   custom_due_cards: "Due cards",
   custom_new_cards: "New cards",
   review_custom: "Custom review",
