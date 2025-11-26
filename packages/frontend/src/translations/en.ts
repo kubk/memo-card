@@ -52,6 +52,8 @@ export const en = {
   hide_all_decks: "Hide",
   select_all: "Select all",
   deselect_all: "Deselect all",
+  select: "Select",
+  selected: "Selected",
   browser_no_personal_decks_start: "You don't have any personal deck yet",
   browser_no_personal_decks_link: "Learn how to use MemoCard on ",
   browser_no_personal_decks_end: ". Happy learning! 😊",
@@ -130,6 +132,8 @@ export const en = {
     "Remove folder from MemoCard? This action can't be undone",
   deck_form_remove_card_confirm:
     "Are you sure you want to remove the card? All the card reviews from all the users will be lost",
+  deck_form_remove_cards_confirm:
+    "Are you sure you want to remove all of the selected cards?",
   delete: "Delete",
   no_cards_to_review_in_deck: `Amazing work! 🌟 You've reviewed all the cards in this deck for now. Come back later for more.`,
   repeat_cards_anyway: `Repeat cards anyway`,
