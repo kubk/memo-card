@@ -121,6 +121,8 @@ export const ru: Translation = {
   hide_all_decks: "Скрыть",
   select_all: "Выбрать всё",
   deselect_all: "Снять выделение",
+  select: "Выбрать",
+  selected: "Выбрано",
   add_deck: "Добавить колоду",
   add: "Добавить",
   edit_deck: "Редактировать колоду",
@@ -142,6 +144,8 @@ export const ru: Translation = {
   deck_search_not_found: "Нет подходящих колод",
   deck_form_remove_card_confirm:
     "Удалить карточку? Все повторения этой карточки будут удалены",
+  deck_form_remove_cards_confirm:
+    "Вы уверены, что хотите удалить все выбранные карточки?",
   deck_search_not_found_description:
     "Попробуйте изменить фильтры чтобы увидеть больше",
   // TODO: move to database
