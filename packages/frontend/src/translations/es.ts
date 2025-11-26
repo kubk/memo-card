@@ -10,7 +10,6 @@ export const es: Translation = {
   ai_speech_listen: "Escuchar muestra",
   card_order: "Orden de tarjetas",
   card_order_random: "Orden aleatorio",
-  review_all_due: "Para revisar",
   review_custom: "Seleccionar qué revisar",
   review_card_type: "Tipo de tarjeta",
   custom_due_cards: "Tarjetas por revisar",
