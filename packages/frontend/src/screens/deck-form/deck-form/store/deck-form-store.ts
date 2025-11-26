@@ -374,8 +374,20 @@ export class DeckFormStore implements CardFormStoreInterface {
     }
   }
 
+  setSortByIdAndDirection(
+    sortBy: CardFilterSortBy,
+    direction: CardFilterDirection,
+  ) {
+    this.cardFilter.sortBy.onChange(sortBy);
+    this.cardFilter.sortDirection.onChange(direction);
+  }
+
   get isSortAsc() {
     return this.cardFilter.sortDirection.value === "asc";
+  }
+
+  get currentSortId() {
+    return `${this.cardFilter.sortBy.value}-${this.cardFilter.sortDirection.value}`;
   }
 
   toggleIsSpeakingCardEnabled() {
