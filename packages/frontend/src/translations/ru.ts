@@ -188,7 +188,7 @@ export const ru: Translation = {
   review_finished_want_more: "Хотите ещё? У вас есть",
   review_finished_to_review: "для изучения",
   review_deck: "Пройти колоду",
-  cards_to_repeat: "Карточек для повторения",
+  cards_to_repeat: "К повторению",
   cards_new: "Новые карточки",
   cards_total: "Всего карточек",
   duplicate: "Копировать",
