@@ -195,7 +195,7 @@ export const uk: Translation = {
   review_finished_want_more: "Хочете більше? У вас є",
   review_finished_to_review: "для вивчення",
   review_deck: "Повторити колоду",
-  cards_to_repeat: "Картки для повторення",
+  cards_to_repeat: "Для повторення",
   cards_new: "Нові картки",
   cards_total: "Всього карток",
   duplicate: "Дублювати",

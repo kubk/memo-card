@@ -131,7 +131,7 @@ export const ar: Translation = {
   review_finished_to_review: "للدراسة",
   review_deck: "مراجعة المجموعة",
   review_folder: "مراجعة المجلد",
-  cards_to_repeat: "بطاقات للتكرار",
+  cards_to_repeat: "للتكرار",
   cards_new: "بطاقات جديدة",
   cards_total: "إجمالي البطاقات",
   duplicate: "تكرار",
