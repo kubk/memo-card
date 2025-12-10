@@ -193,7 +193,7 @@ export const es: Translation = {
   review_finished_want_more: "¿Quieres más? Tienes",
   review_finished_to_review: "para estudiar",
   review_deck: "Repasar mazo",
-  cards_to_repeat: "Tarjetas para repetir",
+  cards_to_repeat: "Para repetir",
   cards_new: "Nuevas tarjetas",
   cards_total: "Total de tarjetas",
   duplicate: "Duplicar",

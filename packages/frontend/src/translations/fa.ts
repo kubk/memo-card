@@ -138,7 +138,7 @@ export const fa: Translation = {
   review_finished_to_review: "برای مطالعه",
   review_deck: "مرور دسته کارت",
   review_folder: "مرور پوشه",
-  cards_to_repeat: "کارت‌های تکراری",
+  cards_to_repeat: "برای تکرار",
   cards_new: "کارت‌های جدید",
   cards_total: "کل کارت‌ها",
   duplicate: "کپی",

@@ -196,7 +196,7 @@ export const ptBr: Translation = {
   review_finished_want_more: "Quer mais? Você tem",
   review_finished_to_review: "para estudar",
   review_deck: "Revisar baralho",
-  cards_to_repeat: "Cartões para repetir",
+  cards_to_repeat: "Para repetir",
   cards_new: "Novos cartões",
   cards_total: "Total de cartões",
   duplicate: "Duplicar",
