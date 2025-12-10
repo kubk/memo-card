@@ -117,7 +117,7 @@ export const en = {
   review_finished_to_review: "to study",
   review_deck: "Review deck",
   review_folder: "Review folder",
-  cards_to_repeat: "Cards to repeat",
+  cards_to_repeat: "To repeat",
   cards_new: "New cards",
   cards_total: "Total cards",
   duplicate: "Duplicate",
