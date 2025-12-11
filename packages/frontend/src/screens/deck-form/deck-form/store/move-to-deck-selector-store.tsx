@@ -80,9 +80,8 @@ export class MoveToDeckSelectorStore {
 
       notifySuccess(
         <div className="flex flex-col gap-2">
-          <div className={cn("font-medium")}>{t("move_card_success")}</div>
+          <div className={cn("font-medium")}>{t("move_card_open_deck")}</div>
           <div>
-            {t("move_card_open_deck")}{" "}
             <span
               className="underline"
               onClick={() => {
@@ -93,9 +92,6 @@ export class MoveToDeckSelectorStore {
             </span>
           </div>
         </div>,
-        {
-          duration: 4000,
-        },
       );
     } catch (e: unknown) {
       notifyError(
