@@ -35,10 +35,8 @@ import {
   PlusIcon,
   BotIcon,
   UserIcon,
-  CreditCardIcon,
   TrashIcon,
   FolderInputIcon,
-  BookOpenCheckIcon,
 } from "lucide-react";
 import { wysiwygStore } from "../../../store/wysiwyg-store.ts";
 import { MoveToDeckSelector } from "../deck-form/move-to-deck-selector.tsx";
@@ -265,7 +263,7 @@ export function ManualCardFormView(props: Props) {
             cardFormStore.moveToDeckStore.availableDecksGrouped.length > 1 && (
               <ButtonSideAligned
                 onClick={() => {
-                  assert(cardFormStore instanceof DeckFormStore);
+                  assert(cardFormStore instanceof DeckFormStore)
                   cardFormStore.openMoveCardSheet();
                 }}
                 icon={<FolderInputIcon size={24} />}
