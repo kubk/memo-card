@@ -78,20 +78,22 @@ export class MoveToDeckSelectorStore {
         this.close();
       });
 
-      notifySuccess(
-        <div className="flex flex-col gap-2">
+      const { clear } = notifySuccess(
+        <div className="flex flex-col gap-1">
           <div className={cn("font-medium")}>{t("move_card_open_deck")}</div>
           <div>
             <span
               className="underline"
               onClick={() => {
                 screenStore.goToDeckForm({ deckId: targetDeckId });
+                clear();
               }}
             >
               {result.targetDeck.name}
             </span>
           </div>
         </div>,
+        { anchorOrigin: notifyPosition },
       );
     } catch (e: unknown) {
       notifyError(

@@ -1,4 +1,4 @@
-import { enqueueSnackbar, type SnackbarOrigin } from "notistack";
+import { closeSnackbar, enqueueSnackbar, type SnackbarOrigin } from "notistack";
 import { theme } from "../../../ui/theme.tsx";
 import { reportHandledError } from "../../../lib/rollbar/rollbar.tsx";
 import { userStore } from "../../../store/user-store.ts";
@@ -7,6 +7,10 @@ import { t } from "../../../translations/t.ts";
 import { ClearSnackbar } from "./clear-snackbar.tsx";
 import { cn } from "../../../ui/cn.ts";
 import "./notistack.css";
+
+export function SnackbarWrapper({ children }: { children: React.ReactNode }) {
+  return <div className="mb-4">{children}</div>;
+}
 
 const sharedStyles = {
   borderRadius: theme.borderRadius,
@@ -32,7 +36,7 @@ export const notifySuccess = (
   options?: NotifySuccessOptions,
 ) => {
   const duration = options?.duration || defaultDuration;
-  enqueueSnackbar(message, {
+  const id = enqueueSnackbar(message, {
     variant: "success",
     action: (snackbarKey) => <ClearSnackbar snackbarId={snackbarKey} />,
     style: sharedStyles,
@@ -40,6 +44,12 @@ export const notifySuccess = (
     anchorOrigin: options?.anchorOrigin,
   });
   platform.haptic("success");
+
+  return {
+    clear: () => {
+      closeSnackbar(id);
+    },
+  };
 };
 
 export const notifyError = (report?: any, options?: NotifyErrorOptions) => {
