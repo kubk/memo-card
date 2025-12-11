@@ -331,4 +331,11 @@ export const uk: Translation = {
   wysiwyg_help_undo: "Скасувати останню дію",
 
   reverse_cards: "Створювати зворотні картки",
+
+  // Move card to deck
+  move_card_to_deck_title: "Перемістити в колоду",
+  move_card_without_folder: "Без папки",
+  move_card_move: "Перемістити",
+  move_card_success: "Успішно переміщено",
+  move_card_open_deck: "Відкрити колоду",
 };

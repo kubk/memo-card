@@ -329,6 +329,13 @@ export const en = {
   wysiwyg_help_undo: "Undo last action",
 
   reverse_cards: "Create reverse cards",
+
+  // Move card to deck
+  move_card_to_deck_title: "Move to deck",
+  move_card_without_folder: "Without folder",
+  move_card_move: "Move",
+  move_card_success: "Moved successfully",
+  move_card_open_deck: "Open deck",
 };
 
 export type Translation = typeof en;

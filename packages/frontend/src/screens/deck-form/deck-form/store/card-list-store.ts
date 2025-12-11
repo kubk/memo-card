@@ -5,14 +5,30 @@ import { showConfirm } from "../../../../lib/platform/show-confirm";
 import { deckListStore } from "../../../../store/deck-list-store";
 import { assert } from "api";
 import { t } from "../../../../translations/t";
+import { MoveToDeckSelectorStore } from "./move-to-deck-selector-store";
 
 export class CardListStore {
   isSortSheetOpen = new BooleanToggle(false);
   isSelectionMode = new BooleanToggle(false);
   selectedCardIds = new Set<number>();
+  moveToDeckStore = new MoveToDeckSelectorStore();
 
   constructor(private deckFormStore: DeckFormStore) {
     makeAutoObservable(this, {}, { autoBind: true });
+  }
+
+  openMoveSheet() {
+    const deckId = this.deckFormStore.deckForm?.id;
+    if (deckId) {
+      this.moveToDeckStore.open(
+        deckId,
+        Array.from(this.selectedCardIds),
+        () => {
+          this.deckFormStore.loadForm();
+          this.clearSelection();
+        },
+      );
+    }
   }
 
   toggleCardSelection(cardId: number) {

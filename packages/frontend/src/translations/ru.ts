@@ -189,8 +189,8 @@ export const ru: Translation = {
   review_finished_to_review: "для изучения",
   review_deck: "Пройти колоду",
   cards_to_repeat: "К повторению",
-  cards_new: "Новые карточки",
-  cards_total: "Всего карточек",
+  cards_new: "Новые",
+  cards_total: "Всего",
   duplicate: "Копировать",
   duplicate_deck_confirm: "Вы уверены, что хотите продублировать эту колоду?",
   delete_deck_confirm_shared: "Удалить колоду из вашей коллекции?",
@@ -327,4 +327,11 @@ export const ru: Translation = {
   wysiwyg_help_undo: "Отменить последнее действие",
 
   reverse_cards: "Создавать обратные карточки",
+
+  // Move card to deck
+  move_card_to_deck_title: "Переместить в колоду",
+  move_card_without_folder: "Без папки",
+  move_card_move: "Переместить",
+  move_card_success: "Успешно перемещено",
+  move_card_open_deck: "Открыть колоду",
 };

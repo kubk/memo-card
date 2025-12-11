@@ -9,7 +9,7 @@ import { Screen } from "../../shared/screen.tsx";
 import { removeAllTags } from "../../../lib/sanitize-html/remove-all-tags.ts";
 import { CardNumber } from "../../../ui/card-number.tsx";
 import { assert } from "api";
-import { SearchIcon, XIcon, TrashIcon } from "lucide-react";
+import { SearchIcon, XIcon, TrashIcon, FolderInputIcon } from "lucide-react";
 import { BottomSheet } from "../../../ui/bottom-sheet/bottom-sheet.tsx";
 import { BottomSheetTitle } from "../../../ui/bottom-sheet/bottom-sheet-title.tsx";
 import { RadioList } from "../../../ui/radio-list/radio-list.tsx";
@@ -21,6 +21,9 @@ import { CircleCheckbox } from "../../../ui/circle-checkbox.tsx";
 import { cn } from "../../../ui/cn.ts";
 import { motion, AnimatePresence } from "framer-motion";
 import { CardListStore } from "./store/card-list-store.ts";
+import { MoveToDeckSelector } from "./move-to-deck-selector.tsx";
+import { platform } from "../../../lib/platform/platform.ts";
+import { TelegramPlatform } from "../../../lib/platform/telegram/telegram-platform.ts";
 
 export const sortOptions: Array<{
   id: string;
@@ -205,13 +208,34 @@ export function CardList() {
             exit={{ y: "100%" }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
             style={{ x: "-50%" }}
-            className="fixed bottom-4 border left-1/2 rounded-2xl bg-secondary-bg border-t border-bg p-4 z-main-button"
+            className={cn(
+              "fixed bottom-4 border left-1/2 rounded-2xl bg-secondary-bg border-t border-bg p-4 z-main-button",
+              platform instanceof TelegramPlatform && platform.isIos()
+                ? "mb-10"
+                : "",
+            )}
           >
             <div className="flex items-center justify-between gap-4">
               <div className="text-base whitespace-nowrap pl-2">
                 {t("selected")}: {cardListStore.selectedCardIds.size}
               </div>
               <div className="flex gap-2">
+                {/* Move button - only show if there are other decks to move to */}
+                {cardListStore.moveToDeckStore.availableDecksGrouped.length >
+                  1 && (
+                  <button
+                    onClick={() => cardListStore.openMoveSheet()}
+                    disabled={cardListStore.selectedCardIds.size === 0}
+                    className={cn(
+                      "p-2 rounded-lg transition-colors",
+                      cardListStore.selectedCardIds.size === 0
+                        ? "opacity-50 cursor-not-allowed"
+                        : "hover:bg-bg active:scale-95",
+                    )}
+                  >
+                    <FolderInputIcon size={20} className="text-button" />
+                  </button>
+                )}
                 <button
                   onClick={() => cardListStore.deleteSelectedCards()}
                   disabled={cardListStore.selectedCardIds.size === 0}
@@ -235,6 +259,8 @@ export function CardList() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      <MoveToDeckSelector store={cardListStore.moveToDeckStore} />
     </Screen>
   );
 }

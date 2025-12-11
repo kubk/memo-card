@@ -901,6 +901,12 @@ export class DeckListStore {
   get myDeckIds() {
     return this.myDecks.map((deck) => deck.id);
   }
+
+  deckIdsOwnedByMe() {
+    return this.myDecks
+      .filter((deck) => deck.authorId === userStore.myId)
+      .map((deck) => deck.id);
+  }
 }
 
 const getCardsToReview = (

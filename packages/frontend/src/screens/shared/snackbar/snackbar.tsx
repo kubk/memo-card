@@ -1,4 +1,4 @@
-import { enqueueSnackbar } from "notistack";
+import { enqueueSnackbar, type SnackbarOrigin } from "notistack";
 import { theme } from "../../../ui/theme.tsx";
 import { reportHandledError } from "../../../lib/rollbar/rollbar.tsx";
 import { userStore } from "../../../store/user-store.ts";
@@ -19,14 +19,16 @@ const defaultDuration = 3000;
 type NotifyErrorOptions = {
   message?: string;
   duration?: number;
+  anchorOrigin?: SnackbarOrigin;
 };
 
 type NotifySuccessOptions = {
   duration?: number;
+  anchorOrigin?: SnackbarOrigin;
 };
 
 export const notifySuccess = (
-  message: string,
+  message: string | React.ReactNode,
   options?: NotifySuccessOptions,
 ) => {
   const duration = options?.duration || defaultDuration;
@@ -35,6 +37,7 @@ export const notifySuccess = (
     action: (snackbarId) => <ClearSnackbar snackbarId={snackbarId} />,
     style: sharedStyles,
     autoHideDuration: duration,
+    anchorOrigin: options?.anchorOrigin,
   });
   platform.haptic("success");
 };
@@ -52,6 +55,7 @@ export const notifyError = (report?: any, options?: NotifyErrorOptions) => {
       variant: "error",
       action: (snackbarId) => <ClearSnackbar snackbarId={snackbarId} />,
       style: sharedStyles,
+      anchorOrigin: options?.anchorOrigin,
       autoHideDuration: duration,
     },
   );
