@@ -327,4 +327,11 @@ export const ptBr: Translation = {
   wysiwyg_help_undo: "Desfazer última ação",
 
   reverse_cards: "Criar cartões reversos",
+
+  // Move card to deck
+  move_card_to_deck_title: "Mover para baralho",
+  move_card_without_folder: "Sem pasta",
+  move_card_move: "Mover",
+  move_card_success: "Movido com sucesso",
+  move_card_open_deck: "Abrir baralho",
 };
