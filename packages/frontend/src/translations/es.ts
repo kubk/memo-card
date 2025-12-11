@@ -332,6 +332,5 @@ export const es: Translation = {
   move_card_to_deck_title: "Mover a mazo",
   move_card_without_folder: "Sin carpeta",
   move_card_move: "Mover",
-  move_card_success: "Movido exitosamente",
   move_card_open_deck: "Abrir mazo",
 };

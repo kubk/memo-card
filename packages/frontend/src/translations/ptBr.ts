@@ -332,6 +332,5 @@ export const ptBr: Translation = {
   move_card_to_deck_title: "Mover para baralho",
   move_card_without_folder: "Sem pasta",
   move_card_move: "Mover",
-  move_card_success: "Movido com sucesso",
   move_card_open_deck: "Abrir baralho",
 };
