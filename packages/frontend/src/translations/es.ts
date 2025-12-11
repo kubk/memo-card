@@ -327,4 +327,11 @@ export const es: Translation = {
   wysiwyg_help_undo: "Deshacer última acción",
 
   reverse_cards: "Crear tarjetas inversas",
+
+  // Move card to deck
+  move_card_to_deck_title: "Mover a mazo",
+  move_card_without_folder: "Sin carpeta",
+  move_card_move: "Mover",
+  move_card_success: "Movido exitosamente",
+  move_card_open_deck: "Abrir mazo",
 };
