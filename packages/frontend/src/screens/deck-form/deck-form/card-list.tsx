@@ -26,43 +26,43 @@ export const sortOptions: Array<{
   id: string;
   sortBy: CardFilterSortBy;
   direction: CardFilterDirection;
-  label: string;
+  label: () => string;
 }> = [
   {
     id: "createdAt-desc",
     sortBy: "createdAt",
     direction: "desc",
-    label: `${t("card_sort_by_date")} ↓`,
+    label: () => `${t("card_sort_by_date")} ↓`,
   },
   {
     id: "createdAt-asc",
     sortBy: "createdAt",
     direction: "asc",
-    label: `${t("card_sort_by_date")} ↑`,
+    label: () => `${t("card_sort_by_date")} ↑`,
   },
   {
     id: "frontAlpha-desc",
     sortBy: "frontAlpha",
     direction: "desc",
-    label: `${t("card_sort_by_front")} ↓`,
+    label: () => `${t("card_sort_by_front")} ↓`,
   },
   {
     id: "frontAlpha-asc",
     sortBy: "frontAlpha",
     direction: "asc",
-    label: `${t("card_sort_by_front")} ↑`,
+    label: () => `${t("card_sort_by_front")} ↑`,
   },
   {
     id: "backAlpha-desc",
     sortBy: "backAlpha",
     direction: "desc",
-    label: `${t("card_sort_by_back")} ↓`,
+    label: () => `${t("card_sort_by_back")} ↓`,
   },
   {
     id: "backAlpha-asc",
     sortBy: "backAlpha",
     direction: "asc",
-    label: `${t("card_sort_by_back")} ↑`,
+    label: () => `${t("card_sort_by_back")} ↑`,
   },
 ];
 
@@ -96,11 +96,9 @@ export function CardList() {
             >
               {t("sort_by")}:{" "}
               <span className="text-link">
-                {
-                  sortOptions.find(
-                    (opt) => opt.id === deckFormStore.currentSortId,
-                  )?.label
-                }
+                {sortOptions
+                  .find((opt) => opt.id === deckFormStore.currentSortId)
+                  ?.label()}
               </span>
             </div>
             <div
@@ -184,7 +182,7 @@ export function CardList() {
           selectedId={deckFormStore.currentSortId}
           options={sortOptions.map((opt) => ({
             id: opt.id,
-            title: opt.label,
+            title: opt.label(),
           }))}
           onChange={(id) => {
             const selected = sortOptions.find((opt) => opt.id === id);
