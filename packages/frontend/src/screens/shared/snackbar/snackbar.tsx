@@ -34,7 +34,7 @@ export const notifySuccess = (
   const duration = options?.duration || defaultDuration;
   enqueueSnackbar(message, {
     variant: "success",
-    action: (snackbarId) => <ClearSnackbar snackbarId={snackbarId} />,
+    action: (snackbarKey) => <ClearSnackbar snackbarId={snackbarKey} />,
     style: sharedStyles,
     autoHideDuration: duration,
     anchorOrigin: options?.anchorOrigin,
