@@ -82,7 +82,7 @@ vi.mock("../../../../store/deck-list-store.ts", () => {
     {
       id: 4,
       deckId: 1,
-      createdAt: "2023-10-06T02:13:20.985Z",
+      createdAt: "2023-10-06T02:14:20.985Z",
       example: null,
       front: "year",
       back: "Год",
@@ -93,7 +93,7 @@ vi.mock("../../../../store/deck-list-store.ts", () => {
     {
       id: 5,
       deckId: 1,
-      createdAt: "2023-10-06T02:13:20.985Z",
+      createdAt: "2023-10-06T02:15:20.985Z",
       example: null,
       front: "way",
       back: "Дорога",
