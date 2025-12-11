@@ -37,6 +37,7 @@ import {
   UserIcon,
   TrashIcon,
   FolderInputIcon,
+  BookOpenCheckIcon,
 } from "lucide-react";
 import { wysiwygStore } from "../../../store/wysiwyg-store.ts";
 import { MoveToDeckSelector } from "../deck-form/move-to-deck-selector.tsx";
@@ -57,8 +58,17 @@ export function ManualCardFormView(props: Props) {
     () => {
       cardFormStore.onSaveCard();
     },
-    () =>
-      wysiwygStore.bottomSheet === null && userStore.selectedPaywall === null,
+    () => {
+      if (
+        cardFormStore instanceof DeckFormStore &&
+        cardFormStore.moveToDeckStore.isOpen
+      ) {
+        return false;
+      }
+      return (
+        wysiwygStore.bottomSheet === null && userStore.selectedPaywall === null
+      );
+    },
   );
 
   useProgress(() => cardFormStore.isSending);
@@ -263,7 +273,7 @@ export function ManualCardFormView(props: Props) {
             cardFormStore.moveToDeckStore.availableDecksGrouped.length > 1 && (
               <ButtonSideAligned
                 onClick={() => {
-                  assert(cardFormStore instanceof DeckFormStore)
+                  assert(cardFormStore instanceof DeckFormStore);
                   cardFormStore.openMoveCardSheet();
                 }}
                 icon={<FolderInputIcon size={24} />}
