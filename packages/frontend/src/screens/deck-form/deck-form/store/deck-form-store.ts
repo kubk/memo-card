@@ -13,7 +13,6 @@ import { action, makeAutoObservable, runInAction } from "mobx";
 import { screenStore } from "../../../../store/screen-store.ts";
 import { deckListStore } from "../../../../store/deck-list-store.ts";
 import { showConfirm } from "../../../../lib/platform/show-confirm.ts";
-import { fuzzySearch } from "../../../../lib/string/fuzzy-search.ts";
 import {
   DeckCardDbType,
   DeckCardOptionsDbType,
@@ -324,13 +323,24 @@ export class DeckFormStore implements CardFormStoreInterface {
       return [];
     }
 
+    // Build map of card ID to creation date
+    const cardCreationDates = new Map<number, string>();
+    if (this.deckForm.id) {
+      const deck = deckListStore.searchDeckById(this.deckForm.id);
+      if (deck) {
+        deck.deckCards.forEach((card) => {
+          cardCreationDates.set(card.id, card.createdAt);
+        });
+      }
+    }
+
     return this.deckForm.cards
       .filter((card) => {
         if (this.cardFilter.text.value) {
           const textFilter = this.cardFilter.text.value.toLowerCase();
           return (
-            fuzzySearch(textFilter, card.front.value.toLowerCase()) ||
-            fuzzySearch(textFilter, card.back.value.toLowerCase())
+            card.front.value.toLowerCase().includes(textFilter) ||
+            card.back.value.toLowerCase().includes(textFilter)
           );
         }
         return true;
@@ -352,14 +362,33 @@ export class DeckFormStore implements CardFormStoreInterface {
             : aBack.localeCompare(bBack);
         }
         if (this.cardFilter.sortBy.value === "createdAt") {
-          if (this.cardFilter.sortDirection.value === "desc") {
-            if (!b.id) return -1;
-            if (!a.id) return 1;
-            return b.id - a.id;
+          if (!a.id && !b.id) return 0;
+          if (!a.id)
+            return this.cardFilter.sortDirection.value === "desc" ? 1 : -1;
+          if (!b.id)
+            return this.cardFilter.sortDirection.value === "desc" ? -1 : 1;
+
+          const aDate = cardCreationDates.get(a.id);
+          const bDate = cardCreationDates.get(b.id);
+
+          if (aDate && bDate) {
+            return this.cardFilter.sortDirection.value === "desc"
+              ? bDate > aDate
+                ? 1
+                : bDate < aDate
+                  ? -1
+                  : 0
+              : aDate > bDate
+                ? 1
+                : aDate < bDate
+                  ? -1
+                  : 0;
           }
-          if (!b.id) return 1;
-          if (!a.id) return -1;
-          return a.id - b.id;
+
+          // Fallback to ID comparison
+          return this.cardFilter.sortDirection.value === "desc"
+            ? b.id - a.id
+            : a.id - b.id;
         }
 
         return this.cardFilter.sortBy.value satisfies never;
