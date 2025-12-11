@@ -33,6 +33,7 @@ import { assert } from "api";
 import { t } from "../../../../translations/t.ts";
 import { SpeakLanguageEnum } from "../../../../lib/voice-playback/speak.ts";
 import { api } from "../../../../api/trpc-api.ts";
+import { MoveToDeckSelectorStore } from "./move-to-deck-selector-store";
 
 export type CardAnswerFormType = {
   id: string;
@@ -216,6 +217,7 @@ export class DeckFormStore implements CardFormStoreInterface {
   deckInnerScreen?: DeckInnerScreen;
   cardInputModeIdForForm: string | null = null;
   cardFilter = createCardFilterForm();
+  moveToDeckStore = new MoveToDeckSelectorStore();
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
@@ -680,5 +682,19 @@ export class DeckFormStore implements CardFormStoreInterface {
     }
     this.cardFormIndex = undefined;
     this.cardFormType = undefined;
+  }
+
+  openMoveCardSheet() {
+    const cardId = this.cardForm?.id;
+    const deckId = this.deckForm?.id;
+
+    if (!cardId || !deckId) {
+      return;
+    }
+
+    this.moveToDeckStore.open(deckId, [cardId], () => {
+      this.quitCardForm();
+      this.deckInnerScreen = undefined;
+    });
   }
 }

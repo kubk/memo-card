@@ -37,8 +37,12 @@ import {
   UserIcon,
   CreditCardIcon,
   TrashIcon,
+  FolderInputIcon,
+  BookOpenCheckIcon,
 } from "lucide-react";
 import { wysiwygStore } from "../../../store/wysiwyg-store.ts";
+import { MoveToDeckSelector } from "../deck-form/move-to-deck-selector.tsx";
+import { DeckFormStore } from "../deck-form/store/deck-form-store.ts";
 
 type PreviewType = "ai_speech";
 
@@ -113,7 +117,7 @@ export function ManualCardFormView(props: Props) {
               icon: (
                 <FilledIcon
                   backgroundColor={theme.icons.violet}
-                  icon={<CreditCardIcon size={18} />}
+                  icon={<BookOpenCheckIcon size={18} />}
                 />
               ),
               text: t("card_field_example_title"),
@@ -256,6 +260,21 @@ export function ManualCardFormView(props: Props) {
             </>
           )}
 
+          {cardForm.id &&
+            cardFormStore instanceof DeckFormStore &&
+            cardFormStore.moveToDeckStore.availableDecksGrouped.length > 1 && (
+              <ButtonSideAligned
+                onClick={() => {
+                  assert(cardFormStore instanceof DeckFormStore);
+                  cardFormStore.openMoveCardSheet();
+                }}
+                icon={<FolderInputIcon size={24} />}
+                outline
+              >
+                {t("move_card_move")}
+              </ButtonSideAligned>
+            )}
+
           {markCardAsRemoved && cardForm.id && (
             <ButtonSideAligned
               icon={<TrashIcon size={24} />}
@@ -275,6 +294,10 @@ export function ManualCardFormView(props: Props) {
         }}
         isOpen={previewType === "ai_speech"}
       />
+
+      {cardFormStore instanceof DeckFormStore && (
+        <MoveToDeckSelector store={cardFormStore.moveToDeckStore} />
+      )}
     </Screen>
   );
 }
