@@ -336,6 +336,5 @@ export const fa: Translation = {
   move_card_to_deck_title: "انتقال به دسته",
   move_card_without_folder: "بدون پوشه",
   move_card_move: "انتقال",
-  move_card_success: "با موفقیت انتقال یافت",
   move_card_open_deck: "باز کردن دسته",
 };

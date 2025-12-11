@@ -334,7 +334,6 @@ export const en = {
   move_card_to_deck_title: "Move to deck",
   move_card_without_folder: "Without folder",
   move_card_move: "Move",
-  move_card_success: "Moved successfully",
   move_card_open_deck: "Open deck",
 };
 
