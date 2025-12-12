@@ -333,4 +333,7 @@ export const es: Translation = {
   move_card_without_folder: "Sin carpeta",
   move_card_move: "Mover",
   move_card_open_deck: "Abrir mazo",
+
+  // Image related
+  image: "Imagen",
 };
