@@ -19,6 +19,7 @@ import {
 } from "../voice-player/create-voice-player.ts";
 import { assert } from "api";
 import { DateTime } from "luxon";
+import { preloadCardImage } from "../../../lib/card-image/image-preloader.ts";
 
 export class CardUnderReviewStore implements LimitedCardUnderReviewStore {
   id: number;
@@ -54,6 +55,8 @@ export class CardUnderReviewStore implements LimitedCardUnderReviewStore {
     this.deckName = deck.name;
     // Use card-level speakField override if provided, otherwise use deck default
     this.deckSpeakField = card.options?.speakField || deck.speakField;
+
+    preloadCardImage(card);
 
     const voicePlayer = createVoicePlayer(
       {

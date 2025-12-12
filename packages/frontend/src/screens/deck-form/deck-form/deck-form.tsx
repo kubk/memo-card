@@ -112,7 +112,10 @@ export function DeckForm() {
 
       <Label isPlain text={t("description")} slotRight={<FormattingSwitcher />}>
         {userStore.isCardFormattingOn.value ? (
-          <WysiwygField field={deckFormStore.deckForm.description} />
+          <WysiwygField
+            field={deckFormStore.deckForm.description}
+            allowImage={false}
+          />
         ) : (
           <Input
             field={deckFormStore.deckForm.description}

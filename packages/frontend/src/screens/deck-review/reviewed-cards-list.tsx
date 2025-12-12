@@ -47,10 +47,10 @@ export function ReviewedCardsList(props: Props) {
               >
                 <div className="flex-1 min-w-0">
                   <div className="text-sm font-medium text-text">
-                    {removeAllTags(card.front)}
+                    {removeAllTags({ text: card.front })}
                   </div>
                   <div className="text-hint text-sm mt-1">
-                    {removeAllTags(card.back)}
+                    {removeAllTags({ text: card.back })}
                   </div>
                 </div>
                 <div

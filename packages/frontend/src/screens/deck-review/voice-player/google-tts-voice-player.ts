@@ -1,5 +1,5 @@
 import { VoicePlayer } from "./create-voice-player.ts";
-import { callbackQueue } from "./callback-queue.ts";
+import { voicePlayerCallbackQueue } from "./voice-player-callback-queue.ts";
 
 // Circumvent Google CORS
 let isMetaTagInserted = false;
@@ -34,7 +34,7 @@ export class GoogleTtsVoicePlayer implements VoicePlayer {
     }
     this.audio = new Audio(buildGoogleTtsUrl(language, text));
     this.audio.preload = "none";
-    callbackQueue.add(() => this.audio.load());
+    voicePlayerCallbackQueue.add(() => this.audio.load());
     audioCache.set(cacheKey, this.audio);
   }
 

@@ -99,7 +99,7 @@ export function SearchResults() {
   const getResultTitle = (result: SearchResultItem): string => {
     if (result.type === "card") {
       const card = result.item as DeckCardDbType;
-      return removeAllTags(card.front);
+      return removeAllTags({ text: card.front, fallback: false });
     } else {
       const item = result.item as DeckListItem;
       return item.name;

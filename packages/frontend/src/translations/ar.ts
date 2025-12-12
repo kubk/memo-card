@@ -334,4 +334,7 @@ export const ar: Translation = {
   move_card_without_folder: "بدون مجلد",
   move_card_move: "نقل",
   move_card_open_deck: "فتح الرزمة",
+
+  // Image related
+  image: "صورة",
 };

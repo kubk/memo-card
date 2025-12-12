@@ -6,6 +6,7 @@
     "start": "next dev -p 8080",
     "build-and-serve": "npm run build && npx serve out",
     "postbuild": "next-sitemap",
+    "test": "echo 1",
     "build": "next build && ./fix-html-lang.sh",
     "prettier:fix": "prettier --write \"**/*.+(ts|tsx)\"",
     "typecheck": "npx tsc -b --noEmit",

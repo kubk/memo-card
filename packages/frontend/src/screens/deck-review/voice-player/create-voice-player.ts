@@ -36,7 +36,10 @@ export const createVoicePlayer = (
     return null;
   }
 
-  const text = removeAllTags(card[effectiveSpeakField]);
+  const text = removeAllTags({
+    text: card[effectiveSpeakField],
+    fallback: false,
+  });
 
   if (isSpeechSynthesisSupported) {
     if (!isEnumValid(deckForm.speakingCardsLocale, SpeakLanguageEnum)) {

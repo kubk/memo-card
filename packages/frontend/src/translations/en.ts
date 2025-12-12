@@ -335,6 +335,9 @@ export const en = {
   move_card_without_folder: "Without folder",
   move_card_move: "Move",
   move_card_open_deck: "Open deck",
+
+  // Image related
+  image: "Image",
 };
 
 export type Translation = typeof en;

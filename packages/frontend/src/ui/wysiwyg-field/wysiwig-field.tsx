@@ -22,8 +22,18 @@ import {
   TableIcon,
   UndoIcon,
   HelpCircleIcon,
+  ImageIcon,
+  XIcon,
+  Loader2Icon,
 } from "lucide-react";
 import { wysiwygStore } from "../../store/wysiwyg-store.ts";
+import {
+  extractImageUrl,
+  renderCardImage,
+} from "../../lib/card-image/card-image.ts";
+import { useFileUpload } from "../../lib/use-file-upload.tsx";
+import { uploadImage } from "../../api/file-upload.ts";
+import { useEffect } from "react";
 
 const BtnBigHeader = createButton(
   t("wysiwyg_big_header"),
@@ -60,10 +70,24 @@ export const BtnClearFormatting = createButton(
   },
 );
 
-export function WysiwygField(props: { field: TextField<string> }) {
-  const { field } = props;
-  const { onChange, value, isTouched, error, onBlur } = field;
+export function WysiwygField({
+  field,
+  allowImage = true,
+}: {
+  field: TextField<string>;
+  allowImage?: boolean;
+}) {
+  const { onChange, value, isTouched, error } = field;
   const hasError = isTouched && error;
+
+  const imageUrl = extractImageUrl(value);
+
+  const { renderInput, isUploading, openFilePicker } = useFileUpload({
+    onFileUpload: async (file: File) => {
+      const { publicUrl } = await uploadImage(file);
+      onChange(renderCardImage(publicUrl));
+    },
+  });
 
   const BtnColorPickerWithAction = createButton(
     t("wysiwyg_text_color"),
@@ -91,8 +115,56 @@ export function WysiwygField(props: { field: TextField<string> }) {
     false,
   );
 
+  const BtnImage = createButton(
+    t("image"),
+    <ImageIcon size={18} className="text-text" />,
+    () => {
+      openFilePicker();
+    },
+  );
+
+  useEffect(() => {
+    console.log("isUploading changed:", isUploading);
+  }, [isUploading])
+
+  if (allowImage) {
+    if (isUploading) {
+      return (
+        <div className="relative inline-block bg-bg rounded-xl p-2">
+          <div className="w-[300px] h-[200px] flex items-center justify-center text-hint">
+            <Loader2Icon className="animate-spin" size={32} />
+          </div>
+          {hasError ? <ValidationError error={error} /> : null}
+        </div>
+      );
+    }
+
+    if (imageUrl) {
+      return (
+        <div className="relative inline-block bg-bg rounded-xl p-2">
+          <img
+            src={imageUrl}
+            className="max-w-[300px] max-h-[300px] rounded-lg block"
+          />
+          <button
+            type="button"
+            className="absolute top-3 right-3 bg-black/60 hover:bg-black/80 text-white border-none rounded-full w-6 h-6 flex items-center justify-center cursor-pointer"
+            onClick={() => {
+              onChange("");
+            }}
+          >
+            <XIcon size={16} />
+          </button>
+          {hasError ? <ValidationError error={error} /> : null}
+        </div>
+      );
+    }
+  }
+
   return (
     <EditorProvider>
+      {renderInput()}
+
       <BottomSheet
         isOpen={wysiwygStore.bottomSheet === "table"}
         onClose={() => {
@@ -121,7 +193,6 @@ export function WysiwygField(props: { field: TextField<string> }) {
       </BottomSheet>
 
       <Editor
-        onBlur={onBlur}
         containerProps={
           hasError
             ? {
@@ -142,6 +213,7 @@ export function WysiwygField(props: { field: TextField<string> }) {
           <BtnColorPickerWithAction />
           <BtnBigHeader />
           <BtnTable />
+          {allowImage && <BtnImage />}
           <BtnClearFormatting />
           <BtnUndo />
           <BtnHelp />

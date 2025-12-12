@@ -33,5 +33,3 @@ export class CallbackQueue {
     }, limitMs);
   }
 }
-
-export const callbackQueue = new CallbackQueue();
