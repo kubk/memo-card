@@ -81,7 +81,9 @@ export class QuickAddCardFormStore implements CardFormStoreInterface {
 
     screenStore.back();
     deckListStore.addCardOptimistic(result.data.card);
-    notifySuccess(t("card_added"));
+    notifySuccess(t("card_added"), {
+      anchorOrigin: { vertical: "top", horizontal: "center" },
+    });
   }
 
   async onBackCard() {
