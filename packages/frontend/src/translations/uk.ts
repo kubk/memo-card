@@ -337,4 +337,7 @@ export const uk: Translation = {
   move_card_without_folder: "Без папки",
   move_card_move: "Перемістити",
   move_card_open_deck: "Відкрити колоду",
+
+  // Image related
+  image: "Зображення",
 };

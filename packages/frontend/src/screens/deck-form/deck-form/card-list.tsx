@@ -6,7 +6,6 @@ import { Input } from "../../../ui/input.tsx";
 import { Button } from "../../../ui/button.tsx";
 import { t } from "../../../translations/t.ts";
 import { Screen } from "../../shared/screen.tsx";
-import { removeAllTags } from "../../../lib/sanitize-html/remove-all-tags.ts";
 import { CardNumber } from "../../../ui/card-number.tsx";
 import { assert } from "api";
 import { SearchIcon, XIcon, TrashIcon, FolderInputIcon } from "lucide-react";
@@ -24,6 +23,7 @@ import { CardListStore } from "./store/card-list-store.ts";
 import { MoveToDeckSelector } from "./move-to-deck-selector.tsx";
 import { platform } from "../../../lib/platform/platform.ts";
 import { TelegramPlatform } from "../../../lib/platform/telegram/telegram-platform.ts";
+import { removeAllTags } from "../../../lib/sanitize-html/remove-all-tags.ts";
 
 export const sortOptions: Array<{
   id: string;
@@ -155,10 +155,10 @@ export function CardList() {
               )}
             <div>
               <CardNumber number={i + 1} />
-              {removeAllTags(cardForm.front.value)}
+              {removeAllTags({ text: cardForm.front.value })}
             </div>
             <div className="text-hint">
-              {removeAllTags(cardForm.back.value)}
+              {removeAllTags({ text: cardForm.back.value })}
             </div>
           </div>
         );

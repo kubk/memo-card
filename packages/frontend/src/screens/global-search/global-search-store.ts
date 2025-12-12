@@ -186,7 +186,11 @@ export class GlobalSearchStore {
   ): boolean {
     const nameMatches = this.getMatches(folder.name, query, "name");
     const descriptionMatches = folder.description
-      ? this.getMatches(removeAllTags(folder.description), query, "description")
+      ? this.getMatches(
+          removeAllTags({ text: folder.description, fallback: false }),
+          query,
+          "description",
+        )
       : [];
 
     const folderMatches = nameMatches.concat(descriptionMatches);
@@ -211,7 +215,11 @@ export class GlobalSearchStore {
   ): boolean {
     const nameMatches = this.getMatches(deck.name, query, "name");
     const descriptionMatches = deck.description
-      ? this.getMatches(removeAllTags(deck.description), query, "description")
+      ? this.getMatches(
+          removeAllTags({ text: deck.description, fallback: false }),
+          query,
+          "description",
+        )
       : [];
 
     const deckMatches = nameMatches.concat(descriptionMatches);
@@ -280,9 +288,11 @@ export class GlobalSearchStore {
   private searchCard(card: DeckCardDbType, query: string): SearchMatch[] {
     const matches: SearchMatch[] = [];
 
-    const frontText = removeAllTags(card.front);
-    const backText = removeAllTags(card.back);
-    const exampleText = card.example ? removeAllTags(card.example) : null;
+    const frontText = removeAllTags({ text: card.front, fallback: false });
+    const backText = removeAllTags({ text: card.back, fallback: false });
+    const exampleText = card.example
+      ? removeAllTags({ text: card.example, fallback: false })
+      : null;
 
     // Check if query matches in any field
     const frontMatches = frontText.toLowerCase().includes(query);
