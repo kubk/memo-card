@@ -65,7 +65,7 @@ export const BtnClearFormatting = createButton(
   <RemoveFormattingIcon size={18} className="text-text" />,
   () => {
     document.execCommand("removeFormat", false);
-    // A hack is used since removeFormat doesn't support clearing H1-H6 tags
+    // A hack is used since removeFormat doesn't support clearing H1-H6  tags
     document.execCommand("formatBlock", false, "div");
   },
 );
