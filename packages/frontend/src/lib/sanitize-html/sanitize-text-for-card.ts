@@ -1,5 +1,6 @@
 import DOMPurify from "dompurify";
 import { mathmlTagNames } from "mathml-tag-names";
+import { env } from "../../env";
 
 const allowedTags = [
   // Text Formatting Tags
@@ -42,12 +43,24 @@ const allowedTags = [
   "th",
   "td",
 
+  // image tag
+  "img",
+
   ...mathmlTagNames,
 ];
+
+DOMPurify.addHook("uponSanitizeAttribute", (node, data) => {
+  if (data.attrName === "src" && node.tagName === "IMG") {
+    const src = data.attrValue;
+    if (!src.startsWith(env.VITE_R2_PUBLIC_URL)) {
+      data.keepAttr = false;
+    }
+  }
+});
 
 export const sanitizeTextForCard = (text: string) => {
   return DOMPurify.sanitize(text, {
     ALLOWED_TAGS: allowedTags,
-    ALLOWED_ATTR: ["href", "color"],
+    ALLOWED_ATTR: ["href", "color", "src"],
   });
 };

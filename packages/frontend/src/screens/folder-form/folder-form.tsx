@@ -74,7 +74,7 @@ export function FolderForm() {
 
       <Label isPlain text={t("description")} slotRight={<FormattingSwitcher />}>
         {userStore.isCardFormattingOn.value ? (
-          <WysiwygField field={folderForm.description} />
+          <WysiwygField field={folderForm.description} allowImage={false} />
         ) : (
           <Input field={folderForm.description} type={"textarea"} rows={3} />
         )}

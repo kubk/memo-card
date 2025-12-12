@@ -37,7 +37,7 @@ export function DeckListItemWithDescription(props: Props) {
         <LinesEllipsis
           text={
             catalogItem.description
-              ? removeAllTags(catalogItem.description)
+              ? removeAllTags({ text: catalogItem.description })
               : ""
           }
           maxLine="2"
