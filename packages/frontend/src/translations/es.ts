@@ -27,7 +27,6 @@ export const es: Translation = {
     "Se ha producido un error. Por favor, contacta con soporte para que podamos ayudarte.",
   ai_card_input_mode_supports: "Soporta diferentes idiomas",
   upgrade_pro: "Obtener Pro",
-  more_features: "Más",
   login_google: "Iniciar sesión con Google",
   youtube_channel: "Canal de YouTube",
   card_input_mode_changed: "Modo de entrada de tarjeta cambiado",

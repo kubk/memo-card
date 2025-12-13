@@ -26,7 +26,6 @@ export const ru: Translation = {
   ai_speech_lang_support: "Поддержка 30+ языков",
   ai_speech_listen: "Прослушать",
 
-  more_features: "Ещё",
   login_google: "Войти через Google",
   youtube_channel: "YouTube канал",
   card_input_mode_changed: "Режим ввода карточки изменен",
