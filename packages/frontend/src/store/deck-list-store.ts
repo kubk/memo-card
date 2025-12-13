@@ -762,10 +762,14 @@ export class DeckListStore {
     runInAction(() => {
       this.isAppLoading = true;
     });
+
     api.deck.duplicate
       .mutate({ deckId })
       .then(() => {
         screenStore.go({ type: "main" });
+      })
+      .catch((e) => {
+        reportHandledError("Error duplicating deck", e);
       })
       .finally(
         action(() => {
@@ -789,6 +793,9 @@ export class DeckListStore {
       .mutate({ folderId })
       .then(() => {
         screenStore.go({ type: "main" });
+      })
+      .catch((e) => {
+        reportHandledError("Error duplicating folder", e);
       })
       .finally(
         action(() => {
