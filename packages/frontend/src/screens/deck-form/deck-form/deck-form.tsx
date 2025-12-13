@@ -39,7 +39,6 @@ import { FilledIcon, TransparentIcon } from "../../../ui/filled-icon.tsx";
 import { ButtonGrid } from "../../../ui/button-grid.tsx";
 import { ButtonSideAligned } from "../../../ui/button-side-aligned.tsx";
 import { shareMemoCardUrl } from "../../shared/share-memo-card-url.tsx";
-import { MoreFeaturesButton } from "../../shared/feature-preview/more-features-button.tsx";
 import { wysiwygStore } from "../../../store/wysiwyg-store.ts";
 
 export function DeckForm() {
@@ -278,18 +277,6 @@ export function DeckForm() {
       {deckFormStore.deckForm?.id && (
         <ButtonGrid>
           <ButtonSideAligned
-            icon={<CopyIcon size={24} />}
-            outline
-            onClick={() => {
-              if (deckFormStore.deckForm?.id) {
-                deckListStore.onDuplicateDeck(deckFormStore.deckForm.id);
-              }
-            }}
-          >
-            {t("duplicate")}
-          </ButtonSideAligned>
-
-          <ButtonSideAligned
             icon={<ShareIcon size={24} />}
             outline
             onClick={() => {
@@ -321,7 +308,18 @@ export function DeckForm() {
             {t("delete")}
           </ButtonSideAligned>
 
-          <MoreFeaturesButton />
+          <ButtonSideAligned
+            icon={<CopyIcon size={24} />}
+            isPro
+            outline
+            onClick={() => {
+              if (deckFormStore.deckForm?.id) {
+                deckListStore.onDuplicateDeck(deckFormStore.deckForm.id);
+              }
+            }}
+          >
+            {t("duplicate")}
+          </ButtonSideAligned>
         </ButtonGrid>
       )}
 
