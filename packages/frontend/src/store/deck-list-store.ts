@@ -767,6 +767,7 @@ export class DeckListStore {
       .mutate({ deckId })
       .then(() => {
         screenStore.go({ type: "main" });
+        this.load();
       })
       .catch((e) => {
         reportHandledError("Error duplicating deck", e);
@@ -793,6 +794,7 @@ export class DeckListStore {
       .mutate({ folderId })
       .then(() => {
         screenStore.go({ type: "main" });
+        this.load();
       })
       .catch((e) => {
         reportHandledError("Error duplicating folder", e);
