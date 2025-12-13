@@ -27,7 +27,6 @@ export const ptBr: Translation = {
     "Ocorreu um erro. Por favor, entre em contato com o suporte para que possamos ajudar.",
   ai_card_input_mode_supports: "Suporta diferentes idiomas",
   upgrade_pro: "Obter Pro",
-  more_features: "Mais",
   login_google: "Entrar com Google",
   youtube_channel: "Canal do YouTube",
   card_input_mode_changed: "Modo de entrada de cartão alterado",
