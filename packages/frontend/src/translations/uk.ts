@@ -28,7 +28,6 @@ export const uk: Translation = {
   browser_no_personal_decks_end: ". Успішного навчання! 😊",
   browser_no_personal_decks_link: "Дізнайтеся, як користуватися MemoCard у ",
   upgrade_pro: "Оновити до Pro",
-  more_features: "Більше",
   login_google: "Увійти через Google",
   youtube_channel: "YouTube канал",
   card_input_mode_changed: "Режим введення картки змінено",

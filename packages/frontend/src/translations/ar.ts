@@ -56,7 +56,6 @@ export const ar: Translation = {
   decks: "مجموعات",
   edit_folder: "تحرير المجلد",
   add_folder: "إضافة مجلد",
-  more_features: "المزيد",
   add_deck_to_folder: "إضافة مجموعة إلى المجلد",
   decks_in_other_folders: "مجموعات في مجلدات أخرى",
   no_decks_to_add: "لا توجد مجموعات أخرى لإضافتها",

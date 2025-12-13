@@ -67,7 +67,6 @@ export const fa: Translation = {
   decks: "دسته کارت‌ها",
   edit_folder: "ویرایش پوشه",
   add_folder: "افزودن پوشه",
-  more_features: "بیشتر",
   add_deck_to_folder: "افزودن دسته کارت به پوشه",
   decks_in_other_folders: "دسته کارت‌ها در پوشه‌های دیگر",
   no_decks_to_add: "دسته کارت دیگری برای افزودن وجود ندارد",

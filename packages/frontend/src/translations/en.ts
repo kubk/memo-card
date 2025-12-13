@@ -43,7 +43,6 @@ export const en = {
   decks: "Decks",
   edit_folder: "Edit folder",
   add_folder: "Add folder",
-  more_features: "More",
   add_deck_to_folder: "Add deck to the folder",
   decks_in_other_folders: "Decks in other folders",
   no_decks_to_add: "No more decks to add",
