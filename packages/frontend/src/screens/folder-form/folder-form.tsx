@@ -30,7 +30,6 @@ import {
   ShareIcon,
   TrashIcon,
 } from "lucide-react";
-import { MoreFeaturesButton } from "../shared/feature-preview/more-features-button.tsx";
 import { shareMemoCardUrl } from "../shared/share-memo-card-url.tsx";
 import { wysiwygStore } from "../../store/wysiwyg-store.ts";
 
@@ -110,17 +109,6 @@ export function FolderForm() {
       {folder && (
         <div className="mt-0.5 mb-2.5">
           <ButtonGrid>
-            {userStore.isPaid && (
-              <ButtonSideAligned
-                icon={<CopyIcon size={24} />}
-                outline
-                onClick={() => {
-                  deckListStore.onDuplicateFolder(folder.folder_id);
-                }}
-              >
-                {t("duplicate")}
-              </ButtonSideAligned>
-            )}
             <ButtonSideAligned
               icon={<ShareIcon size={24} />}
               outline
@@ -140,8 +128,16 @@ export function FolderForm() {
             >
               {t("delete")}
             </ButtonSideAligned>
-
-            <MoreFeaturesButton />
+            <ButtonSideAligned
+              icon={<CopyIcon size={24} />}
+              outline
+              isPro
+              onClick={() => {
+                deckListStore.onDuplicateFolder(folder.folder_id);
+              }}
+            >
+              {t("duplicate")}
+            </ButtonSideAligned>
           </ButtonGrid>
         </div>
       )}

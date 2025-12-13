@@ -4,6 +4,8 @@ import { colord } from "colord";
 import { reset } from "./reset.ts";
 import { theme } from "./theme.tsx";
 import { userStore } from "../store/user-store.ts";
+import { screenStore } from "../store/screen-store.ts";
+import { StarIcon } from "lucide-react";
 
 type Props = {
   mainColor?: string;
@@ -11,6 +13,7 @@ type Props = {
   icon: ReactNode;
   column?: boolean;
   align?: "left" | "center";
+  isPro?: boolean;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 export function ButtonSideAligned(props: Props) {
@@ -22,14 +25,26 @@ export function ButtonSideAligned(props: Props) {
     children,
     icon,
     column,
+    isPro,
+    onClick,
     ...restProps
   } = props;
+  const showProBadge = isPro && !userStore.isPaid;
+
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (isPro && !userStore.isPaid) {
+      screenStore.go({ type: "plans" });
+      return;
+    }
+    onClick?.(e);
+  };
 
   const parsedColor = useMemo(() => colord(mainColor), [mainColor]);
 
   return (
     <button
       {...restProps}
+      onClick={handleClick}
       className={cx(
         reset.button,
         css({
@@ -88,6 +103,26 @@ export function ButtonSideAligned(props: Props) {
         {icon ? icon : null}
         {children}
       </span>
+      {showProBadge && (
+        <span
+          className={css({
+            position: "absolute",
+            top: -6,
+            right: userStore.isRtl ? undefined : -6,
+            left: userStore.isRtl ? -6 : undefined,
+            width: 20,
+            height: 20,
+            borderRadius: "50%",
+            backgroundImage:
+              "linear-gradient(to right, #8b5cf6, #ec4899, #ef4444)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          })}
+        >
+          <StarIcon size={12} fill="white" color="white" />
+        </span>
+      )}
     </button>
   );
 }
