@@ -5,6 +5,11 @@ import { type DeckWithCardsWithReviewType } from "../../../../store/deck-list-st
 import { UpsertDeckRequest, UpsertDeckResponse } from "api";
 import { isFormValid } from "mobx-form-lite";
 import { assert } from "api";
+import { showConfirmMock } from "../../../../lib/platform/show-confirm.mock.ts";
+import { showAlertMock } from "../../../../lib/platform/show-alert.mock.ts";
+import { snackbarMock } from "../../../shared/snackbar/snackbar.mock.tsx";
+import { speakMock } from "../../../../lib/voice-playback/speak.mock.ts";
+import { tMock } from "../../../../translations/t.mock.ts";
 
 const mapUpsertDeckRequestToResponse = (
   input: UpsertDeckRequest,
@@ -133,23 +138,11 @@ vi.mock("../../../../store/deck-list-store.ts", () => {
   };
 });
 
-vi.mock("../../../../lib/platform/show-confirm.ts", () => {
-  return {
-    showConfirm: () => {},
-  };
-});
-
-vi.mock("../../../../lib/platform/show-alert.ts", () => {
-  return {
-    showAlert: () => {},
-  };
-});
-
-vi.mock("../../../../translations/t.ts", () => {
-  return {
-    t: (val: string) => val,
-  };
-});
+vi.mock(import("../../../../lib/voice-playback/speak.ts"), speakMock);
+vi.mock(import("../../../../lib/platform/show-confirm.ts"), showConfirmMock);
+vi.mock(import("../../../../lib/platform/show-alert.ts"), showAlertMock);
+vi.mock(import("../../../shared/snackbar/snackbar.tsx"), snackbarMock);
+vi.mock(import("../../../../translations/t.ts"), tMock);
 
 vi.mock("../../../../api/trpc-api.ts", () => {
   return {
@@ -161,24 +154,11 @@ vi.mock("../../../../api/trpc-api.ts", () => {
   };
 });
 
-vi.mock("../../../../lib/voice-playback/speak.ts", async () => {
-  return {
-    speak: () => {},
-  };
-});
-
 vi.mock("../../../../store/user-store.ts", () => {
   return {
     userStore: {
       defaultCardType: "remember",
     },
-  };
-});
-
-vi.mock("../../../shared/snackbar/snackbar.tsx", () => {
-  return {
-    notifyError: vi.fn(),
-    notifySuccess: vi.fn(),
   };
 });
 
