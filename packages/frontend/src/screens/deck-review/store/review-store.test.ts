@@ -11,6 +11,9 @@ import {
   DEFAULT_REPEAT_INTERVAL,
   DEFAULT_START_INTERVAL,
 } from "api";
+import { showConfirmMock } from "../../../lib/platform/show-confirm.mock.ts";
+import { speakMock } from "../../../lib/voice-playback/speak.mock.ts";
+import { tMock } from "../../../translations/t.mock.ts";
 
 function createMockCardWithReview(
   id: number,
@@ -40,17 +43,8 @@ vi.mock("mobx-persist-store", () => {
   };
 });
 
-vi.mock("../../../lib/platform/show-confirm.ts", () => {
-  return {
-    showAlert: () => {},
-  };
-});
-
-vi.mock("../../../translations/t.ts", () => {
-  return {
-    t: (val: string) => val,
-  };
-});
+vi.mock(import("../../../lib/platform/show-confirm.ts"), showConfirmMock);
+vi.mock(import("../../../translations/t.ts"), tMock);
 
 const createDeckWithCards = (cards: DeckCardDbTypeWithType[]) => {
   const deckMock: DeckWithCardsWithReviewType = {
@@ -192,12 +186,6 @@ const newCardsMock: DeckCardDbTypeWithType[] = [
   },
 ];
 
-vi.mock("../lib/platform/storage-adapter.ts", () => {
-  return {
-    storageAdapter: {},
-  };
-});
-
 const reviewCardsReviewMock = vi.hoisted(() => vi.fn());
 
 vi.mock("../../../api/trpc-api.ts", () => {
@@ -224,18 +212,7 @@ vi.mock("./../store/deck-list-store.ts", () => {
   };
 });
 
-vi.mock("../../../lib/voice-playback/speak.ts", async () => {
-  return {
-    speak: () => {},
-  };
-});
-
-vi.mock("../../../lib/platform/telegram/haptics.ts", () => {
-  return {
-    hapticImpact: () => {},
-    hapticNotification: () => {},
-  };
-});
+vi.mock(import("../../../lib/voice-playback/speak.ts"), speakMock);
 
 vi.mock("../../../store/user-store.ts", () => {
   return {
@@ -243,7 +220,7 @@ vi.mock("../../../store/user-store.ts", () => {
   };
 });
 
-vi.mock("../../shared/snackbar/snackbar.tsx", () => {
+vi.mock(import("../../shared/snackbar/snackbar.tsx"), () => {
   return {
     notifyError: vi.fn(),
     notifySuccess: vi.fn(),
