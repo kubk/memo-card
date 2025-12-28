@@ -23,19 +23,19 @@ export function DeckOrFolderChoose(props: Props) {
       >
         <Flex fullWidth direction={"column"} gap={8}>
           <Choice
-            icon={<FolderOpen className="text-text self-center" size={18} />}
-            title={t("add_folder")}
-            description={t("folder_description")}
-            onClick={() => {
-              screenStore.go({ type: "folderForm" });
-            }}
-          />
-          <Choice
             icon={<LayersIcon className="text-text self-center" size={18} />}
             title={t("add_deck")}
             description={t("deck_description")}
             onClick={() => {
               screenStore.goToDeckForm({});
+            }}
+          />
+          <Choice
+            icon={<FolderOpen className="text-text self-center" size={18} />}
+            title={t("add_folder")}
+            description={t("folder_description")}
+            onClick={() => {
+              screenStore.go({ type: "folderForm" });
             }}
           />
         </Flex>
