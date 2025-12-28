@@ -34,6 +34,7 @@ import { t } from "../../../../translations/t.ts";
 import { SpeakLanguageEnum } from "../../../../lib/voice-playback/speak.ts";
 import { api } from "../../../../api/trpc-api.ts";
 import { MoveToDeckSelectorStore } from "./move-to-deck-selector-store";
+import { generateVoiceForNewCards } from "../../../../lib/voice/generate-voice-for-new-cards.ts";
 
 export type CardAnswerFormType = {
   id: string;
@@ -60,6 +61,7 @@ type DeckFormType = {
   cards: CardFormType[];
   speakingCardsLocale: TextField<string | null>;
   speakingCardsField: TextField<DeckSpeakFieldEnum | null>;
+  speakAutoAi: BooleanField;
   reverseCards: BooleanField;
   folderId?: number;
   cardInputModeId: string | null;
@@ -143,6 +145,7 @@ const createUpdateForm = (
     description: new TextField(deck.description ?? ""),
     speakingCardsLocale: new TextField(deck.speakLocale),
     speakingCardsField: new TextField(deck.speakField),
+    speakAutoAi: new BooleanField(deck.speakAutoAi),
     reverseCards: new BooleanField(deck.reverseCards),
     cardInputModeId: deck.cardInputModeId || null,
     cards: deck.deckCards.map((card) => ({
@@ -256,6 +259,7 @@ export class DeckFormStore implements CardFormStoreInterface {
         cards: [],
         speakingCardsLocale: new TextField<string | null>(null),
         speakingCardsField: new TextField<DeckSpeakFieldEnum | null>(null),
+        speakAutoAi: new BooleanField(false),
         reverseCards: new BooleanField(false),
         folderId: screen.folder?.id ?? undefined,
         cardsToRemoveIds: [],
@@ -650,6 +654,7 @@ export class DeckFormStore implements CardFormStoreInterface {
       cards: cardsToSend,
       speakLocale: this.deckForm.speakingCardsLocale.value,
       speakField: this.deckForm.speakingCardsField.value,
+      speakAutoAi: this.deckForm.speakAutoAi.value,
       reverseCards: this.deckForm.reverseCards.value,
       folderId: this.deckForm.folderId,
       cardsToRemoveIds: this.deckForm.cardsToRemoveIds,
@@ -669,6 +674,42 @@ export class DeckFormStore implements CardFormStoreInterface {
       deckListStore.updateCardsToReview(cardsToReview);
       onSuccess?.(deck);
     });
+
+    // Generate AI speech for new/changed cards that need it
+    // Find the newly created/updated cards from the deck response
+    const cardIdsToCheck = new Set(
+      cardsToSend.map((c) => c.id).filter(Boolean),
+    );
+    const newCardFronts = new Set(
+      cardsToSend.filter((c) => !c.id).map((c) => c.front),
+    );
+    // Filter and deduplicate by card.id
+    const seenIds = new Set();
+    const cardsNeedingVoice = deck.deckCards.filter((card) => {
+      if (card.options?.voice) return false;
+      if (!(cardIdsToCheck.has(card.id) || newCardFronts.has(card.front)))
+        return false;
+      if (seenIds.has(card.id)) return false;
+      seenIds.add(card.id);
+      return true;
+    });
+
+    if (cardsNeedingVoice.length > 0) {
+      generateVoiceForNewCards({
+        deckId: deck.id,
+        cards: cardsNeedingVoice,
+        onVoiceGenerated: (cardId, voiceUrl) => {
+          // Update form if still editing this deck
+          if (this.deckForm?.id !== deck.id) return;
+          const cardForm = this.deckForm.cards.find((c) => c.id === cardId);
+          if (!cardForm) return;
+          cardForm.options.onChange({
+            ...cardForm.options.value,
+            voice: voiceUrl,
+          });
+        },
+      });
+    }
   }
 
   quitCardForm() {

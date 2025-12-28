@@ -187,6 +187,8 @@ export const es: Translation = {
   back: "Dorso",
   card_speak_description:
     "Reproducir audio hablado para cada tarjeta de memoria para escuchar la pronunciación.",
+  speak_auto_ai_description:
+    "Generar automáticamente voz de IA de alta calidad para nuevas tarjetas",
   review_deck_finished: `Has terminado este mazo por ahora 🎉`,
   review_all_cards: `Has repasado todas las tarjetas por hoy 🎉`,
   review_finished_want_more: "¿Quieres más? Tienes",

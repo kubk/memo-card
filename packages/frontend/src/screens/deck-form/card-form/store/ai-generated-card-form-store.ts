@@ -8,6 +8,7 @@ import { deckListStore } from "../../../../store/deck-list-store.ts";
 import { createCachedCardInputModesRequest } from "../../../../api/create-cached-card-input-modes-request.ts";
 import { assert } from "api";
 import { api } from "../../../../api/trpc-api.ts";
+import { generateVoiceForNewCards } from "../../../../lib/voice/generate-voice-for-new-cards.ts";
 
 export class AiGeneratedCardFormStore {
   form = {
@@ -51,6 +52,12 @@ export class AiGeneratedCardFormStore {
     screenStore.goToDeckForm({
       deckId: card.deckId,
       cardId: card.id,
+    });
+
+    // Generate AI voice for the new card if enabled on deck
+    generateVoiceForNewCards({
+      deckId: card.deckId,
+      cards: [card],
     });
   }
 

@@ -178,6 +178,8 @@ export const ru: Translation = {
   front: "Лицевая",
   back: "Обратная",
   card_speak_description: "Позволяет услышать произношение",
+  speak_auto_ai_description:
+    "Автоматически генерировать качественную ИИ озвучку для новых карточек",
   review_custom: "Выбрать что повторять",
   custom_due_cards: "Карточки к повторению",
   custom_new_cards: "Новые карточки",
