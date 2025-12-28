@@ -5,11 +5,6 @@ import { type DeckWithCardsWithReviewType } from "../../../../store/deck-list-st
 import { UpsertDeckRequest, UpsertDeckResponse } from "api";
 import { isFormValid } from "mobx-form-lite";
 import { assert } from "api";
-import { showConfirmMock } from "../../../../lib/platform/show-confirm.mock.ts";
-import { showAlertMock } from "../../../../lib/platform/show-alert.mock.ts";
-import { snackbarMock } from "../../../shared/snackbar/snackbar.mock.tsx";
-import { speakMock } from "../../../../lib/voice-playback/speak.mock.ts";
-import { tMock } from "../../../../translations/t.mock.ts";
 
 const mapUpsertDeckRequestToResponse = (
   input: UpsertDeckRequest,
@@ -138,11 +133,25 @@ vi.mock("../../../../store/deck-list-store.ts", () => {
   };
 });
 
-vi.mock(import("../../../../lib/voice-playback/speak.ts"), speakMock);
-vi.mock(import("../../../../lib/platform/show-confirm.ts"), showConfirmMock);
-vi.mock(import("../../../../lib/platform/show-alert.ts"), showAlertMock);
-vi.mock(import("../../../shared/snackbar/snackbar.tsx"), snackbarMock);
-vi.mock(import("../../../../translations/t.ts"), tMock);
+vi.mock(import("../../../../lib/voice-playback/speak.ts"), () =>
+  import("../../../../lib/voice-playback/speak.mock.ts").then((m) => m.mock()),
+);
+
+vi.mock(import("../../../../lib/platform/show-confirm.ts"), () =>
+  import("../../../../lib/platform/show-confirm.mock.ts").then((m) => m.mock()),
+);
+
+vi.mock(import("../../../../lib/platform/show-alert.ts"), () =>
+  import("../../../../lib/platform/show-alert.mock.ts").then((m) => m.mock()),
+);
+
+vi.mock(import("../../../shared/snackbar/snackbar.tsx"), () =>
+  import("../../../shared/snackbar/snackbar.mock.tsx").then((m) => m.mock()),
+);
+
+vi.mock(import("../../../../translations/t.ts"), () =>
+  import("../../../../translations/t.mock.ts").then((m) => m.mock()),
+);
 
 vi.mock("../../../../api/trpc-api.ts", () => {
   return {
