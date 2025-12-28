@@ -1,4 +1,4 @@
-export function showAlertMock() {
+export function mock() {
   return {
     showAlert: () => {},
   };

@@ -1,4 +1,4 @@
-export function showConfirmMock() {
+export function mock() {
   return {
     showConfirm: async () => false,
   };
