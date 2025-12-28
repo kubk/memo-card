@@ -190,6 +190,8 @@ export const ptBr: Translation = {
   back: "Verso",
   card_speak_description:
     "Reproduzir áudio falado para cada flashcard para ouvir a pronúncia.",
+  speak_auto_ai_description:
+    "Gerar automaticamente voz de IA de alta qualidade para novos cartões",
   review_deck_finished: `Parabéns! Você terminou este baralho por enquanto. 🎉`,
   review_all_cards: `Você revisou todos os cartões para hoje 🎉`,
   review_finished_want_more: "Quer mais? Você tem",

@@ -56,6 +56,7 @@ const createDeckWithCards = (cards: DeckCardDbTypeWithType[]) => {
     cardsToReview: cards,
     speakField: null,
     speakLocale: null,
+    speakAutoAi: false,
     reverseCards: false,
     createdAt: "2023-10-06T02:13:20.985Z",
     authorId: 1,

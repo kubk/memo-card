@@ -15,6 +15,7 @@ import { deckListStore } from "../../../store/deck-list-store.ts";
 import { showConfirm } from "../../../lib/platform/show-confirm.ts";
 import { assert } from "api";
 import { api } from "../../../api/trpc-api.ts";
+import { generateVoiceForNewCards } from "../../../lib/voice/generate-voice-for-new-cards.ts";
 
 type InnerScreen = "how" | "cardsGenerated" | "previousPrompts";
 
@@ -195,6 +196,12 @@ export class AiMassCreationStore {
     deckListStore.updateCardsToReview(result.data.cardsToReview);
     screenStore.goToDeckForm({
       deckId: screen.deckId,
+    });
+
+    // Generate AI voice for the new cards if enabled on deck
+    generateVoiceForNewCards({
+      deckId: screen.deckId,
+      cards: result.data.createdCards,
     });
   }
 }

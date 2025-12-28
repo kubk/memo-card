@@ -32,6 +32,7 @@ import {
 } from "../../../shared/snackbar/snackbar.tsx";
 import { assert } from "api";
 import { api } from "../../../../api/trpc-api.ts";
+import { generateVoiceForNewCards } from "../../../../lib/voice/generate-voice-for-new-cards.ts";
 
 export class QuickAddCardFormStore implements CardFormStoreInterface {
   cardForm: CardFormType = {
@@ -83,6 +84,12 @@ export class QuickAddCardFormStore implements CardFormStoreInterface {
     deckListStore.addCardOptimistic(result.data.card);
     notifySuccess(t("card_added"), {
       anchorOrigin: { vertical: "top", horizontal: "center" },
+    });
+
+    // Generate AI voice for the new card if enabled on deck
+    generateVoiceForNewCards({
+      deckId: screen.deckId,
+      cards: [result.data.card],
     });
   }
 
