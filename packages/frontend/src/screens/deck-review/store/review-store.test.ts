@@ -11,9 +11,6 @@ import {
   DEFAULT_REPEAT_INTERVAL,
   DEFAULT_START_INTERVAL,
 } from "api";
-import { showConfirmMock } from "../../../lib/platform/show-confirm.mock.ts";
-import { speakMock } from "../../../lib/voice-playback/speak.mock.ts";
-import { tMock } from "../../../translations/t.mock.ts";
 
 function createMockCardWithReview(
   id: number,
@@ -43,8 +40,12 @@ vi.mock("mobx-persist-store", () => {
   };
 });
 
-vi.mock(import("../../../lib/platform/show-confirm.ts"), showConfirmMock);
-vi.mock(import("../../../translations/t.ts"), tMock);
+vi.mock(import("../../../lib/platform/show-confirm.ts"), () =>
+  import("../../../lib/platform/show-confirm.mock.ts").then((m) => m.mock()),
+);
+vi.mock(import("../../../translations/t.ts"), () =>
+  import("../../../translations/t.mock.ts").then((m) => m.mock()),
+);
 
 const createDeckWithCards = (cards: DeckCardDbTypeWithType[]) => {
   const deckMock: DeckWithCardsWithReviewType = {
@@ -212,7 +213,9 @@ vi.mock("./../store/deck-list-store.ts", () => {
   };
 });
 
-vi.mock(import("../../../lib/voice-playback/speak.ts"), speakMock);
+vi.mock(import("../../../lib/voice-playback/speak.ts"), () =>
+  import("../../../lib/voice-playback/speak.mock.ts").then((m) => m.mock()),
+);
 
 vi.mock("../../../store/user-store.ts", () => {
   return {
