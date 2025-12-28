@@ -1,4 +1,4 @@
-export function speakMock() {
+export function mock() {
   return {
     speak: async () => {},
   };
