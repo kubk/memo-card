@@ -110,8 +110,6 @@ export const en = {
   back: "Back",
   card_speak_description:
     "Play spoken audio for each flashcard to listen to the pronunciation",
-  speak_auto_ai_description:
-    "Automatically generate high-quality AI voice for new cards",
   review_deck_finished: `You have finished this deck for now 🎉`,
   review_all_cards: `You have repeated all the cards for today 🎉`,
   review_finished_want_more: "Want more? You have",
@@ -261,7 +259,6 @@ export const en = {
 
   ai_speech_preview_free_title: "Standard voice",
   ai_speech_preview_free_desc: "Free robotic voice",
-  ai_speech_preview_pro_title: "AI voice",
   ai_speech_preview_pro_desc: "High-quality voice with natural intonation",
   ai_speech_preview_free_lbl: "Free",
   ai_speech_lang_support: "Supports 30+ languages",
