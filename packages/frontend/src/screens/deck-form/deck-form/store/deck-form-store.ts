@@ -211,6 +211,8 @@ export const createCardFilterForm = (): CardFilterForm => {
   };
 };
 
+export type VoiceType = "none" | "robotic" | "ai";
+
 export class DeckFormStore implements CardFormStoreInterface {
   cardFormIndex?: number;
   cardFormType?: "new" | "edit";
@@ -221,6 +223,7 @@ export class DeckFormStore implements CardFormStoreInterface {
   cardInputModeIdForForm: string | null = null;
   cardFilter = createCardFilterForm();
   moveToDeckStore = new MoveToDeckSelectorStore();
+  cardsGeneratingVoice = new Set<number>();
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
@@ -447,10 +450,66 @@ export class DeckFormStore implements CardFormStoreInterface {
     );
   }
 
+  get voiceType(): VoiceType {
+    if (!this.deckForm) return "none";
+
+    const { speakingCardsLocale, speakingCardsField, speakAutoAi } =
+      this.deckForm;
+
+    // If no locale or field, it's "none"
+    if (!speakingCardsLocale.value || !speakingCardsField.value) {
+      return "none";
+    }
+
+    // If AI is enabled, it's "ai"
+    if (speakAutoAi.value) {
+      return "ai";
+    }
+
+    // Otherwise it's "robotic"
+    return "robotic";
+  }
+
+  setVoiceType(type: VoiceType) {
+    if (!this.deckForm) return;
+
+    const { speakingCardsLocale, speakingCardsField, speakAutoAi } =
+      this.deckForm;
+
+    if (type === "none") {
+      speakingCardsLocale.onChange(null);
+      speakingCardsField.onChange(null);
+      speakAutoAi.setValue(false);
+    } else if (type === "robotic") {
+      // Set defaults if not already set
+      if (!speakingCardsLocale.value) {
+        speakingCardsLocale.onChange(SpeakLanguageEnum.USEnglish);
+      }
+      if (!speakingCardsField.value) {
+        speakingCardsField.onChange("front");
+      }
+      speakAutoAi.setValue(false);
+    } else if (type === "ai") {
+      // Set defaults if not already set
+      if (!speakingCardsLocale.value) {
+        speakingCardsLocale.onChange(SpeakLanguageEnum.USEnglish);
+      }
+      if (!speakingCardsField.value) {
+        speakingCardsField.onChange("front");
+      }
+      speakAutoAi.setValue(true);
+    }
+  }
+
   get cardForm() {
     return this.deckForm !== undefined && this.cardFormIndex !== undefined
       ? this.deckForm.cards[this.cardFormIndex]
       : null;
+  }
+
+  isCardGeneratingVoice(cardId?: number): boolean {
+    if (!cardId) return false;
+    return this.cardsGeneratingVoice.has(cardId);
   }
 
   openNewCardForm() {
@@ -695,6 +754,13 @@ export class DeckFormStore implements CardFormStoreInterface {
     });
 
     if (cardsNeedingVoice.length > 0) {
+      // Track loading state
+      runInAction(() => {
+        cardsNeedingVoice.forEach((card) => {
+          this.cardsGeneratingVoice.add(card.id);
+        });
+      });
+
       generateVoiceForNewCards({
         deckId: deck.id,
         cards: cardsNeedingVoice,
@@ -707,7 +773,19 @@ export class DeckFormStore implements CardFormStoreInterface {
             ...cardForm.options.value,
             voice: voiceUrl,
           });
+
+          // Remove from loading set
+          runInAction(() => {
+            this.cardsGeneratingVoice.delete(cardId);
+          });
         },
+      }).catch(() => {
+        // Clean up loading state on error
+        runInAction(() => {
+          cardsNeedingVoice.forEach((card) => {
+            this.cardsGeneratingVoice.delete(card.id);
+          });
+        });
       });
     }
   }
