@@ -3,7 +3,6 @@ import { type Translation } from "./en";
 export const fa: Translation = {
   ai_speech_preview_free_title: "صدای استاندارد",
   ai_speech_preview_free_desc: "صدای رباتیک رایگان",
-  ai_speech_preview_pro_title: "صدای هوش مصنوعی",
   ai_speech_preview_pro_desc: "صدای با کیفیت بالا با لحن طبیعی",
   ai_speech_preview_free_lbl: "رایگان",
   ai_speech_lang_support: "پشتیبانی از بیش از 30 زبان",
@@ -132,8 +131,6 @@ export const fa: Translation = {
   front: "رو",
   back: "پشت",
   card_speak_description: "پخش صدای گفتاری برای هر کارت برای شنیدن تلفظ",
-  speak_auto_ai_description:
-    "تولید خودکار صدای هوش مصنوعی با کیفیت بالا برای کارت‌های جدید",
   review_deck_finished: "شما این دسته کارت را تمام کردید 🎉",
   review_all_cards: "شما همه کارت‌ها را برای امروز تکرار کردید 🎉",
   review_finished_want_more: "بیشتر می‌خواهید؟ شما دارید",

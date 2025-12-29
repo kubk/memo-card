@@ -83,7 +83,7 @@ export function AiSpeechPreview(props: Props) {
                 <div className="flex items-center gap-2">
                   <Mic className="h-5 w-5 text-button" />
                   <span className="text-text font-medium">
-                    {t("ai_speech_preview_pro_title")}
+                    {t("ai_speech_title")}
                   </span>
                 </div>
                 <div className="flex gap-1 items-center text-xs text-button px-2 py-1 rounded-full">
