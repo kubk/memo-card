@@ -9,6 +9,7 @@ import { throttle } from "../../../lib/throttle/throttle.ts";
 import { t } from "../../../translations/t.ts";
 import { cn } from "../../../ui/cn.ts";
 import { userStore } from "../../../store/user-store.ts";
+import { Flex } from "../../../ui/flex.tsx";
 
 const roboticText = "Life is beautiful";
 const aiSpeechUrl =
@@ -40,10 +41,10 @@ export function AiSpeechPreview(props: Props) {
 
   return (
     <BottomSheet isOpen={isOpen} onClose={onClose}>
-      <BottomSheetTitle title={t("ai_speech_title")} onClose={onClose} />
+      <Flex direction={"column"} alignItems={"center"} pb={24}>
+        <BottomSheetTitle title={t("ai_speech_title")} onClose={onClose} />
 
-      <div className="flex justify-center">
-        <div className="space-y-6 self-stretch  w-[90%] max-w-[500px]">
+        <div className="space-y-6 w-[90%] max-w-[500px]">
           <div className="space-y-4">
             <div className="bg-bg rounded-2xl p-4 transition-all border dark:border-gray-700">
               <div className="flex items-center justify-between mb-3">
@@ -121,7 +122,7 @@ export function AiSpeechPreview(props: Props) {
             {showUpgrade && <UpgradeProBlock />}
           </div>
         </div>
-      </div>
+      </Flex>
     </BottomSheet>
   );
 }
