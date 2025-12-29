@@ -25,6 +25,7 @@ export const ru: Translation = {
   ai_speech_preview_free_lbl: "Бесплатно",
   ai_speech_lang_support: "Поддержка 30+ языков",
   ai_speech_listen: "Прослушать",
+  voice_type_none: "Нет",
 
   login_google: "Войти через Google",
   youtube_channel: "YouTube канал",

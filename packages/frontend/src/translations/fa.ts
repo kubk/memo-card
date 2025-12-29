@@ -8,6 +8,7 @@ export const fa: Translation = {
   ai_speech_preview_free_lbl: "رایگان",
   ai_speech_lang_support: "پشتیبانی از بیش از 30 زبان",
   ai_speech_listen: "شنیدن نمونه",
+  voice_type_none: "هیچ",
   card_order: "ترتیب کارت‌ها",
   card_order_random: "ترتیب تصادفی",
   review_custom: "انتخاب موارد مرور",
