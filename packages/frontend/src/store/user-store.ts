@@ -13,7 +13,7 @@ import { LanguageShared } from "api";
 import { platform } from "../lib/platform/platform.ts";
 import { api } from "../api/trpc-api.ts";
 
-type PaywallType = "bulk_ai_cards" | "individual_ai_card";
+type PaywallType = "bulk_ai_cards" | "individual_ai_card" | "ai_speech";
 
 export class UserStore {
   userInfo?: UserDbType;
@@ -59,7 +59,8 @@ export class UserStore {
   }
 
   get isPaid() {
-    return this.plans?.some((plan) => plan.plan_id) ?? false;
+    return false;
+    // return this.plans?.some((plan) => plan.plan_id) ?? false;
   }
 
   get user() {

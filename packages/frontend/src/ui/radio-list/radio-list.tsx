@@ -8,7 +8,7 @@ type RadioItemId = string | number | null;
 
 type Props<T extends RadioItemId> = {
   selectedId: T;
-  options: Array<{ id: T; title: ReactNode }>;
+  options: Array<{ id: T; title: ReactNode; description?: ReactNode }>;
   onChange: (selectedId: T) => void;
 };
 
@@ -29,7 +29,14 @@ export function RadioList<T extends RadioItemId>(props: Props<T>) {
             onClick={() => onChange(option.id)}
           >
             {isSelected ? <RadioBoxFilled /> : <RadioBoxEmpty />}
-            <div className="w-full">{option.title}</div>
+            <div className="w-full">
+              <div>{option.title}</div>
+              {option.description && (
+                <div className="text-sm text-hint mt-1">
+                  {option.description}
+                </div>
+              )}
+            </div>
           </div>
         );
       })}
