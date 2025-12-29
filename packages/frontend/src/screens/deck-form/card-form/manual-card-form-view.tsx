@@ -23,10 +23,9 @@ import { ButtonGrid } from "../../../ui/button-grid.tsx";
 import { CardAnswerErrors } from "./card-answer-errors.tsx";
 import { screenStore } from "../../../store/screen-store.ts";
 import { assert } from "api";
-import { useState } from "react";
-import { AiSpeechPreview } from "../../shared/feature-preview/ai-speech-preview.tsx";
 import { WithProIcon } from "../../shared/with-pro-icon.tsx";
 import { deckListStore } from "../../../store/deck-list-store.ts";
+import { LoadingSwap } from "../../../ui/loading-swap.tsx";
 import {
   ArrowLeftIcon,
   ArrowRightIcon,
@@ -43,14 +42,11 @@ import { wysiwygStore } from "../../../store/wysiwyg-store.ts";
 import { MoveToDeckSelector } from "../deck-form/move-to-deck-selector.tsx";
 import { DeckFormStore } from "../deck-form/store/deck-form-store.ts";
 
-type PreviewType = "ai_speech";
-
 type Props = { cardFormStore: CardFormStoreInterface };
 
 export function ManualCardFormView(props: Props) {
   const { cardFormStore } = props;
   const { cardForm, markCardAsRemoved } = cardFormStore;
-  const [previewType, setPreviewType] = useState<PreviewType | null>(null);
   assert(cardForm, "Card should not be empty before editing");
 
   useMainButton(
@@ -194,19 +190,22 @@ export function ManualCardFormView(props: Props) {
               ),
               text: t("ai_speech_title"),
               onClick: () => {
-                if (userStore.isPaid) {
+                userStore.executeViaPaywall("ai_speech", () => {
                   if (!isFormValid(cardForm)) {
                     formTouchAll(cardForm);
                     return;
                   }
                   cardFormStore.cardInnerScreen.onChange("aiSpeech");
-                } else {
-                  setPreviewType("ai_speech");
-                }
+                });
               },
               right: (
                 <WithProIcon>
-                  {cardForm.options.value?.voice ? (
+                  {cardFormStore instanceof DeckFormStore &&
+                  cardFormStore.isCardGeneratingVoice(cardForm.id) ? (
+                    <LoadingSwap isLoading={true}>
+                      <ListRightText chevron text={t("yes")} />
+                    </LoadingSwap>
+                  ) : cardForm.options.value?.voice ? (
                     <ListRightText chevron text={t("yes")} />
                   ) : undefined}
                 </WithProIcon>
@@ -294,14 +293,6 @@ export function ManualCardFormView(props: Props) {
           )}
         </ButtonGrid>
       </div>
-
-      <AiSpeechPreview
-        showUpgrade
-        onClose={() => {
-          setPreviewType(null);
-        }}
-        isOpen={previewType === "ai_speech"}
-      />
 
       {cardFormStore instanceof DeckFormStore && (
         <MoveToDeckSelector store={cardFormStore.moveToDeckStore} />

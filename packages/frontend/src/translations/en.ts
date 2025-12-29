@@ -266,6 +266,7 @@ export const en = {
   ai_speech_preview_free_lbl: "Free",
   ai_speech_lang_support: "Supports 30+ languages",
   ai_speech_listen: "Listen sample",
+  voice_type_none: "None",
 
   ai_card_input_mode_supports: "Different languages are supported",
 
