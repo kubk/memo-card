@@ -48,9 +48,11 @@ export function CardFormWrapper(props: Props) {
   }
 
   if (cardFormStore.cardInnerScreen.value === "aiSpeech") {
+    assert(cardFormStore.deckForm, "Deck form should be available");
     return (
       <CardAiSpeech
         cardForm={cardForm}
+        deckForm={cardFormStore.deckForm}
         onBack={() => cardFormStore.cardInnerScreen.onChange(null)}
       />
     );

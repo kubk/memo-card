@@ -24,11 +24,12 @@ export const generateVoiceForNewCards = async (
   if (!deck) return;
 
   // Check if auto AI voice is enabled
-  if (!deck.speakAutoAi || !deck.speakField) return;
+  if (!deck.speakAutoAi || !deck.speakField || !deck.speakLocale) return;
 
   if (!userStore.isPaid) return;
 
   const speakField = deck.speakField;
+  const speakLocale = deck.speakLocale;
 
   // Filter cards that need voice generation
   const cardsNeedingVoice = cards
@@ -46,6 +47,7 @@ export const generateVoiceForNewCards = async (
     try {
       const result = await api.aiSpeechGenerate.mutate({
         text: card.text,
+        language: speakLocale,
         cardId: card.id,
       });
 

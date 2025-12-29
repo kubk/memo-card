@@ -5,7 +5,12 @@ import {
 import { BooleanField, TextField } from "mobx-form-lite";
 import { CardAnswerType } from "api";
 import { createAnswerListField } from "../deck-form/store/deck-form-store.ts";
-import { DeckCardDbType, DeckCardOptionsDbType, DeckSpeakFieldEnum } from "api";
+import {
+  DeckCardDbType,
+  DeckCardOptionsDbType,
+  DeckSpeakFieldEnum,
+  SpeakLanguage,
+} from "api";
 import { DeckWithCardsWithReviewType } from "../../../store/deck-list-store.ts";
 
 type CardPreviewType = Omit<DeckCardDbType, "id" | "createdAt" | "deckId">;
@@ -22,7 +27,9 @@ export const createMockCardPreviewForm = (
   return {
     deckForm: deck
       ? {
-          speakingCardsLocale: new TextField<string | null>(deck.speakLocale),
+          speakingCardsLocale: new TextField<SpeakLanguage | null>(
+            deck.speakLocale,
+          ),
           speakingCardsField: new TextField<DeckSpeakFieldEnum | null>(
             deck.speakField,
           ),

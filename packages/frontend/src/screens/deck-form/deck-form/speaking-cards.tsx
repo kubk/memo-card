@@ -3,11 +3,8 @@ import { t } from "../../../translations/t.ts";
 import { Flex } from "../../../ui/flex.tsx";
 import { Select } from "../../../ui/select.tsx";
 import { enumEntries } from "../../../lib/typescript/enum-values.ts";
-import {
-  languageKeyToHuman,
-  SpeakLanguageEnum,
-} from "../../../lib/voice-playback/speak.ts";
-import { DeckSpeakFieldEnum } from "api";
+import { languageKeyToHuman } from "../../../lib/voice-playback/speak.ts";
+import { DeckSpeakFieldEnum, SpeakLanguage } from "api";
 import { useBackButton } from "../../../lib/platform/use-back-button.ts";
 import { useMainButton } from "../../../lib/platform/use-main-button.ts";
 import { useDeckFormStore } from "./store/deck-form-store-context.tsx";
@@ -81,10 +78,10 @@ export function SpeakingCards() {
           <div>
             <div className="text-sm text-hint">{t("voice_language")}</div>
             {deckFormStore.deckForm.speakingCardsLocale.value ? (
-              <Select<string>
+              <Select<SpeakLanguage>
                 value={deckFormStore.deckForm.speakingCardsLocale.value}
                 onChange={deckFormStore.deckForm.speakingCardsLocale.onChange}
-                options={enumEntries(SpeakLanguageEnum).map(([name, key]) => ({
+                options={enumEntries(SpeakLanguage).map(([name, key]) => ({
                   value: key,
                   label: languageKeyToHuman(name),
                 }))}
