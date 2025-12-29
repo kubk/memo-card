@@ -1,6 +1,6 @@
 import { CardFormType } from "./deck-form-store.ts";
 import { TextField } from "mobx-form-lite";
-import { DeckSpeakFieldEnum } from "api";
+import { DeckSpeakFieldEnum, SpeakLanguage } from "api";
 
 export type CardInnerScreenType =
   | "cardPreview"
@@ -10,7 +10,7 @@ export type CardInnerScreenType =
   | null;
 
 export type LimitedDeckForm = {
-  speakingCardsLocale: TextField<string | null>;
+  speakingCardsLocale: TextField<SpeakLanguage | null>;
   speakingCardsField: TextField<DeckSpeakFieldEnum | null>;
   cardInputModeId: string | null;
 };

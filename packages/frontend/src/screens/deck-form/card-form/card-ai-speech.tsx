@@ -12,16 +12,20 @@ import { Input } from "../../../ui/input.tsx";
 import { useState } from "react";
 import { AiSpeechGeneratorStore } from "./store/ai-speech-generator-store.ts";
 import { LoaderCircle, TrashIcon } from "lucide-react";
+import { LimitedDeckForm } from "../deck-form/store/card-form-store-interface.ts";
 
 type Props = {
   cardForm: CardFormType;
+  deckForm: LimitedDeckForm;
   onBack: () => void;
 };
 
 export function CardAiSpeech(props: Props) {
-  const { cardForm, onBack } = props;
+  const { cardForm, deckForm, onBack } = props;
 
-  const [store] = useState(() => new AiSpeechGeneratorStore(cardForm));
+  const [store] = useState(
+    () => new AiSpeechGeneratorStore(cardForm, deckForm),
+  );
   const { form } = store;
 
   useBackButton(() => {
