@@ -18,6 +18,7 @@ import {
   DeckCardOptionsDbType,
   DeckSpeakFieldEnum,
   DeckWithCardsDbType,
+  SpeakLanguage,
 } from "api";
 import { CardAnswerType } from "api";
 import { v4 } from "uuid";
@@ -31,7 +32,6 @@ import { RequestStore } from "../../../../lib/mobx-request/request-store.ts";
 import { notifyError } from "../../../shared/snackbar/snackbar.tsx";
 import { assert } from "api";
 import { t } from "../../../../translations/t.ts";
-import { SpeakLanguageEnum } from "../../../../lib/voice-playback/speak.ts";
 import { api } from "../../../../api/trpc-api.ts";
 import { MoveToDeckSelectorStore } from "./move-to-deck-selector-store";
 import { generateVoiceForNewCards } from "../../../../lib/voice/generate-voice-for-new-cards.ts";
@@ -59,7 +59,7 @@ type DeckFormType = {
   title: TextField<string>;
   description: TextField<string>;
   cards: CardFormType[];
-  speakingCardsLocale: TextField<string | null>;
+  speakingCardsLocale: TextField<SpeakLanguage | null>;
   speakingCardsField: TextField<DeckSpeakFieldEnum | null>;
   speakAutoAi: BooleanField;
   reverseCards: BooleanField;
@@ -260,7 +260,7 @@ export class DeckFormStore implements CardFormStoreInterface {
         title: createDeckTitleField(""),
         description: new TextField(""),
         cards: [],
-        speakingCardsLocale: new TextField<string | null>(null),
+        speakingCardsLocale: new TextField<SpeakLanguage | null>(null),
         speakingCardsField: new TextField<DeckSpeakFieldEnum | null>(null),
         speakAutoAi: new BooleanField(false),
         reverseCards: new BooleanField(false),
@@ -438,7 +438,7 @@ export class DeckFormStore implements CardFormStoreInterface {
       speakingCardsLocale.onChange(null);
       speakingCardsField.onChange(null);
     } else {
-      speakingCardsLocale.onChange(SpeakLanguageEnum.USEnglish);
+      speakingCardsLocale.onChange(SpeakLanguage.USEnglish);
       speakingCardsField.onChange("front");
     }
   }
@@ -483,7 +483,7 @@ export class DeckFormStore implements CardFormStoreInterface {
     } else if (type === "robotic") {
       // Set defaults if not already set
       if (!speakingCardsLocale.value) {
-        speakingCardsLocale.onChange(SpeakLanguageEnum.USEnglish);
+        speakingCardsLocale.onChange(SpeakLanguage.USEnglish);
       }
       if (!speakingCardsField.value) {
         speakingCardsField.onChange("front");
@@ -492,7 +492,7 @@ export class DeckFormStore implements CardFormStoreInterface {
     } else if (type === "ai") {
       // Set defaults if not already set
       if (!speakingCardsLocale.value) {
-        speakingCardsLocale.onChange(SpeakLanguageEnum.USEnglish);
+        speakingCardsLocale.onChange(SpeakLanguage.USEnglish);
       }
       if (!speakingCardsField.value) {
         speakingCardsField.onChange("front");
