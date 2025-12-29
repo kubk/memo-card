@@ -53,7 +53,7 @@ export function SpeakingCards() {
                 justifyContent={"space-between"}
                 alignItems={"center"}
               >
-                <span>{t("ai_speech_preview_pro_title")}</span>
+                <span>{t("ai_speech_title")}</span>
                 <WithProIcon />
               </Flex>
             ),

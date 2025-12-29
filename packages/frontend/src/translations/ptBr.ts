@@ -3,7 +3,6 @@ import { type Translation } from "./en";
 export const ptBr: Translation = {
   ai_speech_preview_free_title: "Voz Padrão",
   ai_speech_preview_free_desc: "Voz robótica gratuita",
-  ai_speech_preview_pro_title: "Voz IA",
   ai_speech_preview_pro_desc: "Voz de alta qualidade com entonação natural",
   ai_speech_preview_free_lbl: "Grátis",
   ai_speech_lang_support: "Suporta mais de 30 idiomas",
@@ -191,8 +190,6 @@ export const ptBr: Translation = {
   back: "Verso",
   card_speak_description:
     "Reproduzir áudio falado para cada flashcard para ouvir a pronúncia.",
-  speak_auto_ai_description:
-    "Gerar automaticamente voz de IA de alta qualidade para novos cartões",
   review_deck_finished: `Parabéns! Você terminou este baralho por enquanto. 🎉`,
   review_all_cards: `Você revisou todos os cartões para hoje 🎉`,
   review_finished_want_more: "Quer mais? Você tem",

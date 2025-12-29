@@ -3,7 +3,6 @@ import { type Translation } from "./en";
 export const es: Translation = {
   ai_speech_preview_free_title: "Voz estándar",
   ai_speech_preview_free_desc: "Voz robótica gratuita",
-  ai_speech_preview_pro_title: "Voz IA",
   ai_speech_preview_pro_desc: "Voz de alta calidad con entonación natural",
   ai_speech_preview_free_lbl: "Gratis",
   ai_speech_lang_support: "Soporta más de 30 idiomas",
@@ -188,8 +187,6 @@ export const es: Translation = {
   back: "Dorso",
   card_speak_description:
     "Reproducir audio hablado para cada tarjeta de memoria para escuchar la pronunciación.",
-  speak_auto_ai_description:
-    "Generar automáticamente voz de IA de alta calidad para nuevas tarjetas",
   review_deck_finished: `Has terminado este mazo por ahora 🎉`,
   review_all_cards: `Has repasado todas las tarjetas por hoy 🎉`,
   review_finished_want_more: "¿Quieres más? Tienes",

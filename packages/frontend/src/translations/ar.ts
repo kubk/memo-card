@@ -3,7 +3,6 @@ import { type Translation } from "./en";
 export const ar: Translation = {
   ai_speech_preview_free_title: "الصوت القياسي",
   ai_speech_preview_free_desc: "صوت آلي مجاني",
-  ai_speech_preview_pro_title: "صوت الذكاء الاصطناعي",
   ai_speech_preview_pro_desc: "صوت عالي الجودة بنبرة طبيعية",
   ai_speech_preview_free_lbl: "مجاني",
   ai_speech_lang_support: "يدعم أكثر من 30 لغة",
@@ -125,8 +124,6 @@ export const ar: Translation = {
   back: "الخلفية",
   card_speak_description:
     "تشغيل الصوت المنطوق لكل بطاقة ذاكرة للاستماع إلى النطق",
-  speak_auto_ai_description:
-    "إنشاء صوت ذكاء اصطناعي عالي الجودة تلقائيًا للبطاقات الجديدة",
   review_deck_finished: `لقد انتهيت من هذه المجموعة الآن 🎉`,
   review_all_cards: `لقد كررت جميع البطاقات لليوم 🎉`,
   review_finished_want_more: "تريد المزيد؟ لديك",
