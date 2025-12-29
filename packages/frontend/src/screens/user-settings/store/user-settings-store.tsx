@@ -31,6 +31,7 @@ export class UserSettingsStore {
   isLangChanged = false;
   userSettingsRequest = new RequestStore(api.userSettings.mutate);
   deleteAccountRequest = new RequestStore(api.me.deleteAccount.mutate);
+  togglePaidRequest = new RequestStore(api.togglePaid.mutate);
 
   constructor() {
     makeAutoObservable(
@@ -118,5 +119,21 @@ export class UserSettingsStore {
     userStore.updateSettings(settings);
 
     notifySuccess(t("user_settings_updated"));
+  }
+
+  async togglePaid() {
+    const result = await this.togglePaidRequest.execute();
+
+    if (result.status === "error") {
+      notifyError({ e: result.error, info: "Failed to toggle paid status" });
+      return;
+    }
+
+    // Refresh the user's active plans
+    await userStore.fetchActivePlans();
+
+    notifySuccess(
+      result.data.isPaid ? "Paid status enabled" : "Paid status disabled",
+    );
   }
 }

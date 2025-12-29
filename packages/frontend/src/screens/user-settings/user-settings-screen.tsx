@@ -39,6 +39,7 @@ import {
   FastForwardIcon,
   InfoIcon,
   BugIcon,
+  DollarSignIcon,
 } from "lucide-react";
 import { env } from "../../env.ts";
 
@@ -215,6 +216,23 @@ export function UserSettingsScreen() {
                   </span>
                 ),
                 text: "Skip review",
+              },
+              {
+                icon: (
+                  <FilledIcon
+                    backgroundColor={theme.orange}
+                    icon={<DollarSignIcon size={18} />}
+                  />
+                ),
+                right: (
+                  <span className="relative top-[3px]">
+                    <RadioSwitcher
+                      isOn={userStore.isPaid}
+                      onToggle={() => userSettingsStore.togglePaid()}
+                    />
+                  </span>
+                ),
+                text: "Toggle paid",
               },
               {
                 icon: (
