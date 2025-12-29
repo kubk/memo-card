@@ -59,8 +59,7 @@ export class UserStore {
   }
 
   get isPaid() {
-    return false;
-    // return this.plans?.some((plan) => plan.plan_id) ?? false;
+    return this.plans?.some((plan) => plan.plan_id) ?? false;
   }
 
   get user() {

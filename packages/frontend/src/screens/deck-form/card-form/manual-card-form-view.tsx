@@ -200,14 +200,16 @@ export function ManualCardFormView(props: Props) {
               },
               right: (
                 <WithProIcon>
-                  {cardFormStore instanceof DeckFormStore &&
-                  cardFormStore.isCardGeneratingVoice(cardForm.id) ? (
-                    <LoadingSwap isLoading={true}>
+                  <LoadingSwap
+                    isLoading={
+                      cardFormStore instanceof DeckFormStore &&
+                      cardFormStore.isCardGeneratingVoice(cardForm.id)
+                    }
+                  >
+                    {cardForm.options.value?.voice ? (
                       <ListRightText chevron text={t("yes")} />
-                    </LoadingSwap>
-                  ) : cardForm.options.value?.voice ? (
-                    <ListRightText chevron text={t("yes")} />
-                  ) : undefined}
+                    ) : undefined}
+                  </LoadingSwap>
                 </WithProIcon>
               ),
             },
