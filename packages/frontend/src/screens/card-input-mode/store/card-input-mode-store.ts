@@ -7,7 +7,6 @@ import { t } from "../../../translations/t.ts";
 import { DeckFormStore } from "../../deck-form/deck-form/store/deck-form-store.ts";
 import { createCachedCardInputModesRequest } from "../../../api/create-cached-card-input-modes-request.ts";
 import { CardInputModeDb } from "api";
-import { screenStore } from "../../../store/screen-store.ts";
 import { assert } from "api";
 import { api } from "../../../api/trpc-api.ts";
 
@@ -56,9 +55,6 @@ export class CardInputModeStore {
     deckListStore.updateDeckCardInputMode(deckId, this.modeId.value);
     notifySuccess(t("card_input_mode_changed"));
     this.deckFormStore.quitInnerScreen();
-
-    screenStore.restoreHistory();
-    screenStore.goToDeckForm({ deckId });
   }
 
   get viewMode(): CardInputModeDb | null {

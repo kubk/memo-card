@@ -12,6 +12,7 @@ import { Input } from "../../../ui/input.tsx";
 import { CardRowLoading } from "../../shared/card-row-loading.tsx";
 import { CardRow } from "../../../ui/card-row.tsx";
 import { assert } from "api";
+import { screenStore } from "../../../store/screen-store.ts";
 
 type Props = { cardFormStore: DeckFormStore };
 
@@ -26,6 +27,12 @@ export function GeneratedCardFormView(props: Props) {
   assert(cardInputModeId, "Card input mode should not be empty before editing");
 
   useBackButton(() => {
+    const screen = screenStore.screen;
+    // Avoid duplicated 'deckForm' in the router history
+    if (screen.type === "deckForm" && screen.cardId) {
+      screenStore.back();
+    }
+
     cardFormStore.onBackCard();
   });
 

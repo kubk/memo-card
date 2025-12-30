@@ -514,6 +514,21 @@ export class DeckFormStore {
     return this.cardsGeneratingVoice.has(cardId);
   }
 
+  navigateToNewCard() {
+    assert(this.deckForm, "navigateToNewCard: form is empty");
+    assert(this.deckForm.id, "navigateToNewCard: deckId is empty");
+    if (!isFormValid(this.deckForm)) {
+      formTouchAll(this.deckForm);
+      return;
+    }
+
+    screenStore.goToDeckForm({
+      deckId: this.deckForm.id,
+      cardId: "new",
+    });
+    this.openNewCardForm();
+  }
+
   openNewCardForm() {
     assert(this.deckForm, "openNewCardForm: form is empty");
     if (!isFormValid(this.deckForm)) {
@@ -564,8 +579,7 @@ export class DeckFormStore {
         }
 
         if (isNewDeck && this.deckForm?.id) {
-          screenStore.restoreHistory();
-          screenStore.goToDeckForm({ deckId: this.deckForm.id });
+          screenStore.replaceToDeckForm({ deckId: this.deckForm.id });
         }
       }),
     );
