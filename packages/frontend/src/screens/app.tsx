@@ -5,7 +5,6 @@ import { ReviewStoreProvider } from "./deck-review/store/review-store-context.ts
 import { screenStore } from "../store/screen-store.ts";
 import { DeckFormScreen } from "./deck-form/deck-form/deck-form-screen.tsx";
 import { DeckFormStoreProvider } from "./deck-form/deck-form/store/deck-form-store-context.tsx";
-import { QuickAddCardFormPage } from "./deck-form/card-form/quick-add-card-form-page.tsx";
 import { VersionWarning } from "./shared/version-warning.tsx";
 import { deckListStore } from "../store/deck-list-store.ts";
 import { FullScreenLoader } from "../ui/full-screen-loader.tsx";
@@ -160,13 +159,6 @@ export function App() {
         <SignedIn>
           <PreventTelegramSwipeDownClosingIos>
             <CardPreviewScreen />
-          </PreventTelegramSwipeDownClosingIos>
-        </SignedIn>
-      )}
-      {screenStore.screen.type === "cardQuickAddForm" && (
-        <SignedIn>
-          <PreventTelegramSwipeDownClosingIos>
-            <QuickAddCardFormPage />
           </PreventTelegramSwipeDownClosingIos>
         </SignedIn>
       )}

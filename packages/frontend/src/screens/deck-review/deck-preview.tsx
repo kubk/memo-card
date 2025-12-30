@@ -81,9 +81,9 @@ export function DeckPreview(props: Props) {
                 icon={<PlusIcon size={24} />}
                 outline
                 onClick={() => {
-                  screenStore.goOnce({
-                    type: "cardQuickAddForm",
+                  screenStore.goToDeckForm({
                     deckId: deck.id,
+                    cardId: "new",
                   });
                 }}
               >

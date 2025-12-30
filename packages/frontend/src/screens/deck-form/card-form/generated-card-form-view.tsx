@@ -1,4 +1,4 @@
-import { CardFormStoreInterface } from "../deck-form/store/card-form-store-interface.ts";
+import { DeckFormStore } from "../deck-form/store/deck-form-store.ts";
 import { useBackButton } from "../../../lib/platform/use-back-button.ts";
 import { useState } from "react";
 import { AiGeneratedCardFormStore } from "./store/ai-generated-card-form-store.ts";
@@ -13,7 +13,7 @@ import { CardRowLoading } from "../../shared/card-row-loading.tsx";
 import { CardRow } from "../../../ui/card-row.tsx";
 import { assert } from "api";
 
-type Props = { cardFormStore: CardFormStoreInterface };
+type Props = { cardFormStore: DeckFormStore };
 
 export function GeneratedCardFormView(props: Props) {
   const { cardFormStore } = props;

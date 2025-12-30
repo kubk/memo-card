@@ -5,7 +5,7 @@ import { makeAutoObservable } from "mobx";
 import { notifyError } from "../../../shared/snackbar/snackbar.tsx";
 import { t } from "../../../../translations/t.ts";
 import { api } from "../../../../api/trpc-api.ts";
-import { LimitedDeckForm } from "../../deck-form/store/card-form-store-interface.ts";
+import { LimitedDeckForm } from "./card-preview-types.ts";
 
 export class AiSpeechGeneratorStore {
   speechGenerateRequest = new RequestStore(api.aiSpeechGenerate.mutate);

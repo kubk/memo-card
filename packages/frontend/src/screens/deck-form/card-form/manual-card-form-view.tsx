@@ -1,4 +1,4 @@
-import { CardFormStoreInterface } from "../deck-form/store/card-form-store-interface.ts";
+import { DeckFormStore } from "../deck-form/store/deck-form-store.ts";
 import { useMainButton } from "../../../lib/platform/use-main-button.ts";
 import { t } from "../../../translations/t.ts";
 import { useProgress } from "../../../lib/platform/use-progress.tsx";
@@ -40,9 +40,8 @@ import {
 } from "lucide-react";
 import { wysiwygStore } from "../../../store/wysiwyg-store.ts";
 import { MoveToDeckSelector } from "../deck-form/move-to-deck-selector.tsx";
-import { DeckFormStore } from "../deck-form/store/deck-form-store.ts";
 
-type Props = { cardFormStore: CardFormStoreInterface };
+type Props = { cardFormStore: DeckFormStore };
 
 export function ManualCardFormView(props: Props) {
   const { cardFormStore } = props;
@@ -55,10 +54,7 @@ export function ManualCardFormView(props: Props) {
       cardFormStore.onSaveCard();
     },
     () => {
-      if (
-        cardFormStore instanceof DeckFormStore &&
-        cardFormStore.moveToDeckStore.isOpen
-      ) {
+      if (cardFormStore.moveToDeckStore.isOpen) {
         return false;
       }
       return (
@@ -160,9 +156,7 @@ export function ManualCardFormView(props: Props) {
               onClick: () => {
                 userStore.executeViaPaywall("bulk_ai_cards", () => {
                   let deckId: number | undefined = undefined;
-                  if (screenStore.screen.type === "cardQuickAddForm") {
-                    deckId = screenStore.screen.deckId;
-                  } else if (screenStore.screen.type === "deckForm") {
+                  if (screenStore.screen.type === "deckForm") {
                     deckId = screenStore.screen.deckId;
                   }
 
@@ -201,10 +195,7 @@ export function ManualCardFormView(props: Props) {
               right: (
                 <WithProIcon>
                   <LoadingSwap
-                    isLoading={
-                      cardFormStore instanceof DeckFormStore &&
-                      cardFormStore.isCardGeneratingVoice(cardForm.id)
-                    }
+                    isLoading={cardFormStore.isCardGeneratingVoice(cardForm.id)}
                   >
                     {cardForm.options.value?.voice ? (
                       <ListRightText chevron text={t("yes")} />
@@ -270,11 +261,9 @@ export function ManualCardFormView(props: Props) {
           )}
 
           {cardForm.id &&
-            cardFormStore instanceof DeckFormStore &&
             cardFormStore.moveToDeckStore.availableDecksGrouped.length > 1 && (
               <ButtonSideAligned
                 onClick={() => {
-                  assert(cardFormStore instanceof DeckFormStore);
                   cardFormStore.openMoveCardSheet();
                 }}
                 icon={<FolderInputIcon size={24} />}
@@ -296,9 +285,7 @@ export function ManualCardFormView(props: Props) {
         </ButtonGrid>
       </div>
 
-      {cardFormStore instanceof DeckFormStore && (
-        <MoveToDeckSelector store={cardFormStore.moveToDeckStore} />
-      )}
+      <MoveToDeckSelector store={cardFormStore.moveToDeckStore} />
     </Screen>
   );
 }
