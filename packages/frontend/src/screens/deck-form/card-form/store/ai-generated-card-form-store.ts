@@ -64,10 +64,7 @@ export class AiGeneratedCardFormStore {
   get deckId() {
     const { screen } = screenStore;
 
-    assert(
-      screen.type === "cardQuickAddForm" || screen.type === "deckForm",
-      "Screen does not have deckId",
-    );
+    assert(screen.type === "deckForm", "Screen does not have deckId");
     assert(screen.deckId);
 
     return screen.deckId;

@@ -22,10 +22,7 @@ import {
 } from "api";
 import { CardAnswerType } from "api";
 import { v4 } from "uuid";
-import {
-  CardFormStoreInterface,
-  CardInnerScreenType,
-} from "./card-form-store-interface.ts";
+import { CardInnerScreenType } from "../../card-form/store/card-preview-types.ts";
 import { UpsertDeckRequest } from "api";
 import { UnwrapArray } from "../../../../lib/typescript/unwrap-array.ts";
 import { RequestStore } from "../../../../lib/mobx-request/request-store.ts";
@@ -35,6 +32,7 @@ import { t } from "../../../../translations/t.ts";
 import { api } from "../../../../api/trpc-api.ts";
 import { MoveToDeckSelectorStore } from "./move-to-deck-selector-store";
 import { generateVoiceForNewCards } from "../../../../lib/voice/generate-voice-for-new-cards.ts";
+import { userStore } from "../../../../store/user-store.ts";
 
 export type CardAnswerFormType = {
   id: string;
@@ -213,7 +211,7 @@ export const createCardFilterForm = (): CardFilterForm => {
 
 export type VoiceType = "none" | "robotic" | "ai";
 
-export class DeckFormStore implements CardFormStoreInterface {
+export class DeckFormStore {
   cardFormIndex?: number;
   cardFormType?: "new" | "edit";
   deckForm?: DeckFormType;
@@ -271,7 +269,11 @@ export class DeckFormStore implements CardFormStoreInterface {
     }
 
     if (screen.cardId) {
-      this.editCardFormById(screen.cardId);
+      if (screen.cardId === "new") {
+        this.openNewCardForm();
+      } else {
+        this.editCardFormById(screen.cardId);
+      }
     }
   }
 
@@ -735,6 +737,15 @@ export class DeckFormStore implements CardFormStoreInterface {
     });
 
     // Generate AI speech for new/changed cards that need it
+    // Early return if AI voice is not enabled or user is not paid
+    if (!deck.speakAutoAi || !deck.speakField || !deck.speakLocale) {
+      return;
+    }
+
+    if (!userStore.isPaid) {
+      return;
+    }
+
     // Find the newly created/updated cards from the deck response
     const cardIdsToCheck = new Set(
       cardsToSend.map((c) => c.id).filter(Boolean),
@@ -742,6 +753,7 @@ export class DeckFormStore implements CardFormStoreInterface {
     const newCardFronts = new Set(
       cardsToSend.filter((c) => !c.id).map((c) => c.front),
     );
+
     // Filter and deduplicate by card.id
     const seenIds = new Set();
     const cardsNeedingVoice = deck.deckCards.filter((card) => {
@@ -753,41 +765,44 @@ export class DeckFormStore implements CardFormStoreInterface {
       return true;
     });
 
-    if (cardsNeedingVoice.length > 0) {
-      // Track loading state
+    // Early return if no cards need voice generation
+    if (cardsNeedingVoice.length === 0) {
+      return;
+    }
+
+    // Track loading state
+    runInAction(() => {
+      cardsNeedingVoice.forEach((card) => {
+        this.cardsGeneratingVoice.add(card.id);
+      });
+    });
+
+    generateVoiceForNewCards({
+      deckId: deck.id,
+      cards: cardsNeedingVoice,
+      onVoiceGenerated: (cardId, voiceUrl) => {
+        // Update form if still editing this deck
+        if (this.deckForm?.id !== deck.id) return;
+        const cardForm = this.deckForm.cards.find((c) => c.id === cardId);
+        if (!cardForm) return;
+        cardForm.options.onChange({
+          ...cardForm.options.value,
+          voice: voiceUrl,
+        });
+
+        // Remove from loading set
+        runInAction(() => {
+          this.cardsGeneratingVoice.delete(cardId);
+        });
+      },
+    }).catch(() => {
+      // Clean up loading state on error
       runInAction(() => {
         cardsNeedingVoice.forEach((card) => {
-          this.cardsGeneratingVoice.add(card.id);
+          this.cardsGeneratingVoice.delete(card.id);
         });
       });
-
-      generateVoiceForNewCards({
-        deckId: deck.id,
-        cards: cardsNeedingVoice,
-        onVoiceGenerated: (cardId, voiceUrl) => {
-          // Update form if still editing this deck
-          if (this.deckForm?.id !== deck.id) return;
-          const cardForm = this.deckForm.cards.find((c) => c.id === cardId);
-          if (!cardForm) return;
-          cardForm.options.onChange({
-            ...cardForm.options.value,
-            voice: voiceUrl,
-          });
-
-          // Remove from loading set
-          runInAction(() => {
-            this.cardsGeneratingVoice.delete(cardId);
-          });
-        },
-      }).catch(() => {
-        // Clean up loading state on error
-        runInAction(() => {
-          cardsNeedingVoice.forEach((card) => {
-            this.cardsGeneratingVoice.delete(card.id);
-          });
-        });
-      });
-    }
+    });
   }
 
   quitCardForm() {

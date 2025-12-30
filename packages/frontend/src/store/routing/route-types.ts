@@ -36,7 +36,7 @@ const deckFormRouteSchema = v.object({
       name: v.string(),
     }),
   ),
-  cardId: optionalStringToNumber,
+  cardId: v.optional(v.union([stringToNumber, v.literal("new")])),
   index: stringToNumber,
 });
 
@@ -62,11 +62,6 @@ const reviewAllRouteSchema = v.object({
 
 const reviewCustomRouteSchema = v.object({
   type: v.literal("reviewCustom"),
-});
-
-const cardQuickAddFormRouteSchema = v.object({
-  type: v.literal("cardQuickAddForm"),
-  deckId: stringToNumber,
 });
 
 const deckCatalogRouteSchema = v.object({
@@ -132,7 +127,6 @@ export const routeSchema = v.union([
   folderPreviewRouteSchema,
   reviewAllRouteSchema,
   reviewCustomRouteSchema,
-  cardQuickAddFormRouteSchema,
   deckCatalogRouteSchema,
   aiMassCreationRouteSchema,
   catalogSettingsRouteSchema,

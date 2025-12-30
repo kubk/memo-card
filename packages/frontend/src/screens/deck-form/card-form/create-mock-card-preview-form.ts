@@ -1,7 +1,4 @@
-import {
-  CardFormStoreInterface,
-  CardInnerScreenType,
-} from "../deck-form/store/card-form-store-interface.ts";
+import { CardPreviewFormData } from "./store/card-preview-types.ts";
 import { BooleanField, TextField } from "mobx-form-lite";
 import { CardAnswerType } from "api";
 import { createAnswerListField } from "../deck-form/store/deck-form-store.ts";
@@ -23,7 +20,7 @@ type DeckPreviewType = Pick<
 export const createMockCardPreviewForm = (
   card: CardPreviewType,
   deck?: DeckPreviewType,
-): CardFormStoreInterface => {
+): CardPreviewFormData => {
   return {
     deckForm: deck
       ? {
@@ -55,10 +52,5 @@ export const createMockCardPreviewForm = (
       ),
       answerId: "0",
     },
-    cardInnerScreen: new TextField<CardInnerScreenType>(null),
-    onBackCard: () => {},
-    onSaveCard: () => {},
-    isSending: false,
-    markCardAsRemoved: () => {},
   };
 };

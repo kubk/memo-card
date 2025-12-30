@@ -1,9 +1,9 @@
-import { CardFormStoreInterface } from "../deck-form/store/card-form-store-interface.ts";
+import { DeckFormStore } from "../deck-form/store/deck-form-store.ts";
 import { GeneratedCardFormView } from "./generated-card-form-view.tsx";
 import { ManualCardFormView } from "./manual-card-form-view.tsx";
 import { assert } from "api";
 
-type Props = { cardFormStore: CardFormStoreInterface };
+type Props = { cardFormStore: DeckFormStore };
 
 export function CardFormView(props: Props) {
   const { cardFormStore } = props;

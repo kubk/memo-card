@@ -8,7 +8,7 @@ import {
 import { CardAnswerType } from "api";
 import { makeAutoObservable } from "mobx";
 import { userStore } from "../../../store/user-store.ts";
-import { CardFormStoreInterface } from "../../deck-form/deck-form/store/card-form-store-interface.ts";
+import { CardPreviewFormData } from "../../deck-form/card-form/store/card-preview-types.ts";
 import {
   createVoicePlayer,
   VoicePlayer,
@@ -33,7 +33,7 @@ export class CardPreviewStore implements LimitedCardUnderReviewStore {
 
   isOpened = false;
 
-  constructor(cardFormStore: CardFormStoreInterface) {
+  constructor(cardFormStore: CardPreviewFormData) {
     makeAutoObservable(
       this,
       {

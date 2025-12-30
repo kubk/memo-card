@@ -12,7 +12,7 @@ import { Input } from "../../../ui/input.tsx";
 import { useState } from "react";
 import { AiSpeechGeneratorStore } from "./store/ai-speech-generator-store.ts";
 import { LoaderCircle, TrashIcon } from "lucide-react";
-import { LimitedDeckForm } from "../deck-form/store/card-form-store-interface.ts";
+import { LimitedDeckForm } from "./store/card-preview-types.ts";
 
 type Props = {
   cardForm: CardFormType;
