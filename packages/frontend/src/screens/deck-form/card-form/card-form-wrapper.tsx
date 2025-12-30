@@ -1,5 +1,5 @@
 import { AnswerFormView } from "./answer-form-view.tsx";
-import { CardFormStoreInterface } from "../deck-form/store/card-form-store-interface.ts";
+import { DeckFormStore } from "../deck-form/store/deck-form-store.ts";
 import { CardPreview } from "./card-preview.tsx";
 import { CardFormView } from "./card-form-view.tsx";
 import { CardExample } from "./card-example.tsx";
@@ -8,7 +8,7 @@ import { CardAiSpeech } from "./card-ai-speech.tsx";
 import { assert } from "api";
 
 type Props = {
-  cardFormStore: CardFormStoreInterface;
+  cardFormStore: DeckFormStore;
 };
 
 export function CardFormWrapper(props: Props) {
