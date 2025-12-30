@@ -265,7 +265,6 @@ export const es: Translation = {
   ai_cards_previous_prompts: "Historial de solicitudes",
   ai_cards_prompt_front: "Cara de la tarjeta",
   ai_cards_prompt_back: "Dorso de la tarjeta",
-  card_added: "Tarjeta añadida",
   quit_without_saving: "¿Salir sin guardar?",
   ai_cards_added: "Tarjetas añadidas",
   error: "Error",

@@ -157,7 +157,6 @@ export const ru: Translation = {
   category_Spanish: "Испанский",
   save: "Сохранить",
   add_card: "Добавить карточку",
-  card_added: "Карточка была добавлена",
   card_front_title: "Лицевая сторона",
   card_back_title: "Обратная сторона",
   card_front_side_hint: "Вопрос или подсказка",
