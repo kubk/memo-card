@@ -3,12 +3,16 @@ import { RequestStore } from "../../../../lib/mobx-request/request-store.ts";
 import { makeAutoObservable } from "mobx";
 import { formTouchAll, isFormValid } from "mobx-form-lite";
 import { screenStore } from "../../../../store/screen-store.ts";
-import { notifyError } from "../../../shared/snackbar/snackbar.tsx";
+import {
+  notifyError,
+  notifySuccess,
+} from "../../../shared/snackbar/snackbar.tsx";
 import { deckListStore } from "../../../../store/deck-list-store.ts";
 import { createCachedCardInputModesRequest } from "../../../../api/create-cached-card-input-modes-request.ts";
 import { assert } from "api";
 import { api } from "../../../../api/trpc-api.ts";
 import { generateVoiceForNewCards } from "../../../../lib/voice/generate-voice-for-new-cards.ts";
+import { t } from "../../../../translations/t.ts";
 
 export class AiGeneratedCardFormStore {
   form = {
@@ -47,17 +51,25 @@ export class AiGeneratedCardFormStore {
       return;
     }
 
-    const { card } = result.data.data;
-    deckListStore.addCardOptimistic(card);
-    screenStore.replaceToDeckForm({
-      deckId: card.deckId,
-      cardId: card.id,
+    const { cards } = result.data.data;
+    cards.forEach((card) => {
+      deckListStore.addCardOptimistic(card);
     });
 
-    // Generate AI voice for the new card if enabled on deck
+    if (cards.length === 2) {
+      notifySuccess(t("two_cards_created"));
+    }
+
+    const firstCard = cards[0];
+    screenStore.replaceToDeckForm({
+      deckId: firstCard.deckId,
+      cardId: firstCard.id,
+    });
+
+    // Generate AI voice for the new cards if enabled on deck
     generateVoiceForNewCards({
-      deckId: card.deckId,
-      cards: [card],
+      deckId: firstCard.deckId,
+      cards,
     });
   }
 

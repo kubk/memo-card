@@ -329,6 +329,7 @@ export const fa: Translation = {
   wysiwyg_help_undo: "برگردان آخرین عمل",
 
   reverse_cards: "ایجاد کارت‌های معکوس",
+  two_cards_created: "۲ کارت ایجاد شد",
 
   // Move card to deck
   move_card_to_deck_title: "انتقال به دسته",

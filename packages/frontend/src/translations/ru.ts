@@ -325,6 +325,7 @@ export const ru: Translation = {
   wysiwyg_help_undo: "Отменить последнее действие",
 
   reverse_cards: "Создавать обратные карточки",
+  two_cards_created: "Создано 2 карточки",
 
   // Move card to deck
   move_card_to_deck_title: "Переместить в колоду",
