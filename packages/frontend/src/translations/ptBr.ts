@@ -51,7 +51,6 @@ export const ptBr: Translation = {
   error: "Erro",
   user_settings_updated: "Configurações atualizadas",
   error_solving: "Estamos resolvendo o problema",
-  card_added: "Cartão adicionado",
   is_on: "Ligado",
   is_off: "Desligado",
   folder_form_no_decks: "Não há baralhos na pasta",

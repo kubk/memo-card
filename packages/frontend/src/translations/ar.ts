@@ -48,7 +48,6 @@ export const ar: Translation = {
   wysiwyg_clear_formatting: "مسح التنسيق",
   my_decks: "مجموعاتي",
   formatting: "التنسيق",
-  card_added: "تمت إضافة البطاقة",
   deck: "مجموعة",
   deck_description: "مجموعة من البطاقات",
   folder: "مجلد",
