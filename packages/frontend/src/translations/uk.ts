@@ -167,7 +167,6 @@ export const uk: Translation = {
   category_Spanish: "Іспанська",
   save: "Зберегти",
   add_card: "Додати картку",
-  card_added: "Картку додано",
   card_front_title: "Лицьова сторона",
   card_back_title: "Зворотна сторона",
   card_front_side_hint: "Підказка або питання",
