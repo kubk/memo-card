@@ -2,7 +2,7 @@ import { useBackButton } from "../../../lib/platform/use-back-button.ts";
 import { CardReviewWithControls } from "../../deck-review/card-review-with-controls.tsx";
 import { useState } from "react";
 import { CardPreviewStore } from "../../deck-review/store/card-preview-store.ts";
-import { CardFormStoreInterface } from "../deck-form/store/card-form-store-interface.ts";
+import { CardPreviewFormData } from "./store/card-preview-types.ts";
 import { platform } from "../../../lib/platform/platform.ts";
 import { BrowserPlatform } from "../../../lib/platform/browser/browser-platform.ts";
 import { BrowserBackButton } from "../../shared/browser-platform/browser-back-button.tsx";
@@ -11,7 +11,7 @@ import { Button } from "../../../ui/button.tsx";
 import { t } from "../../../translations/t.ts";
 
 type Props = {
-  form: CardFormStoreInterface;
+  form: CardPreviewFormData;
   onBack: () => void;
 };
 
