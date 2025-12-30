@@ -35,7 +35,6 @@ export const en = {
   wysiwyg_clear_formatting: "Clear formatting",
   my_decks: "My decks",
   formatting: "Formatting",
-  card_added: "Card has been added",
   deck: "Deck",
   deck_description: "A collection of cards",
   folder: "Folder",

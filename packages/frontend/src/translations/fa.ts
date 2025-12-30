@@ -59,7 +59,6 @@ export const fa: Translation = {
   wysiwyg_clear_formatting: "پاک کردن قالب‌بندی",
   my_decks: "دسته کارت‌های من",
   formatting: "قالب‌بندی",
-  card_added: "کارت اضافه شد",
   deck: "دسته کارت",
   deck_description: "مجموعه‌ای از کارت‌ها",
   folder: "پوشه",
