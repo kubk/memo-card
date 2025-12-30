@@ -325,6 +325,7 @@ export const es: Translation = {
   wysiwyg_help_undo: "Deshacer última acción",
 
   reverse_cards: "Crear tarjetas inversas",
+  two_cards_created: "Se han creado 2 tarjetas",
 
   // Move card to deck
   move_card_to_deck_title: "Mover a mazo",

@@ -325,6 +325,7 @@ export const ptBr: Translation = {
   wysiwyg_help_undo: "Desfazer última ação",
 
   reverse_cards: "Criar cartões reversos",
+  two_cards_created: "2 cartões foram criados",
 
   // Move card to deck
   move_card_to_deck_title: "Mover para baralho",

@@ -327,6 +327,7 @@ export const en = {
   wysiwyg_help_undo: "Undo last action",
 
   reverse_cards: "Create reverse cards",
+  two_cards_created: "2 cards have been created",
 
   // Move card to deck
   move_card_to_deck_title: "Move to deck",

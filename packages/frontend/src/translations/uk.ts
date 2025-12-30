@@ -329,6 +329,7 @@ export const uk: Translation = {
   wysiwyg_help_undo: "Скасувати останню дію",
 
   reverse_cards: "Створювати зворотні картки",
+  two_cards_created: "Створено 2 картки",
 
   // Move card to deck
   move_card_to_deck_title: "Перемістити в колоду",
