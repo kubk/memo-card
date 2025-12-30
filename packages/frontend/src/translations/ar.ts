@@ -326,6 +326,7 @@ export const ar: Translation = {
   wysiwyg_help_undo: "التراجع عن آخر إجراء",
 
   reverse_cards: "إنشاء بطاقات عكسية",
+  two_cards_created: "تم إنشاء بطاقتين",
 
   // Move card to deck
   move_card_to_deck_title: "نقل إلى رزمة",
