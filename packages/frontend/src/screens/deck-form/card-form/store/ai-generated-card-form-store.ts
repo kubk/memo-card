@@ -49,7 +49,7 @@ export class AiGeneratedCardFormStore {
 
     const { card } = result.data.data;
     deckListStore.addCardOptimistic(card);
-    screenStore.goToDeckForm({
+    screenStore.replaceToDeckForm({
       deckId: card.deckId,
       cardId: card.id,
     });

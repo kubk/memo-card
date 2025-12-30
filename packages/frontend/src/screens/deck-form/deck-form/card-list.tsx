@@ -166,7 +166,7 @@ export function CardList() {
       {!cardListStore.isSelectionMode.value && (
         <Button
           onClick={() => {
-            deckFormStore.openNewCardForm();
+            deckFormStore.navigateToNewCard();
           }}
         >
           {t("add_card")}

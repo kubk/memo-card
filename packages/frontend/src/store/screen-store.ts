@@ -8,7 +8,6 @@ let routeIndex = 0;
 
 export class ScreenStore {
   private history: Route[] = [{ type: "main" }];
-  private onceRoute?: Route;
   private isNavigatingFromPopstate = false;
 
   constructor() {
@@ -38,9 +37,6 @@ export class ScreenStore {
   };
 
   go(route: Route) {
-    if (this.onceRoute) {
-      this.onceRoute = undefined;
-    }
     this.history.push(route);
 
     if (platform instanceof BrowserPlatform && !this.isNavigatingFromPopstate) {
@@ -53,21 +49,24 @@ export class ScreenStore {
     }
   }
 
-  goOnce(route: Route) {
-    this.onceRoute = route;
-  }
+  replace(route: Route) {
+    if (this.history.length > 0) {
+      this.history[this.history.length - 1] = route;
+    } else {
+      this.history.push(route);
+    }
 
-  // TODO: Remove this when we have a proper navigation
-  restoreHistory() {
-    this.history = [{ type: "main" }];
+    if (platform instanceof BrowserPlatform && !this.isNavigatingFromPopstate) {
+      const url = routeToUrl(route);
+      const currentUrl = window.location.pathname + window.location.search;
+
+      if (url !== currentUrl) {
+        window.history.replaceState(null, "", url);
+      }
+    }
   }
 
   back() {
-    if (this.onceRoute) {
-      this.onceRoute = undefined;
-      return;
-    }
-
     if (platform instanceof BrowserPlatform) {
       window.history.back();
       return;
@@ -79,9 +78,6 @@ export class ScreenStore {
   }
 
   get screen(): Route {
-    if (this.onceRoute) {
-      return this.onceRoute;
-    }
     return this.history[this.history.length - 1];
   }
 
@@ -91,6 +87,14 @@ export class ScreenStore {
 
   goToDeckForm(route: Omit<DeckFormRoute, "index" | "type">) {
     this.go({
+      ...route,
+      type: "deckForm",
+      index: ++routeIndex,
+    });
+  }
+
+  replaceToDeckForm(route: Omit<DeckFormRoute, "index" | "type">) {
+    this.replace({
       ...route,
       type: "deckForm",
       index: ++routeIndex,

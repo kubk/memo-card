@@ -57,9 +57,11 @@ export function DeckForm() {
   useMainButton(
     t("save"),
     () => {
+      const isNewDeck = !screen.deckId;
       deckFormStore.onDeckSave((deck) => {
-        screenStore.restoreHistory();
-        screenStore.goToDeckForm({ deckId: deck.id });
+        if (isNewDeck) {
+          screenStore.replaceToDeckForm({ deckId: deck.id });
+        }
       });
     },
     () =>
@@ -153,7 +155,7 @@ export function DeckForm() {
               text: t("add_card"),
               isLinkColor: true,
               onClick: () => {
-                deckFormStore.openNewCardForm();
+                deckFormStore.navigateToNewCard();
               },
             },
           ]}
