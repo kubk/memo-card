@@ -246,8 +246,8 @@ export function UserSettingsScreen() {
                 right: (
                   <span className="relative top-[3px]">
                     <RadioSwitcher
-                      isOn={erudaStore.isErudaEnabled.value}
-                      onToggle={erudaStore.isErudaEnabled.toggle}
+                      isOn={erudaStore.isEnabled.value}
+                      onToggle={erudaStore.isEnabled.toggle}
                     />
                   </span>
                 ),

@@ -1,30 +1,56 @@
-import { autorun } from "mobx";
+import { makeAutoObservable, reaction } from "mobx";
 import { BooleanToggle } from "mobx-form-lite";
 import { persistableField } from "../lib/mobx-form-lite-persistable/persistable-field.ts";
-import { env } from "../env.ts";
+import { isRunningWithinTelegram } from "../lib/platform/is-running-within-telegram.ts";
 
-export const erudaStore = {
-  isErudaEnabled: persistableField(new BooleanToggle(false), "isErudaEnabled"),
-};
+class ErudaStore {
+  isEnabled = persistableField(new BooleanToggle(false), "isErudaEnabled");
 
-if (env.VITE_STAGE === "local" || env.VITE_STAGE === "staging") {
-  const isLoaded = !!window.eruda;
+  constructor() {
+    makeAutoObservable(this, {}, { autoBind: true });
+  }
 
-  autorun(() => {
+  load() {
+    if (!isRunningWithinTelegram()) {
+      return;
+    }
+
+    reaction(
+      () => this.isEnabled.value,
+      (enabled) => {
+        if (enabled) {
+          this.addToDom();
+        } else {
+          this.removeFromDom();
+        }
+      },
+      { fireImmediately: true },
+    );
+  }
+
+  private addToDom() {
+    if (document.getElementById("eruda-script")) {
+      return;
+    }
+
+    const script = document.createElement("script");
+    script.src = "https://cdn.jsdelivr.net/npm/eruda";
+    script.id = "eruda-script";
+    script.onload = () => {
+      // @ts-ignore
+      window.eruda.init();
+    };
+    document.body.appendChild(script);
+  }
+
+  private removeFromDom() {
     // @ts-ignore
-    if (erudaStore.isErudaEnabled.value && !isLoaded) {
-      const script = document.createElement("script");
-      script.src = "https://cdn.jsdelivr.net/npm/eruda";
-      script.id = "eruda-script";
-      script.onload = () => {
-        // @ts-ignore
-        window.eruda.init();
-      };
-      document.body.appendChild(script);
-    } else if (!erudaStore.isErudaEnabled.value && isLoaded) {
+    if (window.eruda) {
       // @ts-ignore
       window.eruda.destroy();
-      document.getElementById("eruda-script")?.remove();
     }
-  });
+    document.getElementById("eruda-script")?.remove();
+  }
 }
+
+export const erudaStore = new ErudaStore();
