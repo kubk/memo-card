@@ -1,6 +1,7 @@
 import { BooleanToggle } from "mobx-form-lite";
 import { DeckFormStore } from "./deck-form-store";
-import { makeAutoObservable, runInAction } from "mobx";
+import { makeAutoObservable, reaction, runInAction } from "mobx";
+import { platform } from "../../../../lib/platform/platform.ts";
 import { showConfirm } from "../../../../lib/platform/show-confirm";
 import { deckListStore } from "../../../../store/deck-list-store";
 import { assert } from "api";
@@ -15,6 +16,11 @@ export class CardListStore {
 
   constructor(private deckFormStore: DeckFormStore) {
     makeAutoObservable(this, {}, { autoBind: true });
+
+    reaction(
+      () => this.isSelectionMode.value,
+      () => platform.haptic("medium"),
+    );
   }
 
   openMoveSheet() {
