@@ -135,6 +135,7 @@ export function CardList() {
                 cardListStore.isSelectionMode.value &&
                 cardForm.id !== undefined
               ) {
+                platform.haptic("selection");
                 cardListStore.toggleCardSelection(cardForm.id);
               } else {
                 deckFormStore.editCardFormById(cardForm.id);

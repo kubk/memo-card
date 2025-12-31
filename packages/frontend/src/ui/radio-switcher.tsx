@@ -1,5 +1,6 @@
 import { isDarkTheme } from "../lib/color-scheme/is-dark-theme.tsx";
 import { cn } from "./cn.ts";
+import { platform } from "../lib/platform/platform.ts";
 
 type Props = {
   isOn: boolean;
@@ -25,7 +26,10 @@ export function RadioSwitcher(props: Props) {
         type="checkbox"
         className="absolute appearance-none"
         checked={isOn}
-        onChange={onToggle}
+        onChange={() => {
+          platform.haptic("selection");
+          onToggle();
+        }}
       />
       <div
         className={cn(

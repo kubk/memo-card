@@ -3,6 +3,7 @@ import { ReactNode } from "react";
 import { RadioBoxFilled } from "./radio-box-filled.tsx";
 import { RadioBoxEmpty } from "./radio-box-empty.tsx";
 import { cn } from "../cn.ts";
+import { platform } from "../../lib/platform/platform.ts";
 
 type RadioItemId = string | number | null;
 
@@ -26,7 +27,10 @@ export function RadioList<T extends RadioItemId>(props: Props<T>) {
               "flex items-center gap-2 p-4 px-3.5 bg-bg rounded-xl cursor-pointer",
               isSelected && "outline-2 outline-button",
             )}
-            onClick={() => onChange(option.id)}
+            onClick={() => {
+              platform.haptic("selection");
+              onChange(option.id);
+            }}
           >
             {isSelected ? <RadioBoxFilled /> : <RadioBoxEmpty />}
             <div className="w-full">
