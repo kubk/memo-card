@@ -2,6 +2,7 @@ import ReactDOM from "react-dom/client";
 import { App } from "./screens/app.tsx";
 import "./index.css";
 import { platform } from "./lib/platform/platform.ts";
+import "./store/eruda-store.ts";
 import { applyFormatters } from "mobx-log";
 import { polyfillCountryFlagEmojis } from "country-flag-emoji-polyfill";
 import { Settings } from "luxon";
