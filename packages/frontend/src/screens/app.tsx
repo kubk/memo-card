@@ -40,7 +40,6 @@ import { RepeatCustomScreen } from "./repeat-custom/repeat-custom-screen.tsx";
 import { useMount } from "../lib/react/use-mount.ts";
 import { featuresStore } from "../store/features-store.ts";
 import { PaywallModals } from "./shared/feature-preview/paywall-modals.tsx";
-import { loadDevtools } from "../lib/eruda/loadDevtools.tsx";
 import { CardPreviewScreen } from "./card-preview/card-preview-screen.tsx";
 import { SignedIn } from "./shared/signed-in.tsx";
 import { AboutScreen } from "./about/about-screen.tsx";
@@ -54,8 +53,6 @@ export function App() {
 
   useMount(() => {
     featuresStore.load();
-    loadDevtools();
-
     deckListStore.loadFirstTime(platform.getStartParam());
   });
 

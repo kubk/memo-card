@@ -40,8 +40,10 @@ import {
   InfoIcon,
   BugIcon,
   DollarSignIcon,
+  TerminalIcon,
 } from "lucide-react";
 import { env } from "../../env.ts";
+import { erudaStore } from "../../store/eruda-store.ts";
 
 export const timeRanges = generateTimeRange();
 
@@ -233,6 +235,23 @@ export function UserSettingsScreen() {
                   </span>
                 ),
                 text: "Toggle paid",
+              },
+              {
+                icon: (
+                  <FilledIcon
+                    backgroundColor={theme.orange}
+                    icon={<TerminalIcon size={18} />}
+                  />
+                ),
+                right: (
+                  <span className="relative top-[3px]">
+                    <RadioSwitcher
+                      isOn={erudaStore.isErudaEnabled.value}
+                      onToggle={erudaStore.isErudaEnabled.toggle}
+                    />
+                  </span>
+                ),
+                text: "Eruda console",
               },
               {
                 icon: (
