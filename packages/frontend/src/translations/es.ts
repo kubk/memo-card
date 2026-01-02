@@ -8,8 +8,6 @@ export const es: Translation = {
   ai_speech_lang_support: "Soporta más de 30 idiomas",
   ai_speech_listen: "Escuchar muestra",
   voice_type_none: "Ninguno",
-  card_order: "Orden de tarjetas",
-  card_order_random: "Orden aleatorio",
   review_custom: "Seleccionar qué revisar",
   review_card_type: "Tipo de tarjeta",
   custom_due_cards: "Tarjetas por revisar",
