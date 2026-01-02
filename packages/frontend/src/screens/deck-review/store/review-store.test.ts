@@ -12,6 +12,10 @@ import {
   DEFAULT_START_INTERVAL,
 } from "api";
 
+vi.mock(import("../../../lib/array/shuffle-in-place.ts"), () =>
+  import("../../../lib/array/shuffle-in-place.mock.ts").then((m) => m.mock()),
+);
+
 function createMockCardWithReview(
   id: number,
   front: string,

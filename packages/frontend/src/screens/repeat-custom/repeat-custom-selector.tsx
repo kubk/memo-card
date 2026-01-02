@@ -14,8 +14,6 @@ import { translateReviewCardsLabel } from "./translate-review-cards-label.ts";
 import { t } from "../../translations/t.ts";
 import { platform } from "../../lib/platform/platform.ts";
 import { SelectAllToggle } from "./select-all-toggle.tsx";
-import { RadioSwitcher } from "../../ui/radio-switcher.tsx";
-import { RefreshCcwIcon } from "lucide-react";
 
 type Props = {
   onClick: () => void;
@@ -93,38 +91,6 @@ export function RepeatCustomSelector({ onClick, store }: Props) {
                   items={deckListStore.newCardsCount}
                   color={theme.success}
                 />
-              ),
-            },
-          ]}
-        />
-      </div>
-
-      <div>
-        <ListHeader text={t("card_order")} />
-        <List
-          animateTap={false}
-          items={[
-            {
-              text: (
-                <div
-                  className={cn("flex items-center gap-2", {
-                    "text-gray-500": store.sortingType.value !== "random",
-                  })}
-                >
-                  <div className="bg-button rounded-full p-1">
-                    <RefreshCcwIcon size={16} className="text-white" />
-                  </div>
-                  <span>{t("card_order_random")}</span>
-                </div>
-              ),
-              onClick: store.toggleSortingType,
-              right: (
-                <span className="relative top-[3px]">
-                  <RadioSwitcher
-                    isOn={store.sortingType.value === "random"}
-                    onToggle={store.toggleSortingType}
-                  />
-                </span>
               ),
             },
           ]}

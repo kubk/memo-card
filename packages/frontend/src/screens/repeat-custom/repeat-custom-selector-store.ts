@@ -8,11 +8,7 @@ import {
 } from "../../store/deck-list-store.ts";
 import { makePersistable, stopPersisting } from "mobx-persist-store";
 import { getStorageAdapter } from "../../lib/platform/storage-adapter.ts";
-import { TextField } from "mobx-form-lite";
-import { persistableField } from "../../lib/mobx-form-lite-persistable/persistable-field.ts";
-import { platform } from "../../lib/platform/platform.ts";
-
-export type SortingType = "review-first" | "random";
+import { shuffleInPlace } from "../../lib/array/shuffle-in-place.ts";
 
 type RepeatCustomForm = {
   reviewTypes: CardReviewType[];
@@ -24,11 +20,6 @@ export class RepeatCustomSelectorStore {
     reviewTypes: ["new", "repeat"],
     selectedDecksIds: [],
   };
-
-  sortingType = persistableField(
-    new TextField<SortingType>("random"),
-    "sortingType",
-  );
 
   constructor() {
     makeAutoObservable(
@@ -122,22 +113,7 @@ export class RepeatCustomSelectorStore {
       });
     });
 
-    // Apply sorting based on the selected sorting type
-    if (this.sortingType.value === "review-first") {
-      // Sort by type: "repeat" cards first, then "new" cards
-      result.sort((a, b) => {
-        if (a[0].type === "repeat" && b[0].type === "new") return -1;
-        if (a[0].type === "new" && b[0].type === "repeat") return 1;
-        return 0;
-      });
-    } else if (this.sortingType.value === "random") {
-      // Shuffle the array
-      for (let i = result.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [result[i], result[j]] = [result[j], result[i]];
-      }
-    }
-
+    shuffleInPlace(result);
     return result;
   }
 
@@ -177,13 +153,6 @@ export class RepeatCustomSelectorStore {
     } else {
       this.form.selectedDecksIds = this.getAllDeckIds();
     }
-  }
-
-  toggleSortingType() {
-    this.sortingType.onChange(
-      this.sortingType.value === "random" ? "review-first" : "random",
-    );
-    platform.haptic("selection");
   }
 
   dispose() {
