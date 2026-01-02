@@ -8,8 +8,6 @@ export const ar: Translation = {
   ai_speech_lang_support: "يدعم أكثر من 30 لغة",
   ai_speech_listen: "استمع للعينة",
   voice_type_none: "لا شيء",
-  card_order: "ترتيب البطاقات",
-  card_order_random: "ترتيب عشوائي",
   review_card_type: "اختر نوع البطاقة",
   custom_due_cards: "البطاقات المستحقة",
   custom_new_cards: "البطاقات الجديدة",

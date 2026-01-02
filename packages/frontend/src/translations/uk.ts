@@ -8,8 +8,6 @@ export const uk: Translation = {
   ai_speech_lang_support: "Підтримує понад 30 мов",
   ai_speech_listen: "Прослухати зразок",
   voice_type_none: "Немає",
-  card_order: "Порядок карток",
-  card_order_random: "Випадковий порядок",
   review_custom: "Виберіть, що повторити",
   review_card_type: "Тип картки",
   custom_due_cards: "Картки для повторення",
