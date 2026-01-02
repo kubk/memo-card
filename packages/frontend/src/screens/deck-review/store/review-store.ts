@@ -19,6 +19,7 @@ import { reportHandledError } from "../../../lib/rollbar/rollbar.tsx";
 import { assert } from "api";
 import { api } from "../../../api/trpc-api.ts";
 import { userStore } from "../../../store/user-store.ts";
+import { shuffleInPlace } from "../../../lib/array/shuffle-in-place.ts";
 
 // Don't wait until the user has finished reviewing all the cards to send the progress
 const cardProgressSend = 3;
@@ -72,6 +73,17 @@ export class ReviewStore {
     makeAutoObservable(this, {}, { autoBind: true });
   }
 
+  private shuffleRepeatCards() {
+    const repeatCards = this.cardsToReview.filter(
+      (card) => card.cardReviewType === "repeat",
+    );
+    const newCards = this.cardsToReview.filter(
+      (card) => card.cardReviewType === "new",
+    );
+    shuffleInPlace(repeatCards);
+    this.cardsToReview = [...repeatCards, ...newCards];
+  }
+
   get reviewedCardsCount() {
     assert(this.initialCardCount, "initialCardCount is empty");
     return this.initialCardCount - this.cardsToReview.length;
@@ -87,6 +99,7 @@ export class ReviewStore {
       this.cardsToReview.push(new CardUnderReviewStore(card, deck));
     });
 
+    this.shuffleRepeatCards();
     this.initializeInitialCurrentNextCards();
   }
 
@@ -108,6 +121,7 @@ export class ReviewStore {
     if (this.cardsToReview.length) {
       this.isStudyAnyway = true;
     }
+    shuffleInPlace(this.cardsToReview);
     this.initializeInitialCurrentNextCards();
   }
 
@@ -123,6 +137,7 @@ export class ReviewStore {
       });
     });
 
+    this.shuffleRepeatCards();
     this.initializeInitialCurrentNextCards();
   }
 
@@ -140,6 +155,7 @@ export class ReviewStore {
         });
     });
 
+    shuffleInPlace(this.cardsToReview);
     this.initializeInitialCurrentNextCards();
   }
 
@@ -155,6 +171,7 @@ export class ReviewStore {
       this.cardsToReview.push(new CardUnderReviewStore(card, deck));
     });
 
+    this.shuffleRepeatCards();
     this.initializeInitialCurrentNextCards();
   }
 
