@@ -430,6 +430,10 @@ export class DeckFormStore {
     return `${this.cardFilter.sortBy.value}-${this.cardFilter.sortDirection.value}`;
   }
 
+  get isEmptySearchResults() {
+    return this.filteredCards.length === 0 && !!this.cardFilter.text.value;
+  }
+
   toggleIsSpeakingCardEnabled() {
     if (!this.deckForm) {
       return;
