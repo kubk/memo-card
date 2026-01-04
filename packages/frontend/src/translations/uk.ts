@@ -8,6 +8,8 @@ export const uk: Translation = {
   ai_speech_lang_support: "Підтримує понад 30 мов",
   ai_speech_listen: "Прослухати зразок",
   voice_type_none: "Немає",
+  card_order: "Порядок карток",
+  card_order_random: "Випадковий порядок",
   review_custom: "Виберіть, що повторити",
   review_card_type: "Тип картки",
   custom_due_cards: "Картки для повторення",
@@ -154,6 +156,7 @@ export const uk: Translation = {
   category: "Категорія",
   any_category: "Будь-яка",
   deck_search_not_found: "Колод не знайдено",
+  card_search_not_found: "Карток не знайдено",
   deck_search_not_found_description:
     "Спробуйте оновити фільтри, щоб побачити більше",
   category_English: "Англійська",
