@@ -165,21 +165,21 @@ export function CardList() {
           </div>
         );
       })}
-      {deckFormStore.filteredCards.length === 0 &&
-        deckFormStore.cardFilter.text.value && (
-          <div className="text-center text-hint py-4">
-            {t("card_search_not_found")}
-          </div>
-        )}
-      {!cardListStore.isSelectionMode.value && (
-        <Button
-          onClick={() => {
-            deckFormStore.navigateToNewCard();
-          }}
-        >
-          {t("add_card")}
-        </Button>
+      {deckFormStore.isEmptySearchResults && (
+        <div className="text-center text-hint py-4">
+          {t("card_search_not_found")}
+        </div>
       )}
+      {!cardListStore.isSelectionMode.value &&
+        !deckFormStore.isEmptySearchResults && (
+          <Button
+            onClick={() => {
+              deckFormStore.navigateToNewCard();
+            }}
+          >
+            {t("add_card")}
+          </Button>
+        )}
 
       <BottomSheet
         isOpen={cardListStore.isSortSheetOpen.value}
