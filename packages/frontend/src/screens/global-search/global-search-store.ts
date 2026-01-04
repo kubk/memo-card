@@ -5,6 +5,7 @@ import { removeAllTags } from "../../lib/sanitize-html/remove-all-tags.ts";
 import { DeckListItem } from "../../store/deck-list-store.ts";
 import { DeckCardDbType } from "api";
 import { t } from "../../translations/t.ts";
+import { calculateRelevanceScore } from "./search-relevance-score.ts";
 
 const MAX_DISPLAY = 20;
 const MAX_SEARCH = MAX_DISPLAY + 1;
@@ -201,7 +202,7 @@ export class GlobalSearchStore {
         type: "folder",
         item: folder,
         matches: folderMatches,
-        relevanceScore: this.calculateRelevanceScore(folderMatches, query),
+        relevanceScore: calculateRelevanceScore(folderMatches, query),
       });
       return true;
     }
@@ -234,7 +235,7 @@ export class GlobalSearchStore {
         item: deck,
         parentItem: folderInfo || undefined, // Will be undefined if deck is standalone
         matches: deckMatches,
-        relevanceScore: this.calculateRelevanceScore(deckMatches, query),
+        relevanceScore: calculateRelevanceScore(deckMatches, query),
       });
       return true;
     }
@@ -259,7 +260,7 @@ export class GlobalSearchStore {
           item: card,
           parentItem: deck,
           matches: cardMatches,
-          relevanceScore: this.calculateRelevanceScore(cardMatches, query),
+          relevanceScore: calculateRelevanceScore(cardMatches, query),
         });
         addedCount++;
       }
@@ -416,69 +417,6 @@ export class GlobalSearchStore {
     );
   }
 
-  private calculateRelevanceScore(
-    matches: SearchMatch[],
-    query: string,
-  ): number {
-    let score = 0;
-
-    for (const match of matches) {
-      const lowerValue = match.value.toLowerCase();
-
-      if (!lowerValue.includes(query)) {
-        continue;
-      }
-
-      // Exact match (query equals entire value) - highest priority
-      if (lowerValue === query) {
-        score += 100;
-      }
-      // Word boundary match (query is a complete word, not part of another word)
-      else if (this.isWordBoundaryMatch(lowerValue, query)) {
-        score += 50;
-
-        // Extra bonus for matches at the beginning of text
-        if (lowerValue.startsWith(query)) {
-          score += 10;
-        }
-      }
-      // Substring match (query is part of another word like "rice" in "priced")
-      else {
-        score += 5;
-
-        if (lowerValue.startsWith(query)) {
-          score += 2;
-        }
-      }
-
-      // Boost score based on field importance
-      switch (match.field) {
-        case "name":
-          score += 5;
-          break;
-        case "front":
-          score += 3;
-          break;
-        case "back":
-          score += 3;
-          break;
-        case "description":
-          score += 2;
-          break;
-        case "example":
-          score += 1;
-          break;
-      }
-    }
-
-    return score;
-  }
-
-  private isWordBoundaryMatch(text: string, query: string): boolean {
-    const escapedQuery = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    const wordBoundaryRegex = new RegExp(`(^|\\s|[^a-zA-Z0-9])${escapedQuery}($|\\s|[^a-zA-Z0-9])`, "i");
-    return wordBoundaryRegex.test(text);
-  }
 }
 
 export const globalSearchStore = new GlobalSearchStore();
