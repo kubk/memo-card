@@ -86,12 +86,14 @@ export function CardList() {
   return (
     <Screen title={t("cards")}>
       {deckFormStore.deckForm.cards.length > 1 && (
-        <>
-          <Input
-            field={deckFormStore.cardFilter.text}
-            mainIcon={<SearchIcon size={18} />}
-            placeholder={t("search_card")}
-          />
+        <Input
+          field={deckFormStore.cardFilter.text}
+          mainIcon={<SearchIcon size={18} />}
+          placeholder={t("search_card")}
+        />
+      )}
+      {deckFormStore.filteredCards.length > 0 &&
+        deckFormStore.deckForm.cards.length > 1 && (
           <div className="flex justify-between items-center pr-2">
             <div
               onClick={() => cardListStore.isSortSheetOpen.setTrue()}
@@ -121,8 +123,7 @@ export function CardList() {
                 : t("select")}
             </div>
           </div>
-        </>
-      )}
+        )}
       {deckFormStore.filteredCards.map((cardForm, i) => {
         const isSelected =
           cardForm.id !== undefined &&
@@ -164,6 +165,12 @@ export function CardList() {
           </div>
         );
       })}
+      {deckFormStore.filteredCards.length === 0 &&
+        deckFormStore.cardFilter.text.value && (
+          <div className="text-center text-hint py-4">
+            {t("card_search_not_found")}
+          </div>
+        )}
       {!cardListStore.isSelectionMode.value && (
         <Button
           onClick={() => {

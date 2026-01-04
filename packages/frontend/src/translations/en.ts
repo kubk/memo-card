@@ -1,4 +1,6 @@
 export const en = {
+  card_order: "Card order",
+  card_order_random: "Random order",
   logout: "Logout",
   error_contact_support:
     "An error occurred. Please contact support so we can help you.",
@@ -73,6 +75,7 @@ export const en = {
   any_category: "Any",
   deck_search_not_found: "No decks found",
   deck_search_not_found_description: "Try updating filters to see more decks",
+  card_search_not_found: "No cards found",
   category_English: "English",
   category_Thai: "Thai",
   category_Geography: "Geography",

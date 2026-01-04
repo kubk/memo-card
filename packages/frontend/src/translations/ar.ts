@@ -8,6 +8,8 @@ export const ar: Translation = {
   ai_speech_lang_support: "يدعم أكثر من 30 لغة",
   ai_speech_listen: "استمع للعينة",
   voice_type_none: "لا شيء",
+  card_order: "ترتيب البطاقات",
+  card_order_random: "ترتيب عشوائي",
   review_card_type: "اختر نوع البطاقة",
   custom_due_cards: "البطاقات المستحقة",
   custom_new_cards: "البطاقات الجديدة",
@@ -85,6 +87,7 @@ export const ar: Translation = {
   category: "الفئة",
   any_category: "أي",
   deck_search_not_found: "لم يتم العثور على مجموعات",
+  card_search_not_found: "لم يتم العثور على بطاقات",
   deck_search_not_found_description:
     "حاول تحديث الفلاتر لرؤية المزيد من المجموعات",
   category_English: "الإنجليزية",

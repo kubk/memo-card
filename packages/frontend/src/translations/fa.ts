@@ -8,6 +8,8 @@ export const fa: Translation = {
   ai_speech_lang_support: "پشتیبانی از بیش از 30 زبان",
   ai_speech_listen: "شنیدن نمونه",
   voice_type_none: "هیچ",
+  card_order: "ترتیب کارت‌ها",
+  card_order_random: "ترتیب تصادفی",
   review_custom: "انتخاب موارد مرور",
   custom_new_cards: "کارت‌های جدید",
   custom_due_cards: "کارت‌های مرور",
@@ -93,6 +95,7 @@ export const fa: Translation = {
   category: "دسته‌بندی",
   any_category: "هر دسته‌ای",
   deck_search_not_found: "هیچ دسته کارتی پیدا نشد",
+  card_search_not_found: "هیچ کارتی پیدا نشد",
   deck_search_not_found_description:
     "فیلترها را به‌روز کنید تا موارد بیشتری ببینید",
   category_English: "انگلیسی",

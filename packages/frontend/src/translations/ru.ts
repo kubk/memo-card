@@ -1,6 +1,8 @@
 import { type Translation } from "./en";
 
 export const ru: Translation = {
+  card_order: "Порядок карточек",
+  card_order_random: "Случайный порядок",
   ai_cards_generate: "Сгенерировать карточки",
   settings_lang: "Язык",
   copy_code: "Скопировать код",
@@ -139,6 +141,7 @@ export const ru: Translation = {
   category: "Категория",
   any_category: "Любая",
   deck_search_not_found: "Нет подходящих колод",
+  card_search_not_found: "Карточки не найдены",
   deck_form_remove_card_confirm:
     "Удалить карточку? Все повторения этой карточки будут удалены",
   deck_form_remove_cards_confirm:
