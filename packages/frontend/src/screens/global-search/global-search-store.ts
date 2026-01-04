@@ -425,13 +425,29 @@ export class GlobalSearchStore {
     for (const match of matches) {
       const lowerValue = match.value.toLowerCase();
 
-      // Only exact matches now (since we removed fuzzy search)
-      if (lowerValue.includes(query)) {
-        score += 10;
+      if (!lowerValue.includes(query)) {
+        continue;
+      }
+
+      // Exact match (query equals entire value) - highest priority
+      if (lowerValue === query) {
+        score += 100;
+      }
+      // Word boundary match (query is a complete word, not part of another word)
+      else if (this.isWordBoundaryMatch(lowerValue, query)) {
+        score += 50;
 
         // Extra bonus for matches at the beginning of text
         if (lowerValue.startsWith(query)) {
-          score += 5;
+          score += 10;
+        }
+      }
+      // Substring match (query is part of another word like "rice" in "priced")
+      else {
+        score += 5;
+
+        if (lowerValue.startsWith(query)) {
+          score += 2;
         }
       }
 
@@ -456,6 +472,12 @@ export class GlobalSearchStore {
     }
 
     return score;
+  }
+
+  private isWordBoundaryMatch(text: string, query: string): boolean {
+    const escapedQuery = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const wordBoundaryRegex = new RegExp(`(^|\\s|[^a-zA-Z0-9])${escapedQuery}($|\\s|[^a-zA-Z0-9])`, "i");
+    return wordBoundaryRegex.test(text);
   }
 }
 
