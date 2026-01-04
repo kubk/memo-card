@@ -8,8 +8,6 @@ export const ptBr: Translation = {
   ai_speech_lang_support: "Suporta mais de 30 idiomas",
   ai_speech_listen: "Ouvir amostra",
   voice_type_none: "Nenhum",
-  card_order: "Ordem dos cartões",
-  card_order_random: "Ordem aleatória",
   review_custom: "Selecionar o que revisar",
   custom_new_cards: "Novas cartas",
   custom_due_cards: "Cartas para revisar",

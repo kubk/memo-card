@@ -1,8 +1,6 @@
 import { type Translation } from "./en";
 
 export const ru: Translation = {
-  card_order: "Порядок карточек",
-  card_order_random: "Случайный порядок",
   ai_cards_generate: "Сгенерировать карточки",
   settings_lang: "Язык",
   copy_code: "Скопировать код",

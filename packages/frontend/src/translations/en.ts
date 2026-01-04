@@ -1,6 +1,4 @@
 export const en = {
-  card_order: "Card order",
-  card_order_random: "Random order",
   logout: "Logout",
   error_contact_support:
     "An error occurred. Please contact support so we can help you.",
