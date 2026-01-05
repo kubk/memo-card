@@ -19,7 +19,6 @@ import { FilledIcon } from "../../../ui/filled-icon.tsx";
 import { theme } from "../../../ui/theme.tsx";
 import { ListRightText } from "../../../ui/list-right-text.tsx";
 import { formatCardType } from "./format-card-type.ts";
-import { action } from "mobx";
 import { formTouchAll, isFormValid } from "mobx-form-lite";
 import { ButtonSideAligned } from "../../../ui/button-side-aligned.tsx";
 import { ButtonGrid } from "../../../ui/button-grid.tsx";
@@ -47,8 +46,6 @@ import { useCardFormStore } from "./store/card-form-store-context.tsx";
 import { CardTypeModal } from "./card-type-modal.tsx";
 import { CircleCheckbox } from "../../../ui/circle-checkbox.tsx";
 import { CardRow } from "../../../ui/card-row.tsx";
-import { createAnswerForm } from "../deck-form/store/deck-form-store.ts";
-import { platform } from "../../../lib/platform/platform.ts";
 import { cn } from "../../../ui/cn.ts";
 
 export function ManualCardFormView() {
@@ -140,74 +137,48 @@ export function ManualCardFormView() {
             >
               {" "}
             </Label>
-            {cardForm.answers.value.map((answerForm) => {
-              const onToggleIsCorrect = action(() => {
-                if (!answerForm.isCorrect.value) {
-                  cardForm.answers.value.forEach((inner) => {
-                    if (inner.id !== answerForm.id) {
-                      inner.isCorrect.value = false;
-                    }
-                  });
-                }
-                answerForm.isCorrect.toggle();
-                platform.haptic("selection");
-              });
-
-              const onDelete = action(() => {
-                cardForm.answers.removeByCondition(
-                  (a) => a.id === answerForm.id,
-                );
-                platform.haptic("selection");
-              });
-
-              return (
+            {cardForm.answers.value.map((answerForm) => (
+              <div
+                key={answerForm.id}
+                className={cn("flex items-start gap-2 relative", {})}
+              >
                 <div
-                  key={answerForm.id}
-                  className={cn("flex items-start gap-2 relative", {})}
+                  className={cn("mt-[16px]", {
+                    "mt-[5px]": isQuizzCardFormattingOn,
+                  })}
+                  onClick={() =>
+                    cardFormStore.toggleAnswerCorrect(answerForm.id)
+                  }
                 >
-                  <div
-                    className={cn("mt-[16px]", {
-                      "mt-[5px]": isQuizzCardFormattingOn,
-                    })}
-                    onClick={onToggleIsCorrect}
-                  >
-                    <CircleCheckbox
-                      checkedClassName="bg-success"
-                      checked={answerForm.isCorrect.value}
-                      onChange={() => {}}
-                    />
-                  </div>
-                  <div className="flex-1">
-                    {isQuizzCardFormattingOn ? (
-                      <WysiwygField field={answerForm.text} />
-                    ) : (
-                      <Input
-                        field={answerForm.text}
-                        placeholder={t("answer_text")}
-                      />
-                    )}
-                  </div>
-                  <button
-                    type="button"
-                    className={cn("mt-[19px]", {
-                      "mt-[7px]": isQuizzCardFormattingOn,
-                    })}
-                    onClick={onDelete}
-                  >
-                    <TrashIcon size={18} />
-                  </button>
+                  <CircleCheckbox
+                    checkedClassName="bg-success"
+                    checked={answerForm.isCorrect.value}
+                    onChange={() => {}}
+                  />
                 </div>
-              );
-            })}
+                <div className="flex-1">
+                  {isQuizzCardFormattingOn ? (
+                    <WysiwygField field={answerForm.text} />
+                  ) : (
+                    <Input
+                      field={answerForm.text}
+                      placeholder={t("answer_text")}
+                    />
+                  )}
+                </div>
+                <button
+                  type="button"
+                  className={cn("mt-[19px]", {
+                    "mt-[7px]": isQuizzCardFormattingOn,
+                  })}
+                  onClick={() => cardFormStore.deleteAnswer(answerForm.id)}
+                >
+                  <TrashIcon size={18} />
+                </button>
+              </div>
+            ))}
 
-            <CardRow
-              className="mt-[3px]"
-              onClick={action(() => {
-                const answerForm = createAnswerForm();
-                cardForm.answers.push(answerForm);
-                platform.haptic("selection");
-              })}
-            >
+            <CardRow className="mt-[3px]" onClick={cardFormStore.addAnswer}>
               <span className="flex items-center gap-2 text-link">
                 <PlusIcon size={18} className="text-inherit" />{" "}
                 {t("add_answer")}
