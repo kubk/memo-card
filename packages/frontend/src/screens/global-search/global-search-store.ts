@@ -30,7 +30,7 @@ export type SearchResultItem = {
   relevanceScore: number;
 };
 
-export class GlobalSearchStore {
+class GlobalSearchStore {
   activeTab: SearchTab | null = null;
   searchQuery = new TextField("", {
     afterChange: () => {
@@ -416,7 +416,6 @@ export class GlobalSearchStore {
       '<mark class="bg-button text-white py-0 rounded-sm font-medium">$1</mark>',
     );
   }
-
 }
 
 export const globalSearchStore = new GlobalSearchStore();

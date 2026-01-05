@@ -4,16 +4,16 @@ import { assert } from "api";
 
 const Context = createContext<FolderFormStore | null>(null);
 
-export const FolderFormStoreProvider = (props: { children: ReactNode }) => {
+export function FolderFormStoreProvider(props: { children: ReactNode }) {
   return (
     <Context.Provider value={new FolderFormStore()}>
       {props.children}
     </Context.Provider>
   );
-};
+}
 
-export const useFolderFormStore = () => {
+export function useFolderFormStore() {
   const store = useContext(Context);
   assert(store, "FolderFormStoreProvider not found");
   return store;
-};
+}

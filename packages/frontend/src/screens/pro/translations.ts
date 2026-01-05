@@ -4,7 +4,7 @@ import { calcPlanPriceForDuration, PlanDuration } from "api";
 import { formatPriceAsText } from "api";
 import { PaymentMethodType } from "api";
 
-export const getPlanTitle = (plan: PlanDb) => {
+const getPlanTitle = (plan: PlanDb) => {
   switch (plan.type) {
     case "pro":
       return `Pro`;

@@ -99,16 +99,13 @@ export const es: Translation = {
   duplicate_folder_confirm: "¿Estás seguro de duplicar esta carpeta?",
   validation_at_least_one_answer_required:
     "Se debe proporcionar al menos una respuesta",
-  is_correct: "Es correcto",
   validation_answer_at_least_one_correct:
     "Se debe seleccionar al menos una respuesta correcta",
-  edit_answer: "Editar respuesta",
   review_correct_label: "Correcto",
   review_wrong_label: "Incorrecto",
   advanced: "Avanzado",
   answer_text: "Texto de la respuesta",
   add_answer: "Añadir respuesta",
-  is_correct_explanation: `Solo puede haber una respuesta correcta`,
   card_preview: "Vista previa",
   review_folder: "Repasar carpeta",
   folder_description: "Una colección de mazos",
@@ -325,6 +322,7 @@ export const es: Translation = {
 
   reverse_cards: "Crear tarjetas inversas",
   two_cards_created: "Se han creado 2 tarjetas",
+  card_created: "Tarjeta creada",
 
   // Move card to deck
   move_card_to_deck_title: "Mover a mazo",

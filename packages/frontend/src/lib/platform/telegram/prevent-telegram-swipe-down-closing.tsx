@@ -9,7 +9,7 @@ type Props = {
   children: ReactNode;
 };
 
-export const PreventTelegramSwipeDownClosing = (props: Props) => {
+const PreventTelegramSwipeDownClosing = (props: Props) => {
   const { condition, children } = props;
   const ref = useRef<HTMLDivElement | null>(null);
 

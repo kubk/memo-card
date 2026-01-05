@@ -6,31 +6,23 @@ import { WysiwygField } from "../../../ui/wysiwyg-field/wysiwig-field.tsx";
 import { Input } from "../../../ui/input.tsx";
 import { HintTransparent } from "../../../ui/hint-transparent.tsx";
 import { userStore } from "../../../store/user-store.ts";
-import { CardFormType } from "../deck-form/store/deck-form-store.ts";
 import { useBackButton } from "../../../lib/platform/use-back-button.ts";
 import { useMainButton } from "../../../lib/platform/use-main-button.ts";
 import { wysiwygStore } from "../../../store/wysiwyg-store.ts";
+import { useCardFormStore } from "./store/card-form-store-context.tsx";
+import { assert } from "api";
 
-type Props = {
-  cardForm: CardFormType;
-  onBack: () => void;
-};
+export function CardExample() {
+  const cardFormStore = useCardFormStore();
+  const { cardForm } = cardFormStore;
+  assert(cardForm, "Card form should be available");
 
-export function CardExample(props: Props) {
   const isCardFormattingOn = userStore.isCardFormattingOn.value;
-  const { cardForm, onBack } = props;
+  const onBack = () => cardFormStore.cardInnerScreen.onChange(null);
 
-  useBackButton(() => {
-    onBack();
-  });
+  useBackButton(onBack);
 
-  useMainButton(
-    t("go_back"),
-    () => {
-      onBack();
-    },
-    () => wysiwygStore.bottomSheet === null,
-  );
+  useMainButton(t("go_back"), onBack, () => wysiwygStore.bottomSheet === null);
 
   return (
     <Screen title={t("card_field_example_title")}>

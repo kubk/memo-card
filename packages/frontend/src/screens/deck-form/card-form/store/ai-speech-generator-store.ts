@@ -5,7 +5,7 @@ import { makeAutoObservable } from "mobx";
 import { notifyError } from "../../../shared/snackbar/snackbar.tsx";
 import { t } from "../../../../translations/t.ts";
 import { api } from "../../../../api/trpc-api.ts";
-import { LimitedDeckForm } from "./card-preview-types.ts";
+import { SpeakLanguage } from "api";
 
 export class AiSpeechGeneratorStore {
   speechGenerateRequest = new RequestStore(api.aiSpeechGenerate.mutate);
@@ -28,13 +28,13 @@ export class AiSpeechGeneratorStore {
 
   constructor(
     public cardForm: CardFormType,
-    public deckForm: LimitedDeckForm,
+    public speakingCardsLocale: SpeakLanguage | null,
   ) {
     makeAutoObservable(
       this,
       {
         cardForm: false,
-        deckForm: false,
+        speakingCardsLocale: false,
       },
       { autoBind: true },
     );
@@ -46,7 +46,7 @@ export class AiSpeechGeneratorStore {
       return;
     }
 
-    const language = this.deckForm.speakingCardsLocale.value;
+    const language = this.speakingCardsLocale;
     if (!language) {
       notifyError(false, { message: "Please set a language for the deck" });
       return;

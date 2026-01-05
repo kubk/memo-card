@@ -9,6 +9,7 @@ import { createCachedCardInputModesRequest } from "../../../api/create-cached-ca
 import { CardInputModeDb } from "api";
 import { assert } from "api";
 import { api } from "../../../api/trpc-api.ts";
+import { screenStore } from "../../../store/screen-store.ts";
 
 export class CardInputModeStore {
   cardInputModesRequest = createCachedCardInputModesRequest();
@@ -54,7 +55,7 @@ export class CardInputModeStore {
 
     deckListStore.updateDeckCardInputMode(deckId, this.modeId.value);
     notifySuccess(t("card_input_mode_changed"));
-    this.deckFormStore.quitInnerScreen();
+    screenStore.back();
   }
 
   get viewMode(): CardInputModeDb | null {

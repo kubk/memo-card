@@ -8,6 +8,7 @@ import { CardInputModeDb } from "api";
 import { api } from "../../../api/trpc-api.ts";
 import { t } from "../../../translations/t.ts";
 import { showConfirm } from "../../../lib/platform/show-confirm.ts";
+import { screenStore } from "../../../store/screen-store.ts";
 
 export class CardInputModeFormStore {
   cardInputModesRequest = createCachedCardInputModesRequest();
@@ -83,7 +84,7 @@ export class CardInputModeFormStore {
     this.cardInputModesRequest.invalidate();
 
     notifySuccess(t("card_input_mode_form_save_success"));
-    this.deckFormStore.quitInnerScreen();
+    screenStore.back();
   }
 
   async handleDelete() {
@@ -111,7 +112,7 @@ export class CardInputModeFormStore {
     this.cardInputModesRequest.invalidate();
 
     notifySuccess(t("card_input_mode_form_delete_success"));
-    this.deckFormStore.quitInnerScreen();
+    screenStore.back();
   }
 
   get isAnyRequestLoading() {

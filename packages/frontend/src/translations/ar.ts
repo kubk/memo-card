@@ -188,10 +188,7 @@ export const ar: Translation = {
   go_back: "العودة",
   validation_at_least_one_deck: "يرجى اختيار مجموعة واحدة على الأقل",
   add_answer: "إضافة إجابة الاختبار",
-  edit_answer: "تحرير الإجابة",
   answer_text: "نص الإجابة",
-  is_correct: "صحيح",
-  is_correct_explanation: `يمكن أن يكون هناك إجابة صحيحة واحدة فقط`,
   review_correct_label: "صحيح",
   review_wrong_label: "خطأ",
   advanced: "متقدم",
@@ -326,6 +323,7 @@ export const ar: Translation = {
 
   reverse_cards: "إنشاء بطاقات عكسية",
   two_cards_created: "تم إنشاء بطاقتين",
+  card_created: "تم إنشاء البطاقة",
 
   // Move card to deck
   move_card_to_deck_title: "نقل إلى رزمة",

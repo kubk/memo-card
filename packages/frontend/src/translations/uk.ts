@@ -100,16 +100,13 @@ export const uk: Translation = {
   duplicate_folder_confirm: "Ви впевнені, що хочете дублювати цю папку?",
   validation_at_least_one_answer_required:
     "Потрібно надати хоча б одну відповідь",
-  is_correct: "Правильно",
   review_correct_label: "Правильно",
   review_wrong_label: "Неправильно",
   validation_answer_at_least_one_correct:
     "Потрібно вибрати одну правильну відповідь",
-  edit_answer: "Редагувати відповідь",
   advanced: "Розширені",
   answer_text: "Текст відповіді",
   add_answer: "Додати відповідь",
-  is_correct_explanation: "Може бути тільки одна правильна відповідь",
   card_preview: "Перегляд",
   review_folder: "Повторити папку",
   folder_description: "Колекція колод",
@@ -329,6 +326,7 @@ export const uk: Translation = {
 
   reverse_cards: "Створювати зворотні картки",
   two_cards_created: "Створено 2 картки",
+  card_created: "Картку створено",
 
   // Move card to deck
   move_card_to_deck_title: "Перемістити в колоду",

@@ -194,10 +194,7 @@ export const fa: Translation = {
   go_back: "بازگشت",
   validation_at_least_one_deck: "لطفاً حداقل ۱ دسته کارت انتخاب کنید",
   add_answer: "افزودن پاسخ آزمون",
-  edit_answer: "ویرایش پاسخ",
   answer_text: "متن پاسخ",
-  is_correct: "درست است",
-  is_correct_explanation: "فقط یک پاسخ می‌تواند درست باشد",
   review_correct_label: "درست",
   review_wrong_label: "نادرست",
   advanced: "پیشرفته",
@@ -329,6 +326,7 @@ export const fa: Translation = {
 
   reverse_cards: "ایجاد کارت‌های معکوس",
   two_cards_created: "۲ کارت ایجاد شد",
+  card_created: "کارت ایجاد شد",
 
   // Move card to deck
   move_card_to_deck_title: "انتقال به دسته",

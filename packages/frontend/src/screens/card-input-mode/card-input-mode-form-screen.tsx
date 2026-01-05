@@ -6,26 +6,25 @@ import { useMount } from "../../lib/react/use-mount.ts";
 import { FullScreenLoader } from "../../ui/full-screen-loader.tsx";
 import { useMainButton } from "../../lib/platform/use-main-button.ts";
 import { useProgress } from "../../lib/platform/use-progress.tsx";
-import { DeckFormStore } from "../deck-form/deck-form/store/deck-form-store.ts";
 import { Input } from "../../ui/input.tsx";
 import { TrashIcon } from "lucide-react";
 import { Label } from "../../ui/label.tsx";
 import { ButtonGrid } from "../../ui/button-grid.tsx";
 import { ButtonSideAligned } from "../../ui/button-side-aligned.tsx";
 import { t } from "../../translations/t.ts";
+import { screenStore } from "../../store/screen-store.ts";
+import { useDeckFormStore } from "../deck-form/deck-form/store/deck-form-store-context.tsx";
 
-export function CardInputModeFormScreen({
-  deckFormStore,
-}: {
-  deckFormStore: DeckFormStore;
-}) {
+export function CardInputModeFormScreen() {
+  const deckFormStore = useDeckFormStore();
   const [store] = useState(() => new CardInputModeFormStore(deckFormStore));
+
   useMount(() => {
     store.load();
   });
 
   useBackButton(() => {
-    deckFormStore.quitInnerScreen();
+    screenStore.back();
   });
 
   useMainButton(t("save"), () => store.submit());

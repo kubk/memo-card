@@ -179,10 +179,7 @@ export const en = {
   go_back: "Back",
   validation_at_least_one_deck: "Please select at least 1 deck",
   add_answer: "Add quiz answer",
-  edit_answer: "Edit answer",
   answer_text: "Answer text",
-  is_correct: "Is correct",
-  is_correct_explanation: `There can only be one correct answer`,
   review_correct_label: "Correct",
   review_wrong_label: "Incorrect",
   advanced: "More",
@@ -327,6 +324,7 @@ export const en = {
 
   reverse_cards: "Create reverse cards",
   two_cards_created: "2 cards have been created",
+  card_created: "Card has been created",
 
   // Move card to deck
   move_card_to_deck_title: "Move to deck",

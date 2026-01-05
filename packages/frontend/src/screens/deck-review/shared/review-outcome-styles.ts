@@ -12,7 +12,7 @@ const baseOutcomeColors = {
 };
 
 // Styles for small badges (used in reviewed cards list)
-export const reviewOutcomeBadgeStyles = {
+export const reviewOutcomeStyles = {
   again: baseOutcomeColors.again,
   hard: baseOutcomeColors.hard,
   good: baseOutcomeColors.good,
@@ -49,6 +49,3 @@ export const reviewOutcomeLabels = {
   easy: () => t("review_easy"),
   never: () => t("hide_card_forever"),
 };
-
-// Legacy export for backward compatibility
-export const reviewOutcomeStyles = reviewOutcomeBadgeStyles;
