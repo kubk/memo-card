@@ -8,8 +8,6 @@ export const ptBr: Translation = {
   ai_speech_lang_support: "Suporta mais de 30 idiomas",
   ai_speech_listen: "Ouvir amostra",
   voice_type_none: "Nenhum",
-  card_order: "Ordem dos cartões",
-  card_order_random: "Ordem aleatória",
   review_custom: "Selecionar o que revisar",
   custom_new_cards: "Novas cartas",
   custom_due_cards: "Cartas para revisar",
@@ -101,13 +99,10 @@ export const ptBr: Translation = {
   formatting: "Formatação",
   validation_answer_at_least_one_correct:
     "Selecione pelo menos uma resposta correta",
-  is_correct_explanation: `Só pode haver uma resposta correta`,
   duplicate_folder_confirm: "Tem certeza de que deseja duplicar esta pasta?",
   add_answer: "Adicionar resposta",
   answer_text: "Texto da resposta",
   advanced: "Avançado",
-  edit_answer: "Editar resposta",
-  is_correct: "É correto",
   review_correct_label: "Correto",
   review_wrong_label: "Incorreto",
   validation_at_least_one_answer_required:
@@ -327,6 +322,7 @@ export const ptBr: Translation = {
 
   reverse_cards: "Criar cartões reversos",
   two_cards_created: "2 cartões foram criados",
+  card_created: "Cartão criado",
 
   // Move card to deck
   move_card_to_deck_title: "Mover para baralho",

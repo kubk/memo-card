@@ -31,11 +31,11 @@ export class TelegramPlatform implements Platform {
     // @ts-expect-error
     // prettier-ignore
     cloudStorageAdapter.getItem<LanguageShared>(LANGUAGE_CACHE_KEY)?.then((languageCached) => {
-        if (!languageCached) {
-          return;
-        }
-        this.languageCached = languageCached;
-      });
+      if (!languageCached) {
+        return;
+      }
+      this.languageCached = languageCached;
+    });
   }
 
   getInitData(): string {

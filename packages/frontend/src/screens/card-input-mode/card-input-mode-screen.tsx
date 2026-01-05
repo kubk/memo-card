@@ -8,15 +8,14 @@ import { RadioList } from "../../ui/radio-list/radio-list.tsx";
 import { useMainButton } from "../../lib/platform/use-main-button.ts";
 import { useProgress } from "../../lib/platform/use-progress.tsx";
 import { t } from "../../translations/t.ts";
-import { DeckFormStore } from "../deck-form/deck-form/store/deck-form-store.ts";
 import { IndividualCardAiPreview } from "../shared/feature-preview/individual-card-ai-preview.tsx";
 import { CircleHelpIcon, EditIcon, PlusIcon } from "lucide-react";
 import { ButtonSideAligned } from "../../ui/button-side-aligned.tsx";
+import { screenStore } from "../../store/screen-store.ts";
+import { useDeckFormStore } from "../deck-form/deck-form/store/deck-form-store-context.tsx";
 
-type Props = { deckFormStore: DeckFormStore };
-
-export function CardInputModeScreen(props: Props) {
-  const { deckFormStore } = props;
+export function CardInputModeScreen() {
+  const deckFormStore = useDeckFormStore();
   const [store] = useState(() => new CardInputModeStore(deckFormStore));
 
   useMount(() => {
@@ -24,7 +23,7 @@ export function CardInputModeScreen(props: Props) {
   });
 
   useBackButton(() => {
-    deckFormStore.quitInnerScreen();
+    screenStore.back();
   });
 
   useMainButton(

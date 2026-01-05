@@ -1,19 +1,22 @@
-import { createContext, ReactNode, useContext } from "react";
+import { createContext, ReactNode, useContext, useState } from "react";
 import { DeckFormStore } from "./deck-form-store.ts";
 import { assert } from "api";
+import { useMount } from "../../../../lib/react/use-mount.ts";
 
 const Context = createContext<DeckFormStore | null>(null);
 
-export const DeckFormStoreProvider = (props: { children: ReactNode }) => {
-  return (
-    <Context.Provider value={new DeckFormStore()}>
-      {props.children}
-    </Context.Provider>
-  );
-};
+export function DeckFormStoreProvider(props: { children: ReactNode }) {
+  const [store] = useState(() => new DeckFormStore());
 
-export const useDeckFormStore = () => {
+  useMount(() => {
+    store.loadForm();
+  });
+
+  return <Context.Provider value={store}>{props.children}</Context.Provider>;
+}
+
+export function useDeckFormStore() {
   const store = useContext(Context);
   assert(store, "DeckFormStoreProvider not found");
   return store;
-};
+}

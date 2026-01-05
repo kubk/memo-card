@@ -1,4 +1,3 @@
-import { CardFormType } from "../deck-form/store/deck-form-store.ts";
 import { useBackButton } from "../../../lib/platform/use-back-button.ts";
 import { Screen } from "../../shared/screen.tsx";
 import { AudioPlayer } from "../../../ui/audio-player.tsx";
@@ -12,29 +11,24 @@ import { Input } from "../../../ui/input.tsx";
 import { useState } from "react";
 import { AiSpeechGeneratorStore } from "./store/ai-speech-generator-store.ts";
 import { LoaderCircle, TrashIcon } from "lucide-react";
-import { LimitedDeckForm } from "./store/card-preview-types.ts";
+import { useCardFormStore } from "./store/card-form-store-context.tsx";
+import { assert } from "api";
 
-type Props = {
-  cardForm: CardFormType;
-  deckForm: LimitedDeckForm;
-  onBack: () => void;
-};
-
-export function CardAiSpeech(props: Props) {
-  const { cardForm, deckForm, onBack } = props;
+export function CardAiSpeech() {
+  const cardFormStore = useCardFormStore();
+  const { cardForm, speakingCardsLocale } = cardFormStore;
+  assert(cardForm, "Card form should be available");
 
   const [store] = useState(
-    () => new AiSpeechGeneratorStore(cardForm, deckForm),
+    () => new AiSpeechGeneratorStore(cardForm, speakingCardsLocale),
   );
   const { form } = store;
 
-  useBackButton(() => {
-    onBack();
-  });
+  const onBack = () => cardFormStore.cardInnerScreen.onChange(null);
 
-  useMainButton(t("go_back"), () => {
-    onBack();
-  });
+  useBackButton(onBack);
+
+  useMainButton(t("go_back"), onBack);
 
   return (
     <Screen title={t("ai_speech_title")}>

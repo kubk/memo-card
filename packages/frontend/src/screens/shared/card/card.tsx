@@ -6,7 +6,6 @@ import { t } from "../../../translations/t.ts";
 import { assert } from "api";
 import { cn } from "../../../ui/cn.ts";
 
-export const cardSize = 310;
 export const IDK_ID = "idk";
 
 export type LimitedCardUnderReviewStore = Pick<

@@ -1,17 +1,24 @@
 import { ReactNode } from "react";
+import { cn } from "./cn";
 
-type Props = {
+export function CardRow({
+  children,
+  onClick,
+  className,
+}: {
   children: ReactNode;
   onClick?: () => void;
-};
-
-export function CardRow(props: Props) {
+  className?: string;
+}) {
   return (
     <label
-      onClick={props.onClick}
-      className="bg-bg rounded-xl h-12 box-border p-3 flex justify-between items-center cursor-pointer"
+      onClick={onClick}
+      className={cn(
+        "bg-bg rounded-xl h-12 box-border p-3 flex justify-between items-center cursor-pointer",
+        className,
+      )}
     >
-      {props.children}
+      {children}
     </label>
   );
 }

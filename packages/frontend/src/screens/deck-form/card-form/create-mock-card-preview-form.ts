@@ -2,19 +2,14 @@ import { CardPreviewFormData } from "./store/card-preview-types.ts";
 import { BooleanField, TextField } from "mobx-form-lite";
 import { CardAnswerType } from "api";
 import { createAnswerListField } from "../deck-form/store/deck-form-store.ts";
-import {
-  DeckCardDbType,
-  DeckCardOptionsDbType,
-  DeckSpeakFieldEnum,
-  SpeakLanguage,
-} from "api";
+import { DeckCardDbType, DeckCardOptionsDbType } from "api";
 import { DeckWithCardsWithReviewType } from "../../../store/deck-list-store.ts";
 
 type CardPreviewType = Omit<DeckCardDbType, "id" | "createdAt" | "deckId">;
 
 type DeckPreviewType = Pick<
   DeckWithCardsWithReviewType,
-  "speakLocale" | "speakField" | "cardInputModeId"
+  "speakLocale" | "speakField"
 >;
 
 export const createMockCardPreviewForm = (
@@ -22,23 +17,13 @@ export const createMockCardPreviewForm = (
   deck?: DeckPreviewType,
 ): CardPreviewFormData => {
   return {
-    deckForm: deck
-      ? {
-          speakingCardsLocale: new TextField<SpeakLanguage | null>(
-            deck.speakLocale,
-          ),
-          speakingCardsField: new TextField<DeckSpeakFieldEnum | null>(
-            deck.speakField,
-          ),
-          cardInputModeId: deck.cardInputModeId || null,
-        }
-      : undefined,
+    speakingCardsLocale: deck?.speakLocale ?? null,
+    speakingCardsField: deck?.speakField ?? null,
     cardForm: {
       front: new TextField<string>(card.front),
       back: new TextField<string>(card.back),
       example: new TextField<string>(card.example ?? ""),
       answerType: new TextField<CardAnswerType>(card.answerType || "remember"),
-      answerFormType: "new",
       options: new TextField<DeckCardOptionsDbType>(card.options || null),
       answers: createAnswerListField(
         card.answers
@@ -50,7 +35,6 @@ export const createMockCardPreviewForm = (
           : [],
         () => null,
       ),
-      answerId: "0",
     },
   };
 };

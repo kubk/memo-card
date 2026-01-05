@@ -7,6 +7,7 @@ import { DeckFormScreen } from "./deck-form/deck-form/deck-form-screen.tsx";
 import { DeckFormStoreProvider } from "./deck-form/deck-form/store/deck-form-store-context.tsx";
 import { VersionWarning } from "./shared/version-warning.tsx";
 import { deckListStore } from "../store/deck-list-store.ts";
+import { appLoaderStore } from "../store/app-loader-store.ts";
 import { FullScreenLoader } from "../ui/full-screen-loader.tsx";
 import {
   PreventTelegramSwipeDownClosingIos,
@@ -43,6 +44,10 @@ import { PaywallModals } from "./shared/feature-preview/paywall-modals.tsx";
 import { CardPreviewScreen } from "./card-preview/card-preview-screen.tsx";
 import { SignedIn } from "./shared/signed-in.tsx";
 import { AboutScreen } from "./about/about-screen.tsx";
+import { CardList } from "./deck-form/deck-form/card-list.tsx";
+import { SpeakingCards } from "./deck-form/deck-form/speaking-cards.tsx";
+import { CardInputModeScreen } from "./card-input-mode/card-input-mode-screen.tsx";
+import { CardInputModeFormScreen } from "./card-input-mode/card-input-mode-form-screen.tsx";
 
 export function App() {
   useRestoreFullScreenExpand();
@@ -56,7 +61,7 @@ export function App() {
     deckListStore.loadFirstTime(platform.getStartParam());
   });
 
-  if (deckListStore.isAppLoading) {
+  if (appLoaderStore.isAppLoading) {
     return <FullScreenLoader />;
   }
 
@@ -149,6 +154,34 @@ export function App() {
         <SignedIn>
           <DeckFormStoreProvider>
             <DeckFormScreen />
+          </DeckFormStoreProvider>
+        </SignedIn>
+      )}
+      {screenStore.screen.type === "cardList" && (
+        <SignedIn>
+          <DeckFormStoreProvider>
+            <CardList />
+          </DeckFormStoreProvider>
+        </SignedIn>
+      )}
+      {screenStore.screen.type === "speakingCards" && (
+        <SignedIn>
+          <DeckFormStoreProvider>
+            <SpeakingCards />
+          </DeckFormStoreProvider>
+        </SignedIn>
+      )}
+      {screenStore.screen.type === "cardInputMode" && (
+        <SignedIn>
+          <DeckFormStoreProvider>
+            <CardInputModeScreen />
+          </DeckFormStoreProvider>
+        </SignedIn>
+      )}
+      {screenStore.screen.type === "cardInputModeForm" && (
+        <SignedIn>
+          <DeckFormStoreProvider>
+            <CardInputModeFormScreen />
           </DeckFormStoreProvider>
         </SignedIn>
       )}

@@ -20,6 +20,7 @@ type Props = {
   noAutoSize?: boolean;
   autoFocus?: boolean;
   id?: string;
+  className?: string;
 };
 
 export function Input(props: Props) {
@@ -34,6 +35,7 @@ export function Input(props: Props) {
     isDisabled,
     autoFocus,
     id,
+    className,
   } = props;
   const { onChange, value, isTouched, error, onBlur } = field;
   const inputRef = useRef<HTMLTextAreaElement | HTMLInputElement | null>(null);
@@ -72,6 +74,7 @@ export function Input(props: Props) {
           "focus:outline-none",
           isTouched && error ? "focus:border-danger" : "focus:border-button",
           isDisabled && "opacity-40 cursor-not-allowed",
+          className,
         )}
         disabled={isDisabled}
         type="text"

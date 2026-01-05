@@ -42,7 +42,7 @@ export function CardsGeneratedScreen() {
       title={t("cards_add")}
       subtitle={
         screen.deckTitle ? (
-          <div className="text-center text-sm">
+          <div className="text-center text-sm mb-2">
             {t("deck")}{" "}
             <button
               onClick={() => {

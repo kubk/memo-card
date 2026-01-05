@@ -45,7 +45,7 @@ import {
 import { env } from "../../env.ts";
 import { erudaStore } from "../../store/eruda-store.ts";
 
-export const timeRanges = generateTimeRange();
+const timeRanges = generateTimeRange();
 
 export function UserSettingsScreen() {
   const userSettingsStore = useUserSettingsStore();

@@ -4,9 +4,11 @@ import { makeAutoObservable, reaction, runInAction } from "mobx";
 import { platform } from "../../../../lib/platform/platform.ts";
 import { showConfirm } from "../../../../lib/platform/show-confirm";
 import { deckListStore } from "../../../../store/deck-list-store";
-import { assert } from "api";
+import { appLoaderStore } from "../../../../store/app-loader-store";
 import { t } from "../../../../translations/t";
 import { MoveToDeckSelectorStore } from "./move-to-deck-selector-store";
+import { api } from "../../../../api/trpc-api";
+import { notifyError } from "../../../shared/snackbar/snackbar";
 
 export class CardListStore {
   isSortSheetOpen = new BooleanToggle(false);
@@ -73,25 +75,27 @@ export class CardListStore {
   }
 
   async deleteSelectedCards() {
-    const result = await showConfirm(t("deck_form_remove_cards_confirm"));
-    if (!result) return;
+    const confirmed = await showConfirm(t("deck_form_remove_cards_confirm"));
+    if (!confirmed) return;
 
-    runInAction(() => {
-      deckListStore.isAppLoading = true;
-      assert(this.deckFormStore.deckForm, "deleteSelectedCards: form is empty");
-      this.deckFormStore.deckForm.cardsToRemoveIds.push(
-        ...this.selectedCardIds,
-      );
-    });
+    appLoaderStore.enable();
 
     try {
-      await this.deckFormStore.onDeckSave();
+      const cardIds = Array.from(this.selectedCardIds);
+      const result = await api.card.deleteMany.mutate({ ids: cardIds });
+
+      const { deck, cardsToReview } = result;
+      runInAction(() => {
+        deckListStore.replaceDeck(deck, true);
+        deckListStore.updateCardsToReview(cardsToReview);
+        this.deckFormStore.loadForm();
+      });
 
       this.clearSelection();
+    } catch (e) {
+      notifyError({ e, info: "Error deleting cards" });
     } finally {
-      runInAction(() => {
-        deckListStore.isAppLoading = false;
-      });
+      appLoaderStore.disable();
     }
   }
 }

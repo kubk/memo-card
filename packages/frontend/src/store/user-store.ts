@@ -15,12 +15,16 @@ import { api } from "../api/trpc-api.ts";
 
 type PaywallType = "bulk_ai_cards" | "individual_ai_card" | "ai_speech";
 
-export class UserStore {
+class UserStore {
   userInfo?: UserDbType;
   plans?: PlansForUser;
   isCardFormattingOn = persistableField(
     new BooleanToggle(false),
     "isCardFormattingOn",
+  );
+  isQuizzCardFormattingOn = persistableField(
+    new BooleanToggle(false),
+    "isQuizzCardFormattingOn",
   );
   isSkipReview = persistableField(new BooleanToggle(false), "isSkipReview");
   isSpeakingCardsMuted = new BooleanToggle(false);

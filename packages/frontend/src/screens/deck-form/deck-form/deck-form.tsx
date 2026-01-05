@@ -1,6 +1,5 @@
 import { Label } from "../../../ui/label.tsx";
 import { Input } from "../../../ui/input.tsx";
-import { useEffect } from "react";
 import { useMainButton } from "../../../lib/platform/use-main-button.ts";
 import { useDeckFormStore } from "./store/deck-form-store-context.tsx";
 import { screenStore } from "../../../store/screen-store.ts";
@@ -39,7 +38,6 @@ import { FilledIcon, TransparentIcon } from "../../../ui/filled-icon.tsx";
 import { ButtonGrid } from "../../../ui/button-grid.tsx";
 import { ButtonSideAligned } from "../../../ui/button-side-aligned.tsx";
 import { shareMemoCardUrl } from "../../shared/share-memo-card-url.tsx";
-import { wysiwygStore } from "../../../store/wysiwyg-store.ts";
 
 export function DeckForm() {
   const deckFormStore = useDeckFormStore();
@@ -50,35 +48,27 @@ export function DeckForm() {
     suitableCardInputModeStore.load();
   });
 
-  useEffect(() => {
-    deckFormStore.loadForm();
-  }, [deckFormStore, screen.index]);
-
   useMainButton(
     t("save"),
     () => {
       const isNewDeck = !screen.deckId;
       deckFormStore.onDeckSave((deck) => {
-        if (isNewDeck) {
-          screenStore.replaceToDeckForm({ deckId: deck.id });
-        }
+        if (!isNewDeck) return;
+        screenStore.replaceToDeckForm({ deckId: deck.id });
       });
     },
-    () =>
-      wysiwygStore.bottomSheet === null && userStore.selectedPaywall === null,
-    [screen.index],
+    () => deckFormStore.isSaveVisible,
   );
 
   useBackButton(() => {
-    deckFormStore.onDeckBack(() => {
+    deckFormStore.executeViaConfirm(() => {
       screenStore.back();
     });
-  }, [screen.index]);
+  }, []);
 
   useProgress(() => deckFormStore.isSending);
 
   if (!deckFormStore.deckForm) {
-    console.log("Deck form is not loaded");
     return null;
   }
 
@@ -91,7 +81,7 @@ export function DeckForm() {
             {t("folder")}{" "}
             <button
               onClick={() => {
-                deckFormStore.onDeckBack(() => {
+                deckFormStore.executeViaConfirm(() => {
                   assert(screen.folder, "Folder should be defined");
                   screenStore.go({
                     type: "folderPreview",
