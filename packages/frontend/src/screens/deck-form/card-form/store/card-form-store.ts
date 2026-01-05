@@ -35,7 +35,9 @@ import {
   createBackCardField,
   createAnswerTypeField,
   createAnswerListField,
+  createAnswerForm,
 } from "../../deck-form/store/deck-form-store.ts";
+import { platform } from "../../../../lib/platform/platform.ts";
 import { notifyNewCards } from "../notify-new-cards.ts";
 import { userStore } from "../../../../store/user-store.ts";
 import { wysiwygStore } from "../../../../store/wysiwyg-store.ts";
@@ -523,6 +525,48 @@ export class CardFormStore {
       // this.quitCardForm();
       screenStore.back();
     });
+  }
+
+  toggleAnswerCorrect(answerId: string) {
+    if (!this.cardForm || this.cardForm.answerType.value !== "choice_single") {
+      return;
+    }
+
+    const answerForm = this.cardForm.answers.value.find(
+      (a) => a.id === answerId,
+    );
+    if (!answerForm) {
+      return;
+    }
+
+    if (!answerForm.isCorrect.value) {
+      this.cardForm.answers.value.forEach((inner) => {
+        if (inner.id !== answerId) {
+          inner.isCorrect.value = false;
+        }
+      });
+    }
+    answerForm.isCorrect.toggle();
+    platform.haptic("selection");
+  }
+
+  deleteAnswer(answerId: string) {
+    if (!this.cardForm || this.cardForm.answerType.value !== "choice_single") {
+      return;
+    }
+
+    this.cardForm.answers.removeByCondition((a) => a.id === answerId);
+    platform.haptic("selection");
+  }
+
+  addAnswer() {
+    if (!this.cardForm || this.cardForm.answerType.value !== "choice_single") {
+      return;
+    }
+
+    const answerForm = createAnswerForm();
+    this.cardForm.answers.push(answerForm);
+    platform.haptic("selection");
   }
 
   get isSaveVisible() {
