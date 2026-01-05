@@ -69,7 +69,6 @@ export function SearchResults() {
         screenStore.go({
           type: "deckForm",
           deckId: deck.id,
-          index: 1,
           cardId: result.item.id,
         });
       } else {

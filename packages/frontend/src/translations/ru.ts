@@ -1,8 +1,6 @@
 import { type Translation } from "./en";
 
 export const ru: Translation = {
-  card_order: "Порядок карточек",
-  card_order_random: "Случайный порядок",
   ai_cards_generate: "Сгенерировать карточки",
   settings_lang: "Язык",
   copy_code: "Скопировать код",
@@ -96,12 +94,9 @@ export const ru: Translation = {
   add_answer: "Добавить ответ",
   answer_text: "Текст ответа",
   advanced: "Дополнительно",
-  edit_answer: "Редактировать ответ",
-  is_correct: "Правильный",
   review_correct_label: "Правильно",
   review_wrong_label: "Неправильно",
   validation_at_least_one_answer_required: "Укажите хотя бы 1 ответ",
-  is_correct_explanation: `Может быть только один правильный ответ`,
   card_preview: "Предпросмотр",
   deck: "Колода",
   add_deck_short: "Колода",
@@ -327,6 +322,7 @@ export const ru: Translation = {
 
   reverse_cards: "Создавать обратные карточки",
   two_cards_created: "Создано 2 карточки",
+  card_created: "Карточка создана",
 
   // Move card to deck
   move_card_to_deck_title: "Переместить в колоду",

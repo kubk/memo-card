@@ -163,18 +163,19 @@ export function CardReviewWithControls(props: Props) {
           </Button>
         </div>
       )}
-
-      {card && card.answerType === "choice_single" && card.isOpened && (
+      {card && card.answerType === "choice_single" && card.isOpened ? (
         <div className="absolute bottom-12 flex items-center gap-4 w-full [&>button]:flex-1">
-          <Button
-            onClick={() => {
-              onReviewCardWithAnswers();
-            }}
-          >
-            {t("next")}
-          </Button>
+          {cardOpenedRow || (
+            <Button
+              onClick={() => {
+                onReviewCardWithAnswers();
+              }}
+            >
+              {t("next")}
+            </Button>
+          )}
         </div>
-      )}
+      ) : null}
     </>
   );
 }

@@ -55,15 +55,10 @@ export class CardPreviewStore implements LimitedCardUnderReviewStore {
       isCorrect: answer.isCorrect.value,
     }));
 
-    const deckForm = cardFormStore.deckForm;
-    if (!deckForm) {
-      return;
-    }
-
     // Use card-level speakField override if provided, otherwise use deck default
     this.deckSpeakField =
       form.options.value?.speakField ??
-      deckForm.speakingCardsField.value ??
+      cardFormStore.speakingCardsField ??
       null;
 
     const voicePlayer = createVoicePlayer(
@@ -74,8 +69,8 @@ export class CardPreviewStore implements LimitedCardUnderReviewStore {
         front: form.front.value,
       },
       {
-        speakingCardsLocale: deckForm.speakingCardsLocale.value ?? null,
-        speakingCardsField: deckForm.speakingCardsField.value ?? null,
+        speakingCardsLocale: cardFormStore.speakingCardsLocale,
+        speakingCardsField: cardFormStore.speakingCardsField,
       },
     );
 

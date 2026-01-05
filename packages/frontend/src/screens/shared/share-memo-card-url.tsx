@@ -8,7 +8,7 @@ import { t } from "../../translations/t.ts";
 import { notifySuccess } from "./snackbar/snackbar.tsx";
 import { env } from "../../env.ts";
 
-export const getDeckOrFolderLink = (shareId: string) => {
+const getDeckOrFolderLink = (shareId: string) => {
   if (platform instanceof BrowserPlatform) {
     return `${trimEnd(links.appBrowser, "/")}/?start=${shareId}`;
   }
