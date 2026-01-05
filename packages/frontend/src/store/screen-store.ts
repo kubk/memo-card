@@ -77,6 +77,17 @@ export class ScreenStore {
     }
   }
 
+  backToDeck(deckId: number) {
+    for (let i = this.history.length - 2; i >= 0; i--) {
+      const route = this.history[i];
+      if (route.type === "deckForm" && route.deckId === deckId) {
+        this.history = this.history.slice(0, i + 1);
+        return;
+      }
+    }
+    this.back();
+  }
+
   get screen(): Route {
     return this.history[this.history.length - 1];
   }
@@ -89,7 +100,6 @@ export class ScreenStore {
     this.go({
       ...route,
       type: "deckForm",
-      index: ++routeIndex,
     });
   }
 
@@ -97,7 +107,6 @@ export class ScreenStore {
     this.replace({
       ...route,
       type: "deckForm",
-      index: ++routeIndex,
     });
   }
 

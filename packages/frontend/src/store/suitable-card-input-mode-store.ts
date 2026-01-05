@@ -4,7 +4,7 @@ import { CardInputModeDb } from "api";
 import { userStore } from "./user-store.ts";
 import { LanguageShared } from "api";
 
-export class SuitableCardInputModeStore {
+class SuitableCardInputModeStore {
   cardInputModesRequest = createCachedCardInputModesRequest();
 
   constructor() {

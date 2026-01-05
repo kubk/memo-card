@@ -1,4 +1,5 @@
 import { action, makeAutoObservable, runInAction, when } from "mobx";
+import { appLoaderStore } from "./app-loader-store.ts";
 import { type MyInfoResponse } from "api";
 import { type DeckCardDbType, type DeckWithCardsDbType } from "api";
 import { screenStore } from "./screen-store.ts";
@@ -54,13 +55,12 @@ export type DeckListItem = {
     }
 );
 
-export class DeckListStore {
+class DeckListStore {
   myInfo?: Exclude<MyInfoResponse, "plans" | "user">;
   myInfoRequest = new RequestStore(api.me.info.query, {
     staleWhileRevalidate: true,
   });
 
-  isAppLoading = false;
   isStartParamHandled = false;
 
   skeletonLoaderData = { publicCount: 3, myDecksCount: 3 };
@@ -658,7 +658,7 @@ export class DeckListStore {
     }
 
     platform.haptic("heavy");
-    this.isAppLoading = true;
+    appLoaderStore.enable();
 
     api.folder.delete
       .mutate({ folderId: folder.folder_id })
@@ -675,11 +675,7 @@ export class DeckListStore {
       .catch((e) => {
         reportHandledError(`Unable to remove folder ${folder.folder_id}`, e);
       })
-      .finally(
-        action(() => {
-          this.isAppLoading = false;
-        }),
-      );
+      .finally(appLoaderStore.disable);
   }
 
   async removeDeck(deck: DeckWithCardsDbType) {
@@ -694,7 +690,7 @@ export class DeckListStore {
     }
 
     platform.haptic("heavy");
-    this.isAppLoading = true;
+    appLoaderStore.enable();
 
     api.deck.removeFromMine
       .mutate({ deckId: deck.id })
@@ -711,11 +707,7 @@ export class DeckListStore {
       .catch((e) => {
         reportHandledError(`Unable to remove deck ${deck.id}`, e);
       })
-      .finally(
-        action(() => {
-          this.isAppLoading = false;
-        }),
-      );
+      .finally(appLoaderStore.disable);
   }
 
   updateFolders(body: FolderWithDeckIdDbType[]) {
@@ -759,9 +751,7 @@ export class DeckListStore {
     }
 
     platform.haptic("heavy");
-    runInAction(() => {
-      this.isAppLoading = true;
-    });
+    appLoaderStore.enable();
 
     api.deck.duplicate
       .mutate({ deckId })
@@ -772,11 +762,7 @@ export class DeckListStore {
       .catch((e) => {
         reportHandledError("Error duplicating deck", e);
       })
-      .finally(
-        action(() => {
-          this.isAppLoading = false;
-        }),
-      );
+      .finally(appLoaderStore.disable);
   }
 
   async onDuplicateFolder(folderId: number) {
@@ -786,9 +772,7 @@ export class DeckListStore {
     }
 
     platform.haptic("heavy");
-    runInAction(() => {
-      this.isAppLoading = true;
-    });
+    appLoaderStore.enable();
 
     api.folder.duplicate
       .mutate({ folderId })
@@ -799,11 +783,7 @@ export class DeckListStore {
       .catch((e) => {
         reportHandledError("Error duplicating folder", e);
       })
-      .finally(
-        action(() => {
-          this.isAppLoading = false;
-        }),
-      );
+      .finally(appLoaderStore.disable);
   }
 
   async handleStartParam(startParam?: string) {
@@ -816,16 +796,12 @@ export class DeckListStore {
     }
 
     if (startParam === StartParamType.RepeatAll) {
-      this.isAppLoading = true;
+      appLoaderStore.enable();
       when(() => !!this.myInfo)
         .then(() => {
           screenStore.go({ type: "reviewAll" });
         })
-        .finally(
-          action(() => {
-            this.isAppLoading = false;
-          }),
-        );
+        .finally(appLoaderStore.disable);
     } else if (startParam === StartParamType.DeckCatalog) {
       screenStore.go({ type: "deckCatalog" });
     } else if (startParam === StartParamType.Debug) {
@@ -839,7 +815,7 @@ export class DeckListStore {
     } else if (startParam === StartParamType.Pro) {
       screenStore.go({ type: "plans" });
     } else {
-      this.isAppLoading = true;
+      appLoaderStore.enable();
       await when(() => !!this.myInfo);
 
       api.getByShareId
@@ -880,11 +856,7 @@ export class DeckListStore {
             shareId: startParam,
           });
         })
-        .finally(
-          action(() => {
-            this.isAppLoading = false;
-          }),
-        );
+        .finally(appLoaderStore.disable);
     }
   }
 

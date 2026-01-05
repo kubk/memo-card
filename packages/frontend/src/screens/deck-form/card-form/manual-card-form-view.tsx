@@ -1,4 +1,3 @@
-import { DeckFormStore } from "../deck-form/store/deck-form-store.ts";
 import { useMainButton } from "../../../lib/platform/use-main-button.ts";
 import { t } from "../../../translations/t.ts";
 import { useProgress } from "../../../lib/platform/use-progress.tsx";
@@ -7,7 +6,10 @@ import { userStore } from "../../../store/user-store.ts";
 import { Screen } from "../../shared/screen.tsx";
 import { Flex } from "../../../ui/flex.tsx";
 import { Label } from "../../../ui/label.tsx";
-import { FormattingSwitcher } from "./formatting-switcher.tsx";
+import {
+  FormattingSwitcher,
+  QuickCardFormattingSwitcher,
+} from "./formatting-switcher.tsx";
 import { WysiwygField } from "../../../ui/wysiwyg-field/wysiwig-field.tsx";
 import { Input } from "../../../ui/input.tsx";
 import { HintTransparent } from "../../../ui/hint-transparent.tsx";
@@ -17,6 +19,7 @@ import { FilledIcon } from "../../../ui/filled-icon.tsx";
 import { theme } from "../../../ui/theme.tsx";
 import { ListRightText } from "../../../ui/list-right-text.tsx";
 import { formatCardType } from "./format-card-type.ts";
+import { action } from "mobx";
 import { formTouchAll, isFormValid } from "mobx-form-lite";
 import { ButtonSideAligned } from "../../../ui/button-side-aligned.tsx";
 import { ButtonGrid } from "../../../ui/button-grid.tsx";
@@ -25,6 +28,7 @@ import { screenStore } from "../../../store/screen-store.ts";
 import { assert } from "api";
 import { WithProIcon } from "../../shared/with-pro-icon.tsx";
 import { deckListStore } from "../../../store/deck-list-store.ts";
+import { voiceGenerationStore } from "../../../store/voice-generation-store.ts";
 import { LoadingSwap } from "../../../ui/loading-swap.tsx";
 import {
   ArrowLeftIcon,
@@ -38,13 +42,17 @@ import {
   FolderInputIcon,
   BookOpenCheckIcon,
 } from "lucide-react";
-import { wysiwygStore } from "../../../store/wysiwyg-store.ts";
 import { MoveToDeckSelector } from "../deck-form/move-to-deck-selector.tsx";
+import { useCardFormStore } from "./store/card-form-store-context.tsx";
+import { CardTypeModal } from "./card-type-modal.tsx";
+import { CircleCheckbox } from "../../../ui/circle-checkbox.tsx";
+import { CardRow } from "../../../ui/card-row.tsx";
+import { createAnswerForm } from "../deck-form/store/deck-form-store.ts";
+import { platform } from "../../../lib/platform/platform.ts";
+import { cn } from "../../../ui/cn.ts";
 
-type Props = { cardFormStore: DeckFormStore };
-
-export function ManualCardFormView(props: Props) {
-  const { cardFormStore } = props;
+export function ManualCardFormView() {
+  const cardFormStore = useCardFormStore();
   const { cardForm, markCardAsRemoved } = cardFormStore;
   assert(cardForm, "Card should not be empty before editing");
 
@@ -53,32 +61,42 @@ export function ManualCardFormView(props: Props) {
     () => {
       cardFormStore.onSaveCard();
     },
-    () => {
-      if (cardFormStore.moveToDeckStore.isOpen) {
-        return false;
-      }
-      return (
-        wysiwygStore.bottomSheet === null && userStore.selectedPaywall === null
-      );
-    },
+    () => !!cardFormStore.isSaveVisible,
   );
 
   useProgress(() => cardFormStore.isSending);
 
   useBackButton(() => {
-    const screen = screenStore.screen;
-    // Avoid duplicated 'deckForm' in the router history
-    if (screen.type === "deckForm" && screen.cardId) {
-      screenStore.back();
-    }
-
     cardFormStore.onBackCard();
   });
 
   const isCardFormattingOn = userStore.isCardFormattingOn.value;
+  const isQuizzCardFormattingOn = userStore.isQuizzCardFormattingOn.value;
+
+  const screen = screenStore.screen;
+  const deck =
+    screen.type === "deckForm" && screen.deckId
+      ? deckListStore.searchDeckById(screen.deckId)
+      : undefined;
 
   return (
-    <Screen title={cardForm.id ? t("edit_card") : t("add_card")}>
+    <Screen
+      title={cardForm.id ? t("edit_card") : t("add_card")}
+      subtitle={
+        deck && cardForm.id ? (
+          <div className="text-center text-sm mb-2">
+            <button
+              onClick={() => {
+                screenStore.backToDeck(deck.id);
+              }}
+              className="reset-button text-inherit text-link"
+            >
+              {userStore.isRtl ? `${deck.name} →` : `← ${deck.name}`}
+            </button>
+          </div>
+        ) : undefined
+      }
+    >
       <Flex direction={"column"} gap={16}>
         <Label
           text={t("card_front_title")}
@@ -94,19 +112,111 @@ export function ManualCardFormView(props: Props) {
           <HintTransparent>{t("card_front_side_hint")}</HintTransparent>
         </Label>
 
-        <Label
-          text={t("card_back_title")}
-          isPlain
-          isRequired
-          slotRight={<FormattingSwitcher />}
-        >
-          {isCardFormattingOn ? (
-            <WysiwygField field={cardForm.back} />
-          ) : (
-            <Input field={cardForm.back} type={"textarea"} rows={2} />
-          )}
-          <HintTransparent>{t("card_back_side_hint")}</HintTransparent>
-        </Label>
+        {cardForm.answerType.value === "remember" ? (
+          <Label
+            text={t("card_back_title")}
+            isPlain
+            isRequired
+            slotRight={<FormattingSwitcher />}
+          >
+            {isCardFormattingOn ? (
+              <WysiwygField field={cardForm.back} />
+            ) : (
+              <Input field={cardForm.back} type={"textarea"} rows={2} />
+            )}
+            <HintTransparent>{t("card_back_side_hint")}</HintTransparent>
+          </Label>
+        ) : (
+          <div className="flex w-full flex-col gap-1">
+            <Label
+              isPlain
+              isRequired
+              text={formatCardType(cardForm.answerType.value)}
+              slotRight={
+                cardForm.answers.value.length > 0 ? (
+                  <QuickCardFormattingSwitcher />
+                ) : undefined
+              }
+            >
+              {" "}
+            </Label>
+            {cardForm.answers.value.map((answerForm) => {
+              const onToggleIsCorrect = action(() => {
+                if (!answerForm.isCorrect.value) {
+                  cardForm.answers.value.forEach((inner) => {
+                    if (inner.id !== answerForm.id) {
+                      inner.isCorrect.value = false;
+                    }
+                  });
+                }
+                answerForm.isCorrect.toggle();
+                platform.haptic("selection");
+              });
+
+              const onDelete = action(() => {
+                cardForm.answers.removeByCondition(
+                  (a) => a.id === answerForm.id,
+                );
+                platform.haptic("selection");
+              });
+
+              return (
+                <div
+                  key={answerForm.id}
+                  className={cn("flex items-start gap-2 relative", {})}
+                >
+                  <div
+                    className={cn("mt-[16px]", {
+                      "mt-[5px]": isQuizzCardFormattingOn,
+                    })}
+                    onClick={onToggleIsCorrect}
+                  >
+                    <CircleCheckbox
+                      checkedClassName="bg-success"
+                      checked={answerForm.isCorrect.value}
+                      onChange={() => {}}
+                    />
+                  </div>
+                  <div className="flex-1">
+                    {isQuizzCardFormattingOn ? (
+                      <WysiwygField field={answerForm.text} />
+                    ) : (
+                      <Input
+                        field={answerForm.text}
+                        placeholder={t("answer_text")}
+                      />
+                    )}
+                  </div>
+                  <button
+                    type="button"
+                    className={cn("mt-[19px]", {
+                      "mt-[7px]": isQuizzCardFormattingOn,
+                    })}
+                    onClick={onDelete}
+                  >
+                    <TrashIcon size={18} />
+                  </button>
+                </div>
+              );
+            })}
+
+            <CardRow
+              className="mt-[3px]"
+              onClick={action(() => {
+                const answerForm = createAnswerForm();
+                cardForm.answers.push(answerForm);
+                platform.haptic("selection");
+              })}
+            >
+              <span className="flex items-center gap-2 text-link">
+                <PlusIcon size={18} className="text-inherit" />{" "}
+                {t("add_answer")}
+              </span>
+            </CardRow>
+
+            <CardAnswerErrors cardForm={cardForm} />
+          </div>
+        )}
       </Flex>
 
       <div>
@@ -141,7 +251,7 @@ export function ManualCardFormView(props: Props) {
                 />
               ),
               onClick: () => {
-                cardFormStore.cardInnerScreen.onChange("cardType");
+                cardFormStore.cardTypeModal.setTrue();
               },
             },
 
@@ -195,7 +305,11 @@ export function ManualCardFormView(props: Props) {
               right: (
                 <WithProIcon>
                   <LoadingSwap
-                    isLoading={cardFormStore.isCardGeneratingVoice(cardForm.id)}
+                    isLoading={
+                      cardForm.id
+                        ? voiceGenerationStore.isGenerating(cardForm.id)
+                        : false
+                    }
                   >
                     {cardForm.options.value?.voice ? (
                       <ListRightText chevron text={t("yes")} />
@@ -206,14 +320,11 @@ export function ManualCardFormView(props: Props) {
             },
           ]}
         />
-        {cardFormStore.cardForm ? (
-          <CardAnswerErrors cardForm={cardFormStore.cardForm} />
-        ) : null}
       </div>
 
       <div className="mt-3">
         <ButtonGrid>
-          {cardForm.id && (
+          {cardFormStore.isCardNavigationVisible && (
             <>
               <ButtonSideAligned
                 onClick={cardFormStore.onPreviousCard}
@@ -234,7 +345,7 @@ export function ManualCardFormView(props: Props) {
             </>
           )}
 
-          {cardFormStore.cardForm && isFormValid(cardFormStore.cardForm) ? (
+          {cardFormStore.isCardPreviewVisible && (
             <ButtonSideAligned
               icon={<EyeIcon size={24} />}
               outline
@@ -244,13 +355,13 @@ export function ManualCardFormView(props: Props) {
             >
               {t("card_preview")}
             </ButtonSideAligned>
-          ) : null}
+          )}
 
           {cardForm.id && (
             <>
               <ButtonSideAligned
                 onClick={() => {
-                  cardFormStore.onOpenNewFromCard?.();
+                  cardFormStore.onOpenNewFromCard();
                 }}
                 icon={<PlusIcon size={24} />}
                 outline
@@ -260,18 +371,17 @@ export function ManualCardFormView(props: Props) {
             </>
           )}
 
-          {cardForm.id &&
-            cardFormStore.moveToDeckStore.availableDecksGrouped.length > 1 && (
-              <ButtonSideAligned
-                onClick={() => {
-                  cardFormStore.openMoveCardSheet();
-                }}
-                icon={<FolderInputIcon size={24} />}
-                outline
-              >
-                {t("move_card_move")}
-              </ButtonSideAligned>
-            )}
+          {cardFormStore.isMoveCardVisible && (
+            <ButtonSideAligned
+              onClick={() => {
+                cardFormStore.openMoveCardSheet();
+              }}
+              icon={<FolderInputIcon size={24} />}
+              outline
+            >
+              {t("move_card_move")}
+            </ButtonSideAligned>
+          )}
 
           {markCardAsRemoved && cardForm.id && (
             <ButtonSideAligned
@@ -286,6 +396,7 @@ export function ManualCardFormView(props: Props) {
       </div>
 
       <MoveToDeckSelector store={cardFormStore.moveToDeckStore} />
+      <CardTypeModal />
     </Screen>
   );
 }
