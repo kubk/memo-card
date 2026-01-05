@@ -13,6 +13,11 @@ export enum StartParamType {
 const stringToNumber = v.pipe(v.string(), v.transform(Number), v.number());
 const optionalStringToNumber = v.optional(stringToNumber);
 
+const cardFilterSortBySchema = v.optional(
+  v.picklist(["createdAt", "frontAlpha", "backAlpha"]),
+);
+const cardFilterDirectionSchema = v.optional(v.picklist(["asc", "desc"]));
+
 const mainRouteSchema = v.object({
   type: v.literal("main"),
 });
@@ -37,7 +42,33 @@ const deckFormRouteSchema = v.object({
     }),
   ),
   cardId: v.optional(v.union([stringToNumber, v.literal("new")])),
-  index: stringToNumber,
+  sortBy: cardFilterSortBySchema,
+  sortDirection: cardFilterDirectionSchema,
+  searchText: v.optional(v.string()),
+});
+
+const cardListRouteSchema = v.object({
+  type: v.literal("cardList"),
+  deckId: stringToNumber,
+  sortBy: cardFilterSortBySchema,
+  sortDirection: cardFilterDirectionSchema,
+  searchText: v.optional(v.string()),
+});
+
+const speakingCardsRouteSchema = v.object({
+  type: v.literal("speakingCards"),
+  deckId: stringToNumber,
+});
+
+const cardInputModeRouteSchema = v.object({
+  type: v.literal("cardInputMode"),
+  deckId: stringToNumber,
+});
+
+const cardInputModeFormRouteSchema = v.object({
+  type: v.literal("cardInputModeForm"),
+  deckId: stringToNumber,
+  cardInputModeId: v.optional(v.string()),
 });
 
 const cardPreviewRouteSchema = v.object({
@@ -122,6 +153,10 @@ export const routeSchema = v.union([
   deckMineRouteSchema,
   deckPublicRouteSchema,
   deckFormRouteSchema,
+  cardListRouteSchema,
+  speakingCardsRouteSchema,
+  cardInputModeRouteSchema,
+  cardInputModeFormRouteSchema,
   cardPreviewRouteSchema,
   folderFormRouteSchema,
   folderPreviewRouteSchema,

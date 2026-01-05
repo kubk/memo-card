@@ -2,68 +2,42 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { CardFormType, DeckFormStore } from "./deck-form-store.ts";
 import { DeckCardDbType } from "api";
 import { type DeckWithCardsWithReviewType } from "../../../../store/deck-list-store.ts";
-import { UpsertDeckRequest, UpsertDeckResponse } from "api";
-import { isFormValid } from "mobx-form-lite";
 import { assert } from "api";
 
-const mapUpsertDeckRequestToResponse = (
-  input: UpsertDeckRequest,
-): UpsertDeckResponse => ({
-  folders: [],
-  cardsToReview: [],
-  deck: {
-    id: input.id || 9999,
-    availableIn: null,
-    description: input.description ?? null,
-    createdAt: new Date().toISOString(),
-    name: input.title,
-    authorId: 9999,
-    shareId: "share_id_mock",
-    isPublic: false,
-    speakLocale: null,
-    speakField: null,
-    speakAutoAi: false,
-    reverseCards: false,
-    deckCategory: null,
-    categoryId: null,
-    cardInputModeId: null,
-    deckCards: input.cards.map((card) => {
-      assert(input.id);
-      return {
-        id: card.id || 9999,
-        deckId: input.id,
-        createdAt: new Date().toISOString(),
-        example: card.example ?? null,
-        front: card.front,
-        back: card.back,
-        answerType: "remember",
-        answers: null,
-        options: null,
-      };
-    }),
-  },
-});
-
 const mocks = vi.hoisted(() => {
+  const createMockDeckResponse = () => ({
+    deck: {
+      id: 1,
+      availableIn: null,
+      description: null,
+      createdAt: new Date().toISOString(),
+      name: "Test",
+      authorId: 9999,
+      shareId: "share_id_mock",
+      isPublic: false,
+      speakLocale: null,
+      speakField: null,
+      speakAutoAi: false,
+      reverseCards: false,
+      deckCategory: null,
+      categoryId: null,
+      cardInputModeId: null,
+      deckCards: [],
+    },
+    cardsToReview: [],
+    folders: [],
+  });
+
   return {
-    upsertDeckRequest: vi.fn(
-      (input: UpsertDeckRequest): Promise<UpsertDeckResponse> =>
-        Promise.resolve(mapUpsertDeckRequestToResponse(input)),
-    ),
+    deckUpdate: vi.fn(() => Promise.resolve(createMockDeckResponse())),
   };
 });
 
-vi.mock("../../../../store/screen-store.ts", () => {
-  return {
-    screenStore: {
-      go: () => {},
-      screen: {
-        type: "deckForm",
-        deckId: 1,
-      },
-      goToDeckForm: () => {},
-    },
-  };
+import { mockScreenStore } from "../../../../store/screen-store.mock.ts";
+
+vi.mock("../../../../store/screen-store.ts", async () => {
+  const mock = await import("../../../../store/screen-store.mock.ts");
+  return { screenStore: mock.mockScreenStore };
 });
 
 vi.mock("../../../../store/deck-list-store.ts", () => {
@@ -156,17 +130,19 @@ vi.mock(import("../../../../translations/t.ts"), () =>
 vi.mock("../../../../api/trpc-api.ts", () => {
   return {
     api: {
-      deckUpsert: {
-        mutate: mocks.upsertDeckRequest,
+      card: {
+        add: { mutate: vi.fn() },
+        update: { mutate: vi.fn() },
+        delete: { mutate: vi.fn() },
+        deleteMany: { mutate: vi.fn() },
       },
-    },
-  };
-});
-
-vi.mock("../../../../store/user-store.ts", () => {
-  return {
-    userStore: {
-      defaultCardType: "remember",
+      deck: {
+        create: { mutate: vi.fn() },
+        update: { mutate: mocks.deckUpdate },
+      },
+      activePlans: {
+        query: vi.fn(),
+      },
     },
   };
 });
@@ -174,125 +150,39 @@ vi.mock("../../../../store/user-store.ts", () => {
 describe("deck form store", () => {
   afterEach(() => {
     vi.clearAllMocks();
+    mockScreenStore.reset({
+      type: "deckForm",
+      deckId: 1,
+      sortBy: "createdAt",
+      sortDirection: "desc",
+    });
   });
 
-  it("add 1 card, save", () => {
+  it("deck save only saves metadata", async () => {
     const store = new DeckFormStore();
     store.loadForm();
     assert(store.deckForm);
     expect(store.deckForm.cards).toHaveLength(3);
 
-    store.onDeckSave();
+    store.deckForm.title.onChange("Updated Title");
+    store.deckForm.description.onChange("Updated description");
 
-    expect(mocks.upsertDeckRequest.mock.calls).toHaveLength(1);
-    expect(mocks.upsertDeckRequest.mock.calls[0][0].cards).toHaveLength(0);
+    await store.onDeckSave();
 
-    store.openNewCardForm();
-
-    expect(mocks.upsertDeckRequest.mock.calls).toHaveLength(1);
-
-    store.editCardFormByIndex(3);
-    assert(store.cardForm);
-
-    expect(isFormValid(store.cardForm)).toBeFalsy();
-
-    store.cardForm.front.onChange("1 (new)");
-    store.cardForm.back.onChange("1 (new)");
-
-    expect(isFormValid(store.cardForm)).toBeTruthy();
-
-    store.onDeckSave();
-
-    expect(mocks.upsertDeckRequest.mock.calls).toHaveLength(2);
-    expect(mocks.upsertDeckRequest.mock.calls[1][0].cards)
-      .toMatchInlineSnapshot(`
-        [
-          {
-            "answerType": "remember",
-            "answers": [],
-            "back": "1 (new)",
-            "example": "",
-            "front": "1 (new)",
-            "id": undefined,
-            "options": null,
-          },
-        ]
-      `);
-  });
-
-  it("edit 2 cards, add 1 new, save", () => {
-    const store = new DeckFormStore();
-    store.loadForm();
-    assert(store.deckForm);
-    expect(store.deckForm.cards).toHaveLength(3);
-
-    store.editCardFormByIndex(0);
-    assert(store.cardForm);
-
-    store.cardForm.front.onChange("2 (edited)");
-    store.cardForm.back.onChange("2 (edited)");
-
-    store.editCardFormByIndex(1);
-    store.cardForm.front.onChange("3 (edited)");
-    store.cardForm.back.onChange("3 (edited)");
-
-    store.openNewCardForm();
-    store.editCardFormByIndex(3);
-
-    store.cardForm.front.onChange("1 (new)");
-    store.cardForm.back.onChange("1 (new)");
-
-    store.onDeckSave();
-    expect(mocks.upsertDeckRequest.mock.calls).toHaveLength(1);
-    expect(mocks.upsertDeckRequest.mock.calls[0][0].cards)
-      .toMatchInlineSnapshot(`
-        [
-          {
-            "answerType": "remember",
-            "answers": [],
-            "back": "1 (new)",
-            "example": "",
-            "front": "1 (new)",
-            "id": undefined,
-            "options": null,
-          },
-          {
-            "answerType": "remember",
-            "answers": [],
-            "back": "2 (edited)",
-            "example": "",
-            "front": "2 (edited)",
-            "id": 3,
-            "options": null,
-          },
-          {
-            "answerType": "remember",
-            "answers": [],
-            "back": "3 (edited)",
-            "example": "",
-            "front": "3 (edited)",
-            "id": 4,
-            "options": null,
-          },
-        ]
-      `);
-  });
-
-  it("bug with card amount", () => {
-    const store = new DeckFormStore();
-    store.loadForm();
-    assert(store.deckForm);
-    expect(store.deckForm.cards).toHaveLength(3);
-
-    store.openNewCardForm();
-    store.quitCardForm();
-
-    expect(store.deckForm.cards).toHaveLength(3);
-
-    store.editCardFormByIndex(2);
-    store.quitCardForm();
-
-    expect(store.deckForm.cards).toHaveLength(3);
+    expect(mocks.deckUpdate).toHaveBeenCalledTimes(1);
+    // @ts-expect-error - mock typing issue
+    expect(mocks.deckUpdate.mock.lastCall?.[0]).toMatchInlineSnapshot(`
+      {
+        "description": "Updated description",
+        "folderId": undefined,
+        "id": 1,
+        "reverseCards": undefined,
+        "speakAutoAi": undefined,
+        "speakField": undefined,
+        "speakLocale": undefined,
+        "title": "Updated Title",
+      }
+    `);
   });
 
   it("sorting - filtering cards", () => {
@@ -305,101 +195,59 @@ describe("deck form store", () => {
 
     expect(store.filteredCards.map(cardToId)).toEqual([5, 4, 3]);
 
-    store.cardFilter.sortDirection.onChange("asc");
+    store.setSortByIdAndDirection("createdAt", "asc");
 
     expect(store.filteredCards.map(cardToId)).toEqual([3, 4, 5]);
 
-    store.cardFilter.sortBy.onChange("frontAlpha");
+    store.setSortByIdAndDirection("frontAlpha", "asc");
 
     expect(store.filteredCards.map(cardToId)).toEqual([3, 5, 4]);
 
-    store.cardFilter.sortDirection.onChange("desc");
+    store.setSortByIdAndDirection("frontAlpha", "desc");
 
     expect(store.filteredCards.map(cardToId)).toEqual([4, 5, 3]);
-
-    store.openNewCardForm();
-
-    expect(store.filteredCards.map(cardToId)).toEqual([4, 5, 3, undefined]);
-
-    store.cardFilter.sortBy.onChange("createdAt");
-    store.cardFilter.sortDirection.onChange("asc");
-
-    expect(store.filteredCards.map(cardToId)).toEqual([undefined, 3, 4, 5]);
-
-    store.cardFilter.sortDirection.onChange("desc");
-
-    expect(store.filteredCards.map(cardToId)).toEqual([5, 4, 3, undefined]);
   });
 
   it("sorting - toggling direction & change sortBy field", () => {
     const store = new DeckFormStore();
+    store.loadForm();
 
-    store.cardFilter.sortBy.onChange("createdAt");
-    store.cardFilter.sortDirection.onChange("asc");
+    store.setSortByIdAndDirection("createdAt", "asc");
 
     store.changeSort("createdAt");
 
-    expect(store.cardFilter.sortBy.value).toEqual("createdAt");
-    expect(store.cardFilter.sortDirection.value).toEqual("desc");
+    expect(store.cardFilterSortBy).toEqual("createdAt");
+    expect(store.cardFilterSortDirection).toEqual("desc");
 
     store.changeSort("frontAlpha");
 
-    expect(store.cardFilter.sortBy.value).toEqual("frontAlpha");
-    expect(store.cardFilter.sortDirection.value).toEqual("desc");
+    expect(store.cardFilterSortBy).toEqual("frontAlpha");
+    expect(store.cardFilterSortDirection).toEqual("desc");
   });
 
-  it("allows navigating to next and previous card", () => {
+  it("editCardFormById navigates to card form", () => {
     const store = new DeckFormStore();
-
-    expect(store.isPreviousCardVisible).toBeFalsy();
-    expect(store.isNextCardVisible).toBeFalsy();
-
     store.loadForm();
     assert(store.deckForm);
-    expect(store.deckForm.cards).toHaveLength(3);
-
-    expect(store.filteredCards[0].id).toBe(5);
-    store.editCardFormById(store.filteredCards[0].id);
-    expect(store.isPreviousCardVisible).toBeFalsy();
-    expect(store.isNextCardVisible).toBeTruthy();
-    expect(store.cardForm?.id).toBe(5);
-
-    store.onNextCard();
-    expect(store.isPreviousCardVisible).toBeTruthy();
-    expect(store.isNextCardVisible).toBeTruthy();
-    expect(store.cardForm?.id).toBe(4);
-
-    store.onNextCard();
-    expect(store.isPreviousCardVisible).toBeTruthy();
-    expect(store.isNextCardVisible).toBeFalsy();
-    expect(store.cardForm?.id).toBe(3);
-
-    store.onPreviousCard();
-    expect(store.isPreviousCardVisible).toBeTruthy();
-    expect(store.isNextCardVisible).toBeTruthy();
-    expect(store.cardForm?.id).toBe(4);
-  });
-
-  it("bug with changing card form leads to reorder", () => {
-    const store = new DeckFormStore();
-
-    expect(store.isPreviousCardVisible).toBeFalsy();
-    expect(store.isNextCardVisible).toBeFalsy();
-
-    store.loadForm();
-    assert(store.deckForm);
-    expect(store.deckForm.cards).toHaveLength(3);
-
-    expect(store.filteredCards.map((card) => card.id)).toStrictEqual([5, 4, 3]);
-    store.cardFilter.sortBy.onChange("frontAlpha");
-    store.cardFilter.sortDirection.onChange("asc");
 
     store.editCardFormById(3);
-    const indexBefore = store.cardFormIndex;
-    store.cardForm?.front.onChange("0");
-    const indexAfter = store.cardFormIndex;
 
-    expect(store.filteredCards.map((card) => card.id)).toStrictEqual([3, 5, 4]);
-    expect(indexBefore).toBe(indexAfter);
+    expect(mockScreenStore.screen.type).toBe("deckForm");
+    if (mockScreenStore.screen.type === "deckForm") {
+      expect(mockScreenStore.screen.cardId).toBe(3);
+    }
+  });
+
+  it("navigateToNewCard navigates to new card form", () => {
+    const store = new DeckFormStore();
+    store.loadForm();
+    assert(store.deckForm);
+
+    store.navigateToNewCard();
+
+    expect(mockScreenStore.screen.type).toBe("deckForm");
+    if (mockScreenStore.screen.type === "deckForm") {
+      expect(mockScreenStore.screen.cardId).toBe("new");
+    }
   });
 });

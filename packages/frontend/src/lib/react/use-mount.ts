@@ -1,7 +1,7 @@
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 
 export const useMount = (cb: () => void) => {
-  useEffect(() => {
+  useLayoutEffect(() => {
     return cb();
     // eslint-disable-next-line
   }, []);

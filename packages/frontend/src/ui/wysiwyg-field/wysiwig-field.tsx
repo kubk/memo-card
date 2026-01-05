@@ -43,24 +43,24 @@ const BtnBigHeader = createButton(
   },
 );
 
-export const BtnBold = createButton(
+const BtnBold = createButton(
   t("wysiwyg_bold"),
   <BoldIcon size={18} className="text-text" />,
   "bold",
 );
-export const BtnItalic = createButton(
+const BtnItalic = createButton(
   t("wysiwyg_italic"),
   <ItalicIcon size={18} className="text-text" />,
   "italic",
 );
 
-export const BtnUndo = createButton(
+const BtnUndo = createButton(
   t("wysiwyg_undo"),
   <UndoIcon size={18} className="text-text" />,
   "undo",
 );
 
-export const BtnClearFormatting = createButton(
+const BtnClearFormatting = createButton(
   t("wysiwyg_clear_formatting"),
   <RemoveFormattingIcon size={18} className="text-text" />,
   () => {
@@ -125,7 +125,7 @@ export function WysiwygField({
 
   useEffect(() => {
     console.log("isUploading changed:", isUploading);
-  }, [isUploading])
+  }, [isUploading]);
 
   if (allowImage) {
     if (isUploading) {

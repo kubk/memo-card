@@ -51,7 +51,7 @@ Import the global store instance directly into your components or other stores.
 
 import { userStore } from "../store/user-store";
 
-export const MyComponent = () => {
+export function MyComponent() {
   return <div>{userStore.user?.name}</div>;
 };
 ```
@@ -91,7 +91,7 @@ Instantiate the local store within a functional component using the `useState` h
 import { useState } from "react";
 import { ReviewStore } from "../screens/deck-review/store/review-store";
 
-export const MyComponent = () => {
+export function MyComponent() {
   const [reviewStore] = useState(() => new ReviewStore());
 
   return (
@@ -101,9 +101,94 @@ export const MyComponent = () => {
   );
 };
 ```
-*Note: While this is the recommended way to use local stores, there are currently no components in the codebase that follow this pattern.*
 
 ## Best Practices
+
+### Never Modify Store State Directly from Components
+
+**IMPORTANT: Always use store methods (actions) to modify state. Never assign to store properties directly from React components.**
+
+Store methods provide a clear API, make state changes traceable, and keep business logic in the store where it belongs.
+
+**❌ BAD - Direct property assignment in component:**
+```tsx
+export function DeleteButton({ store }: { store: WorkflowStore }) {
+  return (
+    <button onClick={() => store.workflowToDeleteId = workflow.id}>
+      Delete
+    </button>
+  );
+}
+```
+
+**✅ GOOD - Use store action method:**
+```tsx
+export function DeleteButton({ store }: { store: WorkflowStore }) {
+  return (
+    <button onClick={() => store.openDeleteDialog(workflow.id)}>
+      Delete
+    </button>
+  );
+}
+```
+
+### Always Pass Stores, Not Individual Props
+
+**IMPORTANT: Always pass the store itself to child components, not individual observable values or actions.** Access store properties directly in the component that needs them.
+
+The later you read an observable value, the better the reactivity. When you pass individual props, you're reading the observable early (in the parent), which causes the parent to re-render. When you pass the store and read observables late (in the child), only the child re-renders.
+
+**❌ BAD - Prop drilling observables (causes parent rerenders):**
+```tsx
+// Parent component re-renders when ANY store property changes
+export function Parent() {
+  return (
+    <Child
+      isOpen={store.isOpen}
+      onClose={store.close}
+      data={store.items}
+    />
+  );
+}
+```
+
+**✅ GOOD - Pass store directly (optimal reactivity):**
+```tsx
+// Parent component never re-renders
+export function Parent() {
+  return <Child store={store} />;
+}
+```
+
+**✅ ALSO GOOD - For global stores, import directly:**
+```tsx
+// Parent component
+export function Parent() {
+  return <Child />;
+}
+
+// Child component - access global store directly
+import { uiStore } from "@/store/ui-store";
+
+export function Child() {
+  return (
+    <div
+      className={uiStore.isOpen ? "open" : "closed"}
+      onClick={uiStore.close}
+    />
+  );
+}
+```
+
+This pattern:
+- **Optimal reactivity**: Only components using specific observables re-render
+- **No prop drilling**: Store is passed once, not multiple props
+- **Late binding**: Observables are read as late as possible
+- **Leverages MobX**: Uses MobX's fine-grained reactivity system
+
+### Naming Conventions
+
+Avoid using underscore prefixes for property names (e.g., `_prop` with a getter). Instead, use simple property names directly. If you need to distinguish between internal and external state, use computed getters that derive from other observable state.
 
 ### State Persistence
 
@@ -200,7 +285,6 @@ class ArticleStore {
 
 ### When to Use Reactions
 
-- **UI Updates**: `mobx-react` uses reactions internally to update your components. You don't need to do anything for this; it's handled automatically.
 - **Data Serialization**: Automatically saving data to `localStorage`, `IndexedDB`, or other external storage when it changes is a good use case for reactions.
 
 ### Simple Rules for Reactions
