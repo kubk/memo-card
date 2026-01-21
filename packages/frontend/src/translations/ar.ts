@@ -321,7 +321,10 @@ export const ar: Translation = {
   wysiwyg_help_clear: "إزالة جميع التنسيقات",
   wysiwyg_help_undo: "التراجع عن آخر إجراء",
 
-  reverse_cards: "إنشاء بطاقات عكسية",
+  reverse_cards: "بطاقات عكسية",
+  reverse_cards_title: "البطاقات العكسية",
+  reverse_cards_helper:
+    "أنشئ واحدة واحصل على اثنتين. يساعد على التذكر بشكل أفضل",
   two_cards_created: "تم إنشاء بطاقتين",
   card_created: "تم إنشاء البطاقة",
 

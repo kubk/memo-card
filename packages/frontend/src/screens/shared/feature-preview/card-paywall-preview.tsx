@@ -1,4 +1,3 @@
-import { HorizontalDivider } from "../../../ui/horizontal-divider.tsx";
 import { cn } from "../../../ui/cn.ts";
 
 type Props = {
@@ -21,7 +20,7 @@ export function CardPaywallPreview(props: Props) {
       )}
     >
       <div className="font-semibold text-sm break-words">{front}</div>
-      <HorizontalDivider />
+      <div className={cn("min-w-[80px] my-2 h-[1px] bg-divider")} />
       <div className="font-semibold text-sm break-words">{back}</div>
       {example ? (
         <div

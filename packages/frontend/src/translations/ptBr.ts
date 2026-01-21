@@ -320,7 +320,9 @@ export const ptBr: Translation = {
   wysiwyg_help_clear: "Remover toda a formatação",
   wysiwyg_help_undo: "Desfazer última ação",
 
-  reverse_cards: "Criar cartões reversos",
+  reverse_cards: "Cartões reversos",
+  reverse_cards_title: "Cartões Reversos",
+  reverse_cards_helper: "Crie um e ganhe dois. Ajuda a lembrar melhor",
   two_cards_created: "2 cartões foram criados",
   card_created: "Cartão criado",
 

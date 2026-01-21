@@ -322,7 +322,10 @@ export const en = {
   wysiwyg_help_clear: "Remove all formatting",
   wysiwyg_help_undo: "Undo last action",
 
-  reverse_cards: "Create reverse cards",
+  reverse_cards: "Reverse cards",
+  reverse_cards_title: "Reverse Cards",
+  reverse_cards_helper:
+    "Get 2 cards from a single entry. Helps remember better",
   two_cards_created: "2 cards have been created",
   card_created: "Card has been created",
 
