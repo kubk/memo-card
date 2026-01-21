@@ -31,6 +31,7 @@ import { links } from "api";
 import { MassCreationPreview } from "../shared/feature-preview/mass-creation-preview.tsx";
 import { IndividualCardAiPreview } from "../shared/feature-preview/individual-card-ai-preview.tsx";
 import { AiSpeechPreview } from "../shared/feature-preview/ai-speech-preview.tsx";
+import { ReverseCardsPreview } from "../shared/feature-preview/reverse-cards-preview.tsx";
 import { suitableCardInputModeStore } from "../../store/suitable-card-input-mode-store.ts";
 import { sharedProTitle } from "api";
 import { IconTelegramStar } from "./icon-telegram-star.tsx";
@@ -38,7 +39,15 @@ import { PaymentMethodType } from "api";
 import { platform } from "../../lib/platform/platform.ts";
 import { BrowserPlatform } from "../../lib/platform/browser/browser-platform.ts";
 import { formatDiscountAsText } from "api";
-import { Bot, ChevronLeft, ChevronRight, Copy, Mic, Zap } from "lucide-react";
+import {
+  ArrowLeftRight,
+  Bot,
+  ChevronLeft,
+  ChevronRight,
+  Copy,
+  Mic,
+  Zap,
+} from "lucide-react";
 
 const planItems: Array<{
   icon: React.ReactNode;
@@ -61,6 +70,11 @@ const planItems: Array<{
     previewItem: "ai_speech",
   },
   { iconColor: theme.icons.turquoise, icon: <Copy size={18} /> },
+  {
+    iconColor: theme.icons.sea,
+    icon: <ArrowLeftRight size={18} />,
+    previewItem: "reverse_cards",
+  },
 ];
 
 export function PlansScreen() {
@@ -92,7 +106,13 @@ export function PlansScreen() {
     return <FullScreenLoader />;
   }
 
-  const planDescription = translateProDescription(translator.getLang());
+  const planDescription = [
+    ...translateProDescription(translator.getLang()),
+    {
+      title: t("reverse_cards_title"),
+      description: t("reverse_cards_helper"),
+    },
+  ];
 
   return (
     <Screen title={sharedProTitle}>
@@ -276,6 +296,11 @@ export function PlansScreen() {
 
       <AiSpeechPreview
         isOpen={store.selectedPreviewPlanFeature === "ai_speech"}
+        onClose={store.quitPreviewPlanFeature}
+      />
+
+      <ReverseCardsPreview
+        isOpen={store.selectedPreviewPlanFeature === "reverse_cards"}
         onClose={store.quitPreviewPlanFeature}
       />
     </Screen>

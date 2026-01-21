@@ -320,7 +320,9 @@ export const es: Translation = {
   wysiwyg_help_clear: "Quitar todo el formato",
   wysiwyg_help_undo: "Deshacer última acción",
 
-  reverse_cards: "Crear tarjetas inversas",
+  reverse_cards: "Tarjetas inversas",
+  reverse_cards_title: "Tarjetas Inversas",
+  reverse_cards_helper: "Crea una y obtén dos. Ayuda a recordar mejor",
   two_cards_created: "Se han creado 2 tarjetas",
   card_created: "Tarjeta creada",
 
