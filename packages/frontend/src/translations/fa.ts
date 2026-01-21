@@ -324,7 +324,9 @@ export const fa: Translation = {
   wysiwyg_help_clear: "حذف همه قالب‌بندی‌ها",
   wysiwyg_help_undo: "برگردان آخرین عمل",
 
-  reverse_cards: "ایجاد کارت‌های معکوس",
+  reverse_cards: "کارت‌های معکوس",
+  reverse_cards_title: "کارت‌های معکوس",
+  reverse_cards_helper: "یکی بساز، دو تا بگیر. به یادآوری بهتر کمک می‌کند",
   two_cards_created: "۲ کارت ایجاد شد",
   card_created: "کارت ایجاد شد",
 

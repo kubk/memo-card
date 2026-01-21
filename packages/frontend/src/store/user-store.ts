@@ -13,7 +13,11 @@ import { LanguageShared } from "api";
 import { platform } from "../lib/platform/platform.ts";
 import { api } from "../api/trpc-api.ts";
 
-type PaywallType = "bulk_ai_cards" | "individual_ai_card" | "ai_speech";
+type PaywallType =
+  | "bulk_ai_cards"
+  | "individual_ai_card"
+  | "ai_speech"
+  | "reverse_cards";
 
 class UserStore {
   userInfo?: UserDbType;

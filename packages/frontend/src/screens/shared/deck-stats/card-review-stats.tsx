@@ -34,7 +34,7 @@ export function CardReviewStats(props: Props) {
             {repeatCardsCount}
           </span>
         )}
-        <span className="text-xs font-bold mt-1 opacity-80 text-center">
+        <span className="text-xs mt-1 opacity-80 text-center">
           {t("cards_to_repeat")}
         </span>
       </div>
@@ -47,7 +47,7 @@ export function CardReviewStats(props: Props) {
             {newCardsCount}
           </span>
         )}
-        <span className="text-xs font-bold mt-1 opacity-80 text-center">
+        <span className="text-xs mt-1 opacity-80 text-center">
           {t("cards_new")}
         </span>
       </div>
@@ -60,7 +60,7 @@ export function CardReviewStats(props: Props) {
             {totalCardsCount}
           </span>
         )}
-        <span className="text-xs font-bold mt-1 opacity-80 text-center">
+        <span className="text-xs mt-1 opacity-80 text-center">
           {t("cards_total")}
         </span>
       </div>

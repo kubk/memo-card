@@ -12,7 +12,11 @@ import { TelegramPlatform } from "../../../lib/platform/telegram/telegram-platfo
 import { links } from "api";
 import { api } from "../../../api/trpc-api.ts";
 
-export type PreviewItem = "individual_ai_card" | "bulk_ai_cards" | "ai_speech";
+export type PreviewItem =
+  | "individual_ai_card"
+  | "bulk_ai_cards"
+  | "ai_speech"
+  | "reverse_cards";
 
 export class PlansScreenStore {
   plansRequest = new RequestStore(api.plans.query);
