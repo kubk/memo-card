@@ -5,7 +5,7 @@ import { UpgradeProBlock } from "./upgrade-pro-block.tsx";
 import { t } from "../../../translations/t.ts";
 
 const exampleFront = "apple";
-const exampleBack = "manzana";
+const exampleBack = "la manzana";
 
 function MiniCard(props: { front: string; back: string; className?: string }) {
   return (
