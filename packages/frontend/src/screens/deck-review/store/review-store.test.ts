@@ -291,6 +291,19 @@ describe("card form store", () => {
     });
   });
 
+  it("avoids consecutive reverse pairs in repeat cards", () => {
+    const reviewStore = new ReviewStore();
+    reviewStore.startDeckReview(
+      createDeckWithCards([
+        createMockCardWithReview(1, "cat", "кот", "repeat"),
+        createMockCardWithReview(2, "кот", "cat", "repeat"),
+        createMockCardWithReview(3, "dog", "собака", "repeat"),
+      ]),
+    );
+
+    expect(reviewStore.cardsToReview.map((card) => card.id)).toEqual([1, 3, 2]);
+  });
+
   it("test silent progress send", async () => {
     reviewCardsReviewMock.mockResolvedValueOnce(() => Promise.resolve());
     expect(reviewCardsReviewMock).toHaveBeenCalledTimes(0);
