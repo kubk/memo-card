@@ -320,7 +320,9 @@ export const ru: Translation = {
   wysiwyg_help_clear: "Удалить все форматирование",
   wysiwyg_help_undo: "Отменить последнее действие",
 
-  reverse_cards: "Создавать обратные карточки",
+  reverse_cards: "Обратные карточки",
+  reverse_cards_title: "Обратные карточки",
+  reverse_cards_helper: "Создай одну - получи две. Помогает лучше запоминать",
   two_cards_created: "Создано 2 карточки",
   card_created: "Карточка создана",
 

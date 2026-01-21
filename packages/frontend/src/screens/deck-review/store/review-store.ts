@@ -20,6 +20,7 @@ import { assert } from "api";
 import { api } from "../../../api/trpc-api.ts";
 import { userStore } from "../../../store/user-store.ts";
 import { shuffleInPlace } from "../../../lib/array/shuffle-in-place.ts";
+import { separateReversePairs } from "./reverse-pair-shuffle.ts";
 
 // Don't wait until the user has finished reviewing all the cards to send the progress
 const cardProgressSend = 3;
@@ -81,6 +82,7 @@ export class ReviewStore {
       (card) => card.cardReviewType === "new",
     );
     shuffleInPlace(repeatCards);
+    separateReversePairs(repeatCards);
     this.cardsToReview = [...repeatCards, ...newCards];
   }
 
@@ -122,6 +124,7 @@ export class ReviewStore {
       this.isStudyAnyway = true;
     }
     shuffleInPlace(this.cardsToReview);
+    separateReversePairs(this.cardsToReview);
     this.initializeInitialCurrentNextCards();
   }
 
@@ -156,6 +159,7 @@ export class ReviewStore {
     });
 
     shuffleInPlace(this.cardsToReview);
+    separateReversePairs(this.cardsToReview);
     this.initializeInitialCurrentNextCards();
   }
 

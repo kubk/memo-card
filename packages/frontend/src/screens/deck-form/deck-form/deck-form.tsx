@@ -230,15 +230,21 @@ export function DeckForm() {
                   />
                 ),
                 onClick: () => {
-                  deckFormStore.deckForm?.reverseCards.toggle();
+                  userStore.executeViaPaywall("reverse_cards", () => {
+                    deckFormStore.deckForm?.reverseCards.toggle();
+                  });
                 },
                 right: (
-                  <RadioSwitcher
-                    isOn={deckFormStore.deckForm.reverseCards.value}
-                    onToggle={() => {
-                      deckFormStore.deckForm?.reverseCards.toggle();
-                    }}
-                  />
+                  <WithProIcon>
+                    <RadioSwitcher
+                      isOn={deckFormStore.deckForm.reverseCards.value}
+                      onToggle={() => {
+                        userStore.executeViaPaywall("reverse_cards", () => {
+                          deckFormStore.deckForm?.reverseCards.toggle();
+                        });
+                      }}
+                    />
+                  </WithProIcon>
                 ),
               },
               userStore.canUpdateCatalogSettings

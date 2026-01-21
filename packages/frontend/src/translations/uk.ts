@@ -324,7 +324,10 @@ export const uk: Translation = {
   wysiwyg_help_clear: "Видалити все форматування",
   wysiwyg_help_undo: "Скасувати останню дію",
 
-  reverse_cards: "Створювати зворотні картки",
+  reverse_cards: "Зворотні картки",
+  reverse_cards_title: "Зворотні картки",
+  reverse_cards_helper:
+    "Створи одну - отримай дві. Допомагає краще запам'ятовувати",
   two_cards_created: "Створено 2 картки",
   card_created: "Картку створено",
 
