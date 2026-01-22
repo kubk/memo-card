@@ -338,4 +338,9 @@ export const fa: Translation = {
 
   // Image related
   image: "تصویر",
+
+  // Skip card
+  skip_card_for_now: "رد شدن فعلاً",
+  skip_card_confirm: "از این کارت رد شوید؟ تا مرور بعدی پنهان می‌شود",
+  review_skipped: "رد شده",
 };

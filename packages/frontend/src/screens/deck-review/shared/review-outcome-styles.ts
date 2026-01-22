@@ -9,6 +9,7 @@ const baseOutcomeColors = {
   easy: "bg-sky-100 text-sky-800 dark:bg-sky-900/60 dark:text-sky-300 border-sky-100/50 dark:border-sky-700/50",
   never:
     "bg-gray-100 text-gray-800 dark:bg-gray-900/60 dark:text-gray-300 border-gray-100/50 dark:border-gray-700/50",
+  skip: "bg-slate-200 text-slate-700 dark:bg-slate-800/60 dark:text-slate-300 border-slate-200/50 dark:border-slate-600/50",
 };
 
 // Styles for small badges (used in reviewed cards list)
@@ -18,6 +19,7 @@ export const reviewOutcomeStyles = {
   good: baseOutcomeColors.good,
   easy: baseOutcomeColors.easy,
   never: baseOutcomeColors.never,
+  skip: baseOutcomeColors.skip,
 };
 
 // Styles for review buttons (used in card review controls)
@@ -29,6 +31,7 @@ export const reviewOutcomeButtonStyles = {
   easy: "cursor-pointer py-2 flex-auto bg-sky-100 text-sky-800 dark:bg-sky-900/60 dark:text-sky-300 border border-sky-100/50 dark:border-sky-700/50 rounded-xl active:scale-95 relative",
   never:
     "cursor-pointer py-2 flex-auto bg-gray-100 text-gray-800 dark:bg-gray-900/60 dark:text-gray-300 border border-gray-100/50 dark:border-gray-700/50 rounded-xl active:scale-95 relative",
+  skip: "cursor-pointer py-2 flex-auto bg-slate-200 text-slate-700 dark:bg-slate-800/60 dark:text-slate-300 border border-slate-200/50 dark:border-slate-600/50 rounded-xl active:scale-95 relative",
 };
 
 // Styles for hotkey badges (used in review controls)
@@ -40,6 +43,7 @@ export const reviewOutcomeHotkeyStyles = {
   easy: "bg-sky-100 text-sky-800 border-sky-200 border-2 dark:bg-sky-900/60 dark:text-sky-300 dark:border-sky-700",
   never:
     "bg-gray-100 text-gray-800 border-gray-200 border-2 dark:bg-gray-900/60 dark:text-gray-300 dark:border-gray-700",
+  skip: "bg-slate-200 text-slate-700 border-slate-300 border-2 dark:bg-slate-800/60 dark:text-slate-300 dark:border-slate-600",
 };
 
 export const reviewOutcomeLabels = {
@@ -48,4 +52,5 @@ export const reviewOutcomeLabels = {
   good: () => t("review_good"),
   easy: () => t("review_easy"),
   never: () => t("hide_card_forever"),
+  skip: () => t("review_skipped"),
 };
