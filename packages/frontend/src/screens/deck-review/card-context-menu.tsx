@@ -1,4 +1,4 @@
-import { EyeOffIcon, MicIcon, MicOffIcon } from "lucide-react";
+import { EyeOffIcon, MicIcon, MicOffIcon, SkipForwardIcon } from "lucide-react";
 import { platform } from "../../lib/platform/platform.ts";
 import { boolNarrow } from "../../lib/typescript/bool-narrow";
 import { userStore } from "../../store/user-store";
@@ -15,6 +15,13 @@ export function CardContextMenu() {
   return (
     <Dropdown
       items={[
+        {
+          icon: <SkipForwardIcon className="h-5 w-5 text-hint" />,
+          text: t("skip_card_for_now"),
+          onClick: () => {
+            reviewStore.onSkipCard();
+          },
+        },
         {
           icon: <EyeOffIcon className="h-5 w-5 text-hint" />,
           text: t("hide_card_forever"),
