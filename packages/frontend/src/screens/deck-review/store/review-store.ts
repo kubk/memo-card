@@ -82,7 +82,9 @@ export class ReviewStore {
       (card) => card.cardReviewType === "new",
     );
     shuffleInPlace(repeatCards);
-    separateReversePairs(repeatCards);
+    if (userStore.isPaid) {
+      separateReversePairs(repeatCards);
+    }
     this.cardsToReview = [...repeatCards, ...newCards];
   }
 
@@ -124,7 +126,9 @@ export class ReviewStore {
       this.isStudyAnyway = true;
     }
     shuffleInPlace(this.cardsToReview);
-    separateReversePairs(this.cardsToReview);
+    if (userStore.isPaid) {
+      separateReversePairs(this.cardsToReview);
+    }
     this.initializeInitialCurrentNextCards();
   }
 
@@ -159,7 +163,9 @@ export class ReviewStore {
     });
 
     shuffleInPlace(this.cardsToReview);
-    separateReversePairs(this.cardsToReview);
+    if (userStore.isPaid) {
+      separateReversePairs(this.cardsToReview);
+    }
     this.initializeInitialCurrentNextCards();
   }
 
