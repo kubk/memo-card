@@ -337,6 +337,11 @@ export const en = {
 
   // Image related
   image: "Image",
+
+  // Skip card
+  skip_card_for_now: "Skip for now",
+  skip_card_confirm: "Skip this card? It will be hidden until your next review",
+  review_skipped: "Skipped",
 };
 
 export type Translation = typeof en;
