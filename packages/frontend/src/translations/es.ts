@@ -334,4 +334,9 @@ export const es: Translation = {
 
   // Image related
   image: "Imagen",
+
+  // Skip card
+  skip_card_for_now: "Saltar por ahora",
+  skip_card_confirm: "¿Saltar esta tarjeta? Estará oculta hasta tu próximo repaso",
+  review_skipped: "Saltada",
 };

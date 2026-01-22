@@ -37,7 +37,7 @@ export type ReviewedCard = {
   id: number;
   front: string;
   back: string;
-  outcome: ReviewOutcome;
+  outcome: ReviewOutcome | "skip";
   deckName?: string;
 };
 
@@ -233,6 +233,35 @@ export class ReviewStore {
     this.changeState("never");
   }
 
+  async onSkipCard() {
+    const isConfirmed = await showConfirm(t("skip_card_confirm"));
+    if (!isConfirmed) {
+      return;
+    }
+    platform.haptic("light");
+
+    const currentCard = this.currentCard;
+    assert(currentCard, "currentCard should not be null while skipping");
+
+    this.reviewedCards.push({
+      id: currentCard.id,
+      front: currentCard.front,
+      back: currentCard.back,
+      outcome: "skip",
+      deckName: currentCard.deckName,
+    });
+
+    const currentCardIdx = this.cardsToReview.findIndex(
+      (card) => card.id === currentCard.id,
+    );
+    assert(currentCardIdx !== -1, "currentCardIdx is empty");
+    this.cardsToReview.splice(currentCardIdx, 1);
+
+    if (this.cardsToReview.length !== 0) {
+      this.currentCardId = this.cardsToReview[0].id;
+    }
+  }
+
   changeState(cardState: ReviewOutcome) {
     const currentCard = this.currentCard;
     assert(
@@ -393,7 +422,8 @@ export class ReviewStore {
       this.result.hardIds.length ||
       this.result.goodIds.length ||
       this.result.easyIds.length ||
-      this.result.neverIds.length
+      this.result.neverIds.length ||
+      this.reviewedCards.some((card) => card.outcome === "skip")
     );
   }
 
@@ -499,7 +529,14 @@ export class ReviewStore {
   }
 
   get sortedReviewedCards() {
-    const outcomeOrder = { again: 0, hard: 1, good: 2, easy: 3, never: 4 };
+    const outcomeOrder = {
+      again: 0,
+      hard: 1,
+      good: 2,
+      easy: 3,
+      never: 4,
+      skip: 5,
+    };
     return this.reviewedCards
       .slice()
       .sort((a, b) => outcomeOrder[a.outcome] - outcomeOrder[b.outcome]);

@@ -334,4 +334,9 @@ export const ru: Translation = {
 
   // Image related
   image: "Картинка",
+
+  // Skip card
+  skip_card_for_now: "Пропустить",
+  skip_card_confirm: "Пропустить карточку? Она будет скрыта до следующего повторения",
+  review_skipped: "Пропущено",
 };

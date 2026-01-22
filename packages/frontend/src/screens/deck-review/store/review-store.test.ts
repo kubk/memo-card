@@ -44,9 +44,10 @@ vi.mock("mobx-persist-store", () => {
   };
 });
 
-vi.mock(import("../../../lib/platform/show-confirm.ts"), () =>
-  import("../../../lib/platform/show-confirm.mock.ts").then((m) => m.mock()),
-);
+const showConfirmMock = vi.hoisted(() => vi.fn());
+vi.mock("../../../lib/platform/show-confirm.ts", () => ({
+  showConfirm: showConfirmMock,
+}));
 vi.mock(import("../../../translations/t.ts"), () =>
   import("../../../translations/t.mock.ts").then((m) => m.mock()),
 );
@@ -754,5 +755,36 @@ describe("card form store", () => {
     expect(reviewStore.result.againIds).toHaveLength(3);
     expect(reviewStore.result.goodIds).toHaveLength(0);
     expect(reviewStore.currentCard?.id).toEqual(6);
+  });
+
+  it("skip card removes it from queue and shows in results", async () => {
+    showConfirmMock.mockResolvedValueOnce(true);
+    const reviewStore = new ReviewStore();
+    reviewStore.startDeckReview(createDeckWithCards(repeatCardsMock));
+    expect(reviewStore.currentCard?.id).toEqual(3);
+
+    // Skip the first card
+    await reviewStore.onSkipCard();
+
+    // Should move to next card
+    expect(reviewStore.currentCard?.id).toEqual(4);
+
+    // Skipped card should be in reviewedCards but not in result IDs
+    expect(reviewStore.reviewedCards).toHaveLength(1);
+    expect(reviewStore.reviewedCards[0].outcome).toEqual("skip");
+    expect(reviewStore.result.againIds).toHaveLength(0);
+    expect(reviewStore.result.neverIds).toHaveLength(0);
+
+    // Complete remaining cards
+    reviewStore.open();
+    reviewStore.changeState("good");
+    reviewStore.open();
+    reviewStore.changeState("good");
+    reviewStore.open();
+    reviewStore.changeState("good");
+
+    expect(reviewStore.isFinished).toBeTruthy();
+    expect(reviewStore.reviewedCards).toHaveLength(4);
+    expect(reviewStore.sortedReviewedCards[3].outcome).toEqual("skip");
   });
 });

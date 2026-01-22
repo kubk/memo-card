@@ -336,4 +336,9 @@ export const ar: Translation = {
 
   // Image related
   image: "صورة",
+
+  // Skip card
+  skip_card_for_now: "تخطي الآن",
+  skip_card_confirm: "تخطي هذه البطاقة؟ ستكون مخفية حتى المراجعة القادمة",
+  review_skipped: "تم التخطي",
 };
