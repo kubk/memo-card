@@ -334,4 +334,9 @@ export const ptBr: Translation = {
 
   // Image related
   image: "Imagem",
+
+  // Skip card
+  skip_card_for_now: "Pular por agora",
+  skip_card_confirm: "Pular este cartão? Ele ficará oculto até a próxima revisão",
+  review_skipped: "Pulado",
 };

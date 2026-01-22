@@ -339,4 +339,9 @@ export const uk: Translation = {
 
   // Image related
   image: "Зображення",
+
+  // Skip card
+  skip_card_for_now: "Пропустити",
+  skip_card_confirm: "Пропустити цю картку? Вона буде прихована до наступного повторення",
+  review_skipped: "Пропущено",
 };
