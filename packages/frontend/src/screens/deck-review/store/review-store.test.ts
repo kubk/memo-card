@@ -224,7 +224,9 @@ vi.mock(import("../../../lib/voice-playback/speak.ts"), () =>
 
 vi.mock("../../../store/user-store.ts", () => {
   return {
-    userStore: {},
+    userStore: {
+      isPaid: true,
+    },
   };
 });
 
