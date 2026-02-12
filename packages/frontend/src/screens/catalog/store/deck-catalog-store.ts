@@ -2,52 +2,80 @@ import { makeAutoObservable } from "mobx";
 import { TextField } from "mobx-form-lite";
 import { persistableField } from "../../../lib/mobx-form-lite-persistable/persistable-field.ts";
 import { CatalogItem } from "api";
-import { RequestStore } from "../../../lib/mobx-request/request-store.ts";
 import { LanguageCatalogItemAvailableIn } from "api";
 import { createCachedCategoriesRequest } from "../../../api/create-cached-categories-request.ts";
 import { api } from "../../../api/trpc-api.ts";
+import { InfiniteRequestStore } from "../../../lib/mobx-request/infinite-request-store.ts";
 
 export type DeckLanguage = "any" | LanguageCatalogItemAvailableIn;
 
+type Cursor = {
+  createdAt: string;
+};
+
 export class DeckCatalogStore {
-  catalogRequest = new RequestStore(api.catalog.list.query, {
-    cacheId: "catalogRequest",
+  // We don't use RequestStore caching here, because we want incremental pagination.
+  private catalogRequest = new InfiniteRequestStore<
+    CatalogItem,
+    Cursor,
+    { filters: { availableIn?: DeckLanguage; categoryId?: string } }
+  >(api.catalog.list.query, {
+    pageSize: 15,
+    getFilters: () => ({
+      filters: this.apiFilters,
+    }),
+    getItemKey: (item) => `${item.type}:${item.data.id}`,
   });
   categoriesRequest = createCachedCategoriesRequest();
 
   filters = {
-    language: persistableField(new TextField<DeckLanguage>("any"), "catalogLn"),
-    categoryId: new TextField(""),
+    language: persistableField(
+      new TextField<DeckLanguage>("any", {
+        afterChange: () => this.catalogRequest.reload(),
+      }),
+      "catalogLn",
+    ),
+    categoryId: new TextField("", {
+      afterChange: () => this.catalogRequest.reload(),
+    }),
   };
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
   }
 
-  load() {
-    this.catalogRequest.execute();
-    this.categoriesRequest.execute();
+  private get apiFilters() {
+    return {
+      availableIn:
+        this.filters.language.value === "any"
+          ? undefined
+          : this.filters.language.value,
+      categoryId: this.filters.categoryId.value || undefined,
+    };
   }
 
-  get filteredCatalogItems(): CatalogItem[] {
-    if (this.catalogRequest.result.status !== "success") {
-      return [];
-    }
+  async load() {
+    this.categoriesRequest.execute();
+    await this.catalogRequest.reload();
+  }
 
-    const language = this.filters.language.value;
-    const categoryId = this.filters.categoryId.value;
+  get catalogItems(): CatalogItem[] {
+    return this.catalogRequest.items;
+  }
 
-    return this.catalogRequest.result.data.filter((catalogItem) => {
-      const item = catalogItem.data;
-      if (language !== "any" && item.availableIn !== language) {
-        return false;
-      }
+  get isInitialLoading() {
+    return this.catalogRequest.isInitialLoading;
+  }
 
-      // noinspection RedundantIfStatementJS
-      if (!!categoryId && item.categoryId !== categoryId) {
-        return false;
-      }
-      return true;
-    });
+  get isLoadingMore() {
+    return this.catalogRequest.isLoadingMore;
+  }
+
+  get hasCatalogLoaded() {
+    return this.catalogRequest.hasLoaded;
+  }
+
+  loadMore() {
+    return this.catalogRequest.loadMore();
   }
 }

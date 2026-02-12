@@ -16,6 +16,8 @@ import { Screen } from "../shared/screen.tsx";
 import { Flex } from "../../ui/flex.tsx";
 import { languageFilterToNativeName } from "./translations.ts";
 import { LanguageCatalogItemAvailableIn } from "api";
+import { useBottomReached } from "../../lib/react/use-bottom-reached.ts";
+import { LoaderCircle } from "lucide-react";
 
 export function DeckCatalog() {
   const store = useDeckCatalogStore();
@@ -23,6 +25,15 @@ export function DeckCatalog() {
   useMount(() => {
     store.load();
   });
+
+  useBottomReached(
+    () => {
+      store.loadMore();
+    },
+    {
+      enabled: store.hasCatalogLoaded && !store.isInitialLoading,
+    },
+  );
 
   useBackButton(() => {
     screenStore.back();
@@ -68,44 +79,59 @@ export function DeckCatalog() {
       </Flex>
 
       {(() => {
-        if (store.catalogRequest.result.status === "loading") {
+        if (store.isInitialLoading) {
           return range(5).map((i) => <CardRowLoading key={i} />);
         }
 
-        if (store.catalogRequest.result.status === "success") {
-          const filteredCatalogItems = store.filteredCatalogItems;
+        {
+          const catalogItems = store.catalogItems;
 
-          if (filteredCatalogItems.length === 0) {
+          if (!store.hasCatalogLoaded) {
+            return null;
+          }
+
+          if (catalogItems.length === 0) {
             return <NoDecksMatchingFilters />;
           }
 
-          return filteredCatalogItems.map((item) => {
-            const result = deckListStore.isDeckFolderAdded({
-              type: item.type,
-              id: item.data.id,
-            });
-            const isAdded = result.isMineDeck || result.isMineFolder;
-            const isMineDeck = result.isMineDeck;
+          return (
+            <>
+              {catalogItems.map((item) => {
+                const result = deckListStore.isDeckFolderAdded({
+                  type: item.type,
+                  id: item.data.id,
+                });
+                const isAdded = result.isMineDeck || result.isMineFolder;
+                const isMineDeck = result.isMineDeck;
 
-            return (
-              <DeckListItemWithDescription
-                key={item.data.id}
-                titleRightSlot={isAdded ? <DeckAddedLabel /> : undefined}
-                catalogItem={item.data}
-                onClick={() => {
-                  if (item.type === "deck") {
-                    deckListStore.openDeckFromCatalog(item.data, isMineDeck);
-                  }
-                  if (item.type === "folder") {
-                    deckListStore.openFolderFromCatalog(item.data);
-                  }
-                }}
-              />
-            );
-          });
+                return (
+                  <DeckListItemWithDescription
+                    key={item.data.id}
+                    titleRightSlot={isAdded ? <DeckAddedLabel /> : undefined}
+                    catalogItem={item.data}
+                    onClick={() => {
+                      if (item.type === "deck") {
+                        deckListStore.openDeckFromCatalog(
+                          item.data,
+                          isMineDeck,
+                        );
+                      }
+                      if (item.type === "folder") {
+                        deckListStore.openFolderFromCatalog(item.data);
+                      }
+                    }}
+                  />
+                );
+              })}
+
+              {store.isLoadingMore ? (
+                <div className="flex justify-center py-3">
+                  <LoaderCircle size={24} className="animate-spin text-hint" />
+                </div>
+              ) : null}
+            </>
+          );
         }
-
-        return null;
       })()}
     </Screen>
   );
