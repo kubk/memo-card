@@ -44,8 +44,8 @@ export function DeckCatalog() {
       <Flex gap={4}>
         <div className="text-hint">{t("category")}</div>
         <Select
-          value={store.filters.categoryId.value}
-          onChange={store.filters.categoryId.onChange}
+          value={store.categoryId}
+          onChange={store.setCategoryId}
           isLoading={store.categoriesRequest.isLoading}
           options={
             store.categoriesRequest.result.status === "success"
@@ -65,8 +65,8 @@ export function DeckCatalog() {
       <Flex gap={4}>
         <div className="text-hint">{t("translated_to")}</div>
         <Select<DeckLanguage>
-          value={store.filters.language.value}
-          onChange={store.filters.language.onChange}
+          value={store.language}
+          onChange={store.setLanguage}
           options={(
             enumValues(LanguageCatalogItemAvailableIn) as DeckLanguage[]
           )

@@ -97,6 +97,8 @@ const reviewCustomRouteSchema = v.object({
 
 const deckCatalogRouteSchema = v.object({
   type: v.literal("deckCatalog"),
+  availableIn: v.optional(v.string()),
+  categoryId: v.optional(v.string()),
 });
 
 const aiMassCreationRouteSchema = v.object({
