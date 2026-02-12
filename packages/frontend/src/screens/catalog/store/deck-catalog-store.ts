@@ -1,11 +1,10 @@
 import { makeAutoObservable } from "mobx";
-import { TextField } from "mobx-form-lite";
-import { persistableField } from "../../../lib/mobx-form-lite-persistable/persistable-field.ts";
 import { CatalogItem } from "api";
 import { LanguageCatalogItemAvailableIn } from "api";
 import { createCachedCategoriesRequest } from "../../../api/create-cached-categories-request.ts";
 import { api } from "../../../api/trpc-api.ts";
 import { InfiniteRequestStore } from "../../../lib/mobx-request/infinite-request-store.ts";
+import { screenStore } from "../../../store/screen-store.ts";
 
 export type DeckLanguage = "any" | LanguageCatalogItemAvailableIn;
 
@@ -14,7 +13,6 @@ type Cursor = {
 };
 
 export class DeckCatalogStore {
-  // We don't use RequestStore caching here, because we want incremental pagination.
   private catalogRequest = new InfiniteRequestStore<
     CatalogItem,
     Cursor,
@@ -28,29 +26,46 @@ export class DeckCatalogStore {
   });
   categoriesRequest = createCachedCategoriesRequest();
 
-  filters = {
-    language: persistableField(
-      new TextField<DeckLanguage>("any", {
-        afterChange: () => this.catalogRequest.reload(),
-      }),
-      "catalogLn",
-    ),
-    categoryId: new TextField("", {
-      afterChange: () => this.catalogRequest.reload(),
-    }),
-  };
-
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
   }
 
+  private get route() {
+    const screen = screenStore.screen;
+    if (screen.type !== "deckCatalog") {
+      return { type: "deckCatalog" as const };
+    }
+    return screen;
+  }
+
+  get language(): DeckLanguage {
+    return (this.route.availableIn as DeckLanguage) || "any";
+  }
+
+  get categoryId(): string {
+    return this.route.categoryId || "";
+  }
+
+  setLanguage(value: DeckLanguage) {
+    screenStore.replace({
+      ...this.route,
+      availableIn: value === "any" ? undefined : value,
+    });
+    this.catalogRequest.reload();
+  }
+
+  setCategoryId(value: string) {
+    screenStore.replace({
+      ...this.route,
+      categoryId: value || undefined,
+    });
+    this.catalogRequest.reload();
+  }
+
   private get apiFilters() {
     return {
-      availableIn:
-        this.filters.language.value === "any"
-          ? undefined
-          : this.filters.language.value,
-      categoryId: this.filters.categoryId.value || undefined,
+      availableIn: this.language === "any" ? undefined : this.language,
+      categoryId: this.categoryId || undefined,
     };
   }
 
