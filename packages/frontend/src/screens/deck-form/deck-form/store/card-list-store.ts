@@ -15,6 +15,9 @@ export class CardListStore {
   isSelectionMode = new BooleanToggle(false);
   selectedCardIds = new Set<number>();
   moveToDeckStore = new MoveToDeckSelectorStore();
+  private translateModulePromise = import(
+    "../translate-create-reverse-confirm"
+  );
 
   constructor(private deckFormStore: DeckFormStore) {
     makeAutoObservable(this, {}, { autoBind: true });
@@ -71,6 +74,33 @@ export class CardListStore {
         .map((c) => c.id)
         .filter((id): id is number => id !== undefined);
       validCardIds.forEach((id) => this.selectedCardIds.add(id));
+    }
+  }
+
+  async createReverseCards() {
+    const { translateCreateReverseConfirm } = await this.translateModulePromise;
+    const confirmed = await showConfirm(
+      translateCreateReverseConfirm(this.selectedCardIds.size),
+    );
+    if (!confirmed) return;
+
+    appLoaderStore.enable();
+    try {
+      const result = await api.card.createMissingReverse.mutate({
+        cardIds: Array.from(this.selectedCardIds),
+      });
+
+      const { deck, cardsToReview } = result;
+      runInAction(() => {
+        deckListStore.replaceDeck(deck, true);
+        deckListStore.updateCardsToReview(cardsToReview);
+        this.deckFormStore.loadForm();
+      });
+      this.clearSelection();
+    } catch (e) {
+      notifyError({ e, info: "Error creating reverse cards" });
+    } finally {
+      appLoaderStore.disable();
     }
   }
 

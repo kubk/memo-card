@@ -331,6 +331,7 @@ export const es: Translation = {
   move_card_without_folder: "Sin carpeta",
   move_card_move: "Mover",
   move_card_open_deck: "Abrir mazo",
+  bulk_create_reverse_cards: "Crear tarjetas inversas",
 
   // Image related
   image: "Imagen",
