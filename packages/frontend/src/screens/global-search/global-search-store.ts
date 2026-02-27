@@ -15,8 +15,10 @@ const CONTEXT_LENGTH = 60;
 export type SearchResultType = "deck" | "folder" | "card";
 export type SearchTab = SearchResultType;
 
+export type SearchField = "front" | "back" | "name" | "description" | "example";
+
 export type SearchMatch = {
-  field: string;
+  field: SearchField;
   value: string;
   highlightedValue?: string;
 };
@@ -357,7 +359,7 @@ class GlobalSearchStore {
   private getMatches(
     text: string,
     query: string,
-    field: string,
+    field: SearchField,
   ): SearchMatch[] {
     const cleanText = text.toLowerCase();
     const matches: SearchMatch[] = [];

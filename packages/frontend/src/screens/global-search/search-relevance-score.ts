@@ -61,6 +61,8 @@ export const calculateRelevanceScore = (
       case "example":
         score += 1;
         break;
+      default:
+        match.field satisfies never;
     }
   }
 

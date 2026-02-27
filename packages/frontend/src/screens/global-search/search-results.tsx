@@ -1,4 +1,4 @@
-import { globalSearchStore, SearchResultItem } from "./global-search-store.ts";
+import { globalSearchStore, SearchField, SearchResultItem } from "./global-search-store.ts";
 import { DeckListItem, deckListStore } from "../../store/deck-list-store.ts";
 import { screenStore } from "../../store/screen-store.ts";
 import { List } from "../../ui/list.tsx";
@@ -9,7 +9,7 @@ import { userStore } from "../../store/user-store.ts";
 import { ChevronIcon } from "../../ui/chevron-icon.tsx";
 import { t } from "../../translations/t.ts";
 
-const getFieldDisplayName = (fieldName: string): string => {
+function getFieldDisplayName(fieldName: SearchField): string {
   switch (fieldName) {
     case "front":
       return t("front");
@@ -22,9 +22,9 @@ const getFieldDisplayName = (fieldName: string): string => {
     case "example":
       return t("card_field_example_title");
     default:
-      return fieldName;
+      return fieldName satisfies never;
   }
-};
+}
 
 export function SearchResults() {
   if (!globalSearchStore.isSearchActive) {
