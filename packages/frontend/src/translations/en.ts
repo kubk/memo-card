@@ -335,6 +335,9 @@ export const en = {
   move_card_move: "Move",
   move_card_open_deck: "Open deck",
 
+  // Bulk card actions
+  bulk_create_reverse_cards: "Create reverse cards",
+
   // Image related
   image: "Image",
 
