@@ -40,38 +40,49 @@ describe("isWordBoundaryMatch", () => {
 
 describe("calculateRelevanceScore", () => {
   test("exact match scores highest (100 + field bonus)", () => {
-    const matches = [{ field: "front", value: "Rice" }];
-    const score = calculateRelevanceScore(matches, "rice");
+    const score = calculateRelevanceScore(
+      [{ field: "front", value: "Rice" } as const],
+      "rice",
+    );
     expect(score).toBe(103); // 100 (exact) + 3 (front field)
   });
 
   test("word boundary match scores high (50 + field bonus)", () => {
-    const matches = [{ field: "front", value: "I like Rice" }];
-    const score = calculateRelevanceScore(matches, "rice");
+    const score = calculateRelevanceScore(
+      [{ field: "front", value: "I like Rice" } as const],
+      "rice",
+    );
     expect(score).toBe(53); // 50 (word boundary) + 3 (front field)
   });
 
   test("word boundary at start gets extra bonus (50 + 10 + field)", () => {
-    const matches = [{ field: "front", value: "rice is good" }];
-    const score = calculateRelevanceScore(matches, "rice");
+    const score = calculateRelevanceScore(
+      [{ field: "front", value: "rice is good" } as const],
+      "rice",
+    );
     expect(score).toBe(63); // 50 (word boundary) + 10 (starts with) + 3 (front)
   });
 
   test("substring match scores low (5 + field bonus)", () => {
-    const matches = [{ field: "front", value: "reasonably priced" }];
-    const score = calculateRelevanceScore(matches, "rice");
+    const score = calculateRelevanceScore(
+      [{ field: "front", value: "reasonably priced" } as const],
+      "rice",
+    );
     expect(score).toBe(8); // 5 (substring) + 3 (front field)
   });
 
   test("multiple substring matches still score lower than single exact match", () => {
-    const exactMatch = [{ field: "front", value: "Rice" }];
-    const multipleSubstrings = [
-      { field: "front", value: "reasonably priced" },
-      { field: "example", value: "the menu is reasonably priced" },
-    ];
-
-    const exactScore = calculateRelevanceScore(exactMatch, "rice");
-    const substringScore = calculateRelevanceScore(multipleSubstrings, "rice");
+    const exactScore = calculateRelevanceScore(
+      [{ field: "front", value: "Rice" } as const],
+      "rice",
+    );
+    const substringScore = calculateRelevanceScore(
+      [
+        { field: "front", value: "reasonably priced" } as const,
+        { field: "example", value: "the menu is reasonably priced" } as const,
+      ],
+      "rice",
+    );
 
     expect(exactScore).toBeGreaterThan(substringScore);
     expect(exactScore).toBe(103); // 100 + 3
@@ -79,17 +90,26 @@ describe("calculateRelevanceScore", () => {
   });
 
   test("field importance: name > front > back > description > example", () => {
-    const nameMatch = [{ field: "name", value: "test" }];
-    const frontMatch = [{ field: "front", value: "test" }];
-    const backMatch = [{ field: "back", value: "test" }];
-    const descMatch = [{ field: "description", value: "test" }];
-    const exampleMatch = [{ field: "example", value: "test" }];
-
-    const nameScore = calculateRelevanceScore(nameMatch, "test");
-    const frontScore = calculateRelevanceScore(frontMatch, "test");
-    const backScore = calculateRelevanceScore(backMatch, "test");
-    const descScore = calculateRelevanceScore(descMatch, "test");
-    const exampleScore = calculateRelevanceScore(exampleMatch, "test");
+    const nameScore = calculateRelevanceScore(
+      [{ field: "name", value: "test" } as const],
+      "test",
+    );
+    const frontScore = calculateRelevanceScore(
+      [{ field: "front", value: "test" } as const],
+      "test",
+    );
+    const backScore = calculateRelevanceScore(
+      [{ field: "back", value: "test" } as const],
+      "test",
+    );
+    const descScore = calculateRelevanceScore(
+      [{ field: "description", value: "test" } as const],
+      "test",
+    );
+    const exampleScore = calculateRelevanceScore(
+      [{ field: "example", value: "test" } as const],
+      "test",
+    );
 
     expect(nameScore).toBe(105); // 100 + 5
     expect(frontScore).toBe(103); // 100 + 3
@@ -99,30 +119,37 @@ describe("calculateRelevanceScore", () => {
   });
 
   test("no match returns 0", () => {
-    const matches = [{ field: "front", value: "hello world" }];
-    const score = calculateRelevanceScore(matches, "rice");
+    const score = calculateRelevanceScore(
+      [{ field: "front", value: "hello world" } as const],
+      "rice",
+    );
     expect(score).toBe(0);
   });
 
   test("Rice card ranks higher than reasonably priced card", () => {
-    // Simulating the original bug scenario
-    const riceCard = [
-      { field: "front", value: "Rice" },
-      { field: "back", value: "ข้าว" },
-    ];
+    const riceScore = calculateRelevanceScore(
+      [
+        { field: "front", value: "Rice" } as const,
+        { field: "back", value: "ข้าว" } as const,
+      ],
+      "rice",
+    );
 
-    const pricedCard = [
-      { field: "front", value: "reasonably priced" },
-      { field: "back", value: "адекватная цена; ни дорого, ни дёшево" },
-      {
-        field: "example",
-        value:
-          "I think their menu is reasonably priced in comparison to other restaurants",
-      },
-    ];
-
-    const riceScore = calculateRelevanceScore(riceCard, "rice");
-    const pricedScore = calculateRelevanceScore(pricedCard, "rice");
+    const pricedScore = calculateRelevanceScore(
+      [
+        { field: "front", value: "reasonably priced" } as const,
+        {
+          field: "back",
+          value: "адекватная цена; ни дорого, ни дёшево",
+        } as const,
+        {
+          field: "example",
+          value:
+            "I think their menu is reasonably priced in comparison to other restaurants",
+        } as const,
+      ],
+      "rice",
+    );
 
     expect(riceScore).toBeGreaterThan(pricedScore);
   });
