@@ -7,7 +7,13 @@ import { Button } from "../../../ui/button.tsx";
 import { t } from "../../../translations/t.ts";
 import { Screen } from "../../shared/screen.tsx";
 import { CardNumber } from "../../../ui/card-number.tsx";
-import { SearchIcon, XIcon, TrashIcon, FolderInputIcon } from "lucide-react";
+import {
+  SearchIcon,
+  XIcon,
+  TrashIcon,
+  FolderInputIcon,
+  CopyPlusIcon,
+} from "lucide-react";
 import { BottomSheet } from "../../../ui/bottom-sheet/bottom-sheet.tsx";
 import { BottomSheetTitle } from "../../../ui/bottom-sheet/bottom-sheet-title.tsx";
 import { RadioList } from "../../../ui/radio-list/radio-list.tsx";
@@ -23,6 +29,8 @@ import { MoveToDeckSelector } from "./move-to-deck-selector.tsx";
 import { platform } from "../../../lib/platform/platform.ts";
 import { TelegramPlatform } from "../../../lib/platform/telegram/telegram-platform.ts";
 import { removeAllTags } from "../../../lib/sanitize-html/remove-all-tags.ts";
+import { userStore } from "../../../store/user-store.ts";
+import { WithProIcon } from "../../shared/with-pro-icon.tsx";
 
 const sortOptions: Array<{
   id: string;
@@ -79,6 +87,41 @@ export function CardList() {
   if (!deckFormStore.deckForm) {
     return null;
   }
+
+  const hasMultipleDecks =
+    cardListStore.moveToDeckStore.availableDecksGrouped.length > 1;
+  const noneSelected = cardListStore.selectedCardIds.size === 0;
+  const actions = [
+    ...(hasMultipleDecks
+      ? [
+          {
+            key: "move",
+            icon: FolderInputIcon,
+            label: t("move_card_to_deck_title"),
+            onClick: () => cardListStore.openMoveSheet(),
+            colorClass: "text-button",
+          },
+        ]
+      : []),
+    {
+      key: "reverse",
+      icon: CopyPlusIcon,
+      label: t("bulk_create_reverse_cards"),
+      onClick: () =>
+        userStore.executeViaPaywall("reverse_cards", () =>
+          cardListStore.createReverseCards(),
+        ),
+      colorClass: "text-button",
+      right: <WithProIcon />,
+    },
+    {
+      key: "delete",
+      icon: TrashIcon,
+      label: t("delete"),
+      onClick: () => cardListStore.deleteSelectedCards(),
+      colorClass: "text-danger",
+    },
+  ];
 
   return (
     <Screen title={t("cards")}>
@@ -214,7 +257,7 @@ export function CardList() {
       </BottomSheet>
 
       <AnimatePresence>
-        {cardListStore.isSelectionMode.value && (
+        {cardListStore.isSelectionMode.value && !noneSelected && (
           <motion.div
             initial={{ y: "100%" }}
             animate={{ y: 0 }}
@@ -222,52 +265,42 @@ export function CardList() {
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
             style={{ x: "-50%" }}
             className={cn(
-              "fixed bottom-4 border left-1/2 rounded-2xl bg-secondary-bg border-t border-bg p-4 z-main-button",
+              "fixed bottom-4 left-1/2 rounded-2xl bg-secondary-bg border border-bg z-main-button w-[calc(100vw-2rem)]",
               platform instanceof TelegramPlatform && platform.isIos()
                 ? "mb-10"
                 : "",
             )}
           >
-            <div className="flex items-center justify-between gap-4">
-              <div className="text-base whitespace-nowrap pl-2">
+            <div className="flex items-center justify-between px-4 pt-3 pb-1">
+              <span className="text-sm text-hint">
                 {t("selected")}: {cardListStore.selectedCardIds.size}
-              </div>
-              <div className="flex gap-2">
-                {/* Move button - only show if there are other decks to move to */}
-                {cardListStore.moveToDeckStore.availableDecksGrouped.length >
-                  1 && (
-                  <button
-                    onClick={() => cardListStore.openMoveSheet()}
-                    disabled={cardListStore.selectedCardIds.size === 0}
+              </span>
+              <button
+                onClick={() => cardListStore.clearSelection()}
+                className="p-1.5 rounded-lg active:scale-95"
+              >
+                <XIcon size={18} />
+              </button>
+            </div>
+            <div className="flex flex-col pb-1">
+              {actions.map((action) => (
+                <button
+                  key={action.key}
+                  onClick={action.onClick}
+                  className="flex items-center gap-3 px-4 py-3 text-start"
+                >
+                  <action.icon size={20} className={action.colorClass} />
+                  <span
                     className={cn(
-                      "p-2 rounded-lg transition-colors",
-                      cardListStore.selectedCardIds.size === 0
-                        ? "opacity-50 cursor-not-allowed"
-                        : "hover:bg-bg active:scale-95",
+                      "text-sm flex-1",
+                      action.key === "delete" ? "text-danger" : "",
                     )}
                   >
-                    <FolderInputIcon size={20} className="text-button" />
-                  </button>
-                )}
-                <button
-                  onClick={() => cardListStore.deleteSelectedCards()}
-                  disabled={cardListStore.selectedCardIds.size === 0}
-                  className={cn(
-                    "p-2 rounded-lg transition-colors",
-                    cardListStore.selectedCardIds.size === 0
-                      ? "opacity-50 cursor-not-allowed"
-                      : "hover:bg-bg active:scale-95",
-                  )}
-                >
-                  <TrashIcon size={20} className="text-danger" />
+                    {action.label}
+                  </span>
+                  {"right" in action && action.right}
                 </button>
-                <button
-                  onClick={() => cardListStore.clearSelection()}
-                  className="p-2 rounded-lg hover:bg-bg active:scale-95 transition-colors"
-                >
-                  <XIcon size={20} />
-                </button>
-              </div>
+              ))}
             </div>
           </motion.div>
         )}

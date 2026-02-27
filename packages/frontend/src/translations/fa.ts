@@ -335,6 +335,7 @@ export const fa: Translation = {
   move_card_without_folder: "بدون پوشه",
   move_card_move: "انتقال",
   move_card_open_deck: "باز کردن دسته",
+  bulk_create_reverse_cards: "ایجاد کارت‌های معکوس",
 
   // Image related
   image: "تصویر",
