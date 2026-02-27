@@ -336,6 +336,7 @@ export const uk: Translation = {
   move_card_without_folder: "Без папки",
   move_card_move: "Перемістити",
   move_card_open_deck: "Відкрити колоду",
+  bulk_create_reverse_cards: "Створити зворотні картки",
 
   // Image related
   image: "Зображення",

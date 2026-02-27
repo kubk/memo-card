@@ -331,6 +331,7 @@ export const ptBr: Translation = {
   move_card_without_folder: "Sem pasta",
   move_card_move: "Mover",
   move_card_open_deck: "Abrir baralho",
+  bulk_create_reverse_cards: "Criar cartões reversos",
 
   // Image related
   image: "Imagem",
