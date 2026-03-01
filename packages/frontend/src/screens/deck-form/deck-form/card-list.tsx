@@ -256,6 +256,10 @@ export function CardList() {
         />
       </BottomSheet>
 
+      {cardListStore.isSelectionMode.value && !noneSelected && (
+        <div className="h-48" />
+      )}
+
       <AnimatePresence>
         {cardListStore.isSelectionMode.value && !noneSelected && (
           <motion.div
