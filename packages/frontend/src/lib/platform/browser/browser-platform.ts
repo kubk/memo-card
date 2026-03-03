@@ -1,5 +1,5 @@
 import { Platform, PlatformTheme, HapticType } from "../platform.ts";
-import { WebHaptics, defaultPatterns } from "web-haptics";
+import type { WebHaptics, defaultPatterns } from "web-haptics";
 import { action, makeAutoObservable } from "mobx";
 import { BooleanToggle } from "mobx-form-lite";
 import { PlatformSchemaType } from "api";
@@ -32,7 +32,7 @@ export class BrowserPlatform implements Platform {
     "en";
 
   constructor() {
-    makeAutoObservable(
+    makeAutoObservable<this, "webHaptics">(
       this,
       {
         getTheme: false,
@@ -42,6 +42,7 @@ export class BrowserPlatform implements Platform {
         getStartParam: false,
         openExternalLink: false,
         getSafeAreaInset: false,
+        webHaptics: false,
       },
       {
         autoBind: true,
@@ -49,6 +50,7 @@ export class BrowserPlatform implements Platform {
     );
 
     this.listenIsMobile();
+    this.loadWebHaptics();
   }
 
   private getCssVariables() {
@@ -197,32 +199,46 @@ export class BrowserPlatform implements Platform {
     return browserGetSafeAreaInset();
   }
 
-  private webHaptics = new WebHaptics();
+  private webHaptics?: {
+    instance: WebHaptics;
+    patterns: typeof defaultPatterns;
+  };
+
+  private loadWebHaptics() {
+    import("web-haptics").then(({ WebHaptics, defaultPatterns }) => {
+      this.webHaptics = {
+        instance: new WebHaptics(),
+        patterns: defaultPatterns,
+      };
+    });
+  }
 
   haptic(type: HapticType) {
-    if (!this.isMobile) return;
+    if (!this.isMobile || !this.webHaptics) return;
+
+    const { instance, patterns } = this.webHaptics;
 
     switch (type) {
       case "success":
-        this.webHaptics.trigger(defaultPatterns.success);
+        instance.trigger(patterns.success);
         break;
       case "warning":
-        this.webHaptics.trigger(defaultPatterns.warning);
+        instance.trigger(patterns.warning);
         break;
       case "error":
-        this.webHaptics.trigger(defaultPatterns.error);
+        instance.trigger(patterns.error);
         break;
       case "light":
-        this.webHaptics.trigger(defaultPatterns.light);
+        instance.trigger(patterns.light);
         break;
       case "medium":
-        this.webHaptics.trigger(defaultPatterns.medium);
+        instance.trigger(patterns.medium);
         break;
       case "heavy":
-        this.webHaptics.trigger(defaultPatterns.heavy);
+        instance.trigger(patterns.heavy);
         break;
       case "selection":
-        this.webHaptics.trigger(defaultPatterns.selection);
+        instance.trigger(patterns.selection);
         break;
       default:
         return type satisfies never;
