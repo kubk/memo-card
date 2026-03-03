@@ -1,5 +1,5 @@
 import { Platform, PlatformTheme, HapticType } from "../platform.ts";
-import { haptic } from "ios-haptics";
+import { WebHaptics, defaultPatterns } from "web-haptics";
 import { action, makeAutoObservable } from "mobx";
 import { BooleanToggle } from "mobx-form-lite";
 import { PlatformSchemaType } from "api";
@@ -197,22 +197,32 @@ export class BrowserPlatform implements Platform {
     return browserGetSafeAreaInset();
   }
 
+  private webHaptics = new WebHaptics();
+
   haptic(type: HapticType) {
     if (!this.isMobile) return;
 
     switch (type) {
       case "success":
-      case "selection":
-      case "light":
-        haptic();
+        this.webHaptics.trigger(defaultPatterns.success);
         break;
       case "warning":
-      case "medium":
-        haptic.confirm();
+        this.webHaptics.trigger(defaultPatterns.warning);
         break;
       case "error":
+        this.webHaptics.trigger(defaultPatterns.error);
+        break;
+      case "light":
+        this.webHaptics.trigger(defaultPatterns.light);
+        break;
+      case "medium":
+        this.webHaptics.trigger(defaultPatterns.medium);
+        break;
       case "heavy":
-        haptic.error();
+        this.webHaptics.trigger(defaultPatterns.heavy);
+        break;
+      case "selection":
+        this.webHaptics.trigger(defaultPatterns.selection);
         break;
       default:
         return type satisfies never;

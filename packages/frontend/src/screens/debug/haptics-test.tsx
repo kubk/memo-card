@@ -1,8 +1,10 @@
-import { haptic } from "ios-haptics";
+import { WebHaptics, defaultPatterns } from "web-haptics";
 import { platform } from "../../lib/platform/platform.ts";
 
 type HapticNotificationType = "error" | "success" | "warning";
 type HapticImpactType = "light" | "medium" | "heavy";
+
+const webHaptics = new WebHaptics();
 
 export function HapticsTest() {
   const handleTelegramNotification = (type: HapticNotificationType) => {
@@ -15,18 +17,6 @@ export function HapticsTest() {
 
   const handleTelegramSelection = () => {
     platform.haptic("selection");
-  };
-
-  const handleIosHaptic = () => {
-    haptic();
-  };
-
-  const handleIosConfirm = () => {
-    haptic.confirm();
-  };
-
-  const handleIosError = () => {
-    haptic.error();
   };
 
   return (
@@ -99,39 +89,66 @@ export function HapticsTest() {
 
       <div className="flex flex-col gap-4">
         <h2 className="text-xl font-semibold text-text">
-          iOS Haptics (Web Fallback)
+          Web Haptics (Vibration API Fallback)
         </h2>
         <p className="text-sm text-hint">
-          These haptics use a web-based fallback for iOS devices when Telegram
-          API is not available
+          These haptics use the Vibration API for devices when Telegram API is
+          not available
         </p>
 
         <div className="flex flex-col gap-2">
           <button
-            onClick={handleIosHaptic}
+            onClick={() => webHaptics.trigger(defaultPatterns.light)}
             className="py-3.5 px-4 bg-button text-button-text font-semibold rounded-xl active:scale-95 transition-all duration-200 text-left"
           >
-            Single Haptic
+            Light
             <span className="block text-sm text-hint mt-1">
-              A single haptic feedback
+              Single light tap
             </span>
           </button>
           <button
-            onClick={handleIosConfirm}
+            onClick={() => webHaptics.trigger(defaultPatterns.medium)}
             className="py-3.5 px-4 bg-button text-button-text font-semibold rounded-xl active:scale-95 transition-all duration-200 text-left"
           >
-            Confirm (Double Haptic)
+            Medium
             <span className="block text-sm text-hint mt-1">
-              Two rapid haptics for confirmation
+              Moderate tap for standard interactions
             </span>
           </button>
           <button
-            onClick={handleIosError}
+            onClick={() => webHaptics.trigger(defaultPatterns.heavy)}
             className="py-3.5 px-4 bg-button text-button-text font-semibold rounded-xl active:scale-95 transition-all duration-200 text-left"
           >
-            Error (Triple Haptic)
+            Heavy
             <span className="block text-sm text-hint mt-1">
-              Three rapid haptics for errors
+              Strong tap for significant interactions
+            </span>
+          </button>
+          <button
+            onClick={() => webHaptics.trigger(defaultPatterns.success)}
+            className="py-3.5 px-4 bg-button text-button-text font-semibold rounded-xl active:scale-95 transition-all duration-200 text-left"
+          >
+            Success
+            <span className="block text-sm text-hint mt-1">
+              Ascending double-tap
+            </span>
+          </button>
+          <button
+            onClick={() => webHaptics.trigger(defaultPatterns.error)}
+            className="py-3.5 px-4 bg-button text-button-text font-semibold rounded-xl active:scale-95 transition-all duration-200 text-left"
+          >
+            Error
+            <span className="block text-sm text-hint mt-1">
+              Three rapid harsh taps
+            </span>
+          </button>
+          <button
+            onClick={() => webHaptics.trigger(defaultPatterns.selection)}
+            className="py-3.5 px-4 bg-button text-button-text font-semibold rounded-xl active:scale-95 transition-all duration-200 text-left"
+          >
+            Selection
+            <span className="block text-sm text-hint mt-1">
+              Subtle tap for selection changes
             </span>
           </button>
         </div>
