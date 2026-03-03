@@ -2,6 +2,7 @@ import { cn } from "../../ui/cn.ts";
 import { deckListStore } from "../../store/deck-list-store.ts";
 import { ChevronIcon } from "../../ui/chevron-icon.tsx";
 import { t } from "../../translations/t.ts";
+import { platform } from "../../lib/platform/platform.ts";
 
 export function ViewMoreDecksToggle() {
   return (
@@ -9,7 +10,10 @@ export function ViewMoreDecksToggle() {
       className={cn(
         "absolute top-1 text-link text-sm uppercase flex items-center gap-1 end-3",
       )}
-      onClick={deckListStore.isMyDecksExpanded.toggle}
+      onClick={() => {
+        platform.haptic("selection");
+        deckListStore.isMyDecksExpanded.toggle();
+      }}
     >
       <span className="focus:outline-none">
         <ChevronIcon

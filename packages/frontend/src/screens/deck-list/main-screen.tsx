@@ -66,6 +66,7 @@ export function MainScreen() {
                   <Fragment key={listItem.id}>
                     <DeckRowWithCardsToReview
                       onClick={() => {
+                        platform.haptic("selection");
                         if (listItem.type === "deck") {
                           screenStore.go({
                             type: "deckMine",
@@ -88,6 +89,7 @@ export function MainScreen() {
                           items={listItem.decks.map((deck) => {
                             return {
                               onClick: () => {
+                                platform.haptic("selection");
                                 screenStore.go({
                                   type: "deckMine",
                                   deckId: deck.id,
@@ -136,6 +138,7 @@ export function MainScreen() {
               icon={<PlusIcon size={24} />}
               outline
               onClick={() => {
+                platform.haptic("light");
                 if (deckListStore.myDecks.length > 0) {
                   deckFolderToggle.setTrue();
                 } else {
@@ -164,6 +167,7 @@ export function MainScreen() {
               <div
                 className="pt-1 text-link flex items-center gap-1 cursor-pointer justify-center"
                 onClick={() => {
+                  platform.haptic("light");
                   screenStore.go({ type: "deckCatalog" });
                 }}
               >
