@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "next dev -p 8080",
+    "dev": "next dev -p 8080",
     "build-and-serve": "npm run build && npx serve out",
     "postbuild": "next-sitemap",
     "test": "echo 1",
