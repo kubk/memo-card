@@ -4,8 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "start": "npx concurrently --kill-others-on-fail \"npm run start -w=api\" \"npm run start -w=frontend\" \"npm run start -w=landing\"",
-    "start:telegram": "npx concurrently --kill-others-on-fail \"npm run start -w=api\" \"npm run start -w=frontend\" \"npm run tunnel -w=api\"",
+    "dev": "npx concurrently -n api,frontend,landing -c green,blue,magenta --kill-others-on-fail \"npm run dev -w=api\" \"npm run dev -w=frontend\" \"npm run dev -w=landing\"",
+    "dev:telegram": "npx concurrently -n api,frontend,tunnel -c green,blue,yellow --kill-others-on-fail \"npm run dev -w=api\" \"npm run dev -w=frontend\" \"npm run tunnel -w=api\"",
     "prettier:fix": "git ls-files -mo --exclude-standard -- './packages' | grep -E '\\.(ts|tsx|mts|json)$' | xargs -I {} prettier --write {}",
     "prettier:fix:full": "prettier --write \"./packages/**/*.+(ts|tsx|mts|json)\"",
     "typecheck": "npm run typecheck --workspaces",

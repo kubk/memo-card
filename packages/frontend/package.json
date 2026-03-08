@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "start": "vite",
+    "dev": "vite",
     "typecheck": "npx tsc -b --noEmit",
     "test": "npx vitest run --environment jsdom",
     "build": "cp index.build.html index.html && vite build",
