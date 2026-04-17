@@ -5,6 +5,7 @@ import { makeObservable, observable, action } from "mobx";
 import { LanguageShared } from "api";
 import { getWebApp } from "./telegram-web-app.ts";
 import { cloudStorageAdapter } from "./cloud-storage.ts";
+import { lockOrientationWhenPortrait } from "./lock-orientation-when-portrait.ts";
 
 const buttonColor = "var(--tg-theme-button-color)";
 const buttonTextColor = "var(--tg-theme-button-text-color)";
@@ -66,6 +67,7 @@ export class TelegramPlatform implements Platform {
       getWebApp().isVerticalSwipesEnabled = false;
     }
     getWebApp().expand();
+    lockOrientationWhenPortrait();
 
     // Def doesn't work on Mac :(
     // Don't know yet about other platform
