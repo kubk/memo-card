@@ -2,6 +2,8 @@ import DOMPurify from "dompurify";
 import { extractImageUrl } from "../card-image/card-image";
 import { t } from "../../translations/t.ts";
 
+const lineBreakPattern = /(?:\s*<br\s*\/?>\s*)+/gi;
+
 export function removeAllTags({
   text,
   fallback = true,
@@ -9,7 +11,8 @@ export function removeAllTags({
   text: string;
   fallback?: boolean;
 }) {
-  const sanitized = DOMPurify.sanitize(text, {
+  const textWithLineBreaks = text.replace(lineBreakPattern, " ");
+  const sanitized = DOMPurify.sanitize(textWithLineBreaks, {
     ALLOWED_TAGS: [],
     ALLOWED_ATTR: [],
   }).replace(/&nbsp;/g, "");
