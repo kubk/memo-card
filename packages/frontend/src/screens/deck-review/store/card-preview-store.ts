@@ -2,8 +2,8 @@ import { LimitedCardUnderReviewStore } from "../../shared/card/card.tsx";
 import {
   CardAnswerDbType,
   DeckSpeakFieldEnum,
-  DEFAULT_EASE_FACTOR,
-  DEFAULT_START_INTERVAL,
+  createInitialFsrsReviewState,
+  type FsrsState,
 } from "api";
 import { CardAnswerType } from "api";
 import { makeAutoObservable } from "mobx";
@@ -18,8 +18,16 @@ import { assert } from "api";
 export class CardPreviewStore implements LimitedCardUnderReviewStore {
   id: number;
   cardReviewType: "new" | "repeat" = "new";
-  interval = DEFAULT_START_INTERVAL;
-  easeFactor = DEFAULT_EASE_FACTOR;
+  due: string;
+  stability: number;
+  difficulty: number;
+  elapsedDays: number;
+  scheduledDays: number;
+  learningSteps: number;
+  reps: number;
+  lapses: number;
+  fsrsState: FsrsState;
+  lastReviewDate: string | null;
   isAgain = false;
   front: string;
   back: string;
@@ -34,6 +42,18 @@ export class CardPreviewStore implements LimitedCardUnderReviewStore {
   isOpened = false;
 
   constructor(cardFormStore: CardPreviewFormData) {
+    const reviewState = createInitialFsrsReviewState(new Date());
+    this.due = reviewState.due;
+    this.stability = reviewState.stability;
+    this.difficulty = reviewState.difficulty;
+    this.elapsedDays = reviewState.elapsedDays;
+    this.scheduledDays = reviewState.scheduledDays;
+    this.learningSteps = reviewState.learningSteps;
+    this.reps = reviewState.reps;
+    this.lapses = reviewState.lapses;
+    this.fsrsState = reviewState.fsrsState;
+    this.lastReviewDate = reviewState.lastReviewDate;
+
     makeAutoObservable(
       this,
       {

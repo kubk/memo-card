@@ -6,11 +6,7 @@ import {
   DeckWithCardsWithReviewType,
 } from "../../../store/deck-list-store.ts";
 import { when } from "mobx";
-import {
-  DEFAULT_EASE_FACTOR,
-  DEFAULT_REPEAT_INTERVAL,
-  DEFAULT_START_INTERVAL,
-} from "api";
+import { createInitialFsrsReviewState, reviewCard } from "api";
 
 vi.mock(import("../../../lib/array/shuffle-in-place.ts"), () =>
   import("../../../lib/array/shuffle-in-place.mock.ts").then((m) => m.mock()),
@@ -22,6 +18,11 @@ function createMockCardWithReview(
   back: string,
   type: "new" | "repeat",
 ): DeckCardDbTypeWithType {
+  const reviewState =
+    type === "new"
+      ? createInitialFsrsReviewState(new Date("2026-01-01T00:00:00.000Z"))
+      : reviewCard(new Date("2025-12-31T00:00:00.000Z"), undefined, "good");
+
   return {
     id,
     deckId: 1,
@@ -30,8 +31,7 @@ function createMockCardWithReview(
     front,
     back,
     type,
-    interval: type === "new" ? DEFAULT_START_INTERVAL : DEFAULT_REPEAT_INTERVAL,
-    easeFactor: DEFAULT_EASE_FACTOR,
+    ...reviewState,
     answerType: "remember",
     answers: null,
     options: null,
@@ -76,121 +76,17 @@ const createDeckWithCards = (cards: DeckCardDbTypeWithType[]) => {
 };
 
 const repeatCardsMock: DeckCardDbTypeWithType[] = [
-  {
-    id: 3,
-    deckId: 1,
-    createdAt: "2023-10-06T02:13:20.985Z",
-    example: null,
-    front: "time",
-    back: "Время",
-    type: "repeat",
-    interval: DEFAULT_REPEAT_INTERVAL,
-    easeFactor: DEFAULT_EASE_FACTOR,
-    answerType: "remember",
-    answers: null,
-    options: null,
-  },
-  {
-    id: 4,
-    deckId: 1,
-    createdAt: "2023-10-06T02:13:20.985Z",
-    example: null,
-    front: "year",
-    back: "Год",
-    type: "repeat",
-    interval: DEFAULT_REPEAT_INTERVAL,
-    easeFactor: DEFAULT_EASE_FACTOR,
-    answerType: "remember",
-    answers: null,
-    options: null,
-  },
-  {
-    id: 5,
-    deckId: 1,
-    createdAt: "2023-10-06T02:13:20.985Z",
-    example: null,
-    front: "way",
-    back: "Дорога",
-    type: "repeat",
-    interval: DEFAULT_REPEAT_INTERVAL,
-    easeFactor: DEFAULT_EASE_FACTOR,
-    answerType: "remember",
-    answers: null,
-    options: null,
-  },
-  {
-    id: 6,
-    deckId: 1,
-    createdAt: "2023-10-06T02:13:20.985Z",
-    example: null,
-    front: "card 4",
-    back: "card 4",
-    type: "repeat",
-    interval: DEFAULT_REPEAT_INTERVAL,
-    easeFactor: DEFAULT_EASE_FACTOR,
-    answerType: "remember",
-    answers: null,
-    options: null,
-  },
+  createMockCardWithReview(3, "time", "Время", "repeat"),
+  createMockCardWithReview(4, "year", "Год", "repeat"),
+  createMockCardWithReview(5, "way", "Дорога", "repeat"),
+  createMockCardWithReview(6, "card 4", "card 4", "repeat"),
 ];
 
 const newCardsMock: DeckCardDbTypeWithType[] = [
-  {
-    id: 3,
-    deckId: 1,
-    createdAt: "2023-10-06T02:13:20.985Z",
-    example: null,
-    front: "time",
-    back: "Время",
-    type: "new",
-    interval: DEFAULT_START_INTERVAL,
-    easeFactor: DEFAULT_EASE_FACTOR,
-    answerType: "remember",
-    answers: null,
-    options: null,
-  },
-  {
-    id: 4,
-    deckId: 1,
-    createdAt: "2023-10-06T02:13:20.985Z",
-    example: null,
-    front: "year",
-    back: "Год",
-    type: "new",
-    interval: DEFAULT_START_INTERVAL,
-    easeFactor: DEFAULT_EASE_FACTOR,
-    answerType: "remember",
-    answers: null,
-    options: null,
-  },
-  {
-    id: 5,
-    deckId: 1,
-    createdAt: "2023-10-06T02:13:20.985Z",
-    example: null,
-    front: "way",
-    back: "Дорога",
-    type: "new",
-    interval: DEFAULT_START_INTERVAL,
-    easeFactor: DEFAULT_EASE_FACTOR,
-    answerType: "remember",
-    answers: null,
-    options: null,
-  },
-  {
-    id: 6,
-    deckId: 1,
-    createdAt: "2023-10-06T02:13:20.985Z",
-    example: null,
-    front: "card 4",
-    back: "card 4",
-    type: "new",
-    interval: DEFAULT_START_INTERVAL,
-    easeFactor: DEFAULT_EASE_FACTOR,
-    answerType: "remember",
-    answers: null,
-    options: null,
-  },
+  createMockCardWithReview(3, "time", "Время", "new"),
+  createMockCardWithReview(4, "year", "Год", "new"),
+  createMockCardWithReview(5, "way", "Дорога", "new"),
+  createMockCardWithReview(6, "card 4", "card 4", "new"),
 ];
 
 const reviewCardsReviewMock = vi.hoisted(() => vi.fn());
@@ -227,6 +123,7 @@ vi.mock("../../../store/user-store.ts", () => {
   return {
     userStore: {
       isPaid: true,
+      isSkipReview: { value: false },
     },
   };
 });
@@ -294,6 +191,55 @@ describe("card form store", () => {
     });
   });
 
+  it("waits for in-flight silent progress before final submit", async () => {
+    let resolveProgress: () => void = () => {};
+    reviewCardsReviewMock
+      .mockReturnValueOnce(
+        new Promise<void>((resolve) => {
+          resolveProgress = resolve;
+        }),
+      )
+      .mockResolvedValueOnce(undefined);
+
+    const reviewStore = new ReviewStore();
+    reviewStore.startDeckReview(
+      createDeckWithCards([
+        createMockCardWithReview(1, "card1", "card1", "repeat"),
+        createMockCardWithReview(2, "card2", "card2", "repeat"),
+        createMockCardWithReview(3, "card3", "card3", "repeat"),
+        createMockCardWithReview(4, "card4", "card4", "repeat"),
+      ]),
+    );
+
+    reviewStore.open();
+    reviewStore.changeState("hard");
+    reviewStore.open();
+    reviewStore.changeState("hard");
+    reviewStore.open();
+    reviewStore.changeState("hard");
+    reviewStore.open();
+    reviewStore.changeState("hard");
+
+    const onReviewSuccess = vi.fn();
+    const submitPromise = reviewStore.submitFinished(onReviewSuccess);
+
+    expect(reviewCardsReviewMock).toHaveBeenCalledTimes(1);
+    expect(reviewCardsReviewMock.mock.calls[0]?.[0].cards).toEqual([
+      { id: 1, outcome: "hard" },
+      { id: 2, outcome: "hard" },
+      { id: 3, outcome: "hard" },
+    ]);
+
+    resolveProgress();
+    await submitPromise;
+
+    expect(reviewCardsReviewMock).toHaveBeenCalledTimes(2);
+    expect(reviewCardsReviewMock.mock.calls[1]?.[0].cards).toEqual([
+      { id: 4, outcome: "hard" },
+    ]);
+    expect(onReviewSuccess).toHaveBeenCalledTimes(1);
+  });
+
   it("avoids consecutive reverse pairs in repeat cards", () => {
     const reviewStore = new ReviewStore();
     reviewStore.startDeckReview(
@@ -316,63 +262,10 @@ describe("card form store", () => {
         createMockCardWithReview(3, "time", "Время", "repeat"),
         createMockCardWithReview(4, "year", "Год", "repeat"),
         createMockCardWithReview(5, "way", "Дорога", "repeat"),
-        {
-          id: 6,
-          deckId: 1,
-          createdAt: "2023-10-06T02:13:20.985Z",
-          example: null,
-          front: "card 4",
-          back: "card 4",
-          type: "repeat",
-          interval: DEFAULT_REPEAT_INTERVAL,
-          easeFactor: DEFAULT_EASE_FACTOR,
-          answerType: "remember",
-          answers: null,
-          options: null,
-        },
-
-        {
-          id: 7,
-          deckId: 1,
-          createdAt: "2023-10-06T02:13:20.985Z",
-          example: null,
-          front: "card 7",
-          back: "card 7",
-          type: "repeat",
-          interval: DEFAULT_REPEAT_INTERVAL,
-          easeFactor: DEFAULT_EASE_FACTOR,
-          answerType: "remember",
-          answers: null,
-          options: null,
-        },
-        {
-          id: 8,
-          deckId: 1,
-          createdAt: "2023-10-06T02:13:20.985Z",
-          example: null,
-          front: "card 8",
-          back: "card 8",
-          type: "repeat",
-          interval: DEFAULT_REPEAT_INTERVAL,
-          easeFactor: DEFAULT_EASE_FACTOR,
-          answerType: "remember",
-          answers: null,
-          options: null,
-        },
-        {
-          id: 9,
-          deckId: 1,
-          createdAt: "2023-10-06T02:13:20.985Z",
-          example: null,
-          front: "card 9",
-          back: "card 9",
-          type: "repeat",
-          interval: DEFAULT_REPEAT_INTERVAL,
-          easeFactor: DEFAULT_EASE_FACTOR,
-          answerType: "remember",
-          answers: null,
-          options: null,
-        },
+        createMockCardWithReview(6, "card 4", "card 4", "repeat"),
+        createMockCardWithReview(7, "card 7", "card 7", "repeat"),
+        createMockCardWithReview(8, "card 8", "card 8", "repeat"),
+        createMockCardWithReview(9, "card 9", "card 9", "repeat"),
       ]),
     );
     expect(reviewStore.isFinished).toBeFalsy();
@@ -439,6 +332,25 @@ describe("card form store", () => {
 
     expect(reviewCardsReviewMock).toHaveBeenCalledTimes(2);
     expect(reviewStore.cardsToSend).toEqual([{ id: 9, outcome: "good" }]);
+  });
+
+  it("keeps same-card again and recovery as chronological events", () => {
+    const reviewStore = new ReviewStore();
+    reviewStore.startDeckReview(
+      createDeckWithCards([
+        createMockCardWithReview(1, "card1", "card1", "repeat"),
+      ]),
+    );
+
+    reviewStore.open();
+    reviewStore.changeState("again");
+    reviewStore.open();
+    reviewStore.changeState("good");
+
+    expect(reviewStore.cardsToSend).toEqual([
+      { id: 1, outcome: "again" },
+      { id: 1, outcome: "good" },
+    ]);
   });
 
   it("basic", () => {
