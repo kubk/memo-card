@@ -393,7 +393,7 @@ export class ReviewStore {
 
     const progressPromise = this.sendProgressBatch(cardsToSendInProgress);
     this.pendingProgressPromise = progressPromise;
-    void progressPromise.finally(() => {
+    progressPromise.finally(() => {
       if (this.pendingProgressPromise === progressPromise) {
         this.pendingProgressPromise = null;
       }
@@ -438,10 +438,6 @@ export class ReviewStore {
     });
   }
 
-  private async waitForPendingProgress() {
-    await this.pendingProgressPromise;
-  }
-
   get isFinished() {
     return this.cardsToReview.length === 0 && this.hasResult;
   }
@@ -468,15 +464,14 @@ export class ReviewStore {
   }
 
   private async submitUnfinishedAfterPendingProgress() {
-    await this.waitForPendingProgress();
-    const cardsToSend = this.cardsToSend;
+    await this.pendingProgressPromise;
 
-    if (!cardsToSend.length) {
+    if (!this.cardsToSend.length) {
       return;
     }
 
     return api.cardsReview.mutate({
-      cards: cardsToSend,
+      cards: this.cardsToSend,
       isInterrupted: true,
       skipReview: userStore.isSkipReview.value,
       isStudyAnyway: this.isStudyAnyway,
@@ -493,7 +488,7 @@ export class ReviewStore {
       return;
     }
 
-    await this.waitForPendingProgress();
+    await this.pendingProgressPromise;
     const cardsToSend = this.cardsToSend;
 
     if (!cardsToSend.length) {
