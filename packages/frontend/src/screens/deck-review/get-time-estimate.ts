@@ -1,5 +1,9 @@
-import { LanguageShared, reviewCard, ReviewOutcome } from "api";
-import { DateTime } from "luxon";
+import {
+  getDaysUntilDue,
+  LanguageShared,
+  previewReviewCard,
+  ReviewOutcome,
+} from "api";
 import { LimitedCardUnderReviewStore } from "../shared/card/card.tsx";
 import { formatInterval } from "./format-interval.ts";
 
@@ -25,17 +29,17 @@ function languageToAgainMessage(language: LanguageShared): string {
 }
 
 export function getTimeEstimate(
-  outcome: ReviewOutcome,
+  outcome: Exclude<ReviewOutcome, "never">,
   card: LimitedCardUnderReviewStore,
   language: LanguageShared,
 ): string {
-  const now = DateTime.now();
+  const now = new Date();
 
   // "Again" shows the card again in the same session (not the backend calculation)
   if (outcome === "again") {
     return languageToAgainMessage(language);
   }
 
-  const result = reviewCard(now, card.interval, outcome, card.easeFactor);
-  return formatInterval(result.interval, language);
+  const result = previewReviewCard(now, card, outcome);
+  return formatInterval(getDaysUntilDue(now, result.due), language);
 }
