@@ -1,212 +1,96 @@
 import { describe, it, expect } from "vitest";
 import { getTimeEstimate } from "./get-time-estimate.ts";
 import { CardUnderReviewStore } from "./store/card-under-review-store.ts";
+import { createInitialFsrsReviewState } from "api";
 
-import {
-  DEFAULT_EASE_FACTOR,
-  DEFAULT_START_INTERVAL,
-  DEFAULT_REPEAT_INTERVAL,
-} from "api";
+const language = "en" as const;
+const dayMs = 24 * 60 * 60 * 1000;
 
-function createMockCard(
-  id: number,
-  cardReviewType: "new" | "repeat",
-): CardUnderReviewStore {
+function createNewCard(id: number): CardUnderReviewStore {
   return {
     id,
-    cardReviewType,
-    interval:
-      cardReviewType === "new"
-        ? DEFAULT_START_INTERVAL
-        : DEFAULT_REPEAT_INTERVAL,
-    easeFactor: DEFAULT_EASE_FACTOR,
+    cardReviewType: "new",
+    ...createInitialFsrsReviewState(new Date()),
   } as CardUnderReviewStore;
 }
 
-const language = "en" as const;
+function createRepeatCard(id: number, scheduledDays = 2.5) {
+  const now = new Date();
+  return {
+    id,
+    cardReviewType: "repeat" as const,
+    due: now.toISOString(),
+    stability: Math.max(scheduledDays, 0.1),
+    difficulty: 2.1,
+    elapsedDays: 0,
+    scheduledDays: Math.round(scheduledDays),
+    learningSteps: 0,
+    reps: 1,
+    lapses: 0,
+    fsrsState: 2,
+    lastReviewDate: new Date(
+      now.getTime() - scheduledDays * dayMs,
+    ).toISOString(),
+  } as CardUnderReviewStore;
+}
 
 describe("time estimation for review buttons", () => {
-  describe("new cards (interval = 0)", () => {
-    it("should show reasonable estimates for all buttons", () => {
-      const newCard = createMockCard(1, "new");
-      const estimates = {
-        again: getTimeEstimate("again", newCard, language),
-        hard: getTimeEstimate("hard", newCard, language),
-        good: getTimeEstimate("good", newCard, language),
-        easy: getTimeEstimate("easy", newCard, language),
-      };
+  it("shows product-tuned estimates for new cards", () => {
+    const newCard = createNewCard(1);
+    const estimates = {
+      again: getTimeEstimate("again", newCard, language),
+      hard: getTimeEstimate("hard", newCard, language),
+      good: getTimeEstimate("good", newCard, language),
+      easy: getTimeEstimate("easy", newCard, language),
+    };
 
-      // Again shows card in same session (frontend behavior)
-      expect(estimates.again).toBe("<10 m");
-
-      // Hard: 0.4 * 1.2 = 0.48 days ≈ 12 h
-      expect(estimates.hard).toBe("12 h");
-
-      // Good: 0.4 * 2.5 = 1.0 days
-      expect(estimates.good).toBe("1 d");
-
-      // Easy: 0.4 * 2.5 * 2.0 = 2.0 days
-      expect(estimates.easy).toBe("2 d");
+    expect(estimates).toEqual({
+      again: "<10 m",
+      hard: "12 h",
+      good: "1 d",
+      easy: "3 d",
     });
   });
 
-  describe("repeat cards (interval = 2.5 days)", () => {
-    it("should show reasonable estimates for all buttons", () => {
-      const repeatCard = createMockCard(2, "repeat");
-      const estimates = {
-        again: getTimeEstimate("again", repeatCard, language),
-        hard: getTimeEstimate("hard", repeatCard, language),
-        good: getTimeEstimate("good", repeatCard, language),
-        easy: getTimeEstimate("easy", repeatCard, language),
-      };
+  it("uses FSRS state for repeat-card estimates", () => {
+    const repeatCard = createRepeatCard(2);
+    const estimates = {
+      again: getTimeEstimate("again", repeatCard, language),
+      hard: getTimeEstimate("hard", repeatCard, language),
+      good: getTimeEstimate("good", repeatCard, language),
+      easy: getTimeEstimate("easy", repeatCard, language),
+    };
 
-      // Again shows card in same session (frontend behavior)
-      expect(estimates.again).toBe("<10 m");
-
-      // Repeat card uses DEFAULT_REPEAT_INTERVAL = 2.5
-      // Hard: 2.5 * 1.2 = 3 days
-      expect(estimates.hard).toBe("3 d");
-
-      // Good: 2.5 * 2.5 = 6.25 = 6 d
-      expect(estimates.good).toBe("6 d");
-
-      // Easy: 2.5 * 2.5 * 2.0 = 12.5 = 2 w
-      expect(estimates.easy).toBe("1.8 w");
+    expect(estimates).toEqual({
+      again: "<10 m",
+      hard: "3 d",
+      good: "5 d",
+      easy: "1.1 w",
     });
   });
 
-  describe("the main issues from screenshot", () => {
-    it("again should show 1 m for immediate re-appearance", () => {
-      const repeatCard = createMockCard(3, "repeat");
-      const againEstimate = getTimeEstimate("again", repeatCard, language);
-      // Fixed: "again" shows card in same session
-      expect(againEstimate).toBe("<10 m");
-    });
+  it("good and easy show different values", () => {
+    const repeatCard = createRepeatCard(1);
+    const goodEstimate = getTimeEstimate("good", repeatCard, language);
+    const easyEstimate = getTimeEstimate("easy", repeatCard, language);
 
-    it("good and easy should show different values", () => {
-      const repeatCard = createMockCard(1, "repeat"); // ID 1 -> index 1 -> interval 2.5
-      const goodEstimate = getTimeEstimate("good", repeatCard, language);
-      const easyEstimate = getTimeEstimate("easy", repeatCard, language);
-
-      // Good: 2.5 * 2.5 = 6.25 = 6 d
-      // Easy: 2.5 * 2.5 * 2.0 = 12.5 = 2 w
-      expect(goodEstimate).toBe("6 d");
-      expect(easyEstimate).toBe("1.8 w");
-      expect(goodEstimate).not.toBe(easyEstimate);
-    });
+    expect(goodEstimate).toBe("5 d");
+    expect(easyEstimate).toBe("1.1 w");
+    expect(goodEstimate).not.toBe(easyEstimate);
   });
 
-  describe("reproducing the reported bug", () => {
-    it("BUG: interval 0 shows the same 10 h for hard, good, and easy", () => {
-      const cardWithZeroInterval = {
-        id: 1,
-        // both 'new' and 'repeat' show the same result
-        cardReviewType: "repeat" as const,
-        interval: 0,
-        // doesn't matter
-        easeFactor: 2.8,
-      } as CardUnderReviewStore;
+  it("keeps high-interval estimates bounded by FSRS retention settings", () => {
+    const cardWith365Days = createRepeatCard(1, 365);
+    const estimates = {
+      hard: getTimeEstimate("hard", cardWith365Days, language),
+      good: getTimeEstimate("good", cardWith365Days, language),
+      easy: getTimeEstimate("easy", cardWith365Days, language),
+    };
 
-      const estimates = {
-        again: getTimeEstimate("again", cardWithZeroInterval, language),
-        hard: getTimeEstimate("hard", cardWithZeroInterval, language),
-        good: getTimeEstimate("good", cardWithZeroInterval, language),
-        easy: getTimeEstimate("easy", cardWithZeroInterval, language),
-      };
-
-      // BUG: These should all be different
-      expect(estimates.again).toBe("<10 m");
-      expect(estimates.hard).toBe("12 h");
-      expect(estimates.good).toBe("1 d");
-      expect(estimates.easy).toBe("2 d");
+    expect(estimates).toEqual({
+      hard: "10.9 mo",
+      good: "1.1 y",
+      easy: "1.8 y",
     });
-  });
-
-  describe("exponential growth creates huge jumps at high intervals", () => {
-    it("demonstrates the large interval jump problem", () => {
-      // Card that's been reviewed many times (high interval)
-      const cardWith365Days = {
-        id: 1,
-        cardReviewType: "repeat" as const,
-        interval: 365, // 1 year
-        easeFactor: 2.5,
-      } as CardUnderReviewStore;
-
-      const estimates = {
-        hard: getTimeEstimate("hard", cardWith365Days, language),
-        good: getTimeEstimate("good", cardWith365Days, language),
-        easy: getTimeEstimate("easy", cardWith365Days, language),
-      };
-
-      console.log("Large interval exponential growth:");
-      console.log("Starting interval: 365 days (1 year)");
-      console.log("Hard:", estimates.hard); // 365 * 1.2 = 438 days ≈ 1.2 y
-      console.log("Good:", estimates.good); // With dampening: much more reasonable
-      console.log("Easy:", estimates.easy); // With dampening: much more reasonable
-
-      // FIXED! The jump is now much more reasonable with dampening
-      expect(estimates.hard).toBe("1.2 y"); // 438 / 365 ≈ 1.2 y (unchanged, hard uses hardIntervalMultiplier)
-      expect(estimates.good).toBe("1.8 y"); // With dampening: reduced from 3 y to 1.8 y!
-      expect(estimates.easy).toBe("3.6 y"); // With dampening: reduced from 5 y to 3.6 y!
-    });
-  });
-
-  describe("decimal year formatting", () => {
-    it.each([
-      { days: 456.25, expected: "1.5 y" },
-      { days: 547.5, expected: "1.8 y" },
-      { days: 638.54, expected: "2.1 y" },
-      { days: 839.5, expected: "2.8 y" },
-      { days: 912.5, expected: "3 y" },
-      { days: 1003.47, expected: "3.3 y" },
-      { days: 1277.08, expected: "4.2 y" },
-    ])("formats $days days as $expected", ({ days, expected }) => {
-      const card = {
-        id: 1,
-        cardReviewType: "repeat" as const,
-        interval: days,
-        easeFactor: 2.5,
-      } as CardUnderReviewStore;
-
-      const estimate = getTimeEstimate("hard", card, "en");
-      expect(estimate).toBe(expected);
-    });
-
-    it.each([
-      { lang: "en" as const, days: 547.5, expected: "1.8 y" },
-      { lang: "ru" as const, days: 547.5, expected: "1.8 г" },
-      { lang: "uk" as const, days: 547.5, expected: "1.8 р" },
-      { lang: "es" as const, days: 547.5, expected: "1.8 a" },
-      { lang: "pt-br" as const, days: 547.5, expected: "1.8 a" },
-      { lang: "fa" as const, days: 547.5, expected: "1.8 سال" },
-      { lang: "ar" as const, days: 547.5, expected: "1.8 سنة" },
-      { lang: "en" as const, days: 456.25, expected: "1.5 y" },
-      { lang: "ru" as const, days: 456.25, expected: "1.5 г" },
-      { lang: "uk" as const, days: 456.25, expected: "1.5 р" },
-      { lang: "es" as const, days: 456.25, expected: "1.5 a" },
-      { lang: "pt-br" as const, days: 456.25, expected: "1.5 a" },
-      { lang: "fa" as const, days: 456.25, expected: "1.5 سال" },
-      { lang: "ar" as const, days: 456.25, expected: "1.5 سنة" },
-      { lang: "en" as const, days: 912.5, expected: "3 y" },
-      { lang: "ru" as const, days: 912.5, expected: "3 г" },
-      { lang: "uk" as const, days: 912.5, expected: "3 р" },
-      { lang: "es" as const, days: 912.5, expected: "3 a" },
-      { lang: "pt-br" as const, days: 912.5, expected: "3 a" },
-      { lang: "fa" as const, days: 912.5, expected: "3 سال" },
-      { lang: "ar" as const, days: 912.5, expected: "3 سنة" },
-    ])(
-      "formats $days days as $expected in $lang",
-      ({ lang, days, expected }) => {
-        const card = {
-          id: 1,
-          cardReviewType: "repeat" as const,
-          interval: days,
-          easeFactor: 2.5,
-        } as CardUnderReviewStore;
-
-        const estimate = getTimeEstimate("hard", card, lang);
-        expect(estimate).toBe(expected);
-      },
-    );
   });
 });

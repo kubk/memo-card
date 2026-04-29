@@ -80,8 +80,16 @@ vi.mock("../../../../store/deck-list-store.ts", () => {
   const cardsToReview = deckCardsMock.slice(0, 2).map((card) => ({
     ...card,
     type: "new" as const,
-    interval: 0.4,
-    easeFactor: 2.5,
+    due: new Date().toISOString(),
+    stability: 0,
+    difficulty: 0,
+    elapsedDays: 0,
+    scheduledDays: 0,
+    learningSteps: 0,
+    reps: 0,
+    lapses: 0,
+    fsrsState: 0,
+    lastReviewDate: null,
   }));
 
   const myDecks = [

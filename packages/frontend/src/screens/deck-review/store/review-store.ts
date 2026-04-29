@@ -1,10 +1,6 @@
 import { CardUnderReviewStore } from "./card-under-review-store.ts";
 import { makeAutoObservable, runInAction } from "mobx";
-import {
-  ReviewOutcome,
-  DEFAULT_EASE_FACTOR,
-  DEFAULT_REPEAT_INTERVAL,
-} from "api";
+import { ReviewOutcome, reviewCard } from "api";
 import { screenStore } from "../../../store/screen-store.ts";
 import {
   DeckCardDbTypeWithType,
@@ -24,6 +20,7 @@ import { separateReversePairs } from "./reverse-pair-shuffle.ts";
 
 // Don't wait until the user has finished reviewing all the cards to send the progress
 const cardProgressSend = 3;
+const dayMs = 24 * 60 * 60 * 1000;
 
 type ReviewResult = {
   againIds: number[];
@@ -50,6 +47,7 @@ export class ReviewStore {
   cardsToReview: CardUnderReviewStore[] = [];
   currentCardId?: number;
   reviewedCards: ReviewedCard[] = [];
+  reviewEvents: Array<{ id: number; outcome: ReviewOutcome }> = [];
 
   result: ReviewResult = {
     againIds: [],
@@ -64,14 +62,20 @@ export class ReviewStore {
     easyIds: [],
     neverIds: [],
   };
+  sentReviewEventCount = 0;
   initialCardCount?: number;
 
   reviewCardsRequest = new RequestStore(api.cardsReview.mutate);
   reviewCardsRequestInProgress = new RequestStore(api.cardsReview.mutate);
+  pendingProgressPromise: Promise<void> | null = null;
   isStudyAnyway = false;
 
   constructor() {
-    makeAutoObservable(this, {}, { autoBind: true });
+    makeAutoObservable(
+      this,
+      { pendingProgressPromise: false },
+      { autoBind: true },
+    );
   }
 
   private shuffleRepeatCards() {
@@ -99,6 +103,8 @@ export class ReviewStore {
     }
 
     this.reviewedCards = [];
+    this.reviewEvents = [];
+    this.sentReviewEventCount = 0;
     deck.cardsToReview.forEach((card) => {
       this.cardsToReview.push(new CardUnderReviewStore(card, deck));
     });
@@ -113,12 +119,18 @@ export class ReviewStore {
     }
     this.cardsToReview = [];
     this.reviewedCards = [];
+    this.reviewEvents = [];
+    this.sentReviewEventCount = 0;
     deck.deckCards.forEach((card) => {
+      const reviewState = reviewCard(
+        new Date(Date.now() - dayMs),
+        undefined,
+        "good",
+      );
       const cardWithReview: DeckCardDbTypeWithType = {
         ...card,
         type: "repeat",
-        interval: DEFAULT_REPEAT_INTERVAL,
-        easeFactor: DEFAULT_EASE_FACTOR,
+        ...reviewState,
       };
       this.cardsToReview.push(new CardUnderReviewStore(cardWithReview, deck));
     });
@@ -138,6 +150,8 @@ export class ReviewStore {
     }
 
     this.reviewedCards = [];
+    this.reviewEvents = [];
+    this.sentReviewEventCount = 0;
     myDecks.forEach((deck) => {
       deck.cardsToReview.forEach((card) => {
         this.cardsToReview.push(new CardUnderReviewStore(card, deck));
@@ -154,6 +168,8 @@ export class ReviewStore {
     }
 
     this.reviewedCards = [];
+    this.reviewEvents = [];
+    this.sentReviewEventCount = 0;
     myDecks.forEach((deck) => {
       deck.cardsToReview
         .filter((card) => card.type === "repeat")
@@ -177,6 +193,8 @@ export class ReviewStore {
     }
 
     this.reviewedCards = [];
+    this.reviewEvents = [];
+    this.sentReviewEventCount = 0;
     decks.forEach(([card, deck]) => {
       this.cardsToReview.push(new CardUnderReviewStore(card, deck));
     });
@@ -270,6 +288,7 @@ export class ReviewStore {
     );
     currentCard.changeState(cardState);
     currentCard.updateAfterReview(cardState);
+    this.reviewEvents.push({ id: currentCard.id, outcome: cardState });
 
     // Collect reviewed card data
     const existingCardIdx = this.reviewedCards.findIndex(
@@ -356,7 +375,7 @@ export class ReviewStore {
     this.sendProgress();
   }
 
-  private async sendProgress() {
+  private sendProgress() {
     if (
       this.reviewCardsRequest.isLoading ||
       this.reviewCardsRequestInProgress.isLoading
@@ -364,13 +383,7 @@ export class ReviewStore {
       return;
     }
 
-    const cardsToSendInProgress = this.cardsToSend.filter(
-      (card) =>
-        card.outcome === "hard" ||
-        card.outcome === "good" ||
-        card.outcome === "easy" ||
-        card.outcome === "never",
-    );
+    const cardsToSendInProgress = this.cardsToSend;
 
     const shouldSendInProgress =
       cardsToSendInProgress.length >= cardProgressSend;
@@ -378,6 +391,18 @@ export class ReviewStore {
       return;
     }
 
+    const progressPromise = this.sendProgressBatch(cardsToSendInProgress);
+    this.pendingProgressPromise = progressPromise;
+    void progressPromise.finally(() => {
+      if (this.pendingProgressPromise === progressPromise) {
+        this.pendingProgressPromise = null;
+      }
+    });
+  }
+
+  private async sendProgressBatch(
+    cardsToSendInProgress: Array<{ id: number; outcome: ReviewOutcome }>,
+  ) {
     const result = await this.reviewCardsRequestInProgress.execute({
       cards: cardsToSendInProgress,
       isStudyAnyway: this.isStudyAnyway,
@@ -409,7 +434,12 @@ export class ReviewStore {
           .filter((sentCard) => sentCard.outcome === "never")
           .map((sentCard) => sentCard.id),
       );
+      this.sentReviewEventCount += cardsToSendInProgress.length;
     });
+  }
+
+  private async waitForPendingProgress() {
+    await this.pendingProgressPromise;
   }
 
   get isFinished() {
@@ -434,8 +464,19 @@ export class ReviewStore {
       return;
     }
 
+    return this.submitUnfinishedAfterPendingProgress();
+  }
+
+  private async submitUnfinishedAfterPendingProgress() {
+    await this.waitForPendingProgress();
+    const cardsToSend = this.cardsToSend;
+
+    if (!cardsToSend.length) {
+      return;
+    }
+
     return api.cardsReview.mutate({
-      cards: this.cardsToSend,
+      cards: cardsToSend,
       isInterrupted: true,
       skipReview: userStore.isSkipReview.value,
       isStudyAnyway: this.isStudyAnyway,
@@ -443,46 +484,7 @@ export class ReviewStore {
   }
 
   get cardsToSend(): Array<{ id: number; outcome: ReviewOutcome }> {
-    const againResult = this.result.againIds.map((againId) => ({
-      id: againId,
-      outcome: "again" as const,
-    }));
-
-    const hardResult = this.result.hardIds
-      .filter((hardId) => !this.sentResult.hardIds.includes(hardId))
-      .map((hardId) => ({
-        id: hardId,
-        outcome: "hard" as const,
-      }));
-
-    const goodResult = this.result.goodIds
-      .filter((goodId) => !this.sentResult.goodIds.includes(goodId))
-      .map((goodId) => ({
-        id: goodId,
-        outcome: "good" as const,
-      }));
-
-    const easyResult = this.result.easyIds
-      .filter((easyId) => !this.sentResult.easyIds.includes(easyId))
-      .map((easyId) => ({
-        id: easyId,
-        outcome: "easy" as const,
-      }));
-
-    const neverResult = this.result.neverIds
-      .filter((neverId) => !this.sentResult.neverIds.includes(neverId))
-      .map((neverId) => ({
-        id: neverId,
-        outcome: "never" as const,
-      }));
-
-    return [
-      ...againResult,
-      ...hardResult,
-      ...goodResult,
-      ...easyResult,
-      ...neverResult,
-    ];
+    return this.reviewEvents.slice(this.sentReviewEventCount);
   }
 
   async submitFinished(onReviewSuccess?: () => void) {
@@ -491,8 +493,17 @@ export class ReviewStore {
       return;
     }
 
+    await this.waitForPendingProgress();
+    const cardsToSend = this.cardsToSend;
+
+    if (!cardsToSend.length) {
+      onReviewSuccess?.();
+      platform.haptic("success");
+      return;
+    }
+
     const result = await this.reviewCardsRequest.execute({
-      cards: this.cardsToSend,
+      cards: cardsToSend,
       isStudyAnyway: this.isStudyAnyway,
       skipReview: userStore.isSkipReview.value,
     });

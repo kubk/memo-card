@@ -6,8 +6,8 @@ import { screenStore } from "./screen-store.ts";
 import {
   CardReviewType,
   type CardToReviewDbType,
-  DEFAULT_EASE_FACTOR,
-  DEFAULT_START_INTERVAL,
+  createInitialFsrsReviewState,
+  type FsrsReviewState,
 } from "api";
 import { ReviewStore } from "../screens/deck-review/store/review-store.ts";
 import { reportHandledError } from "../lib/rollbar/rollbar.tsx";
@@ -29,13 +29,13 @@ import { StartParamType } from "./routing/route-types.ts";
 
 export type DeckCardDbTypeWithType = DeckCardDbType & {
   type: CardReviewType;
-  interval: number;
-  easeFactor: number;
-};
+} & FsrsReviewState;
 
 export type DeckWithCardsWithReviewType = DeckWithCardsDbType & {
   cardsToReview: DeckCardDbTypeWithType[];
 };
+
+const createNewCardReviewState = () => createInitialFsrsReviewState(new Date());
 
 export type DeckListItem = {
   id: number;
@@ -129,8 +129,7 @@ class DeckListStore {
           id: card.id,
           deckId: deck.id,
           type: "new" as const,
-          interval: DEFAULT_START_INTERVAL,
-          easeFactor: DEFAULT_EASE_FACTOR,
+          ...createNewCardReviewState(),
         })),
       );
     }
@@ -147,8 +146,7 @@ class DeckListStore {
       id: card.id,
       deckId: card.deckId,
       type: "new",
-      interval: DEFAULT_START_INTERVAL,
-      easeFactor: DEFAULT_EASE_FACTOR,
+      ...createNewCardReviewState(),
     });
   }
 
@@ -341,8 +339,7 @@ class DeckListStore {
         cardsToReview: deck.deckCards.map((card) => ({
           ...card,
           type: "new" as const,
-          interval: DEFAULT_START_INTERVAL,
-          easeFactor: DEFAULT_EASE_FACTOR,
+          ...createNewCardReviewState(),
         })),
       }));
 
@@ -443,8 +440,7 @@ class DeckListStore {
         ? deck.deckCards.map((card) => ({
             ...card,
             type: "new" as const,
-            interval: DEFAULT_START_INTERVAL,
-            easeFactor: DEFAULT_EASE_FACTOR,
+            ...createNewCardReviewState(),
           }))
         : getCardsToReview(deck, this.myInfo.cardsToReview);
 
@@ -911,9 +907,7 @@ const getCardsToReview = (
       }
       return {
         ...card,
-        type: reviewData.type,
-        interval: reviewData.interval,
-        easeFactor: reviewData.easeFactor,
+        ...reviewData,
       };
     })
     .slice()

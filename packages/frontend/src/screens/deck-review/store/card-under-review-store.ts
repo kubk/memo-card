@@ -3,6 +3,7 @@ import {
   ReviewOutcome,
   type CardAnswerDbType,
   type DeckSpeakFieldEnum,
+  type FsrsState,
   reviewCard,
 } from "api";
 import {
@@ -18,14 +19,21 @@ import {
   VoicePlayer,
 } from "../voice-player/create-voice-player.ts";
 import { assert } from "api";
-import { DateTime } from "luxon";
 import { preloadCardImage } from "../../../lib/card-image/image-preloader.ts";
 
 export class CardUnderReviewStore implements LimitedCardUnderReviewStore {
   id: number;
   cardReviewType: CardReviewType;
-  interval: number;
-  easeFactor: number;
+  due: string;
+  stability: number;
+  difficulty: number;
+  elapsedDays: number;
+  scheduledDays: number;
+  learningSteps: number;
+  reps: number;
+  lapses: number;
+  fsrsState: FsrsState;
+  lastReviewDate: string | null;
   front: string;
   back: string;
   example: string | null = null;
@@ -45,8 +53,16 @@ export class CardUnderReviewStore implements LimitedCardUnderReviewStore {
   constructor(card: DeckCardDbTypeWithType, deck: DeckWithCardsWithReviewType) {
     this.id = card.id;
     this.cardReviewType = card.type;
-    this.interval = card.interval;
-    this.easeFactor = card.easeFactor;
+    this.due = card.due;
+    this.stability = card.stability;
+    this.difficulty = card.difficulty;
+    this.elapsedDays = card.elapsedDays;
+    this.scheduledDays = card.scheduledDays;
+    this.learningSteps = card.learningSteps;
+    this.reps = card.reps;
+    this.lapses = card.lapses;
+    this.fsrsState = card.fsrsState;
+    this.lastReviewDate = card.lastReviewDate;
     this.front = card.front;
     this.back = card.back;
     this.example = card.example;
@@ -121,14 +137,17 @@ export class CardUnderReviewStore implements LimitedCardUnderReviewStore {
   }
 
   updateAfterReview(outcome: ReviewOutcome) {
-    const result = reviewCard(
-      DateTime.now(),
-      this.interval,
-      outcome,
-      this.easeFactor,
-    );
-    this.interval = result.interval;
-    this.easeFactor = result.easeFactor;
+    const result = reviewCard(new Date(), this, outcome);
+    this.due = result.due;
+    this.stability = result.stability;
+    this.difficulty = result.difficulty;
+    this.elapsedDays = result.elapsedDays;
+    this.scheduledDays = result.scheduledDays;
+    this.learningSteps = result.learningSteps;
+    this.reps = result.reps;
+    this.lapses = result.lapses;
+    this.fsrsState = result.fsrsState;
+    this.lastReviewDate = result.lastReviewDate;
     if (outcome === "again") {
       this.isAgain = true;
     }
