@@ -194,21 +194,7 @@ export const en = {
     "One answer should be selected as correct",
   validation_at_least_one_answer_required:
     "At least one answer should be provided",
-  user_stats_btn: "Statistics",
   user_stats_page: "My statistics",
-  user_stats_remembered: "Remembered",
-  user_stats_remembered_hint:
-    "The number of cards reviewed correctly 5 times in a row",
-  user_stats_learning: "Learning",
-  user_stats_learning_hint:
-    "The number of cards reviewed less than 5 times in a row",
-  user_stats_total: "Total cards",
-  user_stats_total_hint: "The total number of cards opened at least once",
-  user_stats_learning_time: "Learning time distribution",
-  user_stats_learning_time_hint:
-    "How your time is allocated between learning new material and reviewing",
-  user_stats_chart_min_expl: "Don't know the card",
-  user_stats_chart_max_expl: "Know the card very well",
   user_stats_card_reviews: "Card reviews",
   user_stats_today: "Today",
   user_stats_7d: "7d",
