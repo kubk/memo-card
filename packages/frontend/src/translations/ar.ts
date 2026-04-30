@@ -337,7 +337,6 @@ export const ar: Translation = {
   // Anki import
   anki_import_entry_button: "استيراد من Anki",
   anki_import_main_button: "تحميل ملف .apkg",
-  anki_import_screen_title: "استيراد من Anki",
   anki_import_heading: "استيراد مجموعة Anki",
   anki_import_step_1_title: "الخطوة 1",
   anki_import_step_1_text_before: "افتح Anki واضغط على ",

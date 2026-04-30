@@ -340,7 +340,6 @@ export const fa: Translation = {
   // Anki import
   anki_import_entry_button: "وارد کردن از Anki",
   anki_import_main_button: "بارگذاری فایل .apkg",
-  anki_import_screen_title: "وارد کردن از Anki",
   anki_import_heading: "وارد کردن دسته از Anki",
   anki_import_step_1_title: "مرحله ۱",
   anki_import_step_1_text_before: "Anki را باز کنید و روی ",

@@ -343,7 +343,6 @@ export const uk: Translation = {
   // Anki import
   anki_import_entry_button: "Імпорт з Anki",
   anki_import_main_button: "Завантажити файл .apkg",
-  anki_import_screen_title: "Імпорт з Anki",
   anki_import_heading: "Імпорт колоди Anki",
   anki_import_step_1_title: "Крок 1",
   anki_import_step_1_text_before: "Відкрийте Anki і натисніть ",

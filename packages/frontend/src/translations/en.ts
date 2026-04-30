@@ -341,7 +341,6 @@ export const en = {
   // Anki import
   anki_import_entry_button: "Import from Anki",
   anki_import_main_button: "Upload .apkg file",
-  anki_import_screen_title: "Import from Anki",
   anki_import_heading: "Import Anki deck",
   anki_import_step_1_title: "Step 1",
   anki_import_step_1_text_before: "Open Anki, click ",
