@@ -335,6 +335,30 @@ export const ptBr: Translation = {
   // Image related
   image: "Imagem",
 
+  // Anki import
+  anki_import_entry_button: "Importar do Anki",
+  anki_import_main_button: "Enviar arquivo .apkg",
+  anki_import_screen_title: "Importar do Anki",
+  anki_import_heading: "Importar baralho do Anki",
+  anki_import_step_1_title: "Passo 1",
+  anki_import_step_1_text_before: "Abra o Anki e clique no ",
+  anki_import_step_1_link: "ícone de engrenagem",
+  anki_import_step_1_text_after: " ao lado do baralho",
+  anki_import_step_2_title: "Passo 2",
+  anki_import_step_2_text_before: "Clique em ",
+  anki_import_step_export_link: "Exportar",
+  anki_import_step_3_title: "Passo 3",
+  anki_import_step_3_text_before: "Escolha o formato .apkg e clique em ",
+  anki_import_screenshot_gear_alt:
+    "Lista de baralhos do Anki com o ícone de engrenagem ao lado de um baralho",
+  anki_import_screenshot_export_menu_alt:
+    "Menu de opções do baralho do Anki com Exportar selecionado",
+  anki_import_screenshot_export_dialog_alt:
+    "Diálogo de exportação do Anki com opções de exportação do pacote",
+  anki_import_invalid_file: "Escolha um arquivo .apkg",
+  anki_import_error: "Não foi possível importar o baralho do Anki",
+  anki_import_success: "Baralho do Anki importado",
+
   // Skip card
   skip_card_for_now: "Pular por agora",
   skip_card_confirm:

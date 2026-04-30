@@ -340,6 +340,30 @@ export const uk: Translation = {
   // Image related
   image: "Зображення",
 
+  // Anki import
+  anki_import_entry_button: "Імпорт з Anki",
+  anki_import_main_button: "Завантажити файл .apkg",
+  anki_import_screen_title: "Імпорт з Anki",
+  anki_import_heading: "Імпорт колоди Anki",
+  anki_import_step_1_title: "Крок 1",
+  anki_import_step_1_text_before: "Відкрийте Anki і натисніть ",
+  anki_import_step_1_link: "значок шестерні",
+  anki_import_step_1_text_after: " поруч з колодою",
+  anki_import_step_2_title: "Крок 2",
+  anki_import_step_2_text_before: "Натисніть ",
+  anki_import_step_export_link: "Експорт",
+  anki_import_step_3_title: "Крок 3",
+  anki_import_step_3_text_before: "Виберіть формат .apkg, потім натисніть ",
+  anki_import_screenshot_gear_alt:
+    "Список колод Anki: значок шестерні поруч з колодою",
+  anki_import_screenshot_export_menu_alt:
+    "Меню параметрів колоди Anki з вибраним пунктом «Експорт»",
+  anki_import_screenshot_export_dialog_alt:
+    "Діалог експорту Anki з параметрами експорту пакета",
+  anki_import_invalid_file: "Виберіть файл .apkg",
+  anki_import_error: "Не вдалося імпортувати колоду Anki",
+  anki_import_success: "Колоду Anki імпортовано",
+
   // Skip card
   skip_card_for_now: "Пропустити",
   skip_card_confirm:

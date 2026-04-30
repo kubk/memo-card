@@ -52,7 +52,15 @@ export const api = createTRPCClient<ApiRouter>({
     }),
     httpLink({
       url: `${trimEnd(env.VITE_API_URL, "/")}/`,
-      headers: getAuthHeaders,
+      headers({ op }) {
+        const headers = getAuthHeaders();
+        if (op.path === "anki.import") {
+          const { ["Content-Type"]: _contentType, ...authHeaders } = headers;
+          return authHeaders;
+        }
+
+        return headers;
+      },
     }),
   ],
 });

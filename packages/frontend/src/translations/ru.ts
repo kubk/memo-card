@@ -335,6 +335,30 @@ export const ru: Translation = {
   // Image related
   image: "Картинка",
 
+  // Anki import
+  anki_import_entry_button: "Импорт из Anki",
+  anki_import_main_button: "Загрузить файл .apkg",
+  anki_import_screen_title: "Импорт из Anki",
+  anki_import_heading: "Импорт колоды Anki",
+  anki_import_step_1_title: "Шаг 1",
+  anki_import_step_1_text_before: "Откройте Anki и нажмите на ",
+  anki_import_step_1_link: "значок шестерёнки",
+  anki_import_step_1_text_after: " рядом с колодой",
+  anki_import_step_2_title: "Шаг 2",
+  anki_import_step_2_text_before: "Нажмите ",
+  anki_import_step_export_link: "Экспорт",
+  anki_import_step_3_title: "Шаг 3",
+  anki_import_step_3_text_before: "Выберите формат .apkg, затем нажмите ",
+  anki_import_screenshot_gear_alt:
+    "Список колод Anki со значком шестерёнки рядом с колодой",
+  anki_import_screenshot_export_menu_alt:
+    "Меню параметров колоды Anki с выбранным пунктом «Экспорт»",
+  anki_import_screenshot_export_dialog_alt:
+    "Диалог экспорта Anki с настройками экспорта пакета",
+  anki_import_invalid_file: "Выберите файл .apkg",
+  anki_import_error: "Не удалось импортировать колоду Anki",
+  anki_import_success: "Колода Anki импортирована",
+
   // Skip card
   skip_card_for_now: "Пропустить",
   skip_card_confirm:

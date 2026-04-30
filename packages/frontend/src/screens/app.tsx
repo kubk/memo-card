@@ -48,6 +48,7 @@ import { CardList } from "./deck-form/deck-form/card-list.tsx";
 import { SpeakingCards } from "./deck-form/deck-form/speaking-cards.tsx";
 import { CardInputModeScreen } from "./card-input-mode/card-input-mode-screen.tsx";
 import { CardInputModeFormScreen } from "./card-input-mode/card-input-mode-form-screen.tsx";
+import { AnkiImportScreen } from "./anki-import/anki-import-screen.tsx";
 
 export function App() {
   useRestoreFullScreenExpand();
@@ -155,6 +156,13 @@ export function App() {
           <DeckFormStoreProvider>
             <DeckFormScreen />
           </DeckFormStoreProvider>
+        </SignedIn>
+      )}
+      {screenStore.screen.type === "ankiImport" && (
+        <SignedIn>
+          <PreventTelegramSwipeDownClosingIos>
+            <AnkiImportScreen />
+          </PreventTelegramSwipeDownClosingIos>
         </SignedIn>
       )}
       {screenStore.screen.type === "cardList" && (
