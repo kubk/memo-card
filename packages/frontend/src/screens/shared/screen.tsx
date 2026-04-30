@@ -6,7 +6,7 @@ import { BrowserPlatform } from "../../lib/platform/browser/browser-platform.ts"
 
 type Props = {
   children: ReactNode;
-  title: string;
+  title?: string;
   subtitle?: ReactNode;
 };
 
@@ -24,7 +24,7 @@ export function Screen(props: Props) {
         <div className={cn("absolute -top-1")}>
           <BrowserBackButton />
         </div>
-        <h3 className="text-center text-lg">{title}</h3>
+        {title && <h3 className="text-center text-lg">{title}</h3>}
         {subtitle}
       </div>
       {children}
