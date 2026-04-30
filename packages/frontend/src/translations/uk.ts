@@ -236,6 +236,17 @@ export const uk: Translation = {
     "Як розподіляється ваш час між вивченням нового матеріалу та повторенням",
   user_stats_chart_min_expl: "Не знаю картку",
   user_stats_chart_max_expl: "Знаю картку дуже добре",
+  user_stats_card_reviews: "Повторення карток",
+  user_stats_today: "Сьогодні",
+  user_stats_7d: "7 дн.",
+  user_stats_30d: "30 дн.",
+  user_stats_memory: "Картки",
+  user_stats_to_review: "До повторення",
+  user_stats_remembered_cards: "Запам'ятовано",
+  user_stats_all_cards: "Усього",
+  user_stats_streaks: "Стріки",
+  user_stats_current_streak: "Поточний стрік",
+  user_stats_best_streak: "Найкращий стрік",
   validate_positive: "Будь ласка, введіть додатне число",
   validate_under_100: "Будь ласка, введіть число менше 100",
   freeze_confirm_freeze:
@@ -343,6 +354,7 @@ export const uk: Translation = {
 
   // Skip card
   skip_card_for_now: "Пропустити",
-  skip_card_confirm: "Пропустити цю картку? Вона буде прихована до наступного повторення",
+  skip_card_confirm:
+    "Пропустити цю картку? Вона буде прихована до наступного повторення",
   review_skipped: "Пропущено",
 };

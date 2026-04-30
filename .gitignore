@@ -28,6 +28,7 @@ ngrok
 supabase/dump-data.sql
 dumper/dump.sql
 .wrangler
+.codex/config.toml
 tsconfig.tsbuildinfo
 packages/api/tsconfig.tsbuildinfo
 docs/public-decks.md

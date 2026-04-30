@@ -233,6 +233,17 @@ export const es: Translation = {
     "Cómo se distribuye tu tiempo entre el aprendizaje de material nuevo y la revisión",
   user_stats_chart_max_expl: "Conozco la tarjeta muy bien",
   user_stats_chart_min_expl: "No conozco la tarjeta",
+  user_stats_card_reviews: "Repasos de tarjetas",
+  user_stats_today: "Hoy",
+  user_stats_7d: "7 d",
+  user_stats_30d: "30 d",
+  user_stats_memory: "Tarjetas",
+  user_stats_to_review: "Por repasar",
+  user_stats_remembered_cards: "Recordadas",
+  user_stats_all_cards: "Todas",
+  user_stats_streaks: "Rachas",
+  user_stats_current_streak: "Racha actual",
+  user_stats_best_streak: "Mejor racha",
   validate_under_100: "Por favor, introduce un número menor que 100",
   validate_positive: "Por favor, introduce un número positivo",
   freeze_confirm_freeze:
@@ -338,6 +349,7 @@ export const es: Translation = {
 
   // Skip card
   skip_card_for_now: "Saltar por ahora",
-  skip_card_confirm: "¿Saltar esta tarjeta? Estará oculta hasta tu próximo repaso",
+  skip_card_confirm:
+    "¿Saltar esta tarjeta? Estará oculta hasta tu próximo repaso",
   review_skipped: "Saltada",
 };
