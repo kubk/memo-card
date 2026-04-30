@@ -338,7 +338,6 @@ export const ru: Translation = {
   // Anki import
   anki_import_entry_button: "Импорт из Anki",
   anki_import_main_button: "Загрузить файл .apkg",
-  anki_import_screen_title: "Импорт из Anki",
   anki_import_heading: "Импорт колоды Anki",
   anki_import_step_1_title: "Шаг 1",
   anki_import_step_1_text_before: "Откройте Anki и нажмите на ",
