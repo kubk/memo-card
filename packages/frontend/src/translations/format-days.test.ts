@@ -28,4 +28,12 @@ describe("format days", () => {
     expect(formatDays(1)).toBe("1 day");
     expect(formatDays(2)).toBe("2 days");
   });
+
+  test("brazilian portuguese", () => {
+    lang.mockReturnValue("pt-br");
+
+    expect(formatDays(0)).toBe("0 dias");
+    expect(formatDays(1)).toBe("1 dia");
+    expect(formatDays(2)).toBe("2 dias");
+  });
 });
