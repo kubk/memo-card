@@ -247,6 +247,7 @@ export const uk: Translation = {
   user_stats_streaks: "Стріки",
   user_stats_current_streak: "Поточний стрік",
   user_stats_best_streak: "Найкращий стрік",
+  user_stats_main_streak: "стрік",
   validate_positive: "Будь ласка, введіть додатне число",
   validate_under_100: "Будь ласка, введіть число менше 100",
   freeze_confirm_freeze:

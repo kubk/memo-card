@@ -244,6 +244,7 @@ export const es: Translation = {
   user_stats_streaks: "Rachas",
   user_stats_current_streak: "Racha actual",
   user_stats_best_streak: "Mejor racha",
+  user_stats_main_streak: "racha",
   validate_under_100: "Por favor, introduce un número menor que 100",
   validate_positive: "Por favor, introduce un número positivo",
   freeze_confirm_freeze:
