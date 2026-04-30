@@ -206,7 +206,6 @@ export const en = {
   user_stats_streaks: "Streaks",
   user_stats_current_streak: "Current",
   user_stats_best_streak: "Best",
-  user_stats_main_streak: "streak",
   validate_positive: "Please enter a positive number",
   validate_under_100: "Please enter a number less than 100",
   freeze_confirm_freeze:

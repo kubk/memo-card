@@ -213,7 +213,6 @@ export const ar: Translation = {
   user_stats_streaks: "الأيام المتتالية",
   user_stats_current_streak: "الأيام الحالية المتتالية",
   user_stats_best_streak: "أفضل أيام متتالية",
-  user_stats_main_streak: "متتالية",
   validate_positive: "يرجى إدخال رقم موجب",
   validate_under_100: "يرجى إدخال رقم أقل من 100",
   freeze_confirm_freeze:

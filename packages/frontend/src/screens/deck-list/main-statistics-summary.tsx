@@ -8,7 +8,7 @@ import { platform } from "../../lib/platform/platform.ts";
 import { screenStore } from "../../store/screen-store.ts";
 import { userStore } from "../../store/user-store.ts";
 import { cn } from "../../ui/cn.ts";
-import { t, translator } from "../../translations/t.ts";
+import { translator } from "../../translations/t.ts";
 import { formatDays } from "../../translations/format-days.ts";
 
 const weekCellColors = [
@@ -38,18 +38,6 @@ function getWeekCellIntensity(reviews: number, maxReviewsInDay: number) {
   }
 
   return Math.max(1, Math.ceil((reviews / maxReviewsInDay) * 4));
-}
-
-function formatStreak(streak: number) {
-  if (translator.getLang() === "en") {
-    return `${streak} day streak`;
-  }
-
-  if (translator.getLang() === "pt-br") {
-    return formatDays(streak);
-  }
-
-  return `${formatDays(streak)} ${t("user_stats_main_streak")}`;
 }
 
 export function MainStatisticsSummaryLoading() {
@@ -132,7 +120,7 @@ function MainStatisticsSummaryContent(props: {
           />
           <div className="min-w-0 text-start text-[15px] font-semibold leading-5">
             <span className="tabular-nums">
-              {formatStreak(summary.currentStreak)}
+              {formatDays(summary.currentStreak)}
             </span>
           </div>
         </div>

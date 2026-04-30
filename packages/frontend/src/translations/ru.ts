@@ -227,7 +227,6 @@ export const ru: Translation = {
   user_stats_streaks: "Стрики",
   user_stats_current_streak: "Текущий стрик",
   user_stats_best_streak: "Лучший стрик",
-  user_stats_main_streak: "стрик",
   card_answer_type: "Тип карточки",
   yes_no: "Помню",
   answer_type_choice: "Тест",
