@@ -26,7 +26,6 @@ import { userStore } from "../../store/user-store.ts";
 import { ReviewButton } from "../repeat-custom/review-button/review-button.tsx";
 import {
   ArrowUpRightIcon,
-  ChartBarIcon,
   CogIcon,
   PlusIcon,
   SearchIcon,
@@ -35,6 +34,10 @@ import {
 import { getTelegramChannelLink } from "../shared/get-telegram-channel-link.ts";
 import { getYouTubeChannelLink } from "../shared/get-youtube-channel-link.ts";
 import { GlobalSearchTrigger } from "../global-search/global-search-trigger.tsx";
+import {
+  MainStatisticsSummary,
+  MainStatisticsSummaryLoading,
+} from "./main-statistics-summary.tsx";
 
 export function MainScreen() {
   const [deckFolderToggle] = useState(() => new BooleanToggle(false));
@@ -44,6 +47,10 @@ export function MainScreen() {
     <Flex direction={"column"} gap={12} pb={48}>
       <DeckOrFolderChoose toggle={deckFolderToggle} />
       <RuEduVideoChoice toggle={ruEduVideoToggle} />
+      {deckListStore.myInfoRequest.isLoading && !deckListStore.myInfo ? (
+        <MainStatisticsSummaryLoading />
+      ) : null}
+      {deckListStore.myInfo ? <MainStatisticsSummary /> : null}
       <GlobalSearchTrigger />
 
       <div>
@@ -236,18 +243,6 @@ export function MainScreen() {
             <ListHeader text={t("profile_section")} />
             <List
               items={[
-                {
-                  text: t("user_stats_btn"),
-                  icon: (
-                    <FilledIcon
-                      backgroundColor={theme.icons.violet}
-                      icon={<ChartBarIcon size={18} />}
-                    />
-                  ),
-                  onClick: () => {
-                    screenStore.go({ type: "userStatistics" });
-                  },
-                },
                 {
                   text: t("settings"),
                   icon: (
