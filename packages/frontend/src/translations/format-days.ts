@@ -22,15 +22,7 @@ export const formatDays = (days: number) => {
       }
     }
     case "pt-br": {
-      const rulesPt = new Intl.PluralRules("pt-br");
-      const resultPt = rulesPt.select(days);
-      switch (resultPt) {
-        case "one":
-          return `${days} dia`;
-        case "other":
-        default:
-          return `${days} dias`;
-      }
+      return days === 1 ? "1 dia" : `${days} dias`;
     }
     case "es": {
       const rulesEs = new Intl.PluralRules("es-ES");
