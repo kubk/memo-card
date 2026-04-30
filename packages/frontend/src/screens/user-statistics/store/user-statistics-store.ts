@@ -1,11 +1,11 @@
 import { makeAutoObservable } from "mobx";
 import { RequestStore } from "../../../lib/mobx-request/request-store.ts";
 import { api } from "../../../api/trpc-api.ts";
-import { MyStatisticsResponse } from "api";
+import { RouterOutput } from "api";
 
 export class UserStatisticsStore {
   userStatisticsRequest = new RequestStore<
-    MyStatisticsResponse,
+    RouterOutput["myStatistics"],
     [input: { timeZone: string }]
   >(api.myStatistics.query);
 
@@ -19,7 +19,7 @@ export class UserStatisticsStore {
     });
   }
 
-  get statistics(): MyStatisticsResponse | null {
+  get statistics(): RouterOutput["myStatistics"] | null {
     if (this.userStatisticsRequest.result.status !== "success") {
       return null;
     }
