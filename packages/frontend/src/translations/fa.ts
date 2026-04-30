@@ -337,6 +337,30 @@ export const fa: Translation = {
   // Image related
   image: "تصویر",
 
+  // Anki import
+  anki_import_entry_button: "وارد کردن از Anki",
+  anki_import_main_button: "بارگذاری فایل .apkg",
+  anki_import_screen_title: "وارد کردن از Anki",
+  anki_import_heading: "وارد کردن دسته از Anki",
+  anki_import_step_1_title: "مرحله ۱",
+  anki_import_step_1_text_before: "Anki را باز کنید و روی ",
+  anki_import_step_1_link: "آیکن چرخ‌دنده",
+  anki_import_step_1_text_after: " کنار دسته‌تان بزنید",
+  anki_import_step_2_title: "مرحله ۲",
+  anki_import_step_2_text_before: "گزینه ",
+  anki_import_step_export_link: "خروجی گرفتن را بزنید",
+  anki_import_step_3_title: "مرحله ۳",
+  anki_import_step_3_text_before: "قالب .apkg را انتخاب کنید، سپس گزینه ",
+  anki_import_screenshot_gear_alt:
+    "فهرست دسته‌های Anki با آیکن چرخ‌دنده کنار یک دسته",
+  anki_import_screenshot_export_menu_alt:
+    "منوی گزینه‌های دسته در Anki با گزینه خروجی گرفتن انتخاب‌شده",
+  anki_import_screenshot_export_dialog_alt:
+    "پنجره خروجی گرفتن در Anki با گزینه‌های خروجی بسته",
+  anki_import_invalid_file: "لطفاً یک فایل .apkg انتخاب کنید",
+  anki_import_error: "وارد کردن دسته Anki ممکن نشد",
+  anki_import_success: "دسته Anki وارد شد",
+
   // Skip card
   skip_card_for_now: "رد شدن فعلاً",
   skip_card_confirm: "از این کارت رد شوید؟ تا مرور بعدی پنهان می‌شود",

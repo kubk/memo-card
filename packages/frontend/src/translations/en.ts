@@ -338,6 +338,30 @@ export const en = {
   // Image related
   image: "Image",
 
+  // Anki import
+  anki_import_entry_button: "Import from Anki",
+  anki_import_main_button: "Upload .apkg file",
+  anki_import_screen_title: "Import from Anki",
+  anki_import_heading: "Import Anki deck",
+  anki_import_step_1_title: "Step 1",
+  anki_import_step_1_text_before: "Open Anki, click ",
+  anki_import_step_1_link: "the gear icon",
+  anki_import_step_1_text_after: " next to your deck",
+  anki_import_step_2_title: "Step 2",
+  anki_import_step_2_text_before: "Click ",
+  anki_import_step_export_link: "Export",
+  anki_import_step_3_title: "Step 3",
+  anki_import_step_3_text_before: "Choose .apkg format, then click ",
+  anki_import_screenshot_gear_alt:
+    "Anki deck list with gear icon next to a deck",
+  anki_import_screenshot_export_menu_alt:
+    "Anki deck options menu with Export selected",
+  anki_import_screenshot_export_dialog_alt:
+    "Anki export dialog with package export options",
+  anki_import_invalid_file: "Please choose an .apkg file",
+  anki_import_error: "Unable to import Anki deck",
+  anki_import_success: "Anki deck imported",
+
   // Skip card
   skip_card_for_now: "Skip for now",
   skip_card_confirm: "Skip this card? It will be hidden until your next review",

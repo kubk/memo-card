@@ -335,6 +335,30 @@ export const es: Translation = {
   // Image related
   image: "Imagen",
 
+  // Anki import
+  anki_import_entry_button: "Importar desde Anki",
+  anki_import_main_button: "Subir archivo .apkg",
+  anki_import_screen_title: "Importar desde Anki",
+  anki_import_heading: "Importar mazo de Anki",
+  anki_import_step_1_title: "Paso 1",
+  anki_import_step_1_text_before: "Abre Anki y haz clic en ",
+  anki_import_step_1_link: "el icono de engranaje",
+  anki_import_step_1_text_after: " junto a tu mazo",
+  anki_import_step_2_title: "Paso 2",
+  anki_import_step_2_text_before: "Haz clic en ",
+  anki_import_step_export_link: "Exportar",
+  anki_import_step_3_title: "Paso 3",
+  anki_import_step_3_text_before: "Elige el formato .apkg y haz clic en ",
+  anki_import_screenshot_gear_alt:
+    "Lista de mazos de Anki con el icono de engranaje junto a un mazo",
+  anki_import_screenshot_export_menu_alt:
+    "Menú de opciones del mazo de Anki con Exportar seleccionado",
+  anki_import_screenshot_export_dialog_alt:
+    "Diálogo de exportación de Anki con opciones de exportación del paquete",
+  anki_import_invalid_file: "Elige un archivo .apkg",
+  anki_import_error: "No se pudo importar el mazo de Anki",
+  anki_import_success: "Mazo de Anki importado",
+
   // Skip card
   skip_card_for_now: "Saltar por ahora",
   skip_card_confirm:
