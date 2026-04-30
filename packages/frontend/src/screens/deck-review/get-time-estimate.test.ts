@@ -63,9 +63,9 @@ describe("time estimation for review buttons", () => {
 
     expect(estimates).toEqual({
       again: "<10 m",
-      hard: "3 d",
-      good: "5 d",
-      easy: "1.1 w",
+      hard: "4 d",
+      good: "6 d",
+      easy: "1.4 w",
     });
   });
 
@@ -74,8 +74,8 @@ describe("time estimation for review buttons", () => {
     const goodEstimate = getTimeEstimate("good", repeatCard, language);
     const easyEstimate = getTimeEstimate("easy", repeatCard, language);
 
-    expect(goodEstimate).toBe("5 d");
-    expect(easyEstimate).toBe("1.1 w");
+    expect(goodEstimate).toBe("6 d");
+    expect(easyEstimate).toBe("1.4 w");
     expect(goodEstimate).not.toBe(easyEstimate);
   });
 
