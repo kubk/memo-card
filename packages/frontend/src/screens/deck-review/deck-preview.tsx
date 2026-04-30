@@ -18,11 +18,14 @@ import { cn } from "../../ui/cn.ts";
 import { CardReviewStats } from "../shared/deck-stats/card-review-stats.tsx";
 import {
   EyeIcon,
+  LayersIcon,
   PencilIcon,
   PlusIcon,
   RefreshCwIcon,
+  ShareIcon,
   TrashIcon,
 } from "lucide-react";
+import { shareMemoCardUrl } from "../shared/share-memo-card-url.tsx";
 
 type Props = { onCardListPreview: () => void };
 
@@ -74,21 +77,57 @@ export function DeckPreview(props: Props) {
             }
             totalCardsCount={deck.deckCards.length}
           />
-
+        </div>
+        <div className="mt-3">
           <ButtonGrid>
             {deckListStore.canEditDeck ? (
-              <ButtonSideAligned
-                icon={<PlusIcon size={24} />}
-                outline
-                onClick={() => {
-                  screenStore.goToDeckForm({
-                    deckId: deck.id,
-                    cardId: "new",
-                  });
-                }}
-              >
-                {t("add_card_short")}
-              </ButtonSideAligned>
+              <>
+                <ButtonSideAligned
+                  icon={<PlusIcon size={24} />}
+                  outline
+                  onClick={() => {
+                    screenStore.goToDeckForm({
+                      deckId: deck.id,
+                      cardId: "new",
+                    });
+                  }}
+                >
+                  {t("add_card_short")}
+                </ButtonSideAligned>
+
+                <ButtonSideAligned
+                  icon={<PencilIcon size={24} />}
+                  outline
+                  onClick={() => {
+                    screenStore.goToDeckForm({ deckId: deck.id });
+                  }}
+                >
+                  {t("edit")}
+                </ButtonSideAligned>
+
+                <ButtonSideAligned
+                  icon={<ShareIcon size={24} />}
+                  outline
+                  onClick={() => {
+                    shareMemoCardUrl(deck.shareId);
+                  }}
+                >
+                  {t("share")}
+                </ButtonSideAligned>
+
+                <ButtonSideAligned
+                  icon={<LayersIcon size={24} />}
+                  outline
+                  onClick={() => {
+                    screenStore.go({
+                      type: "cardList",
+                      deckId: deck.id,
+                    });
+                  }}
+                >
+                  {t("cards")}
+                </ButtonSideAligned>
+              </>
             ) : null}
 
             {!deckListStore.canEditDeck && (
@@ -116,18 +155,6 @@ export function DeckPreview(props: Props) {
                 )}
               </>
             )}
-
-            {deckListStore.canEditDeck ? (
-              <ButtonSideAligned
-                icon={<PencilIcon size={24} />}
-                outline
-                onClick={() => {
-                  screenStore.goToDeckForm({ deckId: deck.id });
-                }}
-              >
-                {t("edit")}
-              </ButtonSideAligned>
-            ) : null}
           </ButtonGrid>
         </div>
       </div>
