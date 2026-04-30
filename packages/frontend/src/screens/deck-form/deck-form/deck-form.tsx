@@ -33,6 +33,7 @@ import {
   ShareIcon,
   TrashIcon,
   FilesIcon,
+  UploadIcon,
 } from "lucide-react";
 import { FilledIcon, TransparentIcon } from "../../../ui/filled-icon.tsx";
 import { ButtonGrid } from "../../../ui/button-grid.tsx";
@@ -115,6 +116,20 @@ export function DeckForm() {
           />
         )}
       </Label>
+
+      {!deckFormStore.deckForm?.id && (
+        <ButtonGrid>
+          <ButtonSideAligned
+            icon={<UploadIcon size={24} />}
+            outline
+            onClick={() => {
+              screenStore.replace({ type: "ankiImport" });
+            }}
+          >
+            {t("anki_import_entry_button")}
+          </ButtonSideAligned>
+        </ButtonGrid>
+      )}
 
       {deckFormStore.deckForm?.id && (
         <List

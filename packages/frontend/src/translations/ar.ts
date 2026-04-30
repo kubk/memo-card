@@ -334,6 +334,30 @@ export const ar: Translation = {
   // Image related
   image: "صورة",
 
+  // Anki import
+  anki_import_entry_button: "استيراد من Anki",
+  anki_import_main_button: "تحميل ملف .apkg",
+  anki_import_screen_title: "استيراد من Anki",
+  anki_import_heading: "استيراد مجموعة Anki",
+  anki_import_step_1_title: "الخطوة 1",
+  anki_import_step_1_text_before: "افتح Anki واضغط على ",
+  anki_import_step_1_link: "أيقونة الترس",
+  anki_import_step_1_text_after: " بجانب مجموعتك",
+  anki_import_step_2_title: "الخطوة 2",
+  anki_import_step_2_text_before: "اضغط على ",
+  anki_import_step_export_link: "تصدير",
+  anki_import_step_3_title: "الخطوة 3",
+  anki_import_step_3_text_before: "اختر صيغة .apkg، ثم اضغط على ",
+  anki_import_screenshot_gear_alt:
+    "قائمة مجموعات Anki مع أيقونة الترس بجانب مجموعة",
+  anki_import_screenshot_export_menu_alt:
+    "قائمة خيارات مجموعة Anki مع تحديد خيار التصدير",
+  anki_import_screenshot_export_dialog_alt:
+    "مربع حوار التصدير في Anki مع خيارات تصدير الحزمة",
+  anki_import_invalid_file: "يرجى اختيار ملف .apkg",
+  anki_import_error: "تعذر استيراد مجموعة Anki",
+  anki_import_success: "تم استيراد مجموعة Anki",
+
   // Skip card
   skip_card_for_now: "تخطي الآن",
   skip_card_confirm: "تخطي هذه البطاقة؟ ستكون مخفية حتى المراجعة القادمة",

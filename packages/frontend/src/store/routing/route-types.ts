@@ -47,6 +47,10 @@ const deckFormRouteSchema = v.object({
   searchText: v.optional(v.string()),
 });
 
+const ankiImportRouteSchema = v.object({
+  type: v.literal("ankiImport"),
+});
+
 const cardListRouteSchema = v.object({
   type: v.literal("cardList"),
   deckId: stringToNumber,
@@ -155,6 +159,7 @@ export const routeSchema = v.union([
   deckMineRouteSchema,
   deckPublicRouteSchema,
   deckFormRouteSchema,
+  ankiImportRouteSchema,
   cardListRouteSchema,
   speakingCardsRouteSchema,
   cardInputModeRouteSchema,
