@@ -82,7 +82,7 @@ export function AnkiImportScreen() {
               <div className="flex h-[72px] w-[72px] items-center justify-center rounded-[20px] bg-button-outline-bg-light text-[34px] font-bold leading-none text-link dark:bg-button-outline-bg-dark dark:text-button-outline-fg-dark">
                 {step.number}
               </div>
-              <div className="pt-0.5">
+              <div>
                 <div className="text-[17px] font-bold leading-6">
                   {t(step.titleKey)}
                 </div>
