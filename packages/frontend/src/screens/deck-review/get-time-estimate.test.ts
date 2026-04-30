@@ -1,10 +1,11 @@
-import { describe, it, expect } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { getTimeEstimate } from "./get-time-estimate.ts";
 import { CardUnderReviewStore } from "./store/card-under-review-store.ts";
 import { createInitialFsrsReviewState } from "api";
 
 const language = "en" as const;
 const dayMs = 24 * 60 * 60 * 1000;
+const testNow = new Date("2026-04-30T11:02:00.000Z");
 
 function createNewCard(id: number): CardUnderReviewStore {
   return {
@@ -35,6 +36,15 @@ function createRepeatCard(id: number, scheduledDays = 2.5) {
 }
 
 describe("time estimation for review buttons", () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+    vi.setSystemTime(testNow);
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
   it("shows product-tuned estimates for new cards", () => {
     const newCard = createNewCard(1);
     const estimates = {

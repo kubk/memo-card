@@ -338,7 +338,6 @@ export const es: Translation = {
   // Anki import
   anki_import_entry_button: "Importar desde Anki",
   anki_import_main_button: "Subir archivo .apkg",
-  anki_import_screen_title: "Importar desde Anki",
   anki_import_heading: "Importar mazo de Anki",
   anki_import_step_1_title: "Paso 1",
   anki_import_step_1_text_before: "Abre Anki y haz clic en ",

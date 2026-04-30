@@ -338,7 +338,6 @@ export const ptBr: Translation = {
   // Anki import
   anki_import_entry_button: "Importar do Anki",
   anki_import_main_button: "Enviar arquivo .apkg",
-  anki_import_screen_title: "Importar do Anki",
   anki_import_heading: "Importar baralho do Anki",
   anki_import_step_1_title: "Passo 1",
   anki_import_step_1_text_before: "Abra o Anki e clique no ",
