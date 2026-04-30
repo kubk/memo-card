@@ -45,6 +45,10 @@ function formatStreak(streak: number) {
     return `${streak} day streak`;
   }
 
+  if (translator.getLang() === "pt-br") {
+    return formatDays(streak);
+  }
+
   return `${formatDays(streak)} ${t("user_stats_main_streak")}`;
 }
 
