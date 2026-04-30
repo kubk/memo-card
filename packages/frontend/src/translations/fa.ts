@@ -209,21 +209,7 @@ export const fa: Translation = {
   validation_answer_at_least_one_correct:
     "یک پاسخ باید به عنوان درست انتخاب شود",
   validation_at_least_one_answer_required: "حداقل یک پاسخ باید ارائه شود",
-  user_stats_btn: "آمار",
   user_stats_page: "آمار من",
-  user_stats_remembered: "به یاد آورده شده",
-  user_stats_remembered_hint:
-    "تعداد کارت‌هایی که ۵ بار پشت سر هم درست مرور شده‌اند",
-  user_stats_learning: "در حال یادگیری",
-  user_stats_learning_hint:
-    "تعداد کارت‌هایی که کمتر از ۵ بار پشت سر هم مرور شده‌اند",
-  user_stats_total: "کل کارت‌ها",
-  user_stats_total_hint: "تعداد کل کارت‌هایی که حداقل یک بار باز شده‌اند",
-  user_stats_learning_time: "توزیع زمان یادگیری",
-  user_stats_learning_time_hint:
-    "چگونه زمان شما بین یادگیری مطالب جدید و مرور تقسیم می‌شود",
-  user_stats_chart_min_expl: "کارت را نمی‌دانم",
-  user_stats_chart_max_expl: "کارت را خیلی خوب می‌دانم",
   user_stats_card_reviews: "مرور کارت‌ها",
   user_stats_today: "امروز",
   user_stats_7d: "۷ روز",

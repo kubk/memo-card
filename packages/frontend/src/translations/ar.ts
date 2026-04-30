@@ -201,22 +201,7 @@ export const ar: Translation = {
   answer_type_explanation_choice: `بطاقة تحتوي على خيارات الإجابة`,
   validation_answer_at_least_one_correct: "يجب اختيار إجابة واحدة صحيحة",
   validation_at_least_one_answer_required: "يجب تقديم إجابة واحدة على الأقل",
-  user_stats_btn: "الإحصائيات",
   user_stats_page: "إحصائياتي",
-  user_stats_remembered: "تم تذكرها",
-  user_stats_remembered_hint:
-    "عدد البطاقات التي تمت مراجعتها بشكل صحيح 5 مرات متتالية",
-  user_stats_learning: "التعلم",
-  user_stats_learning_hint:
-    "عدد البطاقات التي تمت مراجعتها أقل من 5 مرات متتالية",
-  user_stats_total: "إجمالي البطاقات",
-  user_stats_total_hint:
-    "إجمالي عدد البطاقات التي تم فتحها مرة واحدة على الأقل",
-  user_stats_learning_time: "توزيع وقت التعلم",
-  user_stats_learning_time_hint:
-    "كيف يتم تخصيص وقتك بين تعلم مواد جديدة والمراجعة",
-  user_stats_chart_min_expl: "لا أعرف البطاقة",
-  user_stats_chart_max_expl: "أعرف البطاقة جيدًا",
   user_stats_card_reviews: "مراجعات البطاقات",
   user_stats_today: "اليوم",
   user_stats_7d: "7 أيام",
