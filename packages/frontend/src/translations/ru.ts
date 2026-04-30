@@ -228,6 +228,17 @@ export const ru: Translation = {
     "Как распределяется ваше время между изучением нового материала и повторением",
   user_stats_chart_min_expl: "Не помню карточку",
   user_stats_chart_max_expl: "Знаю карточку очень хорошо",
+  user_stats_card_reviews: "Повторения карточек",
+  user_stats_today: "Сегодня",
+  user_stats_7d: "7 дн.",
+  user_stats_30d: "30 дн.",
+  user_stats_memory: "Карточки",
+  user_stats_to_review: "К повторению",
+  user_stats_remembered_cards: "Запомнено",
+  user_stats_all_cards: "Всего",
+  user_stats_streaks: "Стрики",
+  user_stats_current_streak: "Текущий стрик",
+  user_stats_best_streak: "Лучший стрик",
   card_answer_type: "Тип карточки",
   yes_no: "Помню",
   answer_type_choice: "Тест",
@@ -338,6 +349,7 @@ export const ru: Translation = {
 
   // Skip card
   skip_card_for_now: "Пропустить",
-  skip_card_confirm: "Пропустить карточку? Она будет скрыта до следующего повторения",
+  skip_card_confirm:
+    "Пропустить карточку? Она будет скрыта до следующего повторения",
   review_skipped: "Пропущено",
 };

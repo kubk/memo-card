@@ -2,7 +2,6 @@ import { Button } from "../../ui/button.tsx";
 import { ReactNode } from "react";
 import { CardPreviewStory } from "./card-preview-story.tsx";
 import { SelectStory } from "./select-story.tsx";
-import { PieChartCanvasStory } from "./pie-chart-canvas-story.tsx";
 import { SnackbarStory } from "./snackbar-story.tsx";
 import { ListStory } from "./list-story.tsx";
 import { ListStoryMultipleIcons } from "./list-story-multiple-icons.tsx";
@@ -61,10 +60,6 @@ export const components: Array<Component> = [
   {
     name: SelectStory.name,
     component: <SelectStory />,
-  },
-  {
-    name: PieChartCanvasStory.name,
-    component: <PieChartCanvasStory />,
   },
   {
     name: SnackbarStory.name,
