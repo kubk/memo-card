@@ -126,7 +126,7 @@ function MainStatisticsSummaryContent(props: {
             className="shrink-0 text-orange"
             fill="currentColor"
           />
-          <div className="min-w-0 text-start text-[17px] font-semibold leading-6">
+          <div className="min-w-0 text-start text-[15px] font-semibold leading-5">
             <span className="tabular-nums">
               {formatStreak(summary.currentStreak)}
             </span>
