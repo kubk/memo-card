@@ -235,6 +235,17 @@ export const ptBr: Translation = {
     "Como o seu tempo é distribuído entre o estudo de material novo e a revisão",
   user_stats_chart_min_expl: "Não conheço o cartão",
   user_stats_chart_max_expl: "Conheço o cartão muito bem",
+  user_stats_card_reviews: "Revisões de cartões",
+  user_stats_today: "Hoje",
+  user_stats_7d: "7 d",
+  user_stats_30d: "30 d",
+  user_stats_memory: "Cartões",
+  user_stats_to_review: "Para revisar",
+  user_stats_remembered_cards: "Memorizados",
+  user_stats_all_cards: "Todos",
+  user_stats_streaks: "Sequências",
+  user_stats_current_streak: "Sequência atual",
+  user_stats_best_streak: "Melhor sequência",
   freeze_title: "Congelar cartões",
   freeze_rule_4:
     "Se você adicionar um cartão durante o período de congelamento, ele não será afetado pelo congelamento.",
@@ -338,6 +349,7 @@ export const ptBr: Translation = {
 
   // Skip card
   skip_card_for_now: "Pular por agora",
-  skip_card_confirm: "Pular este cartão? Ele ficará oculto até a próxima revisão",
+  skip_card_confirm:
+    "Pular este cartão? Ele ficará oculto até a próxima revisão",
   review_skipped: "Pulado",
 };
