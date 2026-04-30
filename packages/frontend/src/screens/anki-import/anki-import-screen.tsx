@@ -52,7 +52,7 @@ export function AnkiImportScreen() {
   useProgress(() => store.importDeckRequest.isLoading);
 
   return (
-    <Screen title={t("anki_import_screen_title")}>
+    <Screen>
       <input
         ref={fileInputRef}
         className="hidden"
