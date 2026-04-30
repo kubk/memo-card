@@ -234,7 +234,6 @@ export const ptBr: Translation = {
   user_stats_streaks: "Sequências",
   user_stats_current_streak: "Sequência atual",
   user_stats_best_streak: "Melhor sequência",
-  user_stats_main_streak: "sequência",
   freeze_title: "Congelar cartões",
   freeze_rule_4:
     "Se você adicionar um cartão durante o período de congelamento, ele não será afetado pelo congelamento.",

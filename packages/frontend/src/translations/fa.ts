@@ -221,7 +221,6 @@ export const fa: Translation = {
   user_stats_streaks: "روزهای پیاپی",
   user_stats_current_streak: "روزهای پیاپی فعلی",
   user_stats_best_streak: "بهترین روزهای پیاپی",
-  user_stats_main_streak: "پیاپی",
   validate_positive: "لطفاً یک عدد مثبت وارد کنید",
   validate_under_100: "لطفاً عددی کمتر از ۱۰۰ وارد کنید",
   freeze_confirm_freeze:
