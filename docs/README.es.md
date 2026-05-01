@@ -18,6 +18,7 @@ Historia del concurso: https://teletype.in/@alteregor/memocard-telegram-contest-
 - ⚡ **Crea tarjetas rápido** - Genera múltiples tarjetas a la vez para armar mazos eficientemente. Usa IA para generar tarjetas automáticamente
 - 🔔 **Notificaciones inteligentes** - Recibe recordatorios diarios de las tarjetas que necesitas repasar, optimizando tu tiempo de estudio
 - ✨ **Contenido de calidad** - Elige del catálogo de mazos pre-hechos de alta calidad
+- 🔥 **Rachas y mapa de calor** - Sigue tu constancia de aprendizaje y tu historial de repasos
 - ⏸️ **Pausa cuando necesites** - Congela tarjetas cuando necesites un descanso o estés muy ocupado
 - 🔊 **Texto a voz** - Aprende palabras extranjeras con pronunciación automática
 - 🎨 **Formato personalizado** - Añade estilos a tus tarjetas para enfatizar información importante
