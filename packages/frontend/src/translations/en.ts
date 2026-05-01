@@ -10,7 +10,6 @@ export const en = {
   card_input_mode_screen: "Card input mode",
   generate: "Generate",
   folder_form_no_decks: "No decks in the folder",
-  cards_add: "Add cards",
   card_next: "Next",
   card_previous: "Previous",
   user_stats_empty_text: "Study more cards to see the data",

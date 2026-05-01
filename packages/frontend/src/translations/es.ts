@@ -259,7 +259,6 @@ export const es: Translation = {
   quit_without_saving: "¿Salir sin guardar?",
   ai_cards_added: "Tarjetas añadidas",
   error: "Error",
-  cards_add: "Añadir tarjeta",
 
   // Global Search
   global_search_placeholder: "Buscar mazos, carpetas, tarjetas",

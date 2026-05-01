@@ -107,8 +107,6 @@ const deckCatalogRouteSchema = v.object({
 
 const aiMassCreationRouteSchema = v.object({
   type: v.literal("aiMassCreation"),
-  deckId: stringToNumber,
-  deckTitle: v.nullable(v.optional(v.string())),
 });
 
 const catalogSettingsRouteSchema = v.object({
