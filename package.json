@@ -12,7 +12,7 @@
     "test": "npm run test --workspaces",
     "export-public-code": "./export-public-code.sh",
     "postinstall": "patch-package",
-    "knip": "knip"
+    "knip": "knip --reporter compact"
   },
   "workspaces": [
     "./packages/*"
@@ -22,7 +22,9 @@
   },
   "devDependencies": {
     "@types/node": "^25.0.3",
-    "knip": "^5.79.0",
+    "concurrently": "^9.2.1",
+    "knip": "^6.9.0",
+    "prettier": "^3.8.3",
     "typescript": "^5.9.3"
   }
 }

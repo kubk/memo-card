@@ -245,14 +245,10 @@ export const ar: Translation = {
   ai_cards_confirm_delete: "هل أنت متأكد أنك تريد حذف هذه البطاقة؟",
   ai_cards_added: "تمت إضافة البطاقات",
   ai_cards_use_template: "استخدام القالب",
-  payment_success: "تم الدفع بنجاح. استمتع بالميزات الإضافية 😊",
   confirm_cancel: "إلغاء",
   confirm_ok: "تأكيد",
 
   upgrade_pro: "الترقية إلى Pro",
-
-  payment_failed:
-    "فشل الدفع. نحن على علم بالمشكلة ونعمل على حلها. يرجى الاتصال بالدعم عبر الإعدادات > الدعم.",
 
   ai_card_input_mode_supports: "يدعم لغات مختلفة",
 

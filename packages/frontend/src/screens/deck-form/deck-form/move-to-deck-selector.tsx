@@ -5,7 +5,7 @@ import { ListHeader } from "../../../ui/list-header.tsx";
 import { CircleCheckbox } from "../../../ui/circle-checkbox.tsx";
 import { cn } from "../../../ui/cn.ts";
 import { platform } from "../../../lib/platform/platform.ts";
-import { MoveToDeckSelectorStore } from "./store/move-to-deck-selector-store.ts";
+import { MoveToDeckSelectorStore } from "./store/move-to-deck-selector-store.tsx";
 import { Button } from "../../../ui/button.tsx";
 import { Flex } from "../../../ui/flex.tsx";
 import { t } from "../../../translations/t.ts";

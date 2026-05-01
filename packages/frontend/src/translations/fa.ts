@@ -261,11 +261,8 @@ export const fa: Translation = {
   ai_cards_confirm_delete: "آیا مطمئن هستید که می‌خواهید این کارت را حذف کنید؟",
   ai_cards_added: "کارت‌ها اضافه شدند",
   ai_cards_use_template: "استفاده از قالب",
-  payment_success: "پرداخت موفقیت‌آمیز بود. از امکانات اضافی لذت ببرید 😊",
   confirm_cancel: "لغو",
   confirm_ok: "تأیید",
-  payment_failed:
-    "پرداخت ناموفق بود. ما از این مشکل آگاه هستیم و در حال کار روی آن هستیم. لطفاً از طریق تنظیمات > پشتیبانی با پشتیبانی تماس بگیرید.",
 
   // Global Search
   global_search_placeholder: "جستجوی دسته‌ها، پوشه‌ها، کارت‌ها",
