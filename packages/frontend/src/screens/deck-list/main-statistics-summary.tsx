@@ -40,7 +40,7 @@ function getWeekCellIntensity(reviews: number, maxReviewsInDay: number) {
   return Math.max(1, Math.ceil((reviews / maxReviewsInDay) * 4));
 }
 
-export function MainStatisticsSummaryLoading() {
+function MainStatisticsSummaryLoading() {
   return (
     <div className="bg-bg rounded-xl px-3 py-3 animate-pulse">
       <div className="flex items-center justify-between gap-3">

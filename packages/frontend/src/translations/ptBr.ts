@@ -41,10 +41,6 @@ export const ptBr: Translation = {
   ai_speech_validate: "Por favor, selecione um lado ou digite o texto",
   confirm_ok: "Confirmar",
   confirm_cancel: "Cancelar",
-  payment_success:
-    "Pagamento realizado com sucesso. Aproveite os recursos adicionais 😊",
-  payment_failed:
-    "Pagamento falhou. Estamos cientes do problema e trabalhando nele. Por favor, entre em contato com o suporte através de Configurações > Suporte",
   cards_add: "Adicionar cartão",
   error: "Erro",
   user_settings_updated: "Configurações atualizadas",

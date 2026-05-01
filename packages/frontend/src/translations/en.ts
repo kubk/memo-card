@@ -240,14 +240,10 @@ export const en = {
   ai_cards_confirm_delete: "Are you sure you want to delete this card?",
   ai_cards_added: "Cards have been added",
   ai_cards_use_template: "Use template",
-  payment_success: "Payment is successful. Enjoy additional features 😊",
   confirm_cancel: "Cancel",
   confirm_ok: "Confirm",
 
   upgrade_pro: "Upgrade to Pro",
-
-  payment_failed:
-    "Payment failed. We're aware of the issue and working on it. Please contact support via Settings > Support.",
 
   ai_speech_preview_free_title: "Standard voice",
   ai_speech_preview_free_desc: "Free robotic voice",

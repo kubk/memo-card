@@ -42,10 +42,6 @@ export const es: Translation = {
   ai_speech_generate: "Generar",
   confirm_ok: "Confirmar",
   confirm_cancel: "Cancelar",
-  payment_success:
-    "El pago se ha realizado con éxito. Disfruta de las funciones adicionales 😊",
-  payment_failed:
-    "El pago ha fallado. Estamos al tanto del problema y trabajando en ello. Por favor, contacta con soporte a través de Configuración > Soporte",
   user_settings_updated: "Configuración actualizada",
   is_off: "Apagado",
   is_on: "Encendido",
