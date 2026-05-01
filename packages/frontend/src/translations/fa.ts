@@ -250,7 +250,7 @@ export const fa: Translation = {
   ai_speech_title: "گفتار هوش مصنوعی",
   ai_speech_generate: "تولید",
   ai_cards_generate: "تولید کارت‌ها",
-  ai_cards_title: "تولید کارت با هوش مصنوعی",
+  ai_cards_title: "ساخت دسته با AI",
   ai_cards_previous_prompts: "تاریخچه دستورات",
   ai_cards_no_previous_prompts: "هیچ دستور قبلی وجود ندارد",
   ai_cards_prompt: "توضیحات",

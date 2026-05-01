@@ -253,7 +253,7 @@ export const ptBr: Translation = {
   ai_cards_no_previous_prompts: "Nenhuma solicitação anterior",
   ai_cards_by_ai: "Cartões gerados",
   ai_cards_confirm_delete: "Excluir este cartão?",
-  ai_cards_title: "Criação de cartões com IA",
+  ai_cards_title: "Criar com IA",
   ai_cards_prompt: "Descrição do baralho",
   ai_cards_previous_prompts: "Histórico de solicitações",
   ai_cards_use_template: "Usar modelo",

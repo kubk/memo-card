@@ -234,7 +234,7 @@ export const ar: Translation = {
   error: "خطأ",
   user_settings_updated: "تم تحديث الإعدادات",
   ai_cards_generate: "توليد البطاقات",
-  ai_cards_title: "توليد البطاقات باستخدام الذكاء الاصطناعي",
+  ai_cards_title: "إنشاء مجموعة بـ AI",
   ai_cards_previous_prompts: "تاريخ الطلبات",
   ai_cards_no_previous_prompts: "لا توجد طلبات سابقة",
   ai_cards_prompt: "الوصف",
