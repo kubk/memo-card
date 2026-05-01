@@ -261,7 +261,6 @@ export const uk: Translation = {
   ai_cards_confirm_delete: "Видалити цю картку?",
   ai_cards_added: "Картки додано",
   ai_cards_use_template: "Використати шаблон",
-  cards_add: "Додати картки",
   add_card_short: "Додати картку",
 
   // Global Search

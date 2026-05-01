@@ -258,7 +258,6 @@ export const ru: Translation = {
   ai_cards_by_ai: "Сгенерированные карточки",
   ai_cards_confirm_delete: "Удалить эту карточку?",
   ai_cards_title: "Генерация через ИИ",
-  cards_add: "Добавить карточки",
 
   // Global Search
   global_search_placeholder: "Поиск колод, папок, карточек",

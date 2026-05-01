@@ -12,11 +12,11 @@ import { env } from "../env";
 const allowedToReFetch = [
   "cardsReview",
   "card.add",
-  "card.addMultiple",
   "card.update",
   "card.delete",
   "card.deleteMany",
   "deck.create",
+  "deck.createWithCards",
   "deck.update",
   "userSettings",
 ];

@@ -35,7 +35,6 @@ import {
   EyeIcon,
   LayersIcon,
   PlusIcon,
-  BotIcon,
   UserIcon,
   TrashIcon,
   FolderInputIcon,
@@ -224,36 +223,6 @@ export function ManualCardFormView() {
               onClick: () => {
                 cardFormStore.cardTypeModal.setTrue();
               },
-            },
-
-            {
-              text: t("ai_cards_title"),
-              icon: (
-                <FilledIcon
-                  backgroundColor={theme.icons.turquoise}
-                  icon={<BotIcon size={18} />}
-                />
-              ),
-              onClick: () => {
-                userStore.executeViaPaywall("bulk_ai_cards", () => {
-                  let deckId: number | undefined = undefined;
-                  if (screenStore.screen.type === "deckForm") {
-                    deckId = screenStore.screen.deckId;
-                  }
-
-                  if (!deckId) return;
-
-                  const deck = deckListStore.searchDeckById(deckId);
-                  if (!deck) return;
-
-                  screenStore.go({
-                    type: "aiMassCreation",
-                    deckId: deckId,
-                    deckTitle: deck.name,
-                  });
-                });
-              },
-              right: <WithProIcon />,
             },
 
             {

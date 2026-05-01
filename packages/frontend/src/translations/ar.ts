@@ -23,7 +23,6 @@ export const ar: Translation = {
   card_input_mode_screen: "وضع إدخال البطاقة",
   generate: "توليد",
   folder_form_no_decks: "لا توجد مجموعات في المجلد",
-  cards_add: "إضافة بطاقات",
   card_next: "التالي",
   card_previous: "السابق",
   user_stats_empty_text: "ادرس المزيد من البطاقات لرؤية البيانات",

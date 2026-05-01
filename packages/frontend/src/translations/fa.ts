@@ -34,7 +34,6 @@ export const fa: Translation = {
   card_input_mode_screen: "حالت ورود کارت",
   generate: "ایجاد",
   folder_form_no_decks: "هیچ دسته کارتی در پوشه نیست",
-  cards_add: "افزودن کارت‌ها",
   card_next: "بعدی",
   card_previous: "قبلی",
   user_stats_empty_text: "برای مشاهده داده‌ها، کارت‌های بیشتری مطالعه کنید",

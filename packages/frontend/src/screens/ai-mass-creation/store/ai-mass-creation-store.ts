@@ -16,13 +16,17 @@ import { showConfirm } from "../../../lib/platform/show-confirm.ts";
 import { assert } from "api";
 import { api } from "../../../api/trpc-api.ts";
 import { voiceGenerationStore } from "../../../store/voice-generation-store.ts";
+import { aiMassCreationDraftStore } from "./ai-mass-creation-draft-store.ts";
 
 type InnerScreen = "how" | "cardsGenerated" | "previousPrompts";
 
 export class AiMassCreationStore {
   aiMassGenerateRequest = new RequestStore(api.aiMassGenerate.mutate);
-  addCardsMultipleRequest = new RequestStore(api.card.addMultiple.mutate);
+  createDeckWithCardsRequest = new RequestStore(
+    api.deck.createWithCards.mutate,
+  );
   userPreviousPromptsRequest = new RequestStore(api.prompt.myPrevious.query);
+  deckDraft = aiMassCreationDraftStore.deckDraft;
 
   screen = new TextField<InnerScreen | null>(null);
 
@@ -40,6 +44,7 @@ export class AiMassCreationStore {
   };
 
   massCreationForm?: {
+    deckTitle: string;
     selectedCardIndex: TextField<null | number>;
     cards: ListField<{
       front: string;
@@ -49,7 +54,15 @@ export class AiMassCreationStore {
   };
 
   constructor() {
+    if (this.deckDraft?.description) {
+      this.promptForm.prompt.onChange(this.deckDraft.description);
+    }
+
     makeAutoObservable(this, {}, { autoBind: true });
+  }
+
+  get isSavingCards() {
+    return this.createDeckWithCardsRequest.isLoading;
   }
 
   private async onQuit(redirect: () => void) {
@@ -57,16 +70,6 @@ export class AiMassCreationStore {
     if (isConfirmed) {
       redirect();
     }
-  }
-
-  onQuitToDeck() {
-    this.onQuit(() => {
-      const { screen } = screenStore;
-      assert(screen.type === "aiMassCreation", "Invalid screen type");
-      screenStore.goToDeckForm({
-        deckId: screen.deckId,
-      });
-    });
   }
 
   onQuitBack() {
@@ -153,6 +156,7 @@ export class AiMassCreationStore {
     const innerResult = result.data;
     if (innerResult.data) {
       this.massCreationForm = {
+        deckTitle: innerResult.data.title,
         selectedCardIndex: new TextField<number | null>(null),
         cards: new ListField(
           innerResult.data.cards.map((card) => ({
@@ -177,29 +181,45 @@ export class AiMassCreationStore {
       return;
     }
 
-    const { screen } = screenStore;
+    await this.submitCreateDeckMassCreationForm();
+  }
 
-    assert(screen.type === "aiMassCreation", "Invalid screen type");
+  private getGeneratedDeckTitle() {
+    assert(this.massCreationForm, "Mass creation form should be defined");
 
-    const result = await this.addCardsMultipleRequest.execute({
-      deckId: screen.deckId,
+    const generatedTitle = this.massCreationForm.deckTitle.trim();
+    assert(generatedTitle, "Generated deck title should be defined");
+    return generatedTitle;
+  }
+
+  private async submitCreateDeckMassCreationForm() {
+    assert(this.massCreationForm, "Mass creation form should be defined");
+
+    const result = await this.createDeckWithCardsRequest.execute({
+      title: this.getGeneratedDeckTitle(),
+      description: this.deckDraft?.description || null,
+      folderId: this.deckDraft?.folderId,
       cards: this.massCreationForm.cards.value,
     });
 
     if (result.status === "error") {
-      notifyError({ e: result.error, info: "Failed to add multiple cards" });
+      notifyError({
+        e: result.error,
+        info: "Failed to create deck with cards",
+      });
       return;
     }
 
     notifySuccess(t("ai_cards_added"));
-    deckListStore.replaceDeck(result.data.deck);
+    deckListStore.replaceDeck(result.data.deck, true);
+    deckListStore.updateFolders(result.data.folders);
     deckListStore.updateCardsToReview(result.data.cardsToReview);
-    screenStore.goToDeckForm({
-      deckId: screen.deckId,
-    });
+    aiMassCreationDraftStore.clearDeckDraft();
+    screenStore.replace({ type: "main" });
+    screenStore.goToDeckForm({ deckId: result.data.deck.id });
 
     voiceGenerationStore.generateForDeckCards(
-      screen.deckId,
+      result.data.deck.id,
       result.data.createdCards,
     );
   }
