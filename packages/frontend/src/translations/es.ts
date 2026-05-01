@@ -246,7 +246,7 @@ export const es: Translation = {
   freeze_title: "Congelar tarjetas",
   freeze_hint: "Posponer el estudio de las tarjetas",
   error_solving: "Estamos resolviendo el problema",
-  ai_cards_title: "Creación de tarjetas con IA",
+  ai_cards_title: "Crear con IA",
   ai_cards_no_previous_prompts: "No hay solicitudes previas",
   ai_cards_confirm_delete: "¿Eliminar esta tarjeta?",
   ai_cards_by_ai: "Tarjetas generadas",

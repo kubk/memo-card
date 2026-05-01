@@ -251,7 +251,7 @@ export const uk: Translation = {
   error_solving: "Ми вирішуємо проблему",
   error: "Помилка",
   ai_cards_generate: "Згенерувати картки",
-  ai_cards_title: "Створення карток за допомогою ШІ",
+  ai_cards_title: "Створити з ШІ",
   ai_cards_previous_prompts: "Історія запитів",
   ai_cards_no_previous_prompts: "Немає попередніх запитів",
   ai_cards_prompt: "Опис",

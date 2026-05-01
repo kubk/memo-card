@@ -41,11 +41,11 @@ import { BrowserPlatform } from "../../lib/platform/browser/browser-platform.ts"
 import { formatDiscountAsText } from "api";
 import {
   ArrowLeftRight,
-  Bot,
   ChevronLeft,
   ChevronRight,
   Copy,
   Mic,
+  WandSparkles,
   Zap,
 } from "lucide-react";
 
@@ -56,7 +56,7 @@ const planItems: Array<{
 }> = [
   {
     iconColor: theme.icons.pink,
-    icon: <Bot size={18} />,
+    icon: <WandSparkles size={18} />,
     previewItem: "individual_ai_card",
   },
   {

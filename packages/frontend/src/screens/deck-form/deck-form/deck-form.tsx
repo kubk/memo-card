@@ -24,7 +24,7 @@ import { WysiwygField } from "../../../ui/wysiwyg-field/wysiwig-field.tsx";
 import {
   LayersIcon,
   MicIcon,
-  BotIcon,
+  WandSparklesIcon,
   ListIcon,
   KeyboardIcon,
   PlusIcon,
@@ -120,7 +120,7 @@ export function DeckForm() {
       {!deckFormStore.deckForm?.id && (
         <ButtonGrid>
           <ButtonSideAligned
-            icon={<BotIcon size={24} />}
+            icon={<WandSparklesIcon size={24} />}
             outline
             onClick={() => {
               userStore.executeViaPaywall("bulk_ai_cards", () => {
