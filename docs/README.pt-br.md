@@ -18,6 +18,7 @@ História do concurso: https://teletype.in/@alteregor/memocard-telegram-contest-
 - ⚡ **Crie cartões rápido** - Gere múltiplos cartões de uma vez para montar baralhos de forma eficiente. Use IA para gerar cartões automaticamente
 - 🔔 **Notificações inteligentes** - Receba lembretes diários dos cartões que precisam de revisão, otimizando seu tempo de estudo
 - ✨ **Conteúdo de qualidade** - Escolha do catálogo de baralhos prontos de alta qualidade
+- 🔥 **Sequências e mapa de calor** - Acompanhe sua consistência de aprendizado e histórico de revisões
 - ⏸️ **Pause quando precisar** - Congele cartões quando precisar de uma pausa ou estiver ocupado
 - 🔊 **Texto para fala** - Aprenda palavras estrangeiras com pronúncia automática
 - 🎨 **Formatação personalizada** - Adicione estilos aos seus cartões para destacar informações importantes
@@ -38,4 +39,3 @@ Embora existam aplicativos gratuitos como o Anki disponíveis, eles apresentam l
 - O Anki não oferece uma abordagem direta para os usuários compartilharem baralhos privadamente com amigos ou colegas fora do recurso de baralhos compartilhados publicamente. Além disso, compartilhar um baralho exige a alternância entre as versões desktop e web do Anki. Com o bot Memo Card, os usuários podem compartilhar baralhos diretamente no Telegram.
 - Para funcionalidades adicionais no Anki, os usuários devem instalar plugins, que são limitados apenas à versão desktop. Em contraste, o bot Memo Card é acessível no Mac, Windows, iOS, Android e versões web do Telegram.
 - O Anki não possui notificações push automáticas para alertar os usuários sobre revisões futuras. Isso é fácil de resolver com notificações push do Telegram.
-
