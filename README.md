@@ -18,6 +18,7 @@ Contest story: https://teletype.in/@alteregor/memocard-telegram-contest-win
 - ⚡ **Create cards fast** - Generate multiple cards at once for efficient deck building. Use AI to generate cards automatically
 - 🔔 **Smart notifications** - Receive daily reminders for cards that need review, optimizing your study time
 - ✨ **Quality content** - Choose from a catalog of high-quality, pre-made decks
+- 🔥 **Streaks and heatmap** - Track your learning consistency and review history
 - ⏸️ **Pause when needed** - Freeze cards when you need a break or are too busy
 - 🔊 **Text-to-Speech** - Learn foreign words with automatic pronunciation features
 - 🎨 **Custom formatting** - Add styling to your cards to emphasize important information
