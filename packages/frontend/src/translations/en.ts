@@ -229,7 +229,7 @@ export const en = {
   error: "Error",
   user_settings_updated: "Settings have been updated",
   ai_cards_generate: "Generate cards",
-  ai_cards_title: "Generate cards with AI",
+  ai_cards_title: "Create with AI",
   ai_cards_previous_prompts: "Prompt history",
   ai_cards_no_previous_prompts: "No previous prompts",
   ai_cards_prompt: "Prompt",
