@@ -41,7 +41,6 @@ export const ptBr: Translation = {
   ai_speech_validate: "Por favor, selecione um lado ou digite o texto",
   confirm_ok: "Confirmar",
   confirm_cancel: "Cancelar",
-  cards_add: "Adicionar cartão",
   error: "Erro",
   user_settings_updated: "Configurações atualizadas",
   error_solving: "Estamos resolvendo o problema",

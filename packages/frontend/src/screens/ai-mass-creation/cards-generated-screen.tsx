@@ -6,10 +6,8 @@ import { List } from "../../ui/list.tsx";
 import { ListHeader } from "../../ui/list-header.tsx";
 import { reset } from "../../ui/reset.ts";
 import { t } from "../../translations/t.ts";
-import { screenStore } from "../../store/screen-store.ts";
 import { useProgress } from "../../lib/platform/use-progress.tsx";
 import { CardNumber } from "../../ui/card-number.tsx";
-import { translateAddCards } from "./translateAddCards.ts";
 import { assert } from "api";
 import { cn } from "../../ui/cn.ts";
 import { TrashIcon } from "lucide-react";
@@ -17,8 +15,6 @@ import { TrashIcon } from "lucide-react";
 export function CardsGeneratedScreen() {
   const store = useAiMassCreationStore();
   assert(store.massCreationForm);
-  const screen = screenStore.screen;
-  assert(screen.type === "aiMassCreation");
 
   useBackButton(() => {
     store.onQuitBack();
@@ -26,36 +22,17 @@ export function CardsGeneratedScreen() {
 
   useMainButton(
     () => {
-      assert(store.massCreationForm);
-      const count = store.massCreationForm.cards.value.length;
-      return translateAddCards(count);
+      return t("add_deck");
     },
     () => {
       store.submitMassCreationForm();
     },
   );
 
-  useProgress(() => store.addCardsMultipleRequest.isLoading);
+  useProgress(() => store.isSavingCards);
 
   return (
-    <Screen
-      title={t("cards_add")}
-      subtitle={
-        screen.deckTitle ? (
-          <div className="text-center text-sm mb-2">
-            {t("deck")}{" "}
-            <button
-              onClick={() => {
-                store.onQuitToDeck();
-              }}
-              className={cn(reset.button, "text-inherit text-link")}
-            >
-              {screen.deckTitle}
-            </button>
-          </div>
-        ) : undefined
-      }
-    >
+    <Screen title={t("add_deck")}>
       <div>
         <ListHeader text={t("ai_cards_by_ai")} />
         <List

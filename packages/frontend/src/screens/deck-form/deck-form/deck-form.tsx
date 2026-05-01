@@ -15,7 +15,6 @@ import { List } from "../../../ui/list.tsx";
 import { ListRightText } from "../../../ui/list-right-text.tsx";
 import { RadioSwitcher } from "../../../ui/radio-switcher.tsx";
 import { boolNarrow } from "../../../lib/typescript/bool-narrow.ts";
-import { isFormValid } from "mobx-form-lite";
 import { userStore } from "../../../store/user-store.ts";
 import { assert } from "api";
 import { WithProIcon } from "../../shared/with-pro-icon.tsx";
@@ -39,6 +38,7 @@ import { FilledIcon, TransparentIcon } from "../../../ui/filled-icon.tsx";
 import { ButtonGrid } from "../../../ui/button-grid.tsx";
 import { ButtonSideAligned } from "../../../ui/button-side-aligned.tsx";
 import { shareMemoCardUrl } from "../../shared/share-memo-card-url.tsx";
+import { aiMassCreationDraftStore } from "../../ai-mass-creation/store/ai-mass-creation-draft-store.ts";
 
 export function DeckForm() {
   const deckFormStore = useDeckFormStore();
@@ -120,6 +120,23 @@ export function DeckForm() {
       {!deckFormStore.deckForm?.id && (
         <ButtonGrid>
           <ButtonSideAligned
+            icon={<BotIcon size={24} />}
+            outline
+            onClick={() => {
+              userStore.executeViaPaywall("bulk_ai_cards", () => {
+                assert(deckFormStore.deckForm, "Deck form should be defined");
+                aiMassCreationDraftStore.setDeckDraft({
+                  description: deckFormStore.deckForm.description.value,
+                  folderId: deckFormStore.deckForm.folderId,
+                });
+                screenStore.go({ type: "aiMassCreation" });
+              });
+            }}
+          >
+            {t("ai_cards_title")}
+          </ButtonSideAligned>
+
+          <ButtonSideAligned
             icon={<UploadIcon size={24} />}
             outline
             onClick={() => {
@@ -193,33 +210,6 @@ export function DeckForm() {
                     chevron
                   />
                 ),
-              },
-              {
-                text: t("ai_cards_title"),
-                icon: (
-                  <FilledIcon
-                    backgroundColor={theme.icons.turquoise}
-                    icon={<BotIcon size={18} className="text-white" />}
-                  />
-                ),
-                onClick: () => {
-                  userStore.executeViaPaywall("bulk_ai_cards", () => {
-                    if (
-                      !deckFormStore.deckForm ||
-                      !isFormValid(deckFormStore.deckForm)
-                    ) {
-                      return;
-                    }
-                    const deckId = deckFormStore.deckForm.id;
-                    assert(deckId, "Deck id should be defined");
-                    screenStore.go({
-                      type: "aiMassCreation",
-                      deckId: deckId,
-                      deckTitle: deckFormStore.deckForm.title.value,
-                    });
-                  });
-                },
-                right: <WithProIcon />,
               },
               {
                 text: t("card_input_mode_screen"),
