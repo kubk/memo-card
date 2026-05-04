@@ -148,7 +148,7 @@ vi.mock("../../../../api/trpc-api.ts", () => {
         create: { mutate: vi.fn() },
         update: { mutate: mocks.deckUpdate },
       },
-      activePlans: {
+      activePlan: {
         query: vi.fn(),
       },
     },

@@ -13,6 +13,7 @@ import { HintTransparent } from "../../ui/hint-transparent.tsx";
 import { t } from "../../translations/t.ts";
 import { Screen } from "../shared/screen.tsx";
 import { links } from "api";
+import { type PaidPlanType } from "api";
 import { List } from "../../ui/list.tsx";
 import { FilledIcon } from "../../ui/filled-icon.tsx";
 import { boolNarrow } from "../../lib/typescript/bool-narrow.ts";
@@ -46,6 +47,13 @@ import { env } from "../../env.ts";
 import { erudaStore } from "../../store/eruda-store.ts";
 
 const timeRanges = generateTimeRange();
+type DevPlanOption = "none" | PaidPlanType;
+
+const devPlanOptions: Array<{ value: DevPlanOption; label: string }> = [
+  { value: "none", label: "Not paid" },
+  { value: "pro", label: "Pro" },
+  { value: "teacher", label: "Teacher" },
+];
 
 export function UserSettingsScreen() {
   const userSettingsStore = useUserSettingsStore();
@@ -69,6 +77,10 @@ export function UserSettingsScreen() {
 
   const { isRemindNotifyEnabled, isSpeakingCardsEnabled, time, language } =
     userSettingsStore.form;
+  const devPlanValue: DevPlanOption =
+    userStore.plan?.type === "pro" || userStore.plan?.type === "teacher"
+      ? userStore.plan.type
+      : "none";
 
   return (
     <Screen title={t("settings")}>
@@ -77,7 +89,7 @@ export function UserSettingsScreen() {
           items={[
             {
               icon: <ProIcon />,
-              text: "MemoCard Pro",
+              text: "MemoCard Plans",
               onClick: () => {
                 screenStore.go({ type: "plans" });
               },
@@ -227,14 +239,19 @@ export function UserSettingsScreen() {
                   />
                 ),
                 right: (
-                  <span className="relative top-[3px]">
-                    <RadioSwitcher
-                      isOn={userStore.isPaid}
-                      onToggle={() => userSettingsStore.togglePaid()}
+                  <div className="text-link">
+                    <Select
+                      value={devPlanValue}
+                      onChange={(value) => {
+                        userSettingsStore.setDevPlan(
+                          value === "none" ? null : value,
+                        );
+                      }}
+                      options={devPlanOptions}
                     />
-                  </span>
+                  </div>
                 ),
-                text: "Toggle paid",
+                text: "Plan",
               },
               {
                 icon: (
