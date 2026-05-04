@@ -25,6 +25,7 @@ export const es: Translation = {
     "Se ha producido un error. Por favor, contacta con soporte para que podamos ayudarte.",
   ai_card_input_mode_supports: "Soporta diferentes idiomas",
   upgrade_pro: "Obtener Pro",
+  upgrade: "Mejorar plan",
   login_google: "Iniciar sesión con Google",
   youtube_channel: "Canal de YouTube",
   card_input_mode_changed: "Modo de entrada de tarjeta cambiado",
@@ -228,6 +229,39 @@ export const es: Translation = {
   user_stats_streaks: "Rachas",
   user_stats_current_streak: "Racha actual",
   user_stats_best_streak: "Mejor racha",
+  teacher_stats_students: "Estudiantes",
+  teacher_stats_decks_shared: "Mazos en estudio",
+  teacher_stats_no_decks:
+    "Primero crea y comparte un mazo. Los estudiantes que agreguen tus mazos aparecerán aquí.",
+  teacher_stats_top_students: "Mejores estudiantes",
+  teacher_stats_no_student_activity:
+    "Aún no hay actividad de estudiantes. Comparte un enlace del mazo con tu clase.",
+  teacher_stats_top_decks: "Mejores mazos",
+  teacher_stats_no_deck_activity:
+    "Los mazos con estudiantes aún no tienen actividad.",
+  teacher_stats_all_students: "Todos los estudiantes",
+  teacher_stats_students_load_error: "No se pudieron cargar los estudiantes.",
+  teacher_stats_no_students: "Aún no hay estudiantes.",
+  teacher_stats_all_decks: "Todos los mazos",
+  teacher_stats_decks_load_error: "No se pudieron cargar los mazos.",
+  teacher_stats_no_shared_decks: "Aún no hay mazos con estudiantes.",
+  teacher_stats_load_error:
+    "No se pudieron cargar las estadísticas del profesor.",
+  teacher_stats_see_all: "Ver todo",
+  teacher_stats_last_repeat: "Último repaso",
+  teacher_stats_decks: "Mazos",
+  teacher_stats_seen: "Vistas",
+  teacher_stats_due: "Pendientes",
+  teacher_stats_repeats: "Repasos",
+  teacher_stats_users: "Usuarios",
+  teacher_stats_today: "Hoy",
+  teacher_stats_yesterday: "Ayer",
+  teacher_plan_student_statistics_title: "Estadísticas de estudiantes",
+  teacher_plan_student_statistics_description:
+    "Progreso de estudiantes y estadísticas de sus mazos",
+  teacher_plan_anki_import_title: "Importación de Anki",
+  teacher_plan_anki_import_description:
+    "Importación y exportación ilimitadas de Anki",
   validate_under_100: "Por favor, introduce un número menor que 100",
   validate_positive: "Por favor, introduce un número positivo",
   freeze_confirm_freeze:

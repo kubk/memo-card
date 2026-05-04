@@ -23,6 +23,10 @@ import { useSettingsButton } from "../lib/platform/telegram/use-settings-button.
 import { UserStatisticsStoreProvider } from "./user-statistics/store/user-statistics-store-context.tsx";
 import { UserStatisticsScreen } from "./user-statistics/user-statistics-screen.tsx";
 import { UserSettingsLazy } from "./user-settings/user-settings-lazy.tsx";
+import {
+  TeacherStatisticsLazy,
+  TeacherStatisticsListLazy,
+} from "./teacher-statistics/teacher-statistics-lazy.tsx";
 import { ComponentCatalogPageLazy } from "./component-catalog/component-catalog-page-lazy.tsx";
 import { PlansScreen } from "./pro/plans-screen.tsx";
 import { FreezeCardsScreenLazy } from "./freeze-cards/freeze-cards-screen-lazy.tsx";
@@ -49,6 +53,7 @@ import { SpeakingCards } from "./deck-form/deck-form/speaking-cards.tsx";
 import { CardInputModeScreen } from "./card-input-mode/card-input-mode-screen.tsx";
 import { CardInputModeFormScreen } from "./card-input-mode/card-input-mode-form-screen.tsx";
 import { AnkiImportScreen } from "./anki-import/anki-import-screen.tsx";
+import { userStore } from "../store/user-store.ts";
 
 export function App() {
   useRestoreFullScreenExpand();
@@ -237,6 +242,28 @@ export function App() {
             <UserStatisticsStoreProvider>
               <UserStatisticsScreen />
             </UserStatisticsStoreProvider>
+          </PreventTelegramSwipeDownClosingIos>
+        </SignedIn>
+      )}
+      {screenStore.screen.type === "teacherStatistics" && (
+        <SignedIn>
+          <PreventTelegramSwipeDownClosingIos>
+            {userStore.isTeacherPaid ? (
+              <TeacherStatisticsLazy />
+            ) : (
+              <PlansScreen initialPlanType="teacher" />
+            )}
+          </PreventTelegramSwipeDownClosingIos>
+        </SignedIn>
+      )}
+      {screenStore.screen.type === "teacherStatisticsList" && (
+        <SignedIn>
+          <PreventTelegramSwipeDownClosingIos>
+            {userStore.isTeacherPaid ? (
+              <TeacherStatisticsListLazy />
+            ) : (
+              <PlansScreen initialPlanType="teacher" />
+            )}
           </PreventTelegramSwipeDownClosingIos>
         </SignedIn>
       )}

@@ -10,7 +10,7 @@ import { ListHeader } from "../../ui/list-header.tsx";
 import { range } from "../../lib/array/range.ts";
 import { ViewMoreDecksToggle } from "./view-more-decks-toggle.tsx";
 import { t } from "../../translations/t.ts";
-import { links } from "api";
+import { getSharedPlanTitle, links } from "api";
 import { Flex } from "../../ui/flex.tsx";
 import { List } from "../../ui/list.tsx";
 import { FilledIcon } from "../../ui/filled-icon.tsx";
@@ -27,6 +27,7 @@ import { ReviewButton } from "../repeat-custom/review-button/review-button.tsx";
 import {
   ArrowUpRightIcon,
   CogIcon,
+  GraduationCapIcon,
   PlusIcon,
   SearchIcon,
   VideoIcon,
@@ -35,6 +36,7 @@ import { getTelegramChannelLink } from "../shared/get-telegram-channel-link.ts";
 import { getYouTubeChannelLink } from "../shared/get-youtube-channel-link.ts";
 import { GlobalSearchTrigger } from "../global-search/global-search-trigger.tsx";
 import { MainStatisticsSummary } from "./main-statistics-summary.tsx";
+import { ProIcon, TeacherGradientIcon } from "../../ui/pro-icon.tsx";
 
 export function MainScreen() {
   const [deckFolderToggle] = useState(() => new BooleanToggle(false));
@@ -241,7 +243,7 @@ export function MainScreen() {
                   text: t("settings"),
                   icon: (
                     <FilledIcon
-                      backgroundColor={theme.icons.pink}
+                      backgroundColor={theme.icons.violet}
                       icon={<CogIcon size={18} />}
                     />
                   ),
@@ -249,9 +251,50 @@ export function MainScreen() {
                     screenStore.goToUserSettings();
                   },
                 },
-              ]}
+                userStore.isTeacherPaid
+                  ? {
+                      text: getSharedPlanTitle("teacher"),
+                      icon: (
+                        <TeacherGradientIcon
+                          icon={<GraduationCapIcon size={18} />}
+                        />
+                      ),
+                      onClick: () => {
+                        screenStore.go({ type: "teacherStatistics" });
+                      },
+                    }
+                  : null,
+              ].filter(boolNarrow)}
             />
           </div>
+
+          {!userStore.isPaid ? (
+            <div>
+              <ListHeader text={t("upgrade")} />
+              <List
+                items={[
+                  {
+                    text: getSharedPlanTitle("pro"),
+                    icon: <ProIcon />,
+                    onClick: () => {
+                      screenStore.go({ type: "plans", planType: "pro" });
+                    },
+                  },
+                  {
+                    text: getSharedPlanTitle("teacher"),
+                    icon: (
+                      <TeacherGradientIcon
+                        icon={<GraduationCapIcon size={18} />}
+                      />
+                    ),
+                    onClick: () => {
+                      screenStore.go({ type: "plans", planType: "teacher" });
+                    },
+                  },
+                ].filter(boolNarrow)}
+              />
+            </div>
+          ) : null}
         </>
       )}
 
