@@ -25,6 +25,7 @@ export const ptBr: Translation = {
     "Ocorreu um erro. Por favor, entre em contato com o suporte para que possamos ajudar.",
   ai_card_input_mode_supports: "Suporta diferentes idiomas",
   upgrade_pro: "Obter Pro",
+  upgrade: "Melhorar plano",
   login_google: "Entrar com Google",
   youtube_channel: "Canal do YouTube",
   card_input_mode_changed: "Modo de entrada de cartão alterado",
@@ -229,6 +230,39 @@ export const ptBr: Translation = {
   user_stats_streaks: "Sequências",
   user_stats_current_streak: "Sequência atual",
   user_stats_best_streak: "Melhor sequência",
+  teacher_stats_students: "Alunos",
+  teacher_stats_decks_shared: "Baralhos em estudo",
+  teacher_stats_no_decks:
+    "Crie e compartilhe um baralho primeiro. Os alunos que adicionarem seus baralhos aparecerão aqui.",
+  teacher_stats_top_students: "Principais alunos",
+  teacher_stats_no_student_activity:
+    "Ainda não há atividade de alunos. Compartilhe um link do baralho com sua turma.",
+  teacher_stats_top_decks: "Principais baralhos",
+  teacher_stats_no_deck_activity:
+    "Os baralhos com alunos ainda não têm atividade.",
+  teacher_stats_all_students: "Todos os alunos",
+  teacher_stats_students_load_error: "Não foi possível carregar os alunos.",
+  teacher_stats_no_students: "Ainda não há alunos.",
+  teacher_stats_all_decks: "Todos os baralhos",
+  teacher_stats_decks_load_error: "Não foi possível carregar os baralhos.",
+  teacher_stats_no_shared_decks: "Ainda não há baralhos com alunos.",
+  teacher_stats_load_error:
+    "Não foi possível carregar as estatísticas do professor.",
+  teacher_stats_see_all: "Ver tudo",
+  teacher_stats_last_repeat: "Última revisão",
+  teacher_stats_decks: "Baralhos",
+  teacher_stats_seen: "Vistos",
+  teacher_stats_due: "Pendentes",
+  teacher_stats_repeats: "Revisões",
+  teacher_stats_users: "Usuários",
+  teacher_stats_today: "Hoje",
+  teacher_stats_yesterday: "Ontem",
+  teacher_plan_student_statistics_title: "Estatísticas dos alunos",
+  teacher_plan_student_statistics_description:
+    "Progresso dos alunos e estatísticas dos seus baralhos",
+  teacher_plan_anki_import_title: "Importação do Anki",
+  teacher_plan_anki_import_description:
+    "Importação e exportação ilimitadas do Anki",
   freeze_title: "Congelar cartões",
   freeze_rule_4:
     "Se você adicionar um cartão durante o período de congelamento, ele não será afetado pelo congelamento.",

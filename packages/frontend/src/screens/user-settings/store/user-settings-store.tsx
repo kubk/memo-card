@@ -18,6 +18,7 @@ import { platform } from "../../../lib/platform/platform.ts";
 import { BrowserPlatform } from "../../../lib/platform/browser/browser-platform.ts";
 import { LanguageShared } from "api";
 import { api } from "../../../api/trpc-api.ts";
+import { type PaidPlanType } from "api";
 
 const DEFAULT_TIME = "12:00";
 
@@ -31,7 +32,7 @@ export class UserSettingsStore {
   isLangChanged = false;
   userSettingsRequest = new RequestStore(api.userSettings.mutate);
   deleteAccountRequest = new RequestStore(api.me.deleteAccount.mutate);
-  togglePaidRequest = new RequestStore(api.togglePaid.mutate);
+  setDevPlanRequest = new RequestStore(api.setDevPlan.mutate);
 
   constructor() {
     makeAutoObservable(
@@ -121,19 +122,18 @@ export class UserSettingsStore {
     notifySuccess(t("user_settings_updated"));
   }
 
-  async togglePaid() {
-    const result = await this.togglePaidRequest.execute();
+  async setDevPlan(planType: PaidPlanType | null) {
+    const result = await this.setDevPlanRequest.execute({ planType });
 
     if (result.status === "error") {
-      notifyError({ e: result.error, info: "Failed to toggle paid status" });
+      notifyError({ e: result.error, info: "Failed to update paid status" });
       return;
     }
 
-    // Refresh the user's active plans
-    await userStore.fetchActivePlans();
+    await userStore.fetchActivePlan();
 
     notifySuccess(
-      result.data.isPaid ? "Paid status enabled" : "Paid status disabled",
+      planType ? `Plan set to ${planType}` : "Paid status disabled",
     );
   }
 }

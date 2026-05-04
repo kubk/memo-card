@@ -1,20 +1,15 @@
-import { PlanDb } from "api";
+import { type PaymentPlan } from "api";
 import { translator } from "../../translations/t.ts";
 import { calcPlanPriceForDuration, PlanDuration } from "api";
 import { formatPriceAsText } from "api";
 import { PaymentMethodType } from "api";
 
-const getPlanTitle = (plan: PlanDb) => {
-  switch (plan.type) {
-    case "pro":
-      return `Pro`;
-    default:
-      return "";
-  }
+const getPlanTitle = (plan: PaymentPlan) => {
+  return plan.title;
 };
 
 export const getBuyText = (
-  plan: PlanDb,
+  plan: PaymentPlan,
   duration: PlanDuration,
   method: PaymentMethodType,
 ) => {

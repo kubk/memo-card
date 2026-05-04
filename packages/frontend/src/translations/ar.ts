@@ -212,6 +212,36 @@ export const ar: Translation = {
   user_stats_streaks: "الأيام المتتالية",
   user_stats_current_streak: "الأيام الحالية المتتالية",
   user_stats_best_streak: "أفضل أيام متتالية",
+  teacher_stats_students: "الطلاب",
+  teacher_stats_decks_shared: "رزم يدرسها الطلاب",
+  teacher_stats_no_decks:
+    "أنشئ رزمة وشاركها أولًا. سيظهر هنا الطلاب الذين يضيفون رزمك.",
+  teacher_stats_top_students: "أفضل الطلاب",
+  teacher_stats_no_student_activity:
+    "لا يوجد نشاط طلاب بعد. شارك رابط الرزمة مع صفك.",
+  teacher_stats_top_decks: "أفضل الرزم",
+  teacher_stats_no_deck_activity: "لا يوجد نشاط بعد في الرزم لدى الطلاب.",
+  teacher_stats_all_students: "كل الطلاب",
+  teacher_stats_students_load_error: "تعذر تحميل الطلاب.",
+  teacher_stats_no_students: "لا يوجد طلاب بعد.",
+  teacher_stats_all_decks: "كل الرزم",
+  teacher_stats_decks_load_error: "تعذر تحميل الرزم.",
+  teacher_stats_no_shared_decks: "لم يضف الطلاب أي رزم من رزمك بعد.",
+  teacher_stats_load_error: "تعذر تحميل إحصاءات المعلم.",
+  teacher_stats_see_all: "عرض الكل",
+  teacher_stats_last_repeat: "آخر مراجعة",
+  teacher_stats_decks: "الرزم",
+  teacher_stats_seen: "شوهدت",
+  teacher_stats_due: "مستحقة",
+  teacher_stats_repeats: "المراجعات",
+  teacher_stats_users: "المستخدمون",
+  teacher_stats_today: "اليوم",
+  teacher_stats_yesterday: "أمس",
+  teacher_plan_student_statistics_title: "إحصاءات الطلاب",
+  teacher_plan_student_statistics_description:
+    "تقدم الطلاب وإحصاءات رزمك لديهم",
+  teacher_plan_anki_import_title: "استيراد Anki",
+  teacher_plan_anki_import_description: "استيراد وتصدير Anki بلا حدود",
   validate_positive: "يرجى إدخال رقم موجب",
   validate_under_100: "يرجى إدخال رقم أقل من 100",
   freeze_confirm_freeze:
@@ -248,6 +278,7 @@ export const ar: Translation = {
   confirm_ok: "تأكيد",
 
   upgrade_pro: "الترقية إلى Pro",
+  upgrade: "ترقية الخطة",
 
   ai_card_input_mode_supports: "يدعم لغات مختلفة",
 

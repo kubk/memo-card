@@ -737,7 +737,7 @@ class DeckListStore {
     runInAction(() => {
       this.myInfo = userData;
     });
-    userStore.setUser(userData.user, userData.plans);
+    userStore.setUser(userData.user, userData.plan);
   }
 
   async onDuplicateDeck(deckId: number) {

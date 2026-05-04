@@ -1,4 +1,5 @@
 import * as v from "valibot";
+import { paidPlanTypes } from "api";
 
 export enum StartParamType {
   RepeatAll = "repeat_all",
@@ -115,8 +116,11 @@ const catalogSettingsRouteSchema = v.object({
   itemType: v.picklist(["folder", "deck"]),
 });
 
+const paidPlanTypeSchema = v.picklist(paidPlanTypes);
+
 const plansRouteSchema = v.object({
   type: v.literal("plans"),
+  planType: v.optional(paidPlanTypeSchema),
 });
 
 const debugRouteSchema = v.object({
@@ -133,6 +137,15 @@ const freezeCardsRouteSchema = v.object({
 
 const userStatisticsRouteSchema = v.object({
   type: v.literal("userStatistics"),
+});
+
+const teacherStatisticsRouteSchema = v.object({
+  type: v.literal("teacherStatistics"),
+});
+
+const teacherStatisticsListRouteSchema = v.object({
+  type: v.literal("teacherStatisticsList"),
+  listType: v.picklist(["students", "decks"]),
 });
 
 const browserLoginRouteSchema = v.object({
@@ -175,6 +188,8 @@ export const routeSchema = v.union([
   componentCatalogRouteSchema,
   freezeCardsRouteSchema,
   userStatisticsRouteSchema,
+  teacherStatisticsRouteSchema,
+  teacherStatisticsListRouteSchema,
   browserLoginRouteSchema,
   userSettingsRouteSchema,
   globalSearchRouteSchema,

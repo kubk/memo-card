@@ -15,11 +15,7 @@ import { t, translator } from "../../translations/t.ts";
 import { RadioList } from "../../ui/radio-list/radio-list.tsx";
 import { cn } from "../../ui/cn.ts";
 import { theme } from "../../ui/theme.tsx";
-import {
-  calcPlanPriceForDuration,
-  durationsWithDiscount,
-  PlanDuration,
-} from "api";
+import { calcPlanPriceForDuration, type PaidPlanType, PlanDuration } from "api";
 import { Tag } from "./tag.tsx";
 import { Label } from "../../ui/label.tsx";
 import { List } from "../../ui/list.tsx";
@@ -33,27 +29,29 @@ import { IndividualCardAiPreview } from "../shared/feature-preview/individual-ca
 import { AiSpeechPreview } from "../shared/feature-preview/ai-speech-preview.tsx";
 import { ReverseCardsPreview } from "../shared/feature-preview/reverse-cards-preview.tsx";
 import { suitableCardInputModeStore } from "../../store/suitable-card-input-mode-store.ts";
-import { sharedProTitle } from "api";
+import { getSharedPlanTitle, sharedPlansTitle } from "api";
 import { IconTelegramStar } from "./icon-telegram-star.tsx";
 import { PaymentMethodType } from "api";
-import { platform } from "../../lib/platform/platform.ts";
-import { BrowserPlatform } from "../../lib/platform/browser/browser-platform.ts";
 import { formatDiscountAsText } from "api";
 import {
   ArrowLeftRight,
   ChevronLeft,
   ChevronRight,
   Copy,
+  FileUp,
+  GraduationCap,
   Mic,
   WandSparkles,
   Zap,
 } from "lucide-react";
 
-const planItems: Array<{
+type PlanItem = {
   icon: React.ReactNode;
   iconColor: string;
   previewItem?: PreviewItem;
-}> = [
+};
+
+const proPlanItems: PlanItem[] = [
   {
     iconColor: theme.icons.pink,
     icon: <WandSparkles size={18} />,
@@ -77,8 +75,27 @@ const planItems: Array<{
   },
 ];
 
-export function PlansScreen() {
-  const [store] = useState(() => new PlansScreenStore());
+const teacherPlanItem: PlanItem = {
+  iconColor: "#f4b400",
+  icon: <GraduationCap size={18} />,
+};
+
+const ankiImportPlanItem: PlanItem = {
+  iconColor: "#ff8a00",
+  icon: <FileUp size={18} />,
+};
+
+type Props = {
+  initialPlanType?: PaidPlanType;
+};
+
+export function PlansScreen(props: Props = {}) {
+  const initialPlanType =
+    props.initialPlanType ??
+    (screenStore.screen.type === "plans" ? screenStore.screen.planType : null);
+  const [store] = useState(
+    () => new PlansScreenStore(initialPlanType ?? undefined),
+  );
   useBackButton(() => {
     screenStore.back();
   });
@@ -106,16 +123,45 @@ export function PlansScreen() {
     return <FullScreenLoader />;
   }
 
-  const planDescription = [
+  const proPlanDescription = [
     ...translateProDescription(translator.getLang()),
     {
       title: t("reverse_cards_title"),
       description: t("reverse_cards_helper"),
     },
   ];
+  const teacherPlanDescription = [
+    {
+      title: t("teacher_plan_student_statistics_title"),
+      description: t("teacher_plan_student_statistics_description"),
+    },
+    {
+      title: t("teacher_plan_anki_import_title"),
+      description: t("teacher_plan_anki_import_description"),
+    },
+  ];
+  const planDescription = store.isTeacherPlanSelected
+    ? [...teacherPlanDescription, ...proPlanDescription]
+    : proPlanDescription;
+  const planItems = store.isTeacherPlanSelected
+    ? [teacherPlanItem, ankiImportPlanItem, ...proPlanItems]
+    : proPlanItems;
+  const selectedPlan = store.selectedPlan;
+  const bankCardDiscountText = formatDiscountAsText(
+    store.bankCardDiscount,
+    translator.getLang(),
+  );
+  const paidUntil =
+    selectedPlan && userStore.hasPaidPlan(selectedPlan.type)
+      ? userStore.paidUntil
+      : null;
 
   return (
-    <Screen title={sharedProTitle}>
+    <Screen
+      title={
+        selectedPlan ? getSharedPlanTitle(selectedPlan.type) : sharedPlansTitle
+      }
+    >
       <Flex
         direction={"column"}
         alignItems={"center"}
@@ -125,12 +171,12 @@ export function PlansScreen() {
         mb={52}
         fullWidth
       >
-        {userStore.paidUntil ? (
+        {paidUntil ? (
           <div className={cn("w-full")}>
             <Hint>
               <Flex direction={"column"}>
                 <div>
-                  {t("payment_paid_until")}: {userStore.paidUntil}
+                  {t("payment_paid_until")}: {paidUntil}
                 </div>
                 <div>
                   {t("ai_cards_left")}: {store.aiCardsLeft}
@@ -170,36 +216,35 @@ export function PlansScreen() {
           />
         </Label>
 
-        {platform instanceof BrowserPlatform && (
-          <Label fullWidth text={t("payment_choose_method")}>
-            <RadioList
-              selectedId={store.method}
-              options={[
-                {
-                  id: PaymentMethodType.Usd,
-                  title: (
-                    <Flex gap={4}>
-                      {t("payment_method_usd")}
-                      <Tag
-                        text={formatDiscountAsText(
-                          store.bankCardDiscount,
-                          translator.getLang(),
-                        )}
-                      />
-                    </Flex>
-                  ),
-                },
-                {
-                  id: PaymentMethodType.Stars,
-                  title: t("payment_method_stars"),
-                },
-              ]}
-              onChange={(method) => {
-                store.updateMethod(method);
-              }}
-            />
-          </Label>
-        )}
+        <Label fullWidth text={t("payment_choose_method")}>
+          <RadioList
+            selectedId={store.method}
+            options={[
+              ...(store.isUsdPaymentAvailable
+                ? [
+                    {
+                      id: PaymentMethodType.Usd,
+                      title: (
+                        <Flex gap={4}>
+                          {t("payment_method_usd")}
+                          {bankCardDiscountText ? (
+                            <Tag text={bankCardDiscountText} />
+                          ) : null}
+                        </Flex>
+                      ),
+                    },
+                  ]
+                : []),
+              {
+                id: PaymentMethodType.Stars,
+                title: t("payment_method_stars"),
+              },
+            ]}
+            onChange={(method) => {
+              store.updateMethod(method);
+            }}
+          />
+        </Label>
 
         <Label
           fullWidth
@@ -211,62 +256,51 @@ export function PlansScreen() {
         >
           <RadioList<PlanDuration | null>
             selectedId={store.selectedPlanDuration.value}
-            options={durationsWithDiscount
-              .filter((duration) => {
-                if (
-                  store.method === PaymentMethodType.Usd &&
-                  duration.duration === 6
-                ) {
-                  return false;
-                }
+            options={store.availablePlanDurations.map((duration) => {
+              const selectedPlan = store.selectedPlan;
+              assert(selectedPlan);
 
-                return true;
-              })
-              .map((durationsWithDiscount) => {
-                const proPlan = store.proPlan;
-                assert(proPlan);
+              const discount = store.getDiscountForDuration(
+                selectedPlan,
+                duration,
+              );
 
-                const discount =
-                  store.method === PaymentMethodType.Stars
-                    ? durationsWithDiscount.discountStars
-                    : durationsWithDiscount.discount;
-
-                return {
-                  id: durationsWithDiscount.duration,
-                  title: (
-                    <div className="flex gap-2">
-                      <span>
-                        {translateProDuration(
-                          durationsWithDiscount.duration,
-                          translator.getLang(),
-                          store.method,
-                        )}
-                      </span>
-                      {discount > 0 && (
-                        <Tag
-                          text={formatDiscountAsText(
-                            discount,
-                            translator.getLang(),
-                          )}
-                        />
+              return {
+                id: duration,
+                title: (
+                  <div className="flex gap-2">
+                    <span>
+                      {translateProDuration(
+                        duration,
+                        translator.getLang(),
+                        store.method,
                       )}
-                      <div className="flex gap-1 text-hint ml-auto pr-2">
-                        {store.method === PaymentMethodType.Usd ? "$" : null}
-                        {calcPlanPriceForDuration(
-                          store.method,
-                          proPlan,
-                          durationsWithDiscount.duration,
+                    </span>
+                    {discount > 0 && (
+                      <Tag
+                        text={formatDiscountAsText(
+                          discount,
+                          translator.getLang(),
                         )}
-                        {store.method === PaymentMethodType.Stars ? (
-                          <div className="w-4 h-4 mt-0.5">
-                            <IconTelegramStar />
-                          </div>
-                        ) : null}
-                      </div>
+                      />
+                    )}
+                    <div className="flex gap-1 text-hint ml-auto pr-2">
+                      {store.method === PaymentMethodType.Usd ? "$" : null}
+                      {calcPlanPriceForDuration(
+                        store.method,
+                        selectedPlan,
+                        duration,
+                      )}
+                      {store.method === PaymentMethodType.Stars ? (
+                        <div className="w-4 h-4 mt-0.5">
+                          <IconTelegramStar />
+                        </div>
+                      ) : null}
                     </div>
-                  ),
-                };
-              })}
+                  </div>
+                ),
+              };
+            })}
             onChange={store.selectedPlanDuration.onChange}
           />
         </Label>

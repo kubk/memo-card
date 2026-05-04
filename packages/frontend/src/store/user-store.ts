@@ -1,6 +1,8 @@
 import { autorun, makeAutoObservable } from "mobx";
 import { type UserDbType } from "api";
-import { type PlansForUser } from "api";
+import { type PlanForUser } from "api";
+import { type PaidPlanType } from "api";
+import { isPaidPlanType } from "api";
 import { BooleanToggle } from "mobx-form-lite";
 import { persistableField } from "../lib/mobx-form-lite-persistable/persistable-field.ts";
 import { RequestStore } from "../lib/mobx-request/request-store.ts";
@@ -21,7 +23,7 @@ type PaywallType =
 
 class UserStore {
   userInfo?: UserDbType;
-  plans?: PlansForUser;
+  plan?: PlanForUser | null;
   isCardFormattingOn = persistableField(
     new BooleanToggle(false),
     "isCardFormattingOn",
@@ -32,7 +34,7 @@ class UserStore {
   );
   isSkipReview = persistableField(new BooleanToggle(false), "isSkipReview");
   isSpeakingCardsMuted = new BooleanToggle(false);
-  activePlansRequest = new RequestStore(api.activePlans.query);
+  activePlanRequest = new RequestStore(api.activePlan.query);
   selectedPaywall: PaywallType | null = null;
 
   constructor() {
@@ -47,9 +49,9 @@ class UserStore {
     });
   }
 
-  setUser(user: UserDbType, plans: PlansForUser) {
+  setUser(user: UserDbType, plan: PlanForUser | null) {
     this.userInfo = user;
-    this.plans = plans;
+    this.plan = plan;
 
     platform.setLanguageCached(getUserLanguage(user));
   }
@@ -67,7 +69,11 @@ class UserStore {
   }
 
   get isPaid() {
-    return this.plans?.some((plan) => plan.plan_id) ?? false;
+    return this.plan ? isPaidPlanType(this.plan.type) : false;
+  }
+
+  get isTeacherPaid() {
+    return this.plan?.type === "teacher";
   }
 
   get user() {
@@ -90,19 +96,30 @@ class UserStore {
   }
 
   get paidUntil() {
-    const plan = this.plans ? this.plans[0] : undefined;
-    if (!plan) {
+    if (!this.plan) {
       return null;
     }
-    return formatPaidUntil(plan.until_date || "") || undefined;
+    return formatPaidUntil(this.plan.until_date || "") || undefined;
   }
 
-  async fetchActivePlans() {
-    const plans = await this.activePlansRequest.execute();
-    if (plans.status === "success") {
-      this.plans = plans.data.plans;
+  hasPaidPlan(planType: PaidPlanType) {
+    if (!this.plan) {
+      return false;
+    }
+
+    if (planType === "pro") {
+      return isPaidPlanType(this.plan.type);
+    }
+
+    return this.plan.type === planType;
+  }
+
+  async fetchActivePlan() {
+    const plan = await this.activePlanRequest.execute();
+    if (plan.status === "success") {
+      this.plan = plan.data.plan;
     } else {
-      reportHandledError("Error fetching active plans", plans.error, {
+      reportHandledError("Error fetching active plan", plan.error, {
         userId: this.myId,
       });
     }
