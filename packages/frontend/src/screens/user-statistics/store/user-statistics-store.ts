@@ -7,7 +7,7 @@ export class UserStatisticsStore {
   userStatisticsRequest = new RequestStore<
     RouterOutput["myStatistics"],
     [input: { timeZone: string }]
-  >(api.myStatistics.query);
+  >(api.myStatistics.query, { staleWhileRevalidate: true });
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });

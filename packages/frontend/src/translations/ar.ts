@@ -201,6 +201,7 @@ export const ar: Translation = {
   validation_answer_at_least_one_correct: "يجب اختيار إجابة واحدة صحيحة",
   validation_at_least_one_answer_required: "يجب تقديم إجابة واحدة على الأقل",
   user_stats_page: "إحصائياتي",
+  user_stats_daily_page: "المراجعات اليومية",
   user_stats_card_reviews: "مراجعات البطاقات",
   user_stats_today: "اليوم",
   user_stats_7d: "7 أيام",

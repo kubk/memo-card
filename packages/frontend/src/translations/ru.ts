@@ -213,6 +213,7 @@ export const ru: Translation = {
   settings_contact_support: "Связаться с поддержкой в Telegram",
   settings_support_hint: "Если у вас есть вопросы, проблемы или предложения",
   user_stats_page: "Моя статистика",
+  user_stats_daily_page: "Повторения по дням",
   user_stats_card_reviews: "Повторения карточек",
   user_stats_today: "Сегодня",
   user_stats_7d: "7 дн.",

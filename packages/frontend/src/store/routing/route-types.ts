@@ -139,6 +139,10 @@ const userStatisticsRouteSchema = v.object({
   type: v.literal("userStatistics"),
 });
 
+const userStatisticsDailyRouteSchema = v.object({
+  type: v.literal("userStatisticsDaily"),
+});
+
 const teacherStatisticsRouteSchema = v.object({
   type: v.literal("teacherStatistics"),
 });
@@ -188,6 +192,7 @@ export const routeSchema = v.union([
   componentCatalogRouteSchema,
   freezeCardsRouteSchema,
   userStatisticsRouteSchema,
+  userStatisticsDailyRouteSchema,
   teacherStatisticsRouteSchema,
   teacherStatisticsListRouteSchema,
   browserLoginRouteSchema,

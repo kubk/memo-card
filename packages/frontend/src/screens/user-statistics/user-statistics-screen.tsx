@@ -12,6 +12,8 @@ import { FilledIcon } from "../../ui/filled-icon.tsx";
 import { FlameIcon, TrophyIcon } from "lucide-react";
 import { formatDays } from "../../translations/format-days.ts";
 import { ListHeader } from "../../ui/list-header.tsx";
+import { translator } from "../../translations/t.ts";
+import { ChevronIcon } from "../../ui/chevron-icon.tsx";
 
 const heatmapColors = [
   "bg-[rgba(120,120,120,0.12)]",
@@ -20,6 +22,38 @@ const heatmapColors = [
   "bg-[#2ecb47]",
   "bg-[#139e2d]",
 ];
+
+function formatNumber(value: number) {
+  return new Intl.NumberFormat(translator.getLang()).format(value);
+}
+
+function formatDailyStatsDate(value: string) {
+  const [year, month, day] = value.split("-").map(Number);
+
+  return new Intl.DateTimeFormat(translator.getLang(), {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  }).format(new Date(year, month - 1, day));
+}
+
+function StatisticsLoading() {
+  return (
+    <>
+      <CardRowLoading speed={1} />
+      <CardRowLoading speed={1} />
+      <CardRowLoading speed={1} />
+    </>
+  );
+}
+
+function StatisticsLoadError() {
+  return (
+    <div className="rounded-xl bg-bg px-4 py-5 text-center text-[14px] leading-5 text-hint">
+      {t("error_contact_support")}
+    </div>
+  );
+}
 
 function StatTile(props: { label: string; value: string | number }) {
   return (
@@ -34,12 +68,29 @@ function StatTile(props: { label: string; value: string | number }) {
   );
 }
 
-function Section(props: { title: string; children: ReactNode }) {
+function Section(props: {
+  title: string;
+  children: ReactNode;
+  rightSlot?: ReactNode;
+}) {
   return (
     <section className="mt-2">
-      <ListHeader text={props.title} />
+      <ListHeader text={props.title} rightSlot={props.rightSlot} />
       {props.children}
     </section>
+  );
+}
+
+function DailyStatsMarker(props: { reviews: number }) {
+  const userStatisticsStore = useUserStatisticsStore();
+
+  return (
+    <div
+      className={cn(
+        "h-[30px] w-[30px] shrink-0 rounded-lg",
+        heatmapColors[userStatisticsStore.getHeatmapIntensity(props.reviews)],
+      )}
+    />
   );
 }
 
@@ -58,11 +109,7 @@ export function UserStatisticsScreen() {
   return (
     <Screen title={t("user_stats_page")}>
       {userStatisticsStore.userStatisticsRequest.isLoading ? (
-        <>
-          <CardRowLoading speed={1} />
-          <CardRowLoading speed={1} />
-          <CardRowLoading speed={1} />
-        </>
+        <StatisticsLoading />
       ) : statistics ? (
         <>
           <Section title={t("user_stats_streaks")}>
@@ -100,7 +147,21 @@ export function UserStatisticsScreen() {
             />
           </Section>
 
-          <Section title={t("user_stats_card_reviews")}>
+          <Section
+            title={t("user_stats_card_reviews")}
+            rightSlot={
+              <button
+                type="button"
+                className="absolute top-1 end-1 flex shrink-0 items-center gap-1 text-sm uppercase text-link"
+                onClick={() => {
+                  screenStore.go({ type: "userStatisticsDaily" });
+                }}
+              >
+                {t("teacher_stats_see_all")}
+                <ChevronIcon direction="right" />
+              </button>
+            }
+          >
             <div className="grid grid-cols-3 gap-2">
               <StatTile
                 label={t("user_stats_today")}
@@ -116,7 +177,14 @@ export function UserStatisticsScreen() {
               />
             </div>
 
-            <div className="mt-2 bg-bg rounded-lg p-3">
+            <button
+              type="button"
+              title={t("user_stats_daily_page")}
+              className="mt-2 w-full cursor-pointer rounded-lg border-0 bg-bg p-3 text-start text-text active:scale-[0.99] active:transition-transform active:duration-300"
+              onClick={() => {
+                screenStore.go({ type: "userStatisticsDaily" });
+              }}
+            >
               <div className="grid grid-cols-[repeat(14,minmax(0,1fr))] gap-[3px]">
                 {userStatisticsStore.heatmapWeeks.map((week, weekIndex) => (
                   <div key={weekIndex} className="flex flex-col gap-[3px]">
@@ -141,7 +209,7 @@ export function UserStatisticsScreen() {
                   {t("user_stats_empty_text")}
                 </div>
               )}
-            </div>
+            </button>
           </Section>
 
           <Section title={t("user_stats_memory")}>
@@ -161,7 +229,54 @@ export function UserStatisticsScreen() {
             </div>
           </Section>
         </>
-      ) : null}
+      ) : (
+        <StatisticsLoadError />
+      )}
+    </Screen>
+  );
+}
+
+export function UserStatisticsDailyScreen() {
+  const userStatisticsStore = useUserStatisticsStore();
+  const statistics = userStatisticsStore.statistics;
+  const days = userStatisticsStore.heatmap.slice().reverse();
+
+  useBackButton(() => {
+    screenStore.back();
+  });
+
+  useMount(() => {
+    userStatisticsStore.load();
+  });
+
+  return (
+    <Screen title={t("user_stats_daily_page")}>
+      {userStatisticsStore.userStatisticsRequest.isLoading ? (
+        <StatisticsLoading />
+      ) : statistics ? (
+        <>
+          <List
+            items={days.map((day) => ({
+              text: (
+                <span className="inline-flex items-baseline gap-1">
+                  <span>{t("teacher_stats_repeats")}:</span>
+                  <span className="font-semibold tabular-nums">
+                    {formatNumber(day.reviews)}
+                  </span>
+                </span>
+              ),
+              icon: <DailyStatsMarker reviews={day.reviews} />,
+              right: (
+                <span className="text-sm text-hint">
+                  {formatDailyStatsDate(day.date)}
+                </span>
+              ),
+            }))}
+          />
+        </>
+      ) : (
+        <StatisticsLoadError />
+      )}
     </Screen>
   );
 }

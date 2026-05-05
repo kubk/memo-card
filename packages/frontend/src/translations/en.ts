@@ -194,6 +194,7 @@ export const en = {
   validation_at_least_one_answer_required:
     "At least one answer should be provided",
   user_stats_page: "My statistics",
+  user_stats_daily_page: "Daily reviews",
   user_stats_card_reviews: "Card reviews",
   user_stats_today: "Today",
   user_stats_7d: "7d",

@@ -1,15 +1,13 @@
-import { createContext, ReactNode, useContext } from "react";
+import { createContext, ReactNode, useContext, useState } from "react";
 import { UserStatisticsStore } from "./user-statistics-store.ts";
 import { assert } from "api";
 
 const Context = createContext<UserStatisticsStore | null>(null);
 
 export const UserStatisticsStoreProvider = (props: { children: ReactNode }) => {
-  return (
-    <Context.Provider value={new UserStatisticsStore()}>
-      {props.children}
-    </Context.Provider>
-  );
+  const [store] = useState(() => new UserStatisticsStore());
+
+  return <Context.Provider value={store}>{props.children}</Context.Provider>;
 };
 
 export const useUserStatisticsStore = () => {

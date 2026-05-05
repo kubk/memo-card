@@ -12,6 +12,7 @@ import { screenStore } from "../../store/screen-store.ts";
 import { cn } from "../../ui/cn.ts";
 import { ChevronIcon } from "../../ui/chevron-icon.tsx";
 import { FilledIcon } from "../../ui/filled-icon.tsx";
+import { ListHeader } from "../../ui/list-header.tsx";
 import { theme } from "../../ui/theme.tsx";
 import { t, translator } from "../../translations/t.ts";
 import { CardRowLoading } from "../shared/card-row-loading.tsx";
@@ -103,22 +104,21 @@ function SummaryTile(props: {
 
 function SectionTitle(props: { title: string; onSeeAll?: () => void }) {
   return (
-    <div className="mb-2 flex items-center justify-between gap-3 px-1">
-      <h4 className="m-0 min-w-0 text-[13px] font-medium uppercase leading-4 text-hint">
-        {props.title}
-      </h4>
-
-      {props.onSeeAll ? (
-        <button
-          type="button"
-          className="flex shrink-0 items-center gap-1 text-sm uppercase text-link"
-          onClick={props.onSeeAll}
-        >
-          {t("teacher_stats_see_all")}
-          <ChevronIcon direction="right" />
-        </button>
-      ) : null}
-    </div>
+    <ListHeader
+      text={props.title}
+      rightSlot={
+        props.onSeeAll ? (
+          <button
+            type="button"
+            className="absolute top-1 end-1 flex shrink-0 items-center gap-1 text-sm uppercase text-link"
+            onClick={props.onSeeAll}
+          >
+            {t("teacher_stats_see_all")}
+            <ChevronIcon direction="right" />
+          </button>
+        ) : undefined
+      }
+    />
   );
 }
 
