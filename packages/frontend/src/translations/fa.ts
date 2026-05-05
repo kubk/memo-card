@@ -210,6 +210,7 @@ export const fa: Translation = {
     "یک پاسخ باید به عنوان درست انتخاب شود",
   validation_at_least_one_answer_required: "حداقل یک پاسخ باید ارائه شود",
   user_stats_page: "آمار من",
+  user_stats_daily_page: "مرورهای روزانه",
   user_stats_card_reviews: "مرور کارت‌ها",
   user_stats_today: "امروز",
   user_stats_7d: "۷ روز",

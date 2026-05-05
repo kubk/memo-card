@@ -219,6 +219,7 @@ export const ptBr: Translation = {
   share_link_copied: "O link foi copiado para a área de transferência",
   go_back: "Voltar",
   user_stats_page: "Minha Estatística",
+  user_stats_daily_page: "Revisões por dia",
   user_stats_card_reviews: "Revisões de cartões",
   user_stats_today: "Hoje",
   user_stats_7d: "7 d",

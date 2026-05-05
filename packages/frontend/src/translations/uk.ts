@@ -221,6 +221,7 @@ export const uk: Translation = {
   settings_contact_support: "Зв'язатися з підтримкою в Telegram",
   settings_support_hint: "Якщо у вас є проблеми, питання чи пропозиції",
   user_stats_page: "Моя статистика",
+  user_stats_daily_page: "Повторення за днями",
   user_stats_card_reviews: "Повторення карток",
   user_stats_today: "Сьогодні",
   user_stats_7d: "7 дн.",
