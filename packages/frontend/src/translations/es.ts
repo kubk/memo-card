@@ -218,6 +218,7 @@ export const es: Translation = {
   settings_contact_support: "Contactar con soporte en Telegram",
   go_back: "Volver",
   user_stats_page: "Mi estadística",
+  user_stats_daily_page: "Repasos por día",
   user_stats_card_reviews: "Repasos de tarjetas",
   user_stats_today: "Hoy",
   user_stats_7d: "7 d",

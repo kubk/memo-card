@@ -21,7 +21,10 @@ import { FolderFormStoreProvider } from "./folder-form/store/folder-form-store-c
 import { FolderScreen } from "./folder-review/folder-screen.tsx";
 import { useSettingsButton } from "../lib/platform/telegram/use-settings-button.ts";
 import { UserStatisticsStoreProvider } from "./user-statistics/store/user-statistics-store-context.tsx";
-import { UserStatisticsScreen } from "./user-statistics/user-statistics-screen.tsx";
+import {
+  UserStatisticsDailyScreen,
+  UserStatisticsScreen,
+} from "./user-statistics/user-statistics-screen.tsx";
 import { UserSettingsLazy } from "./user-settings/user-settings-lazy.tsx";
 import {
   TeacherStatisticsLazy,
@@ -236,11 +239,16 @@ export function App() {
           </PreventTelegramSwipeDownClosingIos>
         </SignedIn>
       )}
-      {screenStore.screen.type === "userStatistics" && (
+      {(screenStore.screen.type === "userStatistics" ||
+        screenStore.screen.type === "userStatisticsDaily") && (
         <SignedIn>
           <PreventTelegramSwipeDownClosingIos>
             <UserStatisticsStoreProvider>
-              <UserStatisticsScreen />
+              {screenStore.screen.type === "userStatisticsDaily" ? (
+                <UserStatisticsDailyScreen />
+              ) : (
+                <UserStatisticsScreen />
+              )}
             </UserStatisticsStoreProvider>
           </PreventTelegramSwipeDownClosingIos>
         </SignedIn>
