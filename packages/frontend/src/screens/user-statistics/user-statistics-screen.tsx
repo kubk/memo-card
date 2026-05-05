@@ -11,6 +11,7 @@ import { List } from "../../ui/list.tsx";
 import { FilledIcon } from "../../ui/filled-icon.tsx";
 import { FlameIcon, TrophyIcon } from "lucide-react";
 import { formatDays } from "../../translations/format-days.ts";
+import { ListHeader } from "../../ui/list-header.tsx";
 
 const heatmapColors = [
   "bg-[rgba(120,120,120,0.12)]",
@@ -36,7 +37,7 @@ function StatTile(props: { label: string; value: string | number }) {
 function Section(props: { title: string; children: ReactNode }) {
   return (
     <section className="mt-2">
-      <h4 className="mb-2 text-[13px] font-medium text-hint">{props.title}</h4>
+      <ListHeader text={props.title} />
       {props.children}
     </section>
   );
