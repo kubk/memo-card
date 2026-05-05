@@ -17,6 +17,7 @@ import { FilledIcon } from "../../ui/filled-icon.tsx";
 import { CardsToReview } from "../../ui/cards-to-review.tsx";
 import { platform } from "../../lib/platform/platform.ts";
 import { YouTubeIcon } from "../shared/youtube/youtube.tsx";
+import { TelegramIcon } from "../shared/telegram/telegram-icon.tsx";
 import { boolNarrow } from "../../lib/typescript/bool-narrow.ts";
 import { ButtonSideAligned } from "../../ui/button-side-aligned.tsx";
 import { DeckOrFolderChoose } from "./deck-or-folder-choose/deck-or-folder-choose.tsx";
@@ -25,7 +26,6 @@ import { RuEduVideoChoice } from "./ru-edu-video-choice.tsx";
 import { userStore } from "../../store/user-store.ts";
 import { ReviewButton } from "../repeat-custom/review-button/review-button.tsx";
 import {
-  ArrowUpRightIcon,
   CogIcon,
   GraduationCapIcon,
   PlusIcon,
@@ -197,7 +197,7 @@ export function MainScreen() {
                   text: t("telegram_channel"),
                   icon: (
                     <FilledIcon
-                      icon={<ArrowUpRightIcon size={18} />}
+                      icon={<TelegramIcon />}
                       backgroundColor={theme.icons.blue}
                     />
                   ),
