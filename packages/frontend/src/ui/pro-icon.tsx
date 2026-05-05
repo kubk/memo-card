@@ -27,7 +27,7 @@ type PlanGradientIconProps = {
   icon: ReactNode;
 };
 
-export function ProGradientIcon({ icon }: PlanGradientIconProps) {
+function ProGradientIcon({ icon }: PlanGradientIconProps) {
   return <GradientIcon icon={icon} gradient={proIconGradient} />;
 }
 
