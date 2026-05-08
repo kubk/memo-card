@@ -259,7 +259,7 @@ export function App() {
             {userStore.isTeacherPaid ? (
               <TeacherStatisticsLazy />
             ) : (
-              <PlansScreen initialPlanType="teacher" />
+              <PlansScreen />
             )}
           </PreventTelegramSwipeDownClosingIos>
         </SignedIn>
@@ -270,7 +270,7 @@ export function App() {
             {userStore.isTeacherPaid ? (
               <TeacherStatisticsListLazy />
             ) : (
-              <PlansScreen initialPlanType="teacher" />
+              <PlansScreen />
             )}
           </PreventTelegramSwipeDownClosingIos>
         </SignedIn>

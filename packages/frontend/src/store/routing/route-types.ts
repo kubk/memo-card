@@ -120,7 +120,7 @@ const paidPlanTypeSchema = v.picklist(paidPlanTypes);
 
 const plansRouteSchema = v.object({
   type: v.literal("plans"),
-  planType: v.optional(paidPlanTypeSchema),
+  planType: paidPlanTypeSchema,
 });
 
 const debugRouteSchema = v.object({

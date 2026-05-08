@@ -38,8 +38,8 @@ export class PlansScreenStore {
       ? PaymentMethodType.Stars
       : PaymentMethodType.Usd;
 
-  constructor(initialPlanType: PaidPlanType = "pro") {
-    this.selectedPlanType = new TextField(initialPlanType);
+  constructor(planType: PaidPlanType) {
+    this.selectedPlanType = new TextField(planType);
     makeAutoObservable(this, {}, { autoBind: true });
   }
 
