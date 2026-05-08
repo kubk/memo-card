@@ -8,7 +8,7 @@ export function UpgradeProBlock() {
     <div className="self-stretch">
       <UpgradeButton
         onClick={() => {
-          screenStore.go({ type: "plans" });
+          screenStore.go({ type: "plans", planType: "pro" });
           userStore.closePaywall();
         }}
       >

@@ -91,7 +91,7 @@ export function UserSettingsScreen() {
               icon: <ProIcon />,
               text: "MemoCard Plans",
               onClick: () => {
-                screenStore.go({ type: "plans" });
+                screenStore.go({ type: "plans", planType: "pro" });
               },
             },
           ]}

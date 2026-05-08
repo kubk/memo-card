@@ -85,17 +85,28 @@ const ankiImportPlanItem: PlanItem = {
   icon: <FileUp size={18} />,
 };
 
-type Props = {
-  initialPlanType?: PaidPlanType;
-};
-
-export function PlansScreen(props: Props = {}) {
-  const initialPlanType =
-    props.initialPlanType ??
-    (screenStore.screen.type === "plans" ? screenStore.screen.planType : null);
-  const [store] = useState(
-    () => new PlansScreenStore(initialPlanType ?? undefined),
+function getPlanTypeForScreen(): PaidPlanType {
+  const route = screenStore.screen;
+  assert(
+    route.type === "plans" ||
+      route.type === "teacherStatistics" ||
+      route.type === "teacherStatisticsList",
+    `Unexpected plans screen route: ${route.type}`,
   );
+
+  switch (route.type) {
+    case "plans":
+      return route.planType;
+    case "teacherStatistics":
+    case "teacherStatisticsList":
+      return "teacher";
+    default:
+      return route satisfies never;
+  }
+}
+
+export function PlansScreen() {
+  const [store] = useState(() => new PlansScreenStore(getPlanTypeForScreen()));
   useBackButton(() => {
     screenStore.back();
   });

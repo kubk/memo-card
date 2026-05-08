@@ -809,7 +809,7 @@ class DeckListStore {
     } else if (startParam === StartParamType.Break) {
       throw new Error("Test exception for debugging");
     } else if (startParam === StartParamType.Pro) {
-      screenStore.go({ type: "plans" });
+      screenStore.go({ type: "plans", planType: "pro" });
     } else {
       appLoaderStore.enable();
       await when(() => !!this.myInfo);
