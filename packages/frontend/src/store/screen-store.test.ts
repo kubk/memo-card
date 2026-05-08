@@ -5,8 +5,8 @@ describe("screen store", () => {
   it("screen store - push", () => {
     const store = new ScreenStore();
     expect(store.screen).toEqual({ type: "main" });
-    store.go({ type: "plans" });
-    expect(store.screen).toEqual({ type: "plans" });
+    store.go({ type: "plans", planType: "teacher" });
+    expect(store.screen).toEqual({ type: "plans", planType: "teacher" });
     // Back doesn't work in tests
     // store.back();
     // expect(store.screen).toEqual({ type: "main" });
