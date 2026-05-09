@@ -12,6 +12,7 @@ import { lockOrientationWhenPortrait } from "./lock-orientation-when-portrait.ts
 import { applyColorScheme } from "../../color-scheme/apply-color-scheme.ts";
 
 const LANGUAGE_CACHE_KEY = "languageCached";
+const appBackgroundColorVariable = "--tg-theme-secondary-bg-color";
 
 export class TelegramPlatform implements Platform {
   isFullScreen = this.calcIsFullScreen();
@@ -51,7 +52,9 @@ export class TelegramPlatform implements Platform {
   }
 
   private applyTheme() {
-    applyColorScheme(getWebApp().colorScheme);
+    const webApp = getWebApp();
+
+    applyColorScheme(webApp.colorScheme);
 
     const cssVariables = this.getCssVariables();
     for (const variable in cssVariables) {
@@ -60,6 +63,10 @@ export class TelegramPlatform implements Platform {
         // @ts-ignore
         cssVariables[variable],
       );
+    }
+
+    if (webApp.colorScheme === "dark") {
+      webApp.setHeaderColor(cssVariables[appBackgroundColorVariable]);
     }
   }
 
@@ -85,7 +92,6 @@ export class TelegramPlatform implements Platform {
     this.applyTheme();
 
     getWebApp().ready();
-    getWebApp().setHeaderColor("secondary_bg_color");
     if (this.isSwipeControllable()) {
       getWebApp().isVerticalSwipesEnabled = false;
     }
