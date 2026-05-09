@@ -67,6 +67,8 @@ export class TelegramPlatform implements Platform {
 
     if (webApp.colorScheme === "dark") {
       webApp.setHeaderColor(cssVariables[appBackgroundColorVariable]);
+    } else {
+      webApp.setHeaderColor("secondary_bg_color");
     }
   }
 
