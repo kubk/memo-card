@@ -1,5 +1,8 @@
 import { Platform, PlatformTheme, HapticType } from "../platform.ts";
-import { cssVarToValue } from "./css-var-to-value.ts";
+import {
+  cssVariablesDark,
+  cssVariablesLight,
+} from "../browser/browser-colors.ts";
 import { PlatformSchemaType } from "api";
 import { makeObservable, observable, action } from "mobx";
 import { LanguageShared } from "api";
@@ -7,9 +10,6 @@ import { getWebApp } from "./telegram-web-app.ts";
 import { cloudStorageAdapter } from "./cloud-storage.ts";
 import { lockOrientationWhenPortrait } from "./lock-orientation-when-portrait.ts";
 
-const buttonColor = "var(--tg-theme-button-color)";
-const buttonTextColor = "var(--tg-theme-button-text-color)";
-const hintColor = "var(--tg-theme-hint-color)";
 const LANGUAGE_CACHE_KEY = "languageCached";
 
 export class TelegramPlatform implements Platform {
@@ -43,11 +43,18 @@ export class TelegramPlatform implements Platform {
     return getWebApp().initData;
   }
 
+  private getCssVariables() {
+    return getWebApp().colorScheme === "dark"
+      ? cssVariablesDark
+      : cssVariablesLight;
+  }
+
   getTheme(): PlatformTheme {
+    const cssVariables = this.getCssVariables();
     return {
-      buttonColor: cssVarToValue(buttonColor),
-      hintColor: cssVarToValue(hintColor),
-      buttonTextColor: cssVarToValue(buttonTextColor),
+      buttonColor: cssVariables["--tg-theme-button-color"],
+      hintColor: cssVariables["--tg-theme-hint-color"],
+      buttonTextColor: cssVariables["--tg-theme-button-text-color"],
     };
   }
 
@@ -61,6 +68,15 @@ export class TelegramPlatform implements Platform {
   }
 
   initialize() {
+    const cssVariables = this.getCssVariables();
+    for (const variable in cssVariables) {
+      document.documentElement.style.setProperty(
+        variable,
+        // @ts-ignore
+        cssVariables[variable],
+      );
+    }
+
     getWebApp().ready();
     getWebApp().setHeaderColor("secondary_bg_color");
     if (this.isSwipeControllable()) {
