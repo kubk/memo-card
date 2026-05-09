@@ -9,6 +9,7 @@ import { LanguageShared } from "api";
 import { getWebApp } from "./telegram-web-app.ts";
 import { cloudStorageAdapter } from "./cloud-storage.ts";
 import { lockOrientationWhenPortrait } from "./lock-orientation-when-portrait.ts";
+import { applyColorScheme } from "../../color-scheme/apply-color-scheme.ts";
 
 const LANGUAGE_CACHE_KEY = "languageCached";
 
@@ -49,6 +50,19 @@ export class TelegramPlatform implements Platform {
       : cssVariablesLight;
   }
 
+  private applyTheme() {
+    applyColorScheme(getWebApp().colorScheme);
+
+    const cssVariables = this.getCssVariables();
+    for (const variable in cssVariables) {
+      document.documentElement.style.setProperty(
+        variable,
+        // @ts-ignore
+        cssVariables[variable],
+      );
+    }
+  }
+
   getTheme(): PlatformTheme {
     const cssVariables = this.getCssVariables();
     return {
@@ -68,14 +82,7 @@ export class TelegramPlatform implements Platform {
   }
 
   initialize() {
-    const cssVariables = this.getCssVariables();
-    for (const variable in cssVariables) {
-      document.documentElement.style.setProperty(
-        variable,
-        // @ts-ignore
-        cssVariables[variable],
-      );
-    }
+    this.applyTheme();
 
     getWebApp().ready();
     getWebApp().setHeaderColor("secondary_bg_color");
@@ -93,6 +100,9 @@ export class TelegramPlatform implements Platform {
         this.isFullScreen = this.calcIsFullScreen();
       }),
     );
+    getWebApp().onEvent("themeChanged", () => {
+      this.applyTheme();
+    });
   }
 
   private calcIsFullScreen() {
