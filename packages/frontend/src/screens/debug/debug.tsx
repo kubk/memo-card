@@ -1,11 +1,17 @@
 import { useState } from "react";
 import { screenStore } from "../../store/screen-store.ts";
 import { useBackButton } from "../../lib/platform/use-back-button.ts";
+import { showAlert } from "../../lib/platform/show-alert.ts";
 import { SpeechTest } from "./speech-test.tsx";
 import { HapticsTest } from "./haptics-test.tsx";
 import { SafeAreaTest } from "./safe-area-test.tsx";
 
 type DebugScreen = "menu" | "speechTest" | "hapticsTest" | "safeAreaTest";
+
+const lastCommitText = [
+  `Hash: ${__LAST_COMMIT__.hash}`,
+  `Name: ${__LAST_COMMIT__.name}`,
+].join("\n");
 
 export function Debug() {
   const [currentScreen, setCurrentScreen] = useState<DebugScreen>("menu");
@@ -53,6 +59,13 @@ export function Debug() {
         className="py-3.5 px-4 bg-button text-button-text font-semibold rounded-xl active:scale-95 transition-all duration-200 text-left"
       >
         Safe Area Test
+      </button>
+
+      <button
+        onClick={() => showAlert(lastCommitText)}
+        className="py-3.5 px-4 bg-button text-button-text font-semibold rounded-xl active:scale-95 transition-all duration-200 text-left"
+      >
+        Show Last Commit
       </button>
 
       <button

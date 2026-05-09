@@ -3,7 +3,10 @@ import type { WebHaptics, defaultPatterns } from "web-haptics";
 import { action, makeAutoObservable } from "mobx";
 import { BooleanToggle } from "mobx-form-lite";
 import { PlatformSchemaType } from "api";
-import { isDarkTheme } from "../../color-scheme/is-dark-theme.tsx";
+import {
+  isDarkTheme,
+  listenDarkThemeChange,
+} from "../../color-scheme/is-dark-theme.tsx";
 import { UserSource } from "api";
 import {
   browserPlatformLangKey,
@@ -13,6 +16,7 @@ import { cssVariablesDark, cssVariablesLight } from "./browser-colors.ts";
 import { LanguageShared } from "api";
 import { api } from "../../../api/trpc-api.ts";
 import { browserGetSafeAreaInset } from "./browser-get-safe-area-inset.ts";
+import { applyColorScheme } from "../../color-scheme/apply-color-scheme.ts";
 
 export class BrowserPlatform implements Platform {
   isMobile = false;
@@ -55,6 +59,19 @@ export class BrowserPlatform implements Platform {
 
   private getCssVariables() {
     return isDarkTheme() ? cssVariablesDark : cssVariablesLight;
+  }
+
+  private applyTheme() {
+    applyColorScheme(isDarkTheme() ? "dark" : "light");
+
+    const cssVariables = this.getCssVariables();
+    for (const variable in cssVariables) {
+      document.documentElement.style.setProperty(
+        variable,
+        // @ts-ignore
+        cssVariables[variable],
+      );
+    }
   }
 
   getTheme(): PlatformTheme {
@@ -145,14 +162,8 @@ export class BrowserPlatform implements Platform {
   }
 
   initialize() {
-    const cssVariables = this.getCssVariables();
-    for (const variable in cssVariables) {
-      document.documentElement.style.setProperty(
-        variable,
-        // @ts-ignore
-        cssVariables[variable],
-      );
-    }
+    this.applyTheme();
+    listenDarkThemeChange(() => this.applyTheme());
   }
 
   openInternalLink(link: string) {
