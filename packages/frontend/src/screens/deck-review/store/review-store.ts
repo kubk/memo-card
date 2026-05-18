@@ -228,8 +228,12 @@ export class ReviewStore {
     const currentCard = this.currentCard;
     assert(currentCard, "Current card should not be empty");
     if (currentCard.answerType === "remember") {
+      const wasOpened = currentCard.isOpened;
       currentCard.open();
       currentCard.speak();
+      if (!wasOpened) {
+        platform.haptic("selection");
+      }
     }
   }
 
@@ -512,24 +516,28 @@ export class ReviewStore {
 
   onAgain() {
     if (this.currentCard?.isOpened) {
+      platform.haptic("medium");
       this.changeState("again");
     }
   }
 
   onHard() {
     if (this.currentCard?.isOpened) {
+      platform.haptic("light");
       this.changeState("hard");
     }
   }
 
   onGood() {
     if (this.currentCard?.isOpened) {
+      platform.haptic("light");
       this.changeState("good");
     }
   }
 
   onEasy() {
     if (this.currentCard?.isOpened) {
+      platform.haptic("light");
       this.changeState("easy");
     }
   }

@@ -15,6 +15,7 @@ import {
   reviewOutcomeHotkeyStyles,
   reviewOutcomeLabels,
 } from "./shared/review-outcome-styles.ts";
+import { platform } from "../../lib/platform/platform.ts";
 
 type Props = {
   card?: LimitedCardUnderReviewStore | null;
@@ -147,6 +148,7 @@ export function CardReviewWithControls(props: Props) {
               key={answer.id}
               onClick={() => {
                 assert(card);
+                platform.haptic(answer.isCorrect ? "light" : "medium");
                 card.openWithAnswer(answer);
               }}
             >
@@ -156,6 +158,7 @@ export function CardReviewWithControls(props: Props) {
           <Button
             onClick={() => {
               assert(card);
+              platform.haptic("medium");
               card.openWithAnswer({ id: IDK_ID, text: "", isCorrect: false });
             }}
           >
