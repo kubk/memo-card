@@ -14,6 +14,7 @@ import {
   VoicePlayer,
 } from "../voice-player/create-voice-player.ts";
 import { assert } from "api";
+import { platform } from "../../../lib/platform/platform.ts";
 
 export class CardPreviewStore implements LimitedCardUnderReviewStore {
   id: number;
@@ -100,6 +101,7 @@ export class CardPreviewStore implements LimitedCardUnderReviewStore {
   }
 
   openWithAnswer(answer: CardAnswerDbType) {
+    platform.haptic(answer.isCorrect ? "light" : "medium");
     this.isOpened = true;
     this.answer = answer;
   }

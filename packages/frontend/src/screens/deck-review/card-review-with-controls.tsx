@@ -7,7 +7,6 @@ import {
 import { Button } from "../../ui/button.tsx";
 import { Hotkey } from "../../ui/hotkey.tsx";
 import { t } from "../../translations/t.ts";
-import { assert } from "api";
 import { getTimeEstimate } from "./get-time-estimate.ts";
 import { userStore } from "../../store/user-store.ts";
 import {
@@ -15,7 +14,6 @@ import {
   reviewOutcomeHotkeyStyles,
   reviewOutcomeLabels,
 } from "./shared/review-outcome-styles.ts";
-import { platform } from "../../lib/platform/platform.ts";
 
 type Props = {
   card?: LimitedCardUnderReviewStore | null;
@@ -147,8 +145,6 @@ export function CardReviewWithControls(props: Props) {
             <Button
               key={answer.id}
               onClick={() => {
-                assert(card);
-                platform.haptic(answer.isCorrect ? "light" : "medium");
                 card.openWithAnswer(answer);
               }}
             >
@@ -157,8 +153,6 @@ export function CardReviewWithControls(props: Props) {
           ))}
           <Button
             onClick={() => {
-              assert(card);
-              platform.haptic("medium");
               card.openWithAnswer({ id: IDK_ID, text: "", isCorrect: false });
             }}
           >

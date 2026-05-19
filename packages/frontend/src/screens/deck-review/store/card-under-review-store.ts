@@ -20,6 +20,7 @@ import {
 } from "../voice-player/create-voice-player.ts";
 import { assert } from "api";
 import { preloadCardImage } from "../../../lib/card-image/image-preloader.ts";
+import { platform } from "../../../lib/platform/platform.ts";
 
 export class CardUnderReviewStore implements LimitedCardUnderReviewStore {
   id: number;
@@ -103,8 +104,9 @@ export class CardUnderReviewStore implements LimitedCardUnderReviewStore {
   }
 
   openWithAnswer(answer: CardAnswerDbType) {
-    this.open();
     assert(this.answerType === "choice_single");
+    platform.haptic(answer.isCorrect ? "light" : "medium");
+    this.open();
     this.answer = answer;
     this.speak();
   }
