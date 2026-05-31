@@ -85,7 +85,8 @@ export function FolderPreview(props: Props) {
                 icon={<PlusIcon size={24} />}
                 outline
                 onClick={() => {
-                  screenStore.goToDeckForm({
+                  screenStore.push({
+                    type: "deckForm",
                     folder: {
                       id: folder.id,
                       name: folder.name,
@@ -99,7 +100,7 @@ export function FolderPreview(props: Props) {
                 icon={<PencilIcon size={24} />}
                 outline
                 onClick={() => {
-                  screenStore.go({ type: "folderForm", folderId: folder.id });
+                  screenStore.push({ type: "folderForm", folderId: folder.id });
                 }}
               >
                 {t("edit")}

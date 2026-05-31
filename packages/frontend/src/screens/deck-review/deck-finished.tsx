@@ -28,7 +28,7 @@ export function DeckFinished(props: Props) {
   });
 
   const onBack = () => {
-    screenStore.go({ type: "main" });
+    screenStore.push({ type: "main" });
   };
 
   useMainButton(t("go_back"), onBack);

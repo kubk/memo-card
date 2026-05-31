@@ -19,7 +19,7 @@ export function WantMoreCardsButton(props: Props) {
       <span
         className="text-link cursor-pointer"
         onClick={() => {
-          screenStore.go({ type: "main" });
+          screenStore.push({ type: "main" });
         }}
       >
         {translateNewCardsCount(newCardsCount)}

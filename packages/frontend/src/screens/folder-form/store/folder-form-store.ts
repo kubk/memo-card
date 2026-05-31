@@ -161,7 +161,7 @@ export class FolderFormStore {
     deckListStore.updateFolders(folders);
     assert(this.folderForm);
     formUnTouchAll(this.folderForm);
-    screenStore.go({ type: "folderPreview", folderId: folder.id });
+    screenStore.push({ type: "folderPreview", folderId: folder.id });
     platform.haptic("success");
   }
 }

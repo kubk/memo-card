@@ -216,7 +216,7 @@ export class AiMassCreationStore {
     deckListStore.updateCardsToReview(result.data.cardsToReview);
     aiMassCreationDraftStore.clearDeckDraft();
     screenStore.replace({ type: "main" });
-    screenStore.goToDeckForm({ deckId: result.data.deck.id });
+    screenStore.push({ type: "deckForm", deckId: result.data.deck.id });
 
     voiceGenerationStore.generateForDeckCards(
       result.data.deck.id,

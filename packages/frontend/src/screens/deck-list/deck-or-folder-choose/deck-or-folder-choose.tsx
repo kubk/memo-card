@@ -27,7 +27,7 @@ export function DeckOrFolderChoose(props: Props) {
             title={t("add_deck")}
             description={t("deck_description")}
             onClick={() => {
-              screenStore.goToDeckForm({});
+              screenStore.push({ type: "deckForm" });
             }}
           />
           <Choice
@@ -35,7 +35,7 @@ export function DeckOrFolderChoose(props: Props) {
             title={t("add_folder")}
             description={t("folder_description")}
             onClick={() => {
-              screenStore.go({ type: "folderForm" });
+              screenStore.push({ type: "folderForm" });
             }}
           />
         </Flex>

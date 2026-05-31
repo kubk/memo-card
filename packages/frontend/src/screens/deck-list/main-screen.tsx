@@ -71,13 +71,13 @@ export function MainScreen() {
                       onClick={() => {
                         platform.haptic("selection");
                         if (listItem.type === "deck") {
-                          screenStore.go({
+                          screenStore.push({
                             type: "deckMine",
                             deckId: listItem.id,
                           });
                         }
                         if (listItem.type === "folder") {
-                          screenStore.go({
+                          screenStore.push({
                             type: "folderPreview",
                             folderId: listItem.id,
                           });
@@ -93,7 +93,7 @@ export function MainScreen() {
                             return {
                               onClick: () => {
                                 platform.haptic("selection");
-                                screenStore.go({
+                                screenStore.push({
                                   type: "deckMine",
                                   deckId: deck.id,
                                 });
@@ -145,7 +145,7 @@ export function MainScreen() {
                 if (deckListStore.myDecks.length > 0) {
                   deckFolderToggle.setTrue();
                 } else {
-                  screenStore.goToDeckForm({});
+                  screenStore.push({ type: "deckForm" });
                 }
               }}
             >
@@ -171,7 +171,7 @@ export function MainScreen() {
                 className="pt-1 text-link flex items-center gap-1 cursor-pointer justify-center"
                 onClick={() => {
                   platform.haptic("light");
-                  screenStore.go({ type: "deckCatalog" });
+                  screenStore.push({ type: "deckCatalog" });
                 }}
               >
                 <SearchIcon size={18} />
@@ -260,7 +260,7 @@ export function MainScreen() {
                         />
                       ),
                       onClick: () => {
-                        screenStore.go({ type: "teacherStatistics" });
+                        screenStore.push({ type: "teacherStatistics" });
                       },
                     }
                   : null,
@@ -277,7 +277,7 @@ export function MainScreen() {
                     text: getSharedPlanTitle("pro"),
                     icon: <ProIcon />,
                     onClick: () => {
-                      screenStore.go({ type: "plans", planType: "pro" });
+                      screenStore.push({ type: "plans", planType: "pro" });
                     },
                   },
                   {
@@ -288,7 +288,7 @@ export function MainScreen() {
                       />
                     ),
                     onClick: () => {
-                      screenStore.go({ type: "plans", planType: "teacher" });
+                      screenStore.push({ type: "plans", planType: "teacher" });
                     },
                   },
                 ].filter(boolNarrow)}

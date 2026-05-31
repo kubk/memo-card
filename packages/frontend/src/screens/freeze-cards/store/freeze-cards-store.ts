@@ -98,7 +98,7 @@ export class FreezeCardsStore {
     }
 
     const { frozenCards } = result.data;
-    screenStore.go({ type: "main" });
+    screenStore.push({ type: "main" });
     notifySuccess(formatFrozenCards(frozenCards));
   }
 }

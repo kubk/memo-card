@@ -108,7 +108,7 @@ function MainStatisticsSummaryContent(props: {
       )}
       onClick={() => {
         platform.haptic("selection");
-        screenStore.go({ type: "userStatistics" });
+        screenStore.push({ type: "userStatistics" });
       }}
     >
       <div className="flex items-center justify-between gap-3">

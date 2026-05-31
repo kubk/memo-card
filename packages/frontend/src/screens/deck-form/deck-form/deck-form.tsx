@@ -55,7 +55,7 @@ export function DeckForm() {
       const isNewDeck = !screen.deckId;
       deckFormStore.onDeckSave((deck) => {
         if (!isNewDeck) return;
-        screenStore.replaceToDeckForm({ deckId: deck.id });
+        screenStore.replace({ type: "deckForm", deckId: deck.id });
       });
     },
     () => deckFormStore.isSaveVisible,
@@ -84,7 +84,7 @@ export function DeckForm() {
               onClick={() => {
                 deckFormStore.executeViaConfirm(() => {
                   assert(screen.folder, "Folder should be defined");
-                  screenStore.go({
+                  screenStore.push({
                     type: "folderPreview",
                     folderId: screen.folder.id,
                   });
@@ -129,7 +129,7 @@ export function DeckForm() {
                   description: deckFormStore.deckForm.description.value,
                   folderId: deckFormStore.deckForm.folderId,
                 });
-                screenStore.go({ type: "aiMassCreation" });
+                screenStore.push({ type: "aiMassCreation" });
               });
             }}
           >
@@ -264,7 +264,7 @@ export function DeckForm() {
                     onClick: () => {
                       const deckId = deckFormStore.deckForm?.id;
                       assert(deckId, "Deck id should be defined");
-                      screenStore.go({
+                      screenStore.push({
                         type: "catalogSettings",
                         itemType: "deck",
                         id: deckId,

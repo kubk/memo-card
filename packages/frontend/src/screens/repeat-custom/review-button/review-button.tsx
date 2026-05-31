@@ -13,7 +13,7 @@ export function ReviewButton() {
     <div className={cn("fixed bottom-6 end-6")}>
       <button
         onClick={() => {
-          screenStore.go({ type: "reviewCustom" });
+          screenStore.push({ type: "reviewCustom" });
           platform.haptic("light");
         }}
         className="h-14 pt-0.5 w-14 rounded-full bg-button text-white shadow-xl flex items-center justify-center z-20 active:scale-95"

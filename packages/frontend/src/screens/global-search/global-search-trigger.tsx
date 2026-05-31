@@ -20,7 +20,7 @@ export function GlobalSearchTrigger() {
           "flex py-2.5 px-2.5 text-base border-2 border-solid border-secondary-bg rounded-xl bg-bg w-full ps-10",
         )}
         disabled={appLoaderStore.isAppLoading}
-        onClick={() => screenStore.go({ type: "globalSearch" })}
+        onClick={() => screenStore.push({ type: "globalSearch" })}
       >
         <span className={cn("absolute top-[14px] text-hint start-[12px]")}>
           <SearchIcon size={18} />

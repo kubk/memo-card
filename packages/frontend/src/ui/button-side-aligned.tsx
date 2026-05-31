@@ -33,7 +33,7 @@ export function ButtonSideAligned(props: Props) {
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (isPro && !userStore.isPaid) {
-      screenStore.go({ type: "plans", planType: "pro" });
+      screenStore.push({ type: "plans", planType: "pro" });
       return;
     }
     onClick?.(e);

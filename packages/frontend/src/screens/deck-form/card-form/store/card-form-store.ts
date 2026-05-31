@@ -10,6 +10,7 @@ import {
 } from "mobx-form-lite";
 import { makeAutoObservable, reaction, runInAction } from "mobx";
 import { screenStore } from "../../../../store/screen-store.ts";
+import { DeckFormRoute } from "../../../../store/routing/route-types.ts";
 import { deckListStore } from "../../../../store/deck-list-store.ts";
 import { appLoaderStore } from "../../../../store/app-loader-store.ts";
 import { showConfirm } from "../../../../lib/platform/show-confirm.ts";
@@ -277,7 +278,8 @@ export class CardFormStore {
 
   navigateToNewCard() {
     assert(this.deckId, "navigateToNewCard: deckId is empty");
-    screenStore.goToDeckForm({
+    screenStore.replace({
+      type: "deckForm",
       deckId: this.deckId,
       cardId: "new",
     });
@@ -287,15 +289,16 @@ export class CardFormStore {
     if (!cardId || !this.deckId) {
       return;
     }
-    const params = {
+    const params: DeckFormRoute = {
+      type: "deckForm",
       deckId: this.deckId,
       cardId,
       ...this.getFilterParams(),
     };
     if (useReplace) {
-      screenStore.replaceToDeckForm(params);
+      screenStore.replace(params);
     } else {
-      screenStore.goToDeckForm(params);
+      screenStore.push(params);
     }
   }
 

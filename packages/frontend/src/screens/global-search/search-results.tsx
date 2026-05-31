@@ -50,12 +50,12 @@ export function SearchResults() {
 
   const handleResultClick = (result: SearchResultItem) => {
     if (result.type === "deck") {
-      screenStore.go({
+      screenStore.push({
         type: "deckMine",
         deckId: result.item.id,
       });
     } else if (result.type === "folder") {
-      screenStore.go({
+      screenStore.push({
         type: "folderPreview",
         folderId: result.item.id,
       });
@@ -66,13 +66,13 @@ export function SearchResults() {
       }
 
       if (deck.authorId === userStore.myId) {
-        screenStore.go({
+        screenStore.push({
           type: "deckForm",
           deckId: deck.id,
           cardId: result.item.id,
         });
       } else {
-        screenStore.go({
+        screenStore.push({
           type: "cardPreviewId",
           cardId: result.item.id,
           deckId: deck.id,

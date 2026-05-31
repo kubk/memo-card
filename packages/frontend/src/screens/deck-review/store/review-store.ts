@@ -458,7 +458,7 @@ export class ReviewStore {
   }
 
   submitUnfinished() {
-    screenStore.go({ type: "main" });
+    screenStore.push({ type: "main" });
 
     if (!this.hasResult) {
       return;
@@ -488,7 +488,7 @@ export class ReviewStore {
 
   async submitFinished(onReviewSuccess?: () => void) {
     if (!this.hasResult) {
-      screenStore.go({ type: "main" });
+      screenStore.push({ type: "main" });
       return;
     }
 
