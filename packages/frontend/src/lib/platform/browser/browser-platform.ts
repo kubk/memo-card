@@ -15,7 +15,6 @@ import {
 import { cssVariablesDark, cssVariablesLight } from "./browser-colors.ts";
 import { LanguageShared } from "api";
 import { api } from "../../../api/trpc-api.ts";
-import { browserGetSafeAreaInset } from "./browser-get-safe-area-inset.ts";
 import { applyColorScheme } from "../../color-scheme/apply-color-scheme.ts";
 
 export class BrowserPlatform implements Platform {
@@ -207,7 +206,18 @@ export class BrowserPlatform implements Platform {
   }
 
   getSafeAreaInset() {
-    return browserGetSafeAreaInset();
+    const isStandaloneMode =
+      window.matchMedia("(display-mode: standalone)").matches ||
+      (window.navigator as any).standalone === true;
+
+    if (isStandaloneMode) {
+      return {
+        top: 0,
+        bottom: 6,
+      };
+    }
+
+    return { top: 0, bottom: 0 };
   }
 
   private webHaptics?: {

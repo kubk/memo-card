@@ -247,7 +247,9 @@ export function ManualCardFormView() {
                   <LoadingSwap
                     isLoading={
                       cardForm.id
-                        ? voiceGenerationStore.isGenerating(cardForm.id)
+                        ? voiceGenerationStore.generatingCardIds.has(
+                            cardForm.id,
+                          )
                         : false
                     }
                   >

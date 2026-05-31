@@ -13,7 +13,7 @@ type Cursor = {
 };
 
 export class DeckCatalogStore {
-  private catalogRequest = new InfiniteRequestStore<
+  readonly catalogRequest = new InfiniteRequestStore<
     CatalogItem,
     Cursor,
     { filters: { availableIn?: DeckLanguage; categoryId?: string } }
@@ -88,9 +88,5 @@ export class DeckCatalogStore {
 
   get hasCatalogLoaded() {
     return this.catalogRequest.hasLoaded;
-  }
-
-  loadMore() {
-    return this.catalogRequest.loadMore();
   }
 }

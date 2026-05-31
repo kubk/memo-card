@@ -46,7 +46,6 @@ import { TelegramPlatform } from "../lib/platform/telegram/telegram-platform.ts"
 import { cn } from "../ui/cn.ts";
 import { RepeatCustomScreen } from "./repeat-custom/repeat-custom-screen.tsx";
 import { useMount } from "../lib/react/use-mount.ts";
-import { featuresStore } from "../store/features-store.ts";
 import { PaywallModals } from "./shared/feature-preview/paywall-modals.tsx";
 import { CardPreviewScreen } from "./card-preview/card-preview-screen.tsx";
 import { SignedIn } from "./shared/signed-in.tsx";
@@ -66,7 +65,6 @@ export function App() {
   });
 
   useMount(() => {
-    featuresStore.load();
     deckListStore.loadFirstTime(platform.getStartParam());
   });
 
