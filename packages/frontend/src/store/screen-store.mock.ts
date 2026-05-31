@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import { Route, DeckFormRoute } from "./routing/route-types.ts";
+import { Route } from "./routing/route-types.ts";
 
 let routeIndex = 0;
 
@@ -13,7 +13,7 @@ class InMemoryScreenStore {
     }
   }
 
-  go(route: Route) {
+  push(route: Route) {
     this.history.push(route);
   }
 
@@ -40,21 +40,7 @@ class InMemoryScreenStore {
   }
 
   goToUserSettings() {
-    this.go({ type: "userSettings", index: ++routeIndex });
-  }
-
-  goToDeckForm(route: Omit<DeckFormRoute, "index" | "type">) {
-    this.go({
-      ...route,
-      type: "deckForm",
-    });
-  }
-
-  replaceToDeckForm(route: Omit<DeckFormRoute, "index" | "type">) {
-    this.replace({
-      ...route,
-      type: "deckForm",
-    });
+    this.push({ type: "userSettings", index: ++routeIndex });
   }
 
   get isDeckPreviewScreen() {

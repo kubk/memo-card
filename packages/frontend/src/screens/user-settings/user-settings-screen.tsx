@@ -91,7 +91,7 @@ export function UserSettingsScreen() {
               icon: <ProIcon />,
               text: "MemoCard Plans",
               onClick: () => {
-                screenStore.go({ type: "plans", planType: "pro" });
+                screenStore.push({ type: "plans", planType: "pro" });
               },
             },
           ]}
@@ -120,7 +120,7 @@ export function UserSettingsScreen() {
               ),
               text: t("freeze_title"),
               onClick: () => {
-                screenStore.go({ type: "freezeCards" });
+                screenStore.push({ type: "freezeCards" });
               },
             },
           ]}
@@ -279,7 +279,7 @@ export function UserSettingsScreen() {
                 ),
                 text: "Debug",
                 onClick: () => {
-                  screenStore.go({ type: "debug" });
+                  screenStore.push({ type: "debug" });
                 },
               },
             ]}
@@ -380,7 +380,7 @@ export function UserSettingsScreen() {
               ),
               text: t("about_title"),
               onClick: () => {
-                screenStore.go({ type: "about" });
+                screenStore.push({ type: "about" });
               },
               isLinkColor: true,
             },

@@ -107,7 +107,7 @@ class DeckListStore {
     if (
       this.myInfo.folders.find((myFolder) => myFolder.folder_id === folder.id)
     ) {
-      screenStore.go({ type: "folderPreview", folderId: folder.id });
+      screenStore.push({ type: "folderPreview", folderId: folder.id });
       return;
     }
 
@@ -133,7 +133,7 @@ class DeckListStore {
         })),
       );
     }
-    screenStore.go({ type: "folderPreview", folderId: folder.id });
+    screenStore.push({ type: "folderPreview", folderId: folder.id });
   }
 
   addCardOptimistic(card: DeckCardDbType) {
@@ -157,7 +157,7 @@ class DeckListStore {
         (myFolder) => myFolder.folder_id === folderWithoutDecks.id,
       )
     ) {
-      screenStore.go({
+      screenStore.push({
         type: "folderPreview",
         folderId: folderWithoutDecks.id,
       });
@@ -168,7 +168,7 @@ class DeckListStore {
       ...folderWithoutDecks,
       decks: [],
     };
-    screenStore.go({ type: "folderPreview", folderId: this.catalogFolder.id });
+    screenStore.push({ type: "folderPreview", folderId: this.catalogFolder.id });
 
     const result = await this.getFolderWithDecksCards.execute({
       folderId: folderWithoutDecks.id,
@@ -266,13 +266,13 @@ class DeckListStore {
   async openDeckFromCatalog(deck: DeckWithCardsDbType, isMine: boolean) {
     assert(this.myInfo);
     if (isMine) {
-      screenStore.go({ type: "deckMine", deckId: deck.id });
+      screenStore.push({ type: "deckMine", deckId: deck.id });
       return;
     }
     if (!this.publicDecks.find((publicDeck) => publicDeck.id === deck.id)) {
       this.myInfo.publicDecks.push(deck);
     }
-    screenStore.go({ type: "deckPublic", deckId: deck.id });
+    screenStore.push({ type: "deckPublic", deckId: deck.id });
 
     const result = await this.deckWithCardsRequest.execute({ deckId: deck.id });
     if (result.status === "error") {
@@ -288,12 +288,12 @@ class DeckListStore {
     }
     const myDeck = this.myInfo.myDecks.find((deck) => deck.id === deckId);
     if (myDeck) {
-      screenStore.go({ type: "deckMine", deckId });
+      screenStore.push({ type: "deckMine", deckId });
       return true;
     }
     const publicDeck = this.publicDecks.find((deck) => deck.id === deckId);
     if (publicDeck) {
-      screenStore.go({ type: "deckPublic", deckId });
+      screenStore.push({ type: "deckPublic", deckId });
       return true;
     }
 
@@ -665,7 +665,7 @@ class DeckListStore {
             return;
           }
           this.myInfo = result;
-          screenStore.go({ type: "main" });
+          screenStore.push({ type: "main" });
         }),
       )
       .catch((e) => {
@@ -697,7 +697,7 @@ class DeckListStore {
             return;
           }
           this.myInfo = result;
-          screenStore.go({ type: "main" });
+          screenStore.push({ type: "main" });
         }),
       )
       .catch((e) => {
@@ -725,7 +725,7 @@ class DeckListStore {
     if (result.status === "error") {
       console.log("mc: error in myInfoRequest", result.error);
       if (platform instanceof BrowserPlatform) {
-        screenStore.go({ type: "browserLogin" });
+        screenStore.push({ type: "browserLogin" });
       }
       return;
     }
@@ -752,7 +752,7 @@ class DeckListStore {
     api.deck.duplicate
       .mutate({ deckId })
       .then(() => {
-        screenStore.go({ type: "main" });
+        screenStore.push({ type: "main" });
         this.load();
       })
       .catch((e) => {
@@ -773,7 +773,7 @@ class DeckListStore {
     api.folder.duplicate
       .mutate({ folderId })
       .then(() => {
-        screenStore.go({ type: "main" });
+        screenStore.push({ type: "main" });
         this.load();
       })
       .catch((e) => {
@@ -795,21 +795,21 @@ class DeckListStore {
       appLoaderStore.enable();
       when(() => !!this.myInfo)
         .then(() => {
-          screenStore.go({ type: "reviewAll" });
+          screenStore.push({ type: "reviewAll" });
         })
         .finally(appLoaderStore.disable);
     } else if (startParam === StartParamType.DeckCatalog) {
-      screenStore.go({ type: "deckCatalog" });
+      screenStore.push({ type: "deckCatalog" });
     } else if (startParam === StartParamType.Debug) {
-      screenStore.go({ type: "debug" });
+      screenStore.push({ type: "debug" });
     } else if (startParam === StartParamType.Components) {
-      screenStore.go({ type: "componentCatalog" });
+      screenStore.push({ type: "componentCatalog" });
     } else if (startParam === StartParamType.Settings) {
       screenStore.goToUserSettings();
     } else if (startParam === StartParamType.Break) {
       throw new Error("Test exception for debugging");
     } else if (startParam === StartParamType.Pro) {
-      screenStore.go({ type: "plans", planType: "pro" });
+      screenStore.push({ type: "plans", planType: "pro" });
     } else {
       appLoaderStore.enable();
       await when(() => !!this.myInfo);
@@ -822,7 +822,7 @@ class DeckListStore {
               const deck = sharedDeckResponse.deck;
               assert(this.myInfo);
               if (this.myInfo.myDecks.find((myDeck) => myDeck.id === deck.id)) {
-                screenStore.go({ type: "deckMine", deckId: deck.id });
+                screenStore.push({ type: "deckMine", deckId: deck.id });
                 return;
               }
 
@@ -830,7 +830,7 @@ class DeckListStore {
                 this.publicDecks.find((publicDeck) => publicDeck.id === deck.id)
               ) {
                 this.replaceDeck(deck);
-                screenStore.go({
+                screenStore.push({
                   type: "deckPublic",
                   deckId: deck.id,
                 });
@@ -838,7 +838,7 @@ class DeckListStore {
               }
 
               this.myInfo.publicDecks.push(deck);
-              screenStore.go({ type: "deckPublic", deckId: deck.id });
+              screenStore.push({ type: "deckPublic", deckId: deck.id });
             }
 
             if ("folder" in sharedDeckResponse) {

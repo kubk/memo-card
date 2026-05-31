@@ -154,7 +154,7 @@ export function UserStatisticsScreen() {
                 type="button"
                 className="absolute top-1 end-1 flex shrink-0 items-center gap-1 text-sm uppercase text-link"
                 onClick={() => {
-                  screenStore.go({ type: "userStatisticsDaily" });
+                  screenStore.push({ type: "userStatisticsDaily" });
                 }}
               >
                 {t("teacher_stats_see_all")}
@@ -182,7 +182,7 @@ export function UserStatisticsScreen() {
               title={t("user_stats_daily_page")}
               className="mt-2 w-full cursor-pointer rounded-lg border-0 bg-bg p-3 text-start text-text active:scale-[0.99] active:transition-transform active:duration-300"
               onClick={() => {
-                screenStore.go({ type: "userStatisticsDaily" });
+                screenStore.push({ type: "userStatisticsDaily" });
               }}
             >
               <div className="grid grid-cols-[repeat(14,minmax(0,1fr))] gap-[3px]">
