@@ -17,6 +17,7 @@ import { theme } from "../../ui/theme.tsx";
 import { t, translator } from "../../translations/t.ts";
 import { CardRowLoading } from "../shared/card-row-loading.tsx";
 import { Screen } from "../shared/screen.tsx";
+import { formatNumber } from "../../translations/format-number.ts";
 
 type TeacherStatistics = RouterOutput["teacherStatistics"];
 type TeacherStudent = TeacherStatistics["topStudents"][number];
@@ -25,10 +26,6 @@ type StudentPage = RouterOutput["teacherStatisticsStudents"];
 type DeckPage = RouterOutput["teacherStatisticsDecks"];
 type StudentCursor = NonNullable<StudentPage["nextCursor"]>;
 type DeckCursor = NonNullable<DeckPage["nextCursor"]>;
-
-function formatNumber(value: number) {
-  return new Intl.NumberFormat(translator.getLang()).format(value);
-}
 
 function formatDaysAgo(days: number, lang: LanguageShared) {
   const daysText = formatNumber(days);

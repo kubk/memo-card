@@ -55,23 +55,6 @@ export function HtmlTableEditor() {
     }
   };
 
-  const generateHtmlCode = () => {
-    return `
-<table>
-  <thead>
-    <tr>${tableData.headers.map((header) => `<th>${header}</th>`).join("")}</tr>
-  </thead>
-  <tbody>
-    ${tableData.rows
-      .map(
-        (row) => `<tr>${row.map((cell) => `<td>${cell}</td>`).join("")}</tr>`,
-      )
-      .join("\n    ")}
-  </tbody>
-</table>
-    `.trim();
-  };
-
   const handleCellChange = (
     rowIndex: number,
     colIndex: number,
@@ -174,7 +157,22 @@ export function HtmlTableEditor() {
         <ButtonSideAligned
           outline
           onClick={() => {
-            copyToClipboard(generateHtmlCode());
+            copyToClipboard(
+              `
+<table>
+  <thead>
+    <tr>${tableData.headers.map((header) => `<th>${header}</th>`).join("")}</tr>
+  </thead>
+  <tbody>
+    ${tableData.rows
+      .map(
+        (row) => `<tr>${row.map((cell) => `<td>${cell}</td>`).join("")}</tr>`,
+      )
+      .join("\n    ")}
+  </tbody>
+</table>
+    `.trim(),
+            );
             notifySuccess(t("copied"));
           }}
           icon={<CopyIcon size={18} />}
