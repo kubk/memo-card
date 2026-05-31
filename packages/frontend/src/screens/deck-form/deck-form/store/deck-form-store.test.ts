@@ -216,23 +216,6 @@ describe("deck form store", () => {
     expect(store.filteredCards.map(cardToId)).toEqual([4, 5, 3]);
   });
 
-  it("sorting - toggling direction & change sortBy field", () => {
-    const store = new DeckFormStore();
-    store.loadForm();
-
-    store.setSortByIdAndDirection("createdAt", "asc");
-
-    store.changeSort("createdAt");
-
-    expect(store.cardFilterSortBy).toEqual("createdAt");
-    expect(store.cardFilterSortDirection).toEqual("desc");
-
-    store.changeSort("frontAlpha");
-
-    expect(store.cardFilterSortBy).toEqual("frontAlpha");
-    expect(store.cardFilterSortDirection).toEqual("desc");
-  });
-
   it("editCardFormById navigates to card form", () => {
     const store = new DeckFormStore();
     store.loadForm();

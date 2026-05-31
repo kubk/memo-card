@@ -208,12 +208,6 @@ export class PlansScreenStore {
     this.ensureAvailableDuration();
   }
 
-  updateSelectedPlanType(planType: PaidPlanType) {
-    this.selectedPlanType.onChange(planType);
-    this.ensureAvailablePaymentMethod();
-    this.ensureAvailableDuration();
-  }
-
   ensureAvailablePaymentMethod() {
     if (this.method === PaymentMethodType.Usd && !this.isUsdPaymentAvailable) {
       this.method = PaymentMethodType.Stars;

@@ -16,7 +16,11 @@ export function CardFormWrapper() {
   if (cardFormStore.cardInnerScreen.value === "cardPreview") {
     return (
       <CardPreview
-        form={cardFormStore}
+        form={{
+          cardForm,
+          speakingCardsLocale: cardFormStore.speakingCardsLocale,
+          speakingCardsField: cardFormStore.speakingCardsField,
+        }}
         onBack={() => cardFormStore.cardInnerScreen.onChange(null)}
       />
     );

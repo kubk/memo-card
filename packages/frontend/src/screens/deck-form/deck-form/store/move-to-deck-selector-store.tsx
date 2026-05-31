@@ -153,18 +153,4 @@ export class MoveToDeckSelectorStore {
     return this.form?.targetDeckId === deckId;
   }
 
-  get targetDeckName(): string | null {
-    if (!this.form?.targetDeckId) return null;
-
-    for (const item of deckListStore.myDeckItems) {
-      if (item.type === "deck" && item.id === this.form.targetDeckId) {
-        return item.name;
-      }
-      if (item.type === "folder") {
-        const deck = item.decks.find((d) => d.id === this.form?.targetDeckId);
-        if (deck) return deck.name;
-      }
-    }
-    return null;
-  }
 }
