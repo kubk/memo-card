@@ -128,7 +128,7 @@ export function PlansScreen() {
     },
   );
 
-  useProgress(() => store.createOrderRequest.isLoading);
+  useProgress(() => store.isCreateOrderLoading);
 
   if (store.plansRequest.result.status !== "success") {
     return <FullScreenLoader />;

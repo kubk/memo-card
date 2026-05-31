@@ -17,7 +17,6 @@ import {
 import { assert } from "api";
 import { PaymentMethodType } from "api";
 import { TelegramPlatform } from "../../../lib/platform/telegram/telegram-platform.ts";
-import { links } from "api";
 import { api } from "../../../api/trpc-api.ts";
 
 export type PreviewItem =
@@ -29,6 +28,7 @@ export type PreviewItem =
 export class PlansScreenStore {
   plansRequest = new RequestStore(api.plans.query);
   createOrderRequest = new RequestStore(api.starsOrderPlan.mutate);
+  createStripeOrderRequest = new RequestStore(api.stripeOrderPlan.mutate);
   selectedPlanDuration = new TextField<PlanDuration | null>(null);
   selectedPlanType: TextField<PaidPlanType>;
   selectedPreviewPlanFeature?: PreviewItem;
@@ -134,24 +134,11 @@ export class PlansScreenStore {
     );
   }
 
-  get usdPaymentLink() {
-    const selectedPlan = this.selectedPlan;
-    if (!selectedPlan || !this.selectedPlanDuration.value) {
-      return null;
-    }
-
-    switch (selectedPlan.type) {
-      case "pro":
-        return this.selectedPlanDuration.value === 12
-          ? links.stripeProYearlySubscription
-          : links.stripeProMonthlySubscription;
-      case "teacher":
-        return this.selectedPlanDuration.value === 12
-          ? links.stripeTeacherYearlySubscription
-          : links.stripeTeacherMonthlySubscription;
-      default:
-        return selectedPlan.type satisfies never;
-    }
+  get isCreateOrderLoading() {
+    return (
+      this.createOrderRequest.isLoading ||
+      this.createStripeOrderRequest.isLoading
+    );
   }
 
   get availablePlanDurations() {
@@ -186,15 +173,19 @@ export class PlansScreenStore {
         return;
       }
       case PaymentMethodType.Usd: {
-        const link = this.usdPaymentLink;
-        if (!link) {
+        const result = await this.createStripeOrderRequest.execute({
+          planType: selectedPlan.type,
+          duration: this.selectedPlanDuration.value.toString(),
+        });
+        if (result.status === "error") {
           notifyError({
-            info: `Bank card payment is not configured for plan: ${selectedPlan.type}`,
+            info: `Stripe order creation failed. Plan: ${selectedPlan.type}`,
+            e: result.error,
           });
           return;
         }
 
-        platform.openExternalLink(link);
+        platform.openExternalLink(result.data.checkoutUrl);
         return;
       }
       default:
