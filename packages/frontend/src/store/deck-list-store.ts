@@ -15,7 +15,6 @@ import { BooleanToggle } from "mobx-form-lite";
 import { userStore } from "./user-store.ts";
 import { showConfirm } from "../lib/platform/show-confirm.ts";
 import { t } from "../translations/t.ts";
-import { canDuplicateDeckOrFolder } from "api";
 import { platform } from "../lib/platform/platform.ts";
 import { FolderWithDecksWithCards } from "api";
 import { type FolderWithDeckIdDbType } from "api";
@@ -247,14 +246,6 @@ class DeckListStore {
       });
   }
 
-  get canShareDeck() {
-    const deck = this.selectedDeck;
-    if (!deck) {
-      return false;
-    }
-    return deckListStore.canEditDeck || deck.isPublic;
-  }
-
   get canEditDeck() {
     const deck = this.selectedDeck;
     if (!deck) {
@@ -385,32 +376,6 @@ class DeckListStore {
 
   hasFolderInMine(folderId: number) {
     return !!this.myFoldersAsDecks.find(({ id }) => id === folderId);
-  }
-
-  get canDuplicateSelectedFolder() {
-    const folder = this.selectedFolder;
-    if (!folder) {
-      return false;
-    }
-    const user = userStore.user;
-    if (!user) {
-      return false;
-    }
-
-    return canDuplicateDeckOrFolder(user.id, folder, userStore.isPaid);
-  }
-
-  get canDuplicateSelectedDeck() {
-    const deck = this.selectedDeck;
-    if (!deck) {
-      return false;
-    }
-    const user = userStore.user;
-    if (!user) {
-      return false;
-    }
-
-    return canDuplicateDeckOrFolder(user.id, deck, userStore.isPaid);
   }
 
   get isFolderReviewVisible() {
@@ -633,12 +598,6 @@ class DeckListStore {
       return (
         acc + deck.cardsToReview.filter((card) => card.type === "new").length
       );
-    }, 0);
-  }
-
-  get cardsTotalCount() {
-    return this.myDecks.reduce((acc, deck) => {
-      return acc + deck.deckCards.length;
     }, 0);
   }
 

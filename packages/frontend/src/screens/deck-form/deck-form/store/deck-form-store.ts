@@ -396,17 +396,6 @@ export class DeckFormStore {
       });
   }
 
-  changeSort(sortBy: CardFilterSortBy) {
-    const newDirection =
-      this.cardFilterSortBy === sortBy
-        ? this.isSortAsc
-          ? "desc"
-          : "asc"
-        : this.cardFilterSortDirection;
-    const newSortBy = sortBy;
-    this.updateFiltersInUrl(newSortBy, newDirection, this.cardFilterText);
-  }
-
   setSortByIdAndDirection(
     sortBy: CardFilterSortBy,
     direction: CardFilterDirection,
@@ -448,38 +437,12 @@ export class DeckFormStore {
     }
   }
 
-  get isSortAsc() {
-    return this.cardFilterSortDirection === "asc";
-  }
-
   get currentSortId() {
     return `${this.cardFilterSortBy}-${this.cardFilterSortDirection}`;
   }
 
   get isEmptySearchResults() {
     return this.filteredCards.length === 0 && !!this.cardFilterText;
-  }
-
-  toggleIsSpeakingCardEnabled() {
-    if (!this.deckForm) {
-      return;
-    }
-    const { speakingCardsLocale, speakingCardsField } = this.deckForm;
-
-    if (speakingCardsLocale.value && speakingCardsField.value) {
-      speakingCardsLocale.onChange(null);
-      speakingCardsField.onChange(null);
-    } else {
-      speakingCardsLocale.onChange(SpeakLanguage.USEnglish);
-      speakingCardsField.onChange("front");
-    }
-  }
-
-  get isSpeakingCardEnabled() {
-    return (
-      !!this.deckForm?.speakingCardsLocale.value &&
-      !!this.deckForm?.speakingCardsField.value
-    );
   }
 
   get voiceType(): VoiceType {
