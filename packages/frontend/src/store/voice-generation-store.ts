@@ -1,4 +1,4 @@
-import { makeAutoObservable, runInAction } from "mobx";
+import { action, makeAutoObservable } from "mobx";
 import { DeckCardDbType, DeckWithCardsDbType } from "api";
 import { generateVoiceForNewCards } from "../lib/voice/generate-voice-for-new-cards.ts";
 import { userStore } from "./user-store.ts";
@@ -35,18 +35,16 @@ class VoiceGenerationStore {
     generateVoiceForNewCards({
       deckId: deck.id,
       cards: cardsNeedingVoice,
-      onVoiceGenerated: (cardId) => {
-        runInAction(() => {
-          this.generatingCardIds.delete(cardId);
-        });
-      },
-    }).catch(() => {
-      runInAction(() => {
+      onVoiceGenerated: action((cardId) => {
+        this.generatingCardIds.delete(cardId);
+      }),
+    }).catch(
+      action(() => {
         cardsNeedingVoice.forEach((card) => {
           this.generatingCardIds.delete(card.id);
         });
-      });
-    });
+      }),
+    );
   }
 
   generateForDeckCards(deckId: number, cards: DeckCardDbType[]) {
