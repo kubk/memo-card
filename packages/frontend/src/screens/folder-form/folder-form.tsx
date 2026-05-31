@@ -94,7 +94,7 @@ export function FolderForm() {
                 onClick: () => {
                   const folderId = screen.folderId;
                   assert(folderId, "Folder id must be defined");
-                  screenStore.go({
+                  screenStore.push({
                     type: "catalogSettings",
                     itemType: "folder",
                     id: folderId,

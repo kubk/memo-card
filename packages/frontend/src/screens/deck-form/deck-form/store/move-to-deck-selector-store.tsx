@@ -85,7 +85,10 @@ export class MoveToDeckSelectorStore {
             <span
               className="underline"
               onClick={() => {
-                screenStore.goToDeckForm({ deckId: targetDeckId });
+                screenStore.push({
+                  type: "deckForm",
+                  deckId: targetDeckId,
+                });
                 clear();
               }}
             >

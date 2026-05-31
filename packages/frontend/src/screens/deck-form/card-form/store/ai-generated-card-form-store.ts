@@ -56,7 +56,8 @@ export class AiGeneratedCardFormStore {
     notifyNewCards(cards);
 
     const firstCard = cards[0];
-    screenStore.replaceToDeckForm({
+    screenStore.replace({
+      type: "deckForm",
       deckId: firstCard.deckId,
       cardId: firstCard.id,
     });

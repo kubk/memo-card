@@ -22,7 +22,7 @@ export function CardListWithPreviewReadonly(props: Props) {
       subtitle={subtitle}
       deck={deck}
       onClick={(card) => {
-        screenStore.go({
+        screenStore.push({
           type: "cardPreviewId",
           cardId: card.id,
           deckId: deck.id,

@@ -283,7 +283,7 @@ function TeacherStatisticsContent(props: { statistics: TeacherStatistics }) {
               onSeeAll={
                 overview.studentCount > 0
                   ? () =>
-                      screenStore.go({
+                      screenStore.push({
                         type: "teacherStatisticsList",
                         listType: "students",
                       })
@@ -307,7 +307,7 @@ function TeacherStatisticsContent(props: { statistics: TeacherStatistics }) {
               onSeeAll={
                 overview.sharedDeckCount > 0
                   ? () =>
-                      screenStore.go({
+                      screenStore.push({
                         type: "teacherStatisticsList",
                         listType: "decks",
                       })

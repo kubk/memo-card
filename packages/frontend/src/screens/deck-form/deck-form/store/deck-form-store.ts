@@ -10,7 +10,10 @@ import {
 } from "mobx-form-lite";
 import { makeAutoObservable, runInAction } from "mobx";
 import { screenStore } from "../../../../store/screen-store.ts";
-import { Route } from "../../../../store/routing/route-types.ts";
+import {
+  DeckFormRoute,
+  Route,
+} from "../../../../store/routing/route-types.ts";
 import { deckListStore } from "../../../../store/deck-list-store.ts";
 import { showConfirm } from "../../../../lib/platform/show-confirm.ts";
 import {
@@ -259,13 +262,13 @@ export class DeckFormStore {
   goToSpeakingCards() {
     if (!this.deckForm?.id) return;
     if (!this.validateBeforeNavigate()) return;
-    screenStore.go({ type: "speakingCards", deckId: this.deckForm.id });
+    screenStore.push({ type: "speakingCards", deckId: this.deckForm.id });
   }
 
   goToCardList() {
     if (!this.deckForm?.id) return;
     if (!this.validateBeforeNavigate()) return;
-    screenStore.go({
+    screenStore.push({
       type: "cardList",
       deckId: this.deckForm.id,
       ...this.getFilterParams(),
@@ -275,14 +278,14 @@ export class DeckFormStore {
   goCardInputMode() {
     if (!this.deckForm?.id) return;
     if (!this.validateBeforeNavigate()) return;
-    screenStore.go({ type: "cardInputMode", deckId: this.deckForm.id });
+    screenStore.push({ type: "cardInputMode", deckId: this.deckForm.id });
   }
 
   goCardInputModeForm(cardInputModeId?: string) {
     if (!this.deckForm?.id) return;
     if (!this.validateBeforeNavigate()) return;
     this.cardInputModeIdForForm = cardInputModeId || null;
-    screenStore.go({
+    screenStore.push({
       type: "cardInputModeForm",
       deckId: this.deckForm.id,
       cardInputModeId,
@@ -434,7 +437,8 @@ export class DeckFormStore {
         searchText: searchText || undefined,
       });
     } else if (screen.type === "deckForm" && this.deckForm?.id) {
-      screenStore.replaceToDeckForm({
+      screenStore.replace({
+        type: "deckForm",
         deckId: this.deckForm.id,
         cardId: screen.cardId,
         sortBy,
@@ -545,7 +549,8 @@ export class DeckFormStore {
       return;
     }
 
-    screenStore.goToDeckForm({
+    screenStore.push({
+      type: "deckForm",
       deckId: this.deckForm.id,
       cardId: "new",
     });
@@ -555,15 +560,16 @@ export class DeckFormStore {
     if (!cardId || !this.deckForm?.id) {
       return;
     }
-    const params = {
+    const params: DeckFormRoute = {
+      type: "deckForm",
       deckId: this.deckForm.id,
       cardId,
       ...this.getFilterParams(),
     };
     if (useReplace) {
-      screenStore.replaceToDeckForm(params);
+      screenStore.replace(params);
     } else {
-      screenStore.goToDeckForm(params);
+      screenStore.push(params);
     }
   }
 

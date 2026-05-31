@@ -86,7 +86,8 @@ export function DeckPreview(props: Props) {
                   icon={<PlusIcon size={24} />}
                   outline
                   onClick={() => {
-                    screenStore.goToDeckForm({
+                    screenStore.push({
+                      type: "deckForm",
                       deckId: deck.id,
                       cardId: "new",
                     });
@@ -99,7 +100,7 @@ export function DeckPreview(props: Props) {
                   icon={<PencilIcon size={24} />}
                   outline
                   onClick={() => {
-                    screenStore.goToDeckForm({ deckId: deck.id });
+                    screenStore.push({ type: "deckForm", deckId: deck.id });
                   }}
                 >
                   {t("edit")}
@@ -119,7 +120,7 @@ export function DeckPreview(props: Props) {
                   icon={<LayersIcon size={24} />}
                   outline
                   onClick={() => {
-                    screenStore.go({
+                    screenStore.push({
                       type: "cardList",
                       deckId: deck.id,
                     });

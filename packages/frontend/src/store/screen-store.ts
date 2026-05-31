@@ -2,7 +2,7 @@ import { makeAutoObservable } from "mobx";
 import { routeToUrl, urlToRoute } from "./routing/url-sync.ts";
 import { platform } from "../lib/platform/platform.ts";
 import { BrowserPlatform } from "../lib/platform/browser/browser-platform.ts";
-import { Route, DeckFormRoute } from "./routing/route-types.ts";
+import { Route } from "./routing/route-types.ts";
 
 let routeIndex = 0;
 
@@ -36,7 +36,7 @@ export class ScreenStore {
     }
   };
 
-  go(route: Route) {
+  push(route: Route) {
     this.history.push(route);
 
     if (platform instanceof BrowserPlatform && !this.isNavigatingFromPopstate) {
@@ -93,21 +93,7 @@ export class ScreenStore {
   }
 
   goToUserSettings() {
-    this.go({ type: "userSettings", index: ++routeIndex });
-  }
-
-  goToDeckForm(route: Omit<DeckFormRoute, "index" | "type">) {
-    this.go({
-      ...route,
-      type: "deckForm",
-    });
-  }
-
-  replaceToDeckForm(route: Omit<DeckFormRoute, "index" | "type">) {
-    this.replace({
-      ...route,
-      type: "deckForm",
-    });
+    this.push({ type: "userSettings", index: ++routeIndex });
   }
 
   get isDeckPreviewScreen() {
