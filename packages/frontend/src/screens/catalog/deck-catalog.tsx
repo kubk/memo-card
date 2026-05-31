@@ -28,7 +28,7 @@ export function DeckCatalog() {
 
   useBottomReached(
     () => {
-      store.loadMore();
+      store.catalogRequest.loadMore();
     },
     {
       enabled: store.hasCatalogLoaded && !store.isInitialLoading,

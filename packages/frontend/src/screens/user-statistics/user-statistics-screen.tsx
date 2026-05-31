@@ -14,6 +14,7 @@ import { formatDays } from "../../translations/format-days.ts";
 import { ListHeader } from "../../ui/list-header.tsx";
 import { translator } from "../../translations/t.ts";
 import { ChevronIcon } from "../../ui/chevron-icon.tsx";
+import { formatNumber } from "../../translations/format-number.ts";
 
 const heatmapColors = [
   "bg-[rgba(120,120,120,0.12)]",
@@ -22,10 +23,6 @@ const heatmapColors = [
   "bg-[#2ecb47]",
   "bg-[#139e2d]",
 ];
-
-function formatNumber(value: number) {
-  return new Intl.NumberFormat(translator.getLang()).format(value);
-}
 
 function formatDailyStatsDate(value: string) {
   const [year, month, day] = value.split("-").map(Number);

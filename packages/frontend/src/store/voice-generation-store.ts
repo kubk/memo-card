@@ -11,10 +11,6 @@ class VoiceGenerationStore {
     makeAutoObservable(this, {}, { autoBind: true });
   }
 
-  isGenerating(cardId: number): boolean {
-    return this.generatingCardIds.has(cardId);
-  }
-
   generateForCard(deck: DeckWithCardsDbType, card: DeckCardDbType) {
     this.generateForCards(deck, [card]);
   }

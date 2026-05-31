@@ -24,14 +24,6 @@ function parseIsoDate(date: string) {
   return new Date(year, month - 1, day);
 }
 
-function formatWeekday(date: string) {
-  return new Intl.DateTimeFormat(translator.getLang(), {
-    weekday: "narrow",
-  })
-    .format(parseIsoDate(date))
-    .toLocaleUpperCase();
-}
-
 function getWeekCellIntensity(reviews: number, maxReviewsInDay: number) {
   if (reviews === 0 || maxReviewsInDay === 0) {
     return 0;
@@ -127,21 +119,32 @@ function MainStatisticsSummaryContent(props: {
 
         <div className="flex items-center gap-2 shrink-0">
           <div className="grid grid-cols-7 gap-2">
-            {summary.week.map((day) => (
-              <div key={day.date} className="flex flex-col items-center gap-1">
-                <div className="text-[11px] font-medium leading-3 text-hint">
-                  {formatWeekday(day.date)}
-                </div>
+            {summary.week.map((day) => {
+              const weekday = new Intl.DateTimeFormat(translator.getLang(), {
+                weekday: "narrow",
+              })
+                .format(parseIsoDate(day.date))
+                .toLocaleUpperCase();
+
+              return (
                 <div
-                  className={cn(
-                    "h-4 w-4 rounded-[3px]",
-                    weekCellColors[
-                      getWeekCellIntensity(day.reviews, maxReviewsInDay)
-                    ],
-                  )}
-                />
-              </div>
-            ))}
+                  key={day.date}
+                  className="flex flex-col items-center gap-1"
+                >
+                  <div className="text-[11px] font-medium leading-3 text-hint">
+                    {weekday}
+                  </div>
+                  <div
+                    className={cn(
+                      "h-4 w-4 rounded-[3px]",
+                      weekCellColors[
+                        getWeekCellIntensity(day.reviews, maxReviewsInDay)
+                      ],
+                    )}
+                  />
+                </div>
+              );
+            })}
           </div>
           <ChevronRightIcon
             size={22}
