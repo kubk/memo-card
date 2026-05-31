@@ -12,8 +12,7 @@
     "test": "npm run test --workspaces",
     "export-public-code": "./export-public-code.sh",
     "postinstall": "patch-package",
-    "knip": "knip --reporter compact",
-    "slop": "concurrently -n slop-api,slop-frontend -c green,blue \"slop-scan scan packages/api --lint\" \"slop-scan scan packages/frontend --lint\""
+    "dead-code": "concurrently -n knip,slop-api,slop-frontend,methods -c magenta,green,blue,cyan \"knip --reporter compact\" \"slop-scan scan packages/api --lint\" \"slop-scan scan packages/frontend --lint\" \"node detect-unused-methods.mjs\""
   },
   "workspaces": [
     "./packages/*"

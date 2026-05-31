@@ -198,10 +198,6 @@ export class TelegramPlatform implements Platform {
     }
   }
 
-  isTelegramDesktop() {
-    return getWebApp().platform === "tdesktop";
-  }
-
   openExternalLink(link: string) {
     getWebApp().openLink(link);
   }
