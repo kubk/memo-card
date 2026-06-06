@@ -335,7 +335,7 @@ export const es: Translation = {
   card_input_mode_form_example_placeholder: "ej. Ejemplo de uso o contexto",
   card_input_mode_form_save_success: "Modo de entrada guardado",
   card_input_mode_form_delete_success: "Modo de entrada eliminado",
-  quit_card: "Salir de la tarjeta",
+  quit_card: "Salir",
 
   // Wysiwyg Help
   wysiwyg_help_title: "Guía de formato de texto",
