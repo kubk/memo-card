@@ -337,7 +337,7 @@ export const fa: Translation = {
   card_input_mode_form_example_placeholder: "مثلاً: مثال استفاده یا زمینه",
   card_input_mode_form_save_success: "حالت ورودی ذخیره شد",
   card_input_mode_form_delete_success: "حالت ورودی حذف شد",
-  quit_card: "خروج از کارت",
+  quit_card: "خروج",
 
   // Wysiwyg Help
   wysiwyg_help_title: "راهنمای قالب‌بندی متن",
