@@ -3,13 +3,16 @@ import { App } from "./screens/app.tsx";
 import "./index.css";
 import { platform } from "./lib/platform/platform.ts";
 import { erudaStore } from "./store/eruda-store.ts";
-import { applyFormatters } from "mobx-log";
 import { polyfillCountryFlagEmojis } from "country-flag-emoji-polyfill";
 import { Settings } from "luxon";
 
 polyfillCountryFlagEmojis();
 
-applyFormatters();
+if (import.meta.env.DEV) {
+  import("mobx-log").then(({ applyFormatters }) => {
+    applyFormatters();
+  });
+}
 
 platform.initialize();
 erudaStore.load();

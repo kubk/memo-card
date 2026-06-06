@@ -1,5 +1,6 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+import babel from "@rolldown/plugin-babel";
 import { execSync } from "node:child_process";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -9,10 +10,10 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const getLastCommit = () => {
   try {
-    const [hash, name] = execSync(
-      "git log -1 --format=%H%n%s",
-      { cwd: resolve(__dirname, "../.."), encoding: "utf8" },
-    )
+    const [hash, name] = execSync("git log -1 --format=%H%n%s", {
+      cwd: resolve(__dirname, "../.."),
+      encoding: "utf8",
+    })
       .trim()
       .split("\n");
 
@@ -27,11 +28,9 @@ const getLastCommit = () => {
 
 export default defineConfig({
   plugins: [
-    // @ts-ignore
-    react({
-      babel: {
-        plugins: [observerPlugin()],
-      },
+    react(),
+    babel({
+      plugins: [observerPlugin()],
     }),
   ],
   define: {
