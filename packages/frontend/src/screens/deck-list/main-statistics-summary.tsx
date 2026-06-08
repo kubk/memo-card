@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { RouterOutput } from "api";
+import { type RouterOutput } from "api";
 import { ChevronRightIcon, FlameIcon } from "lucide-react";
 import { api } from "../../api/trpc-api.ts";
 import { RequestStore } from "../../lib/mobx-request/request-store.ts";
@@ -10,6 +10,7 @@ import { userStore } from "../../store/user-store.ts";
 import { cn } from "../../ui/cn.ts";
 import { translator } from "../../translations/t.ts";
 import { formatDays } from "../../translations/format-days.ts";
+import { DateTime } from "luxon";
 
 const weekCellColors = [
   "bg-[rgba(120,120,120,0.12)]",
@@ -18,6 +19,40 @@ const weekCellColors = [
   "bg-[#2ecb47]",
   "bg-[#139e2d]",
 ];
+
+type SummaryDay = RouterOutput["myStatisticsSummary"]["week"][number];
+
+function addDays(date: string, days: number) {
+  const result = DateTime.fromISO(date, { zone: "utc" })
+    .plus({ days })
+    .toISODate();
+
+  if (!result) {
+    throw new Error(`Invalid summary date: ${date}`);
+  }
+
+  return result;
+}
+
+function getTodayDate() {
+  const result = DateTime.local().toISODate();
+
+  if (!result) {
+    throw new Error("Invalid current date");
+  }
+
+  return result;
+}
+
+export function getPaddedSummaryWeek(week: SummaryDay[], today: string) {
+  const startDate = addDays(today, -6);
+  const daysByDate = new Map(week.map((day) => [day.date, day]));
+
+  return Array.from({ length: 7 }, (_, index) => {
+    const date = addDays(startDate, index);
+    return daysByDate.get(date) ?? { date, reviews: 0 };
+  });
+}
 
 function parseIsoDate(date: string) {
   const [year, month, day] = date.split("-").map(Number);
@@ -86,9 +121,13 @@ function MainStatisticsSummaryContent(props: {
   summary: RouterOutput["myStatisticsSummary"];
 }) {
   const { summary } = props;
-  const maxReviewsInDay = useMemo(
-    () => Math.max(0, ...summary.week.map((day) => day.reviews)),
+  const week = useMemo(
+    () => getPaddedSummaryWeek(summary.week, getTodayDate()),
     [summary.week],
+  );
+  const maxReviewsInDay = useMemo(
+    () => Math.max(0, ...week.map((day) => day.reviews)),
+    [week],
   );
 
   return (
@@ -119,7 +158,7 @@ function MainStatisticsSummaryContent(props: {
 
         <div className="flex items-center gap-2 shrink-0">
           <div className="grid grid-cols-7 gap-2">
-            {summary.week.map((day) => {
+            {week.map((day) => {
               const weekday = new Intl.DateTimeFormat(translator.getLang(), {
                 weekday: "narrow",
               })

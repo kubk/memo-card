@@ -85,7 +85,7 @@ function DailyStatsMarker(props: { reviews: number }) {
     <div
       className={cn(
         "h-[30px] w-[30px] shrink-0 rounded-lg",
-        heatmapColors[userStatisticsStore.getHeatmapIntensity(props.reviews)],
+        heatmapColors[userStatisticsStore.getDailyListIntensity(props.reviews)],
       )}
     />
   );
