@@ -1,12 +1,17 @@
 import { makeAutoObservable } from "mobx";
 import { RequestStore } from "../../../lib/mobx-request/request-store.ts";
+import { InfiniteRequestStore } from "../../../lib/mobx-request/infinite-request-store.ts";
 import { api } from "../../../api/trpc-api.ts";
 import { type RouterOutput } from "api";
 import { DateTime } from "luxon";
 
 const recentHeatmapDaysCount = 98;
 
-type HeatmapDay = RouterOutput["myStatistics"]["heatmap"][number];
+type HeatmapReview = RouterOutput["myStatistics"]["heatmapReviews"][number];
+type DailyReview = RouterOutput["myStatisticsDailyReviews"]["items"][number];
+type DailyReviewsCursor = NonNullable<
+  RouterOutput["myStatisticsDailyReviews"]["nextCursor"]
+>;
 
 const addDays = (date: string, days: number) => {
   const result = DateTime.fromISO(date, { zone: "utc" })
@@ -31,7 +36,7 @@ const getTodayDate = () => {
 };
 
 export const getPaddedRecentHeatmap = (
-  heatmap: HeatmapDay[],
+  heatmapReviews: HeatmapReview[],
   today: string,
 ) => {
   const todayDate = DateTime.fromISO(today, { zone: "utc" });
@@ -44,7 +49,7 @@ export const getPaddedRecentHeatmap = (
   }
 
   const daysByDate = new Map(
-    heatmap
+    heatmapReviews
       .filter((day) => day.date >= startDate && day.date <= today)
       .map((day) => [day.date, day]),
   );
@@ -74,6 +79,23 @@ export class UserStatisticsStore {
     RouterOutput["myStatistics"],
     [input: { timeZone: string }]
   >(api.myStatistics.query, { staleWhileRevalidate: true });
+  dailyReviewsRequest = new InfiniteRequestStore<
+    DailyReview,
+    DailyReviewsCursor,
+    { timeZone: string }
+  >(
+    (input) =>
+      api.myStatisticsDailyReviews.query({
+        timeZone: input.timeZone,
+        cursor: input.cursor,
+      }),
+    {
+      getFilters: () => ({
+        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      }),
+      getItemKey: (day) => day.date,
+    },
+  );
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
@@ -85,6 +107,10 @@ export class UserStatisticsStore {
     });
   }
 
+  loadDailyReviews() {
+    this.dailyReviewsRequest.reload();
+  }
+
   get statistics(): RouterOutput["myStatistics"] | null {
     if (this.userStatisticsRequest.result.status !== "success") {
       return null;
@@ -93,8 +119,12 @@ export class UserStatisticsStore {
     return this.userStatisticsRequest.result.data;
   }
 
-  get heatmap() {
-    return this.statistics?.heatmap ?? [];
+  get dailyReviews() {
+    return this.dailyReviewsRequest.items;
+  }
+
+  get heatmapReviews() {
+    return this.statistics?.heatmapReviews ?? [];
   }
 
   get maxReviewsInRecentHeatmap() {
@@ -102,15 +132,15 @@ export class UserStatisticsStore {
   }
 
   get maxReviewsInDailyList() {
-    return Math.max(0, ...this.heatmap.map((day) => day.reviews));
+    return Math.max(0, ...this.dailyReviews.map((day) => day.reviews));
   }
 
   get hasActivity() {
-    return this.heatmap.some((day) => day.reviews > 0);
+    return this.heatmapReviews.some((day) => day.reviews > 0);
   }
 
   get recentHeatmap() {
-    return getPaddedRecentHeatmap(this.heatmap, getTodayDate());
+    return getPaddedRecentHeatmap(this.heatmapReviews, getTodayDate());
   }
 
   get heatmapWeeks() {
