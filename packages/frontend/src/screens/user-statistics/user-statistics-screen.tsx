@@ -15,6 +15,7 @@ import { ListHeader } from "../../ui/list-header.tsx";
 import { translator } from "../../translations/t.ts";
 import { ChevronIcon } from "../../ui/chevron-icon.tsx";
 import { formatNumber } from "../../translations/format-number.ts";
+import { useBottomReached } from "../../lib/react/use-bottom-reached.ts";
 
 const heatmapColors = [
   "bg-[rgba(120,120,120,0.12)]",
@@ -235,22 +236,35 @@ export function UserStatisticsScreen() {
 
 export function UserStatisticsDailyScreen() {
   const userStatisticsStore = useUserStatisticsStore();
-  const statistics = userStatisticsStore.statistics;
-  const days = userStatisticsStore.heatmap.slice().reverse();
+  const days = userStatisticsStore.dailyReviews;
 
   useBackButton(() => {
     screenStore.back();
   });
 
   useMount(() => {
-    userStatisticsStore.load();
+    userStatisticsStore.loadDailyReviews();
   });
+
+  useBottomReached(
+    () => {
+      userStatisticsStore.dailyReviewsRequest.loadMore();
+    },
+    {
+      enabled:
+        userStatisticsStore.dailyReviewsRequest.hasLoaded &&
+        !userStatisticsStore.dailyReviewsRequest.isInitialLoading,
+    },
+  );
 
   return (
     <Screen title={t("user_stats_daily_page")}>
-      {userStatisticsStore.userStatisticsRequest.isLoading ? (
+      {userStatisticsStore.dailyReviewsRequest.isInitialLoading ? (
         <StatisticsLoading />
-      ) : statistics ? (
+      ) : userStatisticsStore.dailyReviewsRequest.loadError &&
+        days.length === 0 ? (
+        <StatisticsLoadError />
+      ) : userStatisticsStore.dailyReviewsRequest.hasLoaded ? (
         <>
           <List
             items={days.map((day) => ({
@@ -270,6 +284,9 @@ export function UserStatisticsDailyScreen() {
               ),
             }))}
           />
+          {userStatisticsStore.dailyReviewsRequest.isLoadingMore && (
+            <CardRowLoading speed={1} />
+          )}
         </>
       ) : (
         <StatisticsLoadError />
