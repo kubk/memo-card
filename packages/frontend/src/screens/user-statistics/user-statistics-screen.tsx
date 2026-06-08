@@ -9,7 +9,7 @@ import { cn } from "../../ui/cn.ts";
 import { type ReactNode } from "react";
 import { List } from "../../ui/list.tsx";
 import { FilledIcon } from "../../ui/filled-icon.tsx";
-import { FlameIcon, TrophyIcon } from "lucide-react";
+import { FlameIcon, LoaderCircleIcon, TrophyIcon } from "lucide-react";
 import { formatDays } from "../../translations/format-days.ts";
 import { ListHeader } from "../../ui/list-header.tsx";
 import { translator } from "../../translations/t.ts";
@@ -285,7 +285,9 @@ export function UserStatisticsDailyScreen() {
             }))}
           />
           {userStatisticsStore.dailyReviewsRequest.isLoadingMore && (
-            <CardRowLoading speed={1} />
+            <div className="flex justify-center py-3">
+              <LoaderCircleIcon size={24} className="animate-spin text-hint" />
+            </div>
           )}
         </>
       ) : (
