@@ -9,11 +9,18 @@
     <meta name="keywords" content="memocard, anki alternative,flashcard app,flashcards ai,create ai flashcards">
     <link rel="manifest" href="/manifest.json">
     <script>
+      var rollbarAllowedHosts = ["app.memocard.org"];
+      var isRollbarHostAllowed = rollbarAllowedHosts.indexOf(window.location.hostname) !== -1;
       var _rollbarConfig = {
-        accessToken: "1def92b46d8a48dcadd779a833dddbccb79805485a56a346a2d2e83d00c0e3b3514c7f3952e0a89cc2d3343291ec2a29",
-        captureUncaught: true,
-        captureUnhandledRejections: true,
+        accessToken: "8738fbc8c3fe4c7eb5c007ad721435c088f5d90adb777fe614d680e02a99174fdf6cdc5746ce35d2a640b81828a0a750",
+        enabled: isRollbarHostAllowed,
+        captureUncaught: isRollbarHostAllowed,
+        captureUnhandledRejections: isRollbarHostAllowed,
         environment: '%MODE%',
+        hostSafeList: rollbarAllowedHosts,
+        checkIgnore: function () {
+          return !isRollbarHostAllowed;
+        },
         payload: {
           client: {
             javascript: {
