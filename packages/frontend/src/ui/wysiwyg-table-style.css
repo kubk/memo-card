@@ -1,0 +1,60 @@
+.wysiwyg-table-style {
+  --wysiwyg-table-border-color: rgba(0, 0, 0, 0.05);
+  --wysiwyg-table-header-color: var(--tg-theme-text-color);
+}
+
+.dark .wysiwyg-table-style {
+  --wysiwyg-table-border-color: rgb(33, 48, 64);
+  --wysiwyg-table-header-color: var(--tg-theme-hint-color);
+}
+
+.wysiwyg-table-style table {
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid var(--wysiwyg-table-border-color);
+}
+
+.wysiwyg-table-style thead {
+  font-weight: bold;
+}
+
+.wysiwyg-table-style th,
+.wysiwyg-table-style td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid var(--wysiwyg-table-border-color);
+  border-right: 1px solid var(--wysiwyg-table-border-color);
+}
+
+.wysiwyg-table-style th {
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 14px;
+  color: var(--wysiwyg-table-header-color);
+}
+
+.wysiwyg-table-style td {
+  font-size: 14px;
+  color: var(--tg-theme-text-color);
+}
+
+.wysiwyg-table-style tr th:last-child,
+.wysiwyg-table-style tr td:last-child {
+  border-right: none;
+}
+
+.wysiwyg-table-style tr:last-child td {
+  border-bottom: none;
+}
+
+.html-table-editor input {
+  width: 100%;
+  border: none;
+  outline: none;
+}
+
+.html-table-editor input:focus {
+  outline: 1px solid var(--tg-theme-button-color);
+}
