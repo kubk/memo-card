@@ -3,15 +3,38 @@ import { copyToClipboard } from "../../lib/copy-to-clipboard/copy-to-clipboard.t
 import { notifySuccess } from "../../screens/shared/snackbar/snackbar.tsx";
 import { t } from "../../translations/t.ts";
 import { wysiwygTableStyle } from "../wysiwyg-table-style.ts";
-import { css, cx } from "@emotion/css";
-import { theme } from "../theme.tsx";
 import { ButtonGrid } from "../button-grid.tsx";
 import { ButtonSideAligned } from "../button-side-aligned.tsx";
 import { CopyIcon, MinusIcon, PlusIcon } from "lucide-react";
+import { cn } from "../cn.ts";
 
 type TableData = {
   headers: string[];
   rows: string[][];
+};
+
+const escapeHtml = (value: string) => {
+  const div = document.createElement("div");
+  div.textContent = value;
+  return div.innerHTML;
+};
+
+const tableDataToHtml = (tableData: TableData) => {
+  return `
+<table>
+  <thead>
+    <tr>${tableData.headers.map((header) => `<th>${escapeHtml(header)}</th>`).join("")}</tr>
+  </thead>
+  <tbody>
+    ${tableData.rows
+      .map(
+        (row) =>
+          `<tr>${row.map((cell) => `<td>${escapeHtml(cell)}</td>`).join("")}</tr>`,
+      )
+      .join("\n    ")}
+  </tbody>
+</table>
+    `.trim();
 };
 
 export function HtmlTableEditor() {
@@ -77,20 +100,7 @@ export function HtmlTableEditor() {
 
   return (
     <div
-      className={cx(
-        css({ display: "flex", flexDirection: "column", gap: 8 }),
-        wysiwygTableStyle,
-        css`
-          input {
-            width: 100%;
-            border: none;
-            outline: none;
-            &:focus {
-              outline: 1px solid ${theme.buttonColor};
-            }
-          }
-        `,
-      )}
+      className={cn("html-table-editor flex flex-col gap-2", wysiwygTableStyle)}
     >
       <ButtonGrid>
         <ButtonSideAligned
@@ -157,22 +167,8 @@ export function HtmlTableEditor() {
         <ButtonSideAligned
           outline
           onClick={() => {
-            copyToClipboard(
-              `
-<table>
-  <thead>
-    <tr>${tableData.headers.map((header) => `<th>${header}</th>`).join("")}</tr>
-  </thead>
-  <tbody>
-    ${tableData.rows
-      .map(
-        (row) => `<tr>${row.map((cell) => `<td>${cell}</td>`).join("")}</tr>`,
-      )
-      .join("\n    ")}
-  </tbody>
-</table>
-    `.trim(),
-            );
+            const tableHtml = tableDataToHtml(tableData);
+            copyToClipboard(tableHtml, { html: tableHtml });
             notifySuccess(t("copied"));
           }}
           icon={<CopyIcon size={18} />}

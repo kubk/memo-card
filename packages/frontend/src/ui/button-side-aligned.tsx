@@ -1,11 +1,17 @@
-import { css, cx } from "@emotion/css";
-import React, { ReactNode, useMemo } from "react";
+import {
+  type ButtonHTMLAttributes,
+  type CSSProperties,
+  type MouseEvent,
+  type ReactNode,
+  useMemo,
+} from "react";
 import { colord } from "colord";
 import { reset } from "./reset.ts";
 import { theme } from "./theme.tsx";
 import { userStore } from "../store/user-store.ts";
 import { screenStore } from "../store/screen-store.ts";
 import { StarIcon } from "lucide-react";
+import { cn } from "./cn.ts";
 
 type Props = {
   mainColor?: string;
@@ -14,7 +20,12 @@ type Props = {
   column?: boolean;
   align?: "left" | "center";
   isPro?: boolean;
-} & React.ButtonHTMLAttributes<HTMLButtonElement>;
+} & ButtonHTMLAttributes<HTMLButtonElement>;
+
+type ButtonStyle = CSSProperties & {
+  "--button-bg": string;
+  "--button-color": string;
+};
 
 export function ButtonSideAligned(props: Props) {
   const align = props.align || "left";
@@ -27,11 +38,12 @@ export function ButtonSideAligned(props: Props) {
     column,
     isPro,
     onClick,
+    style,
     ...restProps
   } = props;
   const showProBadge = isPro && !userStore.isPaid;
 
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
     if (isPro && !userStore.isPaid) {
       screenStore.push({ type: "plans", planType: "pro" });
       return;
@@ -40,64 +52,32 @@ export function ButtonSideAligned(props: Props) {
   };
 
   const parsedColor = useMemo(() => colord(mainColor), [mainColor]);
+  const buttonStyle: ButtonStyle = {
+    "--button-bg": outline ? parsedColor.alpha(0.2).toHex() : mainColor,
+    "--button-color": outline ? mainColor : theme.buttonTextColorComputed,
+    ...style,
+  };
 
   return (
     <button
       {...restProps}
       onClick={handleClick}
-      className={cx(
+      style={buttonStyle}
+      className={cn(
         reset.button,
-        css({
-          display: "flex",
-          flexDirection: column ? "column" : undefined,
-          width: "100%",
-          gap: column ? 0 : 8,
-          height: 45,
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundColor: mainColor,
-          cursor: "pointer",
-          ":disabled": {
-            opacity: 0.4,
-            cursor: "not-allowed",
-          },
-          color: theme.buttonTextColorComputed,
-          fontWeight: 600,
-          fontSize: 14,
-          lineHeight: 1.5,
-          padding: "0.75rem 0.75rem",
-          userSelect: "none",
-          transitionDuration: "0.2s",
-          borderRadius: theme.borderRadius,
-          position: "relative",
-          transitionTimingFunction: "ease-in-out",
-          transitionProperty: "background-color, border, box-shadow, color",
-          ":active:not(:disabled)": {
-            transform: "scale(0.97)",
-          },
-        }),
-        outline &&
-          css({
-            backgroundColor: parsedColor.alpha(0.2).toHex(),
-            color: mainColor,
-          }),
+        "relative flex h-[45px] w-full items-center justify-center rounded-xl bg-[var(--button-bg)] px-3 py-3 text-sm font-semibold leading-[1.5] text-[var(--button-color)] select-none transition-[background-color,border,box-shadow,color] duration-200 ease-in-out active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-40 disabled:active:scale-100",
+        column ? "flex-col gap-0" : "gap-2",
         className,
       )}
     >
       <span
-        className={css(
-          {
-            position: "absolute",
-            left: userStore.isRtl ? undefined : 16,
-            right: userStore.isRtl && align !== "center" ? 16 : undefined,
-            display: "flex",
-            alignItems: "center",
-            gap: 8,
-          },
-          align === "center" && {
-            left: "50%",
-            transform: "translate(-50%)",
-          },
+        className={cn(
+          "absolute flex items-center gap-2",
+          align === "center"
+            ? "left-1/2 -translate-x-1/2"
+            : userStore.isRtl
+              ? "right-4"
+              : "left-4",
         )}
       >
         {icon ? icon : null}
@@ -105,20 +85,10 @@ export function ButtonSideAligned(props: Props) {
       </span>
       {showProBadge && (
         <span
-          className={css({
-            position: "absolute",
-            top: -6,
-            right: userStore.isRtl ? undefined : -6,
-            left: userStore.isRtl ? -6 : undefined,
-            width: 20,
-            height: 20,
-            borderRadius: "50%",
-            backgroundImage:
-              "linear-gradient(to right, #8b5cf6, #ec4899, #ef4444)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          })}
+          className={cn(
+            "absolute -top-1.5 flex size-5 items-center justify-center rounded-full bg-gradient-to-r from-violet-500 via-pink-500 to-red-500",
+            userStore.isRtl ? "-left-1.5" : "-right-1.5",
+          )}
         >
           <StarIcon size={12} fill="white" color="white" />
         </span>
