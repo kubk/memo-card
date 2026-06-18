@@ -8,7 +8,7 @@
     "dev:telegram": "npx concurrently -n api,frontend,tunnel -c green,blue,yellow --kill-others-on-fail \"npm run dev -w=api\" \"npm run dev -w=frontend\" \"npm run tunnel -w=api\"",
     "format": "oxfmt --write \"./packages/**/*.{ts,tsx,mts,json}\" \"!**/package-lock.json\"",
     "lint": "npm run lint --workspaces",
-    "typecheck": "npm run typecheck --workspaces",
+    "typecheck": "concurrently -n api,frontend,landing -c green,blue,magenta --kill-others-on-fail \"npm run typecheck -w=api\" \"npm run typecheck -w=frontend\" \"npm run typecheck -w=landing\"",
     "test": "npm run test --workspaces",
     "export-public-code": "./export-public-code.sh",
     "postinstall": "patch-package",
