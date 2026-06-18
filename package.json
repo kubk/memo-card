@@ -26,6 +26,6 @@
     "knip": "^6.9.0",
     "oxfmt": "^0.55.0",
     "slop-scan": "^0.3.0",
-    "typescript": "^5.9.3"
+    "typescript": "^6.0.3"
   }
 }
