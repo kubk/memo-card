@@ -10,10 +10,7 @@ import {
 } from "mobx-form-lite";
 import { makeAutoObservable, runInAction } from "mobx";
 import { screenStore } from "../../../../store/screen-store.ts";
-import {
-  DeckFormRoute,
-  Route,
-} from "../../../../store/routing/route-types.ts";
+import { DeckFormRoute, Route } from "../../../../store/routing/route-types.ts";
 import { deckListStore } from "../../../../store/deck-list-store.ts";
 import { showConfirm } from "../../../../lib/platform/show-confirm.ts";
 import {

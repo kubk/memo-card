@@ -8,11 +8,7 @@ export const DeckCatalogStoreContextProvider = (props: {
   children: ReactNode;
 }) => {
   const [store] = useState(() => new DeckCatalogStore());
-  return (
-    <Context.Provider value={store}>
-      {props.children}
-    </Context.Provider>
-  );
+  return <Context.Provider value={store}>{props.children}</Context.Provider>;
 };
 
 export const useDeckCatalogStore = () => {
