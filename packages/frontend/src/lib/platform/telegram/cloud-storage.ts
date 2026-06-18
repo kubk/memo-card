@@ -19,47 +19,46 @@ function getStorage() {
     : getWebApp().DeviceStorage;
 }
 
+type StorageError = string | null;
+
 // An adapter of the Telegram cloud storage to the mobx-persist-store interface
 export const cloudStorageAdapter: StorageController = {
   getItem(key: string) {
-    return new Promise((resolve, reject) => {
+    return new Promise<string | null>((resolve, reject) => {
       if (!isCloudStorageKeyValid(key)) {
         return reject(new Error(`Cloud Storage invalid key: ${key}`));
       }
-      getStorage().getItem(key, (err, value) => {
+      getStorage().getItem(key, (err: StorageError, value: string | null) => {
         if (err != null) {
           return reject(err);
         } else {
-          // @ts-ignore
           return resolve(value);
         }
       });
     });
   },
   removeItem(key: string) {
-    return new Promise((resolve, reject) => {
-      getStorage().removeItem(key, (err, result) => {
+    return new Promise<void>((resolve, reject) => {
+      getStorage().removeItem(key, (err: StorageError) => {
         if (err != null) {
           return reject(err);
         } else {
-          // @ts-ignore
-          return resolve(result);
+          return resolve();
         }
       });
     });
   },
   setItem(key: string, value: any) {
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       if (!isCloudStorageKeyValid(key)) {
         return reject(new Error(`Cloud Storage invalid key: ${key}`));
       }
 
-      getStorage().setItem(key, value, (err, result) => {
+      getStorage().setItem(key, value, (err: StorageError) => {
         if (err != null) {
           return reject(err);
         } else {
-          // @ts-ignore
-          return resolve(result);
+          return resolve();
         }
       });
     });

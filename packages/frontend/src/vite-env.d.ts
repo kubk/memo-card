@@ -1,4 +1,5 @@
 /// <reference types="vite/client" />
+/// <reference types="telegram-web-app" />
 
 declare module "react-lines-ellipsis";
 
