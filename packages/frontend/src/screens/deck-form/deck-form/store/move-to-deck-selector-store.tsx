@@ -152,5 +152,4 @@ export class MoveToDeckSelectorStore {
   isDeckSelected(deckId: number) {
     return this.form?.targetDeckId === deckId;
   }
-
 }

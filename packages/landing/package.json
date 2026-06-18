@@ -8,8 +8,8 @@
     "postbuild": "next-sitemap",
     "test": "echo 1",
     "build": "next build && ./fix-html-lang.sh",
-    "prettier:fix": "prettier --write \"**/*.+(ts|tsx)\"",
-    "typecheck": "npx tsc -b --noEmit",
+    "format": "oxfmt --write \"**/*.{ts,tsx}\"",
+    "typecheck": "npx tsc --noEmit",
     "lint": "next lint"
   },
   "dependencies": {
@@ -32,9 +32,9 @@
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "postcss": "^8",
-    "prettier": "^3.3.2",
+    "oxfmt": "^0.55.0",
     "serve": "^14.2.3",
     "tailwindcss": "^4.1.11",
-    "typescript": "^5"
+    "typescript": "^5.9.3"
   }
 }

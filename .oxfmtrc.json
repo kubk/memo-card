@@ -1,0 +1,11 @@
+{
+  "singleQuote": false,
+  "useTabs": false,
+  "printWidth": 80,
+  "sortPackageJson": false,
+  "ignorePatterns": [
+    "functions/db/databaseTypes.ts",
+    "packages/api/drizzle/meta",
+    "**/components/ui/**"
+  ]
+}

@@ -167,7 +167,10 @@ class DeckListStore {
       ...folderWithoutDecks,
       decks: [],
     };
-    screenStore.push({ type: "folderPreview", folderId: this.catalogFolder.id });
+    screenStore.push({
+      type: "folderPreview",
+      folderId: this.catalogFolder.id,
+    });
 
     const result = await this.getFolderWithDecksCards.execute({
       folderId: folderWithoutDecks.id,

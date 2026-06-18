@@ -14,7 +14,9 @@ function isPortraitOrientation(): boolean {
   return window.innerHeight >= window.innerWidth;
 }
 
-function subscribeToPortraitOrientationChange(listener: () => void): () => void {
+function subscribeToPortraitOrientationChange(
+  listener: () => void,
+): () => void {
   if (window.matchMedia) {
     const mediaQuery = window.matchMedia("(orientation: portrait)");
 

@@ -6,8 +6,7 @@
   "scripts": {
     "dev": "npx concurrently -n api,frontend,landing -c green,blue,magenta --kill-others-on-fail \"npm run dev -w=api\" \"npm run dev -w=frontend\" \"npm run dev -w=landing\"",
     "dev:telegram": "npx concurrently -n api,frontend,tunnel -c green,blue,yellow --kill-others-on-fail \"npm run dev -w=api\" \"npm run dev -w=frontend\" \"npm run tunnel -w=api\"",
-    "prettier:fix": "git ls-files -mo --exclude-standard -- './packages' | grep -E '\\.(ts|tsx|mts|json)$' | xargs -I {} prettier --write {}",
-    "prettier:fix:full": "prettier --write \"./packages/**/*.+(ts|tsx|mts|json)\"",
+    "format": "oxfmt --write \"./packages/**/*.{ts,tsx,mts,json}\" \"!**/package-lock.json\"",
     "typecheck": "npm run typecheck --workspaces",
     "test": "npm run test --workspaces",
     "export-public-code": "./export-public-code.sh",
@@ -24,7 +23,7 @@
     "@types/node": "^25.0.3",
     "concurrently": "^9.2.1",
     "knip": "^6.9.0",
-    "prettier": "^3.8.3",
+    "oxfmt": "^0.55.0",
     "slop-scan": "^0.3.0",
     "typescript": "^5.9.3"
   }

@@ -239,8 +239,7 @@ export const ar: Translation = {
   teacher_stats_today: "اليوم",
   teacher_stats_yesterday: "أمس",
   teacher_plan_student_statistics_title: "إحصاءات الطلاب",
-  teacher_plan_student_statistics_description:
-    "تقدم الطلاب وإحصاءات رزمك لديهم",
+  teacher_plan_student_statistics_description: "تقدم الطلاب وإحصاءات رزمك لديهم",
   teacher_plan_anki_import_title: "استيراد Anki",
   teacher_plan_anki_import_description: "استيراد وتصدير Anki بلا حدود",
   validate_positive: "يرجى إدخال رقم موجب",

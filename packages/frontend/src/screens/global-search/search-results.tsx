@@ -1,4 +1,8 @@
-import { globalSearchStore, SearchField, SearchResultItem } from "./global-search-store.ts";
+import {
+  globalSearchStore,
+  SearchField,
+  SearchResultItem,
+} from "./global-search-store.ts";
 import { DeckListItem, deckListStore } from "../../store/deck-list-store.ts";
 import { screenStore } from "../../store/screen-store.ts";
 import { List } from "../../ui/list.tsx";

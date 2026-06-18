@@ -15,9 +15,8 @@ export class CardListStore {
   isSelectionMode = new BooleanToggle(false);
   selectedCardIds = new Set<number>();
   moveToDeckStore = new MoveToDeckSelectorStore();
-  private translateModulePromise = import(
-    "../translate-create-reverse-confirm"
-  );
+  private translateModulePromise =
+    import("../translate-create-reverse-confirm");
 
   constructor(private deckFormStore: DeckFormStore) {
     makeAutoObservable(this, {}, { autoBind: true });
