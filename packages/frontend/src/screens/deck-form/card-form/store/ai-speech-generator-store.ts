@@ -77,14 +77,14 @@ export class AiSpeechGeneratorStore {
     }
 
     this.cardForm.options.onChange({
-      ...(this.cardForm.options.value || {}),
+      ...this.cardForm.options.value,
       voice: result.data.data.publicUrl,
     });
   }
 
   onDeleteAiVoice() {
     this.cardForm.options.onChange({
-      ...(this.cardForm.options.value || {}),
+      ...this.cardForm.options.value,
       voice: null,
     });
   }

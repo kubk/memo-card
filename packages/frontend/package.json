@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "typecheck": "npx tsc -b --noEmit",
+    "lint": "oxlint .",
     "test": "npx vitest run --environment jsdom",
     "build": "cp index.build.html index.html && vite build",
     "bundle-visualize": "npx vite-bundle-visualizer"
@@ -64,6 +65,7 @@
     "@vitejs/plugin-react": "^6.0.2",
     "jsdom": "^26.1.0",
     "mobx-log": "^2.2.4",
+    "oxlint": "^1.70.0",
     "typescript": "^5.9.3",
     "vite": "^8.0.16",
     "vite-bundle-visualizer": "^1.0.1",

@@ -10,7 +10,7 @@ module.exports = {
     '/icon.png',
     ...alternativeLanguages.map((lang) => `/${lang}`),
   ],
-  additionalPaths: async (config) => [
+  additionalPaths: async () => [
     {
       loc: '/',
       changefreq: 'daily',
