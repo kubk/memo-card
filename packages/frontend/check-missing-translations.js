@@ -78,14 +78,14 @@ function searchForKeyUsage(key) {
         if (result && result.trim()) {
           return true;
         }
-      } catch (grepError) {
+      } catch {
         // grep returns non-zero exit code when no matches found, continue to next pattern
         continue;
       }
     }
     
     return false;
-  } catch (error) {
+  } catch {
     return false;
   }
 }
@@ -121,7 +121,7 @@ function main() {
     process.exit(1);
   }
   
-  const { unusedKeys, usedKeys, total } = findUnusedTranslations();
+  const { unusedKeys } = findUnusedTranslations();
   
   if (unusedKeys.length > 0) {
     unusedKeys.forEach((key) => {

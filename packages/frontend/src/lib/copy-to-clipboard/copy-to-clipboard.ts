@@ -14,7 +14,7 @@ export const copyToClipboard = async (
     }
 
     await navigator.clipboard.writeText(text);
-  } catch (e) {
+  } catch {
     copyToClipboardOld(text, options);
   }
 };
@@ -59,7 +59,7 @@ function copyRichClipboardOld(text: string, html: string) {
 
   try {
     copied = document.execCommand("copy");
-  } catch (err) {
+  } catch {
     copied = false;
   } finally {
     document.removeEventListener("copy", handleCopy);
