@@ -66,7 +66,7 @@
     "jsdom": "^26.1.0",
     "mobx-log": "^2.2.4",
     "oxlint": "^1.70.0",
-    "typescript": "^6.0.3",
+    "typescript": "^7.0.1-rc",
     "vite": "^8.0.16",
     "vite-bundle-visualizer": "^1.0.1",
     "vitest": "^4.1.8"
