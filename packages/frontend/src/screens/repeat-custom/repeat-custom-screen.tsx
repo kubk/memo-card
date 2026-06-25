@@ -54,7 +54,11 @@ export function RepeatCustomScreen() {
   }
 
   return (
-    <Flex direction={"column"} gap={8}>
+    <Flex
+      className="pt-[var(--tg-content-safe-area-inset-top,0px)]"
+      direction={"column"}
+      gap={8}
+    >
       <Hint>{t("no_cards_to_review_all")}</Hint>
       {deckListStore.newCardsCount > 0 ? (
         <Hint>

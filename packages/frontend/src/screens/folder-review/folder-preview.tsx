@@ -57,7 +57,11 @@ export function FolderPreview(props: Props) {
   );
 
   return (
-    <Flex direction={"column"} pb={82}>
+    <Flex
+      className="pt-[var(--tg-content-safe-area-inset-top,0px)]"
+      direction={"column"}
+      pb={82}
+    >
       <ListHeader text={t("folder")} />
       <div className="flex flex-col gap-4 rounded-[12px] px-4 pb-4 pt-0 bg-bg">
         <div className={cn("flex gap-1.5")}>

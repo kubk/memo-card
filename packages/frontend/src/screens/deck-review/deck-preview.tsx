@@ -55,7 +55,12 @@ export function DeckPreview(props: Props) {
   }
 
   return (
-    <Flex direction={"column"} gap={16} pb={82}>
+    <Flex
+      className="pt-[var(--tg-content-safe-area-inset-top,0px)]"
+      direction={"column"}
+      gap={16}
+      pb={82}
+    >
       <div>
         <ListHeader text={t("deck")} />
         <div className="flex flex-col gap-4 rounded-[12px] px-4 pb-4 pt-0 bg-bg">

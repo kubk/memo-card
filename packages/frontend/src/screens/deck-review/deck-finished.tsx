@@ -36,7 +36,10 @@ export function DeckFinished(props: Props) {
 
   return (
     <>
-      <Flex direction={"column"}>
+      <Flex
+        className="pt-[var(--tg-content-safe-area-inset-top,0px)]"
+        direction={"column"}
+      >
         <LazyLoadFramerMotion>
           <m.div
             initial={{ opacity: 0, y: 20 }}

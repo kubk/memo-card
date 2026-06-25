@@ -40,11 +40,11 @@ export function CardReviewWithControls(props: Props) {
 
   return (
     <>
-      <div className="relative -mt-[72px] w-full">
+      <div className="relative mt-[calc(var(--review-top-offset,0px)_-_72px)] w-full">
         {card && <Card card={card} />}
       </div>
       {card && card.answerType === "remember" && (
-        <div className="flex absolute bottom-16 gap-2 w-full [&>button]:flex-1">
+        <div className="absolute bottom-4 flex w-full gap-2 [&>button]:flex-1">
           {card.isOpened ? (
             cardOpenedRow ? (
               cardOpenedRow
@@ -140,7 +140,7 @@ export function CardReviewWithControls(props: Props) {
       )}
 
       {card && card.answerType === "choice_single" && !card.isOpened && (
-        <div className="absolute bottom-12 flex flex-col items-center gap-1 w-full [&>button]:flex-1">
+        <div className="absolute bottom-4 flex w-full flex-col items-center gap-1 [&>button]:flex-1">
           {card.answers.map((answer) => (
             <Button
               key={answer.id}
@@ -161,7 +161,7 @@ export function CardReviewWithControls(props: Props) {
         </div>
       )}
       {card && card.answerType === "choice_single" && card.isOpened ? (
-        <div className="absolute bottom-12 flex items-center gap-4 w-full [&>button]:flex-1">
+        <div className="absolute bottom-4 flex w-full items-center gap-4 [&>button]:flex-1">
           {cardOpenedRow || (
             <Button
               onClick={() => {

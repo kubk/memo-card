@@ -36,6 +36,8 @@ export type DeckWithCardsWithReviewType = DeckWithCardsDbType & {
 
 const createNewCardReviewState = () => createInitialFsrsReviewState(new Date());
 
+const authOptionalScreenTypes = ["about", "componentCatalog", "debug"];
+
 export type DeckListItem = {
   id: number;
   cardsToReview: DeckCardDbTypeWithType[];
@@ -97,8 +99,15 @@ class DeckListStore {
   }
 
   loadFirstTime(startParam?: string) {
-    this.load();
     this.handleStartParam(startParam);
+    if (this.isAuthOptionalScreen) {
+      return;
+    }
+    this.load();
+  }
+
+  private get isAuthOptionalScreen() {
+    return authOptionalScreenTypes.includes(screenStore.screen.type);
   }
 
   private addFolder(folder: FolderWithDecksWithCards) {
@@ -686,7 +695,7 @@ class DeckListStore {
     const result = await this.myInfoRequest.execute();
     if (result.status === "error") {
       console.log("mc: error in myInfoRequest", result.error);
-      if (platform instanceof BrowserPlatform) {
+      if (platform instanceof BrowserPlatform && !this.isAuthOptionalScreen) {
         screenStore.push({ type: "browserLogin" });
       }
       return;
@@ -700,6 +709,9 @@ class DeckListStore {
       this.myInfo = userData;
     });
     userStore.setUser(userData.user, userData.plan);
+    if (screenStore.screen.type === "browserLogin") {
+      screenStore.replace({ type: "main" });
+    }
   }
 
   async onDuplicateDeck(deckId: number) {

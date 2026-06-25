@@ -43,7 +43,12 @@ export function MainScreen() {
   const [ruEduVideoToggle] = useState(() => new BooleanToggle(false));
 
   return (
-    <Flex direction={"column"} gap={12} pb={48}>
+    <Flex
+      className="pt-[calc(var(--tg-content-safe-area-inset-top,0px)_+_4px)]"
+      direction={"column"}
+      gap={12}
+      pb={48}
+    >
       <DeckOrFolderChoose toggle={deckFolderToggle} />
       <RuEduVideoChoice toggle={ruEduVideoToggle} />
       <MainStatisticsSummary />

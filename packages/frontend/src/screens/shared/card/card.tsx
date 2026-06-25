@@ -49,7 +49,7 @@ export function Card(props: Props) {
     <div
       className={cn(
         card.answerType === "remember"
-          ? "min-h-[calc(100vh-16rem)] w-full box-border rounded-xl text-text flex items-center justify-center p-2.5 bg-bg overflow-x-auto"
+          ? "min-h-[calc(var(--tg-viewport-height,100vh)_-_var(--tg-safe-area-inset-top,0px)_-_var(--tg-safe-area-inset-bottom,0px)_-_16rem)] w-full box-border rounded-xl text-text flex items-center justify-center p-2.5 bg-bg overflow-x-auto"
           : "text-text",
       )}
     >
