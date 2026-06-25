@@ -290,7 +290,6 @@ export function PlansScreen() {
                       {translateProDuration(
                         duration,
                         translator.getLang(),
-                        durationDisplayMethod,
                       )}
                     </span>
                     {discount > 0 && (
