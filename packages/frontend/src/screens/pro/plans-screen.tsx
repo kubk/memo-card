@@ -15,7 +15,11 @@ import { t, translator } from "../../translations/t.ts";
 import { RadioList } from "../../ui/radio-list/radio-list.tsx";
 import { cn } from "../../ui/cn.ts";
 import { theme } from "../../ui/theme.tsx";
-import { calcPlanPriceForDuration, type PaidPlanType, PlanDuration } from "api";
+import {
+  calcPlanPriceForDuration,
+  type PaidPlanType,
+  type PlanDuration,
+} from "api";
 import { Tag } from "./tag.tsx";
 import { Label } from "../../ui/label.tsx";
 import { List } from "../../ui/list.tsx";
@@ -158,6 +162,7 @@ export function PlansScreen() {
     ? [teacherPlanItem, ankiImportPlanItem, ...proPlanItems]
     : proPlanItems;
   const selectedPlan = store.selectedPlan;
+  const durationDisplayMethod = store.durationDisplayMethod;
   const bankCardDiscountText = formatDiscountAsText(
     store.bankCardDiscount,
     translator.getLang(),
@@ -228,7 +233,7 @@ export function PlansScreen() {
         </Label>
 
         <Label fullWidth text={t("payment_choose_method")}>
-          <RadioList
+          <RadioList<PaymentMethodType | null>
             selectedId={store.method}
             options={[
               ...(store.isUsdPaymentAvailable
@@ -260,7 +265,7 @@ export function PlansScreen() {
         <Label
           fullWidth
           text={
-            store.method === PaymentMethodType.Usd
+            durationDisplayMethod === PaymentMethodType.Usd
               ? t("payment_choose_subscription")
               : t("payment_choose_duration")
           }
@@ -272,6 +277,7 @@ export function PlansScreen() {
               assert(selectedPlan);
 
               const discount = store.getDiscountForDuration(
+                durationDisplayMethod,
                 selectedPlan,
                 duration,
               );
@@ -284,7 +290,7 @@ export function PlansScreen() {
                       {translateProDuration(
                         duration,
                         translator.getLang(),
-                        store.method,
+                        durationDisplayMethod,
                       )}
                     </span>
                     {discount > 0 && (
@@ -296,13 +302,15 @@ export function PlansScreen() {
                       />
                     )}
                     <div className="flex gap-1 text-hint ml-auto pr-2">
-                      {store.method === PaymentMethodType.Usd ? "$" : null}
+                      {durationDisplayMethod === PaymentMethodType.Usd
+                        ? "$"
+                        : null}
                       {calcPlanPriceForDuration(
-                        store.method,
+                        durationDisplayMethod,
                         selectedPlan,
                         duration,
                       )}
-                      {store.method === PaymentMethodType.Stars ? (
+                      {durationDisplayMethod === PaymentMethodType.Stars ? (
                         <div className="w-4 h-4 mt-0.5">
                           <IconTelegramStar />
                         </div>

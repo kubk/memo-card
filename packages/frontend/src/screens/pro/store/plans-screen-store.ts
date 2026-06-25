@@ -16,7 +16,6 @@ import {
 } from "api";
 import { assert } from "api";
 import { PaymentMethodType } from "api";
-import { TelegramPlatform } from "../../../lib/platform/telegram/telegram-platform.ts";
 import { links } from "api";
 import { api } from "../../../api/trpc-api.ts";
 
@@ -26,17 +25,26 @@ export type PreviewItem =
   | "ai_speech"
   | "reverse_cards";
 
+const stripeSubscriptionLinks = {
+  pro: {
+    1: links.stripeProMonthlySubscription,
+    6: null,
+    12: links.stripeProYearlySubscription,
+  },
+  teacher: {
+    1: links.stripeTeacherMonthlySubscription,
+    6: null,
+    12: links.stripeTeacherYearlySubscription,
+  },
+} satisfies Record<PaidPlanType, Record<PlanDuration, string | null>>;
+
 export class PlansScreenStore {
   plansRequest = new RequestStore(api.plans.query);
   createOrderRequest = new RequestStore(api.starsOrderPlan.mutate);
   selectedPlanDuration = new TextField<PlanDuration | null>(null);
   selectedPlanType: TextField<PaidPlanType>;
   selectedPreviewPlanFeature?: PreviewItem;
-
-  method =
-    platform instanceof TelegramPlatform
-      ? PaymentMethodType.Stars
-      : PaymentMethodType.Usd;
+  method: PaymentMethodType | null = null;
 
   constructor(planType: PaidPlanType) {
     this.selectedPlanType = new TextField(planType);
@@ -59,6 +67,7 @@ export class PlansScreenStore {
     }
 
     this.ensureAvailablePaymentMethod();
+    this.ensureAvailableDuration();
   }
 
   get plans() {
@@ -94,6 +103,19 @@ export class PlansScreenStore {
     return selectedPlan.settings.paymentMethods.includes(PaymentMethodType.Usd);
   }
 
+  get durationDisplayMethod() {
+    if (this.method) {
+      return this.method;
+    }
+
+    const selectedPlan = this.selectedPlan;
+    if (selectedPlan?.settings.paymentMethods.includes(PaymentMethodType.Usd)) {
+      return PaymentMethodType.Usd;
+    }
+
+    return selectedPlan?.settings.paymentMethods[0] ?? PaymentMethodType.Stars;
+  }
+
   get bankCardDiscount() {
     const selectedPlan = this.selectedPlan;
     if (!selectedPlan) return 0.2;
@@ -119,12 +141,12 @@ export class PlansScreenStore {
     if (this.selectedPreviewPlanFeature) {
       return false;
     }
-    return this.selectedPlanDuration.value !== null;
+    return this.method !== null && this.selectedPlanDuration.value !== null;
   }
 
   get buyText() {
     const selectedPlan = this.selectedPlan;
-    if (!selectedPlan || !this.selectedPlanDuration.value) {
+    if (!selectedPlan || !this.selectedPlanDuration.value || !this.method) {
       return "";
     }
     return getBuyText(
@@ -140,18 +162,11 @@ export class PlansScreenStore {
       return null;
     }
 
-    switch (selectedPlan.type) {
-      case "pro":
-        return this.selectedPlanDuration.value === 12
-          ? links.stripeProYearlySubscription
-          : links.stripeProMonthlySubscription;
-      case "teacher":
-        return this.selectedPlanDuration.value === 12
-          ? links.stripeTeacherYearlySubscription
-          : links.stripeTeacherMonthlySubscription;
-      default:
-        return selectedPlan.type satisfies never;
-    }
+    return (
+      stripeSubscriptionLinks[selectedPlan.type][
+        this.selectedPlanDuration.value
+      ] ?? null
+    );
   }
 
   get availablePlanDurations() {
@@ -161,7 +176,11 @@ export class PlansScreenStore {
     }
 
     return planDurations.filter((duration) =>
-      isPlanDurationAvailable(this.method, selectedPlan, duration),
+      isPlanDurationAvailable(
+        this.durationDisplayMethod,
+        selectedPlan,
+        duration,
+      ),
     );
   }
 
@@ -169,6 +188,7 @@ export class PlansScreenStore {
     const selectedPlan = this.selectedPlan;
     assert(selectedPlan);
     assert(this.selectedPlanDuration.value);
+    assert(this.method);
 
     switch (this.method) {
       case PaymentMethodType.Stars: {
@@ -189,7 +209,7 @@ export class PlansScreenStore {
         const link = this.usdPaymentLink;
         if (!link) {
           notifyError({
-            info: `Bank card payment is not configured for plan: ${selectedPlan.type}`,
+            info: `Bank card payment is not configured for plan: ${selectedPlan.type}, duration: ${this.selectedPlanDuration.value}`,
           });
           return;
         }
@@ -202,13 +222,17 @@ export class PlansScreenStore {
     }
   }
 
-  updateMethod(method: PaymentMethodType) {
+  updateMethod(method: PaymentMethodType | null) {
     this.method = method;
     this.ensureAvailablePaymentMethod();
     this.ensureAvailableDuration();
   }
 
   ensureAvailablePaymentMethod() {
+    if (this.method === null) {
+      return;
+    }
+
     if (this.method === PaymentMethodType.Usd && !this.isUsdPaymentAvailable) {
       this.method = PaymentMethodType.Stars;
     }
@@ -220,9 +244,11 @@ export class PlansScreenStore {
       return;
     }
 
+    const method = this.method ?? this.durationDisplayMethod;
+
     if (
       !isPlanDurationAvailable(
-        this.method,
+        method,
         selectedPlan,
         this.selectedPlanDuration.value,
       )
@@ -233,8 +259,12 @@ export class PlansScreenStore {
     }
   }
 
-  getDiscountForDuration(plan: PaymentPlan, duration: PlanDuration) {
-    return getPlanDiscountForDuration(this.method, plan, duration);
+  getDiscountForDuration(
+    method: PaymentMethodType,
+    plan: PaymentPlan,
+    duration: PlanDuration,
+  ) {
+    return getPlanDiscountForDuration(method, plan, duration);
   }
 
   previewPlanFeature(previewItem: PreviewItem | undefined) {
