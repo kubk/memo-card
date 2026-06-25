@@ -19,7 +19,8 @@ const escapeHtml = (value: string) => {
   return div.innerHTML;
 };
 
-const tableDataToHtml = (tableData: TableData) => {
+// Alias
+function tableDataToHtml(tableData: TableData) {
   return `
 <table>
   <thead>
@@ -35,7 +36,7 @@ const tableDataToHtml = (tableData: TableData) => {
   </tbody>
 </table>
     `.trim();
-};
+}
 
 export function HtmlTableEditor() {
   const [tableData, setTableData] = useState<TableData>({

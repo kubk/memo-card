@@ -5,13 +5,11 @@ import { notifyError } from "../../shared/snackbar/snackbar.tsx";
 import { platform } from "../../../lib/platform/platform.ts";
 import { TextField } from "mobx-form-lite";
 import {
-  getPlanDiscountForDuration,
   getPlanPrice,
   calcUsdFromStars,
   isPlanDurationAvailable,
   planDurations,
   type PaidPlanType,
-  type PaymentPlan,
   type PlanDuration,
 } from "api";
 import { assert } from "api";
@@ -257,14 +255,6 @@ export class PlansScreenStore {
         this.availablePlanDurations[0] ?? null,
       );
     }
-  }
-
-  getDiscountForDuration(
-    method: PaymentMethodType,
-    plan: PaymentPlan,
-    duration: PlanDuration,
-  ) {
-    return getPlanDiscountForDuration(method, plan, duration);
   }
 
   previewPlanFeature(previewItem: PreviewItem | undefined) {

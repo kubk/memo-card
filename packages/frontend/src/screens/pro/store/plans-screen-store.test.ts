@@ -71,8 +71,5 @@ describe("PlansScreenStore", () => {
 
     expect(store.durationDisplayMethod).toBe(PaymentMethodType.Stars);
     expect(store.availablePlanDurations).toEqual([1, 6, 12]);
-    expect(
-      store.getDiscountForDuration(PaymentMethodType.Stars, plans.pro, 6),
-    ).toBe(0.25);
   });
 });

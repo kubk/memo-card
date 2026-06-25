@@ -17,6 +17,7 @@ import { cn } from "../../ui/cn.ts";
 import { theme } from "../../ui/theme.tsx";
 import {
   calcPlanPriceForDuration,
+  getPlanDiscountForDuration,
   type PaidPlanType,
   type PlanDuration,
 } from "api";
@@ -276,7 +277,7 @@ export function PlansScreen() {
               const selectedPlan = store.selectedPlan;
               assert(selectedPlan);
 
-              const discount = store.getDiscountForDuration(
+              const discount = getPlanDiscountForDuration(
                 durationDisplayMethod,
                 selectedPlan,
                 duration,
@@ -287,10 +288,7 @@ export function PlansScreen() {
                 title: (
                   <div className="flex gap-2">
                     <span>
-                      {translateProDuration(
-                        duration,
-                        translator.getLang(),
-                      )}
+                      {translateProDuration(duration, translator.getLang())}
                     </span>
                     {discount > 0 && (
                       <Tag
