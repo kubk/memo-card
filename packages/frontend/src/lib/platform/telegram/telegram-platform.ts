@@ -98,6 +98,7 @@ export class TelegramPlatform implements Platform {
       getWebApp().isVerticalSwipesEnabled = false;
     }
     getWebApp().expand();
+    this.requestFullscreen();
     lockOrientationWhenPortrait();
 
     // Def doesn't work on Mac :(
@@ -121,6 +122,18 @@ export class TelegramPlatform implements Platform {
       return true;
     }
     return !!getWebApp().isFullscreen;
+  }
+
+  private requestFullscreen() {
+    if (!getWebApp().isVersionAtLeast("8.0")) {
+      return;
+    }
+
+    if (!this.isMobile()) {
+      return;
+    }
+
+    getWebApp().requestFullscreen();
   }
 
   isOutdated(): boolean {
@@ -159,6 +172,10 @@ export class TelegramPlatform implements Platform {
 
   isAndroid() {
     return getWebApp().platform === "android";
+  }
+
+  isMobile() {
+    return this.isIos() || this.isAndroid();
   }
 
   isMacosWithShareBugs() {
@@ -218,14 +235,8 @@ export class TelegramPlatform implements Platform {
     }
   }
 
-  getSafeAreaInset() {
-    return { top: 0, bottom: 0 };
-  }
-
   haptic(type: HapticType) {
-    const isMobile =
-      getWebApp().platform === "ios" || getWebApp().platform === "android";
-    if (!isMobile) return;
+    if (!this.isMobile()) return;
 
     switch (type) {
       case "error":

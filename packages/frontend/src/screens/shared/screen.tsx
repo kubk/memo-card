@@ -3,6 +3,7 @@ import { cn } from "../../ui/cn.ts";
 import { BrowserBackButton } from "./browser-platform/browser-back-button.tsx";
 import { platform } from "../../lib/platform/platform.ts";
 import { BrowserPlatform } from "../../lib/platform/browser/browser-platform.ts";
+import { TelegramPlatform } from "../../lib/platform/telegram/telegram-platform.ts";
 
 type Props = {
   children: ReactNode;
@@ -12,6 +13,34 @@ type Props = {
 
 export function Screen(props: Props) {
   const { children, title, subtitle } = props;
+
+  if (platform instanceof TelegramPlatform) {
+    if (platform.isMobile()) {
+      return (
+        <div className="relative mb-4 flex flex-col gap-2">
+          {title && (
+            <h3 className="absolute inset-x-0 top-[10px] text-center text-lg">
+              {title}
+            </h3>
+          )}
+          <div className="flex flex-col gap-2 pb-[calc(var(--tg-content-safe-area-inset-bottom,0px)_+_4px)] pl-[calc(var(--tg-content-safe-area-inset-left,0px)_+_4px)] pr-[calc(var(--tg-content-safe-area-inset-right,0px)_+_4px)] pt-[calc(var(--tg-content-safe-area-inset-top,0px)_+_4px)]">
+            {subtitle}
+            {children}
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <div className="mb-4 flex flex-col gap-2">
+        <div className="flex flex-col gap-2 pb-[calc(var(--tg-content-safe-area-inset-bottom,0px)_+_4px)] pl-[calc(var(--tg-content-safe-area-inset-left,0px)_+_4px)] pr-[calc(var(--tg-content-safe-area-inset-right,0px)_+_4px)] pt-[calc(var(--tg-content-safe-area-inset-top,0px)_+_4px)]">
+          {title && <h3 className="text-center text-lg">{title}</h3>}
+          {subtitle}
+          {children}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div
@@ -27,7 +56,7 @@ export function Screen(props: Props) {
         {title && <h3 className="text-center text-lg">{title}</h3>}
         {subtitle}
       </div>
-      {children}
+      <div className="flex flex-col gap-2 p-1">{children}</div>
     </div>
   );
 }

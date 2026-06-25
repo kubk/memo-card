@@ -2,7 +2,7 @@ import { Platform, PlatformTheme, HapticType } from "../platform.ts";
 import type { WebHaptics, defaultPatterns } from "web-haptics";
 import { action, makeAutoObservable } from "mobx";
 import { BooleanToggle } from "mobx-form-lite";
-import { PlatformSchemaType } from "api";
+import { localUserIdPrefix, PlatformSchemaType } from "api";
 import {
   isDarkTheme,
   listenDarkThemeChange,
@@ -16,6 +16,7 @@ import { cssVariablesDark, cssVariablesLight } from "./browser-colors.ts";
 import { LanguageShared } from "api";
 import { api } from "../../../api/trpc-api.ts";
 import { applyColorScheme } from "../../color-scheme/apply-color-scheme.ts";
+import { env } from "../../../env.ts";
 
 export class BrowserPlatform implements Platform {
   isMobile = false;
@@ -44,7 +45,6 @@ export class BrowserPlatform implements Platform {
         openInternalLink: false,
         getStartParam: false,
         openExternalLink: false,
-        getSafeAreaInset: false,
         webHaptics: false,
       },
       {
@@ -129,9 +129,8 @@ export class BrowserPlatform implements Platform {
   }
 
   getInitData(): string | null {
-    const userQuery = import.meta.env.VITE_USER_QUERY;
-    if (userQuery) {
-      return userQuery;
+    if (env.VITE_STAGE === "local" && env.VITE_USER_ID) {
+      return `${localUserIdPrefix}${env.VITE_USER_ID}`;
     }
 
     return localStorage.getItem(browserTokenKey) || null;
@@ -203,21 +202,6 @@ export class BrowserPlatform implements Platform {
   setLanguageCached(language: LanguageShared) {
     this.languageCached = language;
     localStorage.setItem(browserPlatformLangKey, language);
-  }
-
-  getSafeAreaInset() {
-    const isStandaloneMode =
-      window.matchMedia("(display-mode: standalone)").matches ||
-      (window.navigator as any).standalone === true;
-
-    if (isStandaloneMode) {
-      return {
-        top: 0,
-        bottom: 6,
-      };
-    }
-
-    return { top: 0, bottom: 0 };
   }
 
   private webHaptics?: {

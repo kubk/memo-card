@@ -72,14 +72,22 @@ export function App() {
     return <FullScreenLoader />;
   }
 
+  const isTelegramMobile =
+    platform instanceof TelegramPlatform && platform.isMobile();
+  const isDesktopWidth =
+    platform instanceof BrowserPlatform ||
+    (platform instanceof TelegramPlatform &&
+      platform.isFullScreen &&
+      !isTelegramMobile);
+
   return (
     <div
       className={cn({
+        "box-border min-h-[var(--tg-viewport-height,100vh)] pb-[var(--tg-safe-area-inset-bottom,0px)] pl-[var(--tg-safe-area-inset-left,0px)] pr-[var(--tg-safe-area-inset-right,0px)] pt-[var(--tg-safe-area-inset-top,0px)]": true,
+
         "mt-4": platform instanceof TelegramPlatform && platform.isWeb(),
 
-        [`mx-auto mt-6 max-w-2xl`]:
-          platform instanceof BrowserPlatform ||
-          (platform instanceof TelegramPlatform && platform.isFullScreen),
+        [`mx-auto max-w-2xl`]: isDesktopWidth,
 
         "flex justify-center items-center min-h-[calc(100vh_-_48px)]":
           screenStore.screen.type === "browserLogin",

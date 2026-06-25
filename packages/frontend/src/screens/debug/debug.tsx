@@ -4,9 +4,8 @@ import { useBackButton } from "../../lib/platform/use-back-button.ts";
 import { showAlert } from "../../lib/platform/show-alert.ts";
 import { SpeechTest } from "./speech-test.tsx";
 import { HapticsTest } from "./haptics-test.tsx";
-import { SafeAreaTest } from "./safe-area-test.tsx";
 
-type DebugScreen = "menu" | "speechTest" | "hapticsTest" | "safeAreaTest";
+type DebugScreen = "menu" | "speechTest" | "hapticsTest";
 
 const lastCommitText = [
   `Hash: ${__LAST_COMMIT__.hash}`,
@@ -32,10 +31,6 @@ export function Debug() {
     return <HapticsTest />;
   }
 
-  if (currentScreen === "safeAreaTest") {
-    return <SafeAreaTest />;
-  }
-
   return (
     <div className="flex flex-col gap-4 p-4">
       <h1 className="text-2xl font-bold text-text">Debug Menu</h1>
@@ -52,13 +47,6 @@ export function Debug() {
         className="py-3.5 px-4 bg-button text-button-text font-semibold rounded-xl active:scale-95 transition-all duration-200 text-left"
       >
         Haptics Test
-      </button>
-
-      <button
-        onClick={() => setCurrentScreen("safeAreaTest")}
-        className="py-3.5 px-4 bg-button text-button-text font-semibold rounded-xl active:scale-95 transition-all duration-200 text-left"
-      >
-        Safe Area Test
       </button>
 
       <button

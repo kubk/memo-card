@@ -5,14 +5,36 @@ import { BrowserPlatform } from "../lib/platform/browser/browser-platform.ts";
 import { Route } from "./routing/route-types.ts";
 
 let routeIndex = 0;
+const maxBackSteps = 3;
+
+type ScreenStoreOptions = {
+  enableUrlSync?: boolean;
+};
+
+function trimBackStack(stack: Route[]): Route[] {
+  if (stack.length <= maxBackSteps + 1) {
+    return stack;
+  }
+
+  const root = stack[0];
+  if (!root) {
+    return stack.slice(-maxBackSteps);
+  }
+
+  return [root, ...stack.slice(-maxBackSteps)];
+}
 
 export class ScreenStore {
   private history: Route[] = [{ type: "main" }];
+  private isUrlSyncEnabled: boolean;
   private isNavigatingFromPopstate = false;
 
-  constructor() {
+  constructor(options: ScreenStoreOptions = {}) {
+    this.isUrlSyncEnabled =
+      options.enableUrlSync ?? platform instanceof BrowserPlatform;
+
     makeAutoObservable(this, {}, { autoBind: true });
-    if (platform instanceof BrowserPlatform) {
+    if (this.isUrlSyncEnabled) {
       this.initializeUrlSync();
     }
   }
@@ -38,8 +60,9 @@ export class ScreenStore {
 
   push(route: Route) {
     this.history.push(route);
+    this.history = trimBackStack(this.history);
 
-    if (platform instanceof BrowserPlatform && !this.isNavigatingFromPopstate) {
+    if (this.isUrlSyncEnabled && !this.isNavigatingFromPopstate) {
       const url = routeToUrl(route);
       const currentUrl = window.location.pathname + window.location.search;
 
@@ -55,8 +78,9 @@ export class ScreenStore {
     } else {
       this.history.push(route);
     }
+    this.history = trimBackStack(this.history);
 
-    if (platform instanceof BrowserPlatform && !this.isNavigatingFromPopstate) {
+    if (this.isUrlSyncEnabled && !this.isNavigatingFromPopstate) {
       const url = routeToUrl(route);
       const currentUrl = window.location.pathname + window.location.search;
 
@@ -67,7 +91,7 @@ export class ScreenStore {
   }
 
   back() {
-    if (platform instanceof BrowserPlatform) {
+    if (this.isUrlSyncEnabled) {
       window.history.back();
       return;
     }

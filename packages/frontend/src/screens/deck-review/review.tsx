@@ -10,6 +10,7 @@ import { CardContextMenu } from "./card-context-menu.tsx";
 import { platform } from "../../lib/platform/platform.ts";
 import { deckListStore } from "../../store/deck-list-store.ts";
 import { cn } from "../../ui/cn.ts";
+import { BrowserPlatform } from "../../lib/platform/browser/browser-platform.ts";
 
 export function Review() {
   const reviewStore = useReviewStore();
@@ -31,8 +32,13 @@ export function Review() {
   useHotkeys("enter", reviewStore.open);
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen relative overflow-hidden">
-      <div className="w-full flex items-center gap-2 absolute top-2 left-0">
+    <div
+      className={cn(
+        "relative flex h-[calc(var(--tg-viewport-height,100vh)_-_var(--tg-safe-area-inset-top,0px)_-_var(--tg-safe-area-inset-bottom,0px))] flex-col items-center justify-center overflow-hidden [--review-top-offset:0px]",
+        platform instanceof BrowserPlatform && "[--review-top-offset:24px]",
+      )}
+    >
+      <div className="absolute left-0 top-[calc(var(--tg-content-safe-area-inset-top,0px)_+_8px_+_var(--review-top-offset,0px))] flex w-full items-center gap-2">
         <button
           className={cn("text-hint active:scale-90 cursor-pointer -ms-[3px]")}
           onClick={() => {
