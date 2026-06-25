@@ -82,16 +82,15 @@ export function App() {
 
   return (
     <div
-      className={cn({
-        "box-border min-h-[var(--tg-viewport-height,100vh)] pb-[var(--tg-safe-area-inset-bottom,0px)] pl-[var(--tg-safe-area-inset-left,0px)] pr-[var(--tg-safe-area-inset-right,0px)] pt-[var(--tg-safe-area-inset-top,0px)]": true,
-
-        "mt-4": platform instanceof TelegramPlatform && platform.isWeb(),
-
-        [`mx-auto max-w-2xl`]: isDesktopWidth,
-
-        "flex justify-center items-center min-h-[calc(100vh_-_48px)]":
-          screenStore.screen.type === "browserLogin",
-      })}
+      className={cn(
+        "box-border min-h-[var(--tg-viewport-height,100vh)] pb-[var(--tg-safe-area-inset-bottom,0px)] pl-[var(--tg-safe-area-inset-left,0px)] pr-[var(--tg-safe-area-inset-right,0px)] pt-[calc(var(--tg-safe-area-inset-top,0px)_+_var(--app-top-offset,12px))] [--app-top-offset:12px]",
+        isTelegramMobile &&
+          "[--app-top-offset:calc(var(--tg-content-safe-area-inset-top,0px)_+_4px)]",
+        platform instanceof TelegramPlatform && platform.isWeb() && "mt-4",
+        isDesktopWidth && "mx-auto max-w-2xl",
+        screenStore.screen.type === "browserLogin" &&
+          "flex justify-center items-center min-h-[calc(100vh_-_48px)]",
+      )}
     >
       <VersionWarning />
       <SnackbarProviderWrapper />

@@ -55,7 +55,6 @@ export function RepeatCustomScreen() {
 
   return (
     <Flex
-      className="pt-[var(--tg-content-safe-area-inset-top,0px)]"
       direction={"column"}
       gap={8}
     >
