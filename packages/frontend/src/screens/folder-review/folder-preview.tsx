@@ -58,7 +58,6 @@ export function FolderPreview(props: Props) {
 
   return (
     <Flex
-      className="pt-[var(--tg-content-safe-area-inset-top,0px)]"
       direction={"column"}
       pb={82}
     >

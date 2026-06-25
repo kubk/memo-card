@@ -15,7 +15,7 @@ export function ReviewDeckName() {
           exit={{ y: 50, opacity: 0, position: "absolute" }}
           animate={{ y: 0, opacity: 1 }}
           initial={{ y: -50, opacity: 0 }}
-          className="absolute top-[calc(var(--tg-content-safe-area-inset-top,0px)_+_2.5rem)] text-sm whitespace-nowrap text-hint"
+          className="absolute top-10 text-sm whitespace-nowrap text-hint"
         >
           {deckName}
         </m.div>

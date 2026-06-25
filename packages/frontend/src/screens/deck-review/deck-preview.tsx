@@ -56,7 +56,6 @@ export function DeckPreview(props: Props) {
 
   return (
     <Flex
-      className="pt-[var(--tg-content-safe-area-inset-top,0px)]"
       direction={"column"}
       gap={16}
       pb={82}

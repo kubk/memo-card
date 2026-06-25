@@ -40,7 +40,7 @@ export function CardReviewWithControls(props: Props) {
 
   return (
     <>
-      <div className="relative -mt-[72px] w-full pt-[var(--tg-content-safe-area-inset-top,0px)]">
+      <div className="relative -mt-[72px] w-full">
         {card && <Card card={card} />}
       </div>
       {card && card.answerType === "remember" && (

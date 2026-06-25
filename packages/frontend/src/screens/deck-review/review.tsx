@@ -31,8 +31,8 @@ export function Review() {
   useHotkeys("enter", reviewStore.open);
 
   return (
-    <div className="relative flex h-[calc(var(--tg-viewport-height,100vh)_-_var(--tg-safe-area-inset-top,0px)_-_var(--tg-safe-area-inset-bottom,0px))] flex-col items-center justify-center overflow-hidden">
-      <div className="absolute left-0 top-[calc(var(--tg-content-safe-area-inset-top,0px)_+_8px)] flex w-full items-center gap-2">
+    <div className="relative flex h-[calc(var(--tg-viewport-height,100vh)_-_var(--tg-safe-area-inset-top,0px)_-_var(--tg-safe-area-inset-bottom,0px)_-_var(--app-top-offset,0px))] flex-col items-center justify-center overflow-hidden">
+      <div className="absolute left-0 top-2 flex w-full items-center gap-2">
         <button
           className={cn("text-hint active:scale-90 cursor-pointer -ms-[3px]")}
           onClick={() => {

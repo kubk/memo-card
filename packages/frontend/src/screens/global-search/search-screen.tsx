@@ -21,7 +21,6 @@ export function SearchScreen() {
 
   return (
     <Flex
-      className="pt-[var(--tg-content-safe-area-inset-top,0px)]"
       direction="column"
       pb={48}
     >
