@@ -9,6 +9,7 @@ type Props = {
 
 export function RadioSwitcher(props: Props) {
   const { isOn, onToggle } = props;
+  const isDark = isDarkTheme();
 
   return (
     <label
@@ -17,8 +18,8 @@ export function RadioSwitcher(props: Props) {
       }}
       className={cn(
         "inline-flex items-center rounded-[38px] px-2 h-[26px] w-[40px] cursor-pointer relative whitespace-nowrap transition-colors duration-200 mb-0",
-        isDarkTheme() ? "bg-[#0f0f0f]" : "bg-[#e8ecef]",
-        !isOn && !isDarkTheme() && "outline-1 outline-white",
+        isDark ? "bg-white/15" : "bg-[#e8ecef]",
+        !isOn && !isDark && "outline-1 outline-white",
         isOn && "bg-success",
       )}
     >
