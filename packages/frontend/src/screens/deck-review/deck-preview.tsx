@@ -10,7 +10,6 @@ import { t } from "../../translations/t.ts";
 import { ButtonGrid } from "../../ui/button-grid.tsx";
 import { Button } from "../../ui/button.tsx";
 import { DeckFolderDescription } from "../shared/deck-folder-description.tsx";
-import { useScrollToTopOnMount } from "../../lib/react/use-scroll-to-top-mount.ts";
 import { Flex } from "../../ui/flex.tsx";
 import { BrowserBackButton } from "../shared/browser-platform/browser-back-button.tsx";
 import { ListHeader } from "../../ui/list-header.tsx";
@@ -37,7 +36,6 @@ export function DeckPreview(props: Props) {
   });
 
   useProgress(() => deckListStore.deckWithCardsRequest.isLoading);
-  useScrollToTopOnMount();
 
   const onStart = () => {
     if (deckListStore.canReview) {
@@ -55,11 +53,7 @@ export function DeckPreview(props: Props) {
   }
 
   return (
-    <Flex
-      direction={"column"}
-      gap={16}
-      pb={82}
-    >
+    <Flex direction={"column"} gap={16} pb={82}>
       <div>
         <ListHeader text={t("deck")} />
         <div className="flex flex-col gap-4 rounded-[12px] px-4 pb-4 pt-0 bg-bg">

@@ -3,7 +3,6 @@ import { Input } from "../../../ui/input.tsx";
 import { useMainButton } from "../../../lib/platform/use-main-button.ts";
 import { useDeckFormStore } from "./store/deck-form-store-context.tsx";
 import { screenStore } from "../../../store/screen-store.ts";
-import { useMount } from "../../../lib/react/use-mount.ts";
 import { useBackButton } from "../../../lib/platform/use-back-button.ts";
 import { useProgress } from "../../../lib/platform/use-progress.tsx";
 import { theme } from "../../../ui/theme.tsx";
@@ -18,7 +17,6 @@ import { boolNarrow } from "../../../lib/typescript/bool-narrow.ts";
 import { userStore } from "../../../store/user-store.ts";
 import { assert } from "api";
 import { WithProIcon } from "../../shared/with-pro-icon.tsx";
-import { suitableCardInputModeStore } from "../../../store/suitable-card-input-mode-store.ts";
 import { FormattingSwitcher } from "../card-form/formatting-switcher.tsx";
 import { WysiwygField } from "../../../ui/wysiwyg-field/wysiwig-field.tsx";
 import {
@@ -44,10 +42,6 @@ export function DeckForm() {
   const deckFormStore = useDeckFormStore();
   const screen = screenStore.screen;
   assert(screen.type === "deckForm");
-
-  useMount(() => {
-    suitableCardInputModeStore.load();
-  });
 
   useMainButton(
     t("save"),

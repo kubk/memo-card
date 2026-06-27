@@ -1,30 +1,36 @@
 import { makeAutoObservable } from "mobx";
-import { CatalogItem } from "api";
 import { LanguageCatalogItemAvailableIn } from "api";
-import { createCachedCategoriesRequest } from "../../../api/create-cached-categories-request.ts";
 import { api } from "../../../api/trpc-api.ts";
-import { InfiniteRequestStore } from "../../../lib/mobx-request/infinite-request-store.ts";
 import { screenStore } from "../../../store/screen-store.ts";
+import { makeQuery } from "../../../lib/mobx-query-lite/make-query.ts";
+import { makeInfiniteQuery } from "../../../lib/mobx-query-lite/make-infinite-query.ts";
 
 export type DeckLanguage = "any" | LanguageCatalogItemAvailableIn;
 
-type Cursor = {
-  createdAt: string;
+type CatalogFilters = {
+  availableIn?: DeckLanguage;
+  categoryId?: string;
 };
 
+const pageSize = 15;
+
 export class DeckCatalogStore {
-  readonly catalogRequest = new InfiniteRequestStore<
-    CatalogItem,
-    Cursor,
-    { filters: { availableIn?: DeckLanguage; categoryId?: string } }
-  >(api.catalog.list.query, {
-    pageSize: 15,
-    getFilters: () => ({
-      filters: this.apiFilters,
-    }),
-    getItemKey: (item) => `${item.type}:${item.data.id}`,
+  catalogQuery = makeInfiniteQuery(() => {
+    const filters = this.apiFilters;
+    return {
+      key: `catalog.list:${JSON.stringify(filters)}`,
+      query: ({ cursor }) =>
+        api.catalog.list.query({
+          limit: pageSize,
+          cursor,
+          filters,
+        }),
+    };
   });
-  categoriesRequest = createCachedCategoriesRequest();
+  categoriesQuery = makeQuery({
+    key: "catalog.deckCategories",
+    query: api.catalog.deckCategories.query,
+  });
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
@@ -51,7 +57,6 @@ export class DeckCatalogStore {
       ...this.route,
       availableIn: value === "any" ? undefined : value,
     });
-    this.catalogRequest.reload();
   }
 
   setCategoryId(value: string) {
@@ -59,34 +64,12 @@ export class DeckCatalogStore {
       ...this.route,
       categoryId: value || undefined,
     });
-    this.catalogRequest.reload();
   }
 
-  private get apiFilters() {
+  private get apiFilters(): CatalogFilters {
     return {
       availableIn: this.language === "any" ? undefined : this.language,
       categoryId: this.categoryId || undefined,
     };
-  }
-
-  async load() {
-    this.categoriesRequest.execute();
-    await this.catalogRequest.reload();
-  }
-
-  get catalogItems(): CatalogItem[] {
-    return this.catalogRequest.items;
-  }
-
-  get isInitialLoading() {
-    return this.catalogRequest.isInitialLoading;
-  }
-
-  get isLoadingMore() {
-    return this.catalogRequest.isLoadingMore;
-  }
-
-  get hasCatalogLoaded() {
-    return this.catalogRequest.hasLoaded;
   }
 }

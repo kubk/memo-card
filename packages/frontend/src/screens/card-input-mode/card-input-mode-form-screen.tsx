@@ -2,7 +2,6 @@ import { Screen } from "../shared/screen.tsx";
 import { useBackButton } from "../../lib/platform/use-back-button.ts";
 import { useState } from "react";
 import { CardInputModeFormStore } from "./store/card-input-mode-form-store.ts";
-import { useMount } from "../../lib/react/use-mount.ts";
 import { FullScreenLoader } from "../../ui/full-screen-loader.tsx";
 import { useMainButton } from "../../lib/platform/use-main-button.ts";
 import { useProgress } from "../../lib/platform/use-progress.tsx";
@@ -19,10 +18,6 @@ export function CardInputModeFormScreen() {
   const deckFormStore = useDeckFormStore();
   const [store] = useState(() => new CardInputModeFormStore(deckFormStore));
 
-  useMount(() => {
-    store.load();
-  });
-
   useBackButton(() => {
     screenStore.back();
   });
@@ -31,7 +26,7 @@ export function CardInputModeFormScreen() {
 
   useProgress(() => store.isAnyRequestLoading);
 
-  if (store.cardInputModesRequest.result.status === "loading") {
+  if (store.isLoadingCardInputMode) {
     return <FullScreenLoader />;
   }
 

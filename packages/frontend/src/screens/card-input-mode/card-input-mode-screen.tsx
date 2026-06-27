@@ -32,14 +32,14 @@ export function CardInputModeScreen() {
     () => !store.isBottomSheetScreen,
   );
 
-  useProgress(() => store.cardInputModesRequest.isLoading);
+  useProgress(() => store.isLoadingCardInputModes);
 
   return (
     <Screen title={t("card_input_mode_screen")}>
-      {store.cardInputModesRequest.result.status === "loading" ? (
+      {store.isLoadingCardInputModes && !store.hasLoadedCardInputModes ? (
         <FullScreenLoader />
       ) : null}
-      {store.cardInputModesRequest.result.status === "success" ? (
+      {store.hasLoadedCardInputModes ? (
         <>
           <RadioList
             selectedId={store.modeId?.value}
@@ -49,7 +49,7 @@ export function CardInputModeScreen() {
                 title: ReactNode;
               },
             ].concat(
-              store.cardInputModesRequest.result.data.map((inputMode) => ({
+              store.cardInputModes.map((inputMode) => ({
                 id: inputMode.id,
                 title: (
                   <div className="w-full relative">

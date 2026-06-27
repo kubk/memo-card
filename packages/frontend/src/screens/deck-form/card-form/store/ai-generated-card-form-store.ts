@@ -6,16 +6,19 @@ import { screenStore } from "../../../../store/screen-store.ts";
 import { notifyError } from "../../../shared/snackbar/snackbar.tsx";
 import { deckListStore } from "../../../../store/deck-list-store.ts";
 import { voiceGenerationStore } from "../../../../store/voice-generation-store.ts";
-import { createCachedCardInputModesRequest } from "../../../../api/create-cached-card-input-modes-request.ts";
 import { assert } from "api";
 import { api } from "../../../../api/trpc-api.ts";
 import { notifyNewCards } from "../notify-new-cards.ts";
+import { makeQuery } from "../../../../lib/mobx-query-lite/make-query.ts";
 
 export class AiGeneratedCardFormStore {
   form = {
     prompt: createFrontCardField(""),
   };
-  cardInputModesRequest = createCachedCardInputModesRequest();
+  cardInputModesQuery = makeQuery({
+    key: "cardInputMode.list",
+    query: api.cardInputMode.list.query,
+  });
   aiSingleCardGenerateRequest = new RequestStore(
     api.aiSingleCardGenerate.mutate,
   );
@@ -77,7 +80,18 @@ export class AiGeneratedCardFormStore {
   get isSaveLoading() {
     return (
       this.aiSingleCardGenerateRequest.isLoading ||
-      this.cardInputModesRequest.isLoading
+      this.cardInputModesQuery.isFetching
+    );
+  }
+
+  get cardInputModes() {
+    return this.cardInputModesQuery.data ?? [];
+  }
+
+  get isLoadingCardInputModes() {
+    return (
+      this.cardInputModesQuery.data === undefined &&
+      !this.cardInputModesQuery.error
     );
   }
 }

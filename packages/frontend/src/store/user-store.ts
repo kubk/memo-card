@@ -5,8 +5,6 @@ import { type PaidPlanType } from "api";
 import { isPaidPlanType } from "api";
 import { BooleanToggle } from "mobx-form-lite";
 import { persistableField } from "../lib/mobx-form-lite-persistable/persistable-field.ts";
-import { RequestStore } from "../lib/mobx-request/request-store.ts";
-import { reportHandledError } from "../lib/rollbar/rollbar.tsx";
 import { formatPaidUntil } from "../screens/pro/format-paid-until.tsx";
 import { assert } from "api";
 import { canDeleteItsAccount } from "api";
@@ -14,6 +12,7 @@ import { getUserLanguage } from "api";
 import { LanguageShared } from "api";
 import { platform } from "../lib/platform/platform.ts";
 import { api } from "../api/trpc-api.ts";
+import { makeQuery } from "../lib/mobx-query-lite/make-query.ts";
 
 type PaywallType =
   | "bulk_ai_cards"
@@ -23,7 +22,6 @@ type PaywallType =
 
 class UserStore {
   userInfo?: UserDbType;
-  plan?: PlanForUser | null;
   isCardFormattingOn = persistableField(
     new BooleanToggle(false),
     "isCardFormattingOn",
@@ -34,7 +32,10 @@ class UserStore {
   );
   isSkipReview = persistableField(new BooleanToggle(false), "isSkipReview");
   isSpeakingCardsMuted = new BooleanToggle(false);
-  activePlanRequest = new RequestStore(api.activePlan.query);
+  activePlanQuery = makeQuery({
+    key: "activePlan",
+    query: api.activePlan.query,
+  });
   selectedPaywall: PaywallType | null = null;
 
   constructor() {
@@ -51,9 +52,13 @@ class UserStore {
 
   setUser(user: UserDbType, plan: PlanForUser | null) {
     this.userInfo = user;
-    this.plan = plan;
+    this.setActivePlan(plan);
 
     platform.setLanguageCached(getUserLanguage(user));
+  }
+
+  setActivePlan(plan: PlanForUser | null) {
+    this.activePlanQuery.setData({ plan });
   }
 
   get language(): LanguageShared {
@@ -78,6 +83,14 @@ class UserStore {
 
   get user() {
     return this.userInfo ?? null;
+  }
+
+  get plan(): PlanForUser | null {
+    if (!this.userInfo) {
+      return null;
+    }
+
+    return this.activePlanQuery.data?.plan ?? null;
   }
 
   get myId() {
@@ -112,17 +125,6 @@ class UserStore {
     }
 
     return this.plan.type === planType;
-  }
-
-  async fetchActivePlan() {
-    const plan = await this.activePlanRequest.execute();
-    if (plan.status === "success") {
-      this.plan = plan.data.plan;
-    } else {
-      reportHandledError("Error fetching active plan", plan.error, {
-        userId: this.myId,
-      });
-    }
   }
 
   updateSettings(body: Partial<UserDbType>) {

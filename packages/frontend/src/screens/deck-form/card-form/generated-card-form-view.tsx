@@ -4,7 +4,6 @@ import { AiGeneratedCardFormStore } from "./store/ai-generated-card-form-store.t
 import { useMainButton } from "../../../lib/platform/use-main-button.ts";
 import { t } from "../../../translations/t.ts";
 import { useProgress } from "../../../lib/platform/use-progress.tsx";
-import { useMount } from "../../../lib/react/use-mount.ts";
 import { Screen } from "../../shared/screen.tsx";
 import { Label } from "../../../ui/label.tsx";
 import { Input } from "../../../ui/input.tsx";
@@ -37,10 +36,6 @@ export function GeneratedCardFormView() {
 
   useProgress(() => formStore.isSaveLoading);
 
-  useMount(() => {
-    formStore.cardInputModesRequest.execute();
-  });
-
   return (
     <Screen title={t("add_card")}>
       <Label text={t("card_front_side_hint")} isPlain>
@@ -48,15 +43,14 @@ export function GeneratedCardFormView() {
       </Label>
 
       <Label text={t("card_input_mode_screen")} isPlain>
-        {formStore.cardInputModesRequest.result.status === "loading" ? (
+        {formStore.isLoadingCardInputModes ? (
           <CardRowLoading speed={1} />
         ) : null}
-        {formStore.cardInputModesRequest.result.status === "success"
+        {!formStore.isLoadingCardInputModes
           ? (() => {
-              const inputMode =
-                formStore.cardInputModesRequest.result.data.find(
-                  (inputMode) => inputMode.id === cardInputModeId,
-                );
+              const inputMode = formStore.cardInputModes.find(
+                (inputMode) => inputMode.id === cardInputModeId,
+              );
               assert(inputMode, "Input mode should be found");
 
               return (

@@ -1,17 +1,14 @@
 import { makeAutoObservable } from "mobx";
-import { RequestStore } from "../../../lib/mobx-request/request-store.ts";
-import { InfiniteRequestStore } from "../../../lib/mobx-request/infinite-request-store.ts";
 import { api } from "../../../api/trpc-api.ts";
 import { type RouterOutput } from "api";
 import { DateTime } from "luxon";
+import { makeQuery } from "../../../lib/mobx-query-lite/make-query.ts";
+import { getLocalTimeZone } from "../../../lib/platform/get-local-time-zone.ts";
+import { makeInfiniteQuery } from "../../../lib/mobx-query-lite/make-infinite-query.ts";
 
 const recentHeatmapDaysCount = 98;
 
 type HeatmapReview = RouterOutput["myStatistics"]["heatmapReviews"][number];
-type DailyReview = RouterOutput["myStatisticsDailyReviews"]["items"][number];
-type DailyReviewsCursor = NonNullable<
-  RouterOutput["myStatisticsDailyReviews"]["nextCursor"]
->;
 
 const addDays = (date: string, days: number) => {
   const result = DateTime.fromISO(date, { zone: "utc" })
@@ -75,56 +72,28 @@ const getReviewIntensity = (reviews: number, maxReviewsInDay: number) => {
 };
 
 export class UserStatisticsStore {
-  userStatisticsRequest = new RequestStore<
-    RouterOutput["myStatistics"],
-    [input: { timeZone: string }]
-  >(api.myStatistics.query, { staleWhileRevalidate: true });
-  dailyReviewsRequest = new InfiniteRequestStore<
-    DailyReview,
-    DailyReviewsCursor,
-    { timeZone: string }
-  >(
-    (input) =>
+  userStatisticsQuery = makeQuery({
+    key: "userStatistics",
+    query: () =>
+      api.myStatistics.query({
+        timeZone: getLocalTimeZone(),
+      }),
+  });
+  dailyReviewsQuery = makeInfiniteQuery({
+    key: "userStatisticsDaily",
+    query: ({ cursor }) =>
       api.myStatisticsDailyReviews.query({
-        timeZone: input.timeZone,
-        cursor: input.cursor,
+        timeZone: getLocalTimeZone(),
+        cursor,
       }),
-    {
-      getFilters: () => ({
-        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-      }),
-      getItemKey: (day) => day.date,
-    },
-  );
+  });
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
   }
 
-  load() {
-    this.userStatisticsRequest.execute({
-      timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-    });
-  }
-
-  loadDailyReviews() {
-    this.dailyReviewsRequest.reload();
-  }
-
-  get statistics(): RouterOutput["myStatistics"] | null {
-    if (this.userStatisticsRequest.result.status !== "success") {
-      return null;
-    }
-
-    return this.userStatisticsRequest.result.data;
-  }
-
-  get dailyReviews() {
-    return this.dailyReviewsRequest.items;
-  }
-
   get heatmapReviews() {
-    return this.statistics?.heatmapReviews ?? [];
+    return this.userStatisticsQuery.data?.heatmapReviews ?? [];
   }
 
   get maxReviewsInRecentHeatmap() {
@@ -132,7 +101,10 @@ export class UserStatisticsStore {
   }
 
   get maxReviewsInDailyList() {
-    return Math.max(0, ...this.dailyReviews.map((day) => day.reviews));
+    return Math.max(
+      0,
+      ...this.dailyReviewsQuery.items.map((day) => day.reviews),
+    );
   }
 
   get hasActivity() {
