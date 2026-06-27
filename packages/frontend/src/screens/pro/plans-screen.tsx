@@ -5,7 +5,6 @@ import { Flex } from "../../ui/flex.tsx";
 import { useState } from "react";
 import { useMainButton } from "../../lib/platform/use-main-button.ts";
 import { Hint } from "../../ui/hint.tsx";
-import { useMount } from "../../lib/react/use-mount.ts";
 import { FullScreenLoader } from "../../ui/full-screen-loader.tsx";
 import { PlansScreenStore, PreviewItem } from "./store/plans-screen-store.ts";
 import { useProgress } from "../../lib/platform/use-progress.tsx";
@@ -116,11 +115,6 @@ export function PlansScreen() {
     screenStore.back();
   });
 
-  useMount(() => {
-    store.load();
-    suitableCardInputModeStore.load();
-  });
-
   useMainButton(
     () => store.buyText,
     () => {
@@ -133,9 +127,9 @@ export function PlansScreen() {
     },
   );
 
-  useProgress(() => store.createOrderRequest.isLoading);
+  useProgress(() => store.isCreatingOrder);
 
-  if (store.plansRequest.result.status !== "success") {
+  if (!store.hasLoadedPlans) {
     return <FullScreenLoader />;
   }
 

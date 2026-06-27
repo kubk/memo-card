@@ -49,7 +49,7 @@ export function AnkiImportScreen() {
     () => store.isMainButtonVisible,
     [store],
   );
-  useProgress(() => store.importDeckRequest.isLoading);
+  useProgress(() => store.importDeckMutation.isPending);
 
   return (
     <Screen>
@@ -58,11 +58,14 @@ export function AnkiImportScreen() {
         className="hidden"
         type="file"
         accept=".apkg"
-        onChange={(event) => {
-          const file = event.target.files?.[0];
-          void store.uploadFile(file).finally(() => {
-            event.target.value = "";
-          });
+        onChange={async (event) => {
+          const input = event.currentTarget;
+          const file = input.files?.[0];
+          try {
+            await store.uploadFile(file);
+          } finally {
+            input.value = "";
+          }
         }}
       />
 

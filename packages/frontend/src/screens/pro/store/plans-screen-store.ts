@@ -1,6 +1,5 @@
 import { makeAutoObservable } from "mobx";
 import { getBuyText } from "../translations.ts";
-import { RequestStore } from "../../../lib/mobx-request/request-store.ts";
 import { notifyError } from "../../shared/snackbar/snackbar.tsx";
 import { platform } from "../../../lib/platform/platform.ts";
 import { TextField } from "mobx-form-lite";
@@ -16,6 +15,8 @@ import { assert } from "api";
 import { PaymentMethodType } from "api";
 import { links } from "api";
 import { api } from "../../../api/trpc-api.ts";
+import { makeQuery } from "../../../lib/mobx-query-lite/make-query.ts";
+import { makeMutation } from "../../../lib/mobx-query-lite/make-mutation.ts";
 
 export type PreviewItem =
   | "individual_ai_card"
@@ -37,8 +38,8 @@ const stripeSubscriptionLinks = {
 } satisfies Record<PaidPlanType, Record<PlanDuration, string | null>>;
 
 export class PlansScreenStore {
-  plansRequest = new RequestStore(api.plans.query);
-  createOrderRequest = new RequestStore(api.starsOrderPlan.mutate);
+  plansQuery = makeQuery({ key: "plans", query: api.plans.query });
+  createOrderMutation = makeMutation(api.starsOrderPlan.mutate);
   selectedPlanDuration = new TextField<PlanDuration | null>(null);
   selectedPlanType: TextField<PaidPlanType>;
   selectedPreviewPlanFeature?: PreviewItem;
@@ -49,41 +50,17 @@ export class PlansScreenStore {
     makeAutoObservable(this, {}, { autoBind: true });
   }
 
-  async load() {
-    const result = await this.plansRequest.execute();
-    if (result.status !== "success") {
-      return;
-    }
-
-    if (
-      !this.paymentPlans.some(
-        (plan) => plan.type === this.selectedPlanType.value,
-      ) &&
-      this.paymentPlans[0]
-    ) {
-      this.selectedPlanType.onChange(this.paymentPlans[0].type);
-    }
-
-    this.ensureAvailablePaymentMethod();
-    this.ensureAvailableDuration();
-  }
-
   get plans() {
-    return this.plansRequest.result.status === "success"
-      ? this.plansRequest.result.data.plans
-      : [];
+    return this.plansQuery.data?.plans ?? [];
   }
 
-  get paymentPlans() {
-    return this.plans;
+  get hasLoadedPlans() {
+    return this.plansQuery.data !== undefined;
   }
 
   get selectedPlan() {
     return (
-      this.paymentPlans.find(
-        (plan) => plan.type === this.selectedPlanType.value,
-      ) ??
-      this.paymentPlans[0] ??
+      this.plans.find((plan) => plan.type === this.selectedPlanType.value) ??
       null
     );
   }
@@ -130,9 +107,11 @@ export class PlansScreenStore {
   }
 
   get aiCardsLeft() {
-    return this.plansRequest.result.status === "success"
-      ? this.plansRequest.result.data.aiCardsLeft
-      : 0;
+    return this.plansQuery.data?.aiCardsLeft ?? 0;
+  }
+
+  get isCreatingOrder() {
+    return this.createOrderMutation.isPending;
   }
 
   get isBuyButtonVisible() {
@@ -190,17 +169,17 @@ export class PlansScreenStore {
 
     switch (this.method) {
       case PaymentMethodType.Stars: {
-        const result = await this.createOrderRequest.execute({
-          planType: selectedPlan.type,
-          duration: this.selectedPlanDuration.value.toString(),
-        });
-        if (result.status === "error") {
-          const info = `Order creation failed. Plan: ${selectedPlan.type}`;
-          notifyError({ info: info, e: result.error });
-          return;
-        }
+        try {
+          const result = await this.createOrderMutation.mutate({
+            planType: selectedPlan.type,
+            duration: this.selectedPlanDuration.value.toString(),
+          });
 
-        platform.openInvoiceLink(result.data.payLink);
+          platform.openInvoiceLink(result.payLink);
+        } catch (error) {
+          const info = `Order creation failed. Plan: ${selectedPlan.type}`;
+          notifyError({ info, e: error });
+        }
         return;
       }
       case PaymentMethodType.Usd: {
@@ -222,39 +201,6 @@ export class PlansScreenStore {
 
   updateMethod(method: PaymentMethodType | null) {
     this.method = method;
-    this.ensureAvailablePaymentMethod();
-    this.ensureAvailableDuration();
-  }
-
-  ensureAvailablePaymentMethod() {
-    if (this.method === null) {
-      return;
-    }
-
-    if (this.method === PaymentMethodType.Usd && !this.isUsdPaymentAvailable) {
-      this.method = PaymentMethodType.Stars;
-    }
-  }
-
-  ensureAvailableDuration() {
-    const selectedPlan = this.selectedPlan;
-    if (!selectedPlan || this.selectedPlanDuration.value === null) {
-      return;
-    }
-
-    const method = this.method ?? this.durationDisplayMethod;
-
-    if (
-      !isPlanDurationAvailable(
-        method,
-        selectedPlan,
-        this.selectedPlanDuration.value,
-      )
-    ) {
-      this.selectedPlanDuration.onChange(
-        this.availablePlanDurations[0] ?? null,
-      );
-    }
   }
 
   previewPlanFeature(previewItem: PreviewItem | undefined) {

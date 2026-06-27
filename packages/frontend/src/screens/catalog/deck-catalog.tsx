@@ -1,7 +1,6 @@
 import { useBackButton } from "../../lib/platform/use-back-button.ts";
 import { screenStore } from "../../store/screen-store.ts";
 import { useDeckCatalogStore } from "./store/deck-catalog-store-context.tsx";
-import { useMount } from "../../lib/react/use-mount.ts";
 import { Select } from "../../ui/select.tsx";
 import { DeckLanguage } from "./store/deck-catalog-store.ts";
 import { DeckListItemWithDescription } from "../../ui/deck-list-item-with-description.tsx";
@@ -21,17 +20,15 @@ import { LoaderCircle } from "lucide-react";
 
 export function DeckCatalog() {
   const store = useDeckCatalogStore();
-
-  useMount(() => {
-    store.load();
-  });
+  const catalogQuery = store.catalogQuery;
+  const categoriesQuery = store.categoriesQuery;
 
   useBottomReached(
     () => {
-      store.catalogRequest.loadMore();
+      catalogQuery.fetchNextPage();
     },
     {
-      enabled: store.hasCatalogLoaded && !store.isInitialLoading,
+      enabled: catalogQuery.data !== undefined && !catalogQuery.isPending,
     },
   );
 
@@ -46,19 +43,13 @@ export function DeckCatalog() {
         <Select
           value={store.categoryId}
           onChange={store.setCategoryId}
-          isLoading={store.categoriesRequest.isLoading}
-          options={
-            store.categoriesRequest.result.status === "success"
-              ? [{ value: "", label: t("any_category") }].concat(
-                  store.categoriesRequest.result.data.categories.map(
-                    (category) => ({
-                      value: category.id,
-                      label: translateCategory(category.name),
-                    }),
-                  ),
-                )
-              : []
-          }
+          isLoading={categoriesQuery.isFetching}
+          options={[{ value: "", label: t("any_category") }].concat(
+            (categoriesQuery.data?.categories ?? []).map((category) => ({
+              value: category.id,
+              label: translateCategory(category.name),
+            })),
+          )}
         />
       </Flex>
 
@@ -79,14 +70,14 @@ export function DeckCatalog() {
       </Flex>
 
       {(() => {
-        if (store.isInitialLoading) {
+        if (catalogQuery.isPending) {
           return range(5).map((i) => <CardRowLoading key={i} />);
         }
 
         {
-          const catalogItems = store.catalogItems;
+          const catalogItems = catalogQuery.items;
 
-          if (!store.hasCatalogLoaded) {
+          if (catalogQuery.data === undefined) {
             return null;
           }
 
@@ -124,7 +115,7 @@ export function DeckCatalog() {
                 );
               })}
 
-              {store.isLoadingMore ? (
+              {catalogQuery.isFetchingNextPage ? (
                 <div className="flex justify-center py-3">
                   <LoaderCircle size={24} className="animate-spin text-hint" />
                 </div>

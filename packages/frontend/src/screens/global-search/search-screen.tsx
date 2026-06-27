@@ -20,10 +20,7 @@ export function SearchScreen() {
   });
 
   return (
-    <Flex
-      direction="column"
-      pb={48}
-    >
+    <Flex direction="column" pb={48}>
       <div className="sticky top-0 bg-secondary-bg z-10 pb-1">
         <div className="flex items-center pb-3 gap-2">
           <div className="flex-1">

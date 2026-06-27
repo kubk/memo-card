@@ -1,6 +1,6 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import { api } from "../../api/trpc-api.ts";
-import { RequestStore } from "../../lib/mobx-request/request-store.ts";
+import { makeMutation } from "../../lib/mobx-query-lite/make-mutation.ts";
 import { showAlert } from "../../lib/platform/show-alert.ts";
 import { deckListStore } from "../../store/deck-list-store.ts";
 import { screenStore } from "../../store/screen-store.ts";
@@ -26,7 +26,7 @@ type ScreenshotStep = keyof typeof screenshots;
 
 export class AnkiImportScreenStore {
   openStep: ScreenshotStep | null = null;
-  importDeckRequest = new RequestStore((file: File) => {
+  importDeckMutation = makeMutation((file: File) => {
     const formData = new FormData();
     formData.set("file", file);
 
@@ -72,23 +72,23 @@ export class AnkiImportScreenStore {
       return;
     }
 
-    const result = await this.importDeckRequest.execute(file);
-    if (result.status === "error") {
+    let result: Awaited<ReturnType<typeof api.anki.import.mutate>>;
+    try {
+      result = await this.importDeckMutation.mutate(file);
+    } catch (error) {
       showAlert(
-        result.error instanceof Error
-          ? result.error.message
-          : t("anki_import_error"),
+        error instanceof Error ? error.message : t("anki_import_error"),
       );
       return;
     }
 
     runInAction(() => {
-      for (const deck of result.data.importedDecks) {
+      for (const deck of result.importedDecks) {
         deckListStore.replaceDeck(deck, true);
       }
-      deckListStore.updateFolders(result.data.folders);
-      deckListStore.updateCardsToReview(result.data.cardsToReview);
-      screenStore.replace({ type: "deckMine", deckId: result.data.deck.id });
+      deckListStore.updateFolders(result.folders);
+      deckListStore.updateCardsToReview(result.cardsToReview);
+      screenStore.replace({ type: "deckMine", deckId: result.deck.id });
     });
 
     notifySuccess(t("anki_import_success"));

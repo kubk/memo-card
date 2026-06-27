@@ -1,21 +1,22 @@
-import { RequestStore } from "../../../lib/mobx-request/request-store.ts";
 import { makeAutoObservable } from "mobx";
 import { TextField } from "mobx-form-lite";
 import { notifyError, notifySuccess } from "../../shared/snackbar/snackbar.tsx";
 import { deckListStore } from "../../../store/deck-list-store.ts";
 import { t } from "../../../translations/t.ts";
 import { DeckFormStore } from "../../deck-form/deck-form/store/deck-form-store.ts";
-import { createCachedCardInputModesRequest } from "../../../api/create-cached-card-input-modes-request.ts";
 import { CardInputModeDb } from "api";
 import { assert } from "api";
 import { api } from "../../../api/trpc-api.ts";
 import { screenStore } from "../../../store/screen-store.ts";
+import { makeQuery } from "../../../lib/mobx-query-lite/make-query.ts";
+import { makeMutation } from "../../../lib/mobx-query-lite/make-mutation.ts";
 
 export class CardInputModeStore {
-  cardInputModesRequest = createCachedCardInputModesRequest();
-  deckChangeInputModeRequest = new RequestStore(
-    api.cardInputMode.change.mutate,
-  );
+  cardInputModesQuery = makeQuery({
+    key: "cardInputMode.list",
+    query: api.cardInputMode.list.query,
+  });
+  deckChangeInputModeMutation = makeMutation(api.cardInputMode.change.mutate);
   modeId = new TextField<string | null>(null);
   viewModeId = new TextField<string | null>(null);
 
@@ -28,11 +29,10 @@ export class CardInputModeStore {
     const cardInputModeId = this.deckFormStore.deckForm.cardInputModeId;
 
     this.modeId.onChange(cardInputModeId);
-    this.cardInputModesRequest.execute();
   }
 
   async submit() {
-    if (this.cardInputModesRequest.isLoading) {
+    if (this.deckChangeInputModeMutation.isPending) {
       return;
     }
 
@@ -40,14 +40,14 @@ export class CardInputModeStore {
     const deckId = this.deckFormStore.deckForm.id;
     assert(deckId, "Deck id should be defined");
 
-    const result = await this.deckChangeInputModeRequest.execute({
-      deckId: deckId,
-      cardInputModeId: this.modeId.value,
-    });
-
-    if (result.status === "error") {
+    try {
+      await this.deckChangeInputModeMutation.mutate({
+        deckId: deckId,
+        cardInputModeId: this.modeId.value,
+      });
+    } catch (error) {
       notifyError({
-        e: result.error,
+        e: error,
         info: "Failed to change card input mode",
       });
       return;
@@ -58,12 +58,24 @@ export class CardInputModeStore {
     screenStore.back();
   }
 
-  get viewMode(): CardInputModeDb | null {
-    if (this.cardInputModesRequest.result.status !== "success") {
-      return null;
-    }
+  get cardInputModes() {
+    return this.cardInputModesQuery.data ?? [];
+  }
+
+  get isLoadingCardInputModes() {
     return (
-      this.cardInputModesRequest.result.data.find(
+      this.cardInputModesQuery.data === undefined &&
+      !this.cardInputModesQuery.error
+    );
+  }
+
+  get hasLoadedCardInputModes() {
+    return this.cardInputModesQuery.data !== undefined;
+  }
+
+  get viewMode(): CardInputModeDb | null {
+    return (
+      this.cardInputModes.find(
         (inputMode) => inputMode.id === this.viewModeId.value,
       ) || null
     );

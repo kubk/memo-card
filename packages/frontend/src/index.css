@@ -89,6 +89,7 @@ button {
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
   --card-size: 310px;
+  --app-horizontal-padding: 16px;
 }
 
 body {
@@ -96,7 +97,7 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  padding: 0 16px 0 16px;
+  padding: 0;
   position: relative;
   background: var(--tg-theme-secondary-bg-color);
   color: var(--tg-theme-text-color);

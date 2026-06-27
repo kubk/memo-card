@@ -1,33 +1,33 @@
-import { createCachedCardInputModesRequest } from "../api/create-cached-card-input-modes-request.ts";
 import { makeAutoObservable } from "mobx";
 import { CardInputModeDb } from "api";
 import { userStore } from "./user-store.ts";
 import { LanguageShared } from "api";
+import { makeQuery } from "../lib/mobx-query-lite/make-query.ts";
+import { api } from "../api/trpc-api.ts";
 
 class SuitableCardInputModeStore {
-  cardInputModesRequest = createCachedCardInputModesRequest();
+  cardInputModesQuery = makeQuery({
+    key: "cardInputMode.list",
+    query: api.cardInputMode.list.query,
+  });
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
   }
 
-  load() {
-    this.cardInputModesRequest.execute();
-  }
-
   get viewMode(): CardInputModeDb | null {
-    if (this.cardInputModesRequest.result.status !== "success") {
+    if (!this.cardInputModesQuery.data) {
       return null;
     }
 
-    const cardInputModes = this.cardInputModesRequest.result.data;
+    const cardInputModes = this.cardInputModesQuery.data;
     const findByPreviewRecommendFor = (lang: LanguageShared) =>
       cardInputModes.find(
         (mode) => mode.options?.preview_recommend_for === lang,
       );
 
     const enInputMode = findByPreviewRecommendFor("en");
-    const firstInputMode = this.cardInputModesRequest.result.data[0];
+    const firstInputMode = cardInputModes[0];
 
     const defaultInputMode = enInputMode || firstInputMode;
     if (!defaultInputMode) {

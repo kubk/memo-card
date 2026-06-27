@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { getRouteScrollElement } from "./route-scroll-container.ts";
 
 type Options = {
   offset?: number;
@@ -28,7 +29,7 @@ export function useBottomReached(onReach: () => void, options: Options = {}) {
       isScheduled = true;
       requestAnimationFrame(() => {
         isScheduled = false;
-        const scrollEl = document.scrollingElement;
+        const scrollEl = getRouteScrollElement();
         if (!scrollEl) {
           return;
         }
@@ -40,12 +41,14 @@ export function useBottomReached(onReach: () => void, options: Options = {}) {
     };
 
     check();
-    window.addEventListener("scroll", check, { passive: true });
+    const scrollEl = getRouteScrollElement();
+
+    scrollEl?.addEventListener("scroll", check, { passive: true });
     window.addEventListener("resize", check);
     window.addEventListener("orientationchange", check);
 
     return () => {
-      window.removeEventListener("scroll", check);
+      scrollEl?.removeEventListener("scroll", check);
       window.removeEventListener("resize", check);
       window.removeEventListener("orientationchange", check);
     };

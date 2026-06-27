@@ -1,5 +1,4 @@
 import { Screen } from "../shared/screen.tsx";
-import { useMount } from "../../lib/react/use-mount.ts";
 import { useUserStatisticsStore } from "./store/user-statistics-store-context.tsx";
 import { useBackButton } from "../../lib/platform/use-back-button.ts";
 import { screenStore } from "../../store/screen-store.ts";
@@ -94,19 +93,16 @@ function DailyStatsMarker(props: { reviews: number }) {
 
 export function UserStatisticsScreen() {
   const userStatisticsStore = useUserStatisticsStore();
-  const statistics = userStatisticsStore.statistics;
+  const userStatisticsQuery = userStatisticsStore.userStatisticsQuery;
+  const statistics = userStatisticsQuery.data;
 
   useBackButton(() => {
     screenStore.back();
   });
 
-  useMount(() => {
-    userStatisticsStore.load();
-  });
-
   return (
     <Screen title={t("user_stats_page")}>
-      {userStatisticsStore.userStatisticsRequest.isLoading ? (
+      {userStatisticsQuery.isPending ? (
         <StatisticsLoading />
       ) : statistics ? (
         <>
@@ -236,35 +232,30 @@ export function UserStatisticsScreen() {
 
 export function UserStatisticsDailyScreen() {
   const userStatisticsStore = useUserStatisticsStore();
-  const days = userStatisticsStore.dailyReviews;
+  const dailyReviewsQuery = userStatisticsStore.dailyReviewsQuery;
+  const days = dailyReviewsQuery.items;
 
   useBackButton(() => {
     screenStore.back();
   });
 
-  useMount(() => {
-    userStatisticsStore.loadDailyReviews();
-  });
-
   useBottomReached(
     () => {
-      userStatisticsStore.dailyReviewsRequest.loadMore();
+      dailyReviewsQuery.fetchNextPage();
     },
     {
       enabled:
-        userStatisticsStore.dailyReviewsRequest.hasLoaded &&
-        !userStatisticsStore.dailyReviewsRequest.isInitialLoading,
+        dailyReviewsQuery.data !== undefined && !dailyReviewsQuery.isPending,
     },
   );
 
   return (
     <Screen title={t("user_stats_daily_page")}>
-      {userStatisticsStore.dailyReviewsRequest.isInitialLoading ? (
+      {dailyReviewsQuery.isPending ? (
         <StatisticsLoading />
-      ) : userStatisticsStore.dailyReviewsRequest.loadError &&
-        days.length === 0 ? (
+      ) : dailyReviewsQuery.error && days.length === 0 ? (
         <StatisticsLoadError />
-      ) : userStatisticsStore.dailyReviewsRequest.hasLoaded ? (
+      ) : dailyReviewsQuery.data !== undefined ? (
         <>
           <List
             items={days.map((day) => ({
@@ -284,7 +275,7 @@ export function UserStatisticsDailyScreen() {
               ),
             }))}
           />
-          {userStatisticsStore.dailyReviewsRequest.isLoadingMore && (
+          {dailyReviewsQuery.isFetchingNextPage && (
             <div className="flex justify-center py-3">
               <LoaderCircleIcon size={24} className="animate-spin text-hint" />
             </div>

@@ -56,6 +56,7 @@ import { CardInputModeScreen } from "./card-input-mode/card-input-mode-screen.ts
 import { CardInputModeFormScreen } from "./card-input-mode/card-input-mode-form-screen.tsx";
 import { AnkiImportScreen } from "./anki-import/anki-import-screen.tsx";
 import { userStore } from "../store/user-store.ts";
+import { RouteScreenContainer } from "../lib/react/route-screen-container.tsx";
 
 export function App() {
   useRestoreFullScreenExpand();
@@ -83,224 +84,223 @@ export function App() {
   return (
     <div
       className={cn(
-        "box-border min-h-[var(--tg-viewport-height,100vh)] pb-[var(--tg-safe-area-inset-bottom,0px)] pl-[var(--tg-safe-area-inset-left,0px)] pr-[var(--tg-safe-area-inset-right,0px)] pt-[calc(var(--tg-safe-area-inset-top,0px)_+_var(--app-top-offset,12px))] [--app-top-offset:12px]",
+        "relative h-[var(--tg-viewport-height,100vh)] overflow-hidden [--app-top-offset:12px]",
         isTelegramMobile &&
           "[--app-top-offset:calc(var(--tg-content-safe-area-inset-top,0px)_+_4px)]",
-        platform instanceof TelegramPlatform && platform.isWeb() && "mt-4",
         isDesktopWidth && "mx-auto max-w-2xl",
-        screenStore.screen.type === "browserLogin" &&
-          "flex justify-center items-center min-h-[calc(100vh_-_48px)]",
       )}
     >
-      <VersionWarning />
       <SnackbarProviderWrapper />
+      <RouteScreenContainer>
+        <VersionWarning />
 
-      {screenStore.screen.type === "componentCatalog" && (
-        <PreventTelegramSwipeDownClosingIos>
-          <ComponentCatalogPageLazy />
-        </PreventTelegramSwipeDownClosingIos>
-      )}
-      {screenStore.screen.type === "debug" && (
-        <PreventTelegramSwipeDownClosingIos>
-          <DebugLazy />
-        </PreventTelegramSwipeDownClosingIos>
-      )}
-      {screenStore.screen.type === "browserLogin" && <LoginScreen />}
+        {screenStore.screen.type === "componentCatalog" && (
+          <PreventTelegramSwipeDownClosingIos>
+            <ComponentCatalogPageLazy />
+          </PreventTelegramSwipeDownClosingIos>
+        )}
+        {screenStore.screen.type === "debug" && (
+          <PreventTelegramSwipeDownClosingIos>
+            <DebugLazy />
+          </PreventTelegramSwipeDownClosingIos>
+        )}
+        {screenStore.screen.type === "browserLogin" && <LoginScreen />}
 
-      {screenStore.screen.type === "main" && (
-        <PreventTelegramSwipeDownClosingIos>
-          <MainScreen />
-        </PreventTelegramSwipeDownClosingIos>
-      )}
-      {screenStore.screen.type === "globalSearch" && (
-        <SignedIn>
+        {screenStore.screen.type === "main" && (
           <PreventTelegramSwipeDownClosingIos>
-            <SearchScreen />
+            <MainScreen />
           </PreventTelegramSwipeDownClosingIos>
-        </SignedIn>
-      )}
-      {screenStore.isDeckPreviewScreen && (
-        <SignedIn>
-          <PreventTelegramSwipeDownClosingIos>
-            <ReviewStoreProvider>
-              <DeckScreen />
-            </ReviewStoreProvider>
-          </PreventTelegramSwipeDownClosingIos>
-        </SignedIn>
-      )}
-      {screenStore.screen.type === "reviewAll" && (
-        <SignedIn>
-          <PreventTelegramSwipeDownClosingIos>
-            <ReviewStoreProvider>
-              <RepeatAllScreen />
-            </ReviewStoreProvider>
-          </PreventTelegramSwipeDownClosingIos>
-        </SignedIn>
-      )}
-      {screenStore.screen.type === "reviewCustom" && (
-        <SignedIn>
-          <PreventTelegramSwipeDownClosingIos>
-            <ReviewStoreProvider>
-              <RepeatCustomScreen />
-            </ReviewStoreProvider>
-          </PreventTelegramSwipeDownClosingIos>
-        </SignedIn>
-      )}
-      {screenStore.screen.type === "folderForm" && (
-        <SignedIn>
-          <PreventTelegramSwipeDownClosingIos>
-            <FolderFormStoreProvider>
-              <FolderForm />
-            </FolderFormStoreProvider>
-          </PreventTelegramSwipeDownClosingIos>
-        </SignedIn>
-      )}
-      {screenStore.screen.type === "folderPreview" && (
-        <SignedIn>
-          <PreventTelegramSwipeDownClosingIos>
-            <ReviewStoreProvider>
-              <FolderScreen />
-            </ReviewStoreProvider>
-          </PreventTelegramSwipeDownClosingIos>
-        </SignedIn>
-      )}
-      {screenStore.screen.type === "deckForm" && (
-        <SignedIn>
-          <DeckFormStoreProvider>
-            <DeckFormScreen />
-          </DeckFormStoreProvider>
-        </SignedIn>
-      )}
-      {screenStore.screen.type === "ankiImport" && (
-        <SignedIn>
-          <PreventTelegramSwipeDownClosingIos>
-            <AnkiImportScreen />
-          </PreventTelegramSwipeDownClosingIos>
-        </SignedIn>
-      )}
-      {screenStore.screen.type === "cardList" && (
-        <SignedIn>
-          <DeckFormStoreProvider>
-            <CardList />
-          </DeckFormStoreProvider>
-        </SignedIn>
-      )}
-      {screenStore.screen.type === "speakingCards" && (
-        <SignedIn>
-          <DeckFormStoreProvider>
-            <SpeakingCards />
-          </DeckFormStoreProvider>
-        </SignedIn>
-      )}
-      {screenStore.screen.type === "cardInputMode" && (
-        <SignedIn>
-          <DeckFormStoreProvider>
-            <CardInputModeScreen />
-          </DeckFormStoreProvider>
-        </SignedIn>
-      )}
-      {screenStore.screen.type === "cardInputModeForm" && (
-        <SignedIn>
-          <DeckFormStoreProvider>
-            <CardInputModeFormScreen />
-          </DeckFormStoreProvider>
-        </SignedIn>
-      )}
-      {screenStore.screen.type === "cardPreviewId" && (
-        <SignedIn>
-          <PreventTelegramSwipeDownClosingIos>
-            <CardPreviewScreen />
-          </PreventTelegramSwipeDownClosingIos>
-        </SignedIn>
-      )}
-      {screenStore.screen.type === "userSettings" && (
-        <SignedIn>
-          <PreventTelegramSwipeDownClosingIos>
-            <UserSettingsLazy />
-          </PreventTelegramSwipeDownClosingIos>
-        </SignedIn>
-      )}
-      {screenStore.screen.type === "deckCatalog" && (
-        <SignedIn>
-          <PreventTelegramSwipeDownClosingIos>
-            <DeckCatalogStoreContextProvider>
-              <DeckCatalog />
-            </DeckCatalogStoreContextProvider>
-          </PreventTelegramSwipeDownClosingIos>
-        </SignedIn>
-      )}
+        )}
+        {screenStore.screen.type === "globalSearch" && (
+          <SignedIn>
+            <PreventTelegramSwipeDownClosingIos>
+              <SearchScreen />
+            </PreventTelegramSwipeDownClosingIos>
+          </SignedIn>
+        )}
+        {screenStore.isDeckPreviewScreen && (
+          <SignedIn>
+            <PreventTelegramSwipeDownClosingIos>
+              <ReviewStoreProvider>
+                <DeckScreen />
+              </ReviewStoreProvider>
+            </PreventTelegramSwipeDownClosingIos>
+          </SignedIn>
+        )}
+        {screenStore.screen.type === "reviewAll" && (
+          <SignedIn>
+            <PreventTelegramSwipeDownClosingIos>
+              <ReviewStoreProvider>
+                <RepeatAllScreen />
+              </ReviewStoreProvider>
+            </PreventTelegramSwipeDownClosingIos>
+          </SignedIn>
+        )}
+        {screenStore.screen.type === "reviewCustom" && (
+          <SignedIn>
+            <PreventTelegramSwipeDownClosingIos>
+              <ReviewStoreProvider>
+                <RepeatCustomScreen />
+              </ReviewStoreProvider>
+            </PreventTelegramSwipeDownClosingIos>
+          </SignedIn>
+        )}
+        {screenStore.screen.type === "folderForm" && (
+          <SignedIn>
+            <PreventTelegramSwipeDownClosingIos>
+              <FolderFormStoreProvider>
+                <FolderForm />
+              </FolderFormStoreProvider>
+            </PreventTelegramSwipeDownClosingIos>
+          </SignedIn>
+        )}
+        {screenStore.screen.type === "folderPreview" && (
+          <SignedIn>
+            <PreventTelegramSwipeDownClosingIos>
+              <ReviewStoreProvider>
+                <FolderScreen />
+              </ReviewStoreProvider>
+            </PreventTelegramSwipeDownClosingIos>
+          </SignedIn>
+        )}
+        {screenStore.screen.type === "deckForm" && (
+          <SignedIn>
+            <DeckFormStoreProvider>
+              <DeckFormScreen />
+            </DeckFormStoreProvider>
+          </SignedIn>
+        )}
+        {screenStore.screen.type === "ankiImport" && (
+          <SignedIn>
+            <PreventTelegramSwipeDownClosingIos>
+              <AnkiImportScreen />
+            </PreventTelegramSwipeDownClosingIos>
+          </SignedIn>
+        )}
+        {screenStore.screen.type === "cardList" && (
+          <SignedIn>
+            <DeckFormStoreProvider>
+              <CardList />
+            </DeckFormStoreProvider>
+          </SignedIn>
+        )}
+        {screenStore.screen.type === "speakingCards" && (
+          <SignedIn>
+            <DeckFormStoreProvider>
+              <SpeakingCards />
+            </DeckFormStoreProvider>
+          </SignedIn>
+        )}
+        {screenStore.screen.type === "cardInputMode" && (
+          <SignedIn>
+            <DeckFormStoreProvider>
+              <CardInputModeScreen />
+            </DeckFormStoreProvider>
+          </SignedIn>
+        )}
+        {screenStore.screen.type === "cardInputModeForm" && (
+          <SignedIn>
+            <DeckFormStoreProvider>
+              <CardInputModeFormScreen />
+            </DeckFormStoreProvider>
+          </SignedIn>
+        )}
+        {screenStore.screen.type === "cardPreviewId" && (
+          <SignedIn>
+            <PreventTelegramSwipeDownClosingIos>
+              <CardPreviewScreen />
+            </PreventTelegramSwipeDownClosingIos>
+          </SignedIn>
+        )}
+        {screenStore.screen.type === "userSettings" && (
+          <SignedIn>
+            <PreventTelegramSwipeDownClosingIos>
+              <UserSettingsLazy />
+            </PreventTelegramSwipeDownClosingIos>
+          </SignedIn>
+        )}
+        {screenStore.screen.type === "deckCatalog" && (
+          <SignedIn>
+            <PreventTelegramSwipeDownClosingIos>
+              <DeckCatalogStoreContextProvider>
+                <DeckCatalog />
+              </DeckCatalogStoreContextProvider>
+            </PreventTelegramSwipeDownClosingIos>
+          </SignedIn>
+        )}
 
-      {screenStore.screen.type === "plans" && (
-        <SignedIn>
-          <PreventTelegramSwipeDownClosingIos>
-            <PlansScreen />
-          </PreventTelegramSwipeDownClosingIos>
-        </SignedIn>
-      )}
-      {screenStore.screen.type === "freezeCards" && (
-        <SignedIn>
-          <PreventTelegramSwipeDownClosingIos>
-            <FreezeCardsScreenLazy />
-          </PreventTelegramSwipeDownClosingIos>
-        </SignedIn>
-      )}
-      {(screenStore.screen.type === "userStatistics" ||
-        screenStore.screen.type === "userStatisticsDaily") && (
-        <SignedIn>
-          <PreventTelegramSwipeDownClosingIos>
-            <UserStatisticsStoreProvider>
-              {screenStore.screen.type === "userStatisticsDaily" ? (
-                <UserStatisticsDailyScreen />
+        {screenStore.screen.type === "plans" && (
+          <SignedIn>
+            <PreventTelegramSwipeDownClosingIos>
+              <PlansScreen />
+            </PreventTelegramSwipeDownClosingIos>
+          </SignedIn>
+        )}
+        {screenStore.screen.type === "freezeCards" && (
+          <SignedIn>
+            <PreventTelegramSwipeDownClosingIos>
+              <FreezeCardsScreenLazy />
+            </PreventTelegramSwipeDownClosingIos>
+          </SignedIn>
+        )}
+        {(screenStore.screen.type === "userStatistics" ||
+          screenStore.screen.type === "userStatisticsDaily") && (
+          <SignedIn>
+            <PreventTelegramSwipeDownClosingIos>
+              <UserStatisticsStoreProvider>
+                {screenStore.screen.type === "userStatisticsDaily" ? (
+                  <UserStatisticsDailyScreen />
+                ) : (
+                  <UserStatisticsScreen />
+                )}
+              </UserStatisticsStoreProvider>
+            </PreventTelegramSwipeDownClosingIos>
+          </SignedIn>
+        )}
+        {screenStore.screen.type === "teacherStatistics" && (
+          <SignedIn>
+            <PreventTelegramSwipeDownClosingIos>
+              {userStore.isTeacherPaid ? (
+                <TeacherStatisticsLazy />
               ) : (
-                <UserStatisticsScreen />
+                <PlansScreen />
               )}
-            </UserStatisticsStoreProvider>
-          </PreventTelegramSwipeDownClosingIos>
-        </SignedIn>
-      )}
-      {screenStore.screen.type === "teacherStatistics" && (
-        <SignedIn>
+            </PreventTelegramSwipeDownClosingIos>
+          </SignedIn>
+        )}
+        {screenStore.screen.type === "teacherStatisticsList" && (
+          <SignedIn>
+            <PreventTelegramSwipeDownClosingIos>
+              {userStore.isTeacherPaid ? (
+                <TeacherStatisticsListLazy />
+              ) : (
+                <PlansScreen />
+              )}
+            </PreventTelegramSwipeDownClosingIos>
+          </SignedIn>
+        )}
+        {screenStore.screen.type === "aiMassCreation" && (
+          <SignedIn>
+            <PreventTelegramSwipeDownClosingIos>
+              <AiMassCreationStoreProvider>
+                <AiMassCreationScreen />
+              </AiMassCreationStoreProvider>
+            </PreventTelegramSwipeDownClosingIos>
+          </SignedIn>
+        )}
+        {screenStore.screen.type === "catalogSettings" && (
+          <SignedIn>
+            <PreventTelegramSwipeDownClosingIos>
+              <CatalogSettingsScreenLazy />
+            </PreventTelegramSwipeDownClosingIos>
+          </SignedIn>
+        )}
+        {screenStore.screen.type === "about" && (
           <PreventTelegramSwipeDownClosingIos>
-            {userStore.isTeacherPaid ? (
-              <TeacherStatisticsLazy />
-            ) : (
-              <PlansScreen />
-            )}
+            <AboutScreen />
           </PreventTelegramSwipeDownClosingIos>
-        </SignedIn>
-      )}
-      {screenStore.screen.type === "teacherStatisticsList" && (
-        <SignedIn>
-          <PreventTelegramSwipeDownClosingIos>
-            {userStore.isTeacherPaid ? (
-              <TeacherStatisticsListLazy />
-            ) : (
-              <PlansScreen />
-            )}
-          </PreventTelegramSwipeDownClosingIos>
-        </SignedIn>
-      )}
-      {screenStore.screen.type === "aiMassCreation" && (
-        <SignedIn>
-          <PreventTelegramSwipeDownClosingIos>
-            <AiMassCreationStoreProvider>
-              <AiMassCreationScreen />
-            </AiMassCreationStoreProvider>
-          </PreventTelegramSwipeDownClosingIos>
-        </SignedIn>
-      )}
-      {screenStore.screen.type === "catalogSettings" && (
-        <SignedIn>
-          <PreventTelegramSwipeDownClosingIos>
-            <CatalogSettingsScreenLazy />
-          </PreventTelegramSwipeDownClosingIos>
-        </SignedIn>
-      )}
-      {screenStore.screen.type === "about" && (
-        <PreventTelegramSwipeDownClosingIos>
-          <AboutScreen />
-        </PreventTelegramSwipeDownClosingIos>
-      )}
+        )}
+      </RouteScreenContainer>
 
       <BrowserMainButton />
 

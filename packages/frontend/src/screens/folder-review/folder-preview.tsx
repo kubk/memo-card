@@ -13,7 +13,6 @@ import { useReviewStore } from "../deck-review/store/review-store-context.tsx";
 import { ListHeader } from "../../ui/list-header.tsx";
 import { ButtonGrid } from "../../ui/button-grid.tsx";
 import { DeckFolderDescription } from "../shared/deck-folder-description.tsx";
-import { useScrollToTopOnMount } from "../../lib/react/use-scroll-to-top-mount.ts";
 import { Flex } from "../../ui/flex.tsx";
 import { List } from "../../ui/list.tsx";
 import { CardsToReview } from "../../ui/cards-to-review.tsx";
@@ -34,7 +33,6 @@ export function FolderPreview(props: Props) {
   });
 
   useProgress(() => deckListStore.isCatalogItemLoading);
-  useScrollToTopOnMount();
 
   useMainButton(
     t("review_folder"),
@@ -57,10 +55,7 @@ export function FolderPreview(props: Props) {
   );
 
   return (
-    <Flex
-      direction={"column"}
-      pb={82}
-    >
+    <Flex direction={"column"} pb={82}>
       <ListHeader text={t("folder")} />
       <div className="flex flex-col gap-4 rounded-[12px] px-4 pb-4 pt-0 bg-bg">
         <div className={cn("flex gap-1.5")}>

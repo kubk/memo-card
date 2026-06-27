@@ -1,6 +1,9 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { PaymentMethodType, plans } from "api";
 import { PlansScreenStore } from "./plans-screen-store.ts";
+import { when } from "mobx";
+import { queryRegistry } from "../../../lib/mobx-query-lite/make-query.ts";
+import { inMemoryCache } from "../../../lib/mobx-query-lite/cache.ts";
 
 const mocks = vi.hoisted(() => ({
   plansQuery: vi.fn(),
@@ -31,16 +34,22 @@ vi.mock("../../shared/snackbar/snackbar.tsx", () => ({
 describe("PlansScreenStore", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    queryRegistry.clear();
+    inMemoryCache.clear();
     mocks.plansQuery.mockResolvedValue({
       plans: [plans.pro, plans.teacher],
       aiCardsLeft: 10,
     });
   });
 
+  async function waitForPlans(store: PlansScreenStore) {
+    await when(() => store.hasLoadedPlans);
+  }
+
   it("starts with no selected payment method but displays USD durations", async () => {
     const store = new PlansScreenStore("pro");
 
-    await store.load();
+    await waitForPlans(store);
 
     expect(store.method).toBeNull();
     expect(store.durationDisplayMethod).toBe(PaymentMethodType.Usd);
@@ -51,7 +60,7 @@ describe("PlansScreenStore", () => {
 
   it("shows the buy button only after method and duration are selected", async () => {
     const store = new PlansScreenStore("pro");
-    await store.load();
+    await waitForPlans(store);
 
     store.selectedPlanDuration.onChange(6);
 
@@ -65,7 +74,7 @@ describe("PlansScreenStore", () => {
 
   it("switches duration display to Stars without changing duration options", async () => {
     const store = new PlansScreenStore("pro");
-    await store.load();
+    await waitForPlans(store);
 
     store.updateMethod(PaymentMethodType.Stars);
 

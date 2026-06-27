@@ -1,9 +1,7 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { type RouterOutput } from "api";
 import { ChevronRightIcon, FlameIcon } from "lucide-react";
 import { api } from "../../api/trpc-api.ts";
-import { RequestStore } from "../../lib/mobx-request/request-store.ts";
-import { useMount } from "../../lib/react/use-mount.ts";
 import { platform } from "../../lib/platform/platform.ts";
 import { screenStore } from "../../store/screen-store.ts";
 import { userStore } from "../../store/user-store.ts";
@@ -11,6 +9,8 @@ import { cn } from "../../ui/cn.ts";
 import { translator } from "../../translations/t.ts";
 import { formatDays } from "../../translations/format-days.ts";
 import { DateTime } from "luxon";
+import { getLocalTimeZone } from "../../lib/platform/get-local-time-zone.ts";
+import { makeQuery } from "../../lib/mobx-query-lite/make-query.ts";
 
 const weekCellColors = [
   "bg-[rgba(120,120,120,0.12)]",
@@ -21,6 +21,17 @@ const weekCellColors = [
 ];
 
 type SummaryDay = RouterOutput["myStatisticsSummary"]["week"][number];
+
+const mainStatisticsSummaryQuery = makeQuery(
+  {
+    key: "myStatisticsSummary",
+    query: () =>
+      api.myStatisticsSummary.query({
+        timeZone: getLocalTimeZone(),
+      }),
+  },
+  { staleTime: 0 },
+);
 
 function addDays(date: string, days: number) {
   const result = DateTime.fromISO(date, { zone: "utc" })
@@ -92,29 +103,17 @@ function MainStatisticsSummaryLoading() {
 }
 
 export function MainStatisticsSummary() {
-  const [summaryRequest] = useState(
-    () =>
-      new RequestStore<
-        RouterOutput["myStatisticsSummary"],
-        [input: { timeZone: string }]
-      >(api.myStatisticsSummary.query),
-  );
+  const summary = mainStatisticsSummaryQuery.data;
 
-  useMount(() => {
-    summaryRequest.execute({
-      timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-    });
-  });
-
-  if (summaryRequest.result.status === "loading") {
+  if (mainStatisticsSummaryQuery.isPending) {
     return <MainStatisticsSummaryLoading />;
   }
 
-  if (summaryRequest.result.status !== "success") {
+  if (!summary) {
     return null;
   }
 
-  return <MainStatisticsSummaryContent summary={summaryRequest.result.data} />;
+  return <MainStatisticsSummaryContent summary={summary} />;
 }
 
 function MainStatisticsSummaryContent(props: {

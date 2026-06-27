@@ -1,20 +1,24 @@
-import { RequestStore } from "../../../lib/mobx-request/request-store.ts";
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable, reaction } from "mobx";
 import { formToPlain, TextField, validators } from "mobx-form-lite";
 import { notifyError, notifySuccess } from "../../shared/snackbar/snackbar.tsx";
 import { DeckFormStore } from "../../deck-form/deck-form/store/deck-form-store.ts";
-import { createCachedCardInputModesRequest } from "../../../api/create-cached-card-input-modes-request.ts";
 import { CardInputModeDb } from "api";
 import { api } from "../../../api/trpc-api.ts";
 import { t } from "../../../translations/t.ts";
 import { showConfirm } from "../../../lib/platform/show-confirm.ts";
 import { screenStore } from "../../../store/screen-store.ts";
+import { makeQuery } from "../../../lib/mobx-query-lite/make-query.ts";
+import { makeMutation } from "../../../lib/mobx-query-lite/make-mutation.ts";
 
 export class CardInputModeFormStore {
-  cardInputModesRequest = createCachedCardInputModesRequest();
-  createRequest = new RequestStore(api.cardInputMode.create.mutate);
-  updateRequest = new RequestStore(api.cardInputMode.update.mutate);
-  deleteRequest = new RequestStore(api.cardInputMode.delete.mutate);
+  cardInputModesQuery = makeQuery({
+    key: "cardInputMode.list",
+    query: api.cardInputMode.list.query,
+  });
+  createMutation = makeMutation(api.cardInputMode.create.mutate);
+  updateMutation = makeMutation(api.cardInputMode.update.mutate);
+  deleteMutation = makeMutation(api.cardInputMode.delete.mutate);
+  private isFormHydrated = false;
 
   form = {
     title: new TextField("", {
@@ -34,6 +38,18 @@ export class CardInputModeFormStore {
 
   constructor(private deckFormStore: DeckFormStore) {
     makeAutoObservable(this, {}, { autoBind: true });
+
+    reaction(
+      () => this.cardInputMode,
+      (mode) => {
+        if (!mode || this.isFormHydrated) {
+          return;
+        }
+
+        this.hydrateForm(mode);
+      },
+      { fireImmediately: true },
+    );
   }
 
   get isEditing() {
@@ -42,26 +58,33 @@ export class CardInputModeFormStore {
 
   get cardInputMode(): CardInputModeDb | null {
     if (!this.deckFormStore.cardInputModeIdForForm) return null;
-    if (this.cardInputModesRequest.result.status !== "success") return null;
 
     return (
-      this.cardInputModesRequest.result.data.find(
+      this.cardInputModes.find(
         (mode) => mode.id === this.deckFormStore.cardInputModeIdForForm,
       ) || null
     );
   }
 
-  async load() {
-    await this.cardInputModesRequest.execute();
+  get cardInputModes() {
+    return this.cardInputModesQuery.data ?? [];
+  }
 
-    if (this.isEditing && this.cardInputMode) {
-      const mode = this.cardInputMode;
-      this.form.title.onChange(mode.title);
-      this.form.prompt.onChange(mode.prompt);
-      this.form.front.onChange(mode.front);
-      this.form.back.onChange(mode.back);
-      this.form.example.onChange(mode.example);
-    }
+  get isLoadingCardInputMode() {
+    return (
+      this.isEditing &&
+      this.cardInputModesQuery.data === undefined &&
+      !this.cardInputModesQuery.error
+    );
+  }
+
+  hydrateForm(mode: CardInputModeDb) {
+    this.form.title.onChange(mode.title);
+    this.form.prompt.onChange(mode.prompt);
+    this.form.front.onChange(mode.front);
+    this.form.back.onChange(mode.back);
+    this.form.example.onChange(mode.example);
+    this.isFormHydrated = true;
   }
 
   async submit() {
@@ -69,19 +92,21 @@ export class CardInputModeFormStore {
 
     const data = formToPlain(this.form);
 
-    const result = this.deckFormStore.cardInputModeIdForForm
-      ? await this.updateRequest.execute({
+    try {
+      if (this.deckFormStore.cardInputModeIdForForm) {
+        const cardInputMode = await this.updateMutation.mutate({
           id: this.deckFormStore.cardInputModeIdForForm,
           ...data,
-        })
-      : await this.createRequest.execute(data);
-
-    if (result.status === "error") {
-      notifyError(result.error);
+        });
+        await this.updateCardInputModesCache(cardInputMode);
+      } else {
+        const cardInputMode = await this.createMutation.mutate(data);
+        await this.updateCardInputModesCache(cardInputMode);
+      }
+    } catch (error) {
+      notifyError(error);
       return;
     }
-
-    this.cardInputModesRequest.invalidate();
 
     notifySuccess(t("card_input_mode_form_save_success"));
     screenStore.back();
@@ -100,26 +125,57 @@ export class CardInputModeFormStore {
   async delete() {
     if (!this.isEditing || this.isAnyRequestLoading) return;
 
-    const result = await this.deleteRequest.execute({
-      id: this.deckFormStore.cardInputModeIdForForm!,
-    });
-
-    if (result.status === "error") {
-      notifyError(result.error);
+    try {
+      const deletedCardInputMode = await this.deleteMutation.mutate({
+        id: this.deckFormStore.cardInputModeIdForForm!,
+      });
+      await this.removeCardInputModeFromCache(deletedCardInputMode.id);
+    } catch (error) {
+      notifyError(error);
       return;
     }
-
-    this.cardInputModesRequest.invalidate();
 
     notifySuccess(t("card_input_mode_form_delete_success"));
     screenStore.back();
   }
 
+  async updateCardInputModesCache(cardInputMode: CardInputModeDb) {
+    const current = this.cardInputModesQuery.data;
+    if (!current) {
+      return;
+    }
+
+    const existingIndex = current.findIndex(
+      (mode) => mode.id === cardInputMode.id,
+    );
+    if (existingIndex === -1) {
+      await this.cardInputModesQuery.setData([...current, cardInputMode]);
+      return;
+    }
+
+    await this.cardInputModesQuery.setData(
+      current.map((mode) =>
+        mode.id === cardInputMode.id ? cardInputMode : mode,
+      ),
+    );
+  }
+
+  async removeCardInputModeFromCache(cardInputModeId: string) {
+    const current = this.cardInputModesQuery.data;
+    if (!current) {
+      return;
+    }
+
+    await this.cardInputModesQuery.setData(
+      current.filter((mode) => mode.id !== cardInputModeId),
+    );
+  }
+
   get isAnyRequestLoading() {
     return (
-      this.createRequest.isLoading ||
-      this.updateRequest.isLoading ||
-      this.deleteRequest.isLoading
+      this.createMutation.isPending ||
+      this.updateMutation.isPending ||
+      this.deleteMutation.isPending
     );
   }
 }

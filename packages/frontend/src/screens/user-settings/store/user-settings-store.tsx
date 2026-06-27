@@ -130,7 +130,7 @@ export class UserSettingsStore {
       return;
     }
 
-    await userStore.fetchActivePlan();
+    userStore.setActivePlan(result.data.plan);
 
     notifySuccess(
       planType ? `Plan set to ${planType}` : "Paid status disabled",
