@@ -36,6 +36,7 @@ export const useMainButtonTelegram: UseMainButtonType = (
   options,
 ) => {
   const hideMainButton = () => {
+    // Some transitions need an immediate hide to avoid Telegram button flicker.
     hide(!!options?.forceHide);
     getWebApp().MainButton.offClick(onClick);
     getWebApp().MainButton.hideProgress();

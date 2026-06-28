@@ -27,6 +27,8 @@ export function RepeatCustomSelector({ onClick, store }: Props) {
       onClick();
     },
     () => store.isReviewButtonVisible,
+    [],
+    { forceHide: true },
   );
 
   return (
