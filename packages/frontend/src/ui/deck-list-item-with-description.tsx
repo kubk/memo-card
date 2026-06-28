@@ -8,7 +8,6 @@ type Props = {
     id: number;
     name: string;
     description: string | null;
-    availableIn: string | null;
     deckCategory?: { name: string; logo: string | null } | null;
   };
   onClick: () => void;

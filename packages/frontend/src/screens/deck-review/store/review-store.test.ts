@@ -63,13 +63,9 @@ const createDeckWithCards = (cards: DeckCardDbTypeWithType[]) => {
     speakLocale: null,
     speakAutoAi: false,
     reverseCards: false,
-    createdAt: "2023-10-06T02:13:20.985Z",
     authorId: 1,
     shareId: "share_id_mock2",
     isPublic: false,
-    availableIn: null,
-    deckCategory: null,
-    categoryId: null,
     cardInputModeId: null,
   };
   return deckMock;

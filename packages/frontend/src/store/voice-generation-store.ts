@@ -1,5 +1,5 @@
 import { action, makeAutoObservable } from "mobx";
-import { DeckCardDbType, DeckWithCardsDbType } from "api";
+import { DeckCardDbType, MyInfoDeckWithCardsDbType } from "api";
 import { generateVoiceForNewCards } from "../lib/voice/generate-voice-for-new-cards.ts";
 import { userStore } from "./user-store.ts";
 import { deckListStore } from "./deck-list-store.ts";
@@ -11,11 +11,11 @@ class VoiceGenerationStore {
     makeAutoObservable(this, {}, { autoBind: true });
   }
 
-  generateForCard(deck: DeckWithCardsDbType, card: DeckCardDbType) {
+  generateForCard(deck: MyInfoDeckWithCardsDbType, card: DeckCardDbType) {
     this.generateForCards(deck, [card]);
   }
 
-  generateForCards(deck: DeckWithCardsDbType, cards: DeckCardDbType[]) {
+  generateForCards(deck: MyInfoDeckWithCardsDbType, cards: DeckCardDbType[]) {
     if (!deck.speakAutoAi || !deck.speakField || !deck.speakLocale) {
       return;
     }

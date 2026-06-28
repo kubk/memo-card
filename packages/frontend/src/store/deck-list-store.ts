@@ -1,6 +1,10 @@
 import { action, makeAutoObservable, runInAction, when } from "mobx";
 import { appLoaderStore } from "./app-loader-store.ts";
 import { type MyInfoResponse } from "api";
+import {
+  type MyInfoDeckWithCardsDbType,
+  type MyInfoPublicDeckWithCardsDbType,
+} from "api";
 import { type DeckCardDbType, type DeckWithCardsDbType } from "api";
 import { screenStore } from "./screen-store.ts";
 import {
@@ -30,7 +34,11 @@ export type DeckCardDbTypeWithType = DeckCardDbType & {
   type: CardReviewType;
 } & FsrsReviewState;
 
-export type DeckWithCardsWithReviewType = DeckWithCardsDbType & {
+type DeckListDeck = MyInfoDeckWithCardsDbType & {
+  deckCategory?: MyInfoPublicDeckWithCardsDbType["deckCategory"];
+};
+
+export type DeckWithCardsWithReviewType = DeckListDeck & {
   cardsToReview: DeckCardDbTypeWithType[];
 };
 
@@ -57,7 +65,7 @@ export type DeckListItem = {
 );
 
 class DeckListStore {
-  myInfo?: Exclude<MyInfoResponse, "plans" | "user">;
+  myInfo?: Omit<MyInfoResponse, "user" | "plan">;
   myInfoRequest = new RequestStore(api.me.info.query, {
     staleWhileRevalidate: true,
   });
@@ -266,7 +274,7 @@ class DeckListStore {
     return deck.authorId === userStore.myId;
   }
 
-  async openDeckFromCatalog(deck: DeckWithCardsDbType, isMine: boolean) {
+  async openDeckFromCatalog(deck: DeckListDeck, isMine: boolean) {
     assert(this.myInfo);
     if (isMine) {
       screenStore.push({ type: "deckMine", deckId: deck.id });
@@ -645,7 +653,7 @@ class DeckListStore {
       .finally(appLoaderStore.disable);
   }
 
-  async removeDeck(deck: DeckWithCardsDbType) {
+  async removeDeck(deck: Pick<DeckListDeck, "id" | "authorId">) {
     const isAuthor = deck.authorId === userStore.myId;
     const confirmMessage = isAuthor
       ? t("delete_deck_confirm_author")
@@ -861,7 +869,7 @@ class DeckListStore {
 }
 
 const getCardsToReview = (
-  deck: DeckWithCardsDbType,
+  deck: DeckListDeck,
   cardsToReview: CardToReviewDbType[],
 ) => {
   const map = new Map<number, CardToReviewDbType>();

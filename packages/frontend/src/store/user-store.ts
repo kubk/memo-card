@@ -1,6 +1,6 @@
 import { autorun, makeAutoObservable } from "mobx";
+import { type MyInfoResponse } from "api";
 import { type UserDbType } from "api";
-import { type PlanForUser } from "api";
 import { type PaidPlanType } from "api";
 import { isPaidPlanType } from "api";
 import { BooleanToggle } from "mobx-form-lite";
@@ -50,14 +50,14 @@ class UserStore {
     });
   }
 
-  setUser(user: UserDbType, plan: PlanForUser | null) {
+  setUser(user: UserDbType, plan: MyInfoResponse["plan"]) {
     this.userInfo = user;
     this.setActivePlan(plan);
 
     platform.setLanguageCached(getUserLanguage(user));
   }
 
-  setActivePlan(plan: PlanForUser | null) {
+  setActivePlan(plan: MyInfoResponse["plan"]) {
     this.activePlanQuery.setData({ plan });
   }
 
@@ -85,7 +85,7 @@ class UserStore {
     return this.userInfo ?? null;
   }
 
-  get plan(): PlanForUser | null {
+  get plan(): MyInfoResponse["plan"] {
     if (!this.userInfo) {
       return null;
     }
