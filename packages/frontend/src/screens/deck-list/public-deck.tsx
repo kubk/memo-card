@@ -1,9 +1,9 @@
-import { DeckWithCardsDbType } from "api";
+import { MyInfoPublicDeckWithCardsDbType } from "api";
 import { DeckListItemWithDescription } from "../../ui/deck-list-item-with-description.tsx";
 import { deckListStore } from "../../store/deck-list-store.ts";
 import { platform } from "../../lib/platform/platform.ts";
 
-type Props = { deck: DeckWithCardsDbType };
+type Props = { deck: MyInfoPublicDeckWithCardsDbType };
 
 export function PublicDeck(props: Props) {
   const { deck } = props;

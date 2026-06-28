@@ -18,6 +18,7 @@ import {
   DeckCardOptionsDbType,
   DeckSpeakFieldEnum,
   DeckWithCardsDbType,
+  MyInfoDeckWithCardsDbType,
   SpeakLanguage,
   CardAnswerType,
 } from "api";
@@ -131,7 +132,7 @@ export const createAnswerTypeField = (card?: DeckCardDbType) => {
 
 const createUpdateForm = (
   id: number,
-  deck: DeckWithCardsDbType,
+  deck: MyInfoDeckWithCardsDbType,
 ): DeckFormType => {
   return {
     id: id,
