@@ -74,7 +74,7 @@ const currentUserStatsQuery = makeQuery({
   key: "currentUser.stats",
   query: () =>
     api.currentUserStats.query({
-      timeZone: getLocalTimeZone(),
+      timeZone: getTz(),
     }),
 });
 ```

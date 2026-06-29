@@ -11,6 +11,7 @@ import { Flex } from "../../ui/flex.tsx";
 import { ReviewedCardsList } from "./reviewed-cards-list.tsx";
 import { m } from "framer-motion";
 import { LazyLoadFramerMotion } from "../../lib/framer-motion/lazy-load-framer-motion.tsx";
+import { weekHeatmapQuery } from "../deck-list/week-heatmap.tsx";
 
 type Props = {
   type: "deck" | "repeat_all";
@@ -24,6 +25,7 @@ export function DeckFinished(props: Props) {
   useMount(() => {
     reviewStore.submitFinished(() => {
       deckListStore.load();
+      weekHeatmapQuery.fetch();
     });
   });
 

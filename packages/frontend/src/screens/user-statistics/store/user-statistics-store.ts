@@ -3,7 +3,7 @@ import { api } from "../../../api/trpc-api.ts";
 import { type RouterOutput } from "api";
 import { DateTime } from "luxon";
 import { makeQuery } from "../../../lib/mobx-query-lite/make-query.ts";
-import { getLocalTimeZone } from "../../../lib/platform/get-local-time-zone.ts";
+import { getTz } from "../../../lib/platform/get-tz.ts";
 import { makeInfiniteQuery } from "../../../lib/mobx-query-lite/make-infinite-query.ts";
 
 const recentHeatmapDaysCount = 98;
@@ -76,14 +76,14 @@ export class UserStatisticsStore {
     key: "userStatistics",
     query: () =>
       api.myStatistics.query({
-        timeZone: getLocalTimeZone(),
+        timeZone: getTz(),
       }),
   });
   dailyReviewsQuery = makeInfiniteQuery({
     key: "userStatisticsDaily",
     query: ({ cursor }) =>
       api.myStatisticsDailyReviews.query({
-        timeZone: getLocalTimeZone(),
+        timeZone: getTz(),
         cursor,
       }),
   });

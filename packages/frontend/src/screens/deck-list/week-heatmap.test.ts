@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { getPaddedSummaryWeek } from "./main-statistics-summary.tsx";
+import { getPaddedWeekHeatmapDays } from "./week-heatmap.tsx";
 
-describe("main statistics summary", () => {
-  it("pads a sparse summary week for display", () => {
+describe("week heatmap", () => {
+  it("pads sparse days for display", () => {
     expect(
-      getPaddedSummaryWeek(
+      getPaddedWeekHeatmapDays(
         [
           { date: "2026-06-04", reviews: 3 },
           { date: "2026-06-08", reviews: 7 },

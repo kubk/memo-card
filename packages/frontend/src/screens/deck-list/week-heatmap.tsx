@@ -9,7 +9,7 @@ import { cn } from "../../ui/cn.ts";
 import { translator } from "../../translations/t.ts";
 import { formatDays } from "../../translations/format-days.ts";
 import { DateTime } from "luxon";
-import { getLocalTimeZone } from "../../lib/platform/get-local-time-zone.ts";
+import { getTz } from "../../lib/platform/get-tz.ts";
 import { makeQuery } from "../../lib/mobx-query-lite/make-query.ts";
 
 const weekCellColors = [
@@ -20,15 +20,12 @@ const weekCellColors = [
   "bg-[#139e2d]",
 ];
 
-type SummaryDay = RouterOutput["myStatisticsSummary"]["week"][number];
+type WeekHeatmapDay = RouterOutput["weekHeatmap"]["days"][number];
 
-const mainStatisticsSummaryQuery = makeQuery(
+export const weekHeatmapQuery = makeQuery(
   {
-    key: "myStatisticsSummary",
-    query: () =>
-      api.myStatisticsSummary.query({
-        timeZone: getLocalTimeZone(),
-      }),
+    key: "weekHeatmap",
+    query: () => api.weekHeatmap.query({ timeZone: getTz() }),
   },
   { staleTime: 0 },
 );
@@ -55,9 +52,12 @@ function getTodayDate() {
   return result;
 }
 
-export function getPaddedSummaryWeek(week: SummaryDay[], today: string) {
+export function getPaddedWeekHeatmapDays(
+  days: WeekHeatmapDay[],
+  today: string,
+) {
   const startDate = addDays(today, -6);
-  const daysByDate = new Map(week.map((day) => [day.date, day]));
+  const daysByDate = new Map(days.map((day) => [day.date, day]));
 
   return Array.from({ length: 7 }, (_, index) => {
     const date = addDays(startDate, index);
@@ -78,7 +78,7 @@ function getWeekCellIntensity(reviews: number, maxReviewsInDay: number) {
   return Math.max(1, Math.ceil((reviews / maxReviewsInDay) * 4));
 }
 
-function MainStatisticsSummaryLoading() {
+function WeekHeatmapLoading() {
   return (
     <div className="bg-bg rounded-xl px-3 py-3 animate-pulse">
       <div className="flex items-center justify-between gap-3">
@@ -102,31 +102,31 @@ function MainStatisticsSummaryLoading() {
   );
 }
 
-export function MainStatisticsSummary() {
-  const summary = mainStatisticsSummaryQuery.data;
+export function WeekHeatmap() {
+  const weekHeatmap = weekHeatmapQuery.data;
 
-  if (mainStatisticsSummaryQuery.isPending) {
-    return <MainStatisticsSummaryLoading />;
+  if (weekHeatmapQuery.isPending) {
+    return <WeekHeatmapLoading />;
   }
 
-  if (!summary) {
+  if (!weekHeatmap) {
     return null;
   }
 
-  return <MainStatisticsSummaryContent summary={summary} />;
+  return <WeekHeatmapContent weekHeatmap={weekHeatmap} />;
 }
 
-function MainStatisticsSummaryContent(props: {
-  summary: RouterOutput["myStatisticsSummary"];
+function WeekHeatmapContent(props: {
+  weekHeatmap: RouterOutput["weekHeatmap"];
 }) {
-  const { summary } = props;
-  const week = useMemo(
-    () => getPaddedSummaryWeek(summary.week, getTodayDate()),
-    [summary.week],
+  const { weekHeatmap } = props;
+  const days = useMemo(
+    () => getPaddedWeekHeatmapDays(weekHeatmap.days, getTodayDate()),
+    [weekHeatmap.days],
   );
   const maxReviewsInDay = useMemo(
-    () => Math.max(0, ...week.map((day) => day.reviews)),
-    [week],
+    () => Math.max(0, ...days.map((day) => day.reviews)),
+    [days],
   );
 
   return (
@@ -150,14 +150,14 @@ function MainStatisticsSummaryContent(props: {
           />
           <div className="min-w-0 text-start text-[15px] font-semibold leading-5">
             <span className="tabular-nums">
-              {formatDays(summary.currentStreak)}
+              {formatDays(weekHeatmap.currentStreak)}
             </span>
           </div>
         </div>
 
         <div className="flex items-center gap-2 shrink-0">
           <div className="grid grid-cols-7 gap-2">
-            {week.map((day) => {
+            {days.map((day) => {
               const weekday = new Intl.DateTimeFormat(translator.getLang(), {
                 weekday: "narrow",
               })
