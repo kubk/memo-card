@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import { type RouterOutput } from "api";
 import { ChevronRightIcon, FlameIcon } from "lucide-react";
 import { api } from "../../api/trpc-api.ts";
@@ -8,7 +7,6 @@ import { userStore } from "../../store/user-store.ts";
 import { cn } from "../../ui/cn.ts";
 import { translator } from "../../translations/t.ts";
 import { formatDays } from "../../translations/format-days.ts";
-import { DateTime } from "luxon";
 import { getTz } from "../../lib/platform/get-tz.ts";
 import { makeQuery } from "../../lib/mobx-query-lite/make-query.ts";
 
@@ -20,8 +18,6 @@ const weekCellColors = [
   "bg-[#139e2d]",
 ];
 
-type WeekHeatmapDay = RouterOutput["weekHeatmap"]["days"][number];
-
 export const weekHeatmapQuery = makeQuery(
   {
     key: "weekHeatmap",
@@ -30,52 +26,9 @@ export const weekHeatmapQuery = makeQuery(
   { staleTime: 0 },
 );
 
-function addDays(date: string, days: number) {
-  const result = DateTime.fromISO(date, { zone: "utc" })
-    .plus({ days })
-    .toISODate();
-
-  if (!result) {
-    throw new Error(`Invalid summary date: ${date}`);
-  }
-
-  return result;
-}
-
-function getTodayDate() {
-  const result = DateTime.local().toISODate();
-
-  if (!result) {
-    throw new Error("Invalid current date");
-  }
-
-  return result;
-}
-
-export function getPaddedWeekHeatmapDays(
-  days: WeekHeatmapDay[],
-  today: string,
-) {
-  const startDate = addDays(today, -6);
-  const daysByDate = new Map(days.map((day) => [day.date, day]));
-
-  return Array.from({ length: 7 }, (_, index) => {
-    const date = addDays(startDate, index);
-    return daysByDate.get(date) ?? { date, reviews: 0 };
-  });
-}
-
 function parseIsoDate(date: string) {
   const [year, month, day] = date.split("-").map(Number);
   return new Date(year, month - 1, day);
-}
-
-function getWeekCellIntensity(reviews: number, maxReviewsInDay: number) {
-  if (reviews === 0 || maxReviewsInDay === 0) {
-    return 0;
-  }
-
-  return Math.max(1, Math.ceil((reviews / maxReviewsInDay) * 4));
 }
 
 function WeekHeatmapLoading() {
@@ -120,14 +73,6 @@ function WeekHeatmapContent(props: {
   weekHeatmap: RouterOutput["weekHeatmap"];
 }) {
   const { weekHeatmap } = props;
-  const days = useMemo(
-    () => getPaddedWeekHeatmapDays(weekHeatmap.days, getTodayDate()),
-    [weekHeatmap.days],
-  );
-  const maxReviewsInDay = useMemo(
-    () => Math.max(0, ...days.map((day) => day.reviews)),
-    [days],
-  );
 
   return (
     <button
@@ -157,7 +102,7 @@ function WeekHeatmapContent(props: {
 
         <div className="flex items-center gap-2 shrink-0">
           <div className="grid grid-cols-7 gap-2">
-            {days.map((day) => {
+            {weekHeatmap.days.map((day) => {
               const weekday = new Intl.DateTimeFormat(translator.getLang(), {
                 weekday: "narrow",
               })
@@ -175,9 +120,7 @@ function WeekHeatmapContent(props: {
                   <div
                     className={cn(
                       "h-4 w-4 rounded-[3px]",
-                      weekCellColors[
-                        getWeekCellIntensity(day.reviews, maxReviewsInDay)
-                      ],
+                      weekCellColors[day.intensity],
                     )}
                   />
                 </div>
