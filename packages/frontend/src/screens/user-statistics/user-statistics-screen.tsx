@@ -15,6 +15,7 @@ import { translator } from "../../translations/t.ts";
 import { ChevronIcon } from "../../ui/chevron-icon.tsx";
 import { formatNumber } from "../../translations/format-number.ts";
 import { useBottomReached } from "../../lib/react/use-bottom-reached.ts";
+import { type RouterOutput } from "api";
 
 const heatmapColors = [
   "bg-[rgba(120,120,120,0.12)]",
@@ -24,6 +25,8 @@ const heatmapColors = [
   "bg-[#139e2d]",
 ];
 
+type UserStatistics = RouterOutput["myStatistics"];
+
 function formatDailyStatsDate(value: string) {
   const [year, month, day] = value.split("-").map(Number);
 
@@ -32,6 +35,17 @@ function formatDailyStatsDate(value: string) {
     month: "short",
     year: "numeric",
   }).format(new Date(year, month - 1, day));
+}
+
+function NumberSkeleton(props: { className?: string }) {
+  return (
+    <span
+      className={cn(
+        "inline-block h-7 w-12 animate-pulse rounded bg-secondary-bg align-middle",
+        props.className,
+      )}
+    />
+  );
 }
 
 function StatisticsLoading() {
@@ -52,14 +66,33 @@ function StatisticsLoadError() {
   );
 }
 
-function StatTile(props: { label: string; value: string | number }) {
+function StreakValue(props: { days: number | undefined }) {
+  return (
+    <span className="inline-flex min-w-[72px] justify-end font-medium tabular-nums">
+      {props.days === undefined ? (
+        <NumberSkeleton className="h-[18px] w-16" />
+      ) : (
+        formatDays(props.days)
+      )}
+    </span>
+  );
+}
+
+function StatTile(props: {
+  label: string;
+  value: string | number | undefined;
+}) {
   return (
     <div className="bg-bg rounded-lg px-3 py-2 min-w-0">
       <div className="text-[12px] text-hint leading-4 truncate">
         {props.label}
       </div>
-      <div className="text-[24px] font-semibold leading-7 tabular-nums">
-        {props.value}
+      <div className="min-h-7 text-[24px] font-semibold leading-7 tabular-nums">
+        {props.value === undefined ? (
+          <NumberSkeleton className="h-6" />
+        ) : (
+          props.value
+        )}
       </div>
     </div>
   );
@@ -78,6 +111,47 @@ function Section(props: {
   );
 }
 
+function Heatmap(props: { isLoading: boolean }) {
+  const userStatisticsStore = useUserStatisticsStore();
+  const showEmptyText = !props.isLoading && !userStatisticsStore.hasActivity;
+
+  return (
+    <button
+      type="button"
+      title={t("user_stats_daily_page")}
+      className="mt-2 w-full cursor-pointer rounded-lg border-0 bg-bg p-3 text-start text-text active:scale-[0.99] active:transition-transform active:duration-300"
+      onClick={() => {
+        screenStore.push({ type: "userStatisticsDaily" });
+      }}
+    >
+      <div className="grid grid-cols-[repeat(14,minmax(0,1fr))] gap-[3px]">
+        {userStatisticsStore.heatmapWeeks.map((week, weekIndex) => (
+          <div key={weekIndex} className="flex flex-col gap-[3px]">
+            {week.map((day) => (
+              <div
+                key={day.date}
+                title={`${day.date}: ${day.reviews}`}
+                className={cn(
+                  "aspect-square rounded-[3px]",
+                  heatmapColors[
+                    userStatisticsStore.getHeatmapIntensity(day.reviews)
+                  ],
+                )}
+              />
+            ))}
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-3 min-h-5 text-center text-[13px] leading-5">
+        <span className={showEmptyText ? "text-hint" : "invisible"}>
+          {t("user_stats_empty_text")}
+        </span>
+      </div>
+    </button>
+  );
+}
+
 function DailyStatsMarker(props: { reviews: number }) {
   const userStatisticsStore = useUserStatisticsStore();
 
@@ -91,9 +165,96 @@ function DailyStatsMarker(props: { reviews: number }) {
   );
 }
 
+function UserStatisticsContent(props: {
+  statistics: UserStatistics | undefined;
+}) {
+  const { statistics } = props;
+  const isLoading = statistics === undefined;
+
+  return (
+    <>
+      <Section title={t("user_stats_streaks")}>
+        <List
+          items={[
+            {
+              text: t("user_stats_best_streak"),
+              icon: (
+                <FilledIcon
+                  backgroundColor="#f4b400"
+                  icon={<TrophyIcon size={18} className="text-white" />}
+                />
+              ),
+              right: <StreakValue days={statistics?.activity.bestStreak} />,
+            },
+            {
+              text: t("user_stats_current_streak"),
+              icon: (
+                <FilledIcon
+                  backgroundColor="#ff8a00"
+                  icon={<FlameIcon size={18} className="text-white" />}
+                />
+              ),
+              right: <StreakValue days={statistics?.activity.currentStreak} />,
+            },
+          ]}
+        />
+      </Section>
+
+      <Section
+        title={t("user_stats_card_reviews")}
+        rightSlot={
+          <button
+            type="button"
+            className="absolute top-1 end-1 flex shrink-0 items-center gap-1 text-sm uppercase text-link"
+            onClick={() => {
+              screenStore.push({ type: "userStatisticsDaily" });
+            }}
+          >
+            {t("teacher_stats_see_all")}
+            <ChevronIcon direction="right" />
+          </button>
+        }
+      >
+        <div className="grid grid-cols-3 gap-2">
+          <StatTile
+            label={t("user_stats_today")}
+            value={statistics?.activity.todayReviews}
+          />
+          <StatTile
+            label={t("user_stats_7d")}
+            value={statistics?.activity.last7DaysReviews}
+          />
+          <StatTile
+            label={t("user_stats_30d")}
+            value={statistics?.activity.last30DaysReviews}
+          />
+        </div>
+
+        <Heatmap isLoading={isLoading} />
+      </Section>
+
+      <Section title={t("user_stats_memory")}>
+        <div className="grid grid-cols-3 gap-2">
+          <StatTile
+            label={t("user_stats_to_review")}
+            value={statistics?.overview.dueNow}
+          />
+          <StatTile
+            label={t("user_stats_remembered_cards")}
+            value={statistics?.overview.remembered}
+          />
+          <StatTile
+            label={t("user_stats_all_cards")}
+            value={statistics?.overview.totalReviewedCards}
+          />
+        </div>
+      </Section>
+    </>
+  );
+}
+
 export function UserStatisticsScreen() {
-  const userStatisticsStore = useUserStatisticsStore();
-  const userStatisticsQuery = userStatisticsStore.userStatisticsQuery;
+  const userStatisticsQuery = useUserStatisticsStore().userStatisticsQuery;
   const statistics = userStatisticsQuery.data;
 
   useBackButton(() => {
@@ -102,127 +263,8 @@ export function UserStatisticsScreen() {
 
   return (
     <Screen title={t("user_stats_page")}>
-      {userStatisticsQuery.isPending ? (
-        <StatisticsLoading />
-      ) : statistics ? (
-        <>
-          <Section title={t("user_stats_streaks")}>
-            <List
-              items={[
-                {
-                  text: t("user_stats_best_streak"),
-                  icon: (
-                    <FilledIcon
-                      backgroundColor="#f4b400"
-                      icon={<TrophyIcon size={18} className="text-white" />}
-                    />
-                  ),
-                  right: (
-                    <span className="font-medium tabular-nums">
-                      {formatDays(statistics.activity.bestStreak)}
-                    </span>
-                  ),
-                },
-                {
-                  text: t("user_stats_current_streak"),
-                  icon: (
-                    <FilledIcon
-                      backgroundColor="#ff8a00"
-                      icon={<FlameIcon size={18} className="text-white" />}
-                    />
-                  ),
-                  right: (
-                    <span className="font-medium tabular-nums">
-                      {formatDays(statistics.activity.currentStreak)}
-                    </span>
-                  ),
-                },
-              ]}
-            />
-          </Section>
-
-          <Section
-            title={t("user_stats_card_reviews")}
-            rightSlot={
-              <button
-                type="button"
-                className="absolute top-1 end-1 flex shrink-0 items-center gap-1 text-sm uppercase text-link"
-                onClick={() => {
-                  screenStore.push({ type: "userStatisticsDaily" });
-                }}
-              >
-                {t("teacher_stats_see_all")}
-                <ChevronIcon direction="right" />
-              </button>
-            }
-          >
-            <div className="grid grid-cols-3 gap-2">
-              <StatTile
-                label={t("user_stats_today")}
-                value={statistics.activity.todayReviews}
-              />
-              <StatTile
-                label={t("user_stats_7d")}
-                value={statistics.activity.last7DaysReviews}
-              />
-              <StatTile
-                label={t("user_stats_30d")}
-                value={statistics.activity.last30DaysReviews}
-              />
-            </div>
-
-            <button
-              type="button"
-              title={t("user_stats_daily_page")}
-              className="mt-2 w-full cursor-pointer rounded-lg border-0 bg-bg p-3 text-start text-text active:scale-[0.99] active:transition-transform active:duration-300"
-              onClick={() => {
-                screenStore.push({ type: "userStatisticsDaily" });
-              }}
-            >
-              <div className="grid grid-cols-[repeat(14,minmax(0,1fr))] gap-[3px]">
-                {userStatisticsStore.heatmapWeeks.map((week, weekIndex) => (
-                  <div key={weekIndex} className="flex flex-col gap-[3px]">
-                    {week.map((day) => (
-                      <div
-                        key={day.date}
-                        title={`${day.date}: ${day.reviews}`}
-                        className={cn(
-                          "aspect-square rounded-[3px]",
-                          heatmapColors[
-                            userStatisticsStore.getHeatmapIntensity(day.reviews)
-                          ],
-                        )}
-                      />
-                    ))}
-                  </div>
-                ))}
-              </div>
-
-              {!userStatisticsStore.hasActivity && (
-                <div className="mt-3 text-center text-[13px] text-hint">
-                  {t("user_stats_empty_text")}
-                </div>
-              )}
-            </button>
-          </Section>
-
-          <Section title={t("user_stats_memory")}>
-            <div className="grid grid-cols-3 gap-2">
-              <StatTile
-                label={t("user_stats_to_review")}
-                value={statistics.overview.dueNow}
-              />
-              <StatTile
-                label={t("user_stats_remembered_cards")}
-                value={statistics.overview.remembered}
-              />
-              <StatTile
-                label={t("user_stats_all_cards")}
-                value={statistics.overview.totalReviewedCards}
-              />
-            </div>
-          </Section>
-        </>
+      {statistics || userStatisticsQuery.isPending ? (
+        <UserStatisticsContent statistics={statistics} />
       ) : (
         <StatisticsLoadError />
       )}
