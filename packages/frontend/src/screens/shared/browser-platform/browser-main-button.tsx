@@ -24,7 +24,10 @@ export function BrowserMainButton() {
   return (
     <div
       className={cn(
-        "z-main-button fixed bottom-[var(--tg-safe-area-inset-bottom,0px)] left-0 right-0 mx-auto box-border w-full max-w-2xl p-4 md:px-0 md:py-4",
+        "z-main-button fixed left-0 right-0 mx-auto box-border w-full max-w-2xl p-4 md:px-0 md:py-4",
+        platform.isMobile
+          ? "bottom-8"
+          : "bottom-[var(--tg-safe-area-inset-bottom,0px)]",
       )}
     >
       <Button

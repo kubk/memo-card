@@ -28,6 +28,7 @@ import { CardListStore } from "./store/card-list-store.ts";
 import { MoveToDeckSelector } from "./move-to-deck-selector.tsx";
 import { platform } from "../../../lib/platform/platform.ts";
 import { TelegramPlatform } from "../../../lib/platform/telegram/telegram-platform.ts";
+import { BrowserPlatform } from "../../../lib/platform/browser/browser-platform.ts";
 import { removeAllTags } from "../../../lib/sanitize-html/remove-all-tags.ts";
 import { userStore } from "../../../store/user-store.ts";
 import { WithProIcon } from "../../shared/with-pro-icon.tsx";
@@ -269,7 +270,10 @@ export function CardList() {
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
             style={{ x: "-50%" }}
             className={cn(
-              "fixed bottom-4 left-1/2 rounded-2xl bg-secondary-bg border border-bg z-main-button w-[calc(100vw-2rem)]",
+              "fixed left-1/2 rounded-2xl bg-secondary-bg border border-bg z-main-button w-[calc(100vw-2rem)]",
+              platform instanceof BrowserPlatform && platform.isMobile
+                ? "bottom-12"
+                : "bottom-4",
               platform instanceof TelegramPlatform && platform.isIos()
                 ? "mb-10"
                 : "",
