@@ -14,6 +14,9 @@ import {
   reviewOutcomeHotkeyStyles,
   reviewOutcomeLabels,
 } from "./shared/review-outcome-styles.ts";
+import { platform } from "../../lib/platform/platform.ts";
+import { BrowserPlatform } from "../../lib/platform/browser/browser-platform.ts";
+import { cn } from "../../ui/cn.ts";
 
 type Props = {
   card?: LimitedCardUnderReviewStore | null;
@@ -37,6 +40,12 @@ export function CardReviewWithControls(props: Props) {
     onReviewCardWithAnswers,
     cardOpenedRow,
   } = props;
+  const bottomControlsClassName = cn(
+    "absolute bottom-4 flex w-full",
+    platform instanceof BrowserPlatform &&
+      platform.isMobile &&
+      "pb-[calc(100vh_-_100dvh_+_env(safe-area-inset-bottom,0px))]",
+  );
 
   return (
     <>
@@ -44,7 +53,7 @@ export function CardReviewWithControls(props: Props) {
         {card && <Card card={card} />}
       </div>
       {card && card.answerType === "remember" && (
-        <div className="absolute bottom-4 flex w-full gap-2 [&>button]:flex-1">
+        <div className={cn(bottomControlsClassName, "gap-2 [&>button]:flex-1")}>
           {card.isOpened ? (
             cardOpenedRow ? (
               cardOpenedRow
@@ -140,7 +149,12 @@ export function CardReviewWithControls(props: Props) {
       )}
 
       {card && card.answerType === "choice_single" && !card.isOpened && (
-        <div className="absolute bottom-4 flex w-full flex-col items-center gap-1 [&>button]:flex-1">
+        <div
+          className={cn(
+            bottomControlsClassName,
+            "flex-col items-center gap-1 [&>button]:flex-1",
+          )}
+        >
           {card.answers.map((answer) => (
             <Button
               key={answer.id}
@@ -161,7 +175,12 @@ export function CardReviewWithControls(props: Props) {
         </div>
       )}
       {card && card.answerType === "choice_single" && card.isOpened ? (
-        <div className="absolute bottom-4 flex w-full items-center gap-4 [&>button]:flex-1">
+        <div
+          className={cn(
+            bottomControlsClassName,
+            "items-center gap-4 [&>button]:flex-1",
+          )}
+        >
           {cardOpenedRow || (
             <Button
               onClick={() => {
