@@ -41,10 +41,12 @@ export function CardReviewWithControls(props: Props) {
     cardOpenedRow,
   } = props;
   const bottomControlsClassName = cn(
-    "absolute bottom-4 flex w-full",
+    "absolute flex w-full",
     platform instanceof BrowserPlatform &&
       platform.isMobile &&
-      "pb-[calc(100vh_-_100dvh_+_env(safe-area-inset-bottom,0px))]",
+      "bottom-12",
+    (!(platform instanceof BrowserPlatform) || !platform.isMobile) &&
+      "bottom-4",
   );
 
   return (
