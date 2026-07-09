@@ -56,6 +56,21 @@ export const isSpeechSynthesisSupported =
   "speechSynthesis" in window &&
   typeof SpeechSynthesisUtterance !== "undefined";
 
+export const getVoicesByLanguage = (
+  language: string,
+): SpeechSynthesisVoice[] => {
+  const langCode = language.split(/[-_]+/g)[0].toLocaleLowerCase();
+
+  return EasySpeech.voices().filter((voice) => {
+    const compareLang = voice.lang.toLocaleLowerCase();
+    return (
+      compareLang === langCode ||
+      compareLang.includes(`${langCode}-`) ||
+      compareLang.includes(`${langCode}_`)
+    );
+  });
+};
+
 // Cache for high quality voices by language
 const voiceCache = new Map<SpeakLanguageEnum, SpeechSynthesisVoice | null>();
 
@@ -67,7 +82,7 @@ export const speak = async (text: string, language: SpeakLanguageEnum) => {
   try {
     await EasySpeech.init({ maxTimeout: 5000, interval: 250 });
 
-    const voicesFamily = EasySpeech.filterVoices({ language });
+    const voicesFamily = getVoicesByLanguage(language);
     const exactVoices = voicesFamily.filter((v) => v.lang === language);
 
     let voice = exactVoices[0] || voicesFamily[0];

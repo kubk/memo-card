@@ -6,7 +6,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Globe } from "lucide-react";
 import Link from "next/link";
-import React from "react";
 import { formatLandingLanguage, LandingLanguage, landingLanguages } from "api";
 
 export function LanguageSwitcher() {

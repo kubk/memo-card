@@ -4,6 +4,7 @@ import { screenStore } from "../../store/screen-store.ts";
 import { useBackButton } from "../../lib/platform/use-back-button.ts";
 import { Select } from "../../ui/select.tsx";
 import {
+  getVoicesByLanguage,
   speak as customSpeak,
   SpeakLanguageEnum,
 } from "../../lib/voice-playback/speak.ts";
@@ -76,9 +77,7 @@ export function SpeechTest() {
   }, [selectedLanguage, isInitialized, voiceMethod]);
 
   const loadVoices = () => {
-    const filteredVoices = EasySpeech.filterVoices({
-      language: selectedLanguage,
-    });
+    const filteredVoices = getVoicesByLanguage(selectedLanguage);
     setVoices(filteredVoices);
 
     // Auto-select first voice if available

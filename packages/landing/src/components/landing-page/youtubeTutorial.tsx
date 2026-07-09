@@ -1,5 +1,4 @@
 "use client";
-import React from "react";
 
 export function YoutubeTutorial(props: { videoId: string }) {
   const { videoId } = props;

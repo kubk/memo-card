@@ -1,4 +1,3 @@
-import React from "react";
 import { ExternalLink, Github, Mail, Youtube } from "lucide-react";
 import { links } from "api";
 import { Translation } from "@/shared/translations";
