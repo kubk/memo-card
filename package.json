@@ -26,6 +26,7 @@
     "knip": "^6.9.0",
     "oxfmt": "^0.55.0",
     "slop-scan": "^0.3.0",
-    "typescript": "^7.0.1-rc"
+    "typescript": "^7.0.2",
+    "typescript-api6": "file:tools/typescript-api6"
   }
 }
