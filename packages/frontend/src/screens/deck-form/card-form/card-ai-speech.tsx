@@ -72,9 +72,9 @@ export function CardAiSpeech() {
           </div>
 
           <Button
-            disabled={store.speechGenerateRequest.isLoading}
+            disabled={store.speechGenerateMutation.isPending}
             icon={
-              store.speechGenerateRequest.isLoading ? (
+              store.speechGenerateMutation.isPending ? (
                 <LoaderCircle size={18} className="text-button" />
               ) : undefined
             }
@@ -83,7 +83,7 @@ export function CardAiSpeech() {
               store.generate();
             }}
           >
-            {store.speechGenerateRequest.isLoading
+            {store.speechGenerateMutation.isPending
               ? undefined
               : t("ai_speech_generate")}
           </Button>

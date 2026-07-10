@@ -110,12 +110,6 @@ const aiMassCreationRouteSchema = v.object({
   type: v.literal("aiMassCreation"),
 });
 
-const catalogSettingsRouteSchema = v.object({
-  type: v.literal("catalogSettings"),
-  id: stringToNumber,
-  itemType: v.picklist(["folder", "deck"]),
-});
-
 const paidPlanTypeSchema = v.picklist(paidPlanTypes);
 
 const plansRouteSchema = v.object({
@@ -186,7 +180,6 @@ export const routeSchema = v.union([
   reviewCustomRouteSchema,
   deckCatalogRouteSchema,
   aiMassCreationRouteSchema,
-  catalogSettingsRouteSchema,
   plansRouteSchema,
   debugRouteSchema,
   componentCatalogRouteSchema,

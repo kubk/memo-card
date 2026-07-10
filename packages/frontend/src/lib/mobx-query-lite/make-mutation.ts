@@ -1,10 +1,15 @@
 import { makeAutoObservable, runInAction } from "mobx";
 
+export type MutationResult<TData> =
+  | { ok: true; data: TData }
+  | { ok: false; error: unknown };
+
 export type MutationState<TArgs extends unknown[], TData> = {
   data: TData | undefined;
   error: unknown | null;
   isPending: boolean;
   mutate: (...args: TArgs) => Promise<TData>;
+  mutateResult: (...args: TArgs) => Promise<MutationResult<TData>>;
 };
 
 class Mutation<TArgs extends unknown[], TData> implements MutationState<
@@ -54,6 +59,14 @@ class Mutation<TArgs extends unknown[], TData> implements MutationState<
         this.isPending = false;
       });
       throw error;
+    }
+  }
+
+  async mutateResult(...args: TArgs): Promise<MutationResult<TData>> {
+    try {
+      return { ok: true, data: await this.mutate(...args) };
+    } catch (error) {
+      return { ok: false, error };
     }
   }
 }

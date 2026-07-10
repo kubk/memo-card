@@ -14,7 +14,9 @@ export type QueryOptions = {
 };
 
 export type QueryState<T> = {
+  // True while there is no data and no error
   isPending: boolean;
+  // True during any fetch
   isFetching: boolean;
   lastFetched: number | null;
   data: T | undefined;

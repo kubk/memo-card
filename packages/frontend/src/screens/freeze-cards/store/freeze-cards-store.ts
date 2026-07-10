@@ -9,13 +9,13 @@ import { screenStore } from "../../../store/screen-store.ts";
 import { showConfirm } from "../../../lib/platform/show-confirm.ts";
 import { t } from "../../../translations/t.ts";
 import { formatFrozenCards } from "../translations.ts";
-import { RequestStore } from "../../../lib/mobx-request/request-store.ts";
+import { makeMutation } from "../../../lib/mobx-query-lite/make-mutation.ts";
 import { notifyError, notifySuccess } from "../../shared/snackbar/snackbar.tsx";
 import { assert } from "api";
 import { api } from "../../../api/trpc-api.ts";
 
 export class FreezeCardsStore {
-  cardsFreezeRequest = new RequestStore(api.cardsFreeze.mutate);
+  cardsFreezeMutation = makeMutation(api.cardsFreeze.mutate);
   isHowOpen = new BooleanToggle(false);
 
   form = {
@@ -89,10 +89,10 @@ export class FreezeCardsStore {
     }
 
     assert(this.freezeDays !== null, "freezeDays is null");
-    const result = await this.cardsFreezeRequest.execute({
+    const result = await this.cardsFreezeMutation.mutateResult({
       days: this.freezeDays,
     });
-    if (result.status === "error") {
+    if (!result.ok) {
       notifyError({ info: "Error freezing cards", e: result.error });
       return;
     }

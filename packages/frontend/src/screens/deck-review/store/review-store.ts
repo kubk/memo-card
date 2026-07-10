@@ -9,7 +9,7 @@ import {
 import { platform } from "../../../lib/platform/platform.ts";
 import { showConfirm } from "../../../lib/platform/show-confirm.ts";
 import { t } from "../../../translations/t.ts";
-import { RequestStore } from "../../../lib/mobx-request/request-store.ts";
+import { makeMutation } from "../../../lib/mobx-query-lite/make-mutation.ts";
 import { notifyError } from "../../shared/snackbar/snackbar.tsx";
 import { reportHandledError } from "../../../lib/rollbar/rollbar.tsx";
 import { assert } from "api";
@@ -65,8 +65,8 @@ export class ReviewStore {
   sentReviewEventCount = 0;
   initialCardCount?: number;
 
-  reviewCardsRequest = new RequestStore(api.cardsReview.mutate);
-  reviewCardsRequestInProgress = new RequestStore(api.cardsReview.mutate);
+  reviewCardsMutation = makeMutation(api.cardsReview.mutate);
+  reviewCardsInProgressMutation = makeMutation(api.cardsReview.mutate);
   pendingProgressPromise: Promise<void> | null = null;
   isStudyAnyway = false;
 
@@ -381,8 +381,8 @@ export class ReviewStore {
 
   private sendProgress() {
     if (
-      this.reviewCardsRequest.isLoading ||
-      this.reviewCardsRequestInProgress.isLoading
+      this.reviewCardsMutation.isPending ||
+      this.reviewCardsInProgressMutation.isPending
     ) {
       return;
     }
@@ -407,12 +407,12 @@ export class ReviewStore {
   private async sendProgressBatch(
     cardsToSendInProgress: Array<{ id: number; outcome: ReviewOutcome }>,
   ) {
-    const result = await this.reviewCardsRequestInProgress.execute({
+    const result = await this.reviewCardsInProgressMutation.mutateResult({
       cards: cardsToSendInProgress,
       isStudyAnyway: this.isStudyAnyway,
     });
 
-    if (result.status === "error") {
+    if (!result.ok) {
       reportHandledError("Error sending review progress", { e: result.error });
       return;
     }
@@ -501,12 +501,12 @@ export class ReviewStore {
       return;
     }
 
-    const result = await this.reviewCardsRequest.execute({
+    const result = await this.reviewCardsMutation.mutateResult({
       cards: cardsToSend,
       isStudyAnyway: this.isStudyAnyway,
       skipReview: userStore.isSkipReview.value,
     });
-    if (result.status === "error") {
+    if (!result.ok) {
       notifyError({ e: result.error, info: "Error submitting review" });
       return;
     }

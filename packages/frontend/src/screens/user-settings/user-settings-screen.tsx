@@ -69,7 +69,7 @@ export function UserSettingsScreen() {
   useBackButton(() => {
     screenStore.back();
   });
-  useProgress(() => userSettingsStore.userSettingsRequest.isLoading);
+  useProgress(() => userSettingsStore.userSettingsMutation.isPending);
 
   if (!deckListStore.myInfo || !userSettingsStore.form) {
     return null;
@@ -416,7 +416,7 @@ export function UserSettingsScreen() {
                         icon={<UserXIcon size={18} />}
                       />
                     ),
-                    text: userSettingsStore.deleteAccountRequest.isLoading
+                    text: userSettingsStore.deleteAccountMutation.isPending
                       ? t("ui_loading")
                       : "Delete account",
                     onClick: async () => {
@@ -428,9 +428,9 @@ export function UserSettingsScreen() {
                       }
 
                       const result =
-                        await userSettingsStore.deleteAccountRequest.execute();
+                        await userSettingsStore.deleteAccountMutation.mutateResult();
 
-                      if (result.status === "error") {
+                      if (!result.ok) {
                         notifyError({
                           e: result.error,
                           info: "Failed to remove account",

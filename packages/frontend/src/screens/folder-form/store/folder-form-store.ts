@@ -12,11 +12,12 @@ import { makeAutoObservable } from "mobx";
 import { screenStore } from "../../../store/screen-store.ts";
 import { deckListStore } from "../../../store/deck-list-store.ts";
 import { showConfirm } from "../../../lib/platform/show-confirm.ts";
-import { RequestStore } from "../../../lib/mobx-request/request-store.ts";
 import { notifyError } from "../../shared/snackbar/snackbar.tsx";
 import { platform } from "../../../lib/platform/platform.ts";
 import { assert } from "api";
 import { api } from "../../../api/trpc-api.ts";
+import { makeMutation } from "../../../lib/mobx-query-lite/make-mutation.ts";
+import { makeQuery } from "../../../lib/mobx-query-lite/make-query.ts";
 
 const createFolderTitleField = (title: string) => {
   return new TextField(title, {
@@ -42,10 +43,12 @@ type FolderForm = {
 
 export class FolderFormStore {
   folderForm?: FolderForm;
-  folderUpsertRequest = new RequestStore(api.folderUpsert.mutate);
-  decksMineRequest = new RequestStore(() =>
-    api.deck.decksCreatedByMe.query().then((response) => response.decks),
-  );
+  folderUpsertMutation = makeMutation(api.folderUpsert.mutate);
+  decksMineQuery = makeQuery({
+    key: "deck.decksCreatedByMe",
+    query: () =>
+      api.deck.decksCreatedByMe.query().then((response) => response.decks),
+  });
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
@@ -54,8 +57,6 @@ export class FolderFormStore {
   loadForm() {
     const screen = screenStore.screen;
     assert(screen.type === "folderForm");
-
-    this.decksMineRequest.execute();
 
     if (screen.folderId) {
       assert(screen.folderId, "folderId is not set");
@@ -110,25 +111,19 @@ export class FolderFormStore {
   }
 
   get decksAvailableFiltered() {
-    if (this.decksMineRequest.result.status !== "success") {
-      return [];
-    }
     const deckIdsAdded =
       this.folderForm?.decks.value.map((deck) => deck.id) || [];
 
-    return this.decksMineRequest.result.data.filter((deck) => {
+    return (this.decksMineQuery.data ?? []).filter((deck) => {
       return !deckIdsAdded.includes(deck.id) && !deck.folderId;
     });
   }
 
   get decksNotAvailable() {
-    if (this.decksMineRequest.result.status !== "success") {
-      return [];
-    }
     const deckIdsAdded =
       this.folderForm?.decks.value.map((deck) => deck.id) || [];
 
-    return this.decksMineRequest.result.data.filter((deck) => {
+    return (this.decksMineQuery.data ?? []).filter((deck) => {
       return !deckIdsAdded.includes(deck.id) && deck.folderId;
     });
   }
@@ -144,14 +139,14 @@ export class FolderFormStore {
     const screen = screenStore.screen;
     assert(screen.type === "folderForm");
 
-    const result = await this.folderUpsertRequest.execute({
+    const result = await this.folderUpsertMutation.mutateResult({
       id: screen.folderId,
       title: this.folderForm.title.value,
       description: this.folderForm.description.value,
       deckIds: this.folderForm.decks.value.map((deck) => deck.id),
     });
 
-    if (result.status === "error") {
+    if (!result.ok) {
       const info = `Error saving folder ${screen.folderId ?? ""}`;
       notifyError({ e: result.error, info: info });
       return;

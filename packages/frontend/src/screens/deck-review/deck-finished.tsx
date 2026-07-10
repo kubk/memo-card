@@ -34,7 +34,7 @@ export function DeckFinished(props: Props) {
   };
 
   useMainButton(t("go_back"), onBack);
-  useProgress(() => reviewStore.reviewCardsRequest.isLoading);
+  useProgress(() => reviewStore.reviewCardsMutation.isPending);
 
   return (
     <>

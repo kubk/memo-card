@@ -1,4 +1,4 @@
-import { RequestStore } from "../../../../lib/mobx-request/request-store.ts";
+import { makeMutation } from "../../../../lib/mobx-query-lite/make-mutation.ts";
 import { formTouchAll, isFormValid, TextField } from "mobx-form-lite";
 import { CardFormType } from "../../deck-form/store/deck-form-store.ts";
 import { makeAutoObservable } from "mobx";
@@ -8,7 +8,7 @@ import { api } from "../../../../api/trpc-api.ts";
 import { SpeakLanguage } from "api";
 
 export class AiSpeechGeneratorStore {
-  speechGenerateRequest = new RequestStore(api.aiSpeechGenerate.mutate);
+  speechGenerateMutation = makeMutation(api.aiSpeechGenerate.mutate);
 
   form = {
     sourceText: new TextField("", {
@@ -62,12 +62,12 @@ export class AiSpeechGeneratorStore {
       throw new Error("Unexpected state");
     })();
 
-    const result = await this.speechGenerateRequest.execute({
+    const result = await this.speechGenerateMutation.mutateResult({
       text,
       language,
     });
 
-    if (result.status === "error") {
+    if (!result.ok) {
       notifyError({ e: result.error, info: "Error generating AI voice" });
       return;
     }

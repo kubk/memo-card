@@ -21,7 +21,7 @@ import {
   DeckSpeakFieldEnum,
 } from "api";
 import { CardInnerScreenType } from "./card-preview-types.ts";
-import { RequestStore } from "../../../../lib/mobx-request/request-store.ts";
+import { makeMutation } from "../../../../lib/mobx-query-lite/make-mutation.ts";
 import { notifyError } from "../../../shared/snackbar/snackbar.tsx";
 import { assert } from "api";
 import { t } from "../../../../translations/t.ts";
@@ -45,9 +45,9 @@ import { wysiwygStore } from "../../../../store/wysiwyg-store.ts";
 
 export class CardFormStore {
   cardForm: CardFormType | null = null;
-  cardAddRequest = new RequestStore(api.card.add.mutate);
-  cardUpdateRequest = new RequestStore(api.card.update.mutate);
-  cardDeleteRequest = new RequestStore(api.card.delete.mutate);
+  cardAddMutation = makeMutation(api.card.add.mutate);
+  cardUpdateMutation = makeMutation(api.card.update.mutate);
+  cardDeleteMutation = makeMutation(api.card.delete.mutate);
   cardInnerScreen = new TextField<CardInnerScreenType>(null);
   moveToDeckStore = new MoveToDeckSelectorStore();
   cardTypeModal = new BooleanToggle(false);
@@ -86,9 +86,9 @@ export class CardFormStore {
 
   get isSending() {
     return (
-      this.cardAddRequest.isLoading ||
-      this.cardUpdateRequest.isLoading ||
-      this.cardDeleteRequest.isLoading
+      this.cardAddMutation.isPending ||
+      this.cardUpdateMutation.isPending ||
+      this.cardDeleteMutation.isPending
     );
   }
 
@@ -320,7 +320,7 @@ export class CardFormStore {
       return;
     }
 
-    const result = await this.cardAddRequest.execute({
+    const result = await this.cardAddMutation.mutateResult({
       deckId: this.deckId,
       card: {
         front: this.cardForm.front.value,
@@ -335,7 +335,7 @@ export class CardFormStore {
       },
     });
 
-    if (result.status === "error") {
+    if (!result.ok) {
       notifyError({ e: result.error, info: "Error creating card" });
       return;
     }
@@ -364,7 +364,7 @@ export class CardFormStore {
       return;
     }
 
-    const result = await this.cardUpdateRequest.execute({
+    const result = await this.cardUpdateMutation.mutateResult({
       id: this.cardForm.id,
       front: this.cardForm.front.value,
       back: this.cardForm.back.value,
@@ -378,7 +378,7 @@ export class CardFormStore {
       options: this.cardForm.options.value,
     });
 
-    if (result.status === "error") {
+    if (!result.ok) {
       notifyError({ e: result.error, info: "Error updating card" });
       return;
     }
@@ -495,11 +495,11 @@ export class CardFormStore {
     appLoaderStore.enable();
 
     try {
-      const result = await this.cardDeleteRequest.execute({
+      const result = await this.cardDeleteMutation.mutateResult({
         id: selectedCard.id,
       });
 
-      if (result.status === "error") {
+      if (!result.ok) {
         notifyError({ e: result.error, info: "Error deleting card" });
         return;
       }

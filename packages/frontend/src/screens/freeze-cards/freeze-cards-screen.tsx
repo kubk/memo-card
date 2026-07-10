@@ -31,7 +31,7 @@ export function FreezeCardsScreen() {
     store.freeze,
     () => store.isFreezeButtonVisible,
   );
-  useProgress(() => store.cardsFreezeRequest.isLoading);
+  useProgress(() => store.cardsFreezeMutation.isPending);
 
   return (
     <Screen title={t("freeze_title")}>

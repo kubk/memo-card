@@ -1,5 +1,5 @@
 import { createFrontCardField } from "../../deck-form/store/deck-form-store.ts";
-import { RequestStore } from "../../../../lib/mobx-request/request-store.ts";
+import { makeMutation } from "../../../../lib/mobx-query-lite/make-mutation.ts";
 import { makeAutoObservable } from "mobx";
 import { formTouchAll, isFormValid } from "mobx-form-lite";
 import { screenStore } from "../../../../store/screen-store.ts";
@@ -19,9 +19,7 @@ export class AiGeneratedCardFormStore {
     key: "cardInputMode.list",
     query: api.cardInputMode.list.query,
   });
-  aiSingleCardGenerateRequest = new RequestStore(
-    api.aiSingleCardGenerate.mutate,
-  );
+  aiSingleCardGenerateMutation = makeMutation(api.aiSingleCardGenerate.mutate);
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
@@ -33,12 +31,12 @@ export class AiGeneratedCardFormStore {
       return;
     }
 
-    const result = await this.aiSingleCardGenerateRequest.execute({
+    const result = await this.aiSingleCardGenerateMutation.mutateResult({
       text: this.form.prompt.value,
       deckId: this.deckId,
     });
 
-    if (result.status === "error") {
+    if (!result.ok) {
       notifyError({
         e: result.error,
         info: "Error while generating single card",
@@ -79,7 +77,7 @@ export class AiGeneratedCardFormStore {
 
   get isSaveLoading() {
     return (
-      this.aiSingleCardGenerateRequest.isLoading ||
+      this.aiSingleCardGenerateMutation.isPending ||
       this.cardInputModesQuery.isFetching
     );
   }

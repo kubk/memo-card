@@ -7,7 +7,7 @@ import { useBackButton } from "../../lib/platform/use-back-button.ts";
 import { useBottomReached } from "../../lib/react/use-bottom-reached.ts";
 import { useMount } from "../../lib/react/use-mount.ts";
 import { InfiniteRequestStore } from "../../lib/mobx-request/infinite-request-store.ts";
-import { RequestStore } from "../../lib/mobx-request/request-store.ts";
+import { LegacyRequestStore } from "../../lib/mobx-request/request-store.ts";
 import { screenStore } from "../../store/screen-store.ts";
 import { cn } from "../../ui/cn.ts";
 import { ChevronIcon } from "../../ui/chevron-icon.tsx";
@@ -454,7 +454,7 @@ function ListBottomLoader(props: { isLoading: boolean }) {
 export function TeacherStatisticsScreen() {
   const [teacherStatisticsRequest] = useState(
     () =>
-      new RequestStore<RouterOutput["teacherStatistics"]>(
+      new LegacyRequestStore<RouterOutput["teacherStatistics"]>(
         api.teacherStatistics.query,
       ),
   );

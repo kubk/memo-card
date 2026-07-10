@@ -7,14 +7,12 @@ import { screenStore } from "../../store/screen-store.ts";
 import { useProgress } from "../../lib/platform/use-progress.tsx";
 import { useMount } from "../../lib/react/use-mount.ts";
 import { useMainButton } from "../../lib/platform/use-main-button.ts";
-import { theme } from "../../ui/theme.tsx";
 import { Loader } from "../../ui/loader.tsx";
 import { useFolderFormStore } from "./store/folder-form-store-context.tsx";
 import { EmptyState } from "../../ui/empty-state.tsx";
 import { List } from "../../ui/list.tsx";
 import { ValidationError } from "../../ui/validation-error.tsx";
 import { userStore } from "../../store/user-store.ts";
-import { FilledIcon } from "../../ui/filled-icon.tsx";
 import { assert } from "api";
 import { Flex } from "../../ui/flex.tsx";
 import { FormattingSwitcher } from "../deck-form/card-form/formatting-switcher.tsx";
@@ -23,13 +21,7 @@ import { cn } from "../../ui/cn.ts";
 import { ButtonGrid } from "../../ui/button-grid.tsx";
 import { deckListStore } from "../../store/deck-list-store.ts";
 import { ButtonSideAligned } from "../../ui/button-side-aligned.tsx";
-import {
-  CopyIcon,
-  ListIcon,
-  PlusIcon,
-  ShareIcon,
-  TrashIcon,
-} from "lucide-react";
+import { CopyIcon, PlusIcon, ShareIcon, TrashIcon } from "lucide-react";
 import { shareMemoCardUrl } from "../shared/share-memo-card-url.tsx";
 import { wysiwygStore } from "../../store/wysiwyg-store.ts";
 
@@ -55,7 +47,7 @@ export function FolderForm() {
     folderStore.onBack();
   });
 
-  useProgress(() => folderStore.folderUpsertRequest.isLoading);
+  useProgress(() => folderStore.folderUpsertMutation.isPending);
 
   if (!folderForm) {
     return null;
@@ -78,33 +70,6 @@ export function FolderForm() {
           <Input field={folderForm.description} type={"textarea"} rows={3} />
         )}
       </Label>
-
-      {userStore.canUpdateCatalogSettings && screen.folderId ? (
-        <Label text={t("advanced")} isPlain>
-          <List
-            items={[
-              {
-                text: "Catalog",
-                icon: (
-                  <FilledIcon
-                    backgroundColor={theme.orange}
-                    icon={<ListIcon size={18} />}
-                  />
-                ),
-                onClick: () => {
-                  const folderId = screen.folderId;
-                  assert(folderId, "Folder id must be defined");
-                  screenStore.push({
-                    type: "catalogSettings",
-                    itemType: "folder",
-                    id: folderId,
-                  });
-                },
-              },
-            ]}
-          />
-        </Label>
-      ) : null}
 
       {folder && (
         <div className="mt-0.5 mb-2.5">
@@ -176,8 +141,8 @@ export function FolderForm() {
       </Label>
 
       <Label text={t("add_deck_to_folder")} isPlain>
-        {folderStore.decksMineRequest.isLoading && <Loader />}
-        {folderStore.decksMineRequest.result.status === "success" &&
+        {folderStore.decksMineQuery.isPending && <Loader />}
+        {folderStore.decksMineQuery.data !== undefined &&
         folderStore.decksAvailableFiltered.length === 0 ? (
           <EmptyState>{t("no_decks_to_add")}</EmptyState>
         ) : null}

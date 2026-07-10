@@ -15,7 +15,7 @@ type Options = {
 
 const cacheStorage = new Map<string, any>();
 
-export class RequestStore<T, Args extends any[] = []> {
+export class LegacyRequestStore<T, Args extends any[] = []> {
   result: Result<T> = { data: null, status: "idle" };
 
   constructor(
@@ -66,16 +66,4 @@ export class RequestStore<T, Args extends any[] = []> {
   get isLoading() {
     return this.result.status === "loading";
   }
-
-  // Non type-safe shorthand
-  get isSuccess() {
-    return this.result.status === "success";
-  }
-
-  invalidate = (...args: Args) => {
-    if (this.options?.cacheId) {
-      cacheStorage.delete(this.options.cacheId);
-    }
-    return this.execute(...args);
-  };
 }

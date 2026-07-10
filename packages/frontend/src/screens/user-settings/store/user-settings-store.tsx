@@ -9,7 +9,7 @@ import { DateTime } from "luxon";
 import { formatTime } from "../generate-time-range.tsx";
 import { stringToDate, UserDbType, UserSettingsRequest } from "api";
 import { userStore } from "../../../store/user-store.ts";
-import { RequestStore } from "../../../lib/mobx-request/request-store.ts";
+import { makeMutation } from "../../../lib/mobx-query-lite/make-mutation.ts";
 import { notifyError, notifySuccess } from "../../shared/snackbar/snackbar.tsx";
 import { t } from "../../../translations/t.ts";
 import { assert } from "api";
@@ -30,9 +30,9 @@ export class UserSettingsStore {
     language: TextField<LanguageShared>;
   };
   isLangChanged = false;
-  userSettingsRequest = new RequestStore(api.userSettings.mutate);
-  deleteAccountRequest = new RequestStore(api.me.deleteAccount.mutate);
-  setDevPlanRequest = new RequestStore(api.setDevPlan.mutate);
+  userSettingsMutation = makeMutation(api.userSettings.mutate);
+  deleteAccountMutation = makeMutation(api.me.deleteAccount.mutate);
+  setDevPlanMutation = makeMutation(api.setDevPlan.mutate);
 
   constructor() {
     makeAutoObservable(
@@ -96,9 +96,9 @@ export class UserSettingsStore {
         .toString(),
     };
 
-    const result = await this.userSettingsRequest.execute(body);
+    const result = await this.userSettingsMutation.mutateResult(body);
 
-    if (result.status === "error") {
+    if (!result.ok) {
       notifyError({ e: result.error, info: "Error updating user settings" });
       return;
     }
@@ -123,9 +123,9 @@ export class UserSettingsStore {
   }
 
   async setDevPlan(planType: PaidPlanType | null) {
-    const result = await this.setDevPlanRequest.execute({ planType });
+    const result = await this.setDevPlanMutation.mutateResult({ planType });
 
-    if (result.status === "error") {
+    if (!result.ok) {
       notifyError({ e: result.error, info: "Failed to update paid status" });
       return;
     }

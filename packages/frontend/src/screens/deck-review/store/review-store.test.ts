@@ -176,7 +176,7 @@ describe("card form store", () => {
     // Review 3rd card with "hard" - should trigger send
     reviewStore.open();
     reviewStore.changeState("hard");
-    await when(() => !reviewStore.reviewCardsRequestInProgress.isLoading);
+    await when(() => !reviewStore.reviewCardsInProgressMutation.isPending);
 
     expect(reviewCardsReviewMock).toHaveBeenCalledTimes(1);
     expect(reviewStore.sentResult).toEqual({
@@ -284,7 +284,7 @@ describe("card form store", () => {
 
     reviewStore.open();
     reviewStore.changeState("never");
-    await when(() => !reviewStore.reviewCardsRequestInProgress.isLoading);
+    await when(() => !reviewStore.reviewCardsInProgressMutation.isPending);
 
     expect(reviewStore.sentResult).toEqual({
       hardIds: [],
@@ -311,7 +311,7 @@ describe("card form store", () => {
     reviewStore.changeState("good");
     reviewStore.open();
     reviewStore.changeState("good");
-    await when(() => !reviewStore.reviewCardsRequestInProgress.isLoading);
+    await when(() => !reviewStore.reviewCardsInProgressMutation.isPending);
 
     expect(reviewCardsReviewMock).toHaveBeenCalledTimes(2);
     expect(reviewStore.sentResult).toEqual({
@@ -324,7 +324,7 @@ describe("card form store", () => {
 
     reviewStore.open();
     reviewStore.changeState("good");
-    await when(() => !reviewStore.reviewCardsRequestInProgress.isLoading);
+    await when(() => !reviewStore.reviewCardsInProgressMutation.isPending);
 
     expect(reviewCardsReviewMock).toHaveBeenCalledTimes(2);
     expect(reviewStore.cardsToSend).toEqual([{ id: 9, outcome: "good" }]);

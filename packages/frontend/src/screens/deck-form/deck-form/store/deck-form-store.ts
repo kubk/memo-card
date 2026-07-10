@@ -23,7 +23,7 @@ import {
   CardAnswerType,
 } from "api";
 import { v4 } from "uuid";
-import { RequestStore } from "../../../../lib/mobx-request/request-store.ts";
+import { makeMutation } from "../../../../lib/mobx-query-lite/make-mutation.ts";
 import { notifyError } from "../../../shared/snackbar/snackbar.tsx";
 import { assert } from "api";
 import { t } from "../../../../translations/t.ts";
@@ -170,8 +170,8 @@ export type VoiceType = "none" | "robotic" | "ai";
 
 export class DeckFormStore {
   deckForm?: DeckFormType;
-  deckCreateRequest = new RequestStore(api.deck.create.mutate);
-  deckUpdateRequest = new RequestStore(api.deck.update.mutate);
+  deckCreateMutation = makeMutation(api.deck.create.mutate);
+  deckUpdateMutation = makeMutation(api.deck.update.mutate);
   cardInputModeIdForForm: string | null = null;
 
   constructor() {
@@ -204,7 +204,9 @@ export class DeckFormStore {
   }
 
   get isSending() {
-    return this.deckCreateRequest.isLoading || this.deckUpdateRequest.isLoading;
+    return (
+      this.deckCreateMutation.isPending || this.deckUpdateMutation.isPending
+    );
   }
 
   get deckFormScreen() {
@@ -566,13 +568,13 @@ export class DeckFormStore {
 
     // For new deck without id, create it first
     if (!this.deckForm.id) {
-      const deckResult = await this.deckCreateRequest.execute({
+      const deckResult = await this.deckCreateMutation.mutateResult({
         title: this.deckForm.title.value,
         description: this.deckForm.description.value || null,
         folderId: this.deckForm.folderId,
       });
 
-      if (deckResult.status === "error") {
+      if (!deckResult.ok) {
         notifyError({ e: deckResult.error, info: "Error creating deck" });
         return;
       }
@@ -591,7 +593,7 @@ export class DeckFormStore {
     }
 
     // Update existing deck metadata
-    const result = await this.deckUpdateRequest.execute({
+    const result = await this.deckUpdateMutation.mutateResult({
       id: this.deckForm.id,
       title: this.deckForm.title.value,
       description: this.deckForm.description.value,
@@ -602,7 +604,7 @@ export class DeckFormStore {
       folderId: this.deckForm.folderId,
     });
 
-    if (result.status === "error") {
+    if (!result.ok) {
       notifyError({ e: result.error, info: "Error saving deck" });
       return;
     }

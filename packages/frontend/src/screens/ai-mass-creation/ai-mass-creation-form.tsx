@@ -30,7 +30,7 @@ export function AiMassCreationForm() {
     screenStore.back();
   });
 
-  useProgress(() => store.aiMassGenerateRequest.isLoading);
+  useProgress(() => store.aiMassGenerateMutation.isPending);
 
   return (
     <Screen title={t("ai_cards_title")}>

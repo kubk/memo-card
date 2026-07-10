@@ -13,7 +13,6 @@ import { ListHeader } from "../../../ui/list-header.tsx";
 import { List } from "../../../ui/list.tsx";
 import { ListRightText } from "../../../ui/list-right-text.tsx";
 import { RadioSwitcher } from "../../../ui/radio-switcher.tsx";
-import { boolNarrow } from "../../../lib/typescript/bool-narrow.ts";
 import { userStore } from "../../../store/user-store.ts";
 import { assert } from "api";
 import { WithProIcon } from "../../shared/with-pro-icon.tsx";
@@ -23,7 +22,6 @@ import {
   LayersIcon,
   MicIcon,
   WandSparklesIcon,
-  ListIcon,
   KeyboardIcon,
   PlusIcon,
   CopyIcon,
@@ -246,27 +244,7 @@ export function DeckForm() {
                   </WithProIcon>
                 ),
               },
-              userStore.canUpdateCatalogSettings
-                ? {
-                    text: "Catalog",
-                    icon: (
-                      <FilledIcon
-                        backgroundColor={theme.orange}
-                        icon={<ListIcon size={18} className="text-white" />}
-                      />
-                    ),
-                    onClick: () => {
-                      const deckId = deckFormStore.deckForm?.id;
-                      assert(deckId, "Deck id should be defined");
-                      screenStore.push({
-                        type: "catalogSettings",
-                        itemType: "deck",
-                        id: deckId,
-                      });
-                    },
-                  }
-                : undefined,
-            ].filter(boolNarrow)}
+            ]}
           />
         </div>
       )}

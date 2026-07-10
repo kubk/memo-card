@@ -40,7 +40,6 @@ import { DebugLazy } from "./debug/debug-lazy.tsx";
 import { BrowserMainButton } from "./shared/browser-platform/browser-main-button.tsx";
 import { platform } from "../lib/platform/platform.ts";
 import { BrowserPlatform } from "../lib/platform/browser/browser-platform.ts";
-import { CatalogSettingsScreenLazy } from "./catalog-settings/catalog-settings-screen-lazy.tsx";
 import { LoginScreen } from "./login/login-screen.tsx";
 import { TelegramPlatform } from "../lib/platform/telegram/telegram-platform.ts";
 import { cn } from "../ui/cn.ts";
@@ -285,13 +284,6 @@ export function App() {
               <AiMassCreationStoreProvider>
                 <AiMassCreationScreen />
               </AiMassCreationStoreProvider>
-            </PreventTelegramSwipeDownClosingIos>
-          </SignedIn>
-        )}
-        {screenStore.screen.type === "catalogSettings" && (
-          <SignedIn>
-            <PreventTelegramSwipeDownClosingIos>
-              <CatalogSettingsScreenLazy />
             </PreventTelegramSwipeDownClosingIos>
           </SignedIn>
         )}

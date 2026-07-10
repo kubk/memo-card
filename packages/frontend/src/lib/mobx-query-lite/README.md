@@ -171,3 +171,8 @@ The first page uses the same observed-read fetching behavior as `makeQuery`. `fe
 `makeQuery` fetches when `data` becomes observed and the query is stale. Prefer exposing query data through store getters and letting React `observer` reads start the fetch. Call `fetch()` only when a screen needs to fetch before anything reads the data, or when a user action should refresh the query.
 
 Use `isPending` for an initial skeleton or full-screen loader. Use `isFetching` only for a small refresh indicator or disabled state that should appear while existing data remains on screen. A stale query with cached data can have `isFetching === true` and `isPending === false`.
+
+## Anti-Patterns
+
+- **`useEffect(() => store.load(), [])`.** Do not call a store `.load()` on mount only to fetch a query. When an `observer` component reads `query.data`, directly or through a computed getter, `makeQuery` fetches stale data automatically. The query state is observable, so MobX re-renders the component when it changes. A `.load()` wrapper around `query.fetch()` is redundant and forces a request even when cached data is still fresh.
+- **Adding session-stable context to a key.** Current-user ids, `"anonymous"`, and the local timezone do not belong in a key when they cannot change during the session. Use dynamic keys only for values whose changes need distinct cached results.

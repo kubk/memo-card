@@ -8,7 +8,6 @@ import {
   validators,
 } from "mobx-form-lite";
 import { t } from "../../../translations/t.ts";
-import { RequestStore } from "../../../lib/mobx-request/request-store.ts";
 import { screenStore } from "../../../store/screen-store.ts";
 import { notifyError, notifySuccess } from "../../shared/snackbar/snackbar.tsx";
 import { deckListStore } from "../../../store/deck-list-store.ts";
@@ -17,15 +16,18 @@ import { assert } from "api";
 import { api } from "../../../api/trpc-api.ts";
 import { voiceGenerationStore } from "../../../store/voice-generation-store.ts";
 import { aiMassCreationDraftStore } from "./ai-mass-creation-draft-store.ts";
+import { makeMutation } from "../../../lib/mobx-query-lite/make-mutation.ts";
+import { makeQuery } from "../../../lib/mobx-query-lite/make-query.ts";
 
 type InnerScreen = "how" | "cardsGenerated" | "previousPrompts";
 
 export class AiMassCreationStore {
-  aiMassGenerateRequest = new RequestStore(api.aiMassGenerate.mutate);
-  createDeckWithCardsRequest = new RequestStore(
-    api.deck.createWithCards.mutate,
-  );
-  userPreviousPromptsRequest = new RequestStore(api.prompt.myPrevious.query);
+  aiMassGenerateMutation = makeMutation(api.aiMassGenerate.mutate);
+  createDeckWithCardsMutation = makeMutation(api.deck.createWithCards.mutate);
+  userPreviousPromptsQuery = makeQuery({
+    key: "prompt.myPrevious",
+    query: api.prompt.myPrevious.query,
+  });
   deckDraft = aiMassCreationDraftStore.deckDraft;
 
   screen = new TextField<InnerScreen | null>(null);
@@ -62,7 +64,7 @@ export class AiMassCreationStore {
   }
 
   get isSavingCards() {
-    return this.createDeckWithCardsRequest.isLoading;
+    return this.createDeckWithCardsMutation.isPending;
   }
 
   private async onQuit(redirect: () => void) {
@@ -124,11 +126,11 @@ export class AiMassCreationStore {
 
   usePreviousPrompt(index: TextField<number | null>) {
     assert(
-      this.userPreviousPromptsRequest.result.status === "success",
-      "Invalid status",
+      this.userPreviousPromptsQuery.data,
+      "Previous prompts should be loaded",
     );
     assert(index.value !== null, "Empty index");
-    const log = this.userPreviousPromptsRequest.result.data[index.value];
+    const log = this.userPreviousPromptsQuery.data[index.value];
     assert(log, "Invalid log index");
     this.promptForm.prompt.onChange(log.payload.prompt);
     this.promptForm.frontPrompt.onChange(log.payload.frontPrompt);
@@ -146,9 +148,9 @@ export class AiMassCreationStore {
 
     const formPlain = formToPlain(this.promptForm);
 
-    const result = await this.aiMassGenerateRequest.execute(formPlain);
+    const result = await this.aiMassGenerateMutation.mutateResult(formPlain);
 
-    if (result.status === "error") {
+    if (!result.ok) {
       notifyError({ e: result.error, info: "Failed to generated cards" });
       return;
     }
@@ -195,14 +197,14 @@ export class AiMassCreationStore {
   private async submitCreateDeckMassCreationForm() {
     assert(this.massCreationForm, "Mass creation form should be defined");
 
-    const result = await this.createDeckWithCardsRequest.execute({
+    const result = await this.createDeckWithCardsMutation.mutateResult({
       title: this.getGeneratedDeckTitle(),
       description: this.deckDraft?.description || null,
       folderId: this.deckDraft?.folderId,
       cards: this.massCreationForm.cards.value,
     });
 
-    if (result.status === "error") {
+    if (!result.ok) {
       notifyError({
         e: result.error,
         info: "Failed to create deck with cards",

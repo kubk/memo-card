@@ -23,7 +23,7 @@ import { platform } from "../lib/platform/platform.ts";
 import { FolderWithDecksWithCards } from "api";
 import { type FolderWithDeckIdDbType } from "api";
 import { CatalogFolderDbType } from "api";
-import { RequestStore } from "../lib/mobx-request/request-store.ts";
+import { LegacyRequestStore } from "../lib/mobx-request/request-store.ts";
 import { notifyError } from "../screens/shared/snackbar/snackbar.tsx";
 import { assert } from "api";
 import { api } from "../api/trpc-api.ts";
@@ -66,7 +66,7 @@ export type DeckListItem = {
 
 class DeckListStore {
   myInfo?: Omit<MyInfoResponse, "user" | "plan">;
-  myInfoRequest = new RequestStore(api.me.info.query, {
+  myInfoRequest = new LegacyRequestStore(api.me.info.query, {
     staleWhileRevalidate: true,
   });
 
@@ -74,11 +74,11 @@ class DeckListStore {
 
   skeletonLoaderData = { publicCount: 3, myDecksCount: 3 };
 
-  deckWithCardsRequest = new RequestStore(api.deck.deckWithCards.query);
+  deckWithCardsRequest = new LegacyRequestStore(api.deck.deckWithCards.query);
   isMyDecksExpanded = new BooleanToggle(false);
 
   catalogFolder?: FolderWithDecksWithCards;
-  getFolderWithDecksCards = new RequestStore(
+  getFolderWithDecksCards = new LegacyRequestStore(
     api.folder.folderWithDecksCards.query,
   );
 

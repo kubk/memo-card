@@ -42,9 +42,7 @@ export function CardReviewWithControls(props: Props) {
   } = props;
   const bottomControlsClassName = cn(
     "absolute flex w-full",
-    platform instanceof BrowserPlatform &&
-      platform.isMobile &&
-      "bottom-12",
+    platform instanceof BrowserPlatform && platform.isMobile && "bottom-12",
     (!(platform instanceof BrowserPlatform) || !platform.isMobile) &&
       "bottom-4",
   );

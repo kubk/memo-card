@@ -132,10 +132,6 @@ class UserStore {
     Object.assign(this.userInfo, body);
   }
 
-  get canUpdateCatalogSettings() {
-    return this.isAdmin;
-  }
-
   get canDeleteItsAccount() {
     if (!this.user) {
       return false;
