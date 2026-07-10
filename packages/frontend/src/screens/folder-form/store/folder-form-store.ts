@@ -46,8 +46,7 @@ export class FolderFormStore {
   folderUpsertMutation = makeMutation(api.folderUpsert.mutate);
   decksMineQuery = makeQuery({
     key: "deck.decksCreatedByMe",
-    query: () =>
-      api.deck.decksCreatedByMe.query().then((response) => response.decks),
+    query: () => api.deck.decksCreatedByMe.query(),
   });
 
   constructor() {
