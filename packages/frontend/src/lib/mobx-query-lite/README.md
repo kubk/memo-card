@@ -104,7 +104,7 @@ class CatalogStore {
 }
 ```
 
-When the dynamic key changes, the wrapper points at the query state for the new key. Queries with the same key share the same cached state.
+When the dynamic key changes, the wrapper points at the query state for the new key. If the query data is observed, missing or stale data for the new key is fetched automatically. Queries with the same key share the same cached state.
 
 The same automatic fetch behavior works through MobX computed chains. A component can observe `store.filteredDecks`, that getter can read `store.decks`, and `store.decks` can read `catalogQuery.data`; MobX still observes the query data at the end of the chain.
 
@@ -145,7 +145,9 @@ The first page uses the same observed-read fetching behavior as `makeQuery`. `fe
 
 | Method | Description |
 | --- | --- |
-| `fetch()` | Fetch now and update cache |
+| `prefetch()` | Fetch only when data is missing, stale, or invalidated |
+| `invalidate()` | Mark data stale and immediately refetch it when active |
+| `refetch()` | Force a request regardless of freshness |
 | `setData(data)` | Manually replace current data and mark it fresh |
 
 ## Infinite Query State
@@ -163,16 +165,39 @@ The first page uses the same observed-read fetching behavior as `makeQuery`. `fe
 
 | Method | Description |
 | --- | --- |
-| `fetch()` | Fetch the first page and replace cached data |
+| `prefetch()` | Fetch the first page when it is missing, stale, or invalidated |
+| `invalidate()` | Mark the first page stale and immediately refetch it when active |
+| `refetch()` | Force a first-page request and replace combined page data |
 | `fetchNextPage()` | Fetch `nextCursor` and append items |
 
 ## Fetching
 
-`makeQuery` fetches when `data` becomes observed and the query is stale. Prefer exposing query data through store getters and letting React `observer` reads start the fetch. Call `fetch()` only when a screen needs to fetch before anything reads the data, or when a user action should refresh the query.
+`makeQuery` calls `prefetch()` when `data` becomes observed. Prefer exposing query data through store getters and letting React `observer` reads load missing, stale, or invalidated data. Call `prefetch()` before observation only when a flow needs to ensure fresh data is available early. After a mutation, call `invalidate()` so active data refreshes immediately and inactive data refreshes on its next observation. Reserve `refetch()` for the rare flow that must force and await a request regardless of freshness.
+
+Inactive queries are removed from the query registry and in-memory cache after `gcTime`, which defaults to five minutes. Observing `data` cancels garbage collection; the full delay starts again when the data becomes unobserved. Set `gcTime: Infinity` only for data that must remain cached for the lifetime of the app.
 
 Use `isPending` for an initial skeleton or full-screen loader. Use `isFetching` only for a small refresh indicator or disabled state that should appear while existing data remains on screen. A stale query with cached data can have `isFetching === true` and `isPending === false`.
 
+## Error Handling
+
+Query functions should only fetch and shape data. `makeQuery` captures rejected promises in the observable `error` property, so render request failures from an observed React component.
+
+```tsx
+function TodoScreen() {
+  if (store.todosQuery.error) {
+    return <TodoLoadError />;
+  }
+
+  return <TodoList todos={store.visibleTodos} />;
+}
+```
+
+Do not catch an error inside a query function merely to show a snackbar and rethrow it.
+Catch inside the query only when the error must be converted into domain data or another error type.
+
 ## Anti-Patterns
 
-- **`useEffect(() => store.load(), [])`.** Do not call a store `.load()` on mount only to fetch a query. When an `observer` component reads `query.data`, directly or through a computed getter, `makeQuery` fetches stale data automatically. The query state is observable, so MobX re-renders the component when it changes. A `.load()` wrapper around `query.fetch()` is redundant and forces a request even when cached data is still fresh.
+- **`useEffect(() => store.load(), [])`.** Do not call a store `.load()` on mount only to fetch a query. When an `observer` component reads `query.data`, directly or through a computed getter, `makeQuery` fetches stale data automatically. The query state is observable, so MobX re-renders the component when it changes. A `.load()` wrapper around `query.prefetch()` is redundant.
+- **Fetching after changing dynamic query inputs.** An action that applies filters, a route parameter, or another observable query input should only update that state. If the dynamic query is observed, its key updates and missing or stale data for the new key is fetched automatically. Do not call `prefetch()` or `refetch()` immediately after changing the input.
 - **Adding session-stable context to a key.** Current-user ids, `"anonymous"`, and the local timezone do not belong in a key when they cannot change during the session. Use dynamic keys only for values whose changes need distinct cached results.
+- Do not catch a request error only to show a notification and rethrow it. Render the observable query error in React.

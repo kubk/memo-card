@@ -14,7 +14,7 @@ import {
 import { assert } from "api";
 import { PaymentMethodType } from "api";
 import { links } from "api";
-import { api } from "../../../api/trpc-api.ts";
+import { api, apiProxy } from "../../../api/trpc-api.ts";
 import { makeQuery } from "../../../lib/mobx-query-lite/make-query.ts";
 import { makeMutation } from "../../../lib/mobx-query-lite/make-mutation.ts";
 
@@ -38,7 +38,7 @@ const stripeSubscriptionLinks = {
 } satisfies Record<PaidPlanType, Record<PlanDuration, string | null>>;
 
 export class PlansScreenStore {
-  plansQuery = makeQuery({ key: "plans", query: api.plans.query });
+  plansQuery = makeQuery(apiProxy.plans.query);
   createOrderMutation = makeMutation(api.starsOrderPlan.mutate);
   selectedPlanDuration = new TextField<PlanDuration | null>(null);
   selectedPlanType: TextField<PaidPlanType>;

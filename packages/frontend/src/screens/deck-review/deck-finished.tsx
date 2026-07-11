@@ -24,8 +24,8 @@ export function DeckFinished(props: Props) {
 
   useMount(() => {
     reviewStore.submitFinished(() => {
-      deckListStore.load();
-      weekHeatmapQuery.fetch();
+      deckListStore.myInfoQuery.invalidate();
+      weekHeatmapQuery.invalidate();
     });
   });
 

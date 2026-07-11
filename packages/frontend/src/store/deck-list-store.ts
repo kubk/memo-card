@@ -1,11 +1,9 @@
-import { action, makeAutoObservable, runInAction, when } from "mobx";
+import { action, makeAutoObservable, when } from "mobx";
 import { appLoaderStore } from "./app-loader-store.ts";
-import { type MyInfoResponse } from "api";
-import {
-  type MyInfoDeckWithCardsDbType,
-  type MyInfoPublicDeckWithCardsDbType,
-} from "api";
+import { type RouterOutput } from "api";
 import { type DeckCardDbType, type DeckWithCardsDbType } from "api";
+
+type MyInfoResponse = RouterOutput["me"]["info"];
 import { screenStore } from "./screen-store.ts";
 import {
   CardReviewType,
@@ -13,30 +11,24 @@ import {
   createInitialFsrsReviewState,
   type FsrsReviewState,
 } from "api";
-import { ReviewStore } from "../screens/deck-review/store/review-store.ts";
 import { reportHandledError } from "../lib/rollbar/rollbar.tsx";
 import { BooleanToggle } from "mobx-form-lite";
 import { userStore } from "./user-store.ts";
 import { showConfirm } from "../lib/platform/show-confirm.ts";
 import { t } from "../translations/t.ts";
 import { platform } from "../lib/platform/platform.ts";
-import { FolderWithDecksWithCards } from "api";
 import { type FolderWithDeckIdDbType } from "api";
-import { CatalogFolderDbType } from "api";
-import { LegacyRequestStore } from "../lib/mobx-request/request-store.ts";
-import { notifyError } from "../screens/shared/snackbar/snackbar.tsx";
-import { assert } from "api";
 import { api } from "../api/trpc-api.ts";
 import { BrowserPlatform } from "../lib/platform/browser/browser-platform.ts";
 import { StartParamType } from "./routing/route-types.ts";
+import { makeQuery } from "../lib/mobx-query-lite/make-query.ts";
+import { type DeckPreviewRouteData } from "./routing/route-types.ts";
 
 export type DeckCardDbTypeWithType = DeckCardDbType & {
   type: CardReviewType;
 } & FsrsReviewState;
 
-type DeckListDeck = MyInfoDeckWithCardsDbType & {
-  deckCategory?: MyInfoPublicDeckWithCardsDbType["deckCategory"];
-};
+export type DeckListDeck = DeckPreviewRouteData;
 
 export type DeckWithCardsWithReviewType = DeckListDeck & {
   cardsToReview: DeckCardDbTypeWithType[];
@@ -64,23 +56,34 @@ export type DeckListItem = {
     }
 );
 
+export type DeckListFolder = Extract<DeckListItem, { type: "folder" }>;
+
 class DeckListStore {
-  myInfo?: Omit<MyInfoResponse, "user" | "plan">;
-  myInfoRequest = new LegacyRequestStore(api.me.info.query, {
-    staleWhileRevalidate: true,
+  myInfoQuery = makeQuery({
+    key: "me.info",
+    query: async () => {
+      try {
+        const userData = await api.me.info.query();
+        userStore.setUser(userData.user, userData.plan);
+        if (screenStore.screen.type === "browserLogin") {
+          screenStore.replace({ type: "main" });
+        }
+        return userData;
+      } catch (error) {
+        console.log("mc: error in myInfoQuery", error);
+        if (platform instanceof BrowserPlatform && !this.isAuthOptionalScreen) {
+          screenStore.push({ type: "browserLogin" });
+        }
+        throw error;
+      }
+    },
   });
 
   isStartParamHandled = false;
 
   skeletonLoaderData = { publicCount: 3, myDecksCount: 3 };
 
-  deckWithCardsRequest = new LegacyRequestStore(api.deck.deckWithCards.query);
   isMyDecksExpanded = new BooleanToggle(false);
-
-  catalogFolder?: FolderWithDecksWithCards;
-  getFolderWithDecksCards = new LegacyRequestStore(
-    api.folder.folderWithDecksCards.query,
-  );
 
   constructor() {
     makeAutoObservable(
@@ -88,8 +91,7 @@ class DeckListStore {
       {
         searchDeckById: false,
         searchFolderById: false,
-        hasFolderInMine: false,
-        isDeckFolderAdded: false,
+        isItemAdded: false,
       },
       { autoBind: true },
     );
@@ -99,57 +101,16 @@ class DeckListStore {
     return 6;
   }
 
-  get isCatalogItemLoading() {
-    return (
-      this.deckWithCardsRequest.isLoading ||
-      this.getFolderWithDecksCards.isLoading
-    );
+  get myInfo(): MyInfoResponse | undefined {
+    return this.myInfoQuery.data;
   }
 
   loadFirstTime(startParam?: string) {
     this.handleStartParam(startParam);
-    if (this.isAuthOptionalScreen) {
-      return;
-    }
-    this.load();
   }
 
   private get isAuthOptionalScreen() {
     return authOptionalScreenTypes.includes(screenStore.screen.type);
-  }
-
-  private addFolder(folder: FolderWithDecksWithCards) {
-    assert(this.myInfo);
-    if (
-      this.myInfo.folders.find((myFolder) => myFolder.folder_id === folder.id)
-    ) {
-      screenStore.push({ type: "folderPreview", folderId: folder.id });
-      return;
-    }
-
-    for (const deck of folder.decks) {
-      // Push new folders
-      this.myInfo.folders.push({
-        deck_id: deck.id,
-        folder_id: folder.id,
-        folder_author_id: folder.authorId,
-        folder_description: folder.description,
-        folder_share_id: folder.shareId,
-        folder_title: folder.title,
-      });
-      // Push new decks
-      this.myInfo.myDecks.push(deck);
-      // Push new cards
-      this.myInfo.cardsToReview = this.myInfo.cardsToReview.concat(
-        deck.deckCards.map((card) => ({
-          id: card.id,
-          deckId: deck.id,
-          type: "new" as const,
-          ...createNewCardReviewState(),
-        })),
-      );
-    }
-    screenStore.push({ type: "folderPreview", folderId: folder.id });
   }
 
   addCardOptimistic(card: DeckCardDbType) {
@@ -166,70 +127,6 @@ class DeckListStore {
     });
   }
 
-  async openFolderFromCatalog(folderWithoutDecks: CatalogFolderDbType) {
-    assert(this.myInfo);
-    if (
-      this.myInfo.folders.find(
-        (myFolder) => myFolder.folder_id === folderWithoutDecks.id,
-      )
-    ) {
-      screenStore.push({
-        type: "folderPreview",
-        folderId: folderWithoutDecks.id,
-      });
-      return;
-    }
-
-    this.catalogFolder = {
-      ...folderWithoutDecks,
-      decks: [],
-    };
-    screenStore.push({
-      type: "folderPreview",
-      folderId: this.catalogFolder.id,
-    });
-
-    const result = await this.getFolderWithDecksCards.execute({
-      folderId: folderWithoutDecks.id,
-    });
-    if (result.status === "error") {
-      notifyError({
-        e: result.error,
-        info: `Error while retrieving folder: ${folderWithoutDecks.id}`,
-      });
-      return;
-    }
-
-    const { folder } = result.data;
-    runInAction(() => {
-      this.catalogFolder = folder;
-    });
-  }
-
-  get canReview() {
-    const deck = this.selectedDeck;
-    if (!deck) {
-      return false;
-    }
-
-    return (
-      deck.cardsToReview.length > 0 || screenStore.screen.type === "deckPublic"
-    );
-  }
-
-  startDeckReview(reviewStore: ReviewStore) {
-    if (!this.canReview) {
-      return;
-    }
-
-    assert(this.selectedDeck, "No selected deck for review");
-    if (screenStore.screen.type === "deckPublic") {
-      this.addDeckToMine(this.selectedDeck.id);
-    }
-
-    reviewStore.startDeckReview(this.selectedDeck);
-  }
-
   addDeckToMine(deckId: number, silent = false) {
     return api.deck.addToMine
       .mutate({
@@ -239,7 +136,7 @@ class DeckListStore {
         if (silent) {
           return;
         }
-        this.load();
+        return this.myInfoQuery.invalidate();
       })
       .catch((error) => {
         reportHandledError("Error while adding deck to mine", error, {
@@ -253,62 +150,12 @@ class DeckListStore {
       .mutate({
         folderId,
       })
-      .then(
-        action(() => {
-          this.catalogFolder = undefined;
-          this.load();
-        }),
-      )
+      .then(() => this.myInfoQuery.invalidate())
       .catch((error) => {
         reportHandledError("Error while adding folder to mine", error, {
           folderId,
         });
       });
-  }
-
-  get canEditDeck() {
-    const deck = this.selectedDeck;
-    if (!deck) {
-      return false;
-    }
-    return deck.authorId === userStore.myId;
-  }
-
-  async openDeckFromCatalog(deck: DeckListDeck, isMine: boolean) {
-    assert(this.myInfo);
-    if (isMine) {
-      screenStore.push({ type: "deckMine", deckId: deck.id });
-      return;
-    }
-    if (!this.publicDecks.find((publicDeck) => publicDeck.id === deck.id)) {
-      this.myInfo.publicDecks.push(deck);
-    }
-    screenStore.push({ type: "deckPublic", deckId: deck.id });
-
-    const result = await this.deckWithCardsRequest.execute({ deckId: deck.id });
-    if (result.status === "error") {
-      notifyError({ e: result.error, info: `Error opening deck: ${deck.id}` });
-      return;
-    }
-    this.replaceDeck(result.data);
-  }
-
-  goDeckById(deckId: number): boolean {
-    if (!this.myInfo) {
-      return false;
-    }
-    const myDeck = this.myInfo.myDecks.find((deck) => deck.id === deckId);
-    if (myDeck) {
-      screenStore.push({ type: "deckMine", deckId });
-      return true;
-    }
-    const publicDeck = this.publicDecks.find((deck) => deck.id === deckId);
-    if (publicDeck) {
-      screenStore.push({ type: "deckPublic", deckId });
-      return true;
-    }
-
-    return false;
   }
 
   searchDeckById(deckId: number) {
@@ -327,131 +174,29 @@ class DeckListStore {
     return foldersToSearch.find((folder) => folder.folder_id === folderId);
   }
 
-  reviewFolder(reviewStore: ReviewStore) {
-    const folder = this.selectedFolder;
-    assert(folder, "Folder should be selected before review");
-
-    if (folder.id === this.catalogFolder?.id) {
-      this.addFolderToMine(folder.id);
-    }
-
-    reviewStore.startFolderReview(folder.decks);
-  }
-
-  get selectedFolder() {
-    const screen = screenStore.screen;
-    if (screen.type !== "folderPreview" || !this.myInfo) {
-      return null;
-    }
-
-    if (this.catalogFolder?.id === screen.folderId) {
-      const decksWithCardsToReview = this.catalogFolder.decks.map((deck) => ({
-        ...deck,
-        cardsToReview: deck.deckCards.map((card) => ({
-          ...card,
-          type: "new" as const,
-          ...createNewCardReviewState(),
-        })),
-      }));
-
-      return {
-        type: "folder" as const,
-        decks: decksWithCardsToReview,
-        cardsToReview: decksWithCardsToReview.reduce<DeckCardDbTypeWithType[]>(
-          (acc, deck) => acc.concat(deck.cardsToReview),
-          [],
-        ),
-        shareId: this.catalogFolder.shareId,
-        authorId: this.catalogFolder.authorId,
-        isPublic: this.catalogFolder.isPublic,
-        name: this.catalogFolder.title,
-        id: this.catalogFolder.id,
-        description: this.catalogFolder.description,
-      };
-    }
-
-    const folder = this.myFoldersAsDecks.find(
-      (folder) => folder.id === screen.folderId,
-    );
-
-    if (!folder) {
-      return null;
-    }
-    assert(folder.type === "folder", "folder is not folder type");
-
-    return folder;
-  }
-
-  get canEditFolder() {
-    const folder = this.selectedFolder;
-    if (!folder) {
-      return false;
-    }
-    if (!this.hasFolderInMine(folder.id)) {
-      return false;
-    }
-
-    return folder.authorId === userStore.myId;
-  }
-
-  hasFolderInMine(folderId: number) {
-    return !!this.myFoldersAsDecks.find(({ id }) => id === folderId);
-  }
-
-  get isFolderReviewVisible() {
-    return this.selectedFolder
-      ? this.selectedFolder.cardsToReview.length > 0
-      : false;
-  }
-
-  get selectedDeck(): DeckWithCardsWithReviewType | null {
-    const screen = screenStore.screen;
-    const isSelectedDeckVisible =
-      screen.type === "deckPublic" || screen.type === "deckMine";
-    if (!isSelectedDeckVisible) {
-      return null;
-    }
-    if (!screen.deckId || !this.myInfo) {
-      return null;
-    }
-
-    const deck = this.searchDeckById(screen.deckId);
-    if (!deck) {
-      return null;
-    }
-
-    const cardsToReview =
-      screen.type === "deckPublic"
-        ? deck.deckCards.map((card) => ({
-            ...card,
-            type: "new" as const,
-            ...createNewCardReviewState(),
-          }))
-        : getCardsToReview(deck, this.myInfo.cardsToReview);
-
-    return {
-      ...deck,
-      cardsToReview: cardsToReview,
-    };
-  }
-
   replaceDeck(deck: DeckWithCardsDbType, addToMine = false) {
     if (!this.myInfo) {
       return;
     }
-    const deckMineIndex = this.myInfo.myDecks.findIndex(
+    const ownedDeckIndex = this.myInfo.myDecks.findIndex(
       (myDeck) => myDeck.id === deck.id,
     );
-    if (deckMineIndex !== -1) {
-      this.myInfo.myDecks[deckMineIndex] = deck;
+    if (ownedDeckIndex !== -1) {
+      this.myInfo.myDecks[ownedDeckIndex] = deck;
       return;
     }
 
-    const deckPublicIndex = this.myInfo.publicDecks.findIndex(
+    const publicDeckIndex = this.myInfo.publicDecks.findIndex(
       (publicDeck) => publicDeck.id === deck.id,
     );
-    if (deckPublicIndex !== -1) {
-      this.myInfo.publicDecks[deckPublicIndex] = deck;
+    if (publicDeckIndex !== -1) {
+      const publicDeck = this.myInfo.publicDecks[publicDeckIndex];
+      this.myInfo.publicDecks[publicDeckIndex] = {
+        ...publicDeck,
+        ...deck,
+        authorId: publicDeck.authorId,
+        deckCategory: publicDeck.deckCategory,
+      };
       return;
     }
 
@@ -643,7 +388,7 @@ class DeckListStore {
           if (!result) {
             return;
           }
-          this.myInfo = result;
+          this.setMyInfo(result);
           screenStore.push({ type: "main" });
         }),
       )
@@ -675,7 +420,7 @@ class DeckListStore {
           if (!result) {
             return;
           }
-          this.myInfo = result;
+          this.setMyInfo(result);
           screenStore.push({ type: "main" });
         }),
       )
@@ -699,27 +444,9 @@ class DeckListStore {
     this.myInfo.cardsToReview = body;
   }
 
-  async load() {
-    const result = await this.myInfoRequest.execute();
-    if (result.status === "error") {
-      console.log("mc: error in myInfoRequest", result.error);
-      if (platform instanceof BrowserPlatform && !this.isAuthOptionalScreen) {
-        screenStore.push({ type: "browserLogin" });
-      }
-      return;
-    }
-    const userData = result.data;
-    if (!userData) {
-      console.log("mc: no userData");
-      return;
-    }
-    runInAction(() => {
-      this.myInfo = userData;
-    });
+  private setMyInfo(userData: MyInfoResponse) {
+    this.myInfoQuery.setData(userData);
     userStore.setUser(userData.user, userData.plan);
-    if (screenStore.screen.type === "browserLogin") {
-      screenStore.replace({ type: "main" });
-    }
   }
 
   async onDuplicateDeck(deckId: number) {
@@ -735,7 +462,7 @@ class DeckListStore {
       .mutate({ deckId })
       .then(() => {
         screenStore.push({ type: "main" });
-        this.load();
+        this.myInfoQuery.invalidate();
       })
       .catch((e) => {
         reportHandledError("Error duplicating deck", e);
@@ -756,7 +483,7 @@ class DeckListStore {
       .mutate({ folderId })
       .then(() => {
         screenStore.push({ type: "main" });
-        this.load();
+        this.myInfoQuery.invalidate();
       })
       .catch((e) => {
         reportHandledError("Error duplicating folder", e);
@@ -798,37 +525,24 @@ class DeckListStore {
 
       api.getByShareId
         .query({ shareId: startParam })
-        .then(
-          action((sharedDeckResponse) => {
-            if ("deck" in sharedDeckResponse) {
-              const deck = sharedDeckResponse.deck;
-              assert(this.myInfo);
-              if (this.myInfo.myDecks.find((myDeck) => myDeck.id === deck.id)) {
-                screenStore.push({ type: "deckMine", deckId: deck.id });
-                return;
-              }
+        .then(async (sharedDeckResponse) => {
+          await this.myInfoQuery.refetch();
 
-              if (
-                this.publicDecks.find((publicDeck) => publicDeck.id === deck.id)
-              ) {
-                this.replaceDeck(deck);
-                screenStore.push({
-                  type: "deckPublic",
-                  deckId: deck.id,
-                });
-                return;
-              }
+          if ("deck" in sharedDeckResponse) {
+            const deck = sharedDeckResponse.deck;
+            screenStore.push({
+              type: "deckPreview",
+              deckId: deck.id,
+            });
+          }
 
-              this.myInfo.publicDecks.push(deck);
-              screenStore.push({ type: "deckPublic", deckId: deck.id });
-            }
-
-            if ("folder" in sharedDeckResponse) {
-              const folder = sharedDeckResponse.folder;
-              this.addFolder(folder);
-            }
-          }),
-        )
+          if ("folder" in sharedDeckResponse) {
+            screenStore.push({
+              type: "folderPreview",
+              folderId: sharedDeckResponse.folder.id,
+            });
+          }
+        })
         .catch((e) => {
           reportHandledError("Error while retrieving shared deck", e, {
             shareId: startParam,
@@ -838,19 +552,10 @@ class DeckListStore {
     }
   }
 
-  isDeckFolderAdded = (item: {
-    type: "folder" | "deck";
-    id: number;
-  }): { isMineDeck: boolean; isMineFolder: boolean } => {
-    const myDeckIds = this.myDeckIds;
-    const myFoldersIds = this.myFoldersIds;
-
-    const isMineFolder =
-      item.type === "folder" ? myFoldersIds.includes(item.id) : false;
-    const isMineDeck =
-      item.type === "deck" ? myDeckIds.includes(item.id) : false;
-
-    return { isMineFolder, isMineDeck };
+  isItemAdded = (item: { type: "folder" | "deck"; id: number }) => {
+    return item.type === "folder"
+      ? this.myFoldersIds.includes(item.id)
+      : this.myDeckIds.includes(item.id);
   };
 
   get myFoldersIds() {

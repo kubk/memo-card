@@ -117,7 +117,7 @@ export function App() {
             </PreventTelegramSwipeDownClosingIos>
           </SignedIn>
         )}
-        {screenStore.isDeckPreviewScreen && (
+        {screenStore.screen.type === "deckPreview" && (
           <SignedIn>
             <PreventTelegramSwipeDownClosingIos>
               <ReviewStoreProvider>

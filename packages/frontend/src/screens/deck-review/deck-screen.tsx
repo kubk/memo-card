@@ -4,12 +4,17 @@ import { DeckPreview } from "./deck-preview.tsx";
 import { useReviewStore } from "./store/review-store-context.tsx";
 import { DeckFinished } from "./deck-finished.tsx";
 import { CardListWithPreviewReadonly } from "./preview-readonly/card-list-with-preview-readonly.tsx";
-import { deckListStore } from "../../store/deck-list-store.ts";
 import { BooleanToggle } from "mobx-form-lite";
+import { screenStore } from "../../store/screen-store.ts";
+import { assert } from "api";
+import { DeckScreenStore } from "./store/deck-screen-store.ts";
 
 export function DeckScreen() {
   const reviewStore = useReviewStore();
   const [previewStore] = useState(() => new BooleanToggle(false));
+  const route = screenStore.screen;
+  assert(route.type === "deckPreview", "DeckScreen requires a deck route");
+  const [deckScreenStore] = useState(() => new DeckScreenStore(route.deckId));
 
   if (reviewStore.isFinished) {
     return <DeckFinished type={"deck"} />;
@@ -18,7 +23,7 @@ export function DeckScreen() {
   }
 
   if (previewStore.value) {
-    const deck = deckListStore.selectedDeck;
+    const deck = deckScreenStore.deck;
     if (!deck) {
       console.error("DeckScreen: No selected deck for preview");
       return null;
@@ -35,5 +40,10 @@ export function DeckScreen() {
     );
   }
 
-  return <DeckPreview onCardListPreview={previewStore.setTrue} />;
+  return (
+    <DeckPreview
+      store={deckScreenStore}
+      onCardListPreview={previewStore.setTrue}
+    />
+  );
 }

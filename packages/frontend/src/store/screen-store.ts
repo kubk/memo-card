@@ -2,7 +2,7 @@ import { makeAutoObservable } from "mobx";
 import { routeToUrl, urlToRoute } from "./routing/url-sync.ts";
 import { platform } from "../lib/platform/platform.ts";
 import { BrowserPlatform } from "../lib/platform/browser/browser-platform.ts";
-import { Route } from "./routing/route-types.ts";
+import { Route, withoutRouteState } from "./routing/route-types.ts";
 
 let routeIndex = 0;
 let historyEntryIndex = 0;
@@ -42,7 +42,10 @@ function trimBackStack(stack: HistoryEntry[]): HistoryEntry[] {
 }
 
 function areRoutesEqual(first: Route, second: Route) {
-  return JSON.stringify(first) === JSON.stringify(second);
+  return (
+    JSON.stringify(withoutRouteState(first)) ===
+    JSON.stringify(withoutRouteState(second))
+  );
 }
 
 function findRouteIndex(history: HistoryEntry[], route: Route) {
@@ -192,10 +195,6 @@ export class ScreenStore {
 
   goToUserSettings() {
     this.push({ type: "userSettings", index: ++routeIndex });
-  }
-
-  get isDeckPreviewScreen() {
-    return this.screen.type === "deckPublic" || this.screen.type === "deckMine";
   }
 
   private pushBrowserUrl(route: Route) {

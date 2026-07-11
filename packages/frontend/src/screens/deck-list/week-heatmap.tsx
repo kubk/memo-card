@@ -1,6 +1,6 @@
 import { type RouterOutput } from "api";
 import { ChevronRightIcon, FlameIcon } from "lucide-react";
-import { api } from "../../api/trpc-api.ts";
+import { apiProxy } from "../../api/trpc-api.ts";
 import { platform } from "../../lib/platform/platform.ts";
 import { screenStore } from "../../store/screen-store.ts";
 import { userStore } from "../../store/user-store.ts";
@@ -19,10 +19,7 @@ const weekCellColors = [
 ];
 
 export const weekHeatmapQuery = makeQuery(
-  {
-    key: "weekHeatmap",
-    query: () => api.weekHeatmap.query({ timeZone: getTz() }),
-  },
+  apiProxy.weekHeatmap.query({ timeZone: getTz() }),
   { staleTime: 0 },
 );
 

@@ -7,7 +7,7 @@ import { notifyError } from "../../../shared/snackbar/snackbar.tsx";
 import { deckListStore } from "../../../../store/deck-list-store.ts";
 import { voiceGenerationStore } from "../../../../store/voice-generation-store.ts";
 import { assert } from "api";
-import { api } from "../../../../api/trpc-api.ts";
+import { api, apiProxy } from "../../../../api/trpc-api.ts";
 import { notifyNewCards } from "../notify-new-cards.ts";
 import { makeQuery } from "../../../../lib/mobx-query-lite/make-query.ts";
 
@@ -15,10 +15,7 @@ export class AiGeneratedCardFormStore {
   form = {
     prompt: createFrontCardField(""),
   };
-  cardInputModesQuery = makeQuery({
-    key: "cardInputMode.list",
-    query: api.cardInputMode.list.query,
-  });
+  cardInputModesQuery = makeQuery(apiProxy.cardInputMode.list.query);
   aiSingleCardGenerateMutation = makeMutation(api.aiSingleCardGenerate.mutate);
 
   constructor() {

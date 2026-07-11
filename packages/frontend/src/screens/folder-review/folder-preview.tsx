@@ -1,7 +1,4 @@
-import {
-  deckListStore,
-  DeckWithCardsWithReviewType,
-} from "../../store/deck-list-store.ts";
+import { deckListStore } from "../../store/deck-list-store.ts";
 import { screenStore } from "../../store/screen-store.ts";
 import { Hint } from "../../ui/hint.tsx";
 import { useBackButton } from "../../lib/platform/use-back-button.ts";
@@ -20,31 +17,38 @@ import { BrowserBackButton } from "../shared/browser-platform/browser-back-butto
 import { cn } from "../../ui/cn.ts";
 import { CardReviewStats } from "../shared/deck-stats/card-review-stats.tsx";
 import { PencilIcon, PlusIcon, TrashIcon } from "lucide-react";
+import { type FolderScreenStore } from "./store/folder-screen-store.ts";
+import { ErrorScreen } from "../error-screen/error-screen.tsx";
 
 type Props = {
-  onDeckPreviewOpen: (deck: DeckWithCardsWithReviewType) => void;
+  store: FolderScreenStore;
 };
 
 export function FolderPreview(props: Props) {
   const reviewStore = useReviewStore();
+  const { store } = props;
 
   useBackButton(() => {
     screenStore.back();
   });
 
-  useProgress(() => deckListStore.isCatalogItemLoading);
+  useProgress(() => store.isInitialLoading);
 
   useMainButton(
     t("review_folder"),
     () => {
-      deckListStore.reviewFolder(reviewStore);
+      store.startReview(reviewStore);
     },
-    () => deckListStore.isFolderReviewVisible,
+    () => store.isReviewVisible,
     [],
     { forceHide: true },
   );
 
-  const folder = deckListStore.selectedFolder;
+  if (store.detailsQuery.error) {
+    return <ErrorScreen />;
+  }
+
+  const folder = store.folder;
   if (!folder) {
     return null;
   }
@@ -66,7 +70,7 @@ export function FolderPreview(props: Props) {
           <DeckFolderDescription deck={folder} />
         </div>
         <CardReviewStats
-          isLoading={deckListStore.getFolderWithDecksCards.isLoading}
+          isLoading={store.isInitialLoading}
           newCardsCount={
             folder.cardsToReview.filter((card) => card.type === "new").length
           }
@@ -77,7 +81,7 @@ export function FolderPreview(props: Props) {
         />
 
         <ButtonGrid>
-          {deckListStore.canEditFolder ? (
+          {store.canEdit ? (
             <>
               <ButtonSideAligned
                 icon={<PlusIcon size={24} />}
@@ -134,10 +138,11 @@ export function FolderPreview(props: Props) {
             <List
               items={folder.decks.map((deck) => ({
                 onClick: () => {
-                  const found = deckListStore.goDeckById(deck.id);
-                  if (!found) {
-                    props.onDeckPreviewOpen(deck);
-                  }
+                  screenStore.push({
+                    type: "deckPreview",
+                    deckId: deck.id,
+                    state: { deck },
+                  });
                 },
                 text: deck.name,
                 right: (
@@ -152,10 +157,9 @@ export function FolderPreview(props: Props) {
       )}
 
       {cardsTotal > 0 &&
-      deckListStore.isDeckFolderAdded({ id: folder.id, type: "folder" })
-        .isMineFolder &&
+      deckListStore.isItemAdded({ id: folder.id, type: "folder" }) &&
       folder.cardsToReview.length === 0 &&
-      !deckListStore.isCatalogItemLoading ? (
+      !store.isInitialLoading ? (
         <div className="mt-2">
           <Hint>{t("no_cards_to_review_in_deck")}</Hint>
         </div>

@@ -3,13 +3,10 @@ import { CardInputModeDb } from "api";
 import { userStore } from "./user-store.ts";
 import { LanguageShared } from "api";
 import { makeQuery } from "../lib/mobx-query-lite/make-query.ts";
-import { api } from "../api/trpc-api.ts";
+import { apiProxy } from "../api/trpc-api.ts";
 
 class SuitableCardInputModeStore {
-  cardInputModesQuery = makeQuery({
-    key: "cardInputMode.list",
-    query: api.cardInputMode.list.query,
-  });
+  cardInputModesQuery = makeQuery(apiProxy.cardInputMode.list.query);
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });

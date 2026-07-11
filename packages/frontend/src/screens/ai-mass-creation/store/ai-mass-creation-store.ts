@@ -13,7 +13,7 @@ import { notifyError, notifySuccess } from "../../shared/snackbar/snackbar.tsx";
 import { deckListStore } from "../../../store/deck-list-store.ts";
 import { showConfirm } from "../../../lib/platform/show-confirm.ts";
 import { assert } from "api";
-import { api } from "../../../api/trpc-api.ts";
+import { api, apiProxy } from "../../../api/trpc-api.ts";
 import { voiceGenerationStore } from "../../../store/voice-generation-store.ts";
 import { aiMassCreationDraftStore } from "./ai-mass-creation-draft-store.ts";
 import { makeMutation } from "../../../lib/mobx-query-lite/make-mutation.ts";
@@ -24,10 +24,7 @@ type InnerScreen = "how" | "cardsGenerated" | "previousPrompts";
 export class AiMassCreationStore {
   aiMassGenerateMutation = makeMutation(api.aiMassGenerate.mutate);
   createDeckWithCardsMutation = makeMutation(api.deck.createWithCards.mutate);
-  userPreviousPromptsQuery = makeQuery({
-    key: "prompt.myPrevious",
-    query: api.prompt.myPrevious.query,
-  });
+  userPreviousPromptsQuery = makeQuery(apiProxy.prompt.myPrevious.query);
   deckDraft = aiMassCreationDraftStore.deckDraft;
 
   screen = new TextField<InnerScreen | null>(null);

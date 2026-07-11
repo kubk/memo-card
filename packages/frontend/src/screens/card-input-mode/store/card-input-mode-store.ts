@@ -6,16 +6,13 @@ import { t } from "../../../translations/t.ts";
 import { DeckFormStore } from "../../deck-form/deck-form/store/deck-form-store.ts";
 import { CardInputModeDb } from "api";
 import { assert } from "api";
-import { api } from "../../../api/trpc-api.ts";
+import { api, apiProxy } from "../../../api/trpc-api.ts";
 import { screenStore } from "../../../store/screen-store.ts";
 import { makeQuery } from "../../../lib/mobx-query-lite/make-query.ts";
 import { makeMutation } from "../../../lib/mobx-query-lite/make-mutation.ts";
 
 export class CardInputModeStore {
-  cardInputModesQuery = makeQuery({
-    key: "cardInputMode.list",
-    query: api.cardInputMode.list.query,
-  });
+  cardInputModesQuery = makeQuery(apiProxy.cardInputMode.list.query);
   deckChangeInputModeMutation = makeMutation(api.cardInputMode.change.mutate);
   modeId = new TextField<string | null>(null);
   viewModeId = new TextField<string | null>(null);

@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import { api } from "../../../api/trpc-api.ts";
+import { api, apiProxy } from "../../../api/trpc-api.ts";
 import { type RouterOutput } from "api";
 import { DateTime } from "luxon";
 import { makeQuery } from "../../../lib/mobx-query-lite/make-query.ts";
@@ -72,13 +72,9 @@ const getReviewIntensity = (reviews: number, maxReviewsInDay: number) => {
 };
 
 export class UserStatisticsStore {
-  userStatisticsQuery = makeQuery({
-    key: "userStatistics",
-    query: () =>
-      api.myStatistics.query({
-        timeZone: getTz(),
-      }),
-  });
+  userStatisticsQuery = makeQuery(
+    apiProxy.myStatistics.query({ timeZone: getTz() }),
+  );
   dailyReviewsQuery = makeInfiniteQuery({
     key: "userStatisticsDaily",
     query: ({ cursor }) =>

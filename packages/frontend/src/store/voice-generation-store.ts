@@ -1,8 +1,10 @@
 import { action, makeAutoObservable } from "mobx";
-import { DeckCardDbType, MyInfoDeckWithCardsDbType } from "api";
+import { DeckCardDbType, RouterOutput } from "api";
 import { generateVoiceForNewCards } from "../lib/voice/generate-voice-for-new-cards.ts";
 import { userStore } from "./user-store.ts";
 import { deckListStore } from "./deck-list-store.ts";
+
+type MyDeck = RouterOutput["me"]["info"]["myDecks"][number];
 
 class VoiceGenerationStore {
   generatingCardIds = new Set<number>();
@@ -11,11 +13,11 @@ class VoiceGenerationStore {
     makeAutoObservable(this, {}, { autoBind: true });
   }
 
-  generateForCard(deck: MyInfoDeckWithCardsDbType, card: DeckCardDbType) {
+  generateForCard(deck: MyDeck, card: DeckCardDbType) {
     this.generateForCards(deck, [card]);
   }
 
-  generateForCards(deck: MyInfoDeckWithCardsDbType, cards: DeckCardDbType[]) {
+  generateForCards(deck: MyDeck, cards: DeckCardDbType[]) {
     if (!deck.speakAutoAi || !deck.speakField || !deck.speakLocale) {
       return;
     }

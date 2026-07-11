@@ -39,8 +39,10 @@ export type InfiniteQueryState<Item, Cursor> = {
   isFetching: boolean;
   isFetchingNextPage: boolean;
   hasNextPage: boolean;
-  fetch: () => Promise<void>;
   fetchNextPage: () => Promise<void>;
+  invalidate: () => Promise<void>;
+  prefetch: () => Promise<void>;
+  refetch: () => Promise<void>;
 };
 
 export function makeInfiniteQuery<Page extends AnyInfiniteQueryPage>(
@@ -131,10 +133,21 @@ class InfiniteQuery<
     return this.nextPageFetchKey === this.getConfig().key;
   }
 
-  fetch() {
+  invalidate() {
     this.nextPageError = null;
     this.nextPageErrorKey = null;
-    return this.currentQuery().fetch();
+    return this.currentQuery().invalidate();
+  }
+
+  // Alias for the underlying query
+  prefetch() {
+    return this.currentQuery().prefetch();
+  }
+
+  refetch() {
+    this.nextPageError = null;
+    this.nextPageErrorKey = null;
+    return this.currentQuery().refetch();
   }
 
   async fetchNextPage() {

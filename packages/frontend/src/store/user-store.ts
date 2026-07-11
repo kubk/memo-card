@@ -1,6 +1,8 @@
 import { autorun, makeAutoObservable } from "mobx";
-import { type MyInfoResponse } from "api";
+import { type RouterOutput } from "api";
 import { type UserDbType } from "api";
+
+type MyInfoResponse = RouterOutput["me"]["info"];
 import { type PaidPlanType } from "api";
 import { isPaidPlanType } from "api";
 import { BooleanToggle } from "mobx-form-lite";
@@ -11,7 +13,7 @@ import { canDeleteItsAccount } from "api";
 import { getUserLanguage } from "api";
 import { LanguageShared } from "api";
 import { platform } from "../lib/platform/platform.ts";
-import { api } from "../api/trpc-api.ts";
+import { apiProxy } from "../api/trpc-api.ts";
 import { makeQuery } from "../lib/mobx-query-lite/make-query.ts";
 
 type PaywallType =
@@ -32,10 +34,7 @@ class UserStore {
   );
   isSkipReview = persistableField(new BooleanToggle(false), "isSkipReview");
   isSpeakingCardsMuted = new BooleanToggle(false);
-  activePlanQuery = makeQuery({
-    key: "activePlan",
-    query: api.activePlan.query,
-  });
+  activePlanQuery = makeQuery(apiProxy.activePlan.query);
   selectedPaywall: PaywallType | null = null;
 
   constructor() {
@@ -95,10 +94,6 @@ class UserStore {
 
   get myId() {
     return this.user?.id;
-  }
-
-  get isAdmin() {
-    return this.user?.isAdmin ?? false;
   }
 
   get isSpeakingCardsEnabled() {

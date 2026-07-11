@@ -1,4 +1,13 @@
-import { makeAutoObservable, onBecomeObserved, runInAction } from "mobx";
+import {
+  action,
+  computed,
+  makeAutoObservable,
+  makeObservable,
+  observable,
+  onBecomeObserved,
+  onBecomeUnobserved,
+  runInAction,
+} from "mobx";
 import { inMemoryCache } from "./cache.ts";
 import { toError } from "./to-error.ts";
 
@@ -10,6 +19,7 @@ type QueryConfig<T> = {
 type QueryConfigFactory<T> = () => QueryConfig<T>;
 
 export type QueryOptions = {
+  gcTime?: number;
   staleTime?: number;
 };
 
@@ -22,7 +32,9 @@ export type QueryState<T> = {
   data: T | undefined;
   error: Error | null;
   staleTime: number;
-  fetch: () => Promise<void>;
+  invalidate: () => Promise<void>;
+  prefetch: () => Promise<void>;
+  refetch: () => Promise<void>;
   setData: (data: T | undefined) => void;
 };
 
@@ -64,6 +76,11 @@ class StaticQuery<T> implements QueryState<T> {
   error: Error | null = null;
   staleTime: number;
   private fetchId = 0;
+  private gcTimeout: ReturnType<typeof setTimeout> | undefined;
+  private gcTime: number;
+  private isActive = false;
+  private isInvalidated = false;
+  private invalidationId = 0;
 
   constructor(
     private fetcher: QueryConfig<T>,
@@ -73,22 +90,37 @@ class StaticQuery<T> implements QueryState<T> {
 
     this.data = cached?.data;
     this.lastFetched = cached?.lastFetched ?? null;
+    this.gcTime = options?.gcTime ?? 5 * 60 * 1000;
     this.staleTime = options?.staleTime ?? 5 * 60 * 1000;
 
-    makeAutoObservable<this, "fetcher" | "fetchId">(
-      this,
-      {
-        fetcher: false,
-        fetchId: false,
-      },
-      { autoBind: true },
-    );
+    makeObservable(this, {
+      data: observable,
+      error: observable,
+      invalidate: action.bound,
+      isFetching: observable,
+      isPending: computed,
+      lastFetched: observable,
+      prefetch: action.bound,
+      refetch: action.bound,
+      setData: action.bound,
+    });
 
     onBecomeObserved(this, "data", () => {
+      this.registerIfMissing();
+      this.isActive = true;
+      this.clearGcTimeout();
+
       queueMicrotask(() => {
-        this.fetchIfStale();
+        this.prefetch();
       });
     });
+
+    onBecomeUnobserved(this, "data", () => {
+      this.isActive = false;
+      this.scheduleGc();
+    });
+
+    this.scheduleGc();
   }
 
   get isPending() {
@@ -96,12 +128,38 @@ class StaticQuery<T> implements QueryState<T> {
   }
 
   isStale() {
+    if (this.isInvalidated) return true;
     if (!this.lastFetched) return true;
     return Date.now() - this.lastFetched > this.staleTime;
   }
 
-  async fetch() {
+  invalidate() {
+    this.registerIfMissing();
+    this.scheduleGc();
+    this.isInvalidated = true;
+    this.invalidationId += 1;
+
+    if (this.isActive) {
+      return this.refetch();
+    }
+
+    return Promise.resolve();
+  }
+
+  prefetch() {
+    if (this.isStale() && !this.isFetching) {
+      return this.refetch();
+    }
+
+    return Promise.resolve();
+  }
+
+  async refetch() {
+    this.registerIfMissing();
+    this.scheduleGc();
+
     const currentFetchId = this.fetchId + 1;
+    const currentInvalidationId = this.invalidationId;
     this.fetchId = currentFetchId;
     this.isFetching = true;
     this.error = null;
@@ -130,22 +188,63 @@ class StaticQuery<T> implements QueryState<T> {
       this.data = data;
       this.lastFetched = lastFetched;
       this.isFetching = false;
+      if (this.invalidationId === currentInvalidationId) {
+        this.isInvalidated = false;
+      }
       inMemoryCache.set(this.fetcher.key, { data, lastFetched });
     });
   }
 
-  async fetchIfStale() {
-    if (this.isStale() && !this.isFetching) {
-      await this.fetch();
-    }
-  }
-
   setData(data: T | undefined) {
+    this.registerIfMissing();
+    this.scheduleGc();
+
     const lastFetched = Date.now();
     this.data = data;
     this.lastFetched = lastFetched;
     this.error = null;
+    this.isInvalidated = false;
     inMemoryCache.set(this.fetcher.key, { data, lastFetched });
+  }
+
+  private registerIfMissing() {
+    if (!queryRegistry.has(this.fetcher.key)) {
+      queryRegistry.set(this.fetcher.key, this);
+    }
+  }
+
+  private clearGcTimeout() {
+    if (this.gcTimeout !== undefined) {
+      clearTimeout(this.gcTimeout);
+      this.gcTimeout = undefined;
+    }
+  }
+
+  private scheduleGc() {
+    this.clearGcTimeout();
+
+    if (this.isActive || this.gcTime === Infinity) {
+      return;
+    }
+
+    this.gcTimeout = setTimeout(() => {
+      this.gcTimeout = undefined;
+
+      if (this.isFetching) {
+        this.scheduleGc();
+        return;
+      }
+
+      if (queryRegistry.get(this.fetcher.key) === this) {
+        queryRegistry.delete(this.fetcher.key);
+        inMemoryCache.delete(this.fetcher.key);
+        runInAction(() => {
+          this.data = undefined;
+          this.lastFetched = null;
+          this.error = null;
+        });
+      }
+    }, Math.max(this.gcTime, 0));
   }
 }
 
@@ -194,8 +293,18 @@ class DynamicQuery<T> implements QueryState<T> {
   }
 
   // Alias for the underlying query
-  fetch() {
-    return this.currentQuery().fetch();
+  invalidate() {
+    return this.currentQuery().invalidate();
+  }
+
+  // Alias for the underlying query
+  prefetch() {
+    return this.currentQuery().prefetch();
+  }
+
+  // Alias for the underlying query
+  refetch() {
+    return this.currentQuery().refetch();
   }
 
   // Alias for the underlying query

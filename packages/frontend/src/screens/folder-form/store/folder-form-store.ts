@@ -15,7 +15,7 @@ import { showConfirm } from "../../../lib/platform/show-confirm.ts";
 import { notifyError } from "../../shared/snackbar/snackbar.tsx";
 import { platform } from "../../../lib/platform/platform.ts";
 import { assert } from "api";
-import { api } from "../../../api/trpc-api.ts";
+import { api, apiProxy } from "../../../api/trpc-api.ts";
 import { makeMutation } from "../../../lib/mobx-query-lite/make-mutation.ts";
 import { makeQuery } from "../../../lib/mobx-query-lite/make-query.ts";
 
@@ -44,10 +44,7 @@ type FolderForm = {
 export class FolderFormStore {
   folderForm?: FolderForm;
   folderUpsertMutation = makeMutation(api.folderUpsert.mutate);
-  decksMineQuery = makeQuery({
-    key: "deck.decksCreatedByMe",
-    query: () => api.deck.decksCreatedByMe.query(),
-  });
+  decksMineQuery = makeQuery(apiProxy.deck.decksCreatedByMe.query);
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
@@ -105,7 +102,7 @@ export class FolderFormStore {
 
   onSelectDeck(deckId: number) {
     this.onQuit(() => {
-      deckListStore.goDeckById(deckId);
+      screenStore.push({ type: "deckPreview", deckId });
     });
   }
 

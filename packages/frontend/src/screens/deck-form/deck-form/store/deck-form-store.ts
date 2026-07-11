@@ -15,12 +15,9 @@ import { deckListStore } from "../../../../store/deck-list-store.ts";
 import { showConfirm } from "../../../../lib/platform/show-confirm.ts";
 import {
   DeckCardDbType,
-  DeckCardOptionsDbType,
-  DeckSpeakFieldEnum,
   DeckWithCardsDbType,
-  MyInfoDeckWithCardsDbType,
+  RouterOutput,
   SpeakLanguage,
-  CardAnswerType,
 } from "api";
 import { v4 } from "uuid";
 import { makeMutation } from "../../../../lib/mobx-query-lite/make-mutation.ts";
@@ -30,6 +27,10 @@ import { t } from "../../../../translations/t.ts";
 import { api } from "../../../../api/trpc-api.ts";
 import { userStore } from "../../../../store/user-store.ts";
 import { wysiwygStore } from "../../../../store/wysiwyg-store.ts";
+
+type DeckCardOptions = DeckCardDbType["options"];
+type DeckSpeakField = NonNullable<DeckWithCardsDbType["speakField"]>;
+type MyDeck = RouterOutput["me"]["info"]["myDecks"][number];
 
 export type CardAnswerFormType = {
   id: string;
@@ -41,10 +42,10 @@ export type CardFormType = {
   front: TextField<string>;
   back: TextField<string>;
   example: TextField<string>;
-  answerType: TextField<CardAnswerType>;
+  answerType: TextField<DeckCardDbType["answerType"]>;
   answers: ListField<CardAnswerFormType>;
   id?: number;
-  options: TextField<DeckCardOptionsDbType>;
+  options: TextField<DeckCardOptions>;
 };
 
 type DeckFormType = {
@@ -53,7 +54,7 @@ type DeckFormType = {
   description: TextField<string>;
   cards: CardFormType[];
   speakingCardsLocale: TextField<SpeakLanguage | null>;
-  speakingCardsField: TextField<DeckSpeakFieldEnum | null>;
+  speakingCardsField: TextField<DeckSpeakField | null>;
   speakAutoAi: BooleanField;
   reverseCards: BooleanField;
   folderId?: number;
@@ -127,13 +128,12 @@ export const createAnswerListField = (
 };
 
 export const createAnswerTypeField = (card?: DeckCardDbType) => {
-  return new TextField<CardAnswerType>(card ? card.answerType : "remember");
+  return new TextField<DeckCardDbType["answerType"]>(
+    card ? card.answerType : "remember",
+  );
 };
 
-const createUpdateForm = (
-  id: number,
-  deck: MyInfoDeckWithCardsDbType,
-): DeckFormType => {
+const createUpdateForm = (id: number, deck: MyDeck): DeckFormType => {
   return {
     id: id,
     title: createDeckTitleField(deck.name),
@@ -149,7 +149,7 @@ const createUpdateForm = (
       back: createBackCardField(card.back),
       example: new TextField(card.example || ""),
       answerType: createAnswerTypeField(card),
-      options: new TextField<DeckCardOptionsDbType>(card.options ?? null),
+      options: new TextField<DeckCardOptions>(card.options ?? null),
       answers: createAnswerListField(
         card.answers
           ? card.answers.map((answer) => ({
@@ -236,7 +236,7 @@ export class DeckFormStore {
         description: new TextField(""),
         cards: [],
         speakingCardsLocale: new TextField<SpeakLanguage | null>(null),
-        speakingCardsField: new TextField<DeckSpeakFieldEnum | null>(null),
+        speakingCardsField: new TextField<DeckSpeakField | null>(null),
         speakAutoAi: new BooleanField(false),
         reverseCards: new BooleanField(false),
         folderId: screen.folder?.id ?? undefined,

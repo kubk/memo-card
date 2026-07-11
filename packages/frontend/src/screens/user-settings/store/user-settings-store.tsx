@@ -7,7 +7,7 @@ import {
 } from "mobx-form-lite";
 import { DateTime } from "luxon";
 import { formatTime } from "../generate-time-range.tsx";
-import { stringToDate, UserDbType, UserSettingsRequest } from "api";
+import { RouterInput, stringToDate, UserDbType } from "api";
 import { userStore } from "../../../store/user-store.ts";
 import { makeMutation } from "../../../lib/mobx-query-lite/make-mutation.ts";
 import { notifyError, notifySuccess } from "../../shared/snackbar/snackbar.tsx";
@@ -82,7 +82,7 @@ export class UserSettingsStore {
 
     const [hour, minute] = this.form.time.value.split(":");
 
-    const body: UserSettingsRequest = {
+    const body: RouterInput["userSettings"] = {
       isRemindNotifyEnabled: this.form.isRemindNotifyEnabled.value,
       isSpeakingCardEnabled: this.form.isSpeakingCardsEnabled.value,
       language: this.isLangChanged ? this.form.language.value : null,

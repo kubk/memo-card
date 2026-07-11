@@ -1,4 +1,4 @@
-import { DeckSpeakFieldEnum } from "api";
+import type { DeckWithCardsDbType } from "api";
 import { removeAllTags } from "../../../lib/sanitize-html/remove-all-tags.ts";
 import {
   isSpeechSynthesisSupported,
@@ -16,13 +16,13 @@ export interface VoicePlayer {
 export const createVoicePlayer = (
   card: {
     voice?: string | null;
-    speakField?: DeckSpeakFieldEnum | null;
+    speakField?: DeckWithCardsDbType["speakField"];
     front: string;
     back: string;
   },
   deckForm: {
     speakingCardsLocale: string | null;
-    speakingCardsField: DeckSpeakFieldEnum | null;
+    speakingCardsField: DeckWithCardsDbType["speakField"];
   },
 ): VoicePlayer | null => {
   if (card.voice) {

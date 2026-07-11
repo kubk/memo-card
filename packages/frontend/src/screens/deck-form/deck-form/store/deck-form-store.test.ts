@@ -136,6 +136,8 @@ vi.mock(import("../../../../translations/t.ts"), () =>
 );
 
 vi.mock("../../../../api/trpc-api.ts", () => {
+  const activePlanQuery = vi.fn();
+
   return {
     api: {
       card: {
@@ -149,7 +151,12 @@ vi.mock("../../../../api/trpc-api.ts", () => {
         update: { mutate: mocks.deckUpdate },
       },
       activePlan: {
-        query: vi.fn(),
+        query: activePlanQuery,
+      },
+    },
+    apiProxy: {
+      activePlan: {
+        query: () => ({ key: "activePlan", query: activePlanQuery }),
       },
     },
   };

@@ -3,7 +3,7 @@ import { formToPlain, TextField, validators } from "mobx-form-lite";
 import { notifyError, notifySuccess } from "../../shared/snackbar/snackbar.tsx";
 import { DeckFormStore } from "../../deck-form/deck-form/store/deck-form-store.ts";
 import { CardInputModeDb } from "api";
-import { api } from "../../../api/trpc-api.ts";
+import { api, apiProxy } from "../../../api/trpc-api.ts";
 import { t } from "../../../translations/t.ts";
 import { showConfirm } from "../../../lib/platform/show-confirm.ts";
 import { screenStore } from "../../../store/screen-store.ts";
@@ -11,10 +11,7 @@ import { makeQuery } from "../../../lib/mobx-query-lite/make-query.ts";
 import { makeMutation } from "../../../lib/mobx-query-lite/make-mutation.ts";
 
 export class CardInputModeFormStore {
-  cardInputModesQuery = makeQuery({
-    key: "cardInputMode.list",
-    query: api.cardInputMode.list.query,
-  });
+  cardInputModesQuery = makeQuery(apiProxy.cardInputMode.list.query);
   createMutation = makeMutation(api.cardInputMode.create.mutate);
   updateMutation = makeMutation(api.cardInputMode.update.mutate);
   deleteMutation = makeMutation(api.cardInputMode.delete.mutate);

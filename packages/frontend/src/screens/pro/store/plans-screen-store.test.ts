@@ -20,6 +20,11 @@ vi.mock("../../../api/trpc-api.ts", () => {
         mutate: mocks.starsOrderPlan,
       },
     },
+    apiProxy: {
+      plans: {
+        query: () => ({ key: "plans", query: mocks.plansQuery }),
+      },
+    },
   };
 });
 

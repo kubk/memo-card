@@ -8,6 +8,7 @@ import {
 import { trimEnd } from "../lib/string/trim";
 import { getAuthHeaders } from "./get-auth-headers";
 import { env } from "../env";
+import { createApiProxy } from "./create-api-proxy.ts";
 
 const allowedToReFetch = [
   "cardsReview",
@@ -64,3 +65,5 @@ export const api = createTRPCClient<ApiRouter>({
     }),
   ],
 });
+
+export const apiProxy = createApiProxy(api);

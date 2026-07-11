@@ -25,29 +25,39 @@ import {
   TrashIcon,
 } from "lucide-react";
 import { shareMemoCardUrl } from "../shared/share-memo-card-url.tsx";
+import { type DeckScreenStore } from "./store/deck-screen-store.ts";
+import { ErrorScreen } from "../error-screen/error-screen.tsx";
 
-type Props = { onCardListPreview: () => void };
+type Props = {
+  store: DeckScreenStore;
+  onCardListPreview: () => void;
+};
 
 export function DeckPreview(props: Props) {
   const reviewStore = useReviewStore();
+  const { store } = props;
 
   useBackButton(() => {
     screenStore.back();
   });
 
-  useProgress(() => deckListStore.deckWithCardsRequest.isLoading);
+  useProgress(() => store.isInitialLoading);
 
   const onStart = () => {
-    if (deckListStore.canReview) {
-      deckListStore.startDeckReview(reviewStore);
+    if (store.canReview) {
+      store.startReview(reviewStore);
     }
   };
 
-  useMainButton(t("review_deck"), onStart, () => deckListStore.canReview, [], {
+  useMainButton(t("review_deck"), onStart, () => store.canReview, [], {
     forceHide: true,
   });
 
-  const deck = deckListStore.selectedDeck;
+  if (store.detailsQuery.error) {
+    return <ErrorScreen />;
+  }
+
+  const deck = store.deck;
   if (!deck) {
     return null;
   }
@@ -66,7 +76,7 @@ export function DeckPreview(props: Props) {
           </div>
 
           <CardReviewStats
-            isLoading={deckListStore.deckWithCardsRequest.isLoading}
+            isLoading={store.isInitialLoading}
             newCardsCount={
               deck.cardsToReview.filter((card) => card.type === "new").length
             }
@@ -78,7 +88,7 @@ export function DeckPreview(props: Props) {
         </div>
         <div className="mt-3">
           <ButtonGrid>
-            {deckListStore.canEditDeck ? (
+            {store.canEdit ? (
               <>
                 <ButtonSideAligned
                   icon={<PlusIcon size={24} />}
@@ -129,7 +139,7 @@ export function DeckPreview(props: Props) {
               </>
             ) : null}
 
-            {!deckListStore.canEditDeck && (
+            {!store.canEdit && (
               <>
                 <ButtonSideAligned
                   icon={<EyeIcon size={24} />}
@@ -158,7 +168,7 @@ export function DeckPreview(props: Props) {
         </div>
       </div>
 
-      {!deckListStore.deckWithCardsRequest.isLoading &&
+      {!store.isInitialLoading &&
       deck.cardsToReview.length === 0 &&
       deck.deckCards.length > 0 ? (
         <>
@@ -169,7 +179,7 @@ export function DeckPreview(props: Props) {
                 outline
                 icon={<RefreshCwIcon size={24} />}
                 onClick={() => {
-                  reviewStore.startDeckReviewAnyway(deckListStore.selectedDeck);
+                  reviewStore.startDeckReviewAnyway(store.deck);
                 }}
               >
                 {t("repeat_cards_anyway")}

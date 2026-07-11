@@ -4,7 +4,7 @@ import { Flex } from "../../../ui/flex.tsx";
 import { Select } from "../../../ui/select.tsx";
 import { enumEntries } from "../../../lib/typescript/enum-values.ts";
 import { languageKeyToHuman } from "../../../lib/voice-playback/speak.ts";
-import { DeckSpeakFieldEnum, SpeakLanguage } from "api";
+import { DeckWithCardsDbType, SpeakLanguage } from "api";
 import { useBackButton } from "../../../lib/platform/use-back-button.ts";
 import { useMainButton } from "../../../lib/platform/use-main-button.ts";
 import { useDeckFormStore } from "./store/deck-form-store-context.tsx";
@@ -13,6 +13,8 @@ import { userStore } from "../../../store/user-store.ts";
 import { RadioList } from "../../../ui/radio-list/radio-list.tsx";
 import { WithProIcon } from "../../shared/with-pro-icon.tsx";
 import type { VoiceType } from "./store/deck-form-store.ts";
+
+type DeckSpeakField = NonNullable<DeckWithCardsDbType["speakField"]>;
 
 export function SpeakingCards() {
   const deckFormStore = useDeckFormStore();
@@ -92,7 +94,7 @@ export function SpeakingCards() {
           <div>
             <div className="text-sm text-hint">{t("card_speak_side")}</div>
             {deckFormStore.deckForm.speakingCardsField.value ? (
-              <Select<DeckSpeakFieldEnum>
+              <Select<DeckSpeakField>
                 value={deckFormStore.deckForm.speakingCardsField.value}
                 onChange={deckFormStore.deckForm.speakingCardsField.onChange}
                 options={[

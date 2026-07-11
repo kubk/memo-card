@@ -7,7 +7,7 @@ import { useBackButton } from "../../lib/platform/use-back-button.ts";
 import { useBottomReached } from "../../lib/react/use-bottom-reached.ts";
 import { useMount } from "../../lib/react/use-mount.ts";
 import { InfiniteRequestStore } from "../../lib/mobx-request/infinite-request-store.ts";
-import { LegacyRequestStore } from "../../lib/mobx-request/request-store.ts";
+import { makeQuery } from "../../lib/mobx-query-lite/make-query.ts";
 import { screenStore } from "../../store/screen-store.ts";
 import { cn } from "../../ui/cn.ts";
 import { ChevronIcon } from "../../ui/chevron-icon.tsx";
@@ -26,6 +26,11 @@ type StudentPage = RouterOutput["teacherStatisticsStudents"];
 type DeckPage = RouterOutput["teacherStatisticsDecks"];
 type StudentCursor = NonNullable<StudentPage["nextCursor"]>;
 type DeckCursor = NonNullable<DeckPage["nextCursor"]>;
+
+const teacherStatisticsQuery = makeQuery({
+  key: "teacherStatistics",
+  query: api.teacherStatistics.query,
+});
 
 function formatDaysAgo(days: number, lang: LanguageShared) {
   const daysText = formatNumber(days);
@@ -452,32 +457,20 @@ function ListBottomLoader(props: { isLoading: boolean }) {
 }
 
 export function TeacherStatisticsScreen() {
-  const [teacherStatisticsRequest] = useState(
-    () =>
-      new LegacyRequestStore<RouterOutput["teacherStatistics"]>(
-        api.teacherStatistics.query,
-      ),
-  );
-
   useBackButton(() => {
     screenStore.back();
   });
 
-  useMount(() => {
-    teacherStatisticsRequest.execute();
-  });
+  const statistics = teacherStatisticsQuery.data;
 
   return (
     <Screen title="MemoCard Teacher">
-      {teacherStatisticsRequest.result.status === "loading" ||
-      teacherStatisticsRequest.result.status === "idle" ? (
+      {teacherStatisticsQuery.isPending ? (
         <TeacherStatisticsLoading />
-      ) : teacherStatisticsRequest.result.status === "success" ? (
-        <TeacherStatisticsContent
-          statistics={teacherStatisticsRequest.result.data}
-        />
-      ) : (
+      ) : teacherStatisticsQuery.error || !statistics ? (
         <EmptyBlock>{t("teacher_stats_load_error")}</EmptyBlock>
+      ) : (
+        <TeacherStatisticsContent statistics={statistics} />
       )}
     </Screen>
   );

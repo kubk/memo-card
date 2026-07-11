@@ -1,6 +1,6 @@
 import { makeAutoObservable } from "mobx";
 import { LanguageCatalogItemAvailableIn } from "api";
-import { api } from "../../../api/trpc-api.ts";
+import { api, apiProxy } from "../../../api/trpc-api.ts";
 import { screenStore } from "../../../store/screen-store.ts";
 import { makeQuery } from "../../../lib/mobx-query-lite/make-query.ts";
 import { makeInfiniteQuery } from "../../../lib/mobx-query-lite/make-infinite-query.ts";
@@ -27,10 +27,7 @@ export class DeckCatalogStore {
         }),
     };
   });
-  categoriesQuery = makeQuery({
-    key: "catalog.deckCategories",
-    query: api.catalog.deckCategories.query,
-  });
+  categoriesQuery = makeQuery(apiProxy.catalog.deckCategories.query);
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });

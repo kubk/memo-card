@@ -6,7 +6,7 @@ import { platform } from "../../../lib/platform/platform.ts";
 import { BrowserPlatform } from "../../../lib/platform/browser/browser-platform.ts";
 
 export function ReviewButton() {
-  if (deckListStore.myInfoRequest.isLoading || !deckListStore.myDecks.length) {
+  if (deckListStore.myInfoQuery.isPending || !deckListStore.myDecks.length) {
     return null;
   }
 

@@ -1,11 +1,10 @@
 import { LimitedCardUnderReviewStore } from "../../shared/card/card.tsx";
 import {
-  CardAnswerDbType,
-  DeckSpeakFieldEnum,
+  DeckCardDbType,
+  DeckWithCardsDbType,
   createInitialFsrsReviewState,
   type FsrsState,
 } from "api";
-import { CardAnswerType } from "api";
 import { makeAutoObservable } from "mobx";
 import { userStore } from "../../../store/user-store.ts";
 import { CardPreviewFormData } from "../../deck-form/card-form/store/card-preview-types.ts";
@@ -15,6 +14,8 @@ import {
 } from "../voice-player/create-voice-player.ts";
 import { assert } from "api";
 import { platform } from "../../../lib/platform/platform.ts";
+
+type CardAnswer = NonNullable<DeckCardDbType["answers"]>[number];
 
 export class CardPreviewStore implements LimitedCardUnderReviewStore {
   id: number;
@@ -33,12 +34,12 @@ export class CardPreviewStore implements LimitedCardUnderReviewStore {
   front: string;
   back: string;
   example: string | null = null;
-  answerType: CardAnswerType;
-  answers: CardAnswerDbType[] = [];
-  answer?: CardAnswerDbType;
+  answerType: DeckCardDbType["answerType"];
+  answers: CardAnswer[] = [];
+  answer?: CardAnswer;
 
   voicePlayer?: VoicePlayer;
-  deckSpeakField: DeckSpeakFieldEnum | null = null;
+  deckSpeakField: DeckWithCardsDbType["speakField"] = null;
 
   isOpened = false;
 
@@ -100,7 +101,7 @@ export class CardPreviewStore implements LimitedCardUnderReviewStore {
     }
   }
 
-  openWithAnswer(answer: CardAnswerDbType) {
+  openWithAnswer(answer: CardAnswer) {
     platform.haptic(answer.isCorrect ? "light" : "medium");
     this.isOpened = true;
     this.answer = answer;

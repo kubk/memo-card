@@ -1,9 +1,11 @@
-import { MyInfoPublicDeckWithCardsDbType } from "api";
+import { RouterOutput } from "api";
 import { DeckListItemWithDescription } from "../../ui/deck-list-item-with-description.tsx";
-import { deckListStore } from "../../store/deck-list-store.ts";
 import { platform } from "../../lib/platform/platform.ts";
+import { screenStore } from "../../store/screen-store.ts";
 
-type Props = { deck: MyInfoPublicDeckWithCardsDbType };
+type Props = {
+  deck: RouterOutput["me"]["info"]["publicDecks"][number];
+};
 
 export function PublicDeck(props: Props) {
   const { deck } = props;
@@ -13,7 +15,11 @@ export function PublicDeck(props: Props) {
       catalogItem={deck}
       onClick={() => {
         platform.haptic("selection");
-        deckListStore.openDeckFromCatalog(deck, false);
+        screenStore.push({
+          type: "deckPreview",
+          deckId: deck.id,
+          state: { deck },
+        });
       }}
     />
   );

@@ -59,7 +59,7 @@ export function MainScreen() {
           }
         />
         <Flex direction={"column"} gap={6}>
-          {deckListStore.myInfoRequest.isLoading &&
+          {deckListStore.myInfoQuery.isPending &&
             range(deckListStore.skeletonLoaderData.myDecksCount).map((i) => (
               <CardRowLoading key={i} />
             ))}
@@ -72,7 +72,7 @@ export function MainScreen() {
                         platform.haptic("selection");
                         if (listItem.type === "deck") {
                           screenStore.push({
-                            type: "deckMine",
+                            type: "deckPreview",
                             deckId: listItem.id,
                           });
                         }
@@ -94,7 +94,7 @@ export function MainScreen() {
                               onClick: () => {
                                 platform.haptic("selection");
                                 screenStore.push({
-                                  type: "deckMine",
+                                  type: "deckPreview",
                                   deckId: deck.id,
                                 });
                               },
@@ -180,7 +180,7 @@ export function MainScreen() {
             </>
           ) : null}
 
-          {deckListStore.myInfoRequest.isLoading &&
+          {deckListStore.myInfoQuery.isPending &&
             range(deckListStore.skeletonLoaderData.publicCount).map((i) => (
               <CardRowLoading key={i} />
             ))}

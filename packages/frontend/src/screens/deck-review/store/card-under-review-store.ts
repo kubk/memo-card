@@ -1,8 +1,8 @@
 import { makeAutoObservable } from "mobx";
 import {
   ReviewOutcome,
-  type CardAnswerDbType,
-  type DeckSpeakFieldEnum,
+  type DeckCardDbType,
+  type DeckWithCardsDbType,
   type FsrsState,
   reviewCard,
 } from "api";
@@ -10,7 +10,6 @@ import {
   DeckWithCardsWithReviewType,
   DeckCardDbTypeWithType,
 } from "../../../store/deck-list-store.ts";
-import { CardAnswerType } from "api";
 import { userStore } from "../../../store/user-store.ts";
 import { CardReviewType } from "api";
 import { LimitedCardUnderReviewStore } from "../../shared/card/card.tsx";
@@ -21,6 +20,8 @@ import {
 import { assert } from "api";
 import { preloadCardImage } from "../../../lib/card-image/image-preloader.ts";
 import { platform } from "../../../lib/platform/platform.ts";
+
+type CardAnswer = NonNullable<DeckCardDbType["answers"]>[number];
 
 export class CardUnderReviewStore implements LimitedCardUnderReviewStore {
   id: number;
@@ -40,10 +41,10 @@ export class CardUnderReviewStore implements LimitedCardUnderReviewStore {
   example: string | null = null;
   deckName?: string;
   voicePlayer?: VoicePlayer;
-  deckSpeakField: DeckSpeakFieldEnum | null = null;
-  answerType: CardAnswerType;
-  answers: CardAnswerDbType[] = [];
-  answer?: CardAnswerDbType;
+  deckSpeakField: DeckWithCardsDbType["speakField"] = null;
+  answerType: DeckCardDbType["answerType"];
+  answers: CardAnswer[] = [];
+  answer?: CardAnswer;
 
   // Used to avoid showing "easy" temporarily
   isAgain = false;
@@ -103,7 +104,7 @@ export class CardUnderReviewStore implements LimitedCardUnderReviewStore {
     this.isOpened = true;
   }
 
-  openWithAnswer(answer: CardAnswerDbType) {
+  openWithAnswer(answer: CardAnswer) {
     assert(this.answerType === "choice_single");
     platform.haptic(answer.isCorrect ? "light" : "medium");
     this.open();

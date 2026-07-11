@@ -88,12 +88,10 @@ export function DeckCatalog() {
           return (
             <>
               {catalogItems.map((item) => {
-                const result = deckListStore.isDeckFolderAdded({
+                const isAdded = deckListStore.isItemAdded({
                   type: item.type,
                   id: item.data.id,
                 });
-                const isAdded = result.isMineDeck || result.isMineFolder;
-                const isMineDeck = result.isMineDeck;
 
                 return (
                   <DeckListItemWithDescription
@@ -102,13 +100,18 @@ export function DeckCatalog() {
                     catalogItem={item.data}
                     onClick={() => {
                       if (item.type === "deck") {
-                        deckListStore.openDeckFromCatalog(
-                          item.data,
-                          isMineDeck,
-                        );
+                        screenStore.push({
+                          type: "deckPreview",
+                          deckId: item.data.id,
+                          state: { deck: item.data },
+                        });
                       }
                       if (item.type === "folder") {
-                        deckListStore.openFolderFromCatalog(item.data);
+                        screenStore.push({
+                          type: "folderPreview",
+                          folderId: item.data.id,
+                          state: { folder: item.data },
+                        });
                       }
                     }}
                   />

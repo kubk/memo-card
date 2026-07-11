@@ -17,7 +17,7 @@ describe("makeQuery", () => {
       expect(state.isPending).toBe(true);
       expect(state.data).toBe(undefined);
 
-      await state.fetch();
+      await state.refetch();
 
       expect(state.isPending).toBe(false);
       expect(state.data).toEqual({ id: 1, name: "Test" });
@@ -30,7 +30,7 @@ describe("makeQuery", () => {
       const query = vi.fn().mockRejectedValue(error);
       const state = makeQuery({ query, key: "test-error" });
 
-      await state.fetch();
+      await state.refetch();
 
       expect(state.isPending).toBe(false);
       expect(state.data).toBe(undefined);
@@ -45,8 +45,8 @@ describe("makeQuery", () => {
         .mockRejectedValueOnce(error);
       const state = makeQuery({ query, key: "refetch-error" });
 
-      await state.fetch();
-      await state.fetch();
+      await state.refetch();
+      await state.refetch();
 
       expect(state.data).toBe("old-data");
       expect(state.error).toBe(error);
@@ -65,8 +65,8 @@ describe("makeQuery", () => {
         );
       const state = makeQuery({ query, key: "swr-pending" });
 
-      await state.fetch();
-      const refresh = state.fetch();
+      await state.refetch();
+      const refresh = state.refetch();
 
       expect(state.data).toBe("old-data");
       expect(state.isFetching).toBe(true);
@@ -97,8 +97,8 @@ describe("makeQuery", () => {
         );
       const state = makeQuery({ query, key: "latest-fetch-wins" });
 
-      const firstFetch = state.fetch();
-      const secondFetch = state.fetch();
+      const firstFetch = state.refetch();
+      const secondFetch = state.refetch();
 
       resolveSecond("second");
       await secondFetch;
@@ -110,6 +110,70 @@ describe("makeQuery", () => {
       await firstFetch;
 
       expect(state.data).toBe("second");
+    });
+  });
+
+  describe("query actions", () => {
+    it("prefetches stale data without refetching fresh data", async () => {
+      const query = vi.fn().mockResolvedValue("data");
+      const state = makeQuery(
+        { query, key: "prefetch-fresh" },
+        { staleTime: 1000 },
+      );
+
+      await state.prefetch();
+      await state.prefetch();
+
+      expect(state.data).toBe("data");
+      expect(query).toHaveBeenCalledTimes(1);
+    });
+
+    it("refetches even when data is fresh", async () => {
+      const query = vi.fn().mockResolvedValue("data");
+      const state = makeQuery(
+        { query, key: "refetch-fresh" },
+        { staleTime: Infinity },
+      );
+
+      await state.prefetch();
+      await state.refetch();
+
+      expect(query).toHaveBeenCalledTimes(2);
+    });
+
+    it("marks an inactive query stale without immediately refetching", async () => {
+      const query = vi.fn().mockResolvedValue("data");
+      const state = makeQuery(
+        { query, key: "invalidate-inactive" },
+        { staleTime: Infinity },
+      );
+
+      await state.prefetch();
+      await state.invalidate();
+
+      expect(query).toHaveBeenCalledTimes(1);
+
+      await state.prefetch();
+      expect(query).toHaveBeenCalledTimes(2);
+    });
+
+    it("immediately refetches an active query when invalidated", async () => {
+      const query = vi.fn().mockResolvedValue("data");
+      const state = makeQuery(
+        { query, key: "invalidate-active" },
+        { staleTime: Infinity },
+      );
+
+      await state.prefetch();
+      const dispose = reaction(
+        () => state.data,
+        () => {},
+      );
+
+      await state.invalidate();
+
+      expect(query).toHaveBeenCalledTimes(2);
+      dispose();
     });
   });
 
@@ -144,18 +208,47 @@ describe("makeQuery", () => {
         };
       });
 
-      await state.fetch();
+      await state.refetch();
       expect(state.data).toBe("first");
 
       key.set("second");
       expect(state.data).toBe(undefined);
 
-      await state.fetch();
+      await state.refetch();
       expect(state.data).toBe("second");
 
       key.set("first");
       expect(state.data).toBe("first");
       expect(query).toHaveBeenCalledTimes(2);
+    });
+
+    it("fetches the new query when an observed key changes", async () => {
+      const key = observable.box("first");
+      const query = vi.fn(async (value: string) => value);
+      const state = makeQuery(() => {
+        const value = key.get();
+
+        return {
+          key: `observed-${value}`,
+          query: () => query(value),
+        };
+      });
+      const dispose = reaction(
+        () => state.data,
+        () => {},
+      );
+
+      await vi.waitFor(() => {
+        expect(state.data).toBe("first");
+      });
+
+      key.set("second");
+
+      await vi.waitFor(() => {
+        expect(state.data).toBe("second");
+      });
+      expect(query).toHaveBeenCalledTimes(2);
+      dispose();
     });
   });
 
@@ -164,7 +257,7 @@ describe("makeQuery", () => {
       const query = vi.fn().mockResolvedValue({ id: 1 });
       const state = makeQuery({ query, key: "cached-1" });
 
-      await state.fetch();
+      await state.refetch();
 
       const cached = inMemoryCache.get("cached-1");
       if (!cached) {
@@ -193,7 +286,7 @@ describe("makeQuery", () => {
       const query = vi.fn().mockResolvedValue({ id: 5 });
       const state = makeQuery({ query, key: "no-cache" });
 
-      await state.fetch();
+      await state.refetch();
 
       expect(state.data).toEqual({ id: 5 });
       expect(state.error).toBe(null);
@@ -216,7 +309,7 @@ describe("makeQuery", () => {
         { staleTime: 1000 },
       );
 
-      await state.fetch();
+      await state.refetch();
       expect(query).toHaveBeenCalledTimes(1);
 
       vi.advanceTimersByTime(1001);
@@ -239,7 +332,7 @@ describe("makeQuery", () => {
         { staleTime: 1000 },
       );
 
-      await state.fetch();
+      await state.refetch();
       expect(query).toHaveBeenCalledTimes(1);
 
       vi.advanceTimersByTime(500);
@@ -262,7 +355,7 @@ describe("makeQuery", () => {
         { staleTime: 1000 },
       );
 
-      await state.fetch();
+      await state.refetch();
       expect(query).toHaveBeenCalledTimes(1);
 
       vi.advanceTimersByTime(1500);
@@ -279,6 +372,101 @@ describe("makeQuery", () => {
     });
   });
 
+  describe("garbage collection", () => {
+    beforeEach(() => {
+      vi.useFakeTimers();
+    });
+
+    afterEach(() => {
+      vi.useRealTimers();
+    });
+
+    it("removes inactive query state and cached data after gcTime", async () => {
+      const state = makeQuery(
+        { query: async () => "data", key: "gc-inactive" },
+        { gcTime: 1000 },
+      );
+
+      await state.refetch();
+
+      expect(queryRegistry.has("gc-inactive")).toBe(true);
+      expect(inMemoryCache.get("gc-inactive")?.data).toBe("data");
+
+      await vi.advanceTimersByTimeAsync(1000);
+
+      expect(queryRegistry.has("gc-inactive")).toBe(false);
+      expect(inMemoryCache.get("gc-inactive")).toBe(null);
+      expect(state.data).toBe(undefined);
+      expect(state.lastFetched).toBe(null);
+    });
+
+    it("keeps an observed query and starts gcTime when it becomes inactive", async () => {
+      const state = makeQuery(
+        { query: async () => "data", key: "gc-observed" },
+        { gcTime: 1000 },
+      );
+      const dispose = reaction(
+        () => state.data,
+        () => {},
+      );
+
+      await vi.advanceTimersByTimeAsync(1000);
+      expect(queryRegistry.has("gc-observed")).toBe(true);
+
+      dispose();
+      await vi.advanceTimersByTimeAsync(999);
+      expect(queryRegistry.has("gc-observed")).toBe(true);
+
+      await vi.advanceTimersByTimeAsync(1);
+      expect(queryRegistry.has("gc-observed")).toBe(false);
+    });
+
+    it("postpones garbage collection while a fetch is running", async () => {
+      let resolveFetch!: (data: string) => void;
+      const state = makeQuery(
+        {
+          key: "gc-fetching",
+          query: () =>
+            new Promise<string>((resolve) => {
+              resolveFetch = resolve;
+            }),
+        },
+        { gcTime: 1000 },
+      );
+
+      const fetch = state.refetch();
+      await vi.advanceTimersByTimeAsync(1000);
+
+      expect(queryRegistry.has("gc-fetching")).toBe(true);
+
+      resolveFetch("data");
+      await fetch;
+      await vi.advanceTimersByTimeAsync(1000);
+
+      expect(queryRegistry.has("gc-fetching")).toBe(false);
+      expect(inMemoryCache.get("gc-fetching")).toBe(null);
+    });
+
+    it("garbage collects data set through an evicted query reference", async () => {
+      const state = makeQuery(
+        { query: async () => "fetched", key: "gc-reused" },
+        { gcTime: 1000 },
+      );
+
+      await vi.advanceTimersByTimeAsync(1000);
+      expect(queryRegistry.has("gc-reused")).toBe(false);
+
+      state.setData("updated");
+      expect(queryRegistry.get("gc-reused")).toBe(state);
+      expect(inMemoryCache.get("gc-reused")?.data).toBe("updated");
+
+      await vi.advanceTimersByTimeAsync(1000);
+      expect(queryRegistry.has("gc-reused")).toBe(false);
+      expect(inMemoryCache.get("gc-reused")).toBe(null);
+      expect(state.data).toBe(undefined);
+    });
+  });
+
   describe("setData", () => {
     it("should allow manual data updates", async () => {
       const query = vi.fn().mockResolvedValue({ id: 1 });
@@ -287,7 +475,7 @@ describe("makeQuery", () => {
         key: "manual-1",
       });
 
-      await state.fetch();
+      await state.refetch();
       expect(state.data).toEqual({ id: 1 });
 
       state.setData({ id: 2 });
@@ -308,12 +496,12 @@ describe("makeQuery", () => {
     });
   });
 
-  describe("fetch", () => {
-    it("should fetch data", async () => {
+  describe("refetch", () => {
+    it("should refetch data", async () => {
       const query = vi.fn().mockResolvedValue({ id: 1 });
       const state = makeQuery({ query, key: "fetch-1" });
 
-      await state.fetch();
+      await state.refetch();
 
       expect(state.data).toEqual({ id: 1 });
       expect(query).toHaveBeenCalledTimes(1);

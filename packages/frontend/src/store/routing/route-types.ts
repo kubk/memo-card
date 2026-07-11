@@ -1,5 +1,11 @@
 import * as v from "valibot";
-import { paidPlanTypes } from "api";
+import {
+  type CatalogFolderDbType,
+  type RouterOutput,
+  paidPlanTypes,
+} from "api";
+
+type MyInfoResponse = RouterOutput["me"]["info"];
 
 export enum StartParamType {
   RepeatAll = "repeat_all",
@@ -23,13 +29,8 @@ const mainRouteSchema = v.object({
   type: v.literal("main"),
 });
 
-const deckMineRouteSchema = v.object({
-  type: v.literal("deckMine"),
-  deckId: stringToNumber,
-});
-
-const deckPublicRouteSchema = v.object({
-  type: v.literal("deckPublic"),
+const deckPreviewRouteSchema = v.object({
+  type: v.literal("deckPreview"),
   deckId: stringToNumber,
 });
 
@@ -165,8 +166,7 @@ const aboutRouteSchema = v.object({
 
 export const routeSchema = v.union([
   mainRouteSchema,
-  deckMineRouteSchema,
-  deckPublicRouteSchema,
+  deckPreviewRouteSchema,
   deckFormRouteSchema,
   ankiImportRouteSchema,
   cardListRouteSchema,
@@ -194,5 +194,21 @@ export const routeSchema = v.union([
   aboutRouteSchema,
 ]);
 
-export type Route = v.InferOutput<typeof routeSchema>;
-export type DeckFormRoute = v.InferOutput<typeof deckFormRouteSchema>;
+export type DeckPreviewRouteData = MyInfoResponse["myDecks"][number] & {
+  deckCategory?: MyInfoResponse["publicDecks"][number]["deckCategory"];
+};
+
+type RouteWithoutState = v.InferOutput<typeof routeSchema>;
+
+export type Route = RouteWithoutState & {
+  state?: {
+    deck?: DeckPreviewRouteData;
+    folder?: CatalogFolderDbType;
+  };
+};
+export type DeckFormRoute = Extract<Route, { type: "deckForm" }>;
+
+export const withoutRouteState = (route: Route): RouteWithoutState => {
+  const { state: _state, ...routeWithoutState } = route;
+  return routeWithoutState as RouteWithoutState;
+};

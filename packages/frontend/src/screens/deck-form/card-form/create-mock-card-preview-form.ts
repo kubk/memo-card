@@ -1,8 +1,7 @@
 import { CardPreviewFormData } from "./store/card-preview-types.ts";
 import { BooleanField, TextField } from "mobx-form-lite";
-import { CardAnswerType } from "api";
 import { createAnswerListField } from "../deck-form/store/deck-form-store.ts";
-import { DeckCardDbType, DeckCardOptionsDbType } from "api";
+import { DeckCardDbType } from "api";
 import { DeckWithCardsWithReviewType } from "../../../store/deck-list-store.ts";
 
 type CardPreviewType = Omit<DeckCardDbType, "id" | "createdAt" | "deckId">;
@@ -23,8 +22,10 @@ export const createMockCardPreviewForm = (
       front: new TextField<string>(card.front),
       back: new TextField<string>(card.back),
       example: new TextField<string>(card.example ?? ""),
-      answerType: new TextField<CardAnswerType>(card.answerType || "remember"),
-      options: new TextField<DeckCardOptionsDbType>(card.options || null),
+      answerType: new TextField<DeckCardDbType["answerType"]>(
+        card.answerType || "remember",
+      ),
+      options: new TextField<DeckCardDbType["options"]>(card.options || null),
       answers: createAnswerListField(
         card.answers
           ? card.answers.map((answer) => ({

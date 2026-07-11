@@ -43,10 +43,6 @@ class InMemoryScreenStore {
     this.push({ type: "userSettings", index: ++routeIndex });
   }
 
-  get isDeckPreviewScreen() {
-    return this.screen.type === "deckPublic" || this.screen.type === "deckMine";
-  }
-
   reset(initialRoute: Route) {
     this.history = [initialRoute];
   }

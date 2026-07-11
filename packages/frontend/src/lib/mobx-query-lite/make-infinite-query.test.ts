@@ -1,5 +1,5 @@
-import { observable } from "mobx";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { observable, reaction } from "mobx";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { inMemoryCache } from "./cache.ts";
 import { makeInfiniteQuery } from "./make-infinite-query.ts";
 import { queryRegistry } from "./make-query.ts";
@@ -10,7 +10,7 @@ describe("makeInfiniteQuery", () => {
     inMemoryCache.clear();
   });
 
-  it("fetches the first page through fetch", async () => {
+  it("prefetches the first page", async () => {
     const query = vi.fn().mockResolvedValue({
       items: [1, 2],
       nextCursor: "next",
@@ -20,7 +20,7 @@ describe("makeInfiniteQuery", () => {
       query,
     });
 
-    await state.fetch();
+    await state.prefetch();
 
     expect(state.items).toEqual([1, 2]);
     expect(state.nextCursor).toBe("next");
@@ -37,7 +37,7 @@ describe("makeInfiniteQuery", () => {
       query,
     });
 
-    await state.fetch();
+    await state.prefetch();
     await state.fetchNextPage();
 
     expect(state.items).toEqual([1, 2, 3, 4]);
@@ -55,7 +55,7 @@ describe("makeInfiniteQuery", () => {
       query,
     });
 
-    await state.fetch();
+    await state.prefetch();
     await state.fetchNextPage();
 
     expect(state.items).toEqual([1, 2]);
@@ -83,7 +83,7 @@ describe("makeInfiniteQuery", () => {
       query,
     });
 
-    await state.fetch();
+    await state.prefetch();
     const firstRequest = state.fetchNextPage();
     const secondRequest = state.fetchNextPage();
 
@@ -107,7 +107,7 @@ describe("makeInfiniteQuery", () => {
       query,
     });
 
-    await state.fetch();
+    await state.prefetch();
     await state.fetchNextPage();
 
     expect(state.items).toEqual([1]);
@@ -125,32 +125,43 @@ describe("makeInfiniteQuery", () => {
       query,
     });
 
-    await state.fetch();
+    await state.prefetch();
     await state.fetchNextPage();
 
     expect(state.error).toBeInstanceOf(Error);
     expect(state.error?.message).toBe("Failed");
   });
 
-  it("switches pages when the computed key changes", async () => {
+  it("fetches the new first page when an observed key changes", async () => {
     const key = observable.box("first");
-    const query = vi.fn(async () => ({
-      items: [key.get()],
+    const query = vi.fn(async (value: string) => ({
+      items: [value],
       nextCursor: null,
     }));
-    const state = makeInfiniteQuery(() => ({
-      key: `infinite-computed:${key.get()}`,
-      query,
-    }));
+    const state = makeInfiniteQuery(() => {
+      const value = key.get();
 
-    await state.fetch();
-    expect(state.items).toEqual(["first"]);
+      return {
+        key: `infinite-computed:${value}`,
+        query: () => query(value),
+      };
+    });
+    const dispose = reaction(
+      () => state.items,
+      () => {},
+    );
+
+    await vi.waitFor(() => {
+      expect(state.items).toEqual(["first"]);
+    });
 
     key.set("second");
-    expect(state.items).toEqual([]);
 
-    await state.fetch();
-    expect(state.items).toEqual(["second"]);
+    await vi.waitFor(() => {
+      expect(state.items).toEqual(["second"]);
+    });
+    expect(query).toHaveBeenCalledTimes(2);
+    dispose();
   });
 
   it("does not expose next page errors from another computed key", async () => {
@@ -165,7 +176,7 @@ describe("makeInfiniteQuery", () => {
       query,
     }));
 
-    await state.fetch();
+    await state.prefetch();
     await state.fetchNextPage();
 
     expect(state.error).toBe(error);
@@ -174,5 +185,38 @@ describe("makeInfiniteQuery", () => {
 
     expect(state.error).toBe(null);
     expect(state.isFetchingNextPage).toBe(false);
+  });
+
+  describe("garbage collection", () => {
+    beforeEach(() => {
+      vi.useFakeTimers();
+    });
+
+    afterEach(() => {
+      vi.useRealTimers();
+    });
+
+    it("garbage collects combined page data after it becomes inactive", async () => {
+      const state = makeInfiniteQuery(
+        {
+          key: "infinite-gc",
+          query: async () => ({ items: [1, 2], nextCursor: null }),
+        },
+        { gcTime: 1000 },
+      );
+      const dispose = reaction(
+        () => state.items,
+        () => {},
+      );
+
+      await vi.runAllTimersAsync();
+      expect(queryRegistry.has("infinite-gc")).toBe(true);
+
+      dispose();
+      await vi.advanceTimersByTimeAsync(1000);
+
+      expect(queryRegistry.has("infinite-gc")).toBe(false);
+      expect(inMemoryCache.get("infinite-gc")).toBe(null);
+    });
   });
 });

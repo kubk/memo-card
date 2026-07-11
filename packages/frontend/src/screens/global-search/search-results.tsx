@@ -55,7 +55,7 @@ export function SearchResults() {
   const handleResultClick = (result: SearchResultItem) => {
     if (result.type === "deck") {
       screenStore.push({
-        type: "deckMine",
+        type: "deckPreview",
         deckId: result.item.id,
       });
     } else if (result.type === "folder") {

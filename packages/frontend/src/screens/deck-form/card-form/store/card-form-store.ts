@@ -14,12 +14,7 @@ import { DeckFormRoute } from "../../../../store/routing/route-types.ts";
 import { deckListStore } from "../../../../store/deck-list-store.ts";
 import { appLoaderStore } from "../../../../store/app-loader-store.ts";
 import { showConfirm } from "../../../../lib/platform/show-confirm.ts";
-import {
-  DeckCardDbType,
-  DeckCardOptionsDbType,
-  SpeakLanguage,
-  DeckSpeakFieldEnum,
-} from "api";
+import { DeckCardDbType, DeckWithCardsDbType, SpeakLanguage } from "api";
 import { CardInnerScreenType } from "./card-preview-types.ts";
 import { makeMutation } from "../../../../lib/mobx-query-lite/make-mutation.ts";
 import { notifyError } from "../../../shared/snackbar/snackbar.tsx";
@@ -42,6 +37,9 @@ import { platform } from "../../../../lib/platform/platform.ts";
 import { notifyNewCards } from "../notify-new-cards.ts";
 import { userStore } from "../../../../store/user-store.ts";
 import { wysiwygStore } from "../../../../store/wysiwyg-store.ts";
+
+type DeckCardOptions = DeckCardDbType["options"];
+type DeckSpeakField = NonNullable<DeckWithCardsDbType["speakField"]>;
 
 export class CardFormStore {
   cardForm: CardFormType | null = null;
@@ -101,7 +99,7 @@ export class CardFormStore {
     return this.deck?.speakLocale ?? null;
   }
 
-  get speakingCardsField(): DeckSpeakFieldEnum | null {
+  get speakingCardsField(): DeckSpeakField | null {
     return this.deck?.speakField ?? null;
   }
 
@@ -118,7 +116,7 @@ export class CardFormStore {
       back: createBackCardField(card.back, () => this.cardForm),
       example: new TextField(card.example || ""),
       answerType: createAnswerTypeField(card),
-      options: new TextField<DeckCardOptionsDbType>(card.options ?? null),
+      options: new TextField<DeckCardOptions>(card.options ?? null),
       answers: createAnswerListField(
         card.answers
           ? card.answers.map((answer) => ({
@@ -242,7 +240,7 @@ export class CardFormStore {
       back: createBackCardField("", () => this.cardForm),
       example: new TextField(""),
       answerType: createAnswerTypeField(),
-      options: new TextField<DeckCardOptionsDbType>(null),
+      options: new TextField<DeckCardOptions>(null),
       answers: createAnswerListField([], () => this.cardForm),
     };
   }
@@ -256,7 +254,7 @@ export class CardFormStore {
       answerType: createAnswerTypeField({
         answerType: card.answerType.value,
       } as DeckCardDbType),
-      options: new TextField<DeckCardOptionsDbType>(card.options.value),
+      options: new TextField<DeckCardOptions>(card.options.value),
       answers: createAnswerListField(
         card.answers.value.map((answer) => ({
           id: answer.id,

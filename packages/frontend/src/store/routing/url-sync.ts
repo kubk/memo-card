@@ -1,5 +1,10 @@
 import qs from "qs";
-import { Route, routeSchema, StartParamType } from "./route-types.ts";
+import {
+  Route,
+  routeSchema,
+  StartParamType,
+  withoutRouteState,
+} from "./route-types.ts";
 import * as v from "valibot";
 
 export function routeToUrl(route: Route): string {
@@ -10,7 +15,7 @@ export function routeToUrl(route: Route): string {
     return startParam ? `/?start=${startParam}` : "/";
   }
 
-  const routeParams = qs.stringify(route, { encode: false });
+  const routeParams = qs.stringify(withoutRouteState(route), { encode: false });
   const finalParams = startParam
     ? `start=${startParam}&${routeParams}`
     : routeParams;

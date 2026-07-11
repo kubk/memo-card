@@ -16,7 +16,7 @@ export function Review() {
 
   const onSubmitUnfinished = () => {
     reviewStore.submitUnfinished()?.then(() => {
-      deckListStore.load();
+      deckListStore.myInfoQuery.invalidate();
     });
   };
 

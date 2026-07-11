@@ -1,7 +1,7 @@
-import { CardAnswerType } from "api";
+import type { DeckCardDbType } from "api";
 import { t } from "../../../translations/t.ts";
 
-export const formatCardType = (type: CardAnswerType) => {
+export const formatCardType = (type: DeckCardDbType["answerType"]) => {
   switch (type) {
     case "remember":
       return t("yes_no");
@@ -12,7 +12,9 @@ export const formatCardType = (type: CardAnswerType) => {
   }
 };
 
-export const formatCardTypeDescription = (type: CardAnswerType) => {
+export const formatCardTypeDescription = (
+  type: DeckCardDbType["answerType"],
+) => {
   switch (type) {
     case "remember":
       return t("answer_type_explanation_remember");

@@ -88,7 +88,7 @@ export class AnkiImportScreenStore {
       }
       deckListStore.updateFolders(result.folders);
       deckListStore.updateCardsToReview(result.cardsToReview);
-      screenStore.replace({ type: "deckMine", deckId: result.deck.id });
+      screenStore.replace({ type: "deckPreview", deckId: result.deck.id });
     });
 
     notifySuccess(t("anki_import_success"));
