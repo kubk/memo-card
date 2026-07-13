@@ -4,8 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "pnpm exec concurrently -n api,frontend,landing -c green,blue,magenta --kill-others-on-fail \"pnpm run -F=api dev\" \"pnpm run -F=frontend dev\" \"pnpm run -F=landing dev\"",
-    "dev:telegram": "pnpm exec concurrently -n api,frontend,tunnel -c green,blue,yellow --kill-others-on-fail \"pnpm run -F=api dev\" \"pnpm run -F=frontend dev\" \"pnpm run -F=api tunnel\"",
+    "kill-ports": "bash -lc 'for port in 8780 5180 8080; do lsof -ti :\"$port\"; done | xargs kill 2>/dev/null || true; echo \"Ports cleared\"'",
+    "dev": "pnpm run kill-ports && pnpm exec concurrently -n api,frontend,landing -c green,blue,magenta --kill-others-on-fail \"pnpm run -F=api dev\" \"pnpm run -F=frontend dev\" \"pnpm run -F=landing dev\"",
+    "dev:telegram": "pnpm run kill-ports && pnpm exec concurrently -n api,frontend,tunnel -c green,blue,yellow --kill-others-on-fail \"pnpm run -F=api dev\" \"pnpm run -F=frontend dev\" \"pnpm run -F=api tunnel\"",
     "format": "oxfmt --write \"./packages/**/*.{ts,tsx,mts,json}\"",
     "lint": "pnpm run -F='./packages/*' lint",
     "typecheck": "pnpm --recursive --parallel --filter='./packages/*' run typecheck",
