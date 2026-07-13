@@ -1,5 +1,9 @@
 import { makeAutoObservable, runInAction } from "mobx";
-import { makeQuery, type QueryOptions } from "./make-query.ts";
+import {
+  makeQuery,
+  type InvalidateOptions,
+  type QueryOptions,
+} from "./make-query.ts";
 import { toError } from "./to-error.ts";
 
 export type InfiniteQueryInput<Cursor> = {
@@ -40,7 +44,7 @@ export type InfiniteQueryState<Item, Cursor> = {
   isFetchingNextPage: boolean;
   hasNextPage: boolean;
   fetchNextPage: () => Promise<void>;
-  invalidate: () => Promise<void>;
+  invalidate: (options?: InvalidateOptions) => Promise<void>;
   prefetch: () => Promise<void>;
   refetch: () => Promise<void>;
 };
@@ -133,10 +137,10 @@ class InfiniteQuery<
     return this.nextPageFetchKey === this.getConfig().key;
   }
 
-  invalidate() {
+  invalidate(options?: InvalidateOptions) {
     this.nextPageError = null;
     this.nextPageErrorKey = null;
-    return this.currentQuery().invalidate();
+    return this.currentQuery().invalidate(options);
   }
 
   // Alias for the underlying query

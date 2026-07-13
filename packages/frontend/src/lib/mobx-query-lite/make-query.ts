@@ -23,6 +23,10 @@ export type QueryOptions = {
   staleTime?: number;
 };
 
+export type InvalidateOptions = {
+  refetchInactive?: boolean;
+};
+
 export type QueryState<T> = {
   // True while there is no data and no error
   isPending: boolean;
@@ -32,7 +36,7 @@ export type QueryState<T> = {
   data: T | undefined;
   error: Error | null;
   staleTime: number;
-  invalidate: () => Promise<void>;
+  invalidate: (options?: InvalidateOptions) => Promise<void>;
   prefetch: () => Promise<void>;
   refetch: () => Promise<void>;
   setData: (data: T | undefined) => void;
@@ -133,13 +137,13 @@ class StaticQuery<T> implements QueryState<T> {
     return Date.now() - this.lastFetched > this.staleTime;
   }
 
-  invalidate() {
+  invalidate(options?: InvalidateOptions) {
     this.registerIfMissing();
     this.scheduleGc();
     this.isInvalidated = true;
     this.invalidationId += 1;
 
-    if (this.isActive) {
+    if (this.isActive || options?.refetchInactive) {
       return this.refetch();
     }
 
@@ -296,8 +300,8 @@ class DynamicQuery<T> implements QueryState<T> {
   }
 
   // Alias for the underlying query
-  invalidate() {
-    return this.currentQuery().invalidate();
+  invalidate(options?: InvalidateOptions) {
+    return this.currentQuery().invalidate(options);
   }
 
   // Alias for the underlying query

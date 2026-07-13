@@ -526,7 +526,7 @@ class DeckListStore {
       api.getByShareId
         .query({ shareId: startParam })
         .then(async (sharedDeckResponse) => {
-          await this.myInfoQuery.refetch();
+          await this.myInfoQuery.invalidate({ refetchInactive: true });
 
           if ("deck" in sharedDeckResponse) {
             const deck = sharedDeckResponse.deck;

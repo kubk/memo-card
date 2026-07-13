@@ -27,6 +27,22 @@ describe("makeInfiniteQuery", () => {
     expect(query).toHaveBeenCalledWith({});
   });
 
+  it("immediately refetches an inactive first page when requested", async () => {
+    const query = vi.fn().mockResolvedValue({
+      items: [1, 2],
+      nextCursor: null,
+    });
+    const state = makeInfiniteQuery({
+      key: "infinite-refetch-inactive",
+      query,
+    });
+
+    await state.prefetch();
+    await state.invalidate({ refetchInactive: true });
+
+    expect(query).toHaveBeenCalledTimes(2);
+  });
+
   it("appends the next page", async () => {
     const query = vi
       .fn()

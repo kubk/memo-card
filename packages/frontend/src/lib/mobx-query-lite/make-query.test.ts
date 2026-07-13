@@ -157,6 +157,19 @@ describe("makeQuery", () => {
       expect(query).toHaveBeenCalledTimes(2);
     });
 
+    it("immediately refetches an inactive query when requested", async () => {
+      const query = vi.fn().mockResolvedValue("data");
+      const state = makeQuery(
+        { query, key: "invalidate-refetch-inactive" },
+        { staleTime: Infinity },
+      );
+
+      await state.prefetch();
+      await state.invalidate({ refetchInactive: true });
+
+      expect(query).toHaveBeenCalledTimes(2);
+    });
+
     it("immediately refetches an active query when invalidated", async () => {
       const query = vi.fn().mockResolvedValue("data");
       const state = makeQuery(

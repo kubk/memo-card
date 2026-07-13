@@ -154,8 +154,8 @@ The first page uses the same observed-read fetching behavior as `makeQuery`. `fe
 | Method | Description |
 | --- | --- |
 | `prefetch()` | Fetch only when data is missing, stale, or invalidated |
-| `invalidate()` | Mark data stale and immediately refetch it when active |
-| `refetch()` | Force a request regardless of freshness |
+| `invalidate(options?)` | Mark data stale and immediately refetch it when active, or regardless of activity with `refetchInactive: true` |
+| `refetch()` | Low-level escape hatch that forces a request; do not use it to synchronize data after a mutation |
 | `setData(data)` | Manually replace current data and mark it fresh |
 
 ## Infinite Query State
@@ -174,13 +174,21 @@ The first page uses the same observed-read fetching behavior as `makeQuery`. `fe
 | Method | Description |
 | --- | --- |
 | `prefetch()` | Fetch the first page when it is missing, stale, or invalidated |
-| `invalidate()` | Mark the first page stale and immediately refetch it when active |
-| `refetch()` | Force a first-page request and replace combined page data |
+| `invalidate(options?)` | Mark the first page stale and immediately refetch it when active, or regardless of activity with `refetchInactive: true` |
+| `refetch()` | Low-level escape hatch that forces a first-page request; do not use it to synchronize data after a mutation |
 | `fetchNextPage()` | Fetch `nextCursor` and append items |
 
 ## Fetching
 
-`makeQuery` calls `prefetch()` when `data` becomes observed. Prefer exposing query data through store getters and letting React `observer` reads load missing, stale, or invalidated data. Call `prefetch()` before observation only when a flow needs to ensure fresh data is available early. After a mutation, call `invalidate()` so active data refreshes immediately and inactive data refreshes on its next observation. Reserve `refetch()` for the rare flow that must force and await a request regardless of freshness.
+`makeQuery` calls `prefetch()` when `data` becomes observed. Prefer exposing query data through store getters and letting React `observer` reads load missing, stale, or invalidated data. Call `prefetch()` before observation only when a flow needs to ensure fresh data is available early.
+
+After a mutation, always use `invalidate()` instead of `refetch()`. Invalidation records that the cached data is stale, so a failed request does not leave outdated data considered fresh. Active data refreshes immediately and inactive data refreshes on its next observation. When the mutation flow must finish the refresh even if the query is inactive, use:
+
+```ts
+await query.invalidate({ refetchInactive: true });
+```
+
+Reserve `refetch()` for low-level flows that explicitly need a forced request without marking the query stale. It is not the cache-synchronization API.
 
 Inactive queries are removed from the query registry and in-memory cache after `gcTime`, which defaults to five minutes. Observing `data` cancels garbage collection; the full delay starts again when the data becomes unobserved. Set `gcTime: Infinity` only for data that must remain cached for the lifetime of the app.
 
@@ -207,5 +215,6 @@ Catch inside the query only when the error must be converted into domain data or
 
 - **`useEffect(() => store.load(), [])`.** Do not call a store `.load()` on mount only to fetch a query. When an `observer` component reads `query.data`, directly or through a computed getter, `makeQuery` fetches stale data automatically. The query state is observable, so MobX re-renders the component when it changes. A `.load()` wrapper around `query.prefetch()` is redundant.
 - **Fetching after changing dynamic query inputs.** An action that applies filters, a route parameter, or another observable query input should only update that state. If the dynamic query is observed, its key updates and missing or stale data for the new key is fetched automatically. Do not call `prefetch()` or `refetch()` immediately after changing the input.
+- **Calling `refetch()` after a mutation.** Call `invalidate()` so the query remains stale until it refreshes successfully. If inactive queries must refresh immediately, call `invalidate({ refetchInactive: true })`.
 - **Adding session-stable context to a key.** Current-user ids, `"anonymous"`, and the local timezone do not belong in a key when they cannot change during the session. Use dynamic keys only for values whose changes need distinct cached results.
 - Do not catch a request error only to show a notification and rethrow it. Render the observable query error in React.
