@@ -227,24 +227,27 @@ class StaticQuery<T> implements QueryState<T> {
       return;
     }
 
-    this.gcTimeout = setTimeout(() => {
-      this.gcTimeout = undefined;
+    this.gcTimeout = setTimeout(
+      () => {
+        this.gcTimeout = undefined;
 
-      if (this.isFetching) {
-        this.scheduleGc();
-        return;
-      }
+        if (this.isFetching) {
+          this.scheduleGc();
+          return;
+        }
 
-      if (queryRegistry.get(this.fetcher.key) === this) {
-        queryRegistry.delete(this.fetcher.key);
-        inMemoryCache.delete(this.fetcher.key);
-        runInAction(() => {
-          this.data = undefined;
-          this.lastFetched = null;
-          this.error = null;
-        });
-      }
-    }, Math.max(this.gcTime, 0));
+        if (queryRegistry.get(this.fetcher.key) === this) {
+          queryRegistry.delete(this.fetcher.key);
+          inMemoryCache.delete(this.fetcher.key);
+          runInAction(() => {
+            this.data = undefined;
+            this.lastFetched = null;
+            this.error = null;
+          });
+        }
+      },
+      Math.max(this.gcTime, 0),
+    );
   }
 }
 
