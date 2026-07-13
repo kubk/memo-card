@@ -4,19 +4,19 @@
   "private": true,
   "scripts": {
     "dev": "next dev -p 8080",
-    "build-and-serve": "npm run build && npx serve out",
+    "build-and-serve": "pnpm run build && pnpm exec serve out",
     "postbuild": "next-sitemap",
     "test": "echo 1",
     "build": "next build && ./fix-html-lang.sh",
     "format": "oxfmt --write \"**/*.{ts,tsx}\"",
-    "typecheck": "npx tsc --noEmit",
+    "typecheck": "pnpm exec tsc --noEmit",
     "lint": "oxlint ."
   },
   "dependencies": {
     "@next/third-parties": "^16.2.10",
     "@radix-ui/react-dropdown-menu": "^2.1.1",
     "@radix-ui/react-slot": "^1.1.0",
-    "api": "^0.0.0",
+    "api": "workspace:*",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "lucide-react": "^0.396.0",

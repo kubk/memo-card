@@ -4,20 +4,18 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "npx concurrently -n api,frontend,landing -c green,blue,magenta --kill-others-on-fail \"npm run dev -w=api\" \"npm run dev -w=frontend\" \"npm run dev -w=landing\"",
-    "dev:telegram": "npx concurrently -n api,frontend,tunnel -c green,blue,yellow --kill-others-on-fail \"npm run dev -w=api\" \"npm run dev -w=frontend\" \"npm run tunnel -w=api\"",
-    "format": "oxfmt --write \"./packages/**/*.{ts,tsx,mts,json}\" \"!**/package-lock.json\"",
-    "lint": "npm run lint --workspaces",
-    "typecheck": "concurrently -n api,frontend,landing -c green,blue,magenta --kill-others-on-fail \"npm run typecheck -w=api\" \"npm run typecheck -w=frontend\" \"npm run typecheck -w=landing\"",
-    "test": "npm run test --workspaces",
+    "dev": "pnpm exec concurrently -n api,frontend,landing -c green,blue,magenta --kill-others-on-fail \"pnpm run -F=api dev\" \"pnpm run -F=frontend dev\" \"pnpm run -F=landing dev\"",
+    "dev:telegram": "pnpm exec concurrently -n api,frontend,tunnel -c green,blue,yellow --kill-others-on-fail \"pnpm run -F=api dev\" \"pnpm run -F=frontend dev\" \"pnpm run -F=api tunnel\"",
+    "format": "oxfmt --write \"./packages/**/*.{ts,tsx,mts,json}\"",
+    "lint": "pnpm run -F='./packages/*' lint",
+    "typecheck": "pnpm exec concurrently -n api,frontend,landing -c green,blue,magenta --kill-others-on-fail \"pnpm run -F=api typecheck\" \"pnpm run -F=frontend typecheck\" \"pnpm run -F=landing typecheck\"",
+    "test": "pnpm run -F='./packages/*' test",
     "export-public-code": "./export-public-code.sh",
     "postinstall": "patch-package",
     "dead-code": "concurrently -n knip,slop-api,slop-frontend -c magenta,green,blue \"knip --reporter compact\" \"slop-scan scan packages/api --lint\" \"slop-scan scan packages/frontend --lint\"",
     "detect-unused-methods": "concurrently -n api,frontend -c green,blue \"node detect-unused-methods.mjs packages/api\" \"node detect-unused-methods.mjs packages/frontend\""
   },
-  "workspaces": [
-    "./packages/*"
-  ],
+  "packageManager": "pnpm@9.15.0",
   "dependencies": {
     "patch-package": "^8.0.0"
   },
@@ -28,6 +26,6 @@
     "oxfmt": "^0.55.0",
     "slop-scan": "^0.3.0",
     "typescript": "^7.0.2",
-    "typescript-api6": "file:tools/typescript-api6"
+    "typescript-api6": "workspace:*"
   }
 }

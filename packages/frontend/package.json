@@ -5,17 +5,17 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "typecheck": "npx tsc -b --noEmit",
+    "typecheck": "pnpm exec tsc -b --noEmit",
     "lint": "oxlint .",
-    "test": "npx vitest run --environment jsdom",
+    "test": "pnpm exec vitest run --environment jsdom",
     "build": "cp index.build.html index.html && vite build",
-    "bundle-visualize": "npx vite-bundle-visualizer"
+    "bundle-visualize": "pnpm exec vite-bundle-visualizer"
   },
   "dependencies": {
     "@radix-ui/react-tabs": "^1.1.12",
     "@telegram-auth/react": "^1.0.4",
     "@trpc/client": "^11.18.0",
-    "api": "^0.0.0",
+    "api": "workspace:*",
     "autoprefixer": "^10.4.20",
     "autosize": "^6.0.1",
     "clsx": "^2.1.1",
@@ -41,7 +41,7 @@
     "react-google-one-tap-login": "^0.1.1",
     "react-hotkeys-hook": "^4.4.1",
     "react-lines-ellipsis": "^0.15.3",
-    "react-simple-wysiwyg": "^3.0.2",
+    "react-simple-wysiwyg": "3.0.2",
     "recharts": "^2.12.7",
     "tailwind-merge": "^3.0.1",
     "tailwindcss": "^3.4.10",
