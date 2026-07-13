@@ -8,7 +8,7 @@
     "dev:telegram": "pnpm exec concurrently -n api,frontend,tunnel -c green,blue,yellow --kill-others-on-fail \"pnpm run -F=api dev\" \"pnpm run -F=frontend dev\" \"pnpm run -F=api tunnel\"",
     "format": "oxfmt --write \"./packages/**/*.{ts,tsx,mts,json}\"",
     "lint": "pnpm run -F='./packages/*' lint",
-    "typecheck": "pnpm exec concurrently -n api,frontend,landing -c green,blue,magenta --kill-others-on-fail \"pnpm run -F=api typecheck\" \"pnpm run -F=frontend typecheck\" \"pnpm run -F=landing typecheck\"",
+    "typecheck": "pnpm --recursive --parallel --filter='./packages/*' run typecheck",
     "test": "pnpm run -F='./packages/*' test",
     "export-public-code": "./export-public-code.sh",
     "postinstall": "patch-package",
