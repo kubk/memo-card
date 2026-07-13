@@ -1,12 +1,11 @@
 import { type LanguageShared, type RouterOutput } from "api";
 import { LibraryBigIcon, LoaderCircleIcon, UsersIcon } from "lucide-react";
-import { type ReactNode, useState } from "react";
+import { type ReactNode } from "react";
 import { api } from "../../api/trpc-api.ts";
 import { platform } from "../../lib/platform/platform.ts";
 import { useBackButton } from "../../lib/platform/use-back-button.ts";
 import { useBottomReached } from "../../lib/react/use-bottom-reached.ts";
-import { useMount } from "../../lib/react/use-mount.ts";
-import { InfiniteRequestStore } from "../../lib/mobx-request/infinite-request-store.ts";
+import { makeInfiniteQuery } from "../../lib/mobx-query-lite/make-infinite-query.ts";
 import { makeQuery } from "../../lib/mobx-query-lite/make-query.ts";
 import { screenStore } from "../../store/screen-store.ts";
 import { cn } from "../../ui/cn.ts";
@@ -22,14 +21,28 @@ import { formatNumber } from "../../translations/format-number.ts";
 type TeacherStatistics = RouterOutput["teacherStatistics"];
 type TeacherStudent = TeacherStatistics["topStudents"][number];
 type TeacherDeck = TeacherStatistics["topDecks"][number];
-type StudentPage = RouterOutput["teacherStatisticsStudents"];
-type DeckPage = RouterOutput["teacherStatisticsDecks"];
-type StudentCursor = NonNullable<StudentPage["nextCursor"]>;
-type DeckCursor = NonNullable<DeckPage["nextCursor"]>;
 
 const teacherStatisticsQuery = makeQuery({
   key: "teacherStatistics",
   query: api.teacherStatistics.query,
+});
+
+const studentsQuery = makeInfiniteQuery({
+  key: "teacherStatistics.students",
+  query: ({ cursor }) =>
+    api.teacherStatisticsStudents.query({
+      limit: 20,
+      cursor,
+    }),
+});
+
+const decksQuery = makeInfiniteQuery({
+  key: "teacherStatistics.decks",
+  query: ({ cursor }) =>
+    api.teacherStatisticsDecks.query({
+      limit: 20,
+      cursor,
+    }),
 });
 
 function formatDaysAgo(days: number, lang: LanguageShared) {
@@ -333,27 +346,12 @@ function TeacherStatisticsContent(props: { statistics: TeacherStatistics }) {
 }
 
 function StudentListScreen() {
-  const [studentsRequest] = useState(
-    () =>
-      new InfiniteRequestStore<TeacherStudent, StudentCursor>(
-        api.teacherStatisticsStudents.query,
-        {
-          pageSize: 20,
-          getItemKey: (student) => String(student.studentId),
-        },
-      ),
-  );
-
-  useMount(() => {
-    studentsRequest.reload();
-  });
-
   useBottomReached(
     () => {
-      studentsRequest.loadMore();
+      studentsQuery.fetchNextPage();
     },
     {
-      enabled: studentsRequest.hasLoaded && !studentsRequest.isInitialLoading,
+      enabled: studentsQuery.data !== undefined && !studentsQuery.isPending,
     },
   );
 
@@ -363,18 +361,18 @@ function StudentListScreen() {
 
   return (
     <Screen title={t("teacher_stats_all_students")}>
-      {studentsRequest.isInitialLoading ? (
+      {studentsQuery.isPending ? (
         <ListLoading />
-      ) : studentsRequest.loadError && studentsRequest.items.length === 0 ? (
+      ) : studentsQuery.error && studentsQuery.items.length === 0 ? (
         <EmptyBlock>{t("teacher_stats_students_load_error")}</EmptyBlock>
-      ) : studentsRequest.items.length > 0 ? (
+      ) : studentsQuery.items.length > 0 ? (
         <>
           <div className="flex flex-col gap-2">
-            {studentsRequest.items.map((student) => (
+            {studentsQuery.items.map((student) => (
               <StudentRow key={student.studentId} student={student} />
             ))}
           </div>
-          <ListBottomLoader isLoading={studentsRequest.isLoadingMore} />
+          <ListBottomLoader isLoading={studentsQuery.isFetchingNextPage} />
         </>
       ) : (
         <EmptyBlock>{t("teacher_stats_no_students")}</EmptyBlock>
@@ -384,27 +382,12 @@ function StudentListScreen() {
 }
 
 function DeckListScreen() {
-  const [decksRequest] = useState(
-    () =>
-      new InfiniteRequestStore<TeacherDeck, DeckCursor>(
-        api.teacherStatisticsDecks.query,
-        {
-          pageSize: 20,
-          getItemKey: (deck) => String(deck.deckId),
-        },
-      ),
-  );
-
-  useMount(() => {
-    decksRequest.reload();
-  });
-
   useBottomReached(
     () => {
-      decksRequest.loadMore();
+      decksQuery.fetchNextPage();
     },
     {
-      enabled: decksRequest.hasLoaded && !decksRequest.isInitialLoading,
+      enabled: decksQuery.data !== undefined && !decksQuery.isPending,
     },
   );
 
@@ -414,18 +397,18 @@ function DeckListScreen() {
 
   return (
     <Screen title={t("teacher_stats_all_decks")}>
-      {decksRequest.isInitialLoading ? (
+      {decksQuery.isPending ? (
         <ListLoading />
-      ) : decksRequest.loadError && decksRequest.items.length === 0 ? (
+      ) : decksQuery.error && decksQuery.items.length === 0 ? (
         <EmptyBlock>{t("teacher_stats_decks_load_error")}</EmptyBlock>
-      ) : decksRequest.items.length > 0 ? (
+      ) : decksQuery.items.length > 0 ? (
         <>
           <div className="flex flex-col gap-2">
-            {decksRequest.items.map((deck) => (
+            {decksQuery.items.map((deck) => (
               <DeckRow key={deck.deckId} deck={deck} />
             ))}
           </div>
-          <ListBottomLoader isLoading={decksRequest.isLoadingMore} />
+          <ListBottomLoader isLoading={decksQuery.isFetchingNextPage} />
         </>
       ) : (
         <EmptyBlock>{t("teacher_stats_no_shared_decks")}</EmptyBlock>

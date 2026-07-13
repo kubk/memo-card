@@ -52,6 +52,14 @@ class TodoStore {
 const TodoScreen = observer(() => {
   const todos = store.visibleTodos;
 
+  if (store.todosQuery.isPending) {
+    return <Loader />;
+  }
+
+  if (store.todosQuery.error) {
+    return <p>Failed to load</p>;
+  }
+
   return (
     <>
       <TodoCounter count={store.remainingCount} />
