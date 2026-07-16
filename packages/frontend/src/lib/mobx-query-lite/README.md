@@ -18,24 +18,19 @@ import { makeQuery } from "../../lib/mobx-query-lite/make-query";
 type TodoFilter = "all" | "open" | "done";
 
 class TodoStore {
-  filter: TodoFilter = "open";
+  todosQuery = makeQuery({ key: "todos.list", query: api.todos.list.query })
 
-  todosQuery = makeQuery(
-    {
-      key: "todos.list",
-      query: api.todos.list.query,
-    },
-  );
+  filter: TodoFilter = "open"
 
   get visibleTodos() {
-    const todos = this.todosQuery.data ?? [];
+    const todos = this.todosQuery.data ?? []
 
     if (this.filter === "open") {
-      return todos.filter((todo) => !todo.completed);
+      return todos.filter((todo) => !todo.completed)
     }
 
     if (this.filter === "done") {
-      return todos.filter((todo) => todo.completed);
+      return todos.filter((todo) => todo.completed)
     }
 
     return todos;
@@ -43,32 +38,37 @@ class TodoStore {
 
   get remainingCount() {
     return (this.todosQuery.data ?? []).filter((todo) => !todo.completed)
-      .length;
+      .length
   }
 }
 ```
 
 ```tsx
 const TodoScreen = observer(() => {
-  const todos = store.visibleTodos;
+  const todos = store.visibleTodos
 
   if (store.todosQuery.isPending) {
-    return <Loader />;
+    return <Loader />
   }
 
   if (store.todosQuery.error) {
-    return <p>Failed to load</p>;
+    return <p>Failed to load</p>
   }
 
   return (
     <>
-      <TodoCounter count={store.remainingCount} />
+      <TodoCounter />
       {todos.map((todo) => (
         <TodoRow key={todo.id} todo={todo} />
       ))}
     </>
   );
 });
+
+const TodoCounter = observer(() => {
+  const count = store.remainingCount
+  return <div>Count: {count}</div>
+})
 ```
 
 Reading `store.visibleTodos` from an `observer` component observes the computed getter. That getter reads `todosQuery.data`, so the query becomes observed and starts fetching if the data is stale. The same read also participates in normal MobX derivation: changing `filter` recomputes `visibleTodos`, and fresh query data recomputes both `visibleTodos` and `remainingCount`. Most screens should not need `useEffect(() => store.load(), [])` or a `store.load()` method at all.
