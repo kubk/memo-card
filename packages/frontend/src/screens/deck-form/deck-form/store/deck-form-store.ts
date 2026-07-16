@@ -550,7 +550,10 @@ export class DeckFormStore {
   }
 
   get isSaveVisible() {
-    if (this.deckForm && !isFormDirty(this.deckForm)) {
+    if (!this.deckForm) {
+      return false;
+    }
+    if (this.deckForm.id && !isFormDirty(this.deckForm)) {
       return false;
     }
     return (
@@ -563,7 +566,7 @@ export class DeckFormStore {
 
     if (!isFormValid(this.deckForm)) {
       formTouchAll(this.deckForm);
-      return Promise.reject();
+      return;
     }
 
     // For new deck without id, create it first

@@ -200,6 +200,26 @@ describe("deck form store", () => {
     `);
   });
 
+  it("handles save visibility for existing and new decks", async () => {
+    const existingDeckStore = new DeckFormStore();
+    existingDeckStore.loadForm();
+
+    expect(existingDeckStore.isSaveVisible).toBe(false);
+
+    mockScreenStore.reset({ type: "deckForm" });
+    const newDeckStore = new DeckFormStore();
+    newDeckStore.loadForm();
+    assert(newDeckStore.deckForm);
+
+    expect(newDeckStore.isSaveVisible).toBe(true);
+    expect(newDeckStore.deckForm.title.isTouched).toBe(false);
+
+    await newDeckStore.onDeckSave();
+
+    expect(newDeckStore.deckForm.title.isTouched).toBe(true);
+    expect(newDeckStore.deckForm.description.isTouched).toBe(true);
+  });
+
   it("sorting - filtering cards", () => {
     const store = new DeckFormStore();
     store.loadForm();
