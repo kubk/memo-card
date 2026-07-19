@@ -143,11 +143,11 @@ function Heatmap(props: { isLoading: boolean }) {
         ))}
       </div>
 
-      <div className="mt-3 min-h-5 text-center text-[13px] leading-5">
-        <span className={showEmptyText ? "text-hint" : "invisible"}>
+      {showEmptyText ? (
+        <div className="mt-3 text-center text-[13px] leading-5 text-hint">
           {t("user_stats_empty_text")}
-        </span>
-      </div>
+        </div>
+      ) : null}
     </button>
   );
 }
