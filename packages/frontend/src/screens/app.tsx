@@ -56,6 +56,7 @@ import { CardInputModeFormScreen } from "./card-input-mode/card-input-mode-form-
 import { AnkiImportScreen } from "./anki-import/anki-import-screen.tsx";
 import { userStore } from "../store/user-store.ts";
 import { RouteScreenContainer } from "../lib/react/route-screen-container.tsx";
+import { CardListPreviewScreen } from "./deck-review/preview-readonly/card-list-preview-screen.tsx";
 
 export function App() {
   useRestoreFullScreenExpand();
@@ -181,6 +182,13 @@ export function App() {
             <DeckFormStoreProvider>
               <CardList />
             </DeckFormStoreProvider>
+          </SignedIn>
+        )}
+        {screenStore.screen.type === "cardListPreview" && (
+          <SignedIn>
+            <PreventTelegramSwipeDownClosingIos>
+              <CardListPreviewScreen />
+            </PreventTelegramSwipeDownClosingIos>
           </SignedIn>
         )}
         {screenStore.screen.type === "speakingCards" && (

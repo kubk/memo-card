@@ -61,6 +61,11 @@ const cardListRouteSchema = v.object({
   searchText: v.optional(v.string()),
 });
 
+const cardListPreviewRouteSchema = v.object({
+  type: v.literal("cardListPreview"),
+  deckId: stringToNumber,
+});
+
 const speakingCardsRouteSchema = v.object({
   type: v.literal("speakingCards"),
   deckId: stringToNumber,
@@ -170,6 +175,7 @@ export const routeSchema = v.union([
   deckFormRouteSchema,
   ankiImportRouteSchema,
   cardListRouteSchema,
+  cardListPreviewRouteSchema,
   speakingCardsRouteSchema,
   cardInputModeRouteSchema,
   cardInputModeFormRouteSchema,

@@ -134,10 +134,11 @@ export const uk: Translation = {
   add: "Додати",
   edit: "Редагувати",
   view: "Переглянути",
+  view_more: "Переглянути більше",
   all_decks_reviewed:
     "Чудова робота! 🌟 Ви переглянули всі колоди. Поверніться пізніше за більшим.",
   public_decks: "Публічні колоди",
-  explore_public_decks: "Знайти більше колод",
+  explore_public_decks: "Більше колод",
   news_and_updates: "Новини та оновлення",
   telegram_channel: "Telegram канал",
   settings: "Налаштування",

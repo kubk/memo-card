@@ -8,7 +8,6 @@ type Props = {
   cards: DeckCardDbType[];
   deck: DeckWithCardsWithReviewType;
   subtitle: string;
-  isFolderPreview?: boolean;
 };
 
 export function CardListWithPreviewReadonly(props: Props) {
@@ -17,7 +16,6 @@ export function CardListWithPreviewReadonly(props: Props) {
   return (
     <CardListReadonly
       subtitle={subtitle}
-      deck={deck}
       onClick={(card) => {
         screenStore.push({
           type: "cardPreviewId",

@@ -78,10 +78,11 @@ export const fa: Translation = {
   edit_deck: "ویرایش دسته کارت",
   edit: "ویرایش",
   view: "مشاهده",
+  view_more: "مشاهده بیشتر",
   all_decks_reviewed:
     "کار عالی! 🌟 شما همه دسته کارت‌ها را مرور کرده‌اید. بعداً برای موارد بیشتر برگردید.",
   public_decks: "دسته کارت‌های عمومی",
-  explore_public_decks: "کاوش دسته کارت‌های بیشتر",
+  explore_public_decks: "دسته‌های بیشتر",
   news_and_updates: "اخبار و به‌روزرسانی‌ها",
   profile_section: "نمایه",
   telegram_channel: "کانال تلگرام",

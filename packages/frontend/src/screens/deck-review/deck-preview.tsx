@@ -16,8 +16,6 @@ import { ListHeader } from "../../ui/list-header.tsx";
 import { cn } from "../../ui/cn.ts";
 import { CardReviewStats } from "../shared/deck-stats/card-review-stats.tsx";
 import {
-  EyeIcon,
-  LayersIcon,
   PencilIcon,
   PlusIcon,
   RefreshCwIcon,
@@ -27,10 +25,10 @@ import {
 import { shareMemoCardUrl } from "../shared/share-memo-card-url.tsx";
 import { type DeckScreenStore } from "./store/deck-screen-store.ts";
 import { ErrorScreen } from "../error-screen/error-screen.tsx";
+import { CardListRowsReadonly } from "./preview-readonly/card-list-readonly.tsx";
 
 type Props = {
   store: DeckScreenStore;
-  onCardListPreview: () => void;
 };
 
 export function DeckPreview(props: Props) {
@@ -62,6 +60,9 @@ export function DeckPreview(props: Props) {
     return null;
   }
 
+  const canDelete = !store.canEdit && deckListStore.myDeckIds.includes(deck.id);
+  const previewCards = deck.deckCards.slice(0, 3);
+
   return (
     <Flex direction={"column"} gap={16} pb={82}>
       <div>
@@ -86,87 +87,96 @@ export function DeckPreview(props: Props) {
             totalCardsCount={deck.deckCards.length}
           />
         </div>
-        <div className="mt-3">
-          <ButtonGrid>
-            {store.canEdit ? (
-              <>
-                <ButtonSideAligned
-                  icon={<PlusIcon size={24} />}
-                  outline
-                  onClick={() => {
-                    screenStore.push({
-                      type: "deckForm",
-                      deckId: deck.id,
-                      cardId: "new",
-                    });
-                  }}
-                >
-                  {t("add_card_short")}
-                </ButtonSideAligned>
-
-                <ButtonSideAligned
-                  icon={<PencilIcon size={24} />}
-                  outline
-                  onClick={() => {
-                    screenStore.push({ type: "deckForm", deckId: deck.id });
-                  }}
-                >
-                  {t("edit")}
-                </ButtonSideAligned>
-
-                <ButtonSideAligned
-                  icon={<ShareIcon size={24} />}
-                  outline
-                  onClick={() => {
-                    shareMemoCardUrl(deck.shareId);
-                  }}
-                >
-                  {t("share")}
-                </ButtonSideAligned>
-
-                <ButtonSideAligned
-                  icon={<LayersIcon size={24} />}
-                  outline
-                  onClick={() => {
-                    screenStore.push({
-                      type: "cardList",
-                      deckId: deck.id,
-                    });
-                  }}
-                >
-                  {t("cards")}
-                </ButtonSideAligned>
-              </>
-            ) : null}
-
-            {!store.canEdit && (
-              <>
-                <ButtonSideAligned
-                  icon={<EyeIcon size={24} />}
-                  outline
-                  onClick={() => {
-                    props.onCardListPreview();
-                  }}
-                >
-                  {t("view")}
-                </ButtonSideAligned>
-
-                {deckListStore.myDeckIds.includes(deck.id) && (
+        {store.canEdit || canDelete ? (
+          <div className="mt-3">
+            <ButtonGrid>
+              {store.canEdit ? (
+                <>
                   <ButtonSideAligned
-                    icon={<TrashIcon size={24} />}
+                    icon={<PlusIcon size={24} />}
                     outline
                     onClick={() => {
-                      deckListStore.removeDeck(deck);
+                      screenStore.push({
+                        type: "deckForm",
+                        deckId: deck.id,
+                        cardId: "new",
+                      });
                     }}
                   >
-                    {t("delete")}
+                    {t("add_card_short")}
                   </ButtonSideAligned>
-                )}
-              </>
-            )}
-          </ButtonGrid>
-        </div>
+
+                  <ButtonSideAligned
+                    icon={<PencilIcon size={24} />}
+                    outline
+                    onClick={() => {
+                      screenStore.push({ type: "deckForm", deckId: deck.id });
+                    }}
+                  >
+                    {t("edit")}
+                  </ButtonSideAligned>
+
+                  <ButtonSideAligned
+                    icon={<ShareIcon size={24} />}
+                    outline
+                    onClick={() => {
+                      shareMemoCardUrl(deck.shareId);
+                    }}
+                  >
+                    {t("share")}
+                  </ButtonSideAligned>
+                </>
+              ) : null}
+
+              {canDelete ? (
+                <ButtonSideAligned
+                  icon={<TrashIcon size={24} />}
+                  outline
+                  onClick={() => {
+                    deckListStore.removeDeck(deck);
+                  }}
+                >
+                  {t("delete")}
+                </ButtonSideAligned>
+              ) : null}
+            </ButtonGrid>
+          </div>
+        ) : null}
       </div>
+
+      {previewCards.length > 0 ? (
+        <div>
+          <ListHeader text={t("cards")} />
+          <CardListRowsReadonly
+            cards={previewCards}
+            onClick={(card) => {
+              screenStore.push({
+                type: "cardPreviewId",
+                cardId: card.id,
+                deckId: deck.id,
+              });
+            }}
+            additionalItems={
+              deck.deckCards.length > previewCards.length
+                ? [
+                    {
+                      text: t("view_more"),
+                      isLinkColor: true,
+                      alignCenter: true,
+                      onClick: () => {
+                        screenStore.push({
+                          type: "cardListPreview",
+                          deckId: deck.id,
+                          state: { deck },
+                        });
+                      },
+                    },
+                  ]
+                : undefined
+            }
+          />
+        </div>
+      ) : null}
 
       {!store.isInitialLoading &&
       deck.cardsToReview.length === 0 &&
