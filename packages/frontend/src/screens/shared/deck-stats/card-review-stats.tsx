@@ -1,6 +1,7 @@
 import { userStore } from "../../../store/user-store.ts";
 import { t } from "../../../translations/t.ts";
 import { cn } from "../../../ui/cn.ts";
+import { Skeleton } from "../../../ui/skeleton.tsx";
 
 type StatValueProps = {
   isLoading: boolean;
@@ -13,7 +14,7 @@ function StatValue(props: StatValueProps) {
   return (
     <div className="flex h-6 items-center justify-center">
       {isLoading ? (
-        <span className="h-4 w-7 animate-pulse rounded bg-current opacity-20" />
+        <Skeleton className="h-4 w-7 rounded" />
       ) : (
         <span className="text-2xl font-bold leading-none">{value}</span>
       )}

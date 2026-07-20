@@ -1,0 +1,29 @@
+@keyframes skeleton-wave {
+  from {
+    transform: translateX(-100%);
+  }
+
+  to {
+    transform: translateX(100%);
+  }
+}
+
+.skeleton-wave {
+  position: relative;
+  overflow: hidden;
+  background: currentColor;
+  opacity: 0.2;
+}
+
+.skeleton-wave::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgb(255 255 255 / 65%),
+    transparent
+  );
+  animation: skeleton-wave var(--skeleton-duration, 1.5s) ease-in-out infinite;
+}

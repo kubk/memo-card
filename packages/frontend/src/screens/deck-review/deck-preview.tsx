@@ -148,7 +148,7 @@ export function DeckPreview(props: Props) {
       </div>
 
       {store.isInitialLoading || previewCards.length > 0 ? (
-        <div>
+        <div className="pb-5">
           <ListHeader text={t("cards")} />
           {store.isInitialLoading ? (
             <CardListRowsReadonlyLoading />
