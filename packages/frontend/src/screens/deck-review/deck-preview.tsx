@@ -25,7 +25,10 @@ import {
 import { shareMemoCardUrl } from "../shared/share-memo-card-url.tsx";
 import { type DeckScreenStore } from "./store/deck-screen-store.ts";
 import { ErrorScreen } from "../error-screen/error-screen.tsx";
-import { CardListRowsReadonly } from "./preview-readonly/card-list-readonly.tsx";
+import {
+  CardListRowsReadonly,
+  CardListRowsReadonlyLoading,
+} from "./preview-readonly/card-list-readonly.tsx";
 
 type Props = {
   store: DeckScreenStore;
@@ -144,37 +147,41 @@ export function DeckPreview(props: Props) {
         ) : null}
       </div>
 
-      {previewCards.length > 0 ? (
+      {store.isInitialLoading || previewCards.length > 0 ? (
         <div>
           <ListHeader text={t("cards")} />
-          <CardListRowsReadonly
-            cards={previewCards}
-            onClick={(card) => {
-              screenStore.push({
-                type: "cardPreviewId",
-                cardId: card.id,
-                deckId: deck.id,
-              });
-            }}
-            additionalItems={
-              deck.deckCards.length > previewCards.length
-                ? [
-                    {
-                      text: t("view_more"),
-                      isLinkColor: true,
-                      alignCenter: true,
-                      onClick: () => {
-                        screenStore.push({
-                          type: "cardListPreview",
-                          deckId: deck.id,
-                          state: { deck },
-                        });
+          {store.isInitialLoading ? (
+            <CardListRowsReadonlyLoading />
+          ) : (
+            <CardListRowsReadonly
+              cards={previewCards}
+              onClick={(card) => {
+                screenStore.push({
+                  type: "cardPreviewId",
+                  cardId: card.id,
+                  deckId: deck.id,
+                });
+              }}
+              additionalItems={
+                deck.deckCards.length > previewCards.length
+                  ? [
+                      {
+                        text: t("view_more"),
+                        isLinkColor: true,
+                        alignCenter: true,
+                        onClick: () => {
+                          screenStore.push({
+                            type: "cardListPreview",
+                            deckId: deck.id,
+                            state: { deck },
+                          });
+                        },
                       },
-                    },
-                  ]
-                : undefined
-            }
-          />
+                    ]
+                  : undefined
+              }
+            />
+          )}
         </div>
       ) : null}
 

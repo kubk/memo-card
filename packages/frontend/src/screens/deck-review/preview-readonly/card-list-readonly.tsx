@@ -22,6 +22,47 @@ type CardListRowsReadonlyProps = {
   additionalItems?: ListItemType[];
 };
 
+const skeletonWidths = [
+  ["w-5/12", "w-7/12"],
+  ["w-4/12", "w-6/12"],
+  ["w-6/12", "w-5/12"],
+] as const;
+
+export function CardListRowsReadonlyLoading() {
+  return (
+    <List
+      items={[
+        ...skeletonWidths.map(([frontWidth, backWidth]) => ({
+          text: (
+            <div className="flex h-12 w-72 max-w-[70vw] animate-pulse flex-col justify-center gap-2">
+              <span
+                className={cn(
+                  "block h-3.5 rounded bg-hint opacity-20",
+                  frontWidth,
+                )}
+              />
+              <span
+                className={cn(
+                  "block h-3.5 rounded bg-hint opacity-20",
+                  backWidth,
+                )}
+              />
+            </div>
+          ),
+        })),
+        {
+          text: (
+            <span className="flex h-6 w-20 items-center">
+              <span className="block h-3.5 w-full animate-pulse rounded bg-hint opacity-20" />
+            </span>
+          ),
+          alignCenter: true,
+        },
+      ]}
+    />
+  );
+}
+
 export function CardListRowsReadonly(props: CardListRowsReadonlyProps) {
   const { cards, onClick, additionalItems = [] } = props;
 

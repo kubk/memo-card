@@ -2,10 +2,21 @@ import { userStore } from "../../../store/user-store.ts";
 import { t } from "../../../translations/t.ts";
 import { cn } from "../../../ui/cn.ts";
 
-function LoadingPlaceholder() {
+type StatValueProps = {
+  isLoading: boolean;
+  value: number;
+};
+
+function StatValue(props: StatValueProps) {
+  const { isLoading, value } = props;
+
   return (
-    <div className="animate-pulse">
-      <span className="text-2xl font-bold leading-none">-</span>
+    <div className="flex h-6 items-center justify-center">
+      {isLoading ? (
+        <span className="h-4 w-7 animate-pulse rounded bg-current opacity-20" />
+      ) : (
+        <span className="text-2xl font-bold leading-none">{value}</span>
+      )}
     </div>
   );
 }
@@ -27,39 +38,21 @@ export function CardReviewStats(props: Props) {
       })}
     >
       <div className="flex-1 px-1 bg-amber-100 text-amber-800 dark:bg-yellow-900/60 dark:text-yellow-300 rounded-lg py-2 flex flex-col items-center border border-amber-50/50 dark:border-yellow-700/50">
-        {isLoading ? (
-          <LoadingPlaceholder />
-        ) : (
-          <span className="text-2xl font-bold leading-none">
-            {repeatCardsCount}
-          </span>
-        )}
+        <StatValue isLoading={isLoading} value={repeatCardsCount} />
         <span className="text-xs mt-1 opacity-80 text-center">
           {t("cards_to_repeat")}
         </span>
       </div>
 
       <div className="flex-1 px-1 bg-green-100 text-green-800 dark:bg-green-900/60 dark:text-green-300 rounded-lg py-2 flex flex-col items-center border border-green-50/50 dark:border-green-700/50">
-        {isLoading ? (
-          <LoadingPlaceholder />
-        ) : (
-          <span className="text-2xl font-bold leading-none">
-            {newCardsCount}
-          </span>
-        )}
+        <StatValue isLoading={isLoading} value={newCardsCount} />
         <span className="text-xs mt-1 opacity-80 text-center">
           {t("cards_new")}
         </span>
       </div>
 
       <div className="flex-1 px-1 bg-gray-100 text-gray-800 dark:bg-gray-800/60 dark:text-gray-300 rounded-lg py-2 flex flex-col items-center border border-gray-50/50 dark:border-gray-700/50">
-        {isLoading ? (
-          <LoadingPlaceholder />
-        ) : (
-          <span className="text-2xl font-bold leading-none">
-            {totalCardsCount}
-          </span>
-        )}
+        <StatValue isLoading={isLoading} value={totalCardsCount} />
         <span className="text-xs mt-1 opacity-80 text-center">
           {t("cards_total")}
         </span>
