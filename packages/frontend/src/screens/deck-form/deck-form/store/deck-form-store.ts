@@ -11,7 +11,10 @@ import {
 import { makeAutoObservable, runInAction } from "mobx";
 import { screenStore } from "../../../../store/screen-store.ts";
 import { DeckFormRoute, Route } from "../../../../store/routing/route-types.ts";
-import { deckListStore } from "../../../../store/deck-list-store.ts";
+import {
+  deckListStore,
+  type DeckListDeck,
+} from "../../../../store/deck-list-store.ts";
 import { showConfirm } from "../../../../lib/platform/show-confirm.ts";
 import {
   DeckCardDbType,
@@ -181,7 +184,11 @@ export class DeckFormStore {
   // Read filter values directly from the route (source of truth)
   get cardFilterSortBy(): CardFilterSortBy {
     const screen = screenStore.screen;
-    if (screen.type === "deckForm" || screen.type === "cardList") {
+    if (
+      screen.type === "deckForm" ||
+      screen.type === "cardList" ||
+      screen.type === "cardListPreview"
+    ) {
       return screen.sortBy ?? "createdAt";
     }
     return "createdAt";
@@ -189,7 +196,11 @@ export class DeckFormStore {
 
   get cardFilterSortDirection(): CardFilterDirection {
     const screen = screenStore.screen;
-    if (screen.type === "deckForm" || screen.type === "cardList") {
+    if (
+      screen.type === "deckForm" ||
+      screen.type === "cardList" ||
+      screen.type === "cardListPreview"
+    ) {
       return screen.sortDirection ?? "desc";
     }
     return "desc";
@@ -197,7 +208,11 @@ export class DeckFormStore {
 
   get cardFilterText(): string {
     const screen = screenStore.screen;
-    if (screen.type === "deckForm" || screen.type === "cardList") {
+    if (
+      screen.type === "deckForm" ||
+      screen.type === "cardList" ||
+      screen.type === "cardListPreview"
+    ) {
       return screen.searchText ?? "";
     }
     return "";
@@ -218,14 +233,14 @@ export class DeckFormStore {
     return "deckForm";
   }
 
-  loadForm() {
+  loadForm(deckOverride?: DeckListDeck) {
     const screen = screenStore.screen;
     const deckId = this.getDeckIdFromScreen(screen);
 
     if (deckId) {
       // Preserve existing form if same deck (for next/prev card navigation)
       if (!this.deckForm || this.deckForm.id !== deckId) {
-        const deck = deckListStore.searchDeckById(deckId);
+        const deck = deckOverride ?? deckListStore.searchDeckById(deckId);
         assert(deck, "Deck not found in deckListStore");
         this.deckForm = createUpdateForm(deckId, deck);
       }
@@ -250,6 +265,7 @@ export class DeckFormStore {
       case "deckForm":
         return screen.deckId;
       case "cardList":
+      case "cardListPreview":
       case "speakingCards":
       case "cardInputMode":
       case "cardInputModeForm":
@@ -417,10 +433,12 @@ export class DeckFormStore {
     searchText: string,
   ) {
     const screen = screenStore.screen;
-    if (screen.type === "cardList" && this.deckForm?.id) {
+    if (
+      (screen.type === "cardList" || screen.type === "cardListPreview") &&
+      this.deckForm?.id
+    ) {
       screenStore.replace({
-        type: "cardList",
-        deckId: this.deckForm.id,
+        ...screen,
         sortBy,
         sortDirection,
         searchText: searchText || undefined,

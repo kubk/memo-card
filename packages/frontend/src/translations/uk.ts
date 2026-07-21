@@ -191,6 +191,8 @@ export const uk: Translation = {
   cards_new: "Нові картки",
   cards_total: "Всього карток",
   duplicate: "Дублювати",
+  duplicate_preview_deck_title: "Іспанська A1",
+  duplicate_preview_deck_copy_title: "Іспанська A1 (копія)",
   duplicate_deck_confirm: "Ви впевнені, що хочете дублювати цю колоду?",
   delete_deck_confirm_shared: "Видалити колоду з вашої колекції?",
   delete_folder_confirm_shared: "Видалити папку з вашої колекції?",

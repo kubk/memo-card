@@ -184,6 +184,8 @@ export const ru: Translation = {
   cards_new: "Новые",
   cards_total: "Всего",
   duplicate: "Копировать",
+  duplicate_preview_deck_title: "Испанский A1",
+  duplicate_preview_deck_copy_title: "Испанский A1 (копия)",
   duplicate_deck_confirm: "Вы уверены, что хотите продублировать эту колоду?",
   delete_deck_confirm_shared: "Удалить колоду из вашей коллекции?",
   delete_folder_confirm_shared: "Удалить папку из вашей коллекции?",

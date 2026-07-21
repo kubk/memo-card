@@ -32,6 +32,7 @@ import { MassCreationPreview } from "../shared/feature-preview/mass-creation-pre
 import { IndividualCardAiPreview } from "../shared/feature-preview/individual-card-ai-preview.tsx";
 import { AiSpeechPreview } from "../shared/feature-preview/ai-speech-preview.tsx";
 import { ReverseCardsPreview } from "../shared/feature-preview/reverse-cards-preview.tsx";
+import { DuplicateContentPreview } from "../shared/feature-preview/duplicate-content-preview.tsx";
 import { suitableCardInputModeStore } from "../../store/suitable-card-input-mode-store.ts";
 import { getSharedPlanTitle, sharedPlansTitle } from "api";
 import { IconTelegramStar } from "./icon-telegram-star.tsx";
@@ -71,7 +72,11 @@ const proPlanItems: PlanItem[] = [
     icon: <Mic size={18} />,
     previewItem: "ai_speech",
   },
-  { iconColor: theme.icons.turquoise, icon: <Copy size={18} /> },
+  {
+    iconColor: theme.icons.turquoise,
+    icon: <Copy size={18} />,
+    previewItem: "duplicate_content",
+  },
   {
     iconColor: theme.icons.sea,
     icon: <ArrowLeftRight size={18} />,
@@ -340,6 +345,11 @@ export function PlansScreen() {
 
       <AiSpeechPreview
         isOpen={store.selectedPreviewPlanFeature === "ai_speech"}
+        onClose={store.quitPreviewPlanFeature}
+      />
+
+      <DuplicateContentPreview
+        isOpen={store.selectedPreviewPlanFeature === "duplicate_content"}
         onClose={store.quitPreviewPlanFeature}
       />
 

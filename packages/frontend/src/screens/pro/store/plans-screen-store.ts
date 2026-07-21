@@ -13,7 +13,6 @@ import {
 } from "api";
 import { assert } from "api";
 import { PaymentMethodType } from "api";
-import { links } from "api";
 import { api, apiProxy } from "../../../api/trpc-api.ts";
 import { makeQuery } from "../../../lib/mobx-query-lite/make-query.ts";
 import { makeMutation } from "../../../lib/mobx-query-lite/make-mutation.ts";
@@ -22,24 +21,13 @@ export type PreviewItem =
   | "individual_ai_card"
   | "bulk_ai_cards"
   | "ai_speech"
+  | "duplicate_content"
   | "reverse_cards";
-
-const stripeSubscriptionLinks = {
-  pro: {
-    1: links.stripeProMonthlySubscription,
-    6: null,
-    12: links.stripeProYearlySubscription,
-  },
-  teacher: {
-    1: links.stripeTeacherMonthlySubscription,
-    6: null,
-    12: links.stripeTeacherYearlySubscription,
-  },
-} satisfies Record<PaidPlanType, Record<PlanDuration, string | null>>;
 
 export class PlansScreenStore {
   plansQuery = makeQuery(apiProxy.plans.query);
   createOrderMutation = makeMutation(api.starsOrderPlan.mutate);
+  createStripeOrderMutation = makeMutation(api.stripeOrderPlan.mutate);
   selectedPlanDuration = new TextField<PlanDuration | null>(null);
   selectedPlanType: TextField<PaidPlanType>;
   selectedPreviewPlanFeature?: PreviewItem;
@@ -111,7 +99,10 @@ export class PlansScreenStore {
   }
 
   get isCreatingOrder() {
-    return this.createOrderMutation.isPending;
+    return (
+      this.createOrderMutation.isPending ||
+      this.createStripeOrderMutation.isPending
+    );
   }
 
   get isBuyButtonVisible() {
@@ -130,19 +121,6 @@ export class PlansScreenStore {
       selectedPlan,
       this.selectedPlanDuration.value,
       this.method,
-    );
-  }
-
-  get usdPaymentLink() {
-    const selectedPlan = this.selectedPlan;
-    if (!selectedPlan || !this.selectedPlanDuration.value) {
-      return null;
-    }
-
-    return (
-      stripeSubscriptionLinks[selectedPlan.type][
-        this.selectedPlanDuration.value
-      ] ?? null
     );
   }
 
@@ -183,15 +161,19 @@ export class PlansScreenStore {
         return;
       }
       case PaymentMethodType.Usd: {
-        const link = this.usdPaymentLink;
-        if (!link) {
-          notifyError({
-            info: `Bank card payment is not configured for plan: ${selectedPlan.type}, duration: ${this.selectedPlanDuration.value}`,
+        try {
+          const result = await this.createStripeOrderMutation.mutate({
+            planType: selectedPlan.type,
+            duration: this.selectedPlanDuration.value.toString(),
           });
-          return;
-        }
 
-        platform.openExternalLink(link);
+          platform.openExternalLink(result.checkoutUrl);
+        } catch (error) {
+          notifyError({
+            info: `Stripe order creation failed. Plan: ${selectedPlan.type}`,
+            e: error,
+          });
+        }
         return;
       }
       default:

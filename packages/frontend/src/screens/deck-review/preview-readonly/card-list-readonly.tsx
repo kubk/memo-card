@@ -1,21 +1,10 @@
 import { DeckCardDbType } from "api";
-import { Screen } from "../../shared/screen.tsx";
-import { t } from "../../../translations/t.ts";
 import { CardNumber } from "../../../ui/card-number.tsx";
 import { removeAllTags } from "../../../lib/sanitize-html/remove-all-tags.ts";
-import { useBackButton } from "../../../lib/platform/use-back-button.ts";
 import { List, type ListItemType } from "../../../ui/list.tsx";
-import { ListHeader } from "../../../ui/list-header.tsx";
 import { userStore } from "../../../store/user-store.ts";
 import { cn } from "../../../ui/cn.ts";
 import { Skeleton } from "../../../ui/skeleton.tsx";
-
-type Props = {
-  onBack: () => void;
-  cards: DeckCardDbType[];
-  onClick: (card: DeckCardDbType) => void;
-  subtitle: string;
-};
 
 type CardListRowsReadonlyProps = {
   cards: DeckCardDbType[];
@@ -82,36 +71,5 @@ export function CardListRowsReadonly(props: CardListRowsReadonlyProps) {
         ...additionalItems,
       ]}
     />
-  );
-}
-
-export function CardListReadonly(props: Props) {
-  const { cards, onClick, onBack, subtitle } = props;
-
-  useBackButton(() => {
-    onBack();
-  });
-
-  return (
-    <Screen
-      title={""}
-      subtitle={
-        <div className="text-center text-sm">
-          <button
-            onClick={() => {
-              onBack();
-            }}
-            className="text-inherit text-link"
-          >
-            {subtitle}
-          </button>
-        </div>
-      }
-    >
-      <div>
-        <ListHeader text={t("cards")} />
-        <CardListRowsReadonly cards={cards} onClick={onClick} />
-      </div>
-    </Screen>
   );
 }

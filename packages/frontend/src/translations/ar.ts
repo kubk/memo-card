@@ -132,6 +132,8 @@ export const ar: Translation = {
   cards_new: "بطاقات جديدة",
   cards_total: "إجمالي البطاقات",
   duplicate: "تكرار",
+  duplicate_preview_deck_title: "الإسبانية A1",
+  duplicate_preview_deck_copy_title: "الإسبانية A1 (نسخة)",
   duplicate_deck_confirm: "هل أنت متأكد من تكرار هذه المجموعة؟",
   duplicate_folder_confirm: "هل أنت متأكد من تكرار هذا المجلد؟",
   delete_deck_confirm_shared: "إزالة المجموعة من مجموعتك؟",

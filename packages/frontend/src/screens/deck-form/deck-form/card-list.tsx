@@ -77,7 +77,13 @@ const sortOptions: Array<{
   },
 ];
 
-export function CardList() {
+type Props = {
+  readOnly?: boolean;
+  onCardClick?: (cardId: number) => void;
+};
+
+export function CardList(props: Props) {
+  const { readOnly = false, onCardClick } = props;
   const deckFormStore = useDeckFormStore();
   const [cardListStore] = useState(() => new CardListStore(deckFormStore));
 
@@ -155,22 +161,24 @@ export function CardList() {
                   ?.label()}
               </span>
             </div>
-            <div
-              className="text-link cursor-pointer"
-              onClick={() => {
-                if (cardListStore.isSelectionMode.value) {
-                  cardListStore.toggleSelectAll();
-                } else {
-                  cardListStore.isSelectionMode.setTrue();
-                }
-              }}
-            >
-              {cardListStore.isSelectionMode.value
-                ? cardListStore.areAllCardsSelected
-                  ? t("deselect_all")
-                  : t("select_all")
-                : t("select")}
-            </div>
+            {!readOnly && (
+              <div
+                className="text-link cursor-pointer"
+                onClick={() => {
+                  if (cardListStore.isSelectionMode.value) {
+                    cardListStore.toggleSelectAll();
+                  } else {
+                    cardListStore.isSelectionMode.setTrue();
+                  }
+                }}
+              >
+                {cardListStore.isSelectionMode.value
+                  ? cardListStore.areAllCardsSelected
+                    ? t("deselect_all")
+                    : t("select_all")
+                  : t("select")}
+              </div>
+            )}
           </div>
         )}
       {deckFormStore.filteredCards.map((cardForm, i) => {
@@ -181,7 +189,9 @@ export function CardList() {
         return (
           <div
             onClick={() => {
-              if (
+              if (readOnly && cardForm.id !== undefined) {
+                onCardClick?.(cardForm.id);
+              } else if (
                 cardListStore.isSelectionMode.value &&
                 cardForm.id !== undefined
               ) {
@@ -194,7 +204,8 @@ export function CardList() {
             key={i}
             className="cursor-pointer bg-bg rounded-[12px] p-3 max-h-[120px] overflow-hidden relative"
           >
-            {cardListStore.isSelectionMode.value &&
+            {!readOnly &&
+              cardListStore.isSelectionMode.value &&
               cardForm.id !== undefined && (
                 <div className="absolute top-3 end-3">
                   <CircleCheckbox
@@ -219,7 +230,8 @@ export function CardList() {
           {t("card_search_not_found")}
         </div>
       )}
-      {!cardListStore.isSelectionMode.value &&
+      {!readOnly &&
+        !cardListStore.isSelectionMode.value &&
         !deckFormStore.isEmptySearchResults && (
           <Button
             onClick={() => {
@@ -314,7 +326,9 @@ export function CardList() {
         )}
       </AnimatePresence>
 
-      <MoveToDeckSelector store={cardListStore.moveToDeckStore} />
+      {!readOnly && (
+        <MoveToDeckSelector store={cardListStore.moveToDeckStore} />
+      )}
     </Screen>
   );
 }

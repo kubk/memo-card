@@ -191,6 +191,8 @@ export const ptBr: Translation = {
   cards_new: "Novos cartões",
   cards_total: "Total de cartões",
   duplicate: "Duplicar",
+  duplicate_preview_deck_title: "Espanhol A1",
+  duplicate_preview_deck_copy_title: "Espanhol A1 (cópia)",
   duplicate_deck_confirm: "Tem certeza de que deseja duplicar este baralho?",
   delete_deck_confirm_shared: "Excluir baralho da sua coleção?",
   delete_folder_confirm_author:

@@ -140,6 +140,8 @@ export const fa: Translation = {
   cards_new: "کارت‌های جدید",
   cards_total: "کل کارت‌ها",
   duplicate: "کپی",
+  duplicate_preview_deck_title: "اسپانیایی A1",
+  duplicate_preview_deck_copy_title: "اسپانیایی A1 (کپی)",
   duplicate_deck_confirm:
     "آیا مطمئن هستید که می‌خواهید این دسته کارت را کپی کنید؟",
   duplicate_folder_confirm: "آیا مطمئن هستید که می‌خواهید این پوشه را کپی کنید؟",

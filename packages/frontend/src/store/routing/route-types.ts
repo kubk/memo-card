@@ -64,6 +64,9 @@ const cardListRouteSchema = v.object({
 const cardListPreviewRouteSchema = v.object({
   type: v.literal("cardListPreview"),
   deckId: stringToNumber,
+  sortBy: cardFilterSortBySchema,
+  sortDirection: cardFilterDirectionSchema,
+  searchText: v.optional(v.string()),
 });
 
 const speakingCardsRouteSchema = v.object({
