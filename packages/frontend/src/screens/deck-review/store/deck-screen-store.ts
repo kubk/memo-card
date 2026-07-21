@@ -9,7 +9,6 @@ import {
   deckListStore,
 } from "../../../store/deck-list-store.ts";
 import { screenStore } from "../../../store/screen-store.ts";
-import { userStore } from "../../../store/user-store.ts";
 import { type ReviewStore } from "./review-store.ts";
 
 const getNewCardsToReview = (deck: DeckListDeck): DeckCardDbTypeWithType[] =>
@@ -78,7 +77,8 @@ export class DeckScreenStore {
   }
 
   get canEdit() {
-    return this.deck?.authorId === userStore.myId;
+    const deck = this.deck;
+    return !!deck && deckListStore.isDeckOwner(deck);
   }
 
   startReview(reviewStore: ReviewStore) {

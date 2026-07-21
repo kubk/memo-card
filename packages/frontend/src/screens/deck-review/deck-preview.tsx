@@ -1,4 +1,3 @@
-import { deckListStore } from "../../store/deck-list-store.ts";
 import { useReviewStore } from "./store/review-store-context.tsx";
 import { screenStore } from "../../store/screen-store.ts";
 import { Hint } from "../../ui/hint.tsx";
@@ -15,20 +14,14 @@ import { BrowserBackButton } from "../shared/browser-platform/browser-back-butto
 import { ListHeader } from "../../ui/list-header.tsx";
 import { cn } from "../../ui/cn.ts";
 import { CardReviewStats } from "../shared/deck-stats/card-review-stats.tsx";
-import {
-  PencilIcon,
-  PlusIcon,
-  RefreshCwIcon,
-  ShareIcon,
-  TrashIcon,
-} from "lucide-react";
-import { shareMemoCardUrl } from "../shared/share-memo-card-url.tsx";
+import { PencilIcon, PlusIcon, RefreshCwIcon } from "lucide-react";
 import { type DeckScreenStore } from "./store/deck-screen-store.ts";
 import { ErrorScreen } from "../error-screen/error-screen.tsx";
 import {
   CardListRowsReadonly,
   CardListRowsReadonlyLoading,
 } from "./preview-readonly/card-list-readonly.tsx";
+import { DeckActions } from "../shared/deck-actions.tsx";
 
 type Props = {
   store: DeckScreenStore;
@@ -63,7 +56,6 @@ export function DeckPreview(props: Props) {
     return null;
   }
 
-  const canDelete = !store.canEdit && deckListStore.myDeckIds.includes(deck.id);
   const previewCards = deck.deckCards.slice(0, 3);
 
   return (
@@ -71,9 +63,10 @@ export function DeckPreview(props: Props) {
       <div>
         <ListHeader text={t("deck")} />
         <div className="flex flex-col gap-4 rounded-[12px] px-4 pb-4 pt-0 bg-bg">
-          <div className={cn("flex gap-1.5")}>
+          <div className={cn("flex items-start gap-1.5")}>
             <BrowserBackButton className="mt-3" />
-            <h3 className={cn("pt-3")}>{deck.name}</h3>
+            <h3 className={cn("min-w-0 flex-1 pt-3")}>{deck.name}</h3>
+            <DeckActions deck={deck} variant="dropdown" />
           </div>
           <div>
             <DeckFolderDescription deck={deck} />
@@ -90,58 +83,32 @@ export function DeckPreview(props: Props) {
             totalCardsCount={deck.deckCards.length}
           />
         </div>
-        {store.canEdit || canDelete ? (
+        {store.canEdit ? (
           <div className="mt-3">
             <ButtonGrid>
-              {store.canEdit ? (
-                <>
-                  <ButtonSideAligned
-                    icon={<PlusIcon size={24} />}
-                    outline
-                    onClick={() => {
-                      screenStore.push({
-                        type: "deckForm",
-                        deckId: deck.id,
-                        cardId: "new",
-                      });
-                    }}
-                  >
-                    {t("add_card_short")}
-                  </ButtonSideAligned>
+              <ButtonSideAligned
+                icon={<PlusIcon size={24} />}
+                outline
+                onClick={() => {
+                  screenStore.push({
+                    type: "deckForm",
+                    deckId: deck.id,
+                    cardId: "new",
+                  });
+                }}
+              >
+                {t("add_card_short")}
+              </ButtonSideAligned>
 
-                  <ButtonSideAligned
-                    icon={<PencilIcon size={24} />}
-                    outline
-                    onClick={() => {
-                      screenStore.push({ type: "deckForm", deckId: deck.id });
-                    }}
-                  >
-                    {t("edit")}
-                  </ButtonSideAligned>
-
-                  <ButtonSideAligned
-                    icon={<ShareIcon size={24} />}
-                    outline
-                    onClick={() => {
-                      shareMemoCardUrl(deck.shareId);
-                    }}
-                  >
-                    {t("share")}
-                  </ButtonSideAligned>
-                </>
-              ) : null}
-
-              {canDelete ? (
-                <ButtonSideAligned
-                  icon={<TrashIcon size={24} />}
-                  outline
-                  onClick={() => {
-                    deckListStore.removeDeck(deck);
-                  }}
-                >
-                  {t("delete")}
-                </ButtonSideAligned>
-              ) : null}
+              <ButtonSideAligned
+                icon={<PencilIcon size={24} />}
+                outline
+                onClick={() => {
+                  screenStore.push({ type: "deckForm", deckId: deck.id });
+                }}
+              >
+                {t("edit")}
+              </ButtonSideAligned>
             </ButtonGrid>
           </div>
         ) : null}

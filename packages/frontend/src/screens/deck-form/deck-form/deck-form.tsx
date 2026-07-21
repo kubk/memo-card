@@ -24,17 +24,14 @@ import {
   WandSparklesIcon,
   KeyboardIcon,
   PlusIcon,
-  CopyIcon,
-  ShareIcon,
-  TrashIcon,
   FilesIcon,
   UploadIcon,
 } from "lucide-react";
 import { FilledIcon, TransparentIcon } from "../../../ui/filled-icon.tsx";
 import { ButtonGrid } from "../../../ui/button-grid.tsx";
 import { ButtonSideAligned } from "../../../ui/button-side-aligned.tsx";
-import { shareMemoCardUrl } from "../../shared/share-memo-card-url.tsx";
 import { aiMassCreationDraftStore } from "../../ai-mass-creation/store/ai-mass-creation-draft-store.ts";
+import { DeckActions } from "../../shared/deck-actions.tsx";
 
 export function DeckForm() {
   const deckFormStore = useDeckFormStore();
@@ -64,6 +61,10 @@ export function DeckForm() {
   if (!deckFormStore.deckForm) {
     return null;
   }
+
+  const deck = screen.deckId
+    ? deckListStore.searchDeckById(screen.deckId)
+    : null;
 
   return (
     <Screen
@@ -249,54 +250,7 @@ export function DeckForm() {
         </div>
       )}
 
-      {deckFormStore.deckForm?.id && (
-        <ButtonGrid>
-          <ButtonSideAligned
-            icon={<ShareIcon size={24} />}
-            outline
-            onClick={() => {
-              assert(screen.type === "deckForm");
-              const deckId = screen.deckId;
-              if (!deckId) return;
-              const deck = deckListStore.searchDeckById(deckId);
-              if (!deck) return;
-
-              shareMemoCardUrl(deck.shareId);
-            }}
-          >
-            {t("share")}
-          </ButtonSideAligned>
-
-          <ButtonSideAligned
-            icon={<TrashIcon size={24} />}
-            outline
-            onClick={() => {
-              assert(screen.type === "deckForm");
-              const deckId = screen.deckId;
-              if (!deckId) return;
-              const deck = deckListStore.searchDeckById(deckId);
-              if (!deck) return;
-
-              deckListStore.removeDeck(deck);
-            }}
-          >
-            {t("delete")}
-          </ButtonSideAligned>
-
-          <ButtonSideAligned
-            icon={<CopyIcon size={24} />}
-            isPro
-            outline
-            onClick={() => {
-              if (deckFormStore.deckForm?.id) {
-                deckListStore.onDuplicateDeck(deckFormStore.deckForm.id);
-              }
-            }}
-          >
-            {t("duplicate")}
-          </ButtonSideAligned>
-        </ButtonGrid>
-      )}
+      {deck ? <DeckActions deck={deck} variant="buttons" /> : null}
 
       <div className="mt-[18px]" />
     </Screen>

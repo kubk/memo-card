@@ -20,6 +20,7 @@ type PaywallType =
   | "bulk_ai_cards"
   | "individual_ai_card"
   | "ai_speech"
+  | "duplicate_content"
   | "reverse_cards";
 
 class UserStore {

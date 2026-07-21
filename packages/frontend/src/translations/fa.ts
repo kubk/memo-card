@@ -139,12 +139,13 @@ export const fa: Translation = {
   cards_to_repeat: "برای تکرار",
   cards_new: "کارت‌های جدید",
   cards_total: "کل کارت‌ها",
-  duplicate: "کپی",
+  duplicate: "تکثیر",
   duplicate_preview_deck_title: "اسپانیایی A1",
   duplicate_preview_deck_copy_title: "اسپانیایی A1 (کپی)",
   duplicate_deck_confirm:
-    "آیا مطمئن هستید که می‌خواهید این دسته کارت را کپی کنید؟",
-  duplicate_folder_confirm: "آیا مطمئن هستید که می‌خواهید این پوشه را کپی کنید؟",
+    "آیا مطمئن هستید که می‌خواهید این دسته کارت را تکثیر کنید؟",
+  duplicate_folder_confirm:
+    "آیا مطمئن هستید که می‌خواهید این پوشه را تکثیر کنید؟",
   delete_deck_confirm_shared: "حذف دسته کارت از مجموعه شما؟",
   delete_folder_confirm_shared: "حذف پوشه از مجموعه شما؟",
   delete_deck_confirm_author:

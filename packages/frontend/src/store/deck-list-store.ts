@@ -399,7 +399,7 @@ class DeckListStore {
   }
 
   async removeDeck(deck: Pick<DeckListDeck, "id" | "authorId">) {
-    const isAuthor = deck.authorId === userStore.myId;
+    const isAuthor = this.isDeckOwner(deck);
     const confirmMessage = isAuthor
       ? t("delete_deck_confirm_author")
       : t("delete_deck_confirm_shared");
@@ -566,10 +566,20 @@ class DeckListStore {
     return this.myDecks.map((deck) => deck.id);
   }
 
+  isDeckOwner(deck: Pick<DeckListDeck, "authorId">) {
+    return deck.authorId === userStore.myId;
+  }
+
+  canDuplicateDeck(deck: Pick<DeckListDeck, "authorId">) {
+    return this.isDeckOwner(deck);
+  }
+
+  canRemoveDeck(deck: Pick<DeckListDeck, "authorId" | "id">) {
+    return this.isDeckOwner(deck) || this.myDeckIds.includes(deck.id);
+  }
+
   deckIdsOwnedByMe() {
-    return this.myDecks
-      .filter((deck) => deck.authorId === userStore.myId)
-      .map((deck) => deck.id);
+    return this.myDecks.filter(this.isDeckOwner).map((deck) => deck.id);
   }
 }
 

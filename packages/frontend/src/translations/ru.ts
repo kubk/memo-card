@@ -183,7 +183,7 @@ export const ru: Translation = {
   cards_to_repeat: "К повторению",
   cards_new: "Новые",
   cards_total: "Всего",
-  duplicate: "Копировать",
+  duplicate: "Дублировать",
   duplicate_preview_deck_title: "Испанский A1",
   duplicate_preview_deck_copy_title: "Испанский A1 (копия)",
   duplicate_deck_confirm: "Вы уверены, что хотите продублировать эту колоду?",

@@ -31,7 +31,7 @@ describe("DeckListStore", () => {
         {
           id: 42,
           name: "Travel English",
-          authorId: 1,
+          authorId: 2,
           description: "Airport and hotel phrases",
           shareId: "travel",
           isPublic: true,
@@ -70,5 +70,25 @@ describe("DeckListStore", () => {
       description: "Updated description",
       deckCategory: { name: "Travel", logo: "🇬🇧" },
     });
+  });
+
+  it("allows duplication only for decks owned by the current user", () => {
+    expect(deckListStore.canDuplicateDeck({ authorId: 1 })).toBe(true);
+    expect(deckListStore.canDuplicateDeck({ authorId: 2 })).toBe(false);
+  });
+
+  it("does not allow removing a public deck that has not been added", () => {
+    expect(deckListStore.canRemoveDeck({ id: 42, authorId: 2 })).toBe(false);
+  });
+
+  it("allows removing a non-owned deck after it has been added", () => {
+    const publicDeck = deckListStore.myInfo?.publicDecks[0];
+    expect(publicDeck).toBeDefined();
+    deckListStore.myInfo?.myDecks.push(
+      publicDeck as MyInfoResponse["myDecks"][number],
+    );
+
+    expect(deckListStore.canRemoveDeck({ id: 42, authorId: 2 })).toBe(true);
+    expect(deckListStore.canDuplicateDeck({ authorId: 2 })).toBe(false);
   });
 });

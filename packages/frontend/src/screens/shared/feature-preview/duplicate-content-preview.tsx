@@ -6,6 +6,7 @@ import { BottomSheetTitle } from "../../../ui/bottom-sheet/bottom-sheet-title.ts
 import { Flex } from "../../../ui/flex.tsx";
 import { userStore } from "../../../store/user-store.ts";
 import { t, translator } from "../../../translations/t.ts";
+import { UpgradeProBlock } from "./upgrade-pro-block.tsx";
 
 const cards = [
   { front: "hola", back: "hello" },
@@ -106,10 +107,11 @@ function DeckTree(props: { delay: number; isCopy?: boolean }) {
 type Props = {
   onClose: () => void;
   isOpen: boolean;
+  showUpgrade?: boolean;
 };
 
 export function DuplicateContentPreview(props: Props) {
-  const { onClose, isOpen } = props;
+  const { onClose, isOpen, showUpgrade } = props;
   const feature = translateProDescription(translator.getLang())[3];
 
   return (
@@ -117,7 +119,7 @@ export function DuplicateContentPreview(props: Props) {
       <div dir={userStore.isRtl ? "rtl" : "ltr"}>
         <Flex direction="column" alignItems="center" pb={24}>
           <BottomSheetTitle title={feature.title} onClose={onClose} />
-          <div className="flex w-[90%] max-w-[520px] flex-col">
+          <div className="flex w-[90%] max-w-[520px] flex-col gap-6">
             <div className="grid grid-cols-[minmax(0,1fr)_52px_minmax(0,1fr)] items-center gap-1.5">
               <div className="min-w-0">
                 <DeckTree delay={0.05} />
@@ -141,6 +143,7 @@ export function DuplicateContentPreview(props: Props) {
                 <DeckTree delay={0.92} isCopy />
               </div>
             </div>
+            {showUpgrade && <UpgradeProBlock />}
           </div>
         </Flex>
       </div>
