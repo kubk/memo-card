@@ -84,7 +84,7 @@ export function FolderPreview(props: Props) {
       </div>
 
       {store.canEdit ? (
-        <div className="mt-3">
+        <div className="mt-3 pb-1">
           <ButtonGrid>
             <ButtonSideAligned
               icon={<PlusIcon size={24} />}
