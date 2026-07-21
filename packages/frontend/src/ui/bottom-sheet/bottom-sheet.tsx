@@ -1,5 +1,5 @@
 import { type ReactNode, useEffect } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { XIcon } from "lucide-react";
 import { platform } from "../../lib/platform/platform.ts";
 import { BrowserPlatform } from "../../lib/platform/browser/browser-platform.ts";
@@ -95,39 +95,35 @@ export function BottomSheet(props: Props) {
   }
 
   return (
-    <AnimatePresence>
-      {isOpen && (
-        <>
+    isOpen && (
+      <>
+        <motion.div
+          className="fixed inset-0 z-bottom-sheet-bg"
+          style={{
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+          }}
+          initial="closed"
+          animate="open"
+          variants={overlayVariants}
+          transition={{ duration: 0.2 }}
+          onClick={onClose}
+        />
+        <div className="fixed inset-0 z-bottom-sheet-fg grid place-items-center pointer-events-none">
           <motion.div
-            className="fixed inset-0 z-bottom-sheet-bg"
-            style={{
-              backgroundColor: "rgba(0, 0, 0, 0.5)",
-            }}
-            initial="closed"
-            animate="open"
-            exit="closed"
-            variants={overlayVariants}
-            transition={{ duration: 0.2 }}
-            onClick={onClose}
-          />
-          <div className="fixed inset-0 z-bottom-sheet-fg grid place-items-center pointer-events-none">
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 16 }}
-              transition={{ duration: 0.2, ease: "easeOut" }}
-              className={cn(
-                "pointer-events-auto shadow bg-bg p-5 rounded-[20px] h-fit max-w-2xl w-full",
-              )}
-            >
-              <h2 className={titleClassName}>
-                <BottomSheetTitleContent title={title} onClose={onClose} />
-              </h2>
-              {children}
-            </motion.div>
-          </div>
-        </>
-      )}
-    </AnimatePresence>
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
+            className={cn(
+              "pointer-events-auto shadow bg-bg p-5 rounded-[20px] h-fit max-w-2xl w-full",
+            )}
+          >
+            <h2 className={titleClassName}>
+              <BottomSheetTitleContent title={title} onClose={onClose} />
+            </h2>
+            {children}
+          </motion.div>
+        </div>
+      </>
+    )
   );
 }
