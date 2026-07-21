@@ -4,10 +4,10 @@ import { api } from "../../../api/trpc-api.ts";
 import { makeQuery } from "../../../lib/mobx-query-lite/make-query.ts";
 import {
   type DeckCardDbTypeWithType,
-  type DeckListDeck,
   type DeckWithCardsWithReviewType,
   deckListStore,
 } from "../../../store/deck-list-store.ts";
+import { type DeckListDeck } from "../../../store/routing/route-types.ts";
 import { screenStore } from "../../../store/screen-store.ts";
 import { type ReviewStore } from "./review-store.ts";
 

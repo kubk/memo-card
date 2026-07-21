@@ -12,8 +12,7 @@ const MAX_SEARCH = MAX_DISPLAY + 1;
 const MAX_TEXT_LENGTH = 80;
 const CONTEXT_LENGTH = 60;
 
-export type SearchResultType = "deck" | "folder" | "card";
-export type SearchTab = SearchResultType;
+type SearchResultType = "deck" | "folder" | "card";
 
 export type SearchField = "front" | "back" | "name" | "description" | "example";
 
@@ -33,7 +32,7 @@ export type SearchResultItem = {
 };
 
 class GlobalSearchStore {
-  activeTab: SearchTab | null = null;
+  activeTab: SearchResultType | null = null;
   searchQuery = new TextField("", {
     afterChange: () => {
       if (this.searchResults.length === 0) {
@@ -49,7 +48,7 @@ class GlobalSearchStore {
     makeAutoObservable(this, {}, { autoBind: true });
   }
 
-  setActiveTab(tab: SearchTab) {
+  setActiveTab(tab: SearchResultType) {
     const isTabEnabled = !this.tabs.find((t) => t.value === tab)?.disabled;
     if (!isTabEnabled) {
       return;
@@ -58,7 +57,7 @@ class GlobalSearchStore {
   }
 
   get tabs(): {
-    value: SearchTab;
+    value: SearchResultType;
     title: string;
     count: string;
     disabled: boolean;

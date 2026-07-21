@@ -1,6 +1,6 @@
 import { makeAutoObservable, runInAction } from "mobx";
 
-export type MutationResult<TData> =
+type MutationResult<TData> =
   | { ok: true; data: TData }
   | { ok: false; error: unknown };
 

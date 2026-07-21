@@ -22,13 +22,11 @@ import { api } from "../api/trpc-api.ts";
 import { BrowserPlatform } from "../lib/platform/browser/browser-platform.ts";
 import { StartParamType } from "./routing/route-types.ts";
 import { makeQuery } from "../lib/mobx-query-lite/make-query.ts";
-import { type DeckPreviewRouteData } from "./routing/route-types.ts";
+import { type DeckListDeck } from "./routing/route-types.ts";
 
 export type DeckCardDbTypeWithType = DeckCardDbType & {
   type: CardReviewType;
 } & FsrsReviewState;
-
-export type DeckListDeck = DeckPreviewRouteData;
 
 export type DeckWithCardsWithReviewType = DeckListDeck & {
   cardsToReview: DeckCardDbTypeWithType[];

@@ -1,4 +1,7 @@
 {
+  "plugins": {
+    "kubk": "../../tools/slop-scan/no-identity-type-alias.mjs"
+  },
   "overrides": [
     {
       "files": ["src/translations/t.ts"],
@@ -8,6 +11,7 @@
     }
   ],
   "rules": {
+    "kubk/no-identity-type-alias": { "enabled": true },
     "tests.duplicate-mock-setup": { "enabled": false },
     "defensive.error-swallowing": { "enabled": false },
     "defensive.error-obscuring": { "enabled": false },

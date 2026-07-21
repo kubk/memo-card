@@ -38,7 +38,7 @@ type ApiProxyValue<
     ? ApiProxy<TValue, AppendPath<TPath, TKey>>
     : never;
 
-export type ApiProxy<TApi, TPath extends string = ""> = {
+type ApiProxy<TApi, TPath extends string = ""> = {
   [TKey in keyof TApi as ApiProxyKey<TKey, TApi[TKey]>]: TKey extends string
     ? ApiProxyValue<TApi[TKey], TKey, TPath>
     : never;

@@ -2,7 +2,7 @@ import { createContext, ReactNode, useContext, useState } from "react";
 import { DeckFormStore } from "./deck-form-store.ts";
 import { assert } from "api";
 import { useMount } from "../../../../lib/react/use-mount.ts";
-import { type DeckListDeck } from "../../../../store/deck-list-store.ts";
+import { type DeckListDeck } from "../../../../store/routing/route-types.ts";
 
 const Context = createContext<DeckFormStore | null>(null);
 

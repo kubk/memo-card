@@ -1,8 +1,6 @@
 import { CopyIcon, ShareIcon, TrashIcon } from "lucide-react";
-import {
-  type DeckListDeck,
-  deckListStore,
-} from "../../store/deck-list-store.ts";
+import { deckListStore } from "../../store/deck-list-store.ts";
+import { type DeckListDeck } from "../../store/routing/route-types.ts";
 import { userStore } from "../../store/user-store.ts";
 import { t } from "../../translations/t.ts";
 import { ButtonGrid } from "../../ui/button-grid.tsx";

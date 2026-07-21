@@ -203,7 +203,7 @@ export const routeSchema = v.union([
   aboutRouteSchema,
 ]);
 
-export type DeckPreviewRouteData = MyInfoResponse["myDecks"][number] & {
+export type DeckListDeck = MyInfoResponse["myDecks"][number] & {
   deckCategory?: MyInfoResponse["publicDecks"][number]["deckCategory"];
 };
 
@@ -211,7 +211,7 @@ type RouteWithoutState = v.InferOutput<typeof routeSchema>;
 
 export type Route = RouteWithoutState & {
   state?: {
-    deck?: DeckPreviewRouteData;
+    deck?: DeckListDeck;
     folder?: CatalogFolderDbType;
   };
 };

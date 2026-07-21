@@ -6,11 +6,11 @@ import {
 } from "./make-query.ts";
 import { toError } from "./to-error.ts";
 
-export type InfiniteQueryInput<Cursor> = {
+type InfiniteQueryInput<Cursor> = {
   cursor?: Cursor;
 };
 
-export type InfiniteQueryPage<Item, Cursor> = {
+type InfiniteQueryPage<Item, Cursor> = {
   items: Item[];
   nextCursor: Cursor | null;
 };

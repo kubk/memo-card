@@ -13,7 +13,7 @@
     "test": "pnpm run -F='./packages/*' test",
     "export-public-code": "./export-public-code.sh",
     "postinstall": "patch-package",
-    "dead-code": "concurrently -n knip,slop-api,slop-frontend -c magenta,green,blue \"knip --reporter compact\" \"slop-scan scan packages/api --lint\" \"slop-scan scan packages/frontend --lint\"",
+    "dead-code": "concurrently -n knip,slop-api,slop-frontend -c magenta,green,blue \"knip --reporter compact\" \"slop-scan scan packages/api --lint | tee /dev/stderr | grep -q '^0 findings$'\" \"slop-scan scan packages/frontend --lint | tee /dev/stderr | grep -q '^0 findings$'\"",
     "detect-unused-methods": "concurrently -n api,frontend -c green,blue \"node detect-unused-methods.mjs packages/api\" \"node detect-unused-methods.mjs packages/frontend\""
   },
   "packageManager": "pnpm@9.15.0",
