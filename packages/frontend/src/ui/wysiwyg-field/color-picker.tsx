@@ -1,4 +1,3 @@
-import { t } from "../../translations/t.ts";
 import { theme } from "../theme.tsx";
 
 const colors = [
@@ -24,9 +23,6 @@ export function ColorPicker({ onColorSelect }: Props) {
 
   return (
     <div>
-      <h3 className="text-lg font-semibold mb-4 text-center">
-        {t("wysiwyg_text_color")}
-      </h3>
       <div className="grid grid-cols-2 gap-2 w-full max-w-md mx-auto">
         {colors.map((color) => (
           <button

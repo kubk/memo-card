@@ -12,10 +12,6 @@ import { t } from "../../translations/t.ts";
 export function WysiwygHelp() {
   return (
     <div className="p-2">
-      <h3 className="text-xl font-bold mb-6 text-center text-text">
-        {t("wysiwyg_help_title")}
-      </h3>
-
       <div className="mb-6">
         <ol className="list-decimal list-inside space-y-2 text-text">
           <li>{t("wysiwyg_help_step1")}</li>

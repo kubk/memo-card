@@ -15,7 +15,6 @@ import { t } from "../../translations/t.ts";
 import { formatDays } from "./translations.ts";
 import { List } from "../../ui/list.tsx";
 import { BottomSheet } from "../../ui/bottom-sheet/bottom-sheet.tsx";
-import { BottomSheetTitle } from "../../ui/bottom-sheet/bottom-sheet-title.tsx";
 import { SnowflakeIcon } from "lucide-react";
 
 export function FreezeCardsScreen() {
@@ -81,10 +80,10 @@ export function FreezeCardsScreen() {
       ) : null}
 
       <BottomSheet
+        title={t("how")}
         isOpen={store.isHowOpen.value}
         onClose={store.isHowOpen.setFalse}
       >
-        <BottomSheetTitle title={t("how")} onClose={store.isHowOpen.setFalse} />
         <ul className="pl-6">
           {[
             t("freeze_rule_1"),

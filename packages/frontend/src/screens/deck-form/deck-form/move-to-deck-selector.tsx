@@ -1,5 +1,4 @@
 import { BottomSheet } from "../../../ui/bottom-sheet/bottom-sheet.tsx";
-import { BottomSheetTitle } from "../../../ui/bottom-sheet/bottom-sheet-title.tsx";
 import { List } from "../../../ui/list.tsx";
 import { ListHeader } from "../../../ui/list-header.tsx";
 import { CircleCheckbox } from "../../../ui/circle-checkbox.tsx";
@@ -23,12 +22,11 @@ export function MoveToDeckSelector({
   const standaloneDecks = groupedItems.filter((item) => item.type === "deck");
 
   return (
-    <BottomSheet isOpen={store.isOpen} onClose={store.close}>
-      <BottomSheetTitle
-        title={t("move_card_to_deck_title")}
-        onClose={store.close}
-      />
-
+    <BottomSheet
+      title={t("move_card_to_deck_title")}
+      isOpen={store.isOpen}
+      onClose={store.close}
+    >
       <div className="flex flex-col gap-4 max-h-[60vh] overflow-y-auto">
         {/* Render folders */}
         {folders.map((listItem) => {

@@ -1,4 +1,5 @@
 import { BottomSheet } from "../../../ui/bottom-sheet/bottom-sheet.tsx";
+import { t } from "../../../translations/t.ts";
 import { RadioList } from "../../../ui/radio-list/radio-list.tsx";
 import {
   formatCardType,
@@ -15,7 +16,11 @@ export function CardTypeModal() {
   }
 
   return (
-    <BottomSheet isOpen={cardTypeModal.value} onClose={cardTypeModal.setFalse}>
+    <BottomSheet
+      title={t("review_card_type")}
+      isOpen={cardTypeModal.value}
+      onClose={cardTypeModal.setFalse}
+    >
       <div className="pb-10">
         <RadioList
           selectedId={cardForm.answerType.value}

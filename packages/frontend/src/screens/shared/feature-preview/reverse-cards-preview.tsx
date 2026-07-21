@@ -1,5 +1,4 @@
 import { BottomSheet } from "../../../ui/bottom-sheet/bottom-sheet.tsx";
-import { BottomSheetTitle } from "../../../ui/bottom-sheet/bottom-sheet-title.tsx";
 import { Flex } from "../../../ui/flex.tsx";
 import { UpgradeProBlock } from "./upgrade-pro-block.tsx";
 import { t } from "../../../translations/t.ts";
@@ -27,9 +26,12 @@ export function ReverseCardsPreview(props: {
   const { onClose, isOpen, showUpgrade } = props;
 
   return (
-    <BottomSheet isOpen={isOpen} onClose={onClose}>
+    <BottomSheet
+      title={t("reverse_cards_title")}
+      isOpen={isOpen}
+      onClose={onClose}
+    >
       <Flex direction={"column"} alignItems={"center"} pb={24}>
-        <BottomSheetTitle title={t("reverse_cards_title")} onClose={onClose} />
         <div className="w-[90%] max-w-[520px] flex flex-col gap-6">
           <div className="text-sm text-hint text-center">
             {t("reverse_cards_helper")}

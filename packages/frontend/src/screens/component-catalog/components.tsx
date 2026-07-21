@@ -6,7 +6,6 @@ import { SnackbarStory } from "./snackbar-story.tsx";
 import { ListStory } from "./list-story.tsx";
 import { ListStoryMultipleIcons } from "./list-story-multiple-icons.tsx";
 import { RadioListStory } from "./radio-list-story.tsx";
-import { BottomSheetStory } from "./bottom-sheet-story.tsx";
 import { AiSpeechPreview } from "../shared/feature-preview/ai-speech-preview.tsx";
 import { DeckCardDbType } from "api";
 
@@ -76,10 +75,6 @@ export const components: Array<Component> = [
   {
     name: RadioListStory.name,
     component: <RadioListStory />,
-  },
-  {
-    name: BottomSheetStory.name,
-    component: <BottomSheetStory />,
   },
   {
     name: "AISpeech",

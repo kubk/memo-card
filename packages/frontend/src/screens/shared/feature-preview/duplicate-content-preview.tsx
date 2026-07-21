@@ -2,7 +2,6 @@ import { motion } from "framer-motion";
 import { Check, Copy, Layers3 } from "lucide-react";
 import { translateProDescription } from "api";
 import { BottomSheet } from "../../../ui/bottom-sheet/bottom-sheet.tsx";
-import { BottomSheetTitle } from "../../../ui/bottom-sheet/bottom-sheet-title.tsx";
 import { Flex } from "../../../ui/flex.tsx";
 import { userStore } from "../../../store/user-store.ts";
 import { t, translator } from "../../../translations/t.ts";
@@ -115,10 +114,9 @@ export function DuplicateContentPreview(props: Props) {
   const feature = translateProDescription(translator.getLang())[3];
 
   return (
-    <BottomSheet isOpen={isOpen} onClose={onClose}>
+    <BottomSheet title={feature.title} isOpen={isOpen} onClose={onClose}>
       <div dir={userStore.isRtl ? "rtl" : "ltr"}>
         <Flex direction="column" alignItems="center" pb={24}>
-          <BottomSheetTitle title={feature.title} onClose={onClose} />
           <div className="flex w-[90%] max-w-[520px] flex-col gap-6">
             <div className="grid grid-cols-[minmax(0,1fr)_52px_minmax(0,1fr)] items-center gap-1.5">
               <div className="min-w-0">

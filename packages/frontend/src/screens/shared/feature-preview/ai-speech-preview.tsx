@@ -1,5 +1,4 @@
 import { BottomSheet } from "../../../ui/bottom-sheet/bottom-sheet.tsx";
-import { BottomSheetTitle } from "../../../ui/bottom-sheet/bottom-sheet-title.tsx";
 import { useState } from "react";
 import { createVoicePlayer } from "../../deck-review/voice-player/create-voice-player.ts";
 import { SpeakLanguageEnum } from "../../../lib/voice-playback/speak.ts";
@@ -40,10 +39,8 @@ export function AiSpeechPreview(props: Props) {
   );
 
   return (
-    <BottomSheet isOpen={isOpen} onClose={onClose}>
+    <BottomSheet title={t("ai_speech_title")} isOpen={isOpen} onClose={onClose}>
       <Flex direction={"column"} alignItems={"center"} pb={24}>
-        <BottomSheetTitle title={t("ai_speech_title")} onClose={onClose} />
-
         <div className="space-y-6 w-[90%] max-w-[500px]">
           <div className="space-y-4">
             <div className="bg-bg rounded-2xl p-4 transition-all border dark:border-gray-700">

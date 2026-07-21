@@ -166,6 +166,7 @@ export function WysiwygField({
       {renderInput()}
 
       <BottomSheet
+        title={t("wysiwyg_help_table")}
         isOpen={wysiwygStore.bottomSheet === "table"}
         onClose={() => {
           wysiwygStore.closeBottomSheet();
@@ -175,6 +176,7 @@ export function WysiwygField({
       </BottomSheet>
 
       <BottomSheet
+        title={t("wysiwyg_text_color")}
         isOpen={wysiwygStore.bottomSheet === "colorPicker"}
         onClose={() => {
           wysiwygStore.closeBottomSheet();
@@ -184,6 +186,7 @@ export function WysiwygField({
       </BottomSheet>
 
       <BottomSheet
+        title={t("wysiwyg_help_title")}
         isOpen={wysiwygStore.bottomSheet === "help"}
         onClose={() => {
           wysiwygStore.closeBottomSheet();

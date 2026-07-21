@@ -15,7 +15,6 @@ import {
   CopyPlusIcon,
 } from "lucide-react";
 import { BottomSheet } from "../../../ui/bottom-sheet/bottom-sheet.tsx";
-import { BottomSheetTitle } from "../../../ui/bottom-sheet/bottom-sheet-title.tsx";
 import { RadioList } from "../../../ui/radio-list/radio-list.tsx";
 import {
   CardFilterSortBy,
@@ -243,13 +242,10 @@ export function CardList(props: Props) {
         )}
 
       <BottomSheet
+        title={t("sort_by")}
         isOpen={cardListStore.isSortSheetOpen.value}
         onClose={() => cardListStore.isSortSheetOpen.setFalse()}
       >
-        <BottomSheetTitle
-          title={t("sort_by")}
-          onClose={() => cardListStore.isSortSheetOpen.setFalse()}
-        />
         <RadioList
           selectedId={deckFormStore.currentSortId}
           options={sortOptions.map((opt) => ({

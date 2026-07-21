@@ -12,6 +12,7 @@ export function RuEduVideoChoice(props: Props) {
 
   return (
     <BottomSheet
+      title="Где смотреть уроки"
       isOpen={toggle.value}
       onClose={() => {
         toggle.setFalse();
@@ -26,7 +27,6 @@ export function RuEduVideoChoice(props: Props) {
         fullWidth
       >
         <Flex fullWidth direction={"column"} gap={8}>
-          <h3 className="text-center mb-2">Где смотреть уроки</h3>
           <Choice
             title={"YouTube"}
             description={"Если нет проблем с YouTube"}

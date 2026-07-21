@@ -12,19 +12,22 @@ export function DeckOrFolderChoose(props: Props) {
   const { toggle } = props;
 
   return (
-    <BottomSheet isOpen={toggle.value} onClose={() => toggle.setFalse()}>
+    <BottomSheet
+      title={t("create")}
+      isOpen={toggle.value}
+      onClose={() => toggle.setFalse()}
+    >
       <Flex
         direction={"column"}
         alignItems={"center"}
         justifyContent={"center"}
-        mb={80}
-        gap={48}
+        mb={48}
         fullWidth
       >
         <Flex fullWidth direction={"column"} gap={8}>
           <Choice
             icon={<LayersIcon className="text-text self-center" size={18} />}
-            title={t("add_deck")}
+            title={t("create_deck_option")}
             description={t("deck_description")}
             onClick={() => {
               screenStore.push({ type: "deckForm" });
@@ -32,7 +35,7 @@ export function DeckOrFolderChoose(props: Props) {
           />
           <Choice
             icon={<FolderOpen className="text-text self-center" size={18} />}
-            title={t("add_folder")}
+            title={t("create_folder_option")}
             description={t("folder_description")}
             onClick={() => {
               screenStore.push({ type: "folderForm" });
