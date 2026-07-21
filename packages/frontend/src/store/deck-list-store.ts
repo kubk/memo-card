@@ -566,12 +566,20 @@ class DeckListStore {
     return this.myDecks.map((deck) => deck.id);
   }
 
-  isDeckOwner(deck: Pick<DeckListDeck, "authorId">) {
-    return deck.authorId === userStore.myId;
+  isFolderOwner(folder: { authorId: number }) {
+    return folder.authorId === userStore.myId;
   }
 
-  canDuplicateDeck(deck: Pick<DeckListDeck, "authorId">) {
-    return this.isDeckOwner(deck);
+  canSeeDuplicate(item: { authorId: number | null }) {
+    return item.authorId === userStore.myId;
+  }
+
+  canRemoveFolder(folder: { id: number }) {
+    return this.myFoldersIds.includes(folder.id);
+  }
+
+  isDeckOwner(deck: Pick<DeckListDeck, "authorId">) {
+    return deck.authorId === userStore.myId;
   }
 
   canRemoveDeck(deck: Pick<DeckListDeck, "authorId" | "id">) {

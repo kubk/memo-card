@@ -18,12 +18,10 @@ import { Flex } from "../../ui/flex.tsx";
 import { FormattingSwitcher } from "../deck-form/card-form/formatting-switcher.tsx";
 import { WysiwygField } from "../../ui/wysiwyg-field/wysiwig-field.tsx";
 import { cn } from "../../ui/cn.ts";
-import { ButtonGrid } from "../../ui/button-grid.tsx";
 import { deckListStore } from "../../store/deck-list-store.ts";
-import { ButtonSideAligned } from "../../ui/button-side-aligned.tsx";
-import { CopyIcon, PlusIcon, ShareIcon, TrashIcon } from "lucide-react";
-import { shareMemoCardUrl } from "../shared/share-memo-card-url.tsx";
+import { PlusIcon, TrashIcon } from "lucide-react";
 import { wysiwygStore } from "../../store/wysiwyg-store.ts";
+import { FolderActions } from "../shared/folder-actions.tsx";
 
 export function FolderForm() {
   const folderStore = useFolderFormStore();
@@ -73,37 +71,14 @@ export function FolderForm() {
 
       {folder && (
         <div className="mt-0.5 mb-2.5">
-          <ButtonGrid>
-            <ButtonSideAligned
-              icon={<ShareIcon size={24} />}
-              outline
-              onClick={() => {
-                shareMemoCardUrl(folder.folder_share_id);
-              }}
-            >
-              {t("share")}
-            </ButtonSideAligned>
-
-            <ButtonSideAligned
-              icon={<TrashIcon size={24} />}
-              outline
-              onClick={async () => {
-                deckListStore.deleteFolder(folder);
-              }}
-            >
-              {t("delete")}
-            </ButtonSideAligned>
-            <ButtonSideAligned
-              icon={<CopyIcon size={24} />}
-              outline
-              isPro
-              onClick={() => {
-                deckListStore.onDuplicateFolder(folder.folder_id);
-              }}
-            >
-              {t("duplicate")}
-            </ButtonSideAligned>
-          </ButtonGrid>
+          <FolderActions
+            folder={{
+              id: folder.folder_id,
+              authorId: folder.folder_author_id,
+              shareId: folder.folder_share_id,
+            }}
+            variant="buttons"
+          />
         </div>
       )}
 

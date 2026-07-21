@@ -16,9 +16,10 @@ import { CardsToReview } from "../../ui/cards-to-review.tsx";
 import { BrowserBackButton } from "../shared/browser-platform/browser-back-button.tsx";
 import { cn } from "../../ui/cn.ts";
 import { CardReviewStats } from "../shared/deck-stats/card-review-stats.tsx";
-import { PencilIcon, PlusIcon, TrashIcon } from "lucide-react";
+import { PencilIcon, PlusIcon } from "lucide-react";
 import { type FolderScreenStore } from "./store/folder-screen-store.ts";
 import { ErrorScreen } from "../error-screen/error-screen.tsx";
+import { FolderActions } from "../shared/folder-actions.tsx";
 
 type Props = {
   store: FolderScreenStore;
@@ -62,9 +63,10 @@ export function FolderPreview(props: Props) {
     <Flex direction={"column"} pb={82}>
       <ListHeader text={t("folder")} />
       <div className="flex flex-col gap-4 rounded-[12px] px-4 pb-4 pt-0 bg-bg">
-        <div className={cn("flex gap-1.5")}>
+        <div className={cn("flex items-start gap-1.5")}>
           <BrowserBackButton className="mt-3" />
-          <h3 className={cn("pt-3")}>{folder.name}</h3>
+          <h3 className={cn("min-w-0 flex-1 pt-3")}>{folder.name}</h3>
+          <FolderActions folder={folder} variant="dropdown" />
         </div>
         <div>
           <DeckFolderDescription deck={folder} />
@@ -79,57 +81,38 @@ export function FolderPreview(props: Props) {
           }
           totalCardsCount={cardsTotal}
         />
-
-        <ButtonGrid>
-          {store.canEdit ? (
-            <>
-              <ButtonSideAligned
-                icon={<PlusIcon size={24} />}
-                outline
-                onClick={() => {
-                  screenStore.push({
-                    type: "deckForm",
-                    folder: {
-                      id: folder.id,
-                      name: folder.name,
-                    },
-                  });
-                }}
-              >
-                {t("add_deck_short")}
-              </ButtonSideAligned>
-              <ButtonSideAligned
-                icon={<PencilIcon size={24} />}
-                outline
-                onClick={() => {
-                  screenStore.push({ type: "folderForm", folderId: folder.id });
-                }}
-              >
-                {t("edit")}
-              </ButtonSideAligned>
-            </>
-          ) : (
-            <>
-              {deckListStore.myFoldersIds.includes(folder.id) && (
-                <ButtonSideAligned
-                  icon={<TrashIcon size={24} />}
-                  outline
-                  onClick={() => {
-                    const folderToRemove = deckListStore.searchFolderById(
-                      folder.id,
-                    );
-                    if (folderToRemove) {
-                      deckListStore.deleteFolder(folderToRemove);
-                    }
-                  }}
-                >
-                  {t("delete")}
-                </ButtonSideAligned>
-              )}
-            </>
-          )}
-        </ButtonGrid>
       </div>
+
+      {store.canEdit ? (
+        <div className="mt-3">
+          <ButtonGrid>
+            <ButtonSideAligned
+              icon={<PlusIcon size={24} />}
+              outline
+              onClick={() => {
+                screenStore.push({
+                  type: "deckForm",
+                  folder: {
+                    id: folder.id,
+                    name: folder.name,
+                  },
+                });
+              }}
+            >
+              {t("add_deck_short")}
+            </ButtonSideAligned>
+            <ButtonSideAligned
+              icon={<PencilIcon size={24} />}
+              outline
+              onClick={() => {
+                screenStore.push({ type: "folderForm", folderId: folder.id });
+              }}
+            >
+              {t("edit")}
+            </ButtonSideAligned>
+          </ButtonGrid>
+        </div>
+      ) : null}
 
       {folder.decks.length > 0 && (
         <Flex pt={6} direction={"column"} gap={8}>

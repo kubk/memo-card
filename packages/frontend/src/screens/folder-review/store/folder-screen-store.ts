@@ -10,7 +10,6 @@ import {
   deckListStore,
 } from "../../../store/deck-list-store.ts";
 import { screenStore } from "../../../store/screen-store.ts";
-import { userStore } from "../../../store/user-store.ts";
 import { type ReviewStore } from "../../deck-review/store/review-store.ts";
 
 const getDeckWithNewCards = (
@@ -94,7 +93,7 @@ export class FolderScreenStore {
   }
 
   get canEdit() {
-    return !!this.ownedFolder && this.folder?.authorId === userStore.myId;
+    return !!this.ownedFolder && deckListStore.isFolderOwner(this.ownedFolder);
   }
 
   get isReviewVisible() {

@@ -72,9 +72,9 @@ describe("DeckListStore", () => {
     });
   });
 
-  it("allows duplication only for decks owned by the current user", () => {
-    expect(deckListStore.canDuplicateDeck({ authorId: 1 })).toBe(true);
-    expect(deckListStore.canDuplicateDeck({ authorId: 2 })).toBe(false);
+  it("shows duplication only for content owned by the current user", () => {
+    expect(deckListStore.canSeeDuplicate({ authorId: 1 })).toBe(true);
+    expect(deckListStore.canSeeDuplicate({ authorId: 2 })).toBe(false);
   });
 
   it("does not allow removing a public deck that has not been added", () => {
@@ -89,6 +89,21 @@ describe("DeckListStore", () => {
     );
 
     expect(deckListStore.canRemoveDeck({ id: 42, authorId: 2 })).toBe(true);
-    expect(deckListStore.canDuplicateDeck({ authorId: 2 })).toBe(false);
+    expect(deckListStore.canSeeDuplicate({ authorId: 2 })).toBe(false);
+  });
+
+  it("allows folder removal only after it has been added", () => {
+    expect(deckListStore.canRemoveFolder({ id: 7 })).toBe(false);
+
+    deckListStore.myInfo?.folders.push({
+      folder_id: 7,
+      folder_title: "Travel",
+      folder_description: null,
+      folder_author_id: 2,
+      folder_share_id: "travel-folder",
+      deck_id: null,
+    });
+
+    expect(deckListStore.canRemoveFolder({ id: 7 })).toBe(true);
   });
 });

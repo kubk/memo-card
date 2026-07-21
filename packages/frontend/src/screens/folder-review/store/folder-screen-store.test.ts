@@ -24,6 +24,7 @@ vi.mock("../../../store/deck-list-store.ts", () => ({
     get myFoldersAsDecks() {
       return mocks.myFoldersAsDecks;
     },
+    isFolderOwner: (folder: { authorId: number }) => folder.authorId === 1,
     addFolderToMine: mocks.addFolderToMine,
   },
 }));
