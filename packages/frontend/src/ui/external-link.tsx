@@ -1,19 +1,22 @@
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import { platform } from "../lib/platform/platform.ts";
+import { cn } from "./cn.ts";
 
-type Props = {
+export function ExternalLink({
+  href,
+  children,
+  className,
+}: {
   href: string;
   children: ReactNode;
-};
-
-export function ExternalLink(props: Props) {
-  const { href, children } = props;
+  className?: string;
+}) {
   return (
     <span
       onClick={() => {
         platform.openExternalLink(href);
       }}
-      className="text-button cursor-pointer"
+      className={cn("cursor-pointer text-button", className)}
     >
       {children}
     </span>

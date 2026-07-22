@@ -164,6 +164,10 @@ const userSettingsRouteSchema = v.object({
   index: stringToNumber,
 });
 
+const mcpSettingsRouteSchema = v.object({
+  type: v.literal("mcpSettings"),
+});
+
 const globalSearchRouteSchema = v.object({
   type: v.literal("globalSearch"),
 });
@@ -199,6 +203,7 @@ export const routeSchema = v.union([
   teacherStatisticsListRouteSchema,
   browserLoginRouteSchema,
   userSettingsRouteSchema,
+  mcpSettingsRouteSchema,
   globalSearchRouteSchema,
   aboutRouteSchema,
 ]);

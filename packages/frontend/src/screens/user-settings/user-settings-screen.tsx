@@ -45,6 +45,7 @@ import {
 } from "lucide-react";
 import { env } from "../../env.ts";
 import { erudaStore } from "../../store/eruda-store.ts";
+import { McpSettingsEntry } from "../mcp-settings/mcp-settings-entry.tsx";
 
 const timeRanges = generateTimeRange();
 type DevPlanOption = "none" | PaidPlanType;
@@ -288,6 +289,8 @@ export function UserSettingsScreen() {
           <HintTransparent>Admin actions</HintTransparent>
         </div>
       )}
+
+      {userStore.isPaid && <McpSettingsEntry />}
 
       <div className="mt-1">
         <List

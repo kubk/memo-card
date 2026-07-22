@@ -26,6 +26,7 @@ import {
   UserStatisticsScreen,
 } from "./user-statistics/user-statistics-screen.tsx";
 import { UserSettingsLazy } from "./user-settings/user-settings-lazy.tsx";
+import { McpSettingsLazy } from "./mcp-settings/mcp-settings-lazy.tsx";
 import {
   TeacherStatisticsLazy,
   TeacherStatisticsListLazy,
@@ -57,6 +58,7 @@ import { AnkiImportScreen } from "./anki-import/anki-import-screen.tsx";
 import { userStore } from "../store/user-store.ts";
 import { RouteScreenContainer } from "../lib/react/route-screen-container.tsx";
 import { CardListPreviewScreen } from "./deck-review/preview-readonly/card-list-preview-screen.tsx";
+import { Suspense } from "react";
 
 export function App() {
   useRestoreFullScreenExpand();
@@ -223,6 +225,15 @@ export function App() {
           <SignedIn>
             <PreventTelegramSwipeDownClosingIos>
               <UserSettingsLazy />
+            </PreventTelegramSwipeDownClosingIos>
+          </SignedIn>
+        )}
+        {screenStore.screen.type === "mcpSettings" && (
+          <SignedIn>
+            <PreventTelegramSwipeDownClosingIos>
+              <Suspense fallback={<FullScreenLoader />}>
+                <McpSettingsLazy />
+              </Suspense>
             </PreventTelegramSwipeDownClosingIos>
           </SignedIn>
         )}
