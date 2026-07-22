@@ -14,7 +14,7 @@ export function McpTokenSettingsContent() {
   useMainButton(() => store.mainButtonText, store.submitCurrentStep);
 
   return (
-    <div className="mx-auto flex min-h-[calc(100vh_-_120px)] w-full max-w-[430px] flex-col items-center px-5 pb-28 pt-8">
+    <div className="mx-auto flex min-h-[calc(100vh_-_120px)] w-full max-w-[430px] flex-col items-center px-5 pt-8">
       <div className="w-full">
         <McpWizardProgress />
       </div>

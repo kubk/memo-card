@@ -1,5 +1,6 @@
 import { translateMassCreatePaywall } from "../../shared/feature-preview/translate-mass-create-paywall.ts";
 import { useMcpSettingsStore } from "../store/mcp-settings-store-context.tsx";
+import { mcpT } from "../translations.ts";
 import { CopyableValue } from "./copyable-value.tsx";
 
 export function McpTryChatGptStep() {
@@ -12,6 +13,7 @@ export function McpTryChatGptStep() {
         {store.title}
       </h2>
       <div className="mt-6 flex w-full flex-col gap-3">
+        <CopyableValue value={mcpT("decksCountPrompt")} />
         <CopyableValue value={promptExample1} />
         <CopyableValue value={promptExample2} />
       </div>

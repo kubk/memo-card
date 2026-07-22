@@ -1,4 +1,4 @@
-import { MCP_WIZARD_STEP_COUNT } from "../store/mcp-settings-store.ts";
+import { MCP_WIZARD_STEPS } from "../store/mcp-settings-store.ts";
 import { useMcpSettingsStore } from "../store/mcp-settings-store-context.tsx";
 
 export function McpWizardProgress() {
@@ -7,17 +7,20 @@ export function McpWizardProgress() {
   return (
     <div>
       <div className="grid grid-cols-3 gap-2">
-        {Array.from({ length: MCP_WIZARD_STEP_COUNT }, (_, index) => (
-          <div
-            className={`h-1.5 rounded-full transition-colors duration-200 ${
-              index < store.step ? "bg-button" : "bg-[#767680]/30"
+        {MCP_WIZARD_STEPS.map((step) => (
+          <button
+            className={`relative h-1.5 rounded-full transition-colors duration-200 before:absolute before:-inset-y-2 before:inset-x-0 ${
+              step <= store.step ? "bg-button" : "bg-[#767680]/30"
             }`}
-            key={index}
+            key={step}
+            onClick={() => store.goToStep(step)}
+            title={`${step} / ${MCP_WIZARD_STEPS.length}`}
+            type="button"
           />
         ))}
       </div>
       <div className="mt-2 text-center text-xs font-medium text-hint">
-        {store.step} / {MCP_WIZARD_STEP_COUNT}
+        {store.step} / {MCP_WIZARD_STEPS.length}
       </div>
     </div>
   );

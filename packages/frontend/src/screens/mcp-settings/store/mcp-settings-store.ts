@@ -5,8 +5,8 @@ import { makeQuery } from "../../../lib/mobx-query-lite/make-query.ts";
 import { screenStore } from "../../../store/screen-store.ts";
 import { mcpT } from "../translations.ts";
 
-export const MCP_WIZARD_STEP_COUNT = 3;
-type McpWizardStep = 1 | 2 | 3;
+export const MCP_WIZARD_STEPS = [1, 2, 3] as const;
+type McpWizardStep = (typeof MCP_WIZARD_STEPS)[number];
 
 export class McpSettingsStore {
   mcpTokenQuery = makeQuery(apiProxy.mcpToken.getMyToken.query);
@@ -56,17 +56,11 @@ export class McpSettingsStore {
   }
 
   goBack() {
-    if (this.step === 3) {
-      this.step = 2;
-      return;
-    }
-
-    if (this.step === 2) {
-      this.step = 1;
-      return;
-    }
-
     screenStore.back();
+  }
+
+  goToStep(step: McpWizardStep) {
+    this.step = step;
   }
 
   submitCurrentStep() {
