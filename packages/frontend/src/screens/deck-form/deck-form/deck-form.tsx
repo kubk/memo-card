@@ -69,6 +69,15 @@ export function DeckForm() {
   return (
     <Screen
       title={screen.deckId ? t("edit_deck") : t("add_deck")}
+      headerRight={
+        deck ? (
+          <DeckActions
+            deck={deck}
+            variant="dropdown"
+            dropdownClassName="mt-0"
+          />
+        ) : undefined
+      }
       subtitle={
         screen.folder ? (
           <div className="text-center text-sm">
@@ -249,8 +258,6 @@ export function DeckForm() {
           />
         </div>
       )}
-
-      {deck ? <DeckActions deck={deck} variant="buttons" /> : null}
 
       <div className="mt-[18px]" />
     </Screen>

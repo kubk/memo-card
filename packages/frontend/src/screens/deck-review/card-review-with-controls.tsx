@@ -27,6 +27,7 @@ type Props = {
   onShowAnswer: () => void;
   onReviewCardWithAnswers: () => void;
   cardOpenedRow?: React.ReactNode;
+  cardFooter?: React.ReactNode;
 };
 
 export function CardReviewWithControls(props: Props) {
@@ -39,6 +40,7 @@ export function CardReviewWithControls(props: Props) {
     onShowAnswer,
     onReviewCardWithAnswers,
     cardOpenedRow,
+    cardFooter,
   } = props;
   const bottomControlsClassName = cn(
     "absolute flex w-full",
@@ -51,6 +53,7 @@ export function CardReviewWithControls(props: Props) {
     <>
       <div className="relative -mt-[72px] w-full">
         {card && <Card card={card} />}
+        {cardFooter ? <div className="mt-3">{cardFooter}</div> : null}
       </div>
       {card && card.answerType === "remember" && (
         <div className={cn(bottomControlsClassName, "gap-2 [&>button]:flex-1")}>

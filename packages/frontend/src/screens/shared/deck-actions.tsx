@@ -5,16 +5,18 @@ import { userStore } from "../../store/user-store.ts";
 import { t } from "../../translations/t.ts";
 import { ButtonGrid } from "../../ui/button-grid.tsx";
 import { ButtonSideAligned } from "../../ui/button-side-aligned.tsx";
+import { cn } from "../../ui/cn.ts";
 import { Dropdown } from "../../ui/dropdown.tsx";
 import { shareMemoCardUrl } from "./share-memo-card-url.tsx";
 
 type Props = {
   deck: Pick<DeckListDeck, "authorId" | "id" | "shareId">;
   variant: "buttons" | "dropdown";
+  dropdownClassName?: string;
 };
 
 export function DeckActions(props: Props) {
-  const { deck, variant } = props;
+  const { deck, variant, dropdownClassName } = props;
   const canSeeDuplicate = deckListStore.canSeeDuplicate(deck);
   const canRemove = deckListStore.canRemoveDeck(deck);
 
@@ -39,7 +41,7 @@ export function DeckActions(props: Props) {
   if (variant === "dropdown") {
     return (
       <Dropdown
-        className="relative mt-3 shrink-0"
+        className={cn("relative mt-3 shrink-0", dropdownClassName)}
         items={[
           ...(canSeeDuplicate
             ? [

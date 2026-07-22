@@ -11,9 +11,11 @@ import { type DeckWithCardsWithReviewType } from "../../store/deck-list-store.ts
 function LoadedCardPreview({
   card,
   deck,
+  canEdit,
 }: {
   card: DeckCardDbType;
   deck: DeckWithCardsWithReviewType;
+  canEdit: boolean;
 }) {
   const [form] = useState(() => createMockCardPreviewForm(card, deck));
 
@@ -23,6 +25,17 @@ function LoadedCardPreview({
       onBack={() => {
         screenStore.back();
       }}
+      onEdit={
+        canEdit
+          ? () => {
+              screenStore.push({
+                type: "deckForm",
+                deckId: deck.id,
+                cardId: card.id,
+              });
+            }
+          : undefined
+      }
     />
   );
 }
@@ -48,5 +61,7 @@ export function CardPreviewScreen() {
     return <ErrorScreen />;
   }
 
-  return <LoadedCardPreview card={card} deck={deck} />;
+  return (
+    <LoadedCardPreview card={card} deck={deck} canEdit={store.canEdit} />
+  );
 }

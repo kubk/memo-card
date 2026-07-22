@@ -1,43 +1,69 @@
 import { useBackButton } from "../../../lib/platform/use-back-button.ts";
 import { CardReviewWithControls } from "../../deck-review/card-review-with-controls.tsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CardPreviewStore } from "../../deck-review/store/card-preview-store.ts";
 import { platform } from "../../../lib/platform/platform.ts";
 import { BrowserPlatform } from "../../../lib/platform/browser/browser-platform.ts";
 import { BrowserBackButton } from "../../shared/browser-platform/browser-back-button.tsx";
-import { RotateCcwIcon } from "lucide-react";
+import { PencilIcon, RotateCcwIcon } from "lucide-react";
 import { Button } from "../../../ui/button.tsx";
 import { t } from "../../../translations/t.ts";
 import { CardPreviewFormData } from "./store/card-preview-types.ts";
+import { TelegramPlatform } from "../../../lib/platform/telegram/telegram-platform.ts";
+import { getWebApp } from "../../../lib/platform/telegram/telegram-web-app.ts";
+import { ButtonSideAligned } from "../../../ui/button-side-aligned.tsx";
 
 type Props = {
   form: CardPreviewFormData;
   onBack: () => void;
+  onEdit?: () => void;
 };
 
 export function CardPreview(props: Props) {
-  const { form, onBack } = props;
+  const { form, onBack, onEdit } = props;
   const [cardPreviewStore] = useState(() => new CardPreviewStore(form));
 
   useBackButton(onBack);
 
+  useEffect(() => {
+    if (!(platform instanceof TelegramPlatform) || !onEdit) {
+      return;
+    }
+
+    const webApp = getWebApp();
+    if (!webApp.isVersionAtLeast("7.10")) {
+      return;
+    }
+
+    webApp.SecondaryButton.setParams({
+      text: t("edit"),
+      position: "left",
+      is_visible: true,
+    });
+    webApp.SecondaryButton.onClick(onEdit);
+
+    return () => {
+      webApp.SecondaryButton.offClick(onEdit);
+      webApp.SecondaryButton.hide();
+    };
+  }, [onEdit]);
+
   return (
     <div className="relative flex h-[calc(var(--tg-viewport-height,100vh)_-_var(--tg-safe-area-inset-top,0px)_-_var(--tg-safe-area-inset-bottom,0px)_-_var(--app-top-offset,0px))] flex-col items-center justify-center overflow-x-hidden">
-      {platform instanceof BrowserPlatform && (
-        <div className="absolute top-3 left-3">
+      <div className="absolute top-3 left-3 flex items-center gap-3">
+        {platform instanceof BrowserPlatform && (
           <BrowserBackButton />
-        </div>
-      )}
-      {cardPreviewStore.isOpened && (
-        <div className="absolute top-3 right-3 cursor-pointer">
+        )}
+        {cardPreviewStore.isOpened && (
           <RotateCcwIcon
+            className="cursor-pointer"
             size={24}
             onClick={() => {
               cardPreviewStore.revert();
             }}
           />
-        </div>
-      )}
+        )}
+      </div>
 
       <CardReviewWithControls
         onAgain={() => {}}
@@ -55,6 +81,18 @@ export function CardPreview(props: Props) {
           >
             {t("quit_card")}
           </Button>
+        }
+        cardFooter={
+          platform instanceof BrowserPlatform && onEdit ? (
+            <ButtonSideAligned
+              align="center"
+              icon={<PencilIcon size={24} />}
+              outline
+              onClick={onEdit}
+            >
+              {t("edit")}
+            </ButtonSideAligned>
+          ) : null
         }
         card={cardPreviewStore}
         onReviewCardWithAnswers={() => {}}

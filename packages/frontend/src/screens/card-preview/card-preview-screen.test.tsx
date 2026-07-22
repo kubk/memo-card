@@ -7,7 +7,9 @@ import { CardPreviewScreen } from "./card-preview-screen.tsx";
 
 const mocks = vi.hoisted(() => ({
   back: vi.fn(),
+  push: vi.fn(),
   deckWithCards: vi.fn(),
+  isDeckOwner: vi.fn(() => false),
   myDecks: [] as unknown[],
   publicDecks: [] as unknown[],
   screen: {
@@ -33,12 +35,14 @@ vi.mock("../../store/deck-list-store.ts", () => ({
     get publicDecks() {
       return mocks.publicDecks;
     },
+    isDeckOwner: mocks.isDeckOwner,
   },
 }));
 
 vi.mock("../../store/screen-store.ts", () => ({
   screenStore: {
     back: mocks.back,
+    push: mocks.push,
     get screen() {
       return mocks.screen;
     },
@@ -58,9 +62,16 @@ vi.mock("../deck-form/card-form/create-mock-card-preview-form.ts", () => ({
 vi.mock("../deck-form/card-form/card-preview.tsx", () => ({
   CardPreview: ({
     form,
+    onEdit,
   }: {
     form: { cardForm: { front: { value: string } } | null };
-  }) => <div>{form.cardForm?.front.value}</div>,
+    onEdit?: () => void;
+  }) => (
+    <div>
+      {form.cardForm?.front.value}
+      {onEdit ? <button onClick={onEdit}>Edit</button> : null}
+    </div>
+  ),
 }));
 
 vi.mock("../error-screen/error-screen.tsx", () => ({
@@ -117,6 +128,7 @@ describe("CardPreviewScreen", () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
+    mocks.isDeckOwner.mockReturnValue(false);
     mocks.myDecks.length = 0;
     mocks.publicDecks.length = 0;
     queryRegistry.clear();
@@ -167,5 +179,31 @@ describe("CardPreviewScreen", () => {
 
     expect(container.textContent).toBe("Airport");
     expect(mocks.deckWithCards).not.toHaveBeenCalled();
+  });
+
+  it("opens the card editor for the deck owner", async () => {
+    mocks.isDeckOwner.mockReturnValue(true);
+    mocks.myDecks.push({
+      ...completeDeck,
+      cardsToReview: [],
+    });
+
+    await act(async () => {
+      root.render(<CardPreviewScreen />);
+      await Promise.resolve();
+    });
+
+    const editButton = container.querySelector("button");
+    expect(editButton?.textContent).toBe("Edit");
+
+    await act(async () => {
+      editButton?.click();
+    });
+
+    expect(mocks.push).toHaveBeenCalledWith({
+      type: "deckForm",
+      deckId: 42,
+      cardId: 1,
+    });
   });
 });
