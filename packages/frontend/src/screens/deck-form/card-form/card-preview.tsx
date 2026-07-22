@@ -1,6 +1,6 @@
 import { useBackButton } from "../../../lib/platform/use-back-button.ts";
 import { CardReviewWithControls } from "../../deck-review/card-review-with-controls.tsx";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { CardPreviewStore } from "../../deck-review/store/card-preview-store.ts";
 import { platform } from "../../../lib/platform/platform.ts";
 import { BrowserPlatform } from "../../../lib/platform/browser/browser-platform.ts";
@@ -9,8 +9,6 @@ import { PencilIcon, RotateCcwIcon } from "lucide-react";
 import { Button } from "../../../ui/button.tsx";
 import { t } from "../../../translations/t.ts";
 import { CardPreviewFormData } from "./store/card-preview-types.ts";
-import { TelegramPlatform } from "../../../lib/platform/telegram/telegram-platform.ts";
-import { getWebApp } from "../../../lib/platform/telegram/telegram-web-app.ts";
 import { ButtonSideAligned } from "../../../ui/button-side-aligned.tsx";
 
 type Props = {
@@ -24,29 +22,6 @@ export function CardPreview(props: Props) {
   const [cardPreviewStore] = useState(() => new CardPreviewStore(form));
 
   useBackButton(onBack);
-
-  useEffect(() => {
-    if (!(platform instanceof TelegramPlatform) || !onEdit) {
-      return;
-    }
-
-    const webApp = getWebApp();
-    if (!webApp.isVersionAtLeast("7.10")) {
-      return;
-    }
-
-    webApp.SecondaryButton.setParams({
-      text: t("edit"),
-      position: "left",
-      is_visible: true,
-    });
-    webApp.SecondaryButton.onClick(onEdit);
-
-    return () => {
-      webApp.SecondaryButton.offClick(onEdit);
-      webApp.SecondaryButton.hide();
-    };
-  }, [onEdit]);
 
   return (
     <div className="relative flex h-[calc(var(--tg-viewport-height,100vh)_-_var(--tg-safe-area-inset-top,0px)_-_var(--tg-safe-area-inset-bottom,0px)_-_var(--app-top-offset,0px))] flex-col items-center justify-center overflow-x-hidden">
@@ -83,7 +58,7 @@ export function CardPreview(props: Props) {
           </Button>
         }
         cardFooter={
-          platform instanceof BrowserPlatform && onEdit ? (
+          onEdit ? (
             <ButtonSideAligned
               align="center"
               icon={<PencilIcon size={24} />}
