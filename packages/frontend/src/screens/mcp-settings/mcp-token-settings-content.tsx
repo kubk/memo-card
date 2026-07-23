@@ -1,5 +1,6 @@
 import { useBackButton } from "../../lib/platform/use-back-button.ts";
 import { useMainButton } from "../../lib/platform/use-main-button.ts";
+import { screenStore } from "../../store/screen-store.ts";
 import { cn } from "../../ui/cn.ts";
 import { McpConfigured } from "./components/mcp-configured.tsx";
 import { McpConnectChatGptStep } from "./components/mcp-connect-chat-gpt-step.tsx";
@@ -11,7 +12,7 @@ import { useMcpSettingsStore } from "./store/mcp-settings-store-context.tsx";
 export function McpTokenSettingsContent() {
   const store = useMcpSettingsStore();
 
-  useBackButton(store.goBack);
+  useBackButton(() => screenStore.back());
   useMainButton(() => store.mainButtonText, store.submitCurrentStep);
 
   if (store.isConfigured) {

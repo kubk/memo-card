@@ -63,10 +63,6 @@ export class McpSettingsStore {
     return mcpT("quitButton");
   }
 
-  goBack() {
-    screenStore.back();
-  }
-
   goToStep(step: McpWizardStep) {
     this.step = step;
   }
