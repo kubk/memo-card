@@ -136,13 +136,7 @@ export function DeckPreview(props: Props) {
                         text: t("view_more"),
                         isLinkColor: true,
                         alignCenter: true,
-                        onClick: () => {
-                          screenStore.push({
-                            type: "cardListPreview",
-                            deckId: deck.id,
-                            state: { deck },
-                          });
-                        },
+                        onClick: store.openCardList,
                       },
                     ]
                   : undefined

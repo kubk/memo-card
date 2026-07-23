@@ -181,7 +181,7 @@ export function App() {
         )}
         {screenStore.screen.type === "cardList" && (
           <SignedIn>
-            <DeckFormStoreProvider>
+            <DeckFormStoreProvider deck={screenStore.screen.state?.deck}>
               <CardList />
             </DeckFormStoreProvider>
           </SignedIn>

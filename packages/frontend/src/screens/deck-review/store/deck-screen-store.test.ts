@@ -7,6 +7,10 @@ import { DeckScreenStore } from "./deck-screen-store.ts";
 const mocks = vi.hoisted(() => ({
   deckWithCards: vi.fn(),
   addDeckToMine: vi.fn(),
+  isDeckOwner: vi.fn(
+    (deck: { authorId: number | null }) => deck.authorId === 1,
+  ),
+  push: vi.fn(),
   myDecks: [] as unknown[],
   publicDecks: [] as unknown[],
   screen: { type: "main" } as unknown,
@@ -29,6 +33,7 @@ vi.mock("../../../store/deck-list-store.ts", () => ({
       return mocks.publicDecks;
     },
     addDeckToMine: mocks.addDeckToMine,
+    isDeckOwner: mocks.isDeckOwner,
   },
 }));
 
@@ -41,6 +46,7 @@ vi.mock("../../../store/screen-store.ts", () => ({
     get screen() {
       return mocks.screen;
     },
+    push: mocks.push,
   },
 }));
 
@@ -155,4 +161,61 @@ describe("DeckScreenStore", () => {
     await Promise.resolve();
     expect(mocks.deckWithCards).not.toHaveBeenCalled();
   });
+
+  it.each([
+    {
+      entryPoint: "My decks",
+      authorId: 1,
+      expectedRouteType: "cardList",
+    },
+    {
+      entryPoint: "My decks",
+      authorId: 2,
+      expectedRouteType: "cardListPreview",
+    },
+    {
+      entryPoint: "public catalog",
+      authorId: 1,
+      expectedRouteType: "cardList",
+    },
+    {
+      entryPoint: "public catalog",
+      authorId: 2,
+      expectedRouteType: "cardListPreview",
+    },
+  ] as const)(
+    "opens $expectedRouteType for a deck with author $authorId from $entryPoint",
+    ({ entryPoint, authorId, expectedRouteType }) => {
+      const deck = {
+        ...completeDeck,
+        authorId,
+        cardsToReview: [],
+      };
+
+      if (entryPoint === "My decks") {
+        mocks.myDecks.push(deck);
+      } else {
+        mocks.screen = {
+          type: "deckPreview",
+          deckId: deck.id,
+          state: { deck },
+        };
+        mocks.deckWithCards.mockResolvedValue(deck);
+      }
+
+      const store = new DeckScreenStore(deck.id);
+      store.openCardList();
+
+      expect(mocks.push).toHaveBeenCalledWith({
+        type: expectedRouteType,
+        deckId: deck.id,
+        state: {
+          deck: expect.objectContaining({
+            id: deck.id,
+            authorId,
+          }),
+        },
+      });
+    },
+  );
 });

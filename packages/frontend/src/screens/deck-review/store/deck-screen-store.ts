@@ -81,6 +81,27 @@ export class DeckScreenStore {
     return !!deck && deckListStore.isDeckOwner(deck);
   }
 
+  openCardList() {
+    const deck = this.deck;
+    if (!deck) {
+      return;
+    }
+
+    screenStore.push(
+      this.canEdit
+        ? {
+            type: "cardList",
+            deckId: deck.id,
+            state: { deck },
+          }
+        : {
+            type: "cardListPreview",
+            deckId: deck.id,
+            state: { deck },
+          },
+    );
+  }
+
   startReview(reviewStore: ReviewStore) {
     const deck = this.deck;
     if (!deck || !this.canReview) {
