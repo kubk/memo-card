@@ -1,6 +1,7 @@
 import { useBackButton } from "../../lib/platform/use-back-button.ts";
 import { useMainButton } from "../../lib/platform/use-main-button.ts";
 import { cn } from "../../ui/cn.ts";
+import { McpConfigured } from "./components/mcp-configured.tsx";
 import { McpConnectChatGptStep } from "./components/mcp-connect-chat-gpt-step.tsx";
 import { McpIntroStep } from "./components/mcp-intro-step.tsx";
 import { McpTryChatGptStep } from "./components/mcp-try-chat-gpt-step.tsx";
@@ -12,6 +13,14 @@ export function McpTokenSettingsContent() {
 
   useBackButton(store.goBack);
   useMainButton(() => store.mainButtonText, store.submitCurrentStep);
+
+  if (store.isConfigured) {
+    return (
+      <div className="mx-auto flex min-h-[calc(100vh_-_120px)] w-full max-w-[430px] flex-col items-center justify-center px-5 py-8">
+        <McpConfigured />
+      </div>
+    );
+  }
 
   return (
     <div className="mx-auto flex min-h-[calc(100vh_-_120px)] w-full max-w-[430px] flex-col items-center px-5 pt-8">

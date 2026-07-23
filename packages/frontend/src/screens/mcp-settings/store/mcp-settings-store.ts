@@ -35,6 +35,10 @@ export class McpSettingsStore {
     return this.mcpTokenQuery.error !== null;
   }
 
+  get isConfigured() {
+    return this.mcpTokenQuery.data?.status === "used";
+  }
+
   get title() {
     if (this.step === 2) {
       return mcpT("openChatGptTitle");
@@ -44,6 +48,10 @@ export class McpSettingsStore {
   }
 
   get mainButtonText() {
+    if (this.isConfigured) {
+      return mcpT("quitButton");
+    }
+
     if (this.step === 1) {
       return mcpT("startButton");
     }
@@ -64,6 +72,11 @@ export class McpSettingsStore {
   }
 
   submitCurrentStep() {
+    if (this.isConfigured) {
+      screenStore.back();
+      return;
+    }
+
     if (this.step === 1) {
       this.step = 2;
       return;
