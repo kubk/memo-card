@@ -5,7 +5,6 @@ import { formTouchAll, isFormValid } from "mobx-form-lite";
 import { screenStore } from "../../../../store/screen-store.ts";
 import { notifyError } from "../../../shared/snackbar/snackbar.tsx";
 import { deckListStore } from "../../../../store/deck-list-store.ts";
-import { voiceGenerationStore } from "../../../../store/voice-generation-store.ts";
 import { assert } from "api";
 import { api, apiProxy } from "../../../../api/trpc-api.ts";
 import { notifyNewCards } from "../notify-new-cards.ts";
@@ -59,8 +58,6 @@ export class AiGeneratedCardFormStore {
       deckId: firstCard.deckId,
       cardId: firstCard.id,
     });
-
-    voiceGenerationStore.generateForDeckCards(firstCard.deckId, cards);
   }
 
   get deckId() {

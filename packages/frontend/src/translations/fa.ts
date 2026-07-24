@@ -1,12 +1,8 @@
 import { type Translation } from "./en";
 
 export const fa: Translation = {
-  ai_speech_preview_free_title: "صدای استاندارد",
-  ai_speech_preview_free_desc: "صدای رباتیک رایگان",
-  ai_speech_preview_pro_desc: "صدای با کیفیت بالا با لحن طبیعی",
-  ai_speech_preview_free_lbl: "رایگان",
-  ai_speech_lang_support: "پشتیبانی از بیش از 30 زبان",
-  ai_speech_listen: "شنیدن نمونه",
+  voice_type_browser: "صدای مرورگر",
+  voice_type_browser_description: "از صدای موجود در دستگاه شما استفاده می‌کند",
   voice_type_none: "هیچ",
   review_custom: "انتخاب موارد مرور",
   custom_new_cards: "کارت‌های جدید",
@@ -282,12 +278,6 @@ export const fa: Translation = {
   error_solving: "ما در حال حل مشکل هستیم",
   error: "خطا",
   user_settings_updated: "تنظیمات به‌روز شد",
-  ai_speech_validate: "لطفاً یک طرف را انتخاب کنید یا متن را وارد کنید",
-  ai_speech_type: "یا متن مورد نیاز را تایپ کنید",
-  ai_speech_empty:
-    "هیچ صدای هوش مصنوعی تولید نشده است. طرف کارت را در زیر انتخاب کنید.",
-  ai_speech_title: "گفتار هوش مصنوعی",
-  ai_speech_generate: "تولید",
   ai_cards_generate: "تولید کارت‌ها",
   ai_cards_title: "ساخت دسته با AI",
   ai_cards_previous_prompts: "تاریخچه دستورات",

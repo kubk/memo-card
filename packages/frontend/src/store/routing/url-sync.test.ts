@@ -17,7 +17,6 @@ describe("routeToUrl", () => {
           isPublic: true,
           speakLocale: null,
           speakField: null,
-          speakAutoAi: false,
           reverseCards: false,
           cardInputModeId: null,
           deckCards: [],

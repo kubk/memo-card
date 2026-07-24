@@ -18,7 +18,6 @@ const mocks = vi.hoisted(() => {
       isPublic: false,
       speakLocale: null,
       speakField: null,
-      speakAutoAi: false,
       reverseCards: false,
       deckCategory: null,
       categoryId: null,
@@ -59,7 +58,9 @@ vi.mock("../../../../store/deck-list-store.ts", () => {
       back: "Время",
       answerType: "remember",
       answers: null,
-      options: null,
+      options: {
+        voice: "https://media.memocard.org/existing-card-voice.mp3",
+      },
     },
     {
       id: 4,
@@ -162,12 +163,6 @@ vi.mock("../../../../store/user-store.ts", () => {
   };
 });
 
-vi.mock(import("../../../../lib/voice/generate-voice-for-new-cards.ts"), () => {
-  return {
-    generateVoiceForNewCards: vi.fn(),
-  };
-});
-
 describe("card form store", () => {
   beforeEach(() => {
     mockScreenStore.reset({
@@ -231,6 +226,9 @@ describe("card form store", () => {
     expect(store.cardForm.id).toBe(3);
     expect(store.cardForm.front.value).toBe("time");
     expect(store.cardForm.back.value).toBe("Время");
+    expect(store.cardForm.options.value?.voice).toBe(
+      "https://media.memocard.org/existing-card-voice.mp3",
+    );
 
     store.cardForm.front.onChange("edited front");
     store.cardForm.back.onChange("edited back");
@@ -247,7 +245,9 @@ describe("card form store", () => {
         "example": null,
         "front": "edited front",
         "id": 3,
-        "options": null,
+        "options": {
+          "voice": "https://media.memocard.org/existing-card-voice.mp3",
+        },
       }
     `);
   });

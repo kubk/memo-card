@@ -1,12 +1,8 @@
 import { type Translation } from "./en";
 
 export const ptBr: Translation = {
-  ai_speech_preview_free_title: "Voz Padrão",
-  ai_speech_preview_free_desc: "Voz robótica gratuita",
-  ai_speech_preview_pro_desc: "Voz de alta qualidade com entonação natural",
-  ai_speech_preview_free_lbl: "Grátis",
-  ai_speech_lang_support: "Suporta mais de 30 idiomas",
-  ai_speech_listen: "Ouvir amostra",
+  voice_type_browser: "Voz do navegador",
+  voice_type_browser_description: "Usa uma voz disponível no seu dispositivo",
   voice_type_none: "Nenhum",
   review_custom: "Selecionar o que revisar",
   custom_new_cards: "Novas cartas",
@@ -35,11 +31,6 @@ export const ptBr: Translation = {
   generate: "Gerar",
   card_input_mode_screen: "Modo de entrada de cartão",
   yes: "Sim",
-  ai_speech_generate: "Gerar",
-  ai_speech_title: "Voz de IA",
-  ai_speech_empty: "Nenhuma voz de IA gerada. Escolha o lado do cartão abaixo.",
-  ai_speech_type: "Ou digite o texto necessário",
-  ai_speech_validate: "Por favor, selecione um lado ou digite o texto",
   confirm_ok: "Confirmar",
   confirm_cancel: "Cancelar",
   error: "Erro",

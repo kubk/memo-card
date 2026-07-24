@@ -20,7 +20,6 @@ import { makeMutation } from "../../../lib/mobx-query-lite/make-mutation.ts";
 export type PreviewItem =
   | "individual_ai_card"
   | "bulk_ai_cards"
-  | "ai_speech"
   | "duplicate_content"
   | "reverse_cards";
 

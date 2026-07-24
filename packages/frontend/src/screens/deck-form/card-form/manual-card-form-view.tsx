@@ -19,23 +19,18 @@ import { FilledIcon } from "../../../ui/filled-icon.tsx";
 import { theme } from "../../../ui/theme.tsx";
 import { ListRightText } from "../../../ui/list-right-text.tsx";
 import { formatCardType } from "./format-card-type.ts";
-import { formTouchAll, isFormValid } from "mobx-form-lite";
 import { ButtonSideAligned } from "../../../ui/button-side-aligned.tsx";
 import { ButtonGrid } from "../../../ui/button-grid.tsx";
 import { CardAnswerErrors } from "./card-answer-errors.tsx";
 import { screenStore } from "../../../store/screen-store.ts";
 import { assert } from "api";
-import { WithProIcon } from "../../shared/with-pro-icon.tsx";
 import { deckListStore } from "../../../store/deck-list-store.ts";
-import { voiceGenerationStore } from "../../../store/voice-generation-store.ts";
-import { LoadingSwap } from "../../../ui/loading-swap.tsx";
 import {
   ArrowLeftIcon,
   ArrowRightIcon,
   EyeIcon,
   LayersIcon,
   PlusIcon,
-  UserIcon,
   TrashIcon,
   FolderInputIcon,
   BookOpenCheckIcon,
@@ -223,42 +218,6 @@ export function ManualCardFormView() {
               onClick: () => {
                 cardFormStore.cardTypeModal.setTrue();
               },
-            },
-
-            {
-              icon: (
-                <FilledIcon
-                  backgroundColor={theme.icons.sea}
-                  icon={<UserIcon size={18} />}
-                />
-              ),
-              text: t("ai_speech_title"),
-              onClick: () => {
-                userStore.executeViaPaywall("ai_speech", () => {
-                  if (!isFormValid(cardForm)) {
-                    formTouchAll(cardForm);
-                    return;
-                  }
-                  cardFormStore.cardInnerScreen.onChange("aiSpeech");
-                });
-              },
-              right: (
-                <WithProIcon>
-                  <LoadingSwap
-                    isLoading={
-                      cardForm.id
-                        ? voiceGenerationStore.generatingCardIds.has(
-                            cardForm.id,
-                          )
-                        : false
-                    }
-                  >
-                    {cardForm.options.value?.voice ? (
-                      <ListRightText chevron text={t("yes")} />
-                    ) : undefined}
-                  </LoadingSwap>
-                </WithProIcon>
-              ),
             },
           ]}
         />

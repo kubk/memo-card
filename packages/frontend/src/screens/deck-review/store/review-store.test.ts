@@ -61,7 +61,6 @@ const createDeckWithCards = (cards: DeckCardDbTypeWithType[]) => {
     cardsToReview: cards,
     speakField: null,
     speakLocale: null,
-    speakAutoAi: false,
     reverseCards: false,
     authorId: 1,
     shareId: "share_id_mock2",
@@ -93,11 +92,6 @@ vi.mock("../../../api/trpc-api.ts", () => {
       reviewCardsRequest: reviewCardsReviewMock,
       cardsReview: {
         mutate: reviewCardsReviewMock,
-      },
-      me: {
-        features: {
-          query: () => vi.fn(),
-        },
       },
     },
   };

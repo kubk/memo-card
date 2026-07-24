@@ -14,7 +14,6 @@ import { deckListStore } from "../../../store/deck-list-store.ts";
 import { showConfirm } from "../../../lib/platform/show-confirm.ts";
 import { assert } from "api";
 import { api, apiProxy } from "../../../api/trpc-api.ts";
-import { voiceGenerationStore } from "../../../store/voice-generation-store.ts";
 import { aiMassCreationDraftStore } from "./ai-mass-creation-draft-store.ts";
 import { makeMutation } from "../../../lib/mobx-query-lite/make-mutation.ts";
 import { makeQuery } from "../../../lib/mobx-query-lite/make-query.ts";
@@ -216,10 +215,5 @@ export class AiMassCreationStore {
     aiMassCreationDraftStore.clearDeckDraft();
     screenStore.replace({ type: "main" });
     screenStore.push({ type: "deckForm", deckId: result.data.deck.id });
-
-    voiceGenerationStore.generateForDeckCards(
-      result.data.deck.id,
-      result.data.createdCards,
-    );
   }
 }

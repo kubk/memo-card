@@ -26,9 +26,7 @@ export function CardPreview(props: Props) {
   return (
     <div className="relative flex h-[calc(var(--tg-viewport-height,100vh)_-_var(--tg-safe-area-inset-top,0px)_-_var(--tg-safe-area-inset-bottom,0px)_-_var(--app-top-offset,0px))] flex-col items-center justify-center overflow-x-hidden">
       <div className="absolute top-3 left-3 flex items-center gap-3">
-        {platform instanceof BrowserPlatform && (
-          <BrowserBackButton />
-        )}
+        {platform instanceof BrowserPlatform && <BrowserBackButton />}
         {cardPreviewStore.isOpened && (
           <RotateCcwIcon
             className="cursor-pointer"

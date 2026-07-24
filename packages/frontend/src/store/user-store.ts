@@ -19,7 +19,6 @@ import { makeQuery } from "../lib/mobx-query-lite/make-query.ts";
 type PaywallType =
   | "bulk_ai_cards"
   | "individual_ai_card"
-  | "ai_speech"
   | "duplicate_content"
   | "reverse_cards";
 

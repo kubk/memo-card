@@ -1,12 +1,8 @@
 import { type Translation } from "./en";
 
 export const ar: Translation = {
-  ai_speech_preview_free_title: "الصوت القياسي",
-  ai_speech_preview_free_desc: "صوت آلي مجاني",
-  ai_speech_preview_pro_desc: "صوت عالي الجودة بنبرة طبيعية",
-  ai_speech_preview_free_lbl: "مجاني",
-  ai_speech_lang_support: "يدعم أكثر من 30 لغة",
-  ai_speech_listen: "استمع للعينة",
+  voice_type_browser: "صوت المتصفح",
+  voice_type_browser_description: "يستخدم صوتًا متاحًا على جهازك",
   voice_type_none: "لا شيء",
   review_card_type: "اختر نوع البطاقة",
   custom_due_cards: "البطاقات المستحقة",
@@ -287,13 +283,6 @@ export const ar: Translation = {
   upgrade: "ترقية الخطة",
 
   ai_card_input_mode_supports: "يدعم لغات مختلفة",
-
-  ai_speech_title: "الذكاء الاصطناعي الصوتي",
-  ai_speech_empty:
-    "لم يتم توليد أي صوت بالذكاء الاصطناعي. اختر جانب البطاقة أدناه.",
-  ai_speech_type: "أو اكتب النص المطلوب",
-  ai_speech_generate: "توليد",
-  ai_speech_validate: "يرجى اختيار الجانب أو كتابة النص",
 
   // Global Search
   global_search_placeholder: "البحث في المجموعات، المجلدات، البطاقات",

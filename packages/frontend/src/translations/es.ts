@@ -1,12 +1,8 @@
 import { type Translation } from "./en";
 
 export const es: Translation = {
-  ai_speech_preview_free_title: "Voz estándar",
-  ai_speech_preview_free_desc: "Voz robótica gratuita",
-  ai_speech_preview_pro_desc: "Voz de alta calidad con entonación natural",
-  ai_speech_preview_free_lbl: "Gratis",
-  ai_speech_lang_support: "Soporta más de 30 idiomas",
-  ai_speech_listen: "Escuchar muestra",
+  voice_type_browser: "Voz del navegador",
+  voice_type_browser_description: "Usa una voz disponible en tu dispositivo",
   voice_type_none: "Ninguno",
   review_custom: "Seleccionar qué revisar",
   review_card_type: "Tipo de tarjeta",
@@ -35,12 +31,6 @@ export const es: Translation = {
   generate: "Generar",
   card_input_mode_screen: "Modo de entrada de tarjeta",
   yes: "Sí",
-  ai_speech_validate: "Por favor, selecciona una cara o escribe el texto",
-  ai_speech_type: "O escribe el texto necesario",
-  ai_speech_empty:
-    "No se ha generado ninguna voz de IA. Elige el lado de la tarjeta a continuación.",
-  ai_speech_title: "Voz de IA",
-  ai_speech_generate: "Generar",
   confirm_ok: "Confirmar",
   confirm_cancel: "Cancelar",
   user_settings_updated: "Configuración actualizada",

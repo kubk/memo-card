@@ -282,21 +282,11 @@ export const en = {
   upgrade_pro: "Upgrade to Pro",
   upgrade: "Upgrade",
 
-  ai_speech_preview_free_title: "Standard voice",
-  ai_speech_preview_free_desc: "Free robotic voice",
-  ai_speech_preview_pro_desc: "High-quality voice with natural intonation",
-  ai_speech_preview_free_lbl: "Free",
-  ai_speech_lang_support: "Supports 30+ languages",
-  ai_speech_listen: "Listen sample",
+  voice_type_browser: "Browser voice",
+  voice_type_browser_description: "Uses a voice available on your device",
   voice_type_none: "None",
 
   ai_card_input_mode_supports: "Different languages are supported",
-
-  ai_speech_title: "AI speech",
-  ai_speech_empty: "No AI speech generated. Choose the card side below.",
-  ai_speech_type: "Or type the needed text",
-  ai_speech_generate: "Generate",
-  ai_speech_validate: "Please either select side or type the text",
 
   // Global Search
   global_search_placeholder: "Search decks, folders, cards",

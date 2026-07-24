@@ -22,7 +22,6 @@ import { assert } from "api";
 import { t } from "../../../../translations/t.ts";
 import { api } from "../../../../api/trpc-api.ts";
 import { MoveToDeckSelectorStore } from "../../deck-form/store/move-to-deck-selector-store.tsx";
-import { voiceGenerationStore } from "../../../../store/voice-generation-store.ts";
 import {
   CardFormType,
   CardFilterSortBy,
@@ -338,7 +337,7 @@ export class CardFormStore {
       return;
     }
 
-    const { createdCards, deck, cardsToReview } = result.data;
+    const { deck, cardsToReview } = result.data;
 
     runInAction(() => {
       deckListStore.replaceDeck(deck, true);
@@ -349,8 +348,6 @@ export class CardFormStore {
       }
       notifyNewCards(result.data.createdCards);
     });
-
-    voiceGenerationStore.generateForCard(deck, createdCards[0]);
   }
 
   private async updateCard() {

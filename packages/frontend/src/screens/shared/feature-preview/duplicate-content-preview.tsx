@@ -111,7 +111,7 @@ type Props = {
 
 export function DuplicateContentPreview(props: Props) {
   const { onClose, isOpen, showUpgrade } = props;
-  const feature = translateProDescription(translator.getLang())[3];
+  const feature = translateProDescription(translator.getLang())[2];
 
   return (
     <BottomSheet title={feature.title} isOpen={isOpen} onClose={onClose}>

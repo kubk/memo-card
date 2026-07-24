@@ -17,12 +17,9 @@ export const ru: Translation = {
   upgrade_pro: "Получить Pro",
   upgrade: "Тарифы",
 
-  ai_speech_preview_free_title: "Обычная речь",
-  ai_speech_preview_free_desc: "Роботизированная речь",
-  ai_speech_preview_pro_desc: "Качественная речь с естественной интонацией",
-  ai_speech_preview_free_lbl: "Бесплатно",
-  ai_speech_lang_support: "Поддержка 30+ языков",
-  ai_speech_listen: "Прослушать",
+  voice_type_browser: "Голос браузера",
+  voice_type_browser_description:
+    "Использует голос, доступный на вашем устройстве",
   voice_type_none: "Нет",
 
   login_google: "Войти через Google",
@@ -34,11 +31,6 @@ export const ru: Translation = {
   card_input_mode_screen: "Режим ввода карточки",
   generate: "Сгенерировать",
   yes: "Да",
-  ai_speech_title: "ИИ речь",
-  ai_speech_empty: "Речь не создана. Выберите сторону карточки ниже.",
-  ai_speech_generate: "Сгенерировать речь",
-  ai_speech_type: "Или введите текст",
-  ai_speech_validate: "Пожалуйста выберите сторону или введите текст",
   confirm_cancel: "Отмена",
   confirm_ok: "Подтвердить",
   error: "Ошибка",

@@ -9,9 +9,7 @@ import { useBackButton } from "../../../lib/platform/use-back-button.ts";
 import { useMainButton } from "../../../lib/platform/use-main-button.ts";
 import { useDeckFormStore } from "./store/deck-form-store-context.tsx";
 import { useProgress } from "../../../lib/platform/use-progress.tsx";
-import { userStore } from "../../../store/user-store.ts";
 import { RadioList } from "../../../ui/radio-list/radio-list.tsx";
-import { WithProIcon } from "../../shared/with-pro-icon.tsx";
 import type { VoiceType } from "./store/deck-form-store.ts";
 
 type DeckSpeakField = NonNullable<DeckWithCardsDbType["speakField"]>;
@@ -43,39 +41,15 @@ export function SpeakingCards() {
             title: t("voice_type_none"),
           },
           {
-            id: "robotic",
-            title: t("ai_speech_preview_free_title"),
-            description: t("ai_speech_preview_free_desc"),
-          },
-          {
-            id: "ai",
-            title: (
-              <Flex
-                fullWidth
-                justifyContent={"space-between"}
-                alignItems={"center"}
-              >
-                <span>{t("ai_speech_title")}</span>
-                <WithProIcon />
-              </Flex>
-            ),
-            description: t("ai_speech_preview_pro_desc"),
+            id: "browser",
+            title: t("voice_type_browser"),
+            description: t("voice_type_browser_description"),
           },
         ]}
-        onChange={(type) => {
-          // Handle paywall for AI option
-          if (type === "ai" && !userStore.isPaid) {
-            userStore.executeViaPaywall("individual_ai_card", () => {
-              deckFormStore.setVoiceType(type);
-            });
-          } else {
-            deckFormStore.setVoiceType(type);
-          }
-        }}
+        onChange={deckFormStore.setVoiceType}
       />
 
-      {(deckFormStore.voiceType === "robotic" ||
-        deckFormStore.voiceType === "ai") && (
+      {deckFormStore.voiceType === "browser" && (
         <Flex justifyContent={"space-between"} ml={12} mr={12} mt={16}>
           <div>
             <div className="text-sm text-hint">{t("voice_language")}</div>

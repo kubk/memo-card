@@ -61,7 +61,5 @@ export function CardPreviewScreen() {
     return <ErrorScreen />;
   }
 
-  return (
-    <LoadedCardPreview card={card} deck={deck} canEdit={store.canEdit} />
-  );
+  return <LoadedCardPreview card={card} deck={deck} canEdit={store.canEdit} />;
 }

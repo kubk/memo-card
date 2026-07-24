@@ -88,7 +88,6 @@ const completeDeck = {
   isPublic: true,
   speakLocale: null,
   speakField: null,
-  speakAutoAi: false,
   reverseCards: false,
   cardInputModeId: null,
   availableIn: "en",

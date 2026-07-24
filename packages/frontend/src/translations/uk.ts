@@ -1,12 +1,9 @@
 import { type Translation } from "./en";
 
 export const uk: Translation = {
-  ai_speech_preview_free_title: "Стандартний голос",
-  ai_speech_preview_free_desc: "Безкоштовний роботизований голос",
-  ai_speech_preview_pro_desc: "Високоякісний голос з природною інтонацією",
-  ai_speech_preview_free_lbl: "Безкоштовно",
-  ai_speech_lang_support: "Підтримує понад 30 мов",
-  ai_speech_listen: "Прослухати зразок",
+  voice_type_browser: "Голос браузера",
+  voice_type_browser_description:
+    "Використовує голос, доступний на вашому пристрої",
   voice_type_none: "Немає",
   review_custom: "Виберіть, що повторити",
   review_card_type: "Тип картки",
@@ -36,11 +33,6 @@ export const uk: Translation = {
   card_input_mode_screen: "Режим введення картки",
   generate: "Згенерувати",
   yes: "Так",
-  ai_speech_validate: "Будь ласка, виберіть сторону або введіть текст",
-  ai_speech_type: "Або введіть потрібний текст",
-  ai_speech_empty: "ШІ мовлення не створено. Виберіть сторону картки нижче.",
-  ai_speech_title: "ШІ мовлення",
-  ai_speech_generate: "Згенерувати",
   confirm_ok: "Підтвердити",
   confirm_cancel: "Скасувати",
   user_settings_updated: "Налаштування оновлено",

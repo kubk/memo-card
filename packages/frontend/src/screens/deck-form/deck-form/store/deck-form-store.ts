@@ -59,7 +59,6 @@ type DeckFormType = {
   cards: CardFormType[];
   speakingCardsLocale: TextField<SpeakLanguage | null>;
   speakingCardsField: TextField<DeckSpeakField | null>;
-  speakAutoAi: BooleanField;
   reverseCards: BooleanField;
   folderId?: number;
   cardInputModeId: string | null;
@@ -144,7 +143,6 @@ const createUpdateForm = (id: number, deck: MyDeck): DeckFormType => {
     description: new TextField(deck.description ?? ""),
     speakingCardsLocale: new TextField(deck.speakLocale),
     speakingCardsField: new TextField(deck.speakField),
-    speakAutoAi: new BooleanField(deck.speakAutoAi),
     reverseCards: new BooleanField(deck.reverseCards),
     cardInputModeId: deck.cardInputModeId || null,
     cards: deck.deckCards.map((card) => ({
@@ -170,7 +168,7 @@ const createUpdateForm = (id: number, deck: MyDeck): DeckFormType => {
 export type CardFilterSortBy = "createdAt" | "frontAlpha" | "backAlpha";
 export type CardFilterDirection = "desc" | "asc";
 
-export type VoiceType = "none" | "robotic" | "ai";
+export type VoiceType = "none" | "browser";
 
 export class DeckFormStore {
   deckForm?: DeckFormType;
@@ -253,7 +251,6 @@ export class DeckFormStore {
         cards: [],
         speakingCardsLocale: new TextField<SpeakLanguage | null>(null),
         speakingCardsField: new TextField<DeckSpeakField | null>(null),
-        speakAutoAi: new BooleanField(false),
         reverseCards: new BooleanField(false),
         folderId: screen.folder?.id ?? undefined,
         cardInputModeId: null,
@@ -467,51 +464,30 @@ export class DeckFormStore {
   get voiceType(): VoiceType {
     if (!this.deckForm) return "none";
 
-    const { speakingCardsLocale, speakingCardsField, speakAutoAi } =
-      this.deckForm;
+    const { speakingCardsLocale, speakingCardsField } = this.deckForm;
 
-    // If no locale or field, it's "none"
     if (!speakingCardsLocale.value || !speakingCardsField.value) {
       return "none";
     }
 
-    // If AI is enabled, it's "ai"
-    if (speakAutoAi.value) {
-      return "ai";
-    }
-
-    // Otherwise it's "robotic"
-    return "robotic";
+    return "browser";
   }
 
   setVoiceType(type: VoiceType) {
     if (!this.deckForm) return;
 
-    const { speakingCardsLocale, speakingCardsField, speakAutoAi } =
-      this.deckForm;
+    const { speakingCardsLocale, speakingCardsField } = this.deckForm;
 
     if (type === "none") {
       speakingCardsLocale.onChange(null);
       speakingCardsField.onChange(null);
-      speakAutoAi.setValue(false);
-    } else if (type === "robotic") {
-      // Set defaults if not already set
+    } else if (type === "browser") {
       if (!speakingCardsLocale.value) {
         speakingCardsLocale.onChange(SpeakLanguage.USEnglish);
       }
       if (!speakingCardsField.value) {
         speakingCardsField.onChange("front");
       }
-      speakAutoAi.setValue(false);
-    } else if (type === "ai") {
-      // Set defaults if not already set
-      if (!speakingCardsLocale.value) {
-        speakingCardsLocale.onChange(SpeakLanguage.USEnglish);
-      }
-      if (!speakingCardsField.value) {
-        speakingCardsField.onChange("front");
-      }
-      speakAutoAi.setValue(true);
     }
   }
 
@@ -621,7 +597,6 @@ export class DeckFormStore {
       description: this.deckForm.description.value,
       speakLocale: this.deckForm.speakingCardsLocale.value,
       speakField: this.deckForm.speakingCardsField.value,
-      speakAutoAi: this.deckForm.speakAutoAi.value,
       reverseCards: this.deckForm.reverseCards.value,
       folderId: this.deckForm.folderId,
     });
