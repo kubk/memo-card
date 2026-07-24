@@ -1,4 +1,9 @@
-import { type ReactNode, useEffect } from "react";
+import {
+  createContext,
+  type ReactNode,
+  useContext,
+  useEffect,
+} from "react";
 import { motion } from "framer-motion";
 import { XIcon } from "lucide-react";
 import { platform } from "../../lib/platform/platform.ts";
@@ -19,6 +24,22 @@ type Props = {
   children: ReactNode;
   title: string;
 };
+
+const BottomSheetPortalContext = createContext<HTMLElement | null>(null);
+
+export function BottomSheetPortalProvider({
+  children,
+  container,
+}: {
+  children: ReactNode;
+  container: HTMLElement | null;
+}) {
+  return (
+    <BottomSheetPortalContext.Provider value={container}>
+      {children}
+    </BottomSheetPortalContext.Provider>
+  );
+}
 
 const titleClassName =
   "w-full text-center text-xl relative self-center pt-2 pb-6";
@@ -48,6 +69,7 @@ function BottomSheetTitleContent(props: {
 
 export function BottomSheet(props: Props) {
   const { isOpen, onClose, children, title } = props;
+  const portalContainer = useContext(BottomSheetPortalContext);
   const isDesktop = platform instanceof BrowserPlatform && !platform.isMobile;
 
   useEffect(() => {
@@ -73,6 +95,7 @@ export function BottomSheet(props: Props) {
       <Drawer
         open={isOpen}
         autoFocus={false}
+        container={portalContainer}
         onOpenChange={(open) => {
           if (!open) {
             onClose();

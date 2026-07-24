@@ -6,12 +6,21 @@ import {
   type ReactNode,
 } from "react";
 import { createPortal } from "react-dom";
-import { House, Languages, PanelLeft, RotateCcw } from "lucide-react";
+import {
+  House,
+  Languages,
+  Monitor,
+  PanelLeft,
+  RotateCcw,
+  Smartphone,
+} from "lucide-react";
 import { languageSharedToHuman, languagesShared } from "api";
 import { Badge } from "../src/ui/badge.tsx";
 import { Button } from "../src/ui/button.tsx";
+import { BottomSheetPortalProvider } from "../src/ui/bottom-sheet/bottom-sheet.tsx";
 import { Chip } from "../src/ui/chip.tsx";
 import { ProgressBar } from "../src/ui/progress-bar.tsx";
+import { BrowserPlatform } from "../src/lib/platform/browser/browser-platform.ts";
 import { platform } from "../src/lib/platform/platform.ts";
 import { userStore } from "../src/store/user-store.ts";
 import { isLanguage } from "../src/translations/t.ts";
@@ -101,6 +110,21 @@ const PLAYGROUND_HOME_SECTIONS = [
 
 const SIDEBAR_OPEN_STORAGE_KEY = "playground-sidebar-open";
 
+const DEVICES = [
+  {
+    id: "iphone",
+    label: "iPhone",
+    icon: Smartphone,
+  },
+  {
+    id: "desktop",
+    label: "Desktop",
+    icon: Monitor,
+  },
+] as const;
+
+type DeviceId = (typeof DEVICES)[number]["id"];
+
 function isPlaygroundComponentId(
   value: string | null,
 ): value is PlaygroundComponentId {
@@ -129,6 +153,7 @@ export function Playground() {
   const [propsPanelContainer, setPropsPanelContainer] =
     useState<HTMLDivElement | null>(null);
   const [previewVersion, setPreviewVersion] = useState(0);
+  const [deviceId, setDeviceId] = useState<DeviceId>("iphone");
 
   const selectedComponent = PLAYGROUND_COMPONENTS.find(
     (component) => component.id === selectedId,
@@ -146,6 +171,19 @@ export function Playground() {
   useEffect(() => {
     window.localStorage.setItem(SIDEBAR_OPEN_STORAGE_KEY, String(sidebarOpen));
   }, [sidebarOpen]);
+
+  useEffect(() => {
+    if (!(platform instanceof BrowserPlatform)) {
+      return;
+    }
+
+    const browserPlatform = platform;
+    browserPlatform.isMobile = deviceId === "iphone";
+
+    return () => {
+      browserPlatform.isMobile = window.matchMedia("(max-width: 600px)").matches;
+    };
+  }, [deviceId]);
 
   const selectComponent = (componentId: PlaygroundComponentId) => {
     const nextUrl = new URL(window.location.href);
@@ -210,7 +248,7 @@ export function Playground() {
                 type="button"
                 key={component.id}
                 className={cn(
-                  "h-9 rounded-md px-2.5 text-left text-[13px] font-medium text-muted-foreground hover:bg-muted hover:text-foreground",
+                  "h-9 rounded-md px-2.5 text-left text-[13px] font-medium text-muted-foreground hover:bg-accent/70 hover:text-accent-foreground",
                   component.id === selectedId &&
                     "bg-accent font-semibold text-accent-foreground hover:bg-accent hover:text-accent-foreground",
                 )}
@@ -259,7 +297,7 @@ export function Playground() {
       </div>
 
       <section className="flex min-h-0 min-w-0 flex-col">
-        <header className="flex h-14 shrink-0 items-center gap-2 border-b border-border bg-background px-3">
+        <header className="flex h-14 shrink-0 items-center gap-1.5 border-b border-border bg-background px-3">
           <ShadcnButton
             type="button"
             variant="ghost"
@@ -269,33 +307,45 @@ export function Playground() {
           >
             <PanelLeft size={17} />
           </ShadcnButton>
-          <div className="h-4 w-px bg-border" />
-          <h1 className="m-0 px-2 text-base font-semibold leading-none text-foreground">
-            {selectedComponent.label}
-          </h1>
+          <div className="inline-flex h-9 w-fit items-center justify-center rounded-lg bg-muted p-1 text-muted-foreground">
+            {DEVICES.map((device) => (
+              <button
+                type="button"
+                key={device.id}
+                title={device.label}
+                className={cn(
+                  "inline-flex h-7 items-center justify-center rounded-md px-2.5 transition-[color,box-shadow,background-color]",
+                  deviceId === device.id &&
+                    "bg-background text-foreground shadow-sm",
+                )}
+                onClick={() => setDeviceId(device.id)}
+              >
+                <device.icon size={16} />
+              </button>
+            ))}
+          </div>
         </header>
 
         <main
-          className="grid min-h-0 min-w-0 flex-1 place-items-center overflow-auto bg-[var(--tg-theme-secondary-bg-color)] p-8"
+          className="flex min-h-0 min-w-0 flex-1 flex-col overflow-auto bg-[var(--tg-theme-secondary-bg-color)] p-4"
           dir={userStore.isRtl ? "rtl" : "ltr"}
         >
           <PropsPanelContext.Provider
             value={showPropsPanel ? propsPanelContainer : null}
           >
-            <ComponentPreview
-              key={`${selectedId}-${previewVersion}`}
-              componentId={selectedComponent.id}
-            />
+            <DeviceFrame deviceId={deviceId}>
+              <ComponentPreview
+                key={`${selectedId}-${previewVersion}`}
+                componentId={selectedComponent.id}
+              />
+            </DeviceFrame>
           </PropsPanelContext.Provider>
         </main>
       </section>
 
       {showPropsPanel && (
         <aside className="flex min-h-0 flex-col border-l border-border bg-background">
-          <header className="flex h-14 shrink-0 items-center justify-between border-b border-border py-0 pr-3 pl-4">
-            <h2 className="m-0 text-base font-semibold leading-none text-foreground">
-              Props
-            </h2>
+          <header className="flex h-14 shrink-0 items-center justify-end border-b border-border px-3">
             <ShadcnButton
               type="button"
               variant="ghost"
@@ -393,6 +443,47 @@ function ComponentPreview({
   }
 }
 
+function DeviceFrame({
+  children,
+  deviceId,
+}: {
+  children: ReactNode;
+  deviceId: DeviceId;
+}) {
+  const [portalContainer, setPortalContainer] =
+    useState<HTMLDivElement | null>(null);
+
+  const content = (
+    <BottomSheetPortalProvider container={portalContainer}>
+      {children}
+    </BottomSheetPortalProvider>
+  );
+
+  if (deviceId === "desktop") {
+    return (
+      <div
+        className="relative flex min-h-[720px] w-full items-center justify-center overflow-hidden bg-secondary-bg"
+        ref={setPortalContainer}
+        style={{ transform: "translateZ(0)" }}
+      >
+        {content}
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex items-start justify-center px-0 py-4 sm:px-4 sm:py-6">
+      <div
+        className="relative flex h-[844px] w-[390px] shrink-0 items-center justify-center overflow-hidden bg-secondary-bg shadow-xl"
+        ref={setPortalContainer}
+        style={{ transform: "translateZ(0)" }}
+      >
+        {content}
+      </div>
+    </div>
+  );
+}
+
 function PreviewFrame({ children }: { children: ReactNode }) {
   return (
     <div className="grid w-full max-w-[320px] place-items-center text-[var(--tg-theme-text-color)]">
@@ -406,13 +497,15 @@ function PropGroup({
   label,
 }: {
   children: ReactNode;
-  label: string;
+  label?: string;
 }) {
   return (
     <section className="border-t border-border py-[18px] first:border-t-0">
-      <h3 className="mb-3.5 text-xs font-semibold text-muted-foreground">
-        {label}
-      </h3>
+      {label && (
+        <h3 className="mb-3.5 text-xs font-semibold text-muted-foreground">
+          {label}
+        </h3>
+      )}
       <div className="space-y-3.5">{children}</div>
     </section>
   );
@@ -488,7 +581,7 @@ function ButtonPlayground() {
             onChange={setLabel}
           />
         </PropGroup>
-        <PropGroup label="Appearance">
+        <PropGroup>
           <div className="flex flex-col gap-2">
             <ShadcnLabel htmlFor="button-color">mainColor</ShadcnLabel>
             <div className="grid grid-cols-[38px_minmax(0,1fr)] items-center gap-2.5">
@@ -624,7 +717,7 @@ function ListPlayground() {
         </div>
       </PreviewFrame>
       <PropsPanel>
-        <PropGroup label="Appearance">
+        <PropGroup>
           <BooleanProp
             id="list-multiple-icons"
             label="multipleIcons"
@@ -747,7 +840,7 @@ function BadgePlayground() {
             onChange={setLabel}
           />
         </PropGroup>
-        <PropGroup label="Appearance">
+        <PropGroup>
           <div className="flex flex-col gap-2">
             <ShadcnLabel>variant</ShadcnLabel>
             <div className="flex flex-wrap gap-1.5">
