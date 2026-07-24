@@ -6,17 +6,29 @@ import {
   type ReactNode,
 } from "react";
 import { createPortal } from "react-dom";
-import { House, RotateCcw } from "lucide-react";
+import { House, Languages, PanelLeft, RotateCcw } from "lucide-react";
+import { languageSharedToHuman, languagesShared } from "api";
 import { Badge } from "../src/ui/badge.tsx";
 import { Button } from "../src/ui/button.tsx";
 import { Chip } from "../src/ui/chip.tsx";
 import { ProgressBar } from "../src/ui/progress-bar.tsx";
+import { platform } from "../src/lib/platform/platform.ts";
+import { userStore } from "../src/store/user-store.ts";
+import { isLanguage } from "../src/translations/t.ts";
 import { cn } from "../src/ui/cn.ts";
 import { theme } from "../src/ui/theme.tsx";
 import { ShadcnButton } from "./ui/button.tsx";
 import { ShadcnCheckbox } from "./ui/checkbox.tsx";
 import { ShadcnInput } from "./ui/input.tsx";
 import { ShadcnLabel } from "./ui/label.tsx";
+import {
+  ShadcnSelect,
+  ShadcnSelectContent,
+  ShadcnSelectGroup,
+  ShadcnSelectItem,
+  ShadcnSelectTrigger,
+  ShadcnSelectValue,
+} from "./ui/select.tsx";
 import {
   type CatalogCountry,
   CatalogList,
@@ -69,15 +81,39 @@ const PLAYGROUND_COMPONENTS = [
 
 type PlaygroundComponentId = (typeof PLAYGROUND_COMPONENTS)[number]["id"];
 
+const PLAYGROUND_HOME_SECTIONS = [
+  {
+    label: "Controls",
+    componentIds: ["button", "select", "radio-list"],
+  },
+  {
+    label: "Content",
+    componentIds: ["list", "chip", "badge"],
+  },
+  {
+    label: "Feedback",
+    componentIds: ["snackbar", "modals", "progress-bar"],
+  },
+] as const satisfies ReadonlyArray<{
+  label: string;
+  componentIds: ReadonlyArray<PlaygroundComponentId>;
+}>;
+
+const SIDEBAR_OPEN_STORAGE_KEY = "playground-sidebar-open";
+
 function isPlaygroundComponentId(
   value: string | null,
 ): value is PlaygroundComponentId {
   return PLAYGROUND_COMPONENTS.some((component) => component.id === value);
 }
 
-function getSelectedComponentId(): PlaygroundComponentId {
+function getSelectedComponentId(): PlaygroundComponentId | null {
   const value = new URLSearchParams(window.location.search).get("component");
-  return isPlaygroundComponentId(value) ? value : "button";
+  return isPlaygroundComponentId(value) ? value : null;
+}
+
+function getSidebarOpen() {
+  return window.localStorage.getItem(SIDEBAR_OPEN_STORAGE_KEY) !== "false";
 }
 
 const PropsPanelContext = createContext<HTMLDivElement | null>(null);
@@ -89,21 +125,27 @@ function PropsPanel({ children }: { children: ReactNode }) {
 
 export function Playground() {
   const [selectedId, setSelectedId] = useState(getSelectedComponentId);
+  const [sidebarOpen, setSidebarOpen] = useState(getSidebarOpen);
   const [propsPanelContainer, setPropsPanelContainer] =
     useState<HTMLDivElement | null>(null);
   const [previewVersion, setPreviewVersion] = useState(0);
 
   const selectedComponent = PLAYGROUND_COMPONENTS.find(
     (component) => component.id === selectedId,
-  )!;
+  );
   const showPropsPanel =
-    !("propsPanel" in selectedComponent) || selectedComponent.propsPanel;
+    selectedComponent !== undefined &&
+    (!("propsPanel" in selectedComponent) || selectedComponent.propsPanel);
 
   useEffect(() => {
     const syncSelection = () => setSelectedId(getSelectedComponentId());
     window.addEventListener("popstate", syncSelection);
     return () => window.removeEventListener("popstate", syncSelection);
   }, []);
+
+  useEffect(() => {
+    window.localStorage.setItem(SIDEBAR_OPEN_STORAGE_KEY, String(sidebarOpen));
+  }, [sidebarOpen]);
 
   const selectComponent = (componentId: PlaygroundComponentId) => {
     const nextUrl = new URL(window.location.href);
@@ -113,64 +155,136 @@ export function Playground() {
     setPreviewVersion(0);
   };
 
+  const showComponentSelector = () => {
+    const nextUrl = new URL(window.location.href);
+    nextUrl.searchParams.delete("component");
+    window.history.pushState(null, "", nextUrl);
+    setSelectedId(null);
+    setPreviewVersion(0);
+  };
+
+  const selectLanguage = (value: string) => {
+    if (!isLanguage(value)) {
+      return;
+    }
+
+    platform.setLanguageCached(value);
+  };
+
+  if (selectedComponent === undefined) {
+    return <PlaygroundHome onSelect={selectComponent} />;
+  }
+
   return (
     <div
+      dir="ltr"
       className={cn(
-        "grid h-screen min-w-[760px] overflow-hidden font-sans",
+        "grid h-screen min-w-[560px] overflow-hidden font-sans transition-[grid-template-columns] duration-200 ease-linear",
         showPropsPanel
-          ? "grid-cols-[200px_minmax(320px,1fr)_280px]"
-          : "grid-cols-[200px_minmax(320px,1fr)]",
+          ? sidebarOpen
+            ? "grid-cols-[200px_minmax(280px,1fr)_280px]"
+            : "grid-cols-[0px_minmax(280px,1fr)_280px]"
+          : sidebarOpen
+            ? "grid-cols-[200px_minmax(280px,1fr)]"
+            : "grid-cols-[0px_minmax(280px,1fr)]",
       )}
     >
-      <aside className="flex min-h-0 flex-col border-r border-border bg-background">
-        <div className="flex h-14 shrink-0 items-center gap-2.5 border-b border-border px-4 text-[15px] font-semibold">
-          <img
-            className="size-[30px] object-contain"
-            src="/img/logo.png"
-            alt=""
-          />
-          <span>Playground</span>
-        </div>
+      <div className="min-h-0 min-w-0 overflow-hidden">
+        <aside className="flex h-full w-[200px] flex-col border-r border-border bg-background">
+          <button
+            type="button"
+            className="flex h-14 shrink-0 items-center gap-2.5 border-0 border-b border-border bg-transparent px-4 text-left text-[15px] font-semibold text-foreground hover:bg-muted"
+            onClick={showComponentSelector}
+          >
+            <img
+              className="size-[30px] object-contain"
+              src="/img/logo.png"
+              alt=""
+            />
+            <span>Playground</span>
+          </button>
 
-        <nav className="flex min-h-0 flex-1 flex-col gap-0.5 overflow-y-auto p-2">
-          {PLAYGROUND_COMPONENTS.map((component) => (
-            <button
-              type="button"
-              key={component.id}
-              className={cn(
-                "h-9 rounded-md px-2.5 text-left text-[13px] font-medium text-muted-foreground hover:bg-muted hover:text-foreground",
-                component.id === selectedId &&
-                  "bg-accent font-semibold text-accent-foreground hover:bg-accent hover:text-accent-foreground",
-              )}
-              onClick={() => selectComponent(component.id)}
+          <nav className="flex min-h-0 flex-1 flex-col gap-0.5 overflow-hidden p-2">
+            {PLAYGROUND_COMPONENTS.map((component) => (
+              <button
+                type="button"
+                key={component.id}
+                className={cn(
+                  "h-9 rounded-md px-2.5 text-left text-[13px] font-medium text-muted-foreground hover:bg-muted hover:text-foreground",
+                  component.id === selectedId &&
+                    "bg-accent font-semibold text-accent-foreground hover:bg-accent hover:text-accent-foreground",
+                )}
+                onClick={() => selectComponent(component.id)}
+              >
+                {component.label}
+              </button>
+            ))}
+          </nav>
+          <div className="shrink-0 border-t border-border p-2 pb-0">
+            <ShadcnSelect
+              dir="ltr"
+              value={userStore.language}
+              onValueChange={selectLanguage}
             >
-              {component.label}
-            </button>
-          ))}
-        </nav>
-        <a
-          className="flex h-14 shrink-0 items-center gap-2.5 border-t border-border px-[18px] text-[13px] font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
-          href="/"
-        >
-          <House size={16} />
-          App
-        </a>
-      </aside>
+              <ShadcnSelectTrigger className="h-12 gap-2.5 border-0 bg-transparent px-2.5 py-0 text-muted-foreground shadow-none hover:bg-muted hover:text-foreground focus:ring-0">
+                <Languages className="shrink-0" size={16} />
+                <span className="min-w-0 flex-1 text-left">
+                  <span className="block text-[10px] font-semibold leading-none">
+                    Language
+                  </span>
+                  <span className="mt-1 block text-[13px] font-medium leading-none text-foreground">
+                    <ShadcnSelectValue />
+                  </span>
+                </span>
+              </ShadcnSelectTrigger>
+              <ShadcnSelectContent align="start" side="top" sideOffset={4}>
+                <ShadcnSelectGroup>
+                  {languagesShared.map((value) => (
+                    <ShadcnSelectItem key={value} value={value}>
+                      {languageSharedToHuman(value)}
+                    </ShadcnSelectItem>
+                  ))}
+                </ShadcnSelectGroup>
+              </ShadcnSelectContent>
+            </ShadcnSelect>
+          </div>
+          <a
+            className="flex h-14 shrink-0 items-center gap-2.5 px-[18px] text-[13px] font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
+            href="/"
+          >
+            <House size={16} />
+            App
+          </a>
+        </aside>
+      </div>
 
       <section className="flex min-h-0 min-w-0 flex-col">
-        <header className="flex h-14 shrink-0 items-center border-b border-border bg-background px-5">
-          <h1 className="m-0 text-base font-semibold leading-none text-foreground">
+        <header className="flex h-14 shrink-0 items-center gap-2 border-b border-border bg-background px-3">
+          <ShadcnButton
+            type="button"
+            variant="ghost"
+            size="icon"
+            title="Toggle sidebar"
+            onClick={() => setSidebarOpen((open) => !open)}
+          >
+            <PanelLeft size={17} />
+          </ShadcnButton>
+          <div className="h-4 w-px bg-border" />
+          <h1 className="m-0 px-2 text-base font-semibold leading-none text-foreground">
             {selectedComponent.label}
           </h1>
         </header>
 
-        <main className="grid min-h-0 min-w-0 flex-1 place-items-center overflow-auto bg-[var(--tg-theme-secondary-bg-color)] p-8">
+        <main
+          className="grid min-h-0 min-w-0 flex-1 place-items-center overflow-auto bg-[var(--tg-theme-secondary-bg-color)] p-8"
+          dir={userStore.isRtl ? "rtl" : "ltr"}
+        >
           <PropsPanelContext.Provider
             value={showPropsPanel ? propsPanelContainer : null}
           >
             <ComponentPreview
               key={`${selectedId}-${previewVersion}`}
-              componentId={selectedId}
+              componentId={selectedComponent.id}
             />
           </PropsPanelContext.Provider>
         </main>
@@ -199,6 +313,54 @@ export function Playground() {
         </aside>
       )}
     </div>
+  );
+}
+
+function PlaygroundHome({
+  onSelect,
+}: {
+  onSelect: (componentId: PlaygroundComponentId) => void;
+}) {
+  return (
+    <main className="grid h-screen min-w-[360px] place-items-center overflow-auto bg-background p-6 text-foreground">
+      <div className="flex w-full max-w-3xl flex-col gap-8">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-3 sm:gap-4">
+          {PLAYGROUND_HOME_SECTIONS.map((section) => (
+            <section key={section.label}>
+              <h2 className="mb-3 text-center text-sm font-semibold text-muted-foreground">
+                {section.label}
+              </h2>
+              <div className="flex flex-col gap-2">
+                {section.componentIds.map((componentId) => {
+                  const component = PLAYGROUND_COMPONENTS.find(
+                    (item) => item.id === componentId,
+                  )!;
+
+                  return (
+                    <button
+                      type="button"
+                      key={component.id}
+                      className="min-h-11 w-full rounded-full border border-border bg-background px-3 py-2 text-center text-sm font-medium leading-tight text-foreground transition-colors hover:bg-accent focus-visible:bg-accent focus-visible:outline-none sm:text-base"
+                      onClick={() => onSelect(component.id)}
+                    >
+                      {component.label}
+                    </button>
+                  );
+                })}
+              </div>
+            </section>
+          ))}
+        </div>
+
+        <a
+          href="/"
+          className="inline-flex h-9 items-center gap-2 self-center rounded-full border border-border bg-background px-4 text-sm font-medium text-foreground transition-colors hover:bg-accent focus-visible:bg-accent focus-visible:outline-none"
+        >
+          <House size={16} />
+          App
+        </a>
+      </div>
+    </main>
   );
 }
 

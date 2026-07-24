@@ -14,27 +14,27 @@ import { ColorPicker } from "../src/ui/wysiwyg-field/color-picker.tsx";
 export const modalStories = [
   {
     id: "card-type",
-    title: () => t("review_card_type"),
+    label: "Card type",
   },
   {
     id: "create",
-    title: () => t("create"),
+    label: "Create",
   },
   {
     id: "sort",
-    title: () => t("sort_by"),
+    label: "Sort",
   },
   {
     id: "freeze-help",
-    title: () => t("how"),
+    label: "Freeze help",
   },
   {
     id: "formatting-help",
-    title: () => t("wysiwyg_help_title"),
+    label: "Formatting help",
   },
   {
     id: "text-color",
-    title: () => t("wysiwyg_text_color"),
+    label: "Text color",
   },
 ] as const;
 
@@ -59,7 +59,7 @@ export function CatalogModals({
             className="min-h-[74px] rounded-2xl bg-bg px-4 py-3 text-left text-sm font-semibold shadow transition-transform duration-200 hover:-translate-y-0.5 active:scale-[0.98]"
             onClick={() => onOpen(story.id)}
           >
-            {story.title()}
+            {story.label}
           </button>
         ))}
       </div>
