@@ -3,7 +3,6 @@ import ReactDOM from "react-dom";
 import { createRoot } from "react-dom/client";
 import { theme } from "../../../ui/theme.tsx";
 import { Button } from "../../../ui/button.tsx";
-import { Flex } from "../../../ui/flex.tsx";
 import { t } from "../../../translations/t.ts";
 import { ShowConfirmType } from "../platform.ts";
 
@@ -31,14 +30,14 @@ export const showConfirmBrowser: ShowConfirmType = (text) => {
           style={{ zIndex: theme.zIndex.confirmAlert }}
           className="fixed inset-0 bg-black/50 flex justify-center items-center"
         >
-          <div className="bg-bg w-[250px] p-5 rounded-xl text-center">
-            <p>{text}</p>
-            <Flex gap={8} mt={16}>
+          <div className="w-[calc(100%_-_32px)] max-w-[425px] rounded-2xl bg-bg px-5 py-7 text-center">
+            <p className="text-xl font-semibold leading-snug">{text}</p>
+            <div className="mt-6 flex gap-2">
               <Button outline onClick={handleCancel}>
                 {t("confirm_cancel")}
               </Button>
               <Button onClick={handleConfirm}>{t("confirm_ok")}</Button>
-            </Flex>
+            </div>
           </div>
         </div>,
         document.body,
