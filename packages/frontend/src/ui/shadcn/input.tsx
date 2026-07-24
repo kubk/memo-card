@@ -1,5 +1,5 @@
 import { type InputHTMLAttributes } from "react";
-import { cn } from "../../src/ui/cn.ts";
+import { cn } from "../cn.ts";
 
 export function ShadcnInput({
   className,

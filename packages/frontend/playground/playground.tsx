@@ -26,10 +26,10 @@ import { userStore } from "../src/store/user-store.ts";
 import { isLanguage } from "../src/translations/t.ts";
 import { cn } from "../src/ui/cn.ts";
 import { theme } from "../src/ui/theme.tsx";
-import { ShadcnButton } from "./ui/button.tsx";
-import { ShadcnCheckbox } from "./ui/checkbox.tsx";
-import { ShadcnInput } from "./ui/input.tsx";
-import { ShadcnLabel } from "./ui/label.tsx";
+import { ShadcnButton } from "../src/ui/shadcn/button.tsx";
+import { ShadcnCheckbox } from "../src/ui/shadcn/checkbox.tsx";
+import { ShadcnInput } from "../src/ui/shadcn/input.tsx";
+import { ShadcnLabel } from "../src/ui/shadcn/label.tsx";
 import {
   ShadcnSelect,
   ShadcnSelectContent,
@@ -37,7 +37,7 @@ import {
   ShadcnSelectItem,
   ShadcnSelectTrigger,
   ShadcnSelectValue,
-} from "./ui/select.tsx";
+} from "../src/ui/shadcn/select.tsx";
 import {
   type CatalogCountry,
   CatalogList,
