@@ -31,7 +31,6 @@ import {
   TeacherStatisticsLazy,
   TeacherStatisticsListLazy,
 } from "./teacher-statistics/teacher-statistics-lazy.tsx";
-import { ComponentCatalogPageLazy } from "./component-catalog/component-catalog-page-lazy.tsx";
 import { PlansScreen } from "./pro/plans-screen.tsx";
 import { FreezeCardsScreenLazy } from "./freeze-cards/freeze-cards-screen-lazy.tsx";
 import { AiMassCreationScreen } from "./ai-mass-creation/ai-mass-creation-screen.tsx";
@@ -95,11 +94,6 @@ export function App() {
       <RouteScreenContainer>
         <VersionWarning />
 
-        {screenStore.screen.type === "componentCatalog" && (
-          <PreventTelegramSwipeDownClosingIos>
-            <ComponentCatalogPageLazy />
-          </PreventTelegramSwipeDownClosingIos>
-        )}
         {screenStore.screen.type === "debug" && (
           <PreventTelegramSwipeDownClosingIos>
             <DebugLazy />

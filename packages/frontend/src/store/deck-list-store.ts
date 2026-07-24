@@ -35,7 +35,7 @@ export type DeckWithCardsWithReviewType = DeckListDeck & {
 
 const createNewCardReviewState = () => createInitialFsrsReviewState(new Date());
 
-const authOptionalScreenTypes = ["about", "componentCatalog", "debug"];
+const authOptionalScreenTypes = ["about", "debug"];
 
 export type DeckListItem = {
   id: number;
@@ -524,7 +524,7 @@ class DeckListStore {
     } else if (startParam === StartParamType.Debug) {
       screenStore.push({ type: "debug" });
     } else if (startParam === StartParamType.Components) {
-      screenStore.push({ type: "componentCatalog" });
+      window.location.replace("/playground/");
     } else if (startParam === StartParamType.Settings) {
       screenStore.goToUserSettings();
     } else if (startParam === StartParamType.Break) {

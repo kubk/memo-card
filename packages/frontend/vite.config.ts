@@ -42,6 +42,7 @@ export default defineConfig({
       input: {
         main: resolve(__dirname, "index.html"),
         admin: resolve(__dirname, "admin/index.html"),
+        playground: resolve(__dirname, "playground/index.html"),
       },
     },
   },

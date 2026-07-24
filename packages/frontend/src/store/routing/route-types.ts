@@ -124,10 +124,6 @@ const debugRouteSchema = v.object({
   type: v.literal("debug"),
 });
 
-const componentCatalogRouteSchema = v.object({
-  type: v.literal("componentCatalog"),
-});
-
 const freezeCardsRouteSchema = v.object({
   type: v.literal("freezeCards"),
 });
@@ -189,7 +185,6 @@ export const routeSchema = v.union([
   aiMassCreationRouteSchema,
   plansRouteSchema,
   debugRouteSchema,
-  componentCatalogRouteSchema,
   freezeCardsRouteSchema,
   userStatisticsRouteSchema,
   userStatisticsDailyRouteSchema,

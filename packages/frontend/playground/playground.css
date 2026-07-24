@@ -1,0 +1,64 @@
+@config "./tailwind.config.js";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.reset-button {
+  @apply cursor-pointer border-0 bg-transparent p-0 outline-none focus:outline-none;
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+:root {
+  color-scheme: light;
+  --background: 0 0% 100%;
+  --foreground: 222 15% 15%;
+  --primary: 207 70% 47%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 220 14% 96%;
+  --secondary-foreground: 222 15% 15%;
+  --muted: 220 14% 96%;
+  --muted-foreground: 220 8% 46%;
+  --accent: 207 54% 95%;
+  --accent-foreground: 207 70% 34%;
+  --destructive: 0 72% 51%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 220 13% 88%;
+  --input: 220 13% 82%;
+  --ring: 207 70% 47%;
+  --tg-theme-bg-color: #ffffff;
+  --tg-theme-secondary-bg-color: #f2f2f4;
+  --tg-theme-text-color: #17181c;
+  --tg-theme-hint-color: #8a8e97;
+  --tg-theme-link-color: #2481cc;
+  --tg-theme-button-color: #2481cc;
+  --tg-theme-button-text-color: #ffffff;
+}
+
+.dark {
+  --background: 210 30% 14%;
+  --foreground: 0 0% 100%;
+  --primary: 204 100% 59%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 210 5% 8%;
+  --secondary-foreground: 0 0% 100%;
+  --muted: 210 22% 19%;
+  --muted-foreground: 210 24% 76%;
+  --accent: 207 31% 22%;
+  --accent-foreground: 204 100% 69%;
+  --destructive: 0 69% 65%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 210 25% 25%;
+  --input: 210 25% 31%;
+  --ring: 204 100% 59%;
+}
+
+html,
+body,
+#root {
+  @apply h-full;
+}
+
+body {
+  @apply m-0 overflow-hidden bg-background text-foreground;
+}
