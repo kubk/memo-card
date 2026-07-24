@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { when } from "mobx";
 import { inMemoryCache } from "../../../lib/mobx-query-lite/cache.ts";
 import { queryRegistry } from "../../../lib/mobx-query-lite/make-query.ts";
+import { deckDetailsStore } from "../../../store/deck-details-store.ts";
 import { DeckScreenStore } from "./deck-screen-store.ts";
 
 const mocks = vi.hoisted(() => ({
@@ -96,16 +97,11 @@ describe("DeckScreenStore", () => {
     inMemoryCache.clear();
   });
 
-  it("uses route preview data while catalog details load", async () => {
-    mocks.screen = {
-      type: "deckPreview",
-      deckId: publicDeck.id,
-      state: { deck: publicDeck },
-    };
+  it("loads catalog details without storing a deck in the route", async () => {
     mocks.deckWithCards.mockResolvedValue(completeDeck);
     const store = new DeckScreenStore(publicDeck.id);
 
-    expect(store.deck?.name).toBe("Travel English");
+    expect(store.deck).toBeNull();
     expect(store.isInitialLoading).toBe(true);
 
     await when(() => store.deck?.deckCards.length === 1);
@@ -194,12 +190,7 @@ describe("DeckScreenStore", () => {
       if (entryPoint === "My decks") {
         mocks.myDecks.push(deck);
       } else {
-        mocks.screen = {
-          type: "deckPreview",
-          deckId: deck.id,
-          state: { deck },
-        };
-        mocks.deckWithCards.mockResolvedValue(deck);
+        deckDetailsStore.setDeck(deck);
       }
 
       const store = new DeckScreenStore(deck.id);
@@ -208,12 +199,6 @@ describe("DeckScreenStore", () => {
       expect(mocks.push).toHaveBeenCalledWith({
         type: expectedRouteType,
         deckId: deck.id,
-        state: {
-          deck: expect.objectContaining({
-            id: deck.id,
-            authorId,
-          }),
-        },
       });
     },
   );

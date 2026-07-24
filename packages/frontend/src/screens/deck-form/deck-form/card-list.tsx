@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useDeckFormStore } from "./store/deck-form-store-context.tsx";
 import { screenStore } from "../../../store/screen-store.ts";
 import { useBackButton } from "../../../lib/platform/use-back-button.ts";
 import { Input } from "../../../ui/input.tsx";
@@ -17,13 +16,13 @@ import {
 import { BottomSheet } from "../../../ui/bottom-sheet/bottom-sheet.tsx";
 import { RadioList } from "../../../ui/radio-list/radio-list.tsx";
 import {
-  CardFilterSortBy,
-  CardFilterDirection,
-} from "./store/deck-form-store.ts";
+  type CardFilterDirection,
+  type CardFilterSortBy,
+  CardListStore,
+} from "./store/card-list-store.ts";
 import { CircleCheckbox } from "../../../ui/circle-checkbox.tsx";
 import { cn } from "../../../ui/cn.ts";
 import { motion, AnimatePresence } from "framer-motion";
-import { CardListStore } from "./store/card-list-store.ts";
 import { MoveToDeckSelector } from "./move-to-deck-selector.tsx";
 import { platform } from "../../../lib/platform/platform.ts";
 import { TelegramPlatform } from "../../../lib/platform/telegram/telegram-platform.ts";
@@ -31,6 +30,8 @@ import { BrowserPlatform } from "../../../lib/platform/browser/browser-platform.
 import { removeAllTags } from "../../../lib/sanitize-html/remove-all-tags.ts";
 import { userStore } from "../../../store/user-store.ts";
 import { WithProIcon } from "../../shared/with-pro-icon.tsx";
+import { useProgress } from "../../../lib/platform/use-progress.tsx";
+import { ErrorScreen } from "../../error-screen/error-screen.tsx";
 
 const sortOptions: Array<{
   id: string;
@@ -76,24 +77,25 @@ const sortOptions: Array<{
   },
 ];
 
-type Props = {
-  readOnly?: boolean;
-  onCardClick?: (cardId: number) => void;
-};
-
-export function CardList(props: Props) {
-  const { readOnly = false, onCardClick } = props;
-  const deckFormStore = useDeckFormStore();
-  const [cardListStore] = useState(() => new CardListStore(deckFormStore));
+export function CardList() {
+  const [cardListStore] = useState(() => new CardListStore());
 
   useBackButton(() => {
     screenStore.back();
   });
 
-  if (!deckFormStore.deckForm) {
+  useProgress(() => cardListStore.isInitialLoading);
+
+  if (cardListStore.error) {
+    return <ErrorScreen />;
+  }
+
+  const deck = cardListStore.deck;
+  if (!deck) {
     return null;
   }
 
+  const readOnly = cardListStore.isReadOnly;
   const hasMultipleDecks =
     cardListStore.moveToDeckStore.availableDecksGrouped.length > 1;
   const noneSelected = cardListStore.selectedCardIds.size === 0;
@@ -131,12 +133,12 @@ export function CardList(props: Props) {
 
   return (
     <Screen title={t("cards")}>
-      {deckFormStore.deckForm.cards.length > 1 && (
+      {deck.deckCards.length > 1 && (
         <Input
           field={
             {
-              value: deckFormStore.cardFilterText,
-              onChange: deckFormStore.updateSearchText,
+              value: cardListStore.cardFilterText,
+              onChange: cardListStore.updateSearchText,
               onBlur: () => {},
               isTouched: false,
               error: undefined,
@@ -146,95 +148,80 @@ export function CardList(props: Props) {
           placeholder={t("search_card")}
         />
       )}
-      {deckFormStore.filteredCards.length > 0 &&
-        deckFormStore.deckForm.cards.length > 1 && (
-          <div className="flex justify-between items-center pr-2">
-            <div
-              onClick={() => cardListStore.isSortSheetOpen.setTrue()}
-              className="ml-3 cursor-pointer text-base"
-            >
-              {t("sort_by")}:{" "}
-              <span className="text-link">
-                {sortOptions
-                  .find((opt) => opt.id === deckFormStore.currentSortId)
-                  ?.label()}
-              </span>
-            </div>
-            {!readOnly && (
-              <div
-                className="text-link cursor-pointer"
-                onClick={() => {
-                  if (cardListStore.isSelectionMode.value) {
-                    cardListStore.toggleSelectAll();
-                  } else {
-                    cardListStore.isSelectionMode.setTrue();
-                  }
-                }}
-              >
-                {cardListStore.isSelectionMode.value
-                  ? cardListStore.areAllCardsSelected
-                    ? t("deselect_all")
-                    : t("select_all")
-                  : t("select")}
-              </div>
-            )}
+      {cardListStore.filteredCards.length > 0 && deck.deckCards.length > 1 && (
+        <div className="flex justify-between items-center pr-2">
+          <div
+            onClick={() => cardListStore.isSortSheetOpen.setTrue()}
+            className="ml-3 cursor-pointer text-base"
+          >
+            {t("sort_by")}:{" "}
+            <span className="text-link">
+              {sortOptions
+                .find((opt) => opt.id === cardListStore.currentSortId)
+                ?.label()}
+            </span>
           </div>
-        )}
-      {deckFormStore.filteredCards.map((cardForm, i) => {
-        const isSelected =
-          cardForm.id !== undefined &&
-          cardListStore.selectedCardIds.has(cardForm.id);
+          {!readOnly && (
+            <div
+              className="text-link cursor-pointer"
+              onClick={() => {
+                if (cardListStore.isSelectionMode.value) {
+                  cardListStore.toggleSelectAll();
+                } else {
+                  cardListStore.isSelectionMode.setTrue();
+                }
+              }}
+            >
+              {cardListStore.isSelectionMode.value
+                ? cardListStore.areAllCardsSelected
+                  ? t("deselect_all")
+                  : t("select_all")
+                : t("select")}
+            </div>
+          )}
+        </div>
+      )}
+      {cardListStore.filteredCards.map((card, i) => {
+        const isSelected = cardListStore.selectedCardIds.has(card.id);
 
         return (
           <div
             onClick={() => {
-              if (readOnly && cardForm.id !== undefined) {
-                onCardClick?.(cardForm.id);
-              } else if (
-                cardListStore.isSelectionMode.value &&
-                cardForm.id !== undefined
-              ) {
-                platform.haptic("selection");
-                cardListStore.toggleCardSelection(cardForm.id);
-              } else {
-                deckFormStore.editCardFormById(cardForm.id);
-              }
+              cardListStore.openCard(card.id);
             }}
-            key={i}
+            key={card.id}
             className="cursor-pointer bg-bg rounded-[12px] p-3 max-h-[120px] overflow-hidden relative"
           >
-            {!readOnly &&
-              cardListStore.isSelectionMode.value &&
-              cardForm.id !== undefined && (
-                <div className="absolute top-3 end-3">
-                  <CircleCheckbox
-                    checked={isSelected}
-                    onChange={() => {}}
-                    checkedClassName="bg-button"
-                  />
-                </div>
-              )}
+            {!readOnly && cardListStore.isSelectionMode.value && (
+              <div className="absolute top-3 end-3">
+                <CircleCheckbox
+                  checked={isSelected}
+                  onChange={() => {}}
+                  checkedClassName="bg-button"
+                />
+              </div>
+            )}
             <div>
               <CardNumber number={i + 1} />
-              {removeAllTags({ text: cardForm.front.value })}
+              {removeAllTags({ text: card.front })}
             </div>
             <div className="text-hint">
-              {removeAllTags({ text: cardForm.back.value })}
+              {removeAllTags({ text: card.back })}
             </div>
           </div>
         );
       })}
-      {deckFormStore.isEmptySearchResults && (
+      {cardListStore.isEmptySearchResults && (
         <div className="text-center text-hint py-4">
           {t("card_search_not_found")}
         </div>
       )}
       {!readOnly &&
         !cardListStore.isSelectionMode.value &&
-        !deckFormStore.isEmptySearchResults && (
+        !cardListStore.isEmptySearchResults && (
           <Button
             onClick={() => {
-              deckFormStore.navigateToNewCard();
+              cardListStore.navigateToNewCard();
             }}
           >
             {t("add_card")}
@@ -247,7 +234,7 @@ export function CardList(props: Props) {
         onClose={() => cardListStore.isSortSheetOpen.setFalse()}
       >
         <RadioList
-          selectedId={deckFormStore.currentSortId}
+          selectedId={cardListStore.currentSortId}
           options={sortOptions.map((opt) => ({
             id: opt.id,
             title: opt.label(),
@@ -255,7 +242,7 @@ export function CardList(props: Props) {
           onChange={(id) => {
             const selected = sortOptions.find((opt) => opt.id === id);
             if (selected) {
-              deckFormStore.setSortByIdAndDirection(
+              cardListStore.setSortByIdAndDirection(
                 selected.sortBy,
                 selected.direction,
               );

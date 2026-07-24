@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { type RouterOutput } from "api";
 
 type MyInfoResponse = RouterOutput["me"]["info"];
+import { deckDetailsStore } from "./deck-details-store.ts";
 import { deckListStore } from "./deck-list-store.ts";
 
 vi.mock("./user-store.ts", () => ({
@@ -68,6 +69,9 @@ describe("DeckListStore", () => {
       description: "Updated description",
       deckCategory: { name: "Travel", logo: "🇬🇧" },
     });
+    expect(deckDetailsStore.getQuery(42).data?.description).toBe(
+      "Updated description",
+    );
   });
 
   it("shows duplication only for content owned by the current user", () => {

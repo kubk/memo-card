@@ -5,26 +5,23 @@ import { routeToUrl } from "./url-sync.ts";
 describe("routeToUrl", () => {
   it("excludes transient preview state from the URL", () => {
     const route: Route = {
-      type: "deckPreview",
-      deckId: 42,
+      type: "folderPreview",
+      folderId: 42,
       state: {
-        deck: {
+        folder: {
           id: 42,
-          name: "Travel English",
+          title: "Travel English",
           authorId: 1,
           description: "Airport phrases",
           shareId: "travel",
           isPublic: true,
-          speakLocale: null,
-          speakField: null,
-          reverseCards: false,
-          cardInputModeId: null,
-          deckCards: [],
+          categoryId: null,
+          availableIn: "en",
           deckCategory: { name: "Travel", logo: "🇬🇧" },
         },
       },
     };
 
-    expect(routeToUrl(route)).toBe("/?type=deckPreview&deckId=42");
+    expect(routeToUrl(route)).toBe("/?type=folderPreview&folderId=42");
   });
 });

@@ -1,5 +1,4 @@
 import { BooleanToggle } from "mobx-form-lite";
-import { DeckFormStore } from "./deck-form-store";
 import { makeAutoObservable, reaction, runInAction } from "mobx";
 import { platform } from "../../../../lib/platform/platform.ts";
 import { showConfirm } from "../../../../lib/platform/show-confirm";
@@ -9,16 +8,30 @@ import { t } from "../../../../translations/t";
 import { MoveToDeckSelectorStore } from "./move-to-deck-selector-store";
 import { api } from "../../../../api/trpc-api";
 import { notifyError } from "../../../shared/snackbar/snackbar";
+import { screenStore } from "../../../../store/screen-store.ts";
+import { assert, type DeckCardDbType } from "api";
+import { deckDetailsStore } from "../../../../store/deck-details-store.ts";
+import { translateCreateReverseConfirm } from "../translate-create-reverse-confirm.ts";
+
+export type CardFilterSortBy = "createdAt" | "frontAlpha" | "backAlpha";
+export type CardFilterDirection = "desc" | "asc";
 
 export class CardListStore {
   isSortSheetOpen = new BooleanToggle(false);
   isSelectionMode = new BooleanToggle(false);
   selectedCardIds = new Set<number>();
   moveToDeckStore = new MoveToDeckSelectorStore();
-  private translateModulePromise =
-    import("../translate-create-reverse-confirm");
+  private detailsQuery;
+  private deckId: number;
 
-  constructor(private deckFormStore: DeckFormStore) {
+  constructor() {
+    const route = screenStore.screen;
+    assert(
+      route.type === "cardList" || route.type === "cardListPreview",
+      "CardListStore requires a card list route",
+    );
+    this.deckId = route.deckId;
+    this.detailsQuery = deckDetailsStore.getQuery(route.deckId);
     makeAutoObservable(this, {}, { autoBind: true });
 
     reaction(
@@ -27,18 +40,163 @@ export class CardListStore {
     );
   }
 
-  openMoveSheet() {
-    const deckId = this.deckFormStore.deckForm?.id;
-    if (deckId) {
-      this.moveToDeckStore.open(
-        deckId,
-        Array.from(this.selectedCardIds),
-        () => {
-          this.deckFormStore.loadForm();
-          this.clearSelection();
-        },
-      );
+  get deck() {
+    return this.detailsQuery.data ?? null;
+  }
+
+  get isInitialLoading() {
+    return this.detailsQuery.isPending;
+  }
+
+  get error() {
+    return this.detailsQuery.error;
+  }
+
+  get canEdit() {
+    return !!this.deck && deckListStore.isDeckOwner(this.deck);
+  }
+
+  get isReadOnly() {
+    return !this.canEdit;
+  }
+
+  private get route() {
+    const route = screenStore.screen;
+    assert(
+      route.type === "cardList" || route.type === "cardListPreview",
+      "CardListStore requires a card list route",
+    );
+    return route;
+  }
+
+  get cardFilterSortBy(): CardFilterSortBy {
+    return this.route.sortBy ?? "createdAt";
+  }
+
+  get cardFilterSortDirection(): CardFilterDirection {
+    return this.route.sortDirection ?? "desc";
+  }
+
+  get cardFilterText() {
+    return this.route.searchText ?? "";
+  }
+
+  get filteredCards(): DeckCardDbType[] {
+    const cards = this.deck?.deckCards ?? [];
+    const textFilter = this.cardFilterText.toLowerCase();
+
+    return cards
+      .filter((card) => {
+        if (!textFilter) {
+          return true;
+        }
+        return (
+          card.front.toLowerCase().includes(textFilter) ||
+          card.back.toLowerCase().includes(textFilter)
+        );
+      })
+      .slice()
+      .sort((a, b) => {
+        if (this.cardFilterSortBy === "frontAlpha") {
+          return this.cardFilterSortDirection === "desc"
+            ? b.front.toLowerCase().localeCompare(a.front.toLowerCase())
+            : a.front.toLowerCase().localeCompare(b.front.toLowerCase());
+        }
+        if (this.cardFilterSortBy === "backAlpha") {
+          return this.cardFilterSortDirection === "desc"
+            ? b.back.toLowerCase().localeCompare(a.back.toLowerCase())
+            : a.back.toLowerCase().localeCompare(b.back.toLowerCase());
+        }
+        if (this.cardFilterSortBy === "createdAt") {
+          return this.cardFilterSortDirection === "desc"
+            ? b.createdAt.localeCompare(a.createdAt)
+            : a.createdAt.localeCompare(b.createdAt);
+        }
+
+        return this.cardFilterSortBy satisfies never;
+      });
+  }
+
+  get currentSortId() {
+    return `${this.cardFilterSortBy}-${this.cardFilterSortDirection}`;
+  }
+
+  get isEmptySearchResults() {
+    return this.filteredCards.length === 0 && !!this.cardFilterText;
+  }
+
+  setSortByIdAndDirection(
+    sortBy: CardFilterSortBy,
+    sortDirection: CardFilterDirection,
+  ) {
+    screenStore.replace({
+      ...this.route,
+      sortBy,
+      sortDirection,
+      searchText: this.cardFilterText || undefined,
+    });
+  }
+
+  updateSearchText(searchText: string) {
+    screenStore.replace({
+      ...this.route,
+      sortBy: this.cardFilterSortBy,
+      sortDirection: this.cardFilterSortDirection,
+      searchText: searchText || undefined,
+    });
+  }
+
+  openCard(cardId: number) {
+    if (this.canEdit && this.isSelectionMode.value) {
+      platform.haptic("selection");
+      this.toggleCardSelection(cardId);
+      return;
     }
+
+    if (this.canEdit) {
+      screenStore.push({
+        type: "deckForm",
+        deckId: this.deckId,
+        cardId,
+        ...this.getFilterParams(),
+      });
+      return;
+    }
+
+    screenStore.push({
+      type: "cardPreviewId",
+      cardId,
+      deckId: this.deckId,
+    });
+  }
+
+  navigateToNewCard() {
+    if (!this.canEdit) {
+      return;
+    }
+
+    screenStore.push({
+      type: "deckForm",
+      deckId: this.deckId,
+      cardId: "new",
+      ...this.getFilterParams(),
+    });
+  }
+
+  private getFilterParams() {
+    return {
+      sortBy: this.cardFilterSortBy,
+      sortDirection: this.cardFilterSortDirection,
+      searchText: this.cardFilterText || undefined,
+    };
+  }
+
+  openMoveSheet() {
+    this.moveToDeckStore.open(
+      this.deckId,
+      Array.from(this.selectedCardIds),
+      this.clearSelection,
+    );
   }
 
   toggleCardSelection(cardId: number) {
@@ -55,9 +213,7 @@ export class CardListStore {
   }
 
   get areAllCardsSelected() {
-    const validCardIds = this.deckFormStore.filteredCards
-      .map((c) => c.id)
-      .filter((id): id is number => id !== undefined);
+    const validCardIds = this.filteredCards.map((card) => card.id);
     return (
       validCardIds.length > 0 &&
       validCardIds.every((id) => this.selectedCardIds.has(id))
@@ -69,15 +225,12 @@ export class CardListStore {
       this.clearSelection();
     } else {
       this.isSelectionMode.setTrue();
-      const validCardIds = this.deckFormStore.filteredCards
-        .map((c) => c.id)
-        .filter((id): id is number => id !== undefined);
+      const validCardIds = this.filteredCards.map((card) => card.id);
       validCardIds.forEach((id) => this.selectedCardIds.add(id));
     }
   }
 
   async createReverseCards() {
-    const { translateCreateReverseConfirm } = await this.translateModulePromise;
     const confirmed = await showConfirm(
       translateCreateReverseConfirm(this.selectedCardIds.size),
     );
@@ -93,7 +246,6 @@ export class CardListStore {
       runInAction(() => {
         deckListStore.replaceDeck(deck, true);
         deckListStore.updateCardsToReview(cardsToReview);
-        this.deckFormStore.loadForm();
       });
       this.clearSelection();
     } catch (e) {
@@ -117,7 +269,6 @@ export class CardListStore {
       runInAction(() => {
         deckListStore.replaceDeck(deck, true);
         deckListStore.updateCardsToReview(cardsToReview);
-        this.deckFormStore.loadForm();
       });
 
       this.clearSelection();

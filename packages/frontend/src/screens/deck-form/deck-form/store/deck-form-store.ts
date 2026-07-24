@@ -10,11 +10,7 @@ import {
 } from "mobx-form-lite";
 import { makeAutoObservable, runInAction } from "mobx";
 import { screenStore } from "../../../../store/screen-store.ts";
-import {
-  DeckFormRoute,
-  type DeckListDeck,
-  Route,
-} from "../../../../store/routing/route-types.ts";
+import { DeckFormRoute, Route } from "../../../../store/routing/route-types.ts";
 import { deckListStore } from "../../../../store/deck-list-store.ts";
 import { showConfirm } from "../../../../lib/platform/show-confirm.ts";
 import {
@@ -31,6 +27,7 @@ import { t } from "../../../../translations/t.ts";
 import { api } from "../../../../api/trpc-api.ts";
 import { userStore } from "../../../../store/user-store.ts";
 import { wysiwygStore } from "../../../../store/wysiwyg-store.ts";
+import { deckDetailsStore } from "../../../../store/deck-details-store.ts";
 
 type DeckCardOptions = DeckCardDbType["options"];
 type DeckSpeakField = NonNullable<DeckWithCardsDbType["speakField"]>;
@@ -232,14 +229,14 @@ export class DeckFormStore {
     return "deckForm";
   }
 
-  loadForm(deckOverride?: DeckListDeck) {
+  loadForm() {
     const screen = screenStore.screen;
     const deckId = this.getDeckIdFromScreen(screen);
 
     if (deckId) {
       // Preserve existing form if same deck (for next/prev card navigation)
       if (!this.deckForm || this.deckForm.id !== deckId) {
-        const deck = deckOverride ?? deckListStore.searchDeckById(deckId);
+        const deck = deckListStore.searchDeckById(deckId);
         assert(deck, "Deck not found in deckListStore");
         this.deckForm = createUpdateForm(deckId, deck);
       }
@@ -262,8 +259,6 @@ export class DeckFormStore {
     switch (screen.type) {
       case "deckForm":
         return screen.deckId;
-      case "cardList":
-      case "cardListPreview":
       case "speakingCards":
       case "cardInputMode":
       case "cardInputModeForm":
@@ -282,6 +277,10 @@ export class DeckFormStore {
   goToCardList() {
     if (!this.deckForm?.id) return;
     if (!this.validateBeforeNavigate()) return;
+    const deck = deckListStore.searchDeckById(this.deckForm.id);
+    if (deck) {
+      deckDetailsStore.setDeck(deck);
+    }
     screenStore.push({
       type: "cardList",
       deckId: this.deckForm.id,

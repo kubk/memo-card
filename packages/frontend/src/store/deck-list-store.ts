@@ -22,7 +22,8 @@ import { api } from "../api/trpc-api.ts";
 import { BrowserPlatform } from "../lib/platform/browser/browser-platform.ts";
 import { StartParamType } from "./routing/route-types.ts";
 import { makeQuery } from "../lib/mobx-query-lite/make-query.ts";
-import { type DeckListDeck } from "./routing/route-types.ts";
+import { type DeckListDeck } from "./deck-types.ts";
+import { deckDetailsStore } from "./deck-details-store.ts";
 
 export type DeckCardDbTypeWithType = DeckCardDbType & {
   type: CardReviewType;
@@ -123,6 +124,8 @@ class DeckListStore {
       type: "new",
       ...createNewCardReviewState(),
     });
+    deckDetailsStore.setDeck(deck);
+    this.myInfoQuery.setData(this.myInfo);
   }
 
   addDeckToMine(deckId: number, silent = false) {
@@ -173,6 +176,8 @@ class DeckListStore {
   }
 
   replaceDeck(deck: DeckWithCardsDbType, addToMine = false) {
+    deckDetailsStore.setDeck(deck);
+
     if (!this.myInfo) {
       return;
     }
@@ -181,6 +186,7 @@ class DeckListStore {
     );
     if (ownedDeckIndex !== -1) {
       this.myInfo.myDecks[ownedDeckIndex] = deck;
+      this.myInfoQuery.setData(this.myInfo);
       return;
     }
 
@@ -195,11 +201,13 @@ class DeckListStore {
         authorId: publicDeck.authorId,
         deckCategory: publicDeck.deckCategory,
       };
+      this.myInfoQuery.setData(this.myInfo);
       return;
     }
 
     if (addToMine) {
       this.myInfo.myDecks.push(deck);
+      this.myInfoQuery.setData(this.myInfo);
     }
   }
 
@@ -209,6 +217,10 @@ class DeckListStore {
       return null;
     }
     deck.cardInputModeId = cardInputModeId;
+    deckDetailsStore.setDeck(deck);
+    if (this.myInfo) {
+      this.myInfoQuery.setData(this.myInfo);
+    }
   }
 
   get publicDecks() {
@@ -433,6 +445,7 @@ class DeckListStore {
       return;
     }
     this.myInfo.folders = body;
+    this.myInfoQuery.setData(this.myInfo);
   }
 
   updateCardsToReview(body: CardToReviewDbType[]) {
@@ -440,6 +453,7 @@ class DeckListStore {
       return;
     }
     this.myInfo.cardsToReview = body;
+    this.myInfoQuery.setData(this.myInfo);
   }
 
   private setMyInfo(userData: MyInfoResponse) {
@@ -528,6 +542,7 @@ class DeckListStore {
 
           if ("deck" in sharedDeckResponse) {
             const deck = sharedDeckResponse.deck;
+            deckDetailsStore.setDeck(deck);
             screenStore.push({
               type: "deckPreview",
               deckId: deck.id,

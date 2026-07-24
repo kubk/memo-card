@@ -57,7 +57,6 @@ import { CardInputModeFormScreen } from "./card-input-mode/card-input-mode-form-
 import { AnkiImportScreen } from "./anki-import/anki-import-screen.tsx";
 import { userStore } from "../store/user-store.ts";
 import { RouteScreenContainer } from "../lib/react/route-screen-container.tsx";
-import { CardListPreviewScreen } from "./deck-review/preview-readonly/card-list-preview-screen.tsx";
 import { Suspense } from "react";
 
 export function App() {
@@ -181,15 +180,13 @@ export function App() {
         )}
         {screenStore.screen.type === "cardList" && (
           <SignedIn>
-            <DeckFormStoreProvider deck={screenStore.screen.state?.deck}>
-              <CardList />
-            </DeckFormStoreProvider>
+            <CardList />
           </SignedIn>
         )}
         {screenStore.screen.type === "cardListPreview" && (
           <SignedIn>
             <PreventTelegramSwipeDownClosingIos>
-              <CardListPreviewScreen />
+              <CardList />
             </PreventTelegramSwipeDownClosingIos>
           </SignedIn>
         )}

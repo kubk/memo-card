@@ -1,11 +1,5 @@
 import * as v from "valibot";
-import {
-  type CatalogFolderDbType,
-  type RouterOutput,
-  paidPlanTypes,
-} from "api";
-
-type MyInfoResponse = RouterOutput["me"]["info"];
+import { type CatalogFolderDbType, paidPlanTypes } from "api";
 
 export enum StartParamType {
   RepeatAll = "repeat_all",
@@ -208,15 +202,10 @@ export const routeSchema = v.union([
   aboutRouteSchema,
 ]);
 
-export type DeckListDeck = MyInfoResponse["myDecks"][number] & {
-  deckCategory?: MyInfoResponse["publicDecks"][number]["deckCategory"];
-};
-
 type RouteWithoutState = v.InferOutput<typeof routeSchema>;
 
 export type Route = RouteWithoutState & {
   state?: {
-    deck?: DeckListDeck;
     folder?: CatalogFolderDbType;
   };
 };

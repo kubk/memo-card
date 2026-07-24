@@ -18,7 +18,6 @@ export function PublicDeck(props: Props) {
         screenStore.push({
           type: "deckPreview",
           deckId: deck.id,
-          state: { deck },
         });
       }}
     />

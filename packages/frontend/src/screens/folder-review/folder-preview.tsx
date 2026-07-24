@@ -124,7 +124,6 @@ export function FolderPreview(props: Props) {
                   screenStore.push({
                     type: "deckPreview",
                     deckId: deck.id,
-                    state: { deck },
                   });
                 },
                 text: deck.name,

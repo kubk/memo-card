@@ -103,7 +103,6 @@ export function DeckCatalog() {
                         screenStore.push({
                           type: "deckPreview",
                           deckId: item.data.id,
-                          state: { deck: item.data },
                         });
                       }
                       if (item.type === "folder") {

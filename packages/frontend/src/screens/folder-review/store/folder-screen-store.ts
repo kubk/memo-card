@@ -8,7 +8,7 @@ import {
   type DeckWithCardsWithReviewType,
   deckListStore,
 } from "../../../store/deck-list-store.ts";
-import { type DeckListDeck } from "../../../store/routing/route-types.ts";
+import { type DeckListDeck } from "../../../store/deck-types.ts";
 import { screenStore } from "../../../store/screen-store.ts";
 import { type ReviewStore } from "../../deck-review/store/review-store.ts";
 

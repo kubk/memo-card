@@ -1,15 +1,14 @@
 import { createInitialFsrsReviewState } from "api";
 import { makeAutoObservable } from "mobx";
-import { api } from "../../../api/trpc-api.ts";
-import { makeQuery } from "../../../lib/mobx-query-lite/make-query.ts";
 import {
   type DeckCardDbTypeWithType,
   type DeckWithCardsWithReviewType,
   deckListStore,
 } from "../../../store/deck-list-store.ts";
-import { type DeckListDeck } from "../../../store/routing/route-types.ts";
+import { type DeckListDeck } from "../../../store/deck-types.ts";
 import { screenStore } from "../../../store/screen-store.ts";
 import { type ReviewStore } from "./review-store.ts";
+import { deckDetailsStore } from "../../../store/deck-details-store.ts";
 
 const getNewCardsToReview = (deck: DeckListDeck): DeckCardDbTypeWithType[] =>
   deck.deckCards.map((card) => ({
@@ -22,10 +21,7 @@ export class DeckScreenStore {
   detailsQuery;
 
   constructor(private deckId: number) {
-    this.detailsQuery = makeQuery({
-      key: `deck.details:${deckId}`,
-      query: () => api.deck.deckWithCards.query({ deckId }),
-    });
+    this.detailsQuery = deckDetailsStore.getQuery(deckId);
     makeAutoObservable<this, "deckId">(
       this,
       { deckId: false },
@@ -33,25 +29,19 @@ export class DeckScreenStore {
     );
   }
 
-  get ownedDeck(): DeckWithCardsWithReviewType | null {
+  get libraryDeck(): DeckWithCardsWithReviewType | null {
     return (
       deckListStore.myDecks.find((deck) => deck.id === this.deckId) ?? null
     );
   }
 
-  get previewDeck() {
-    const deck = screenStore.screen.state?.deck;
-    return deck?.id === this.deckId ? deck : null;
-  }
-
   get deck(): DeckWithCardsWithReviewType | null {
-    if (this.ownedDeck) {
-      return this.ownedDeck;
+    if (this.libraryDeck) {
+      return this.libraryDeck;
     }
 
     const deck =
       this.detailsQuery.data ??
-      this.previewDeck ??
       deckListStore.publicDecks.find((item) => item.id === this.deckId);
     if (!deck) {
       return null;
@@ -64,7 +54,7 @@ export class DeckScreenStore {
   }
 
   get isInitialLoading() {
-    if (this.ownedDeck) {
+    if (this.libraryDeck) {
       return false;
     }
 
@@ -73,7 +63,7 @@ export class DeckScreenStore {
 
   get canReview() {
     const deck = this.deck;
-    return !!deck && (deck.cardsToReview.length > 0 || !this.ownedDeck);
+    return !!deck && (deck.cardsToReview.length > 0 || !this.libraryDeck);
   }
 
   get canEdit() {
@@ -87,17 +77,16 @@ export class DeckScreenStore {
       return;
     }
 
+    deckDetailsStore.setDeck(deck);
     screenStore.push(
       this.canEdit
         ? {
             type: "cardList",
             deckId: deck.id,
-            state: { deck },
           }
         : {
             type: "cardListPreview",
             deckId: deck.id,
-            state: { deck },
           },
     );
   }
@@ -108,7 +97,7 @@ export class DeckScreenStore {
       return;
     }
 
-    if (!this.ownedDeck) {
+    if (!this.libraryDeck) {
       deckListStore.addDeckToMine(deck.id);
     }
 
