@@ -25,6 +25,7 @@ import {
   CatalogSnackbar,
   catalogCountries,
 } from "./catalog-stories.tsx";
+import { CatalogModals, type ModalStoryId } from "./modal-stories.tsx";
 
 const PLAYGROUND_COMPONENTS = [
   {
@@ -46,6 +47,11 @@ const PLAYGROUND_COMPONENTS = [
   {
     id: "radio-list",
     label: "Radio list",
+  },
+  {
+    id: "modals",
+    label: "Modals",
+    propsPanel: false,
   },
   {
     id: "chip",
@@ -90,6 +96,8 @@ export function Playground() {
   const selectedComponent = PLAYGROUND_COMPONENTS.find(
     (component) => component.id === selectedId,
   )!;
+  const showPropsPanel =
+    !("propsPanel" in selectedComponent) || selectedComponent.propsPanel;
 
   useEffect(() => {
     const syncSelection = () => setSelectedId(getSelectedComponentId());
@@ -106,7 +114,14 @@ export function Playground() {
   };
 
   return (
-    <div className="grid h-screen min-w-[760px] grid-cols-[200px_minmax(320px,1fr)_280px] overflow-hidden font-sans">
+    <div
+      className={cn(
+        "grid h-screen min-w-[760px] overflow-hidden font-sans",
+        showPropsPanel
+          ? "grid-cols-[200px_minmax(320px,1fr)_280px]"
+          : "grid-cols-[200px_minmax(320px,1fr)]",
+      )}
+    >
       <aside className="flex min-h-0 flex-col border-r border-border bg-background">
         <div className="flex h-14 shrink-0 items-center gap-2.5 border-b border-border px-4 text-[15px] font-semibold">
           <img
@@ -150,7 +165,9 @@ export function Playground() {
         </header>
 
         <main className="grid min-h-0 min-w-0 flex-1 place-items-center overflow-auto bg-[var(--tg-theme-secondary-bg-color)] p-8">
-          <PropsPanelContext.Provider value={propsPanelContainer}>
+          <PropsPanelContext.Provider
+            value={showPropsPanel ? propsPanelContainer : null}
+          >
             <ComponentPreview
               key={`${selectedId}-${previewVersion}`}
               componentId={selectedId}
@@ -159,26 +176,28 @@ export function Playground() {
         </main>
       </section>
 
-      <aside className="flex min-h-0 flex-col border-l border-border bg-background">
-        <header className="flex h-14 shrink-0 items-center justify-between border-b border-border py-0 pr-3 pl-4">
-          <h2 className="m-0 text-base font-semibold leading-none text-foreground">
-            Props
-          </h2>
-          <ShadcnButton
-            type="button"
-            variant="ghost"
-            size="icon"
-            title="Reset props"
-            onClick={() => setPreviewVersion((version) => version + 1)}
-          >
-            <RotateCcw size={15} />
-          </ShadcnButton>
-        </header>
-        <div
-          className="min-h-0 flex-1 overflow-y-auto px-4 pb-6"
-          ref={setPropsPanelContainer}
-        />
-      </aside>
+      {showPropsPanel && (
+        <aside className="flex min-h-0 flex-col border-l border-border bg-background">
+          <header className="flex h-14 shrink-0 items-center justify-between border-b border-border py-0 pr-3 pl-4">
+            <h2 className="m-0 text-base font-semibold leading-none text-foreground">
+              Props
+            </h2>
+            <ShadcnButton
+              type="button"
+              variant="ghost"
+              size="icon"
+              title="Reset props"
+              onClick={() => setPreviewVersion((version) => version + 1)}
+            >
+              <RotateCcw size={15} />
+            </ShadcnButton>
+          </header>
+          <div
+            className="min-h-0 flex-1 overflow-y-auto px-4 pb-6"
+            ref={setPropsPanelContainer}
+          />
+        </aside>
+      )}
     </div>
   );
 }
@@ -199,6 +218,8 @@ function ComponentPreview({
       return <ListPlayground />;
     case "radio-list":
       return <RadioListPlayground />;
+    case "modals":
+      return <ModalsPlayground />;
     case "chip":
       return <ChipPlayground />;
     case "badge":
@@ -475,6 +496,25 @@ function RadioListPlayground() {
         </PropGroup>
       </PropsPanel>
     </>
+  );
+}
+
+function ModalsPlayground() {
+  const [selectedModalId, setSelectedModalId] =
+    useState<ModalStoryId>("card-type");
+  const [isOpen, setIsOpen] = useState(false);
+
+  const openModal = (modalId: ModalStoryId) => {
+    setSelectedModalId(modalId);
+    setIsOpen(true);
+  };
+
+  return (
+    <CatalogModals
+      activeModalId={isOpen ? selectedModalId : null}
+      onClose={() => setIsOpen(false)}
+      onOpen={openModal}
+    />
   );
 }
 
