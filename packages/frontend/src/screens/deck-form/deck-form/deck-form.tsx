@@ -69,6 +69,7 @@ export function DeckForm() {
   return (
     <Screen
       title={screen.deckId ? t("edit_deck") : t("add_deck")}
+      telegramMobilePlacement="content"
       headerRight={
         deck ? (
           <DeckActions
