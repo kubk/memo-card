@@ -43,7 +43,7 @@ function extractTranslationKeys() {
     const enContent = fs.readFileSync(EN_TRANSLATIONS_FILE, 'utf8');
     
     // Match all keys in the translation object using regex
-    const keyRegex = /^\s*([a-zA-Z_][a-zA-Z0-9_]*)\s*:/gm;
+    const keyRegex = /^ {2}([a-zA-Z_][a-zA-Z0-9_]*)\s*:/gm;
     const keys = [];
     let match;
     
