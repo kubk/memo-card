@@ -191,7 +191,6 @@ export const en = {
   review_idk: "I don't know",
   card_answer_type: "Card type",
   yes_no: "Remember",
-  yes: "Yes",
   answer_type_choice: "Quiz",
   answer_type_explanation_remember: `A card with "Remember" and "Don't remember" buttons`,
   answer_type_explanation_choice: `A card with answer choices`,

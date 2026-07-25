@@ -32,7 +32,6 @@ export const uk: Translation = {
   card_input_mode_type: "Якщо ви введете",
   card_input_mode_screen: "Режим введення картки",
   generate: "Згенерувати",
-  yes: "Так",
   confirm_ok: "Підтвердити",
   confirm_cancel: "Скасувати",
   user_settings_updated: "Налаштування оновлено",

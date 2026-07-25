@@ -8,7 +8,7 @@
     "dev": "pnpm run kill-ports && pnpm exec concurrently -n api,frontend,landing -c green,blue,magenta --kill-others-on-fail \"pnpm run -F=api dev\" \"pnpm run -F=frontend dev\" \"pnpm run -F=landing dev\"",
     "dev:telegram": "pnpm run kill-ports && pnpm exec concurrently -n api,frontend,tunnel -c green,blue,yellow --kill-others-on-fail \"pnpm run -F=api dev\" \"pnpm run -F=frontend dev\" \"pnpm run -F=api tunnel\"",
     "format": "oxfmt --write \"./packages/**/*.{ts,tsx,mts,json}\"",
-    "lint": "pnpm run -F='./packages/*' lint",
+    "lint": "concurrently -n packages,dead-code,translations,methods -c blue,magenta,yellow,green \"pnpm --recursive --parallel --filter='./packages/*' run lint\" \"pnpm --silent run dead-code\" \"node packages/frontend/check-missing-translations.js\" \"pnpm --silent run detect-unused-methods\"",
     "typecheck": "pnpm --recursive --parallel --filter='./packages/*' run typecheck",
     "test": "pnpm run -F='./packages/*' test",
     "export-public-code": "./export-public-code.sh",

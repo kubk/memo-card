@@ -30,7 +30,6 @@ export const ptBr: Translation = {
   card_input_mode_get: "você obterá o cartão",
   generate: "Gerar",
   card_input_mode_screen: "Modo de entrada de cartão",
-  yes: "Sim",
   confirm_ok: "Confirmar",
   confirm_cancel: "Cancelar",
   error: "Erro",

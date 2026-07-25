@@ -11,7 +11,7 @@ import { Choice } from "../src/screens/deck-list/deck-or-folder-choose/choice.ts
 import { WysiwygHelp } from "../src/ui/wysiwyg-field/wysiwyg-help.tsx";
 import { ColorPicker } from "../src/ui/wysiwyg-field/color-picker.tsx";
 
-export const modalStories = [
+const modalStories = [
   {
     id: "card-type",
     label: "Card type",

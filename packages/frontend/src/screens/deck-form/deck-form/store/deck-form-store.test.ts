@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { CardFormType, DeckFormStore } from "./deck-form-store.ts";
+import { DeckFormStore } from "./deck-form-store.ts";
 import { DeckCardDbType } from "api";
 import { type DeckWithCardsWithReviewType } from "../../../../store/deck-list-store.ts";
 import { assert } from "api";
@@ -216,42 +216,6 @@ describe("deck form store", () => {
 
     expect(newDeckStore.deckForm.title.isTouched).toBe(true);
     expect(newDeckStore.deckForm.description.isTouched).toBe(true);
-  });
-
-  it("sorting - filtering cards", () => {
-    const store = new DeckFormStore();
-    store.loadForm();
-    assert(store.deckForm);
-    expect(store.deckForm.cards).toHaveLength(3);
-
-    const cardToId = (card: CardFormType) => card.id;
-
-    expect(store.filteredCards.map(cardToId)).toEqual([5, 4, 3]);
-
-    store.setSortByIdAndDirection("createdAt", "asc");
-
-    expect(store.filteredCards.map(cardToId)).toEqual([3, 4, 5]);
-
-    store.setSortByIdAndDirection("frontAlpha", "asc");
-
-    expect(store.filteredCards.map(cardToId)).toEqual([3, 5, 4]);
-
-    store.setSortByIdAndDirection("frontAlpha", "desc");
-
-    expect(store.filteredCards.map(cardToId)).toEqual([4, 5, 3]);
-  });
-
-  it("editCardFormById navigates to card form", () => {
-    const store = new DeckFormStore();
-    store.loadForm();
-    assert(store.deckForm);
-
-    store.editCardFormById(3);
-
-    expect(mockScreenStore.screen.type).toBe("deckForm");
-    if (mockScreenStore.screen.type === "deckForm") {
-      expect(mockScreenStore.screen.cardId).toBe(3);
-    }
   });
 
   it("navigateToNewCard navigates to new card form", () => {

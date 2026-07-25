@@ -30,7 +30,6 @@ export const es: Translation = {
   card_input_mode_manual: "Entrada manual",
   generate: "Generar",
   card_input_mode_screen: "Modo de entrada de tarjeta",
-  yes: "Sí",
   confirm_ok: "Confirmar",
   confirm_cancel: "Cancelar",
   user_settings_updated: "Configuración actualizada",

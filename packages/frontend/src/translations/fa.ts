@@ -203,7 +203,6 @@ export const fa: Translation = {
   review_idk: "نمی‌دانم",
   card_answer_type: "نوع کارت",
   yes_no: "به یاد آوردن",
-  yes: "بله",
   answer_type_choice: "آزمون",
   answer_type_explanation_remember:
     'کارتی با دکمه‌های "به یاد دارم" و "به یاد ندارم"',

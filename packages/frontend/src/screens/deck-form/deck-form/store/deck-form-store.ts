@@ -10,7 +10,7 @@ import {
 } from "mobx-form-lite";
 import { makeAutoObservable, runInAction } from "mobx";
 import { screenStore } from "../../../../store/screen-store.ts";
-import { DeckFormRoute, Route } from "../../../../store/routing/route-types.ts";
+import { Route } from "../../../../store/routing/route-types.ts";
 import { deckListStore } from "../../../../store/deck-list-store.ts";
 import { showConfirm } from "../../../../lib/platform/show-confirm.ts";
 import {
@@ -334,132 +334,6 @@ export class DeckFormStore {
     });
   }
 
-  get filteredCards() {
-    if (!this.deckForm) {
-      return [];
-    }
-
-    // Build map of card ID to creation date
-    const cardCreationDates = new Map<number, string>();
-    if (this.deckForm.id) {
-      const deck = deckListStore.searchDeckById(this.deckForm.id);
-      if (deck) {
-        deck.deckCards.forEach((card) => {
-          cardCreationDates.set(card.id, card.createdAt);
-        });
-      }
-    }
-
-    return this.deckForm.cards
-      .filter((card) => {
-        if (this.cardFilterText) {
-          const textFilter = this.cardFilterText.toLowerCase();
-          return (
-            card.front.value.toLowerCase().includes(textFilter) ||
-            card.back.value.toLowerCase().includes(textFilter)
-          );
-        }
-        return true;
-      })
-      .sort((a, b) => {
-        const aFront = a.front.value.toLowerCase();
-        const bFront = b.front.value.toLowerCase();
-        const aBack = a.back.value.toLowerCase();
-        const bBack = b.back.value.toLowerCase();
-
-        if (this.cardFilterSortBy === "frontAlpha") {
-          return this.cardFilterSortDirection === "desc"
-            ? bFront.localeCompare(aFront)
-            : aFront.localeCompare(bFront);
-        }
-        if (this.cardFilterSortBy === "backAlpha") {
-          return this.cardFilterSortDirection === "desc"
-            ? bBack.localeCompare(aBack)
-            : aBack.localeCompare(bBack);
-        }
-        if (this.cardFilterSortBy === "createdAt") {
-          if (!a.id && !b.id) return 0;
-          if (!a.id) return this.cardFilterSortDirection === "desc" ? 1 : -1;
-          if (!b.id) return this.cardFilterSortDirection === "desc" ? -1 : 1;
-
-          const aDate = cardCreationDates.get(a.id);
-          const bDate = cardCreationDates.get(b.id);
-
-          if (aDate && bDate) {
-            return this.cardFilterSortDirection === "desc"
-              ? bDate > aDate
-                ? 1
-                : bDate < aDate
-                  ? -1
-                  : 0
-              : aDate > bDate
-                ? 1
-                : aDate < bDate
-                  ? -1
-                  : 0;
-          }
-
-          // Fallback to ID comparison
-          return this.cardFilterSortDirection === "desc"
-            ? b.id - a.id
-            : a.id - b.id;
-        }
-
-        return this.cardFilterSortBy satisfies never;
-      });
-  }
-
-  setSortByIdAndDirection(
-    sortBy: CardFilterSortBy,
-    direction: CardFilterDirection,
-  ) {
-    this.updateFiltersInUrl(sortBy, direction, this.cardFilterText);
-  }
-
-  updateSearchText(text: string) {
-    this.updateFiltersInUrl(
-      this.cardFilterSortBy,
-      this.cardFilterSortDirection,
-      text,
-    );
-  }
-
-  private updateFiltersInUrl(
-    sortBy: CardFilterSortBy,
-    sortDirection: CardFilterDirection,
-    searchText: string,
-  ) {
-    const screen = screenStore.screen;
-    if (
-      (screen.type === "cardList" || screen.type === "cardListPreview") &&
-      this.deckForm?.id
-    ) {
-      screenStore.replace({
-        ...screen,
-        sortBy,
-        sortDirection,
-        searchText: searchText || undefined,
-      });
-    } else if (screen.type === "deckForm" && this.deckForm?.id) {
-      screenStore.replace({
-        type: "deckForm",
-        deckId: this.deckForm.id,
-        cardId: screen.cardId,
-        sortBy,
-        sortDirection,
-        searchText: searchText || undefined,
-      });
-    }
-  }
-
-  get currentSortId() {
-    return `${this.cardFilterSortBy}-${this.cardFilterSortDirection}`;
-  }
-
-  get isEmptySearchResults() {
-    return this.filteredCards.length === 0 && !!this.cardFilterText;
-  }
-
   get voiceType(): VoiceType {
     if (!this.deckForm) return "none";
 
@@ -511,23 +385,6 @@ export class DeckFormStore {
       deckId: this.deckForm.id,
       cardId: "new",
     });
-  }
-
-  editCardFormById(cardId?: number, useReplace = false) {
-    if (!cardId || !this.deckForm?.id) {
-      return;
-    }
-    const params: DeckFormRoute = {
-      type: "deckForm",
-      deckId: this.deckForm.id,
-      cardId,
-      ...this.getFilterParams(),
-    };
-    if (useReplace) {
-      screenStore.replace(params);
-    } else {
-      screenStore.push(params);
-    }
   }
 
   async executeViaConfirm(redirect: () => void) {

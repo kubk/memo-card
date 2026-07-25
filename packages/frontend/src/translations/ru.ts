@@ -30,7 +30,6 @@ export const ru: Translation = {
   card_input_mode_type: "Если вы введете",
   card_input_mode_screen: "Режим ввода карточки",
   generate: "Сгенерировать",
-  yes: "Да",
   confirm_cancel: "Отмена",
   confirm_ok: "Подтвердить",
   error: "Ошибка",

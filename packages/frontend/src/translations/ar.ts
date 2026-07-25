@@ -196,7 +196,6 @@ export const ar: Translation = {
   review_idk: "لا أعرف",
   card_answer_type: "نوع البطاقة",
   yes_no: "تذكر",
-  yes: "نعم",
   answer_type_choice: "اختبار",
   answer_type_explanation_remember: `بطاقة تحتوي على أزرار "تذكر" و "لا تتذكر"`,
   answer_type_explanation_choice: `بطاقة تحتوي على خيارات الإجابة`,
