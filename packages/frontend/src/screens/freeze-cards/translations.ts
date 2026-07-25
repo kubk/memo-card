@@ -1,3 +1,4 @@
+import { selectPluralForm } from "api";
 import { translator } from "../../translations/t.ts";
 export { formatDays } from "../../translations/format-days.ts";
 
@@ -9,84 +10,42 @@ export const formatFrozenCards = (cards: number) => {
         ? `1 card has been frozen`
         : `${cards} cards have been frozen`;
     }
-    case "ru": {
-      const rules = new Intl.PluralRules("ru-RU");
-      const result = rules.select(cards);
-      switch (result) {
-        case "one":
-          return `${cards} карточка заморожена`;
-        case "few":
-          return `${cards} карточки заморожены`;
-        case "many":
-          return `${cards} карточек заморожено`;
-        case "two":
-        default:
-          return `${cards} карточки заморожены`;
-      }
-    }
-    case "uk": {
-      const rulesUk = new Intl.PluralRules("uk");
-      const resultUk = rulesUk.select(cards);
-      switch (resultUk) {
-        case "one":
-          return `${cards} картка заморожена`;
-        case "few":
-          return `${cards} картки заморожені`;
-        case "many":
-          return `${cards} карток заморожено`;
-        case "two":
-        default:
-          return `${cards} картки заморожені`;
-      }
-    }
-    case "es": {
-      const rulesEs = new Intl.PluralRules("es-ES");
-      const resultEs = rulesEs.select(cards);
-      switch (resultEs) {
-        case "one":
-          return `${cards} tarjeta ha sido congelada`;
-        case "other":
-        default:
-          return `${cards} han sido congeladas`;
-      }
-    }
-    case "pt-br": {
-      const rulesPt = new Intl.PluralRules("pt-br");
-      const resultPt = rulesPt.select(cards);
-      switch (resultPt) {
-        case "one":
-          return `${cards} cartão foi congelado`;
-        case "other":
-        default:
-          return `${cards} foram congelados`;
-      }
-    }
-    case "ar": {
-      const rulesAr = new Intl.PluralRules("ar");
-      const resultAr = rulesAr.select(cards);
-      switch (resultAr) {
-        case "one":
-          return `تم تجميد بطاقة واحدة`;
-        case "few":
-          return `تم تجميد ${cards} بطاقات`;
-        case "many":
-          return `تم تجميد ${cards} بطاقة`;
-        case "two":
-        default:
-          return `تم تجميد ${cards} بطاقة`;
-      }
-    }
-    case "fa": {
-      const rulesFa = new Intl.PluralRules("fa");
-      const resultFa = rulesFa.select(cards);
-      switch (resultFa) {
-        case "one":
-          return `${cards} کارت یخ زده شده است`;
-        case "other":
-        default:
-          return `${cards} کارت یخ زده شده اند`;
-      }
-    }
+    case "ru":
+      return selectPluralForm("ru", cards, {
+        one: `${cards} карточка заморожена`,
+        few: `${cards} карточки заморожены`,
+        many: `${cards} карточек заморожено`,
+        other: `${cards} карточки заморожены`,
+      });
+    case "uk":
+      return selectPluralForm("uk", cards, {
+        one: `${cards} картка заморожена`,
+        few: `${cards} картки заморожені`,
+        many: `${cards} карток заморожено`,
+        other: `${cards} картки заморожені`,
+      });
+    case "es":
+      return selectPluralForm("es", cards, {
+        one: `${cards} tarjeta ha sido congelada`,
+        other: `${cards} han sido congeladas`,
+      });
+    case "pt-br":
+      return selectPluralForm("pt-br", cards, {
+        one: `${cards} cartão foi congelado`,
+        other: `${cards} foram congelados`,
+      });
+    case "ar":
+      return selectPluralForm("ar", cards, {
+        one: `تم تجميد بطاقة واحدة`,
+        few: `تم تجميد ${cards} بطاقات`,
+        many: `تم تجميد ${cards} بطاقة`,
+        other: `تم تجميد ${cards} بطاقة`,
+      });
+    case "fa":
+      return selectPluralForm("fa", cards, {
+        one: `${cards} کارت یخ زده شده است`,
+        other: `${cards} کارت یخ زده شده اند`,
+      });
     default:
       return language satisfies never;
   }

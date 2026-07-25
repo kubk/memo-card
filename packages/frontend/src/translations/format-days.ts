@@ -1,3 +1,4 @@
+import { selectPluralForm } from "api";
 import { translator } from "./t.ts";
 
 export const formatDays = (days: number) => {
@@ -6,76 +7,40 @@ export const formatDays = (days: number) => {
   switch (language) {
     case "en":
       return `${days === 1 ? "1 day" : `${days} days`}`;
-    case "ru": {
-      const rules = new Intl.PluralRules("ru-RU");
-      const result = rules.select(days);
-      switch (result) {
-        case "one":
-          return `${days} день`;
-        case "few":
-          return `${days} дня`;
-        case "many":
-          return `${days} дней`;
-        case "two":
-        default:
-          return `${days} дня`;
-      }
-    }
+    case "ru":
+      return `${days} ${selectPluralForm("ru", days, {
+        one: "день",
+        few: "дня",
+        many: "дней",
+        other: "дня",
+      })}`;
     case "pt-br": {
       return days === 1 ? "1 dia" : `${days} dias`;
     }
-    case "es": {
-      const rulesEs = new Intl.PluralRules("es-ES");
-      const resultEs = rulesEs.select(days);
-      switch (resultEs) {
-        case "one":
-          return `${days} día`;
-        case "other":
-        default:
-          return `${days} días`;
-      }
-    }
-    case "ar": {
-      const rulesAr = new Intl.PluralRules("ar");
-      const resultAr = rulesAr.select(days);
-      switch (resultAr) {
-        case "one":
-          return `${days} يوم`;
-        case "few":
-          return `${days} أيام`;
-        case "many":
-          return `${days} يومًا`;
-        case "two":
-        default:
-          return `${days} يومًا`;
-      }
-    }
-    case "fa": {
-      const rulesFa = new Intl.PluralRules("fa");
-      const resultFa = rulesFa.select(days);
-      switch (resultFa) {
-        case "one":
-          return `${days} روز`;
-        case "other":
-        default:
-          return `${days} روز`;
-      }
-    }
-    case "uk": {
-      const rulesUk = new Intl.PluralRules("uk");
-      const resultUk = rulesUk.select(days);
-      switch (resultUk) {
-        case "one":
-          return `${days} день`;
-        case "few":
-          return `${days} дні`;
-        case "many":
-          return `${days} днів`;
-        case "two":
-        default:
-          return `${days} дні`;
-      }
-    }
+    case "es":
+      return `${days} ${selectPluralForm("es", days, {
+        one: "día",
+        other: "días",
+      })}`;
+    case "ar":
+      return `${days} ${selectPluralForm("ar", days, {
+        one: "يوم",
+        few: "أيام",
+        many: "يومًا",
+        other: "يومًا",
+      })}`;
+    case "fa":
+      return `${days} ${selectPluralForm("fa", days, {
+        one: "روز",
+        other: "روز",
+      })}`;
+    case "uk":
+      return `${days} ${selectPluralForm("uk", days, {
+        one: "день",
+        few: "дні",
+        many: "днів",
+        other: "дні",
+      })}`;
     default:
       return language satisfies never;
   }

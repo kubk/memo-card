@@ -1,33 +1,22 @@
+import { selectPluralForm } from "api";
 import { translator } from "../../../translations/t";
 
 export function translateCreateReverseConfirm(count: number) {
   const language = translator.getLang();
 
   switch (language) {
-    case "ru": {
-      const result = new Intl.PluralRules("ru-RU").select(count);
-      switch (result) {
-        case "one":
-          return `Создать ${count} обратную карточку?`;
-        case "few":
-        case "two":
-          return `Создать ${count} обратные карточки?`;
-        default:
-          return `Создать ${count} обратных карточек?`;
-      }
-    }
-    case "uk": {
-      const result = new Intl.PluralRules("uk-UA").select(count);
-      switch (result) {
-        case "one":
-          return `Створити ${count} зворотну картку?`;
-        case "few":
-        case "two":
-          return `Створити ${count} зворотні картки?`;
-        default:
-          return `Створити ${count} зворотних карток?`;
-      }
-    }
+    case "ru":
+      return selectPluralForm("ru", count, {
+        one: `Создать ${count} обратную карточку?`,
+        few: `Создать ${count} обратные карточки?`,
+        other: `Создать ${count} обратных карточек?`,
+      });
+    case "uk":
+      return selectPluralForm("uk", count, {
+        one: `Створити ${count} зворотну картку?`,
+        few: `Створити ${count} зворотні картки?`,
+        other: `Створити ${count} зворотних карток?`,
+      });
     case "es":
       return count === 1
         ? `¿Crear ${count} tarjeta inversa?`

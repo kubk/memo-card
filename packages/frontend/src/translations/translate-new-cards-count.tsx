@@ -1,46 +1,30 @@
+import { selectPluralForm } from "api";
 import { translator } from "./t.ts";
 
 export const translateNewCardsCount = (count: number) => {
   const language = translator.getLang();
 
   if (language === "ru") {
-    const rules = new Intl.PluralRules("ru-RU");
-    const result = rules.select(count);
-
-    switch (result) {
-      case "one":
-        return `${count} новая карточка`;
-      case "few":
-        return `${count} новые карточки`;
-      case "many":
-        return `${count} новых карточек`;
-      case "two":
-        return `${count} новые карточки`;
-    }
+    return selectPluralForm("ru", count, {
+      one: `${count} новая карточка`,
+      few: `${count} новые карточки`,
+      many: `${count} новых карточек`,
+      other: `${count} новые карточки`,
+    });
   }
 
   if (language === "es") {
-    const rules = new Intl.PluralRules("es-ES");
-    const result = rules.select(count);
-
-    switch (result) {
-      case "one":
-        return `${count} nueva tarjeta`;
-      case "other":
-        return `${count} nuevas tarjetas`;
-    }
+    return selectPluralForm("es", count, {
+      one: `${count} nueva tarjeta`,
+      other: `${count} nuevas tarjetas`,
+    });
   }
 
   if (language === "pt-br") {
-    const rules = new Intl.PluralRules("pt-br");
-    const result = rules.select(count);
-
-    switch (result) {
-      case "one":
-        return `${count} novo cartão`;
-      case "other":
-        return `${count} novos cartões`;
-    }
+    return selectPluralForm("pt-br", count, {
+      one: `${count} novo cartão`,
+      other: `${count} novos cartões`,
+    });
   }
 
   if (count === 1) {
