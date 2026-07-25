@@ -41,6 +41,7 @@ import { CardTypeModal } from "./card-type-modal.tsx";
 import { CircleCheckbox } from "../../../ui/circle-checkbox.tsx";
 import { CardRow } from "../../../ui/card-row.tsx";
 import { cn } from "../../../ui/cn.ts";
+import { BackBottomButton } from "../../shared/back-bottom-button.tsx";
 
 export function ManualCardFormView() {
   const cardFormStore = useCardFormStore();
@@ -57,9 +58,11 @@ export function ManualCardFormView() {
 
   useProgress(() => cardFormStore.isSending);
 
-  useBackButton(() => {
+  const handleBack = () => {
     cardFormStore.onBackCard();
-  });
+  };
+
+  useBackButton(handleBack);
 
   const isCardFormattingOn = userStore.isCardFormattingOn.value;
   const isQuizzCardFormattingOn = userStore.isQuizzCardFormattingOn.value;
@@ -71,243 +74,250 @@ export function ManualCardFormView() {
       : undefined;
 
   return (
-    <Screen
-      title={cardForm.id ? t("edit_card") : t("add_card")}
-      subtitle={
-        deck && cardForm.id ? (
-          <div className="text-center text-sm mb-2">
-            <button
-              onClick={() => {
-                screenStore.backToDeck(deck.id);
-              }}
-              className="reset-button text-inherit text-link"
-            >
-              {userStore.isRtl ? `${deck.name} →` : `← ${deck.name}`}
-            </button>
-          </div>
-        ) : undefined
-      }
-    >
-      <Flex direction={"column"} gap={16}>
-        <Label
-          text={t("card_front_title")}
-          isPlain
-          isRequired
-          slotRight={<FormattingSwitcher />}
-        >
-          {isCardFormattingOn ? (
-            <WysiwygField field={cardForm.front} />
-          ) : (
-            <Input field={cardForm.front} type={"textarea"} rows={2} />
-          )}
-          <HintTransparent>{t("card_front_side_hint")}</HintTransparent>
-        </Label>
-
-        {cardForm.answerType.value === "remember" && (
+    <>
+      <Screen
+        title={cardForm.id ? t("edit_card") : t("add_card")}
+        subtitle={
+          deck && cardForm.id ? (
+            <div className="text-center text-sm mb-2">
+              <button
+                onClick={() => {
+                  screenStore.backToDeck(deck.id);
+                }}
+                className="reset-button text-inherit text-link"
+              >
+                {userStore.isRtl ? `${deck.name} →` : `← ${deck.name}`}
+              </button>
+            </div>
+          ) : undefined
+        }
+      >
+        <Flex direction={"column"} gap={16}>
           <Label
-            text={t("card_back_title")}
+            text={t("card_front_title")}
             isPlain
             isRequired
             slotRight={<FormattingSwitcher />}
           >
             {isCardFormattingOn ? (
-              <WysiwygField field={cardForm.back} />
+              <WysiwygField field={cardForm.front} />
             ) : (
-              <Input field={cardForm.back} type={"textarea"} rows={2} />
+              <Input field={cardForm.front} type={"textarea"} rows={2} />
             )}
-            <HintTransparent>{t("card_back_side_hint")}</HintTransparent>
+            <HintTransparent>{t("card_front_side_hint")}</HintTransparent>
           </Label>
-        )}
-      </Flex>
 
-      <div>
-        <ListHeader text={t("advanced")} />
-        <List
-          items={[
-            {
-              icon: (
-                <FilledIcon
-                  backgroundColor={theme.icons.violet}
-                  icon={<BookOpenCheckIcon size={18} />}
-                />
-              ),
-              text: t("card_field_example_title"),
-              onClick: () => {
-                cardFormStore.cardInnerScreen.onChange("example");
-              },
-              right: <ListRightText text={cardForm.example.value} cut />,
-            },
-            {
-              icon: (
-                <FilledIcon
-                  backgroundColor={theme.icons.blue}
-                  icon={<LayersIcon size={18} />}
-                />
-              ),
-              text: t("card_answer_type"),
-              right: (
-                <ListRightText
-                  text={formatCardType(cardForm.answerType.value)}
-                  chevron
-                />
-              ),
-              onClick: () => {
-                cardFormStore.cardTypeModal.setTrue();
-              },
-            },
-          ]}
-        />
-      </div>
+          {cardForm.answerType.value === "remember" && (
+            <Label
+              text={t("card_back_title")}
+              isPlain
+              isRequired
+              slotRight={<FormattingSwitcher />}
+            >
+              {isCardFormattingOn ? (
+                <WysiwygField field={cardForm.back} />
+              ) : (
+                <Input field={cardForm.back} type={"textarea"} rows={2} />
+              )}
+              <HintTransparent>{t("card_back_side_hint")}</HintTransparent>
+            </Label>
+          )}
+        </Flex>
 
-      {cardForm.answerType.value !== "remember" && (
-        <div className="w-full">
-          <ListHeader
-            text={formatCardType(cardForm.answerType.value)}
-            rightSlot={
-              <>
-                <span className="pl-1 text-danger">*</span>
-                {cardForm.answers.value.length > 0 ? (
-                  <span className="absolute -top-1 end-3 normal-case">
-                    <QuickCardFormattingSwitcher />
-                  </span>
-                ) : undefined}
-              </>
-            }
-          />
-          <div className="flex flex-col gap-1">
-            {cardForm.answers.value.map((answerForm) => (
-              <div
-                key={answerForm.id}
-                className={cn("flex items-start gap-2 relative", {})}
-              >
-                <div
-                  className={cn("mt-[16px]", {
-                    "mt-[5px]": isQuizzCardFormattingOn,
-                  })}
-                  onClick={() =>
-                    cardFormStore.toggleAnswerCorrect(answerForm.id)
-                  }
-                >
-                  <CircleCheckbox
-                    checkedClassName="bg-success"
-                    checked={answerForm.isCorrect.value}
-                    onChange={() => {}}
+        <div>
+          <ListHeader text={t("advanced")} />
+          <List
+            items={[
+              {
+                icon: (
+                  <FilledIcon
+                    backgroundColor={theme.icons.violet}
+                    icon={<BookOpenCheckIcon size={18} />}
                   />
-                </div>
-                <div className="flex-1">
-                  {isQuizzCardFormattingOn ? (
-                    <WysiwygField field={answerForm.text} />
-                  ) : (
-                    <Input
-                      field={answerForm.text}
-                      placeholder={t("answer_text")}
-                    />
-                  )}
-                </div>
-                <button
-                  type="button"
-                  className={cn("mt-[19px]", {
-                    "mt-[7px]": isQuizzCardFormattingOn,
-                  })}
-                  onClick={() => cardFormStore.deleteAnswer(answerForm.id)}
-                >
-                  <TrashIcon size={18} />
-                </button>
-              </div>
-            ))}
-
-            <CardRow
-              className={cn({
-                "mt-[3px]": cardForm.answers.value.length > 0,
-              })}
-              onClick={cardFormStore.addAnswer}
-            >
-              <span className="flex items-center gap-2 text-link">
-                <PlusIcon size={18} className="text-inherit" />{" "}
-                {t("add_answer")}
-              </span>
-            </CardRow>
-
-            <CardAnswerErrors cardForm={cardForm} />
-          </div>
+                ),
+                text: t("card_field_example_title"),
+                onClick: () => {
+                  cardFormStore.cardInnerScreen.onChange("example");
+                },
+                right: <ListRightText text={cardForm.example.value} cut />,
+              },
+              {
+                icon: (
+                  <FilledIcon
+                    backgroundColor={theme.icons.blue}
+                    icon={<LayersIcon size={18} />}
+                  />
+                ),
+                text: t("card_answer_type"),
+                right: (
+                  <ListRightText
+                    text={formatCardType(cardForm.answerType.value)}
+                    chevron
+                  />
+                ),
+                onClick: () => {
+                  cardFormStore.cardTypeModal.setTrue();
+                },
+              },
+            ]}
+          />
         </div>
-      )}
 
-      <div className="mt-3">
-        <ButtonGrid>
-          {cardFormStore.isCardNavigationVisible && (
-            <>
-              <ButtonSideAligned
-                onClick={cardFormStore.onPreviousCard}
-                icon={<ArrowLeftIcon size={24} />}
-                disabled={!cardFormStore.isPreviousCardVisible}
-                outline
+        {cardForm.answerType.value !== "remember" && (
+          <div className="w-full">
+            <ListHeader
+              text={formatCardType(cardForm.answerType.value)}
+              rightSlot={
+                <>
+                  <span className="pl-1 text-danger">*</span>
+                  {cardForm.answers.value.length > 0 ? (
+                    <span className="absolute -top-1 end-3 normal-case">
+                      <QuickCardFormattingSwitcher />
+                    </span>
+                  ) : undefined}
+                </>
+              }
+            />
+            <div className="flex flex-col gap-1">
+              {cardForm.answers.value.map((answerForm) => (
+                <div
+                  key={answerForm.id}
+                  className={cn("flex items-start gap-2 relative", {})}
+                >
+                  <div
+                    className={cn("mt-[16px]", {
+                      "mt-[5px]": isQuizzCardFormattingOn,
+                    })}
+                    onClick={() =>
+                      cardFormStore.toggleAnswerCorrect(answerForm.id)
+                    }
+                  >
+                    <CircleCheckbox
+                      checkedClassName="bg-success"
+                      checked={answerForm.isCorrect.value}
+                      onChange={() => {}}
+                    />
+                  </div>
+                  <div className="flex-1">
+                    {isQuizzCardFormattingOn ? (
+                      <WysiwygField field={answerForm.text} />
+                    ) : (
+                      <Input
+                        field={answerForm.text}
+                        placeholder={t("answer_text")}
+                      />
+                    )}
+                  </div>
+                  <button
+                    type="button"
+                    className={cn("mt-[19px]", {
+                      "mt-[7px]": isQuizzCardFormattingOn,
+                    })}
+                    onClick={() => cardFormStore.deleteAnswer(answerForm.id)}
+                  >
+                    <TrashIcon size={18} />
+                  </button>
+                </div>
+              ))}
+
+              <CardRow
+                className={cn({
+                  "mt-[3px]": cardForm.answers.value.length > 0,
+                })}
+                onClick={cardFormStore.addAnswer}
               >
-                {t("card_previous")}
-              </ButtonSideAligned>
+                <span className="flex items-center gap-2 text-link">
+                  <PlusIcon size={18} className="text-inherit" />{" "}
+                  {t("add_answer")}
+                </span>
+              </CardRow>
+
+              <CardAnswerErrors cardForm={cardForm} />
+            </div>
+          </div>
+        )}
+
+        <div className="mt-3">
+          <ButtonGrid>
+            {cardFormStore.isCardNavigationVisible && (
+              <>
+                <ButtonSideAligned
+                  onClick={cardFormStore.onPreviousCard}
+                  icon={<ArrowLeftIcon size={24} />}
+                  disabled={!cardFormStore.isPreviousCardVisible}
+                  outline
+                >
+                  {t("card_previous")}
+                </ButtonSideAligned>
+                <ButtonSideAligned
+                  onClick={cardFormStore.onNextCard}
+                  icon={<ArrowRightIcon size={24} />}
+                  disabled={!cardFormStore.isNextCardVisible}
+                  outline
+                >
+                  {t("card_next")}
+                </ButtonSideAligned>
+              </>
+            )}
+
+            {cardFormStore.isCardPreviewVisible && (
               <ButtonSideAligned
-                onClick={cardFormStore.onNextCard}
-                icon={<ArrowRightIcon size={24} />}
-                disabled={!cardFormStore.isNextCardVisible}
+                icon={<EyeIcon size={24} />}
                 outline
+                onClick={() => {
+                  cardFormStore.cardInnerScreen.onChange("cardPreview");
+                }}
               >
-                {t("card_next")}
+                {t("card_preview")}
               </ButtonSideAligned>
-            </>
-          )}
+            )}
 
-          {cardFormStore.isCardPreviewVisible && (
-            <ButtonSideAligned
-              icon={<EyeIcon size={24} />}
-              outline
-              onClick={() => {
-                cardFormStore.cardInnerScreen.onChange("cardPreview");
-              }}
-            >
-              {t("card_preview")}
-            </ButtonSideAligned>
-          )}
+            {cardForm.id && (
+              <>
+                <ButtonSideAligned
+                  onClick={() => {
+                    cardFormStore.onOpenNewFromCard();
+                  }}
+                  icon={<PlusIcon size={24} />}
+                  outline
+                >
+                  {t("add_card_short")}
+                </ButtonSideAligned>
+              </>
+            )}
 
-          {cardForm.id && (
-            <>
+            {cardFormStore.isMoveCardVisible && (
               <ButtonSideAligned
                 onClick={() => {
-                  cardFormStore.onOpenNewFromCard();
+                  cardFormStore.openMoveCardSheet();
                 }}
-                icon={<PlusIcon size={24} />}
+                icon={<FolderInputIcon size={24} />}
                 outline
               >
-                {t("add_card_short")}
+                {t("move_card_move")}
               </ButtonSideAligned>
-            </>
-          )}
+            )}
 
-          {cardFormStore.isMoveCardVisible && (
-            <ButtonSideAligned
-              onClick={() => {
-                cardFormStore.openMoveCardSheet();
-              }}
-              icon={<FolderInputIcon size={24} />}
-              outline
-            >
-              {t("move_card_move")}
-            </ButtonSideAligned>
-          )}
+            {markCardAsRemoved && cardForm.id && (
+              <ButtonSideAligned
+                icon={<TrashIcon size={24} />}
+                outline
+                onClick={markCardAsRemoved}
+              >
+                {t("delete")}
+              </ButtonSideAligned>
+            )}
+          </ButtonGrid>
+        </div>
 
-          {markCardAsRemoved && cardForm.id && (
-            <ButtonSideAligned
-              icon={<TrashIcon size={24} />}
-              outline
-              onClick={markCardAsRemoved}
-            >
-              {t("delete")}
-            </ButtonSideAligned>
-          )}
-        </ButtonGrid>
-      </div>
+        <MoveToDeckSelector store={cardFormStore.moveToDeckStore} />
+        <CardTypeModal />
+      </Screen>
 
-      <MoveToDeckSelector store={cardFormStore.moveToDeckStore} />
-      <CardTypeModal />
-    </Screen>
+      <BackBottomButton
+        isVisible={Boolean(cardForm.id) && !cardFormStore.isSaveVisible}
+        onClick={handleBack}
+      />
+    </>
   );
 }

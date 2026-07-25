@@ -31,7 +31,7 @@ import { ButtonGrid } from "../../../ui/button-grid.tsx";
 import { ButtonSideAligned } from "../../../ui/button-side-aligned.tsx";
 import { aiMassCreationDraftStore } from "../../ai-mass-creation/store/ai-mass-creation-draft-store.ts";
 import { DeckActions } from "../../shared/deck-actions.tsx";
-import { BackBottomButton } from "../../shared/browser-platform/back-bottom-button.tsx";
+import { BackBottomButton } from "../../shared/back-bottom-button.tsx";
 
 export function DeckForm() {
   const deckFormStore = useDeckFormStore();

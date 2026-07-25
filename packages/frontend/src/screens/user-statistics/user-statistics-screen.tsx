@@ -16,6 +16,7 @@ import { ChevronIcon } from "../../ui/chevron-icon.tsx";
 import { formatNumber } from "../../translations/format-number.ts";
 import { useBottomReached } from "../../lib/react/use-bottom-reached.ts";
 import { type RouterOutput } from "api";
+import { BackBottomButton } from "../shared/back-bottom-button.tsx";
 
 const heatmapColors = [
   "bg-[rgba(120,120,120,0.12)]",
@@ -257,18 +258,24 @@ export function UserStatisticsScreen() {
   const userStatisticsQuery = useUserStatisticsStore().userStatisticsQuery;
   const statistics = userStatisticsQuery.data;
 
-  useBackButton(() => {
+  const handleBack = () => {
     screenStore.back();
-  });
+  };
+
+  useBackButton(handleBack);
 
   return (
-    <Screen title={t("user_stats_page")}>
-      {statistics || userStatisticsQuery.isPending ? (
-        <UserStatisticsContent statistics={statistics} />
-      ) : (
-        <StatisticsLoadError />
-      )}
-    </Screen>
+    <>
+      <Screen title={t("user_stats_page")}>
+        {statistics || userStatisticsQuery.isPending ? (
+          <UserStatisticsContent statistics={statistics} />
+        ) : (
+          <StatisticsLoadError />
+        )}
+      </Screen>
+
+      <BackBottomButton onClick={handleBack} />
+    </>
   );
 }
 
