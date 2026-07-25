@@ -3,7 +3,6 @@ import { MassCreationPreview } from "./mass-creation-preview.tsx";
 import { suitableCardInputModeStore } from "../../../store/suitable-card-input-mode-store.ts";
 import { userStore } from "../../../store/user-store.ts";
 import { ReverseCardsPreview } from "./reverse-cards-preview.tsx";
-import { DuplicateContentPreview } from "./duplicate-content-preview.tsx";
 
 export function PaywallModals() {
   return (
@@ -25,12 +24,6 @@ export function PaywallModals() {
         showUpgrade
         onClose={userStore.closePaywall}
         isOpen={userStore.selectedPaywall === "reverse_cards"}
-      />
-
-      <DuplicateContentPreview
-        showUpgrade
-        onClose={userStore.closePaywall}
-        isOpen={userStore.selectedPaywall === "duplicate_content"}
       />
     </>
   );

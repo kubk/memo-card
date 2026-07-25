@@ -120,11 +120,6 @@ export const en = {
   cards_to_repeat: "To repeat",
   cards_new: "New cards",
   cards_total: "Total cards",
-  duplicate: "Duplicate",
-  duplicate_preview_deck_title: "Spanish A1",
-  duplicate_preview_deck_copy_title: "Spanish A1 (copy)",
-  duplicate_deck_confirm: "Are you sure to duplicate this deck?",
-  duplicate_folder_confirm: "Are you sure to duplicate this folder?",
   delete_deck_confirm_shared: "Remove deck from your collection?",
   delete_folder_confirm_shared: "Remove folder from your collection?",
   delete_deck_confirm_author:

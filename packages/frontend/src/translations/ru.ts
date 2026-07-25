@@ -77,7 +77,6 @@ export const ru: Translation = {
   repeat_cards_anyway: `Всё равно повторить`,
   formatting: "Форматирование",
   validation_at_least_one_deck: "Пожалуйста выберите хотя бы 1 колоду",
-  duplicate_folder_confirm: "Продублировать эту папку?",
   validation_answer_at_least_one_correct: "Выберите хотя бы 1 правильный ответ",
   add_answer: "Добавить ответ",
   answer_text: "Текст ответа",
@@ -177,10 +176,6 @@ export const ru: Translation = {
   cards_to_repeat: "К повторению",
   cards_new: "Новые",
   cards_total: "Всего",
-  duplicate: "Дублировать",
-  duplicate_preview_deck_title: "Испанский A1",
-  duplicate_preview_deck_copy_title: "Испанский A1 (копия)",
-  duplicate_deck_confirm: "Вы уверены, что хотите продублировать эту колоду?",
   delete_deck_confirm_shared: "Удалить колоду из вашей коллекции?",
   delete_folder_confirm_shared: "Удалить папку из вашей коллекции?",
   delete_folder_confirm_author:

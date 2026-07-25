@@ -1,9 +1,4 @@
-import {
-  createContext,
-  type ReactNode,
-  useContext,
-  useEffect,
-} from "react";
+import { createContext, type ReactNode, useContext, useEffect } from "react";
 import { motion } from "framer-motion";
 import { XIcon } from "lucide-react";
 import { platform } from "../../lib/platform/platform.ts";

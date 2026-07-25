@@ -461,48 +461,6 @@ class DeckListStore {
     userStore.setUser(userData.user, userData.plan);
   }
 
-  async onDuplicateDeck(deckId: number) {
-    const isConfirmed = await showConfirm(t("duplicate_deck_confirm"));
-    if (!isConfirmed) {
-      return;
-    }
-
-    platform.haptic("heavy");
-    appLoaderStore.enable();
-
-    api.deck.duplicate
-      .mutate({ deckId })
-      .then(() => {
-        screenStore.push({ type: "main" });
-        this.myInfoQuery.invalidate();
-      })
-      .catch((e) => {
-        reportHandledError("Error duplicating deck", e);
-      })
-      .finally(appLoaderStore.disable);
-  }
-
-  async onDuplicateFolder(folderId: number) {
-    const isConfirmed = await showConfirm(t("duplicate_folder_confirm"));
-    if (!isConfirmed) {
-      return;
-    }
-
-    platform.haptic("heavy");
-    appLoaderStore.enable();
-
-    api.folder.duplicate
-      .mutate({ folderId })
-      .then(() => {
-        screenStore.push({ type: "main" });
-        this.myInfoQuery.invalidate();
-      })
-      .catch((e) => {
-        reportHandledError("Error duplicating folder", e);
-      })
-      .finally(appLoaderStore.disable);
-  }
-
   async handleStartParam(startParam?: string) {
     if (this.isStartParamHandled) {
       return;
@@ -581,10 +539,6 @@ class DeckListStore {
 
   isFolderOwner(folder: { authorId: number }) {
     return folder.authorId === userStore.myId;
-  }
-
-  canSeeDuplicate(item: { authorId: number | null }) {
-    return item.authorId === userStore.myId;
   }
 
   canRemoveFolder(folder: { id: number }) {

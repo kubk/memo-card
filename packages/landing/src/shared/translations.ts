@@ -142,10 +142,7 @@ const en = {
       "Quickly generate multiple cards at once",
       "Automatic robotic text-to-speech supporting 50 languages",
     ],
-    notIncluded: [
-      "Automatic card generation via AI",
-      "Duplicate decks and entire folders with decks and cards",
-    ],
+    notIncluded: ["Automatic card generation via AI"],
   },
   proPlanFeatures: {
     included: [
@@ -158,7 +155,6 @@ const en = {
       "Quickly generate multiple cards at once",
       "Automatic robotic text-to-speech supporting 50 languages",
       "Automatic card generation via AI",
-      "Duplicate decks and entire folders with decks and cards",
     ],
   },
 };
@@ -301,7 +297,6 @@ const ru: Translation = {
     notIncluded: [
       "Автоматическое создание карточек через ИИ",
       "Высококачественная речь ИИ",
-      "Дублирование колод и целых папок с колодами и карточками",
       "Одноразовые ссылки на колоды и папки",
     ],
   },
@@ -317,7 +312,6 @@ const ru: Translation = {
       "Автоматическая роботизированная речь на 50 языках",
       "Автоматическое создание карточек через ИИ",
       "Высококачественная речь ИИ",
-      "Дублирование колод и целых папок с колодами и карточками",
       "Одноразовые ссылки на колоды и папки",
     ],
   },
@@ -453,7 +447,6 @@ const es: Translation = {
     ],
     notIncluded: [
       "Generación automática de tarjetas a través de IA",
-      "Duplica barajas y carpetas enteras con barajas y tarjetas",
       "Enlaces de barajas y carpetas de un solo uso",
     ],
   },
@@ -468,7 +461,6 @@ const es: Translation = {
       "Genera rápidamente varias tarjetas a la vez",
       "Texto a voz robótico automático compatible con 50 idiomas",
       "Generación automática de tarjetas a través de IA",
-      "Duplica barajas y carpetas enteras con barajas y tarjetas",
       "Enlaces de barajas y carpetas de un solo uso",
     ],
   },
@@ -504,7 +496,6 @@ const ptBr: Translation = {
       "Texto para fala robótico automático suportando 50 idiomas",
       "Geração automática de cartões via IA",
       "Geração de fala IA de alta qualidade",
-      "Duplicar baralhos e pastas inteiras com baralhos e cartões",
       "Links de baralhos e pastas de uso único",
     ],
   },
@@ -529,7 +520,6 @@ const ptBr: Translation = {
     notIncluded: [
       "Geração automática de cartões via IA",
       "Geração de fala IA de alta qualidade",
-      "Duplicar baralhos e pastas inteiras com baralhos e cartões",
       "Links de baralhos e pastas de uso único",
     ],
   },
@@ -663,7 +653,6 @@ const uk: Translation = {
       "Швидке створення кількох карток одночасно",
       "Автоматичне роботизоване озвучування, що підтримує 50 мов",
       "Автоматичне створення карток за допомогою ІІ",
-      "Дублікування колод та цілих папок з колодами та картками",
       "Одноразові посилання на колоди та папки",
     ],
   },
@@ -687,7 +676,6 @@ const uk: Translation = {
     ],
     notIncluded: [
       "Автоматичне створення карток за допомогою ІІ",
-      "Дублікування колод та цілих папок з колодами та картками",
       "Одноразові посилання на колоди та папки",
     ],
   },

@@ -22,7 +22,6 @@ import {
   LayersIcon,
   MicIcon,
   WandSparklesIcon,
-  KeyboardIcon,
   PlusIcon,
   FilesIcon,
   UploadIcon,
@@ -32,11 +31,18 @@ import { ButtonGrid } from "../../../ui/button-grid.tsx";
 import { ButtonSideAligned } from "../../../ui/button-side-aligned.tsx";
 import { aiMassCreationDraftStore } from "../../ai-mass-creation/store/ai-mass-creation-draft-store.ts";
 import { DeckActions } from "../../shared/deck-actions.tsx";
+import { BackBottomButton } from "../../shared/browser-platform/back-bottom-button.tsx";
 
 export function DeckForm() {
   const deckFormStore = useDeckFormStore();
   const screen = screenStore.screen;
   assert(screen.type === "deckForm");
+
+  const handleBack = () => {
+    deckFormStore.executeViaConfirm(() => {
+      screenStore.back();
+    });
+  };
 
   useMainButton(
     t("save"),
@@ -50,11 +56,7 @@ export function DeckForm() {
     () => deckFormStore.isSaveVisible,
   );
 
-  useBackButton(() => {
-    deckFormStore.executeViaConfirm(() => {
-      screenStore.back();
-    });
-  }, []);
+  useBackButton(handleBack, []);
 
   useProgress(() => deckFormStore.isSending);
 
@@ -67,200 +69,192 @@ export function DeckForm() {
     : null;
 
   return (
-    <Screen
-      title={screen.deckId ? t("edit_deck") : t("add_deck")}
-      telegramMobilePlacement="content"
-      headerRight={
-        deck ? (
-          <DeckActions
-            deck={deck}
-            variant="dropdown"
-            dropdownClassName="mt-0"
-          />
-        ) : undefined
-      }
-      subtitle={
-        screen.folder ? (
-          <div className="text-center text-sm">
-            {t("folder")}{" "}
-            <button
-              onClick={() => {
-                deckFormStore.executeViaConfirm(() => {
-                  assert(screen.folder, "Folder should be defined");
-                  screenStore.push({
-                    type: "folderPreview",
-                    folderId: screen.folder.id,
+    <>
+      <Screen
+        title={screen.deckId ? t("edit_deck") : t("add_deck")}
+        subtitle={
+          screen.folder ? (
+            <div className="text-center text-sm">
+              {t("folder")}{" "}
+              <button
+                onClick={() => {
+                  deckFormStore.executeViaConfirm(() => {
+                    assert(screen.folder, "Folder should be defined");
+                    screenStore.push({
+                      type: "folderPreview",
+                      folderId: screen.folder.id,
+                    });
                   });
+                }}
+                className="reset-button text-inherit text-link"
+              >
+                {screen.folder.name}
+              </button>
+            </div>
+          ) : undefined
+        }
+      >
+        <Label text={t("title")} isRequired>
+          <Input field={deckFormStore.deckForm.title} />
+        </Label>
+
+        <Label
+          isPlain
+          text={t("description")}
+          slotRight={<FormattingSwitcher />}
+        >
+          {userStore.isCardFormattingOn.value ? (
+            <WysiwygField
+              field={deckFormStore.deckForm.description}
+              allowImage={false}
+            />
+          ) : (
+            <Input
+              field={deckFormStore.deckForm.description}
+              type={"textarea"}
+              rows={3}
+            />
+          )}
+        </Label>
+
+        {!deckFormStore.deckForm?.id && (
+          <ButtonGrid>
+            <ButtonSideAligned
+              icon={<WandSparklesIcon size={24} />}
+              outline
+              onClick={() => {
+                userStore.executeViaPaywall("bulk_ai_cards", () => {
+                  assert(deckFormStore.deckForm, "Deck form should be defined");
+                  aiMassCreationDraftStore.setDeckDraft({
+                    description: deckFormStore.deckForm.description.value,
+                    folderId: deckFormStore.deckForm.folderId,
+                  });
+                  screenStore.push({ type: "aiMassCreation" });
                 });
               }}
-              className="reset-button text-inherit text-link"
             >
-              {screen.folder.name}
-            </button>
-          </div>
-        ) : undefined
-      }
-    >
-      <Label text={t("title")} isRequired>
-        <Input field={deckFormStore.deckForm.title} />
-      </Label>
+              {t("ai_cards_title")}
+            </ButtonSideAligned>
 
-      <Label isPlain text={t("description")} slotRight={<FormattingSwitcher />}>
-        {userStore.isCardFormattingOn.value ? (
-          <WysiwygField
-            field={deckFormStore.deckForm.description}
-            allowImage={false}
-          />
-        ) : (
-          <Input
-            field={deckFormStore.deckForm.description}
-            type={"textarea"}
-            rows={3}
-          />
+            <ButtonSideAligned
+              icon={<UploadIcon size={24} />}
+              outline
+              onClick={() => {
+                screenStore.replace({ type: "ankiImport" });
+              }}
+            >
+              {t("anki_import_entry_button")}
+            </ButtonSideAligned>
+          </ButtonGrid>
         )}
-      </Label>
 
-      {!deckFormStore.deckForm?.id && (
-        <ButtonGrid>
-          <ButtonSideAligned
-            icon={<WandSparklesIcon size={24} />}
-            outline
-            onClick={() => {
-              userStore.executeViaPaywall("bulk_ai_cards", () => {
-                assert(deckFormStore.deckForm, "Deck form should be defined");
-                aiMassCreationDraftStore.setDeckDraft({
-                  description: deckFormStore.deckForm.description.value,
-                  folderId: deckFormStore.deckForm.folderId,
-                });
-                screenStore.push({ type: "aiMassCreation" });
-              });
-            }}
-          >
-            {t("ai_cards_title")}
-          </ButtonSideAligned>
-
-          <ButtonSideAligned
-            icon={<UploadIcon size={24} />}
-            outline
-            onClick={() => {
-              screenStore.replace({ type: "ankiImport" });
-            }}
-          >
-            {t("anki_import_entry_button")}
-          </ButtonSideAligned>
-        </ButtonGrid>
-      )}
-
-      {deckFormStore.deckForm?.id && (
-        <List
-          items={[
-            {
-              icon: (
-                <FilledIcon
-                  backgroundColor={theme.icons.violet}
-                  icon={<LayersIcon size={18} className="text-white" />}
-                />
-              ),
-              text: t("cards"),
-              onClick: () => {
-                deckFormStore.goToCardList();
-              },
-              right: (
-                <span className="text-hint">
-                  {deckFormStore.deckForm.cards.length}
-                </span>
-              ),
-            },
-            {
-              icon: (
-                <TransparentIcon
-                  icon={<PlusIcon size={24} className="text-link" />}
-                />
-              ),
-              text: t("add_card"),
-              isLinkColor: true,
-              onClick: () => {
-                deckFormStore.navigateToNewCard();
-              },
-            },
-          ]}
-        />
-      )}
-
-      {deckFormStore.deckForm?.id && (
-        <div className="mb-2.5">
-          <ListHeader text={t("advanced")} />
+        {deckFormStore.deckForm?.id && (
           <List
             items={[
               {
-                text: t("speaking_cards"),
                 icon: (
                   <FilledIcon
-                    backgroundColor={theme.icons.blue}
-                    icon={<MicIcon size={18} className="text-white" />}
+                    backgroundColor={theme.icons.violet}
+                    icon={<LayersIcon size={18} className="text-white" />}
                   />
                 ),
+                text: t("cards"),
                 onClick: () => {
-                  deckFormStore.goToSpeakingCards();
+                  deckFormStore.goToCardList();
                 },
                 right: (
-                  <ListRightText
-                    text={
-                      deckFormStore.deckForm.speakingCardsLocale.value
-                        ? t("is_on")
-                        : t("is_off")
-                    }
-                    chevron
-                  />
+                  <span className="text-hint">
+                    {deckFormStore.deckForm.cards.length}
+                  </span>
                 ),
               },
               {
-                text: t("card_input_mode_screen"),
                 icon: (
-                  <FilledIcon
-                    backgroundColor={theme.icons.sea}
-                    icon={<KeyboardIcon size={18} className="text-white" />}
+                  <TransparentIcon
+                    icon={<PlusIcon size={24} className="text-link" />}
                   />
                 ),
+                text: t("add_card"),
+                isLinkColor: true,
                 onClick: () => {
-                  userStore.executeViaPaywall("individual_ai_card", () => {
-                    deckFormStore.goCardInputMode();
-                  });
+                  deckFormStore.navigateToNewCard();
                 },
-                right: <WithProIcon />,
-              },
-              {
-                text: t("reverse_cards"),
-                icon: (
-                  <FilledIcon
-                    backgroundColor={theme.icons.green}
-                    icon={<FilesIcon size={18} className="text-white" />}
-                  />
-                ),
-                onClick: () => {
-                  userStore.executeViaPaywall("reverse_cards", () => {
-                    deckFormStore.deckForm?.reverseCards.toggle();
-                  });
-                },
-                right: (
-                  <WithProIcon>
-                    <RadioSwitcher
-                      isOn={deckFormStore.deckForm.reverseCards.value}
-                      onToggle={() => {
-                        userStore.executeViaPaywall("reverse_cards", () => {
-                          deckFormStore.deckForm?.reverseCards.toggle();
-                        });
-                      }}
-                    />
-                  </WithProIcon>
-                ),
               },
             ]}
           />
-        </div>
-      )}
+        )}
 
-      <div className="mt-[18px]" />
-    </Screen>
+        {deckFormStore.deckForm?.id && (
+          <div>
+            <ListHeader text={t("advanced")} />
+            <List
+              items={[
+                {
+                  text: t("speaking_cards"),
+                  icon: (
+                    <FilledIcon
+                      backgroundColor={theme.icons.blue}
+                      icon={<MicIcon size={18} className="text-white" />}
+                    />
+                  ),
+                  onClick: () => {
+                    deckFormStore.goToSpeakingCards();
+                  },
+                  right: (
+                    <ListRightText
+                      text={
+                        deckFormStore.deckForm.speakingCardsLocale.value
+                          ? t("is_on")
+                          : t("is_off")
+                      }
+                      chevron
+                    />
+                  ),
+                },
+                {
+                  text: t("reverse_cards"),
+                  icon: (
+                    <FilledIcon
+                      backgroundColor={theme.icons.green}
+                      icon={<FilesIcon size={18} className="text-white" />}
+                    />
+                  ),
+                  onClick: () => {
+                    userStore.executeViaPaywall("reverse_cards", () => {
+                      deckFormStore.deckForm?.reverseCards.toggle();
+                    });
+                  },
+                  right: (
+                    <WithProIcon>
+                      <RadioSwitcher
+                        isOn={deckFormStore.deckForm.reverseCards.value}
+                        onToggle={() => {
+                          userStore.executeViaPaywall("reverse_cards", () => {
+                            deckFormStore.deckForm?.reverseCards.toggle();
+                          });
+                        }}
+                      />
+                    </WithProIcon>
+                  ),
+                },
+              ]}
+            />
+          </div>
+        )}
+
+        {deck && (
+          <div className="mt-3">
+            <DeckActions deck={deck} variant="buttons" />
+          </div>
+        )}
+
+        <div className="mt-[18px]" />
+      </Screen>
+
+      <BackBottomButton
+        isVisible={!deckFormStore.isSaveVisible}
+        onClick={handleBack}
+      />
+    </>
   );
 }

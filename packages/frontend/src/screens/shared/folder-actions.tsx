@@ -1,6 +1,5 @@
-import { CopyIcon, ShareIcon, TrashIcon } from "lucide-react";
+import { ShareIcon, TrashIcon } from "lucide-react";
 import { deckListStore } from "../../store/deck-list-store.ts";
-import { userStore } from "../../store/user-store.ts";
 import { t } from "../../translations/t.ts";
 import { ButtonGrid } from "../../ui/button-grid.tsx";
 import { ButtonSideAligned } from "../../ui/button-side-aligned.tsx";
@@ -18,9 +17,8 @@ type Props = {
   variant: "buttons" | "dropdown";
 };
 
-export function FolderActions(props: Props) {
-  const { folder, variant } = props;
-  const canSeeDuplicate = deckListStore.canSeeDuplicate(folder);
+export function FolderActions({ folder, variant }: Props) {
+  const canShare = deckListStore.isFolderOwner(folder);
   const canRemove = deckListStore.canRemoveFolder(folder);
 
   if (!canRemove) {
@@ -29,12 +27,6 @@ export function FolderActions(props: Props) {
 
   const onShare = () => {
     shareMemoCardUrl(folder.shareId);
-  };
-
-  const onDuplicate = () => {
-    userStore.executeViaPaywall("duplicate_content", () => {
-      deckListStore.onDuplicateFolder(folder.id);
-    });
   };
 
   const onDelete = () => {
@@ -49,17 +41,12 @@ export function FolderActions(props: Props) {
       <Dropdown
         className="relative mt-3 shrink-0"
         items={[
-          ...(canSeeDuplicate
+          ...(canShare
             ? [
                 {
                   icon: <ShareIcon size={20} className="text-hint" />,
                   text: t("share"),
                   onClick: onShare,
-                },
-                {
-                  icon: <CopyIcon size={20} className="text-hint" />,
-                  text: t("duplicate"),
-                  onClick: onDuplicate,
                 },
               ]
             : []),
@@ -75,23 +62,14 @@ export function FolderActions(props: Props) {
 
   return (
     <ButtonGrid>
-      {canSeeDuplicate ? (
-        <>
-          <ButtonSideAligned
-            icon={<ShareIcon size={24} />}
-            outline
-            onClick={onShare}
-          >
-            {t("share")}
-          </ButtonSideAligned>
-          <ButtonSideAligned
-            icon={<CopyIcon size={24} />}
-            outline
-            onClick={onDuplicate}
-          >
-            {t("duplicate")}
-          </ButtonSideAligned>
-        </>
+      {canShare ? (
+        <ButtonSideAligned
+          icon={<ShareIcon size={24} />}
+          outline
+          onClick={onShare}
+        >
+          {t("share")}
+        </ButtonSideAligned>
       ) : null}
       <ButtonSideAligned
         icon={<TrashIcon size={24} />}

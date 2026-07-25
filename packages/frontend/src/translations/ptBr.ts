@@ -85,7 +85,6 @@ export const ptBr: Translation = {
   formatting: "Formatação",
   validation_answer_at_least_one_correct:
     "Selecione pelo menos uma resposta correta",
-  duplicate_folder_confirm: "Tem certeza de que deseja duplicar esta pasta?",
   add_answer: "Adicionar resposta",
   answer_text: "Texto da resposta",
   advanced: "Avançado",
@@ -183,10 +182,6 @@ export const ptBr: Translation = {
   cards_to_repeat: "Para repetir",
   cards_new: "Novos cartões",
   cards_total: "Total de cartões",
-  duplicate: "Duplicar",
-  duplicate_preview_deck_title: "Espanhol A1",
-  duplicate_preview_deck_copy_title: "Espanhol A1 (cópia)",
-  duplicate_deck_confirm: "Tem certeza de que deseja duplicar este baralho?",
   delete_deck_confirm_shared: "Excluir baralho da sua coleção?",
   delete_folder_confirm_author:
     "Excluir pasta do MemoCard? Esta ação não pode ser desfeita",

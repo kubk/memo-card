@@ -181,7 +181,8 @@ export function Playground() {
     browserPlatform.isMobile = deviceId === "iphone";
 
     return () => {
-      browserPlatform.isMobile = window.matchMedia("(max-width: 600px)").matches;
+      browserPlatform.isMobile =
+        window.matchMedia("(max-width: 600px)").matches;
     };
   }, [deviceId]);
 
@@ -450,8 +451,9 @@ function DeviceFrame({
   children: ReactNode;
   deviceId: DeviceId;
 }) {
-  const [portalContainer, setPortalContainer] =
-    useState<HTMLDivElement | null>(null);
+  const [portalContainer, setPortalContainer] = useState<HTMLDivElement | null>(
+    null,
+  );
 
   const content = (
     <BottomSheetPortalProvider container={portalContainer}>

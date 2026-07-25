@@ -10,42 +10,22 @@ type Props = {
   title?: string;
   subtitle?: ReactNode;
   headerRight?: ReactNode;
-  telegramMobilePlacement?: "controls" | "content";
 };
 
 export function Screen(props: Props) {
-  const {
-    children,
-    title,
-    subtitle,
-    headerRight,
-    telegramMobilePlacement = "controls",
-  } = props;
+  const { children, title, subtitle, headerRight } = props;
 
   if (platform instanceof TelegramPlatform) {
     if (platform.isMobile()) {
       return (
         <div className="relative mb-4 flex flex-col gap-2 pb-[calc(var(--tg-content-safe-area-inset-bottom,0px)_+_4px)] pl-[calc(var(--tg-content-safe-area-inset-left,0px)_+_4px)] pr-[calc(var(--tg-content-safe-area-inset-right,0px)_+_4px)]">
           {title && (
-            <h3
-              className={cn(
-                "text-center text-lg",
-                telegramMobilePlacement === "controls" &&
-                  "absolute inset-x-0 top-[calc(10px_-_var(--app-top-offset,12px))]",
-              )}
-            >
+            <h3 className="absolute inset-x-0 top-[calc(10px_-_var(--app-top-offset,12px))] text-center text-lg">
               {title}
             </h3>
           )}
           {headerRight ? (
-            <div
-              className={cn(
-                "absolute right-[calc(var(--tg-content-safe-area-inset-right,0px)_+_4px)] z-20",
-                telegramMobilePlacement === "content"
-                  ? "top-0"
-                  : "top-[calc(10px_-_var(--app-top-offset,12px))]",
-              )}
-            >
+            <div className="absolute right-[calc(var(--tg-content-safe-area-inset-right,0px)_+_4px)] top-[calc(10px_-_var(--app-top-offset,12px))] z-20">
               {headerRight}
             </div>
           ) : null}

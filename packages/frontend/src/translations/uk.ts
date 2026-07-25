@@ -85,7 +85,6 @@ export const uk: Translation = {
   wysiwyg_italic: "Курсив",
   formatting: "Форматування",
   validation_at_least_one_deck: "Будь ласка, виберіть хоча б 1 колоду",
-  duplicate_folder_confirm: "Ви впевнені, що хочете дублювати цю папку?",
   validation_at_least_one_answer_required:
     "Потрібно надати хоча б одну відповідь",
   review_correct_label: "Правильно",
@@ -184,10 +183,6 @@ export const uk: Translation = {
   cards_to_repeat: "Повторити",
   cards_new: "Нові картки",
   cards_total: "Всього карток",
-  duplicate: "Дублювати",
-  duplicate_preview_deck_title: "Іспанська A1",
-  duplicate_preview_deck_copy_title: "Іспанська A1 (копія)",
-  duplicate_deck_confirm: "Ви впевнені, що хочете дублювати цю колоду?",
   delete_deck_confirm_shared: "Видалити колоду з вашої колекції?",
   delete_folder_confirm_shared: "Видалити папку з вашої колекції?",
   delete_deck_confirm_author:

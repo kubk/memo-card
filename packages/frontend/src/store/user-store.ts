@@ -16,11 +16,7 @@ import { platform } from "../lib/platform/platform.ts";
 import { apiProxy } from "../api/trpc-api.ts";
 import { makeQuery } from "../lib/mobx-query-lite/make-query.ts";
 
-type PaywallType =
-  | "bulk_ai_cards"
-  | "individual_ai_card"
-  | "duplicate_content"
-  | "reverse_cards";
+type PaywallType = "bulk_ai_cards" | "individual_ai_card" | "reverse_cards";
 
 class UserStore {
   userInfo?: UserDbType;

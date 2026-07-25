@@ -74,11 +74,6 @@ describe("DeckListStore", () => {
     );
   });
 
-  it("shows duplication only for content owned by the current user", () => {
-    expect(deckListStore.canSeeDuplicate({ authorId: 1 })).toBe(true);
-    expect(deckListStore.canSeeDuplicate({ authorId: 2 })).toBe(false);
-  });
-
   it("does not allow removing a public deck that has not been added", () => {
     expect(deckListStore.canRemoveDeck({ id: 42, authorId: 2 })).toBe(false);
   });
@@ -91,7 +86,6 @@ describe("DeckListStore", () => {
     );
 
     expect(deckListStore.canRemoveDeck({ id: 42, authorId: 2 })).toBe(true);
-    expect(deckListStore.canSeeDuplicate({ authorId: 2 })).toBe(false);
   });
 
   it("allows folder removal only after it has been added", () => {

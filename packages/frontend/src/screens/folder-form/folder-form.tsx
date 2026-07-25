@@ -56,10 +56,7 @@ export function FolderForm() {
     : null;
 
   return (
-    <Screen
-      title={screen.folderId ? t("edit_folder") : t("add_folder")}
-      telegramMobilePlacement="content"
-    >
+    <Screen title={screen.folderId ? t("edit_folder") : t("add_folder")}>
       <Label text={t("title")} isRequired>
         <Input field={folderForm.title} />
       </Label>

@@ -82,7 +82,6 @@ export const es: Translation = {
   wysiwyg_italic: "Cursiva",
   formatting: "Formato",
   validation_at_least_one_deck: "Por favor, selecciona al menos 1 mazo",
-  duplicate_folder_confirm: "¿Estás seguro de duplicar esta carpeta?",
   validation_at_least_one_answer_required:
     "Se debe proporcionar al menos una respuesta",
   validation_answer_at_least_one_correct:
@@ -181,10 +180,6 @@ export const es: Translation = {
   cards_to_repeat: "Para repetir",
   cards_new: "Nuevas tarjetas",
   cards_total: "Total de tarjetas",
-  duplicate: "Duplicar",
-  duplicate_preview_deck_title: "Español A1",
-  duplicate_preview_deck_copy_title: "Español A1 (copia)",
-  duplicate_deck_confirm: "¿Estás seguro de duplicar este mazo?",
   delete_deck_confirm_shared: "¿Eliminar el mazo de tu colección?",
   delete_folder_confirm_author:
     "¿Eliminar la carpeta de MemoCard? Esta acción no se puede deshacer",
