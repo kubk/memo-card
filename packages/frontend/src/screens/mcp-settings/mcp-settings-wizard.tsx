@@ -9,7 +9,7 @@ import {
   useMcpSettingsStore,
 } from "./store/mcp-settings-store-context.tsx";
 
-export function McpSettingsScreen() {
+export function McpSettingsWizard() {
   return (
     <McpSettingsStoreProvider>
       <Screen>

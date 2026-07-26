@@ -6,7 +6,6 @@ import {
   getPlanDiscountForDuration,
   links,
   PaymentMethodType,
-  sharedProTitle,
   translateProDuration,
   type PlanDuration,
 } from "api";
@@ -63,7 +62,7 @@ export function PlansScreen() {
 
 function ProPlansScreen() {
   return (
-    <Screen title={sharedProTitle}>
+    <Screen>
       <ProPage flush footer={<TermsNotice />} />
     </Screen>
   );

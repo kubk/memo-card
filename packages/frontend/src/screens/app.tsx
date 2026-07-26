@@ -26,7 +26,7 @@ import {
   UserStatisticsScreen,
 } from "./user-statistics/user-statistics-screen.tsx";
 import { UserSettingsLazy } from "./user-settings/user-settings-lazy.tsx";
-import { McpSettingsLazy } from "./mcp-settings/mcp-settings-lazy.tsx";
+import { McpSettingsWizard } from "./mcp-settings/mcp-settings-wizard.tsx";
 import {
   TeacherStatisticsLazy,
   TeacherStatisticsListLazy,
@@ -52,7 +52,6 @@ import { SpeakingCards } from "./deck-form/deck-form/speaking-cards.tsx";
 import { AnkiImportScreen } from "./anki-import/anki-import-screen.tsx";
 import { userStore } from "../store/user-store.ts";
 import { RouteScreenContainer } from "../lib/react/route-screen-container.tsx";
-import { Suspense } from "react";
 
 export function App() {
   useRestoreFullScreenExpand();
@@ -204,9 +203,7 @@ export function App() {
         {screenStore.screen.type === "mcpSettings" && (
           <SignedIn>
             <PreventTelegramSwipeDownClosingIos>
-              <Suspense fallback={<FullScreenLoader />}>
-                <McpSettingsLazy />
-              </Suspense>
+              <McpSettingsWizard />
             </PreventTelegramSwipeDownClosingIos>
           </SignedIn>
         )}
@@ -224,9 +221,7 @@ export function App() {
           <SignedIn>
             <PreventTelegramSwipeDownClosingIos>
               {screenStore.screen.planType === "pro" && userStore.isPaid ? (
-                <Suspense fallback={<FullScreenLoader />}>
-                  <McpSettingsLazy />
-                </Suspense>
+                <McpSettingsWizard />
               ) : (
                 <PlansScreen />
               )}
