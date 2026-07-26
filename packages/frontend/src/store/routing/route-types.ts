@@ -68,17 +68,6 @@ const speakingCardsRouteSchema = v.object({
   deckId: stringToNumber,
 });
 
-const cardInputModeRouteSchema = v.object({
-  type: v.literal("cardInputMode"),
-  deckId: stringToNumber,
-});
-
-const cardInputModeFormRouteSchema = v.object({
-  type: v.literal("cardInputModeForm"),
-  deckId: stringToNumber,
-  cardInputModeId: v.optional(v.string()),
-});
-
 const cardPreviewRouteSchema = v.object({
   type: v.literal("cardPreviewId"),
   cardId: stringToNumber,
@@ -107,10 +96,6 @@ const deckCatalogRouteSchema = v.object({
   type: v.literal("deckCatalog"),
   availableIn: v.optional(v.string()),
   categoryId: v.optional(v.string()),
-});
-
-const aiMassCreationRouteSchema = v.object({
-  type: v.literal("aiMassCreation"),
 });
 
 const paidPlanTypeSchema = v.picklist(paidPlanTypes);
@@ -174,15 +159,12 @@ export const routeSchema = v.union([
   cardListRouteSchema,
   cardListPreviewRouteSchema,
   speakingCardsRouteSchema,
-  cardInputModeRouteSchema,
-  cardInputModeFormRouteSchema,
   cardPreviewRouteSchema,
   folderFormRouteSchema,
   folderPreviewRouteSchema,
   reviewAllRouteSchema,
   reviewCustomRouteSchema,
   deckCatalogRouteSchema,
-  aiMassCreationRouteSchema,
   plansRouteSchema,
   debugRouteSchema,
   freezeCardsRouteSchema,

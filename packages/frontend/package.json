@@ -35,7 +35,6 @@
     "mobx": "^6.16.0",
     "mobx-form-lite": "^0.9.7",
     "mobx-persist-store": "^1.1.8",
-    "mobx-react-lite": "^4.1.1",
     "mobx-react-observer": "^1.0.3",
     "notistack": "^3.0.1",
     "postcss": "^8.4.41",

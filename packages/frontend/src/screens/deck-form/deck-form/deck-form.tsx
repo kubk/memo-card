@@ -21,17 +21,16 @@ import { WysiwygField } from "../../../ui/wysiwyg-field/wysiwig-field.tsx";
 import {
   LayersIcon,
   MicIcon,
-  WandSparklesIcon,
   PlusIcon,
   FilesIcon,
   UploadIcon,
 } from "lucide-react";
 import { FilledIcon, TransparentIcon } from "../../../ui/filled-icon.tsx";
-import { ButtonGrid } from "../../../ui/button-grid.tsx";
-import { ButtonSideAligned } from "../../../ui/button-side-aligned.tsx";
-import { aiMassCreationDraftStore } from "../../ai-mass-creation/store/ai-mass-creation-draft-store.ts";
 import { DeckActions } from "../../shared/deck-actions.tsx";
 import { BackBottomButton } from "../../shared/back-bottom-button.tsx";
+import { McpSettingsEntry } from "../../mcp-settings/mcp-settings-entry.tsx";
+import { mcpT } from "../../mcp-settings/translations.ts";
+import { ChevronIcon } from "../../../ui/chevron-icon.tsx";
 
 export function DeckForm() {
   const deckFormStore = useDeckFormStore();
@@ -118,34 +117,26 @@ export function DeckForm() {
         </Label>
 
         {!deckFormStore.deckForm?.id && (
-          <ButtonGrid>
-            <ButtonSideAligned
-              icon={<WandSparklesIcon size={24} />}
-              outline
-              onClick={() => {
-                userStore.executeViaPaywall("bulk_ai_cards", () => {
-                  assert(deckFormStore.deckForm, "Deck form should be defined");
-                  aiMassCreationDraftStore.setDeckDraft({
-                    description: deckFormStore.deckForm.description.value,
-                    folderId: deckFormStore.deckForm.folderId,
-                  });
-                  screenStore.push({ type: "aiMassCreation" });
-                });
-              }}
-            >
-              {t("ai_cards_title")}
-            </ButtonSideAligned>
-
-            <ButtonSideAligned
-              icon={<UploadIcon size={24} />}
-              outline
-              onClick={() => {
-                screenStore.replace({ type: "ankiImport" });
-              }}
-            >
-              {t("anki_import_entry_button")}
-            </ButtonSideAligned>
-          </ButtonGrid>
+          <McpSettingsEntry
+            title={mcpT("createCardsTitle")}
+            trailingItems={[
+              {
+                icon: (
+                  <FilledIcon
+                    backgroundColor={theme.icons.blue}
+                    icon={<UploadIcon size={18} />}
+                  />
+                ),
+                text: t("anki_import_entry_button"),
+                right: (
+                  <ChevronIcon direction="right" className="text-hint" />
+                ),
+                onClick: () => {
+                  screenStore.replace({ type: "ankiImport" });
+                },
+              },
+            ]}
+          />
         )}
 
         {deckFormStore.deckForm?.id && (

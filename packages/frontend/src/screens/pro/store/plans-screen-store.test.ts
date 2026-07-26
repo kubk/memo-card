@@ -8,6 +8,8 @@ import { inMemoryCache } from "../../../lib/mobx-query-lite/cache.ts";
 const mocks = vi.hoisted(() => ({
   plansQuery: vi.fn(),
   starsOrderPlan: vi.fn(),
+  stripeOrderPlan: vi.fn(),
+  openExternalLink: vi.fn(),
 }));
 
 vi.mock("../../../api/trpc-api.ts", () => {
@@ -18,6 +20,9 @@ vi.mock("../../../api/trpc-api.ts", () => {
       },
       starsOrderPlan: {
         mutate: mocks.starsOrderPlan,
+      },
+      stripeOrderPlan: {
+        mutate: mocks.stripeOrderPlan,
       },
     },
     apiProxy: {
@@ -36,6 +41,12 @@ vi.mock("../../shared/snackbar/snackbar.tsx", () => ({
   notifyError: vi.fn(),
 }));
 
+vi.mock("../../../lib/platform/platform.ts", () => ({
+  platform: {
+    openExternalLink: mocks.openExternalLink,
+  },
+}));
+
 describe("PlansScreenStore", () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -43,7 +54,6 @@ describe("PlansScreenStore", () => {
     inMemoryCache.clear();
     mocks.plansQuery.mockResolvedValue({
       plans: [plans.pro, plans.teacher],
-      aiCardsLeft: 10,
     });
   });
 
@@ -74,7 +84,26 @@ describe("PlansScreenStore", () => {
     store.updateMethod(PaymentMethodType.Usd);
 
     expect(store.isBuyButtonVisible).toBe(true);
-    expect(store.usdPaymentLink).toBeNull();
+  });
+
+  it("creates a Stripe Checkout Session for USD payments", async () => {
+    mocks.stripeOrderPlan.mockResolvedValue({
+      checkoutUrl: "https://checkout.stripe.com/test",
+    });
+    const store = new PlansScreenStore("pro");
+    await waitForPlans(store);
+    store.selectedPlanDuration.onChange(1);
+    store.updateMethod(PaymentMethodType.Usd);
+
+    await store.createOrder();
+
+    expect(mocks.stripeOrderPlan).toHaveBeenCalledWith({
+      planType: "pro",
+      duration: "1",
+    });
+    expect(mocks.openExternalLink).toHaveBeenCalledWith(
+      "https://checkout.stripe.com/test",
+    );
   });
 
   it("switches duration display to Stars without changing duration options", async () => {

@@ -19,17 +19,10 @@ export const ptBr: Translation = {
   browser_no_personal_decks_link: "Aprenda como usar o MemoCard em ",
   error_contact_support:
     "Ocorreu um erro. Por favor, entre em contato com o suporte para que possamos ajudar.",
-  ai_card_input_mode_supports: "Suporta diferentes idiomas",
   upgrade_pro: "Obter Pro",
   upgrade: "Melhorar plano",
   login_google: "Entrar com Google",
   youtube_channel: "Canal do YouTube",
-  card_input_mode_changed: "Modo de entrada de cartão alterado",
-  card_input_mode_type: "Se você digitar",
-  card_input_mode_manual: "Entrada manual",
-  card_input_mode_get: "você obterá o cartão",
-  generate: "Gerar",
-  card_input_mode_screen: "Modo de entrada de cartão",
   confirm_ok: "Confirmar",
   confirm_cancel: "Cancelar",
   error: "Erro",
@@ -68,7 +61,6 @@ export const ptBr: Translation = {
   privacy_policy: "Política de Privacidade",
   payment_tos: "Termos de Serviço",
   payment_and: " e ",
-  ai_cards_left: "Cartões de IA restantes este mês",
   payment_included: "O que está incluído",
   payment_choose_duration: "Escolha a duração",
   payment_method_stars: "Estrelas do Telegram",
@@ -272,19 +264,8 @@ export const ptBr: Translation = {
   validate_positive: "Por favor, insira um número positivo",
   validate_under_100: "Por favor, insira um número menor que 100",
   freeze_hint: "Adie o estudo dos cartões",
-  ai_cards_added: "Cartões adicionados",
   quit_without_saving: "Sair sem salvar?",
 
-  ai_cards_generate: "Gerar cartões",
-  ai_cards_no_previous_prompts: "Nenhuma solicitação anterior",
-  ai_cards_by_ai: "Cartões gerados",
-  ai_cards_confirm_delete: "Excluir este cartão?",
-  ai_cards_title: "Criar com IA",
-  ai_cards_prompt: "Descrição do baralho",
-  ai_cards_previous_prompts: "Histórico de solicitações",
-  ai_cards_use_template: "Usar modelo",
-  ai_cards_prompt_back: "Verso do cartão",
-  ai_cards_prompt_front: "Frente do cartão",
 
   // Global Search
   global_search_placeholder: "Buscar baralhos, pastas, cartões",
@@ -311,21 +292,6 @@ export const ptBr: Translation = {
   about_visit_website: "Visitar site →",
   about_github_frontend: "Repositório do GitHub do frontend →",
 
-  // Card Input Mode Form
-  card_input_mode_form_title: "Título",
-  card_input_mode_form_ai_prompt: "Prompt de IA",
-  card_input_mode_form_create_title: "Criar modo de entrada",
-  card_input_mode_form_edit_title: "Editar modo de entrada",
-  card_input_mode_form_delete_confirm: "Excluir este modo de entrada?",
-  card_input_mode_add_button: "Adicionar modo de entrada",
-  card_input_mode_form_title_placeholder: "ex. Definições em Inglês",
-  card_input_mode_form_prompt_placeholder:
-    "ex. Gere um cartão de definição para a palavra :template_word",
-  card_input_mode_form_front_placeholder: "ex. Palavra ou termo",
-  card_input_mode_form_back_placeholder: "ex. Definição simples",
-  card_input_mode_form_example_placeholder: "ex. Exemplo de uso ou contexto",
-  card_input_mode_form_save_success: "Modo de entrada salvo",
-  card_input_mode_form_delete_success: "Modo de entrada excluído",
   quit_card: "Voltar",
 
   // Wysiwyg Help

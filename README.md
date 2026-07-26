@@ -15,7 +15,6 @@ Contest story: https://teletype.in/@alteregor/memocard-telegram-contest-win
 
 - 📱 **Cross-Platform** - Works seamlessly on Telegram, Browser, iOS, and Android
 - 🗂️ **Organize** - Create unlimited cards, decks, and folders to structure your knowledge
-- ⚡ **Create cards fast** - Generate multiple cards at once for efficient deck building. Use AI to generate cards automatically
 - 🔔 **Smart notifications** - Receive daily reminders for cards that need review, optimizing your study time
 - ✨ **Quality content** - Choose from a catalog of high-quality, pre-made decks
 - 🔥 **Streaks and heatmap** - Track your learning consistency and review history

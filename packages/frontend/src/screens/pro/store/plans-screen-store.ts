@@ -17,10 +17,7 @@ import { api, apiProxy } from "../../../api/trpc-api.ts";
 import { makeQuery } from "../../../lib/mobx-query-lite/make-query.ts";
 import { makeMutation } from "../../../lib/mobx-query-lite/make-mutation.ts";
 
-export type PreviewItem =
-  | "individual_ai_card"
-  | "bulk_ai_cards"
-  | "reverse_cards";
+export type PreviewItem = "reverse_cards";
 
 export class PlansScreenStore {
   plansQuery = makeQuery(apiProxy.plans.query);
@@ -90,10 +87,6 @@ export class PlansScreenStore {
     const discount = (starsToUsdApprox - usdPrice) / starsToUsdApprox;
 
     return Math.max(0, +discount.toFixed(1));
-  }
-
-  get aiCardsLeft() {
-    return this.plansQuery.data?.aiCardsLeft ?? 0;
   }
 
   get isCreatingOrder() {

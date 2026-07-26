@@ -102,10 +102,6 @@ export class CardFormStore {
     return this.deck?.speakField ?? null;
   }
 
-  get cardInputModeId(): string | null {
-    return this.deck?.cardInputModeId ?? null;
-  }
-
   private get deckCards(): CardFormType[] {
     const deck = this.deck;
     if (!deck) return [];

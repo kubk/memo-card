@@ -1,7 +1,6 @@
 import { type Translation } from "./en";
 
 export const ru: Translation = {
-  ai_cards_generate: "Сгенерировать карточки",
   settings_lang: "Язык",
   copy_code: "Скопировать код",
   copied: "Скопировано",
@@ -10,7 +9,6 @@ export const ru: Translation = {
   logout: "Выйти",
   error_contact_support:
     "Произошла ошибка. Пожалуйста свяжитесь с поддержкой, чтобы мы могли помочь вам.",
-  ai_card_input_mode_supports: "Поддерживаются разные языки",
   browser_no_personal_decks_start: "У вас еще нет персональных колод. ",
   browser_no_personal_decks_end: ". Удачного изучения! 😊",
   browser_no_personal_decks_link: "Рекомендуем посмотреть ",
@@ -24,12 +22,6 @@ export const ru: Translation = {
 
   login_google: "Войти через Google",
   youtube_channel: "YouTube канал",
-  card_input_mode_changed: "Режим ввода карточки изменен",
-  card_input_mode_manual: "Ручной ввод",
-  card_input_mode_get: "то получите карточку",
-  card_input_mode_type: "Если вы введете",
-  card_input_mode_screen: "Режим ввода карточки",
-  generate: "Сгенерировать",
   confirm_cancel: "Отмена",
   confirm_ok: "Подтвердить",
   error: "Ошибка",
@@ -69,7 +61,6 @@ export const ru: Translation = {
   payment_choose_method: "Способ оплаты",
   payment_method_stars: "Telegram Звёзды",
   payment_method_usd: "Банковская карта",
-  ai_cards_left: "Осталось ИИ карточек на этот месяц",
   wysiwyg_clear_formatting: "Очистить форматирование",
   wysiwyg_bold: "Жирный",
   wysiwyg_big_header: "Большой заголовок",
@@ -271,17 +262,7 @@ export const ru: Translation = {
   freeze_hint: "Отложите изучение карточек",
   ui_loading: "Загрузка...",
   error_solving: "Мы решаем проблему",
-  ai_cards_added: "Карточки добавлены",
   quit_without_saving: "Выйти без сохранения?",
-  ai_cards_prompt_back: "Обратная сторона карточки",
-  ai_cards_no_previous_prompts: "Нет предыдущих запросов",
-  ai_cards_prompt_front: "Лицевая сторона карточки",
-  ai_cards_prompt: "Описание колоды",
-  ai_cards_previous_prompts: "История запросов",
-  ai_cards_use_template: "Использовать шаблон",
-  ai_cards_by_ai: "Сгенерированные карточки",
-  ai_cards_confirm_delete: "Удалить эту карточку?",
-  ai_cards_title: "Создать с ИИ",
 
   // Global Search
   global_search_placeholder: "Поиск колод, папок, карточек",
@@ -308,22 +289,6 @@ export const ru: Translation = {
   about_visit_website: "Посетить сайт →",
   about_github_frontend: "GitHub репозиторий фронтенда →",
 
-  // Card Input Mode Form
-  card_input_mode_form_title: "Название",
-  card_input_mode_form_ai_prompt: "AI запрос",
-  card_input_mode_form_create_title: "Создать режим ввода",
-  card_input_mode_form_edit_title: "Редактировать режим ввода",
-  card_input_mode_form_delete_confirm: "Удалить этот режим ввода?",
-  card_input_mode_add_button: "Добавить режим ввода",
-  card_input_mode_form_title_placeholder: "напр. Английские определения",
-  card_input_mode_form_prompt_placeholder:
-    "напр. Сгенерируй карточку с определением для слова :template_word",
-  card_input_mode_form_front_placeholder: "напр. Слово или термин",
-  card_input_mode_form_back_placeholder: "напр. Простое определение",
-  card_input_mode_form_example_placeholder:
-    "напр. Пример использования или контекст",
-  card_input_mode_form_save_success: "Режим ввода сохранен",
-  card_input_mode_form_delete_success: "Режим ввода удален",
   quit_card: "Назад",
 
   // Wysiwyg Help

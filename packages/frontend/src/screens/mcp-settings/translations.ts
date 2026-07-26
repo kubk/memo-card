@@ -3,6 +3,7 @@ import { translator } from "../../translations/t.ts";
 
 const en = {
   settingsTitle: "ChatGPT",
+  createCardsTitle: "Create with ChatGPT",
   settingsHint: "Manage cards with ChatGPT",
   introTitle: "Connect ChatGPT to Memo Card",
   introDescription: "ChatGPT can create and update cards in MemoCard",
@@ -11,6 +12,9 @@ const en = {
   addedButton: "Added",
   tryAgentTitle: "Ask ChatGPT",
   decksCountPrompt: "How many decks do I have in Memo Card?",
+  createCardsPrompt: "Generate 10 cards with capitals of the world",
+  createLanguageCardsPrompt:
+    "Generate 6 cards with English French words related to fruits",
   quitButton: "Quit",
   configuredTitle: "ChatGPT is connected",
   instructionPrefix: "Open ",
@@ -29,6 +33,7 @@ type McpTranslation = Record<keyof typeof en, string>;
 
 const ru: McpTranslation = {
   settingsTitle: "ChatGPT",
+  createCardsTitle: "Создать через ChatGPT",
   settingsHint: "Управляйте карточками через ChatGPT",
   introTitle: "Подключите ChatGPT к Memo Card",
   introDescription: "ChatGPT сможет создавать и обновлять карточки в MemoCard",
@@ -37,6 +42,9 @@ const ru: McpTranslation = {
   addedButton: "Добавлено",
   tryAgentTitle: "Спросите ChatGPT",
   decksCountPrompt: "Сколько у меня колод в Memo Card?",
+  createCardsPrompt: "Сгенерируй 10 карточек со столицами мира",
+  createLanguageCardsPrompt:
+    "Сгенерируй 6 карточек с русскими и французскими словами на тему фруктов",
   quitButton: "Выйти",
   configuredTitle: "ChatGPT подключён",
   instructionPrefix: "Откройте ",
@@ -53,6 +61,7 @@ const ru: McpTranslation = {
 
 const es: McpTranslation = {
   settingsTitle: "ChatGPT",
+  createCardsTitle: "Crear con ChatGPT",
   settingsHint: "Gestiona tus tarjetas con ChatGPT",
   introTitle: "Conecta ChatGPT a Memo Card",
   introDescription: "ChatGPT podrá crear y actualizar tarjetas en MemoCard",
@@ -61,6 +70,9 @@ const es: McpTranslation = {
   addedButton: "Añadido",
   tryAgentTitle: "Pregúntale a ChatGPT",
   decksCountPrompt: "¿Cuántos mazos tengo en Memo Card?",
+  createCardsPrompt: "Generar 10 tarjetas con capitales del mundo",
+  createLanguageCardsPrompt:
+    "Genera 6 tarjetas con palabras en español y francés relacionadas con frutas",
   quitButton: "Salir",
   configuredTitle: "ChatGPT está conectado",
   instructionPrefix: "Abre ",
@@ -77,6 +89,7 @@ const es: McpTranslation = {
 
 const ptBr: McpTranslation = {
   settingsTitle: "ChatGPT",
+  createCardsTitle: "Criar com o ChatGPT",
   settingsHint: "Gerencie seus cartões com o ChatGPT",
   introTitle: "Conecte o ChatGPT ao Memo Card",
   introDescription: "O ChatGPT poderá criar e atualizar cartões no MemoCard",
@@ -85,6 +98,9 @@ const ptBr: McpTranslation = {
   addedButton: "Adicionado",
   tryAgentTitle: "Pergunte ao ChatGPT",
   decksCountPrompt: "Quantos baralhos tenho no Memo Card?",
+  createCardsPrompt: "Gerar 10 cartões com capitais do mundo",
+  createLanguageCardsPrompt:
+    "Gere 6 cartões com palavras em português e francês relacionadas a frutas",
   quitButton: "Sair",
   configuredTitle: "O ChatGPT está conectado",
   instructionPrefix: "Abra ",
@@ -101,6 +117,7 @@ const ptBr: McpTranslation = {
 
 const uk: McpTranslation = {
   settingsTitle: "ChatGPT",
+  createCardsTitle: "Створити через ChatGPT",
   settingsHint: "Керуйте картками через ChatGPT",
   introTitle: "Підключіть ChatGPT до Memo Card",
   introDescription: "ChatGPT зможе створювати й оновлювати картки в MemoCard",
@@ -109,6 +126,9 @@ const uk: McpTranslation = {
   addedButton: "Додано",
   tryAgentTitle: "Запитайте ChatGPT",
   decksCountPrompt: "Скільки в мене колод у Memo Card?",
+  createCardsPrompt: "Згенеруй 10 карток зі столицями світу",
+  createLanguageCardsPrompt:
+    "Згенеруй 6 карток з українськими та французькими словами, пов'язаними з фруктами",
   quitButton: "Вийти",
   configuredTitle: "ChatGPT підключено",
   instructionPrefix: "Відкрийте ",
@@ -125,6 +145,7 @@ const uk: McpTranslation = {
 
 const ar: McpTranslation = {
   settingsTitle: "ChatGPT",
+  createCardsTitle: "إنشاء باستخدام ChatGPT",
   settingsHint: "أدِر البطاقات باستخدام ChatGPT",
   introTitle: "اربط ChatGPT بـ Memo Card",
   introDescription: "سيتمكن ChatGPT من إنشاء البطاقات وتحديثها في MemoCard",
@@ -133,6 +154,9 @@ const ar: McpTranslation = {
   addedButton: "تمت الإضافة",
   tryAgentTitle: "اسأل ChatGPT",
   decksCountPrompt: "كم عدد مجموعاتي في Memo Card؟",
+  createCardsPrompt: "إنشاء 10 بطاقات بعواصم العالم",
+  createLanguageCardsPrompt:
+    "إنشاء 6 بطاقات بكلمات عربية وفرنسية تتعلق بالفواكه",
   quitButton: "خروج",
   configuredTitle: "ChatGPT متصل",
   instructionPrefix: "افتح ",
@@ -149,6 +173,7 @@ const ar: McpTranslation = {
 
 const fa: McpTranslation = {
   settingsTitle: "ChatGPT",
+  createCardsTitle: "ساخت با ChatGPT",
   settingsHint: "کارت‌ها را با ChatGPT مدیریت کنید",
   introTitle: "ChatGPT را به Memo Card متصل کنید",
   introDescription:
@@ -158,6 +183,9 @@ const fa: McpTranslation = {
   addedButton: "اضافه شد",
   tryAgentTitle: "از ChatGPT بپرسید",
   decksCountPrompt: "چند دسته در Memo Card دارم؟",
+  createCardsPrompt: "ساخت 10 کارت با پایتخت‌های جهان",
+  createLanguageCardsPrompt:
+    "ساخت 6 کارت با کلمات فارسی و فرانسوی مرتبط با میوه‌ها",
   quitButton: "خروج",
   configuredTitle: "ChatGPT متصل است",
   instructionPrefix: "به ",

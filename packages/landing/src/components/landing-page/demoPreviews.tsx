@@ -1,6 +1,5 @@
 export const demoPreviews: string[] = [
   "/preview/IMG_4537-portrait.png",
-  "/preview/IMG_4539-portrait.png",
   "/preview/IMG_4540-portrait.png",
   "/preview/IMG_4541-portrait.png",
   "/preview/IMG_4543-portrait.png",

@@ -8,7 +8,6 @@ import { screenStore } from "./screen-store.ts";
 import {
   CardReviewType,
   type CardToReviewDbType,
-  createInitialFsrsReviewState,
   type FsrsReviewState,
 } from "api";
 import { reportHandledError } from "../lib/rollbar/rollbar.tsx";
@@ -32,8 +31,6 @@ export type DeckCardDbTypeWithType = DeckCardDbType & {
 export type DeckWithCardsWithReviewType = DeckListDeck & {
   cardsToReview: DeckCardDbTypeWithType[];
 };
-
-const createNewCardReviewState = () => createInitialFsrsReviewState(new Date());
 
 const authOptionalScreenTypes = ["about", "debug"];
 
@@ -110,22 +107,6 @@ class DeckListStore {
 
   private get isAuthOptionalScreen() {
     return authOptionalScreenTypes.includes(screenStore.screen.type);
-  }
-
-  addCardOptimistic(card: DeckCardDbType) {
-    const deck = this.searchDeckById(card.deckId);
-    if (!deck || !this.myInfo) {
-      return;
-    }
-    deck.deckCards.push(card);
-    this.myInfo.cardsToReview.push({
-      id: card.id,
-      deckId: card.deckId,
-      type: "new",
-      ...createNewCardReviewState(),
-    });
-    deckDetailsStore.setDeck(deck);
-    this.myInfoQuery.setData(this.myInfo);
   }
 
   addDeckToMine(deckId: number, silent = false) {
@@ -207,18 +188,6 @@ class DeckListStore {
 
     if (addToMine) {
       this.myInfo.myDecks.push(deck);
-      this.myInfoQuery.setData(this.myInfo);
-    }
-  }
-
-  updateDeckCardInputMode(deckId: number, cardInputModeId: string | null) {
-    const deck = this.searchDeckById(deckId);
-    if (!deck) {
-      return null;
-    }
-    deck.cardInputModeId = cardInputModeId;
-    deckDetailsStore.setDeck(deck);
-    if (this.myInfo) {
       this.myInfoQuery.setData(this.myInfo);
     }
   }

@@ -25,13 +25,9 @@ import { Label } from "../../ui/label.tsx";
 import { List } from "../../ui/list.tsx";
 import { FilledIcon } from "../../ui/filled-icon.tsx";
 import { translateProDuration } from "api";
-import { translateProDescription } from "api";
 import { assert } from "api";
 import { links } from "api";
-import { MassCreationPreview } from "../shared/feature-preview/mass-creation-preview.tsx";
-import { IndividualCardAiPreview } from "../shared/feature-preview/individual-card-ai-preview.tsx";
 import { ReverseCardsPreview } from "../shared/feature-preview/reverse-cards-preview.tsx";
-import { suitableCardInputModeStore } from "../../store/suitable-card-input-mode-store.ts";
 import { getSharedPlanTitle, sharedPlansTitle } from "api";
 import { IconTelegramStar } from "./icon-telegram-star.tsx";
 import { PaymentMethodType } from "api";
@@ -42,8 +38,6 @@ import {
   ChevronRight,
   FileUp,
   GraduationCap,
-  WandSparkles,
-  Zap,
 } from "lucide-react";
 
 type PlanItem = {
@@ -52,23 +46,11 @@ type PlanItem = {
   previewItem?: PreviewItem;
 };
 
-const proPlanItems: PlanItem[] = [
-  {
-    iconColor: theme.icons.pink,
-    icon: <WandSparkles size={18} />,
-    previewItem: "individual_ai_card",
-  },
-  {
-    iconColor: theme.icons.violet,
-    icon: <Zap size={18} />,
-    previewItem: "bulk_ai_cards",
-  },
-  {
-    iconColor: theme.icons.sea,
-    icon: <ArrowLeftRight size={18} />,
-    previewItem: "reverse_cards",
-  },
-];
+const proPlanItem: PlanItem = {
+  iconColor: theme.icons.sea,
+  icon: <ArrowLeftRight size={18} />,
+  previewItem: "reverse_cards",
+};
 
 const teacherPlanItem: PlanItem = {
   iconColor: "#f4b400",
@@ -125,7 +107,6 @@ export function PlansScreen() {
   }
 
   const proPlanDescription = [
-    ...translateProDescription(translator.getLang()),
     {
       title: t("reverse_cards_title"),
       description: t("reverse_cards_helper"),
@@ -145,8 +126,8 @@ export function PlansScreen() {
     ? [...teacherPlanDescription, ...proPlanDescription]
     : proPlanDescription;
   const planItems = store.isTeacherPlanSelected
-    ? [teacherPlanItem, ankiImportPlanItem, ...proPlanItems]
-    : proPlanItems;
+    ? [teacherPlanItem, ankiImportPlanItem, proPlanItem]
+    : [proPlanItem];
   const selectedPlan = store.selectedPlan;
   const durationDisplayMethod = store.durationDisplayMethod;
   const bankCardDiscountText = formatDiscountAsText(
@@ -176,14 +157,7 @@ export function PlansScreen() {
         {paidUntil ? (
           <div className={cn("w-full")}>
             <Hint>
-              <Flex direction={"column"}>
-                <div>
-                  {t("payment_paid_until")}: {paidUntil}
-                </div>
-                <div>
-                  {t("ai_cards_left")}: {store.aiCardsLeft}
-                </div>
-              </Flex>
+              {t("payment_paid_until")}: {paidUntil}
             </Hint>
           </div>
         ) : null}
@@ -317,17 +291,6 @@ export function PlansScreen() {
           </Hint>
         </div>
       </Flex>
-
-      <IndividualCardAiPreview
-        isOpen={store.selectedPreviewPlanFeature === "individual_ai_card"}
-        onClose={store.quitPreviewPlanFeature}
-        viewMode={suitableCardInputModeStore.viewMode}
-      />
-
-      <MassCreationPreview
-        onClose={store.quitPreviewPlanFeature}
-        isOpen={store.selectedPreviewPlanFeature === "bulk_ai_cards"}
-      />
 
       <ReverseCardsPreview
         isOpen={store.selectedPreviewPlanFeature === "reverse_cards"}

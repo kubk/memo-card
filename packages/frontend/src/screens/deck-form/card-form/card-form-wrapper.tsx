@@ -2,7 +2,6 @@ import { CardPreview } from "./card-preview.tsx";
 import { CardExample } from "./card-example.tsx";
 import { useCardFormStore } from "./store/card-form-store-context.tsx";
 import { ManualCardFormView } from "./manual-card-form-view.tsx";
-import { GeneratedCardFormView } from "./generated-card-form-view.tsx";
 
 export function CardFormWrapper() {
   const cardFormStore = useCardFormStore();
@@ -29,9 +28,5 @@ export function CardFormWrapper() {
     return <CardExample />;
   }
 
-  if (cardFormStore.cardInputModeId === null || cardForm.id) {
-    return <ManualCardFormView />;
-  }
-
-  return <GeneratedCardFormView />;
+  return <ManualCardFormView />;
 }

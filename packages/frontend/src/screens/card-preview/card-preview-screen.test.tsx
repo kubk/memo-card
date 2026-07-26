@@ -89,7 +89,6 @@ const completeDeck = {
   speakLocale: null,
   speakField: null,
   reverseCards: false,
-  cardInputModeId: null,
   availableIn: "en",
   categoryId: null,
   deckCategory: undefined,

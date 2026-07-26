@@ -91,7 +91,6 @@ const createDeck = (cards: Array<{ id: number; front: string }>) => ({
   speakLocale: null,
   speakField: null,
   reverseCards: false,
-  cardInputModeId: null,
   deckCards: cards.map(({ id, front }, index) => ({
     id,
     createdAt: `2026-01-0${index + 1}T00:00:00.000Z`,

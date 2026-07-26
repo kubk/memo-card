@@ -15,7 +15,6 @@ História do concurso: https://teletype.in/@alteregor/memocard-telegram-contest-
 
 - 📱 **Multiplataforma** - Funciona no Telegram, navegador, iOS e Android
 - 🗂️ **Organize** - Crie cartões, baralhos e pastas ilimitados para estruturar seu conhecimento
-- ⚡ **Crie cartões rápido** - Gere múltiplos cartões de uma vez para montar baralhos de forma eficiente. Use IA para gerar cartões automaticamente
 - 🔔 **Notificações inteligentes** - Receba lembretes diários dos cartões que precisam de revisão, otimizando seu tempo de estudo
 - ✨ **Conteúdo de qualidade** - Escolha do catálogo de baralhos prontos de alta qualidade
 - 🔥 **Sequências e mapa de calor** - Acompanhe sua consistência de aprendizado e histórico de revisões

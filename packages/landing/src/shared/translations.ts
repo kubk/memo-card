@@ -5,7 +5,6 @@ import {
   Headphones,
   Pause,
   PenTool,
-  Zap,
 } from "lucide-react";
 import { LandingLanguage } from "api";
 
@@ -39,12 +38,6 @@ const en = {
         title: "Create unlimited",
         description:
           "Create unlimited cards, decks, and folders to structure your knowledge.",
-      },
-      {
-        icon: Zap,
-        title: "Rapid Card Creation",
-        description:
-          "Use artificial intelligence to create multiple cards or whole decks at once.",
       },
       {
         icon: Bell,
@@ -139,10 +132,9 @@ const en = {
       "Card formatting",
       "Access to moderated high-quality deck catalog",
       "Card freezing to take a break",
-      "Quickly generate multiple cards at once",
       "Automatic robotic text-to-speech supporting 50 languages",
     ],
-    notIncluded: ["Automatic card generation via AI"],
+    notIncluded: ["One-time links for decks and folders"],
   },
   proPlanFeatures: {
     included: [
@@ -152,9 +144,8 @@ const en = {
       "Card formatting",
       "Access to moderated high-quality deck catalog",
       "Card freezing to take a break",
-      "Quickly generate multiple cards at once",
       "Automatic robotic text-to-speech supporting 50 languages",
-      "Automatic card generation via AI",
+      "One-time links for decks and folders",
     ],
   },
 };
@@ -234,12 +225,6 @@ const ru: Translation = {
           "Создавайте неограниченное количество карточек, колод и папок для структурирования знаний.",
       },
       {
-        icon: Zap,
-        title: "Быстрое создание карточек",
-        description:
-          "Используйте искусственный интеллект для создания нескольких карточек или целых колод одновременно.",
-      },
-      {
         icon: Bell,
         title: "Умные уведомления",
         description:
@@ -291,12 +276,9 @@ const ru: Translation = {
       "Форматирование карточек",
       "Доступ к модерируемому каталогу качественных колод",
       "Замораживание карточек для перерыва",
-      "Быстрое создание нескольких карточек сразу",
       "Автоматическая роботизированная речь на 50 языках",
     ],
     notIncluded: [
-      "Автоматическое создание карточек через ИИ",
-      "Высококачественная речь ИИ",
       "Одноразовые ссылки на колоды и папки",
     ],
   },
@@ -308,10 +290,7 @@ const ru: Translation = {
       "Форматирование карточек",
       "Доступ к модерируемому каталогу качественных колод",
       "Замораживание карточек для перерыва",
-      "Быстрое создание нескольких карточек сразу",
       "Автоматическая роботизированная речь на 50 языках",
-      "Автоматическое создание карточек через ИИ",
-      "Высококачественная речь ИИ",
       "Одноразовые ссылки на колоды и папки",
     ],
   },
@@ -392,12 +371,6 @@ const es: Translation = {
           "Crea tarjetas, mazos y carpetas ilimitados para estructurar tu conocimiento.",
       },
       {
-        icon: Zap,
-        title: "Crea tarjetas rápido",
-        description:
-          "Usa inteligencia artificial para crear múltiples tarjetas o mazos completos a la vez.",
-      },
-      {
         icon: Bell,
         title: "Notificaciones inteligentes",
         description:
@@ -442,11 +415,9 @@ const es: Translation = {
       "Formato de tarjetas",
       "Acceso a un catálogo de barajas de alta calidad moderado",
       "Congelación de tarjetas para tomar un descanso",
-      "Genera rápidamente varias tarjetas a la vez",
       "Texto a voz robótico automático compatible con 50 idiomas",
     ],
     notIncluded: [
-      "Generación automática de tarjetas a través de IA",
       "Enlaces de barajas y carpetas de un solo uso",
     ],
   },
@@ -458,9 +429,7 @@ const es: Translation = {
       "Formato de tarjetas",
       "Acceso a un catálogo de barajas de alta calidad moderado",
       "Congelación de tarjetas para tomar un descanso",
-      "Genera rápidamente varias tarjetas a la vez",
       "Texto a voz robótico automático compatible con 50 idiomas",
-      "Generación automática de tarjetas a través de IA",
       "Enlaces de barajas y carpetas de un solo uso",
     ],
   },
@@ -492,10 +461,7 @@ const ptBr: Translation = {
       "Formato de cartões",
       "Acesso a um catálogo de baralhos de alta qualidade moderado",
       "Congelamento de cartões para fazer uma pausa",
-      "Gere rapidamente vários cartões de uma vez",
       "Texto para fala robótico automático suportando 50 idiomas",
-      "Geração automática de cartões via IA",
-      "Geração de fala IA de alta qualidade",
       "Links de baralhos e pastas de uso único",
     ],
   },
@@ -514,12 +480,9 @@ const ptBr: Translation = {
       "Formato de cartões",
       "Acesso a um catálogo de baralhos de alta qualidade moderado",
       "Congelamento de cartões para fazer uma pausa",
-      "Gere rapidamente vários cartões de uma vez",
       "Texto para fala robótico automático suportando 50 idiomas",
     ],
     notIncluded: [
-      "Geração automática de cartões via IA",
-      "Geração de fala IA de alta qualidade",
       "Links de baralhos e pastas de uso único",
     ],
   },
@@ -578,12 +541,6 @@ const ptBr: Translation = {
         title: "Crie sem limites",
         description:
           "Crie cartões, baralhos e pastas ilimitados para estruturar seu conhecimento.",
-      },
-      {
-        icon: Zap,
-        title: "Crie cartões rápido",
-        description:
-          "Use inteligência artificial para criar múltiplos cartões ou baralhos completos de uma vez.",
       },
       {
         icon: Bell,
@@ -650,9 +607,7 @@ const uk: Translation = {
       "Форматування карток",
       "Доступ до модерованого каталогу якісних колод",
       "Заморожування карток для перерви",
-      "Швидке створення кількох карток одночасно",
       "Автоматичне роботизоване озвучування, що підтримує 50 мов",
-      "Автоматичне створення карток за допомогою ІІ",
       "Одноразові посилання на колоди та папки",
     ],
   },
@@ -671,11 +626,9 @@ const uk: Translation = {
       "Форматування карток",
       "Доступ до модерованого каталогу якісних колод",
       "Заморожування карток для перерви",
-      "Швидке створення кількох карток одночасно",
       "Автоматичне роботизоване озвучування, що підтримує 50 мов",
     ],
     notIncluded: [
-      "Автоматичне створення карток за допомогою ІІ",
       "Одноразові посилання на колоди та папки",
     ],
   },
@@ -734,12 +687,6 @@ const uk: Translation = {
         title: "Створюйте без обмежень",
         description:
           "Створюйте необмежену кількість карток, колод і папок для структурування знань.",
-      },
-      {
-        icon: Zap,
-        title: "Швидке створення карток",
-        description:
-          "Використовуйте штучний інтелект для створення кількох карток або цілих колод одночасно.",
       },
       {
         icon: Bell,

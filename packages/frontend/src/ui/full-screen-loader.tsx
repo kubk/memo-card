@@ -19,7 +19,3 @@ export function FullScreenLoader(props: Props) {
     </div>
   );
 }
-
-export function ScreenLoader() {
-  return <FullScreenLoader height="calc(100vh - 90px)" />;
-}

@@ -33,8 +33,6 @@ import {
 } from "./teacher-statistics/teacher-statistics-lazy.tsx";
 import { PlansScreen } from "./pro/plans-screen.tsx";
 import { FreezeCardsScreenLazy } from "./freeze-cards/freeze-cards-screen-lazy.tsx";
-import { AiMassCreationScreen } from "./ai-mass-creation/ai-mass-creation-screen.tsx";
-import { AiMassCreationStoreProvider } from "./ai-mass-creation/store/ai-mass-creation-store-provider.tsx";
 import { SnackbarProviderWrapper } from "./shared/snackbar/snackbar-provider-wrapper.tsx";
 import { DebugLazy } from "./debug/debug-lazy.tsx";
 import { BrowserMainButton } from "./shared/browser-platform/browser-main-button.tsx";
@@ -51,8 +49,6 @@ import { SignedIn } from "./shared/signed-in.tsx";
 import { AboutScreen } from "./about/about-screen.tsx";
 import { CardList } from "./deck-form/deck-form/card-list.tsx";
 import { SpeakingCards } from "./deck-form/deck-form/speaking-cards.tsx";
-import { CardInputModeScreen } from "./card-input-mode/card-input-mode-screen.tsx";
-import { CardInputModeFormScreen } from "./card-input-mode/card-input-mode-form-screen.tsx";
 import { AnkiImportScreen } from "./anki-import/anki-import-screen.tsx";
 import { userStore } from "../store/user-store.ts";
 import { RouteScreenContainer } from "../lib/react/route-screen-container.tsx";
@@ -191,20 +187,6 @@ export function App() {
             </DeckFormStoreProvider>
           </SignedIn>
         )}
-        {screenStore.screen.type === "cardInputMode" && (
-          <SignedIn>
-            <DeckFormStoreProvider>
-              <CardInputModeScreen />
-            </DeckFormStoreProvider>
-          </SignedIn>
-        )}
-        {screenStore.screen.type === "cardInputModeForm" && (
-          <SignedIn>
-            <DeckFormStoreProvider>
-              <CardInputModeFormScreen />
-            </DeckFormStoreProvider>
-          </SignedIn>
-        )}
         {screenStore.screen.type === "cardPreviewId" && (
           <SignedIn>
             <PreventTelegramSwipeDownClosingIos>
@@ -285,15 +267,6 @@ export function App() {
               ) : (
                 <PlansScreen />
               )}
-            </PreventTelegramSwipeDownClosingIos>
-          </SignedIn>
-        )}
-        {screenStore.screen.type === "aiMassCreation" && (
-          <SignedIn>
-            <PreventTelegramSwipeDownClosingIos>
-              <AiMassCreationStoreProvider>
-                <AiMassCreationScreen />
-              </AiMassCreationStoreProvider>
             </PreventTelegramSwipeDownClosingIos>
           </SignedIn>
         )}

@@ -58,7 +58,6 @@ type DeckFormType = {
   speakingCardsField: TextField<DeckSpeakField | null>;
   reverseCards: BooleanField;
   folderId?: number;
-  cardInputModeId: string | null;
 };
 
 const createDeckTitleField = (value: string) => {
@@ -141,7 +140,6 @@ const createUpdateForm = (id: number, deck: MyDeck): DeckFormType => {
     speakingCardsLocale: new TextField(deck.speakLocale),
     speakingCardsField: new TextField(deck.speakField),
     reverseCards: new BooleanField(deck.reverseCards),
-    cardInputModeId: deck.cardInputModeId || null,
     cards: deck.deckCards.map((card) => ({
       id: card.id,
       front: createFrontCardField(card.front),
@@ -171,7 +169,6 @@ export class DeckFormStore {
   deckForm?: DeckFormType;
   deckCreateMutation = makeMutation(api.deck.create.mutate);
   deckUpdateMutation = makeMutation(api.deck.update.mutate);
-  cardInputModeIdForForm: string | null = null;
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
@@ -250,7 +247,6 @@ export class DeckFormStore {
         speakingCardsField: new TextField<DeckSpeakField | null>(null),
         reverseCards: new BooleanField(false),
         folderId: screen.folder?.id ?? undefined,
-        cardInputModeId: null,
       };
     }
   }
@@ -260,8 +256,6 @@ export class DeckFormStore {
       case "deckForm":
         return screen.deckId;
       case "speakingCards":
-      case "cardInputMode":
-      case "cardInputModeForm":
         return screen.deckId;
       default:
         return undefined;
@@ -285,23 +279,6 @@ export class DeckFormStore {
       type: "cardList",
       deckId: this.deckForm.id,
       ...this.getFilterParams(),
-    });
-  }
-
-  goCardInputMode() {
-    if (!this.deckForm?.id) return;
-    if (!this.validateBeforeNavigate()) return;
-    screenStore.push({ type: "cardInputMode", deckId: this.deckForm.id });
-  }
-
-  goCardInputModeForm(cardInputModeId?: string) {
-    if (!this.deckForm?.id) return;
-    if (!this.validateBeforeNavigate()) return;
-    this.cardInputModeIdForForm = cardInputModeId || null;
-    screenStore.push({
-      type: "cardInputModeForm",
-      deckId: this.deckForm.id,
-      cardInputModeId,
     });
   }
 

@@ -7,8 +7,7 @@ export const metadata: Metadata = {
     "memocard",
     "alternativa a anki",
     "aplicación de tarjetas",
-    "tarjetas flash ai",
-    "crear tarjetas flash ai",
+    "repetición espaciada",
   ],
   description:
     "Mejora tu memoria con la repetición espaciada. Aprende idiomas, historia u otras materias con el método de tarjetas flash probado.",

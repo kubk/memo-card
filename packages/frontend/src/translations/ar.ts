@@ -12,12 +12,6 @@ export const ar: Translation = {
   logout: "تسجيل الخروج",
   error_contact_support: "حدث خطأ. يرجى الاتصال بالدعم حتى نتمكن من مساعدتك.",
   login_google: "تسجيل الدخول باستخدام Google",
-  card_input_mode_changed: "تم تغيير وضع إدخال البطاقة",
-  card_input_mode_manual: "إدخال يدوي",
-  card_input_mode_type: "إذا كتبت",
-  card_input_mode_get: "ستحصل على بطاقة مثل هذه",
-  card_input_mode_screen: "وضع إدخال البطاقة",
-  generate: "توليد",
   folder_form_no_decks: "لا توجد مجموعات في المجلد",
   card_next: "التالي",
   card_previous: "السابق",
@@ -175,7 +169,6 @@ export const ar: Translation = {
   payment_method_stars: "نجوم تيليجرام",
   payment_included: "ما هو مشمول",
   payment_paid_until: "مدفوع حتى",
-  ai_cards_left: "بطاقات الذكاء الاصطناعي المتبقية هذا الشهر",
   payment_tos_and_pp_agree: "بشراء MemoCard، فإنك توافق على",
   payment_tos: "شروط الخدمة",
   payment_and: " و ",
@@ -259,24 +252,11 @@ export const ar: Translation = {
   error_solving: "نحن نحل المشكلة",
   error: "خطأ",
   user_settings_updated: "تم تحديث الإعدادات",
-  ai_cards_generate: "توليد البطاقات",
-  ai_cards_title: "إنشاء مجموعة بـ AI",
-  ai_cards_previous_prompts: "تاريخ الطلبات",
-  ai_cards_no_previous_prompts: "لا توجد طلبات سابقة",
-  ai_cards_prompt: "الوصف",
-  ai_cards_prompt_front: "وصف واجهة البطاقة",
-  ai_cards_prompt_back: "وصف خلفية البطاقة",
-  ai_cards_by_ai: "بطاقات تم توليدها بواسطة الذكاء الاصطناعي",
-  ai_cards_confirm_delete: "هل أنت متأكد أنك تريد حذف هذه البطاقة؟",
-  ai_cards_added: "تمت إضافة البطاقات",
-  ai_cards_use_template: "استخدام القالب",
   confirm_cancel: "إلغاء",
   confirm_ok: "تأكيد",
 
   upgrade_pro: "الترقية إلى Pro",
   upgrade: "ترقية الخطة",
-
-  ai_card_input_mode_supports: "يدعم لغات مختلفة",
 
   // Global Search
   global_search_placeholder: "البحث في المجموعات، المجلدات، البطاقات",
@@ -303,21 +283,6 @@ export const ar: Translation = {
   about_visit_website: "زيارة الموقع →",
   about_github_frontend: "مستودع GitHub للواجهة الأمامية →",
 
-  // Card Input Mode Form
-  card_input_mode_form_title: "العنوان",
-  card_input_mode_form_ai_prompt: "طلب الذكاء الاصطناعي",
-  card_input_mode_form_create_title: "إنشاء وضع الإدخال",
-  card_input_mode_form_edit_title: "تحرير وضع الإدخال",
-  card_input_mode_form_delete_confirm: "حذف وضع الإدخال هذا؟",
-  card_input_mode_add_button: "إضافة وضع إدخال",
-  card_input_mode_form_title_placeholder: "مثال: تعريفات إنجليزية",
-  card_input_mode_form_prompt_placeholder:
-    "مثال: أنشئ بطاقة تعريف للكلمة :template_word",
-  card_input_mode_form_front_placeholder: "مثال: كلمة أو مصطلح",
-  card_input_mode_form_back_placeholder: "مثال: تعريف بسيط",
-  card_input_mode_form_example_placeholder: "مثال: مثال استخدام أو سياق",
-  card_input_mode_form_save_success: "تم حفظ وضع الإدخال",
-  card_input_mode_form_delete_success: "تم حذف وضع الإدخال",
   quit_card: "العودة",
 
   // Wysiwyg Help

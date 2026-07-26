@@ -28,9 +28,7 @@ export const metadata: Metadata = {
     "memocard",
     "anki alternative",
     "flashcard app",
-    "flashcards ai",
-    "create ai flashcards",
-    "memocard ai",
+    "spaced repetition",
   ],
   description:
     "Improve your memory with spaced repetition. Learn languages, history or other subjects with the proven flashcard method.",

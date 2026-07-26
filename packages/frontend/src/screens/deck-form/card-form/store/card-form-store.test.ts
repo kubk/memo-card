@@ -21,7 +21,6 @@ const mocks = vi.hoisted(() => {
       reverseCards: false,
       deckCategory: null,
       categoryId: null,
-      cardInputModeId: null,
       deckCards: [],
     },
     cardsToReview: [],

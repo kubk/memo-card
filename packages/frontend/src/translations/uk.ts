@@ -18,7 +18,6 @@ export const uk: Translation = {
   logout: "Вийти",
   error_contact_support:
     "Сталася помилка. Будь ласка, зв'яжіться з підтримкою, щоб ми могли вам допомогти.",
-  ai_card_input_mode_supports: "Підтримує різні мови",
   browser_no_personal_decks_start: "У вас ще немає персональних колод",
   browser_no_personal_decks_end: ". Успішного навчання! 😊",
   browser_no_personal_decks_link: "Дізнайтеся, як користуватися MemoCard у ",
@@ -26,12 +25,6 @@ export const uk: Translation = {
   upgrade: "Покращити тариф",
   login_google: "Увійти через Google",
   youtube_channel: "YouTube канал",
-  card_input_mode_changed: "Режим введення картки змінено",
-  card_input_mode_manual: "Ручне введення",
-  card_input_mode_get: "ви отримаєте картку, як ця",
-  card_input_mode_type: "Якщо ви введете",
-  card_input_mode_screen: "Режим введення картки",
-  generate: "Згенерувати",
   confirm_ok: "Підтвердити",
   confirm_cancel: "Скасувати",
   user_settings_updated: "Налаштування оновлено",
@@ -75,7 +68,6 @@ export const uk: Translation = {
   payment_choose_subscription: "Підписка",
   payment_method_stars: "Telegram зірки",
   payment_included: "Що включено",
-  ai_cards_left: "Залишилось ШІ карток цього місяця",
   wysiwyg_bold: "Жирний",
   wysiwyg_undo: "Скасувати",
   repeat_cards_anyway: "Повторити все одно",
@@ -274,17 +266,6 @@ export const uk: Translation = {
   freeze_hint: "Відкласти вивчення карток",
   error_solving: "Ми вирішуємо проблему",
   error: "Помилка",
-  ai_cards_generate: "Згенерувати картки",
-  ai_cards_title: "Створити з ШІ",
-  ai_cards_previous_prompts: "Історія запитів",
-  ai_cards_no_previous_prompts: "Немає попередніх запитів",
-  ai_cards_prompt: "Опис",
-  ai_cards_prompt_front: "Опис лицьової сторони",
-  ai_cards_prompt_back: "Опис зворотної сторони",
-  ai_cards_by_ai: "Картки, створені ШІ",
-  ai_cards_confirm_delete: "Видалити цю картку?",
-  ai_cards_added: "Картки додано",
-  ai_cards_use_template: "Використати шаблон",
   add_card_short: "Додати картку",
 
   // Global Search
@@ -312,22 +293,6 @@ export const uk: Translation = {
   about_visit_website: "Відвідати сайт →",
   about_github_frontend: "GitHub репозиторій фронтенду →",
 
-  // Card Input Mode Form
-  card_input_mode_form_title: "Назва",
-  card_input_mode_form_ai_prompt: "AI запит",
-  card_input_mode_form_create_title: "Створити режим введення",
-  card_input_mode_form_edit_title: "Редагувати режим введення",
-  card_input_mode_form_delete_confirm: "Видалити цей режим введення?",
-  card_input_mode_add_button: "Додати режим введення",
-  card_input_mode_form_title_placeholder: "напр. Англійські визначення",
-  card_input_mode_form_prompt_placeholder:
-    "напр. Створи картку визначення для слова :template_word",
-  card_input_mode_form_front_placeholder: "напр. Слово або термін",
-  card_input_mode_form_back_placeholder: "напр. Просте визначення",
-  card_input_mode_form_example_placeholder:
-    "напр. Приклад використання або контекст",
-  card_input_mode_form_save_success: "Режим введення збережено",
-  card_input_mode_form_delete_success: "Режим введення видалено",
   quit_card: "Назад",
 
   // Wysiwyg Help

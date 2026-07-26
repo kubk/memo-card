@@ -36,8 +36,8 @@ returns:
 Nested API paths become dot-separated keys:
 
 ```ts
-makeQuery(apiProxy.cardInputMode.list.query);
-// key: "cardInputMode.list"
+makeQuery(apiProxy.mcpToken.getMyToken.query);
+// key: "mcpToken.getMyToken"
 ```
 
 ## Query With Fixed Input

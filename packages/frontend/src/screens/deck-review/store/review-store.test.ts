@@ -65,7 +65,6 @@ const createDeckWithCards = (cards: DeckCardDbTypeWithType[]) => {
     authorId: 1,
     shareId: "share_id_mock2",
     isPublic: false,
-    cardInputModeId: null,
   };
   return deckMock;
 };
