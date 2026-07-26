@@ -28,6 +28,7 @@ import { deckListStore } from "../../../store/deck-list-store.ts";
 import {
   ArrowLeftIcon,
   ArrowRightIcon,
+  BotIcon,
   EyeIcon,
   LayersIcon,
   PlusIcon,
@@ -42,6 +43,8 @@ import { CircleCheckbox } from "../../../ui/circle-checkbox.tsx";
 import { CardRow } from "../../../ui/card-row.tsx";
 import { cn } from "../../../ui/cn.ts";
 import { BackBottomButton } from "../../shared/back-bottom-button.tsx";
+import { mcpT } from "../../mcp-settings/translations.ts";
+import { ChevronIcon } from "../../../ui/chevron-icon.tsx";
 
 export function ManualCardFormView() {
   const cardFormStore = useCardFormStore();
@@ -159,6 +162,28 @@ export function ManualCardFormView() {
                   cardFormStore.cardTypeModal.setTrue();
                 },
               },
+              ...(!userStore.isPaid
+                ? [
+                    {
+                      icon: (
+                        <FilledIcon
+                          backgroundColor={theme.icons.turquoise}
+                          icon={<BotIcon size={18} />}
+                        />
+                      ),
+                      text: mcpT("createCardsTitle"),
+                      right: (
+                        <ChevronIcon direction="right" className="text-hint" />
+                      ),
+                      onClick: () => {
+                        screenStore.push({
+                          type: "plans",
+                          planType: "pro",
+                        });
+                      },
+                    },
+                  ]
+                : []),
             ]}
           />
         </div>

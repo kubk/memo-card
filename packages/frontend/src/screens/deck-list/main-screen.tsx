@@ -215,7 +215,7 @@ export function MainScreen() {
                       icon: (
                         <FilledIcon
                           icon={<VideoIcon size={18} />}
-                          backgroundColor={theme.danger}
+                          backgroundColor={theme.icons.turquoise}
                         />
                       ),
                     }
@@ -264,37 +264,18 @@ export function MainScreen() {
                       },
                     }
                   : null,
+                !userStore.isPaid
+                  ? {
+                      text: getSharedPlanTitle("pro"),
+                      icon: <ProIcon />,
+                      onClick: () => {
+                        screenStore.push({ type: "plans", planType: "pro" });
+                      },
+                    }
+                  : null,
               ].filter(boolNarrow)}
             />
           </div>
-
-          {!userStore.isPaid ? (
-            <div>
-              <ListHeader text={t("upgrade")} />
-              <List
-                items={[
-                  {
-                    text: getSharedPlanTitle("pro"),
-                    icon: <ProIcon />,
-                    onClick: () => {
-                      screenStore.push({ type: "plans", planType: "pro" });
-                    },
-                  },
-                  {
-                    text: getSharedPlanTitle("teacher"),
-                    icon: (
-                      <TeacherGradientIcon
-                        icon={<GraduationCapIcon size={18} />}
-                      />
-                    ),
-                    onClick: () => {
-                      screenStore.push({ type: "plans", planType: "teacher" });
-                    },
-                  },
-                ].filter(boolNarrow)}
-              />
-            </div>
-          ) : null}
         </>
       )}
 

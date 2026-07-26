@@ -10,6 +10,7 @@ export const useMainButtonBrowser: UseMainButtonType = (
   onClick,
   condition,
   deps = [],
+  options,
 ) => {
   const hideMainButton = action(() => {
     assert(platform instanceof BrowserPlatform);
@@ -27,7 +28,12 @@ export const useMainButtonBrowser: UseMainButtonType = (
 
       runInAction(() => {
         assert(platform instanceof BrowserPlatform);
-        platform.showMainButton(buttonText, onClick, condition);
+        platform.showMainButton(
+          buttonText,
+          onClick,
+          condition,
+          options?.isAboveBottomSheet,
+        );
       });
     });
 

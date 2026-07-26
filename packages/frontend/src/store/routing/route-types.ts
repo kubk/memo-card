@@ -1,5 +1,5 @@
 import * as v from "valibot";
-import { type CatalogFolderDbType, paidPlanTypes } from "api";
+import { type CatalogFolderDbType } from "api";
 
 export enum StartParamType {
   RepeatAll = "repeat_all",
@@ -98,11 +98,9 @@ const deckCatalogRouteSchema = v.object({
   categoryId: v.optional(v.string()),
 });
 
-const paidPlanTypeSchema = v.picklist(paidPlanTypes);
-
 const plansRouteSchema = v.object({
   type: v.literal("plans"),
-  planType: paidPlanTypeSchema,
+  planType: v.literal("pro"),
 });
 
 const debugRouteSchema = v.object({

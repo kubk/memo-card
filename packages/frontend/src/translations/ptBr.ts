@@ -54,14 +54,14 @@ export const ptBr: Translation = {
   hide_card_forever_confirm_title:
     "Tem certeza de que deseja ocultar este cartão para sempre? Você nunca mais o verá",
   next: "Próximo",
-  payment_tos_and_pp_agree: "Ao comprar o MemoCard, você concorda com os ",
+  payment_tos_and_pp_agree: "Ao comprar, você concorda com os ",
   payment_description: "Desbloqueie mais recursos",
+  payment_title: "Pagamento",
   payment_paid_until: "Pago até",
   payment_pp: "Política de Privacidade",
   privacy_policy: "Política de Privacidade",
   payment_tos: "Termos de Serviço",
   payment_and: " e ",
-  payment_included: "O que está incluído",
   payment_choose_duration: "Escolha a duração",
   payment_method_stars: "Estrelas do Telegram",
   payment_choose_subscription: "Assinatura",
@@ -241,12 +241,6 @@ export const ptBr: Translation = {
   teacher_stats_users: "Usuários",
   teacher_stats_today: "Hoje",
   teacher_stats_yesterday: "Ontem",
-  teacher_plan_student_statistics_title: "Estatísticas dos alunos",
-  teacher_plan_student_statistics_description:
-    "Progresso dos alunos e estatísticas dos seus baralhos",
-  teacher_plan_anki_import_title: "Importação do Anki",
-  teacher_plan_anki_import_description:
-    "Importação e exportação ilimitadas do Anki",
   freeze_title: "Congelar cartões",
   freeze_rule_4:
     "Se você adicionar um cartão durante o período de congelamento, ele não será afetado pelo congelamento.",
@@ -265,7 +259,6 @@ export const ptBr: Translation = {
   validate_under_100: "Por favor, insira um número menor que 100",
   freeze_hint: "Adie o estudo dos cartões",
   quit_without_saving: "Sair sem salvar?",
-
 
   // Global Search
   global_search_placeholder: "Buscar baralhos, pastas, cartões",

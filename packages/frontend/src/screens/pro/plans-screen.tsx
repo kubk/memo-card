@@ -1,102 +1,49 @@
-import { Screen } from "../shared/screen.tsx";
-import { useBackButton } from "../../lib/platform/use-back-button.ts";
-import { screenStore } from "../../store/screen-store.ts";
-import { Flex } from "../../ui/flex.tsx";
 import { useState } from "react";
-import { useMainButton } from "../../lib/platform/use-main-button.ts";
-import { Hint } from "../../ui/hint.tsx";
-import { FullScreenLoader } from "../../ui/full-screen-loader.tsx";
-import { PlansScreenStore, PreviewItem } from "./store/plans-screen-store.ts";
-import { useProgress } from "../../lib/platform/use-progress.tsx";
-import { userStore } from "../../store/user-store.ts";
-import { ExternalLink } from "../../ui/external-link.tsx";
-import { t, translator } from "../../translations/t.ts";
-import { RadioList } from "../../ui/radio-list/radio-list.tsx";
-import { cn } from "../../ui/cn.ts";
-import { theme } from "../../ui/theme.tsx";
 import {
+  assert,
   calcPlanPriceForDuration,
+  formatDiscountAsText,
   getPlanDiscountForDuration,
-  type PaidPlanType,
+  links,
+  PaymentMethodType,
+  sharedProTitle,
+  translateProDuration,
   type PlanDuration,
 } from "api";
-import { Tag } from "./tag.tsx";
+import { useBackButton } from "../../lib/platform/use-back-button.ts";
+import { useMainButton } from "../../lib/platform/use-main-button.ts";
+import { useProgress } from "../../lib/platform/use-progress.tsx";
+import { screenStore } from "../../store/screen-store.ts";
+import { userStore } from "../../store/user-store.ts";
+import { t, translator } from "../../translations/t.ts";
+import { BottomSheet } from "../../ui/bottom-sheet/bottom-sheet.tsx";
+import { cn } from "../../ui/cn.ts";
+import { ExternalLink } from "../../ui/external-link.tsx";
+import { Flex } from "../../ui/flex.tsx";
+import { FullScreenLoader } from "../../ui/full-screen-loader.tsx";
 import { Label } from "../../ui/label.tsx";
-import { List } from "../../ui/list.tsx";
-import { FilledIcon } from "../../ui/filled-icon.tsx";
-import { translateProDuration } from "api";
-import { assert } from "api";
-import { links } from "api";
-import { ReverseCardsPreview } from "../shared/feature-preview/reverse-cards-preview.tsx";
-import { getSharedPlanTitle, sharedPlansTitle } from "api";
+import { RadioList } from "../../ui/radio-list/radio-list.tsx";
+import { Screen } from "../shared/screen.tsx";
 import { IconTelegramStar } from "./icon-telegram-star.tsx";
-import { PaymentMethodType } from "api";
-import { formatDiscountAsText } from "api";
-import {
-  ArrowLeftRight,
-  ChevronLeft,
-  ChevronRight,
-  FileUp,
-  GraduationCap,
-} from "lucide-react";
-
-type PlanItem = {
-  icon: React.ReactNode;
-  iconColor: string;
-  previewItem?: PreviewItem;
-};
-
-const proPlanItem: PlanItem = {
-  iconColor: theme.icons.sea,
-  icon: <ArrowLeftRight size={18} />,
-  previewItem: "reverse_cards",
-};
-
-const teacherPlanItem: PlanItem = {
-  iconColor: "#f4b400",
-  icon: <GraduationCap size={18} />,
-};
-
-const ankiImportPlanItem: PlanItem = {
-  iconColor: "#ff8a00",
-  icon: <FileUp size={18} />,
-};
-
-function getPlanTypeForScreen(): PaidPlanType {
-  const route = screenStore.screen;
-  assert(
-    route.type === "plans" ||
-      route.type === "teacherStatistics" ||
-      route.type === "teacherStatisticsList",
-    `Unexpected plans screen route: ${route.type}`,
-  );
-
-  switch (route.type) {
-    case "plans":
-      return route.planType;
-    case "teacherStatistics":
-    case "teacherStatisticsList":
-      return "teacher";
-    default:
-      return route satisfies never;
-  }
-}
+import { ProPage } from "./pro-page.tsx";
+import { PlansScreenStore } from "./store/plans-screen-store.ts";
+import { Tag } from "./tag.tsx";
 
 export function PlansScreen() {
-  const [store] = useState(() => new PlansScreenStore(getPlanTypeForScreen()));
+  const [store] = useState(() => new PlansScreenStore());
+
   useBackButton(() => {
     screenStore.back();
   });
 
   useMainButton(
-    () => store.buyText,
-    () => {
-      store.createOrder();
-    },
-    () => store.isBuyButtonVisible,
+    () => (store.isPaymentOptionsOpen ? store.buyText : t("upgrade_pro")),
+    store.handleMainButtonClick,
+    () => store.isMainButtonVisible,
     [],
     {
       hasShineEffect: true,
+      isAboveBottomSheet: true,
     },
   );
 
@@ -106,196 +53,158 @@ export function PlansScreen() {
     return <FullScreenLoader />;
   }
 
-  const proPlanDescription = [
-    {
-      title: t("reverse_cards_title"),
-      description: t("reverse_cards_helper"),
-    },
-  ];
-  const teacherPlanDescription = [
-    {
-      title: t("teacher_plan_student_statistics_title"),
-      description: t("teacher_plan_student_statistics_description"),
-    },
-    {
-      title: t("teacher_plan_anki_import_title"),
-      description: t("teacher_plan_anki_import_description"),
-    },
-  ];
-  const planDescription = store.isTeacherPlanSelected
-    ? [...teacherPlanDescription, ...proPlanDescription]
-    : proPlanDescription;
-  const planItems = store.isTeacherPlanSelected
-    ? [teacherPlanItem, ankiImportPlanItem, proPlanItem]
-    : [proPlanItem];
+  return (
+    <>
+      <ProPlansScreen />
+      <PaymentOptionsSheet store={store} />
+    </>
+  );
+}
+
+function ProPlansScreen() {
+  return (
+    <Screen title={sharedProTitle}>
+      <ProPage flush footer={<TermsNotice />} />
+    </Screen>
+  );
+}
+
+function PaymentOptionsSheet({ store }: { store: PlansScreenStore }) {
+  return (
+    <BottomSheet
+      background="secondary"
+      headerSpacing="compact"
+      isOpen={store.isPaymentOptionsOpen}
+      onClose={store.closePaymentOptions}
+      title={t("payment_title")}
+    >
+      <div className="-mx-5 -mb-5 flex max-h-[calc(var(--tg-viewport-height,100vh)_-_80px)] flex-col gap-4 overflow-y-auto bg-secondary-bg px-5 pb-28 pt-2">
+        <PaymentOptions store={store} />
+      </div>
+    </BottomSheet>
+  );
+}
+
+function PaymentOptions({ store }: { store: PlansScreenStore }) {
   const selectedPlan = store.selectedPlan;
   const durationDisplayMethod = store.durationDisplayMethod;
   const bankCardDiscountText = formatDiscountAsText(
     store.bankCardDiscount,
     translator.getLang(),
   );
-  const paidUntil =
-    selectedPlan && userStore.hasPaidPlan(selectedPlan.type)
-      ? userStore.paidUntil
-      : null;
 
   return (
-    <Screen
-      title={
-        selectedPlan ? getSharedPlanTitle(selectedPlan.type) : sharedPlansTitle
-      }
-    >
-      <Flex
-        direction={"column"}
-        alignItems={"center"}
-        justifyContent={"center"}
-        gap={16}
-        mt={4}
-        mb={52}
+    <>
+      <Label fullWidth text={t("payment_choose_method")}>
+        <RadioList<PaymentMethodType | null>
+          selectedId={store.method}
+          options={[
+            ...(store.isUsdPaymentAvailable
+              ? [
+                  {
+                    id: PaymentMethodType.Usd,
+                    title: (
+                      <Flex gap={4}>
+                        {t("payment_method_usd")}
+                        {bankCardDiscountText ? (
+                          <Tag text={bankCardDiscountText} />
+                        ) : null}
+                      </Flex>
+                    ),
+                  },
+                ]
+              : []),
+            {
+              id: PaymentMethodType.Stars,
+              title: t("payment_method_stars"),
+            },
+          ]}
+          onChange={store.updateMethod}
+        />
+      </Label>
+
+      <Label
         fullWidth
+        text={
+          durationDisplayMethod === PaymentMethodType.Usd
+            ? t("payment_choose_subscription")
+            : t("payment_choose_duration")
+        }
       >
-        {paidUntil ? (
-          <div className={cn("w-full")}>
-            <Hint>
-              {t("payment_paid_until")}: {paidUntil}
-            </Hint>
-          </div>
-        ) : null}
+        <RadioList<PlanDuration | null>
+          selectedId={store.selectedPlanDuration.value}
+          options={store.availablePlanDurations.map((duration) => {
+            assert(selectedPlan);
 
-        <Label text={t("payment_included")} fullWidth>
-          <List
-            items={planItems.map((item, i) => ({
-              onClick: () => {
-                store.previewPlanFeature(item.previewItem);
-              },
-              icon: (
-                <FilledIcon backgroundColor={item.iconColor} icon={item.icon} />
-              ),
-              text: (
-                <Flex direction={"column"}>
-                  <div>{planDescription[i].title}</div>
-                  <div className="text-sm text-hint pr-4">
-                    {planDescription[i].description}
-                  </div>
-                </Flex>
-              ),
-              right: item.previewItem ? (
-                <div className="text-hint">
-                  {userStore.isRtl ? (
-                    <ChevronLeft size={18} />
-                  ) : (
-                    <ChevronRight size={18} />
-                  )}
-                </div>
-              ) : undefined,
-            }))}
-          />
-        </Label>
+            const discount = getPlanDiscountForDuration(
+              durationDisplayMethod,
+              selectedPlan,
+              duration,
+            );
 
-        <Label fullWidth text={t("payment_choose_method")}>
-          <RadioList<PaymentMethodType | null>
-            selectedId={store.method}
-            options={[
-              ...(store.isUsdPaymentAvailable
-                ? [
-                    {
-                      id: PaymentMethodType.Usd,
-                      title: (
-                        <Flex gap={4}>
-                          {t("payment_method_usd")}
-                          {bankCardDiscountText ? (
-                            <Tag text={bankCardDiscountText} />
-                          ) : null}
-                        </Flex>
-                      ),
-                    },
-                  ]
-                : []),
-              {
-                id: PaymentMethodType.Stars,
-                title: t("payment_method_stars"),
-              },
-            ]}
-            onChange={(method) => {
-              store.updateMethod(method);
-            }}
-          />
-        </Label>
-
-        <Label
-          fullWidth
-          text={
-            durationDisplayMethod === PaymentMethodType.Usd
-              ? t("payment_choose_subscription")
-              : t("payment_choose_duration")
-          }
-        >
-          <RadioList<PlanDuration | null>
-            selectedId={store.selectedPlanDuration.value}
-            options={store.availablePlanDurations.map((duration) => {
-              const selectedPlan = store.selectedPlan;
-              assert(selectedPlan);
-
-              const discount = getPlanDiscountForDuration(
-                durationDisplayMethod,
-                selectedPlan,
-                duration,
-              );
-
-              return {
-                id: duration,
-                title: (
-                  <div className="flex gap-2">
-                    <span>
-                      {translateProDuration(duration, translator.getLang())}
-                    </span>
-                    {discount > 0 && (
-                      <Tag
-                        text={formatDiscountAsText(
-                          discount,
-                          translator.getLang(),
-                        )}
-                      />
-                    )}
-                    <div className="flex gap-1 text-hint ml-auto pr-2">
-                      {durationDisplayMethod === PaymentMethodType.Usd
-                        ? "$"
-                        : null}
-                      {calcPlanPriceForDuration(
-                        durationDisplayMethod,
-                        selectedPlan,
-                        duration,
+            return {
+              id: duration,
+              title: (
+                <div className="flex gap-2">
+                  <span>
+                    {translateProDuration(duration, translator.getLang())}
+                  </span>
+                  {discount > 0 ? (
+                    <Tag
+                      text={formatDiscountAsText(
+                        discount,
+                        translator.getLang(),
                       )}
-                      {durationDisplayMethod === PaymentMethodType.Stars ? (
-                        <div className="w-4 h-4 mt-0.5">
-                          <IconTelegramStar />
-                        </div>
-                      ) : null}
-                    </div>
+                    />
+                  ) : null}
+                  <div
+                    className={cn(
+                      "ms-auto flex gap-1 pe-2 text-hint",
+                      userStore.isRtl && "flex-row-reverse",
+                    )}
+                  >
+                    {durationDisplayMethod === PaymentMethodType.Usd
+                      ? "$"
+                      : null}
+                    {calcPlanPriceForDuration(
+                      durationDisplayMethod,
+                      selectedPlan,
+                      duration,
+                    )}
+                    {durationDisplayMethod === PaymentMethodType.Stars ? (
+                      <div className="mt-0.5 h-4 w-4">
+                        <IconTelegramStar />
+                      </div>
+                    ) : null}
                   </div>
-                ),
-              };
-            })}
-            onChange={store.selectedPlanDuration.onChange}
-          />
-        </Label>
+                </div>
+              ),
+            };
+          })}
+          onChange={store.selectedPlanDuration.onChange}
+        />
+      </Label>
+    </>
+  );
+}
 
-        <div className="w-full">
-          <Hint>
-            {t("payment_tos_and_pp_agree")}
-            <ExternalLink href={links.tosPath}>{t("payment_tos")}</ExternalLink>
-            {t("payment_and")}
-            <ExternalLink href={links.privacyPolicyPath}>
-              {t("payment_pp")}
-            </ExternalLink>
-          </Hint>
-        </div>
-      </Flex>
+function TermsNotice() {
+  return (
+    <div className="w-full px-3 pb-2 text-sm text-hint">
+      <TermsText />
+    </div>
+  );
+}
 
-      <ReverseCardsPreview
-        isOpen={store.selectedPreviewPlanFeature === "reverse_cards"}
-        onClose={store.quitPreviewPlanFeature}
-      />
-    </Screen>
+function TermsText() {
+  return (
+    <>
+      {t("payment_tos_and_pp_agree")}
+      <ExternalLink href={links.tosPath}>{t("payment_tos")}</ExternalLink>
+      {t("payment_and")}
+      <ExternalLink href={links.privacyPolicyPath}>
+        {t("payment_pp")}
+      </ExternalLink>
+    </>
   );
 }

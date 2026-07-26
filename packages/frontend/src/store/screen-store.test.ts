@@ -5,8 +5,8 @@ describe("screen store", () => {
   it("screen store - push", () => {
     const store = new ScreenStore({ enableUrlSync: false });
     expect(store.screen).toEqual({ type: "main" });
-    store.push({ type: "plans", planType: "teacher" });
-    expect(store.screen).toEqual({ type: "plans", planType: "teacher" });
+    store.push({ type: "plans", planType: "pro" });
+    expect(store.screen).toEqual({ type: "plans", planType: "pro" });
     store.back();
     expect(store.screen).toEqual({ type: "main" });
   });

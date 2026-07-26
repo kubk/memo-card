@@ -223,7 +223,13 @@ export function App() {
         {screenStore.screen.type === "plans" && (
           <SignedIn>
             <PreventTelegramSwipeDownClosingIos>
-              <PlansScreen />
+              {screenStore.screen.planType === "pro" && userStore.isPaid ? (
+                <Suspense fallback={<FullScreenLoader />}>
+                  <McpSettingsLazy />
+                </Suspense>
+              ) : (
+                <PlansScreen />
+              )}
             </PreventTelegramSwipeDownClosingIos>
           </SignedIn>
         )}
@@ -254,7 +260,7 @@ export function App() {
               {userStore.isTeacherPaid ? (
                 <TeacherStatisticsLazy />
               ) : (
-                <PlansScreen />
+                <MainScreen />
               )}
             </PreventTelegramSwipeDownClosingIos>
           </SignedIn>
@@ -265,7 +271,7 @@ export function App() {
               {userStore.isTeacherPaid ? (
                 <TeacherStatisticsListLazy />
               ) : (
-                <PlansScreen />
+                <MainScreen />
               )}
             </PreventTelegramSwipeDownClosingIos>
           </SignedIn>

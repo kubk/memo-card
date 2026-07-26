@@ -47,8 +47,14 @@ import {
   catalogCountries,
 } from "./catalog-stories.tsx";
 import { CatalogModals, type ModalStoryId } from "./modal-stories.tsx";
+import { ProPage } from "../src/screens/pro/pro-page.tsx";
 
 const PLAYGROUND_COMPONENTS = [
+  {
+    id: "pro-page",
+    label: "Pro page",
+    propsPanel: false,
+  },
   {
     id: "button",
     label: "Button",
@@ -91,6 +97,10 @@ const PLAYGROUND_COMPONENTS = [
 type PlaygroundComponentId = (typeof PLAYGROUND_COMPONENTS)[number]["id"];
 
 const PLAYGROUND_HOME_SECTIONS = [
+  {
+    label: "Screens",
+    componentIds: ["pro-page"],
+  },
   {
     label: "Controls",
     componentIds: ["button", "select", "radio-list"],
@@ -375,7 +385,7 @@ function PlaygroundHome({
   return (
     <main className="grid h-screen min-w-[360px] place-items-center overflow-auto bg-background p-6 text-foreground">
       <div className="flex w-full max-w-3xl flex-col gap-8">
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-3 sm:gap-4">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-4 sm:gap-4">
           {PLAYGROUND_HOME_SECTIONS.map((section) => (
             <section key={section.label}>
               <h2 className="mb-3 text-center text-sm font-semibold text-muted-foreground">
@@ -421,6 +431,12 @@ function ComponentPreview({
   componentId: PlaygroundComponentId;
 }) {
   switch (componentId) {
+    case "pro-page":
+      return (
+        <div className="h-full w-full overflow-y-auto">
+          <ProPage />
+        </div>
+      );
     case "button":
       return <ButtonPlayground />;
     case "select":

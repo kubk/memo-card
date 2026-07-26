@@ -278,9 +278,7 @@ const ru: Translation = {
       "Замораживание карточек для перерыва",
       "Автоматическая роботизированная речь на 50 языках",
     ],
-    notIncluded: [
-      "Одноразовые ссылки на колоды и папки",
-    ],
+    notIncluded: ["Одноразовые ссылки на колоды и папки"],
   },
   proPlanFeatures: {
     included: [
@@ -417,9 +415,7 @@ const es: Translation = {
       "Congelación de tarjetas para tomar un descanso",
       "Texto a voz robótico automático compatible con 50 idiomas",
     ],
-    notIncluded: [
-      "Enlaces de barajas y carpetas de un solo uso",
-    ],
+    notIncluded: ["Enlaces de barajas y carpetas de un solo uso"],
   },
   proPlanFeatures: {
     included: [
@@ -482,9 +478,7 @@ const ptBr: Translation = {
       "Congelamento de cartões para fazer uma pausa",
       "Texto para fala robótico automático suportando 50 idiomas",
     ],
-    notIncluded: [
-      "Links de baralhos e pastas de uso único",
-    ],
+    notIncluded: ["Links de baralhos e pastas de uso único"],
   },
   footer: {
     links: {
@@ -628,9 +622,7 @@ const uk: Translation = {
       "Заморожування карток для перерви",
       "Автоматичне роботизоване озвучування, що підтримує 50 мов",
     ],
-    notIncluded: [
-      "Одноразові посилання на колоди та папки",
-    ],
+    notIncluded: ["Одноразові посилання на колоди та папки"],
   },
   footer: {
     links: {

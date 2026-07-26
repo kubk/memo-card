@@ -12,7 +12,7 @@ import { screenStore } from "../../store/screen-store.ts";
 import { HintTransparent } from "../../ui/hint-transparent.tsx";
 import { t } from "../../translations/t.ts";
 import { Screen } from "../shared/screen.tsx";
-import { links } from "api";
+import { links, sharedProTitle } from "api";
 import { type PaidPlanType } from "api";
 import { List } from "../../ui/list.tsx";
 import { FilledIcon } from "../../ui/filled-icon.tsx";
@@ -45,7 +45,6 @@ import {
 } from "lucide-react";
 import { env } from "../../env.ts";
 import { erudaStore } from "../../store/eruda-store.ts";
-import { McpSettingsEntry } from "../mcp-settings/mcp-settings-entry.tsx";
 
 const timeRanges = generateTimeRange();
 type DevPlanOption = "none" | PaidPlanType;
@@ -90,7 +89,7 @@ export function UserSettingsScreen() {
           items={[
             {
               icon: <ProIcon />,
-              text: "MemoCard Plans",
+              text: sharedProTitle,
               onClick: () => {
                 screenStore.push({ type: "plans", planType: "pro" });
               },
@@ -289,8 +288,6 @@ export function UserSettingsScreen() {
           <HintTransparent>Admin actions</HintTransparent>
         </div>
       )}
-
-      {userStore.isPaid && <McpSettingsEntry />}
 
       <div className="mt-1">
         <List

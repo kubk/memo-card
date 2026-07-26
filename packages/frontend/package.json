@@ -28,6 +28,8 @@
     "country-flag-emoji-polyfill": "^0.1.8",
     "dompurify": "^3.0.9",
     "easy-speech": "^2.4.0",
+    "embla-carousel-autoplay": "^8.6.0",
+    "embla-carousel-react": "^8.6.0",
     "framer-motion": "^10.16.4",
     "lucide-react": "^0.479.0",
     "luxon": "^3.4.3",

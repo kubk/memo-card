@@ -128,9 +128,7 @@ export function DeckForm() {
                   />
                 ),
                 text: t("anki_import_entry_button"),
-                right: (
-                  <ChevronIcon direction="right" className="text-hint" />
-                ),
+                right: <ChevronIcon direction="right" className="text-hint" />,
                 onClick: () => {
                   screenStore.replace({ type: "ankiImport" });
                 },

@@ -61,8 +61,8 @@ describe("PlansScreenStore", () => {
     await when(() => store.hasLoadedPlans);
   }
 
-  it("starts with no selected payment method but displays USD durations", async () => {
-    const store = new PlansScreenStore("pro");
+  it("starts with a visible Pro upgrade button and no payment selection", async () => {
+    const store = new PlansScreenStore();
 
     await waitForPlans(store);
 
@@ -70,27 +70,27 @@ describe("PlansScreenStore", () => {
     expect(store.durationDisplayMethod).toBe(PaymentMethodType.Usd);
     expect(store.availablePlanDurations).toEqual([1, 6, 12]);
     expect(store.selectedPlanDuration.value).toBeNull();
-    expect(store.isBuyButtonVisible).toBe(false);
+    expect(store.isMainButtonVisible).toBe(true);
+    expect(store.isPaymentOptionsOpen).toBe(false);
   });
 
-  it("shows the buy button only after method and duration are selected", async () => {
-    const store = new PlansScreenStore("pro");
+  it("opens payment options with bank card and 1 month selected", async () => {
+    const store = new PlansScreenStore();
     await waitForPlans(store);
 
-    store.selectedPlanDuration.onChange(6);
+    store.openPaymentOptions();
 
-    expect(store.isBuyButtonVisible).toBe(false);
-
-    store.updateMethod(PaymentMethodType.Usd);
-
-    expect(store.isBuyButtonVisible).toBe(true);
+    expect(store.isPaymentOptionsOpen).toBe(true);
+    expect(store.method).toBe(PaymentMethodType.Usd);
+    expect(store.selectedPlanDuration.value).toBe(1);
+    expect(store.isMainButtonVisible).toBe(true);
   });
 
   it("creates a Stripe Checkout Session for USD payments", async () => {
     mocks.stripeOrderPlan.mockResolvedValue({
       checkoutUrl: "https://checkout.stripe.com/test",
     });
-    const store = new PlansScreenStore("pro");
+    const store = new PlansScreenStore();
     await waitForPlans(store);
     store.selectedPlanDuration.onChange(1);
     store.updateMethod(PaymentMethodType.Usd);
@@ -107,7 +107,7 @@ describe("PlansScreenStore", () => {
   });
 
   it("switches duration display to Stars without changing duration options", async () => {
-    const store = new PlansScreenStore("pro");
+    const store = new PlansScreenStore();
     await waitForPlans(store);
 
     store.updateMethod(PaymentMethodType.Stars);

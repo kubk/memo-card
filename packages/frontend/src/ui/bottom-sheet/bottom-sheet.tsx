@@ -18,6 +18,8 @@ type Props = {
   onClose: () => void;
   children: ReactNode;
   title: string;
+  background?: "primary" | "secondary";
+  headerSpacing?: "default" | "compact";
 };
 
 const BottomSheetPortalContext = createContext<HTMLElement | null>(null);
@@ -35,9 +37,6 @@ export function BottomSheetPortalProvider({
     </BottomSheetPortalContext.Provider>
   );
 }
-
-const titleClassName =
-  "w-full text-center text-xl relative self-center pt-2 pb-6";
 
 function BottomSheetTitleContent(props: {
   title: string;
@@ -63,9 +62,22 @@ function BottomSheetTitleContent(props: {
 }
 
 export function BottomSheet(props: Props) {
-  const { isOpen, onClose, children, title } = props;
+  const {
+    isOpen,
+    onClose,
+    children,
+    title,
+    background = "primary",
+    headerSpacing = "default",
+  } = props;
   const portalContainer = useContext(BottomSheetPortalContext);
   const isDesktop = platform instanceof BrowserPlatform && !platform.isMobile;
+  const backgroundClassName =
+    background === "secondary" ? "bg-secondary-bg" : "bg-bg";
+  const titleClassName = cn(
+    "relative w-full self-center pt-2 text-center text-xl",
+    headerSpacing === "compact" ? "pb-2" : "pb-6",
+  );
 
   useEffect(() => {
     if (!isDesktop) {
@@ -99,6 +111,7 @@ export function BottomSheet(props: Props) {
       >
         <DrawerContent
           className={cn(
+            backgroundClassName,
             platform instanceof TelegramPlatform && platform.isIos() && "pb-10",
           )}
           style={{
@@ -133,6 +146,7 @@ export function BottomSheet(props: Props) {
             transition={{ duration: 0.2, ease: "easeOut" }}
             className={cn(
               "pointer-events-auto shadow bg-bg p-5 rounded-[20px] h-fit max-w-2xl w-full",
+              backgroundClassName,
             )}
           >
             <h2 className={titleClassName}>

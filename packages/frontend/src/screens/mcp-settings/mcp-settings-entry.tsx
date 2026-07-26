@@ -32,7 +32,7 @@ export function McpSettingsEntry({
               screenStore.push(
                 userStore.isPaid
                   ? { type: "mcpSettings" }
-                : { type: "plans", planType: "pro" },
+                  : { type: "plans", planType: "pro" },
               );
             },
           },

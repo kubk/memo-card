@@ -5,10 +5,8 @@ import { platform } from "../../../lib/platform/platform.ts";
 import { TextField } from "mobx-form-lite";
 import {
   getPlanPrice,
-  calcUsdFromStars,
   isPlanDurationAvailable,
   planDurations,
-  type PaidPlanType,
   type PlanDuration,
 } from "api";
 import { assert } from "api";
@@ -17,19 +15,15 @@ import { api, apiProxy } from "../../../api/trpc-api.ts";
 import { makeQuery } from "../../../lib/mobx-query-lite/make-query.ts";
 import { makeMutation } from "../../../lib/mobx-query-lite/make-mutation.ts";
 
-export type PreviewItem = "reverse_cards";
-
 export class PlansScreenStore {
   plansQuery = makeQuery(apiProxy.plans.query);
   createOrderMutation = makeMutation(api.starsOrderPlan.mutate);
   createStripeOrderMutation = makeMutation(api.stripeOrderPlan.mutate);
   selectedPlanDuration = new TextField<PlanDuration | null>(null);
-  selectedPlanType: TextField<PaidPlanType>;
-  selectedPreviewPlanFeature?: PreviewItem;
   method: PaymentMethodType | null = null;
+  isPaymentOptionsOpen = false;
 
-  constructor(planType: PaidPlanType) {
-    this.selectedPlanType = new TextField(planType);
+  constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
   }
 
@@ -42,14 +36,7 @@ export class PlansScreenStore {
   }
 
   get selectedPlan() {
-    return (
-      this.plans.find((plan) => plan.type === this.selectedPlanType.value) ??
-      null
-    );
-  }
-
-  get isTeacherPlanSelected() {
-    return this.selectedPlan?.type === "teacher";
+    return this.plans.find((plan) => plan.type === "pro") ?? null;
   }
 
   get isUsdPaymentAvailable() {
@@ -78,10 +65,7 @@ export class PlansScreenStore {
     const selectedPlan = this.selectedPlan;
     if (!selectedPlan) return 0.2;
     const starsPrice = getPlanPrice(PaymentMethodType.Stars, selectedPlan, 1);
-    const starsToUsdApprox =
-      selectedPlan.type === "teacher"
-        ? calcUsdFromStars(starsPrice)
-        : starsPrice / 50;
+    const starsToUsdApprox = starsPrice / 50;
     const usdPrice = getPlanPrice(PaymentMethodType.Usd, selectedPlan, 1);
 
     const discount = (starsToUsdApprox - usdPrice) / starsToUsdApprox;
@@ -96,10 +80,15 @@ export class PlansScreenStore {
     );
   }
 
-  get isBuyButtonVisible() {
-    if (this.selectedPreviewPlanFeature) {
+  get isMainButtonVisible() {
+    if (!this.hasLoadedPlans || this.selectedPlan === null) {
       return false;
     }
+
+    if (!this.isPaymentOptionsOpen) {
+      return true;
+    }
+
     return this.method !== null && this.selectedPlanDuration.value !== null;
   }
 
@@ -176,14 +165,38 @@ export class PlansScreenStore {
     this.method = method;
   }
 
-  previewPlanFeature(previewItem: PreviewItem | undefined) {
-    if (previewItem === undefined) {
-      return;
+  openPaymentOptions() {
+    const selectedPlan = this.selectedPlan;
+    assert(selectedPlan);
+
+    if (this.method === null) {
+      this.method = selectedPlan.settings.paymentMethods.includes(
+        PaymentMethodType.Usd,
+      )
+        ? PaymentMethodType.Usd
+        : (selectedPlan.settings.paymentMethods[0] ?? null);
     }
-    this.selectedPreviewPlanFeature = previewItem;
+
+    if (this.selectedPlanDuration.value === null) {
+      const defaultDuration = this.availablePlanDurations.includes(1)
+        ? 1
+        : (this.availablePlanDurations[0] ?? null);
+      this.selectedPlanDuration.onChange(defaultDuration);
+    }
+
+    this.isPaymentOptionsOpen = true;
   }
 
-  quitPreviewPlanFeature() {
-    this.selectedPreviewPlanFeature = undefined;
+  closePaymentOptions() {
+    this.isPaymentOptionsOpen = false;
+  }
+
+  handleMainButtonClick() {
+    if (!this.isPaymentOptionsOpen) {
+      this.openPaymentOptions();
+      return;
+    }
+
+    return this.createOrder();
   }
 }

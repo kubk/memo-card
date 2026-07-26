@@ -3,7 +3,6 @@ import { type RouterOutput } from "api";
 import { type UserDbType } from "api";
 
 type MyInfoResponse = RouterOutput["me"]["info"];
-import { type PaidPlanType } from "api";
 import { isPaidPlanType } from "api";
 import { BooleanToggle } from "mobx-form-lite";
 import { persistableField } from "../lib/mobx-form-lite-persistable/persistable-field.ts";
@@ -104,18 +103,6 @@ class UserStore {
       return null;
     }
     return formatPaidUntil(this.plan.until_date || "") || undefined;
-  }
-
-  hasPaidPlan(planType: PaidPlanType) {
-    if (!this.plan) {
-      return false;
-    }
-
-    if (planType === "pro") {
-      return isPaidPlanType(this.plan.type);
-    }
-
-    return this.plan.type === planType;
   }
 
   updateSettings(body: Partial<UserDbType>) {

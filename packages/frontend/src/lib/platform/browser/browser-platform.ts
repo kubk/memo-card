@@ -25,6 +25,7 @@ export class BrowserPlatform implements Platform {
     text: string;
     onClick: () => void;
     condition?: () => boolean;
+    isAboveBottomSheet?: boolean;
   };
   isMainButtonLoading = new BooleanToggle(false);
   backButtonInfo?: {
@@ -98,11 +99,17 @@ export class BrowserPlatform implements Platform {
     };
   }
 
-  showMainButton(text: string, onClick: () => void, condition?: () => boolean) {
+  showMainButton(
+    text: string,
+    onClick: () => void,
+    condition?: () => boolean,
+    isAboveBottomSheet?: boolean,
+  ) {
     this.mainButtonInfo = {
       text,
       onClick,
       condition,
+      isAboveBottomSheet,
     };
   }
 
