@@ -1,11 +1,4 @@
-import {
-  Bell,
-  BookOpen,
-  Folder,
-  Headphones,
-  Pause,
-  PenTool,
-} from "lucide-react";
+import { Bell, BookOpen, Folder, Headphones, PenTool } from "lucide-react";
 import { LandingLanguage } from "api";
 
 const en = {
@@ -49,11 +42,6 @@ const en = {
         icon: Folder,
         title: "Quality Content",
         description: "Choose from a catalog of high-quality, pre-made decks.",
-      },
-      {
-        icon: Pause,
-        title: "Pause When Needed",
-        description: "Freeze cards when you need a break or are too busy.",
       },
       {
         icon: Headphones,
@@ -119,45 +107,11 @@ const en = {
       "No old creepy UI, MemoCard is already good looking",
     ],
   },
-  plans: {
-    title: "Available Plans",
-    free: "Free",
-    pro: "Pro · $4/mo",
-  },
-  freePlanFeatures: {
-    included: [
-      "Create unlimited decks, cards, and folders",
-      "Two types of cards - regular and with pre-made answer choices",
-      "Notifications about cards to review",
-      "Card formatting",
-      "Access to moderated high-quality deck catalog",
-      "Card freezing to take a break",
-      "Automatic robotic text-to-speech supporting 50 languages",
-    ],
-    notIncluded: ["One-time links for decks and folders"],
-  },
-  proPlanFeatures: {
-    included: [
-      "Create unlimited decks, cards, and folders",
-      "Two types of cards - regular and with pre-made answer choices",
-      "Notifications about cards to review",
-      "Card formatting",
-      "Access to moderated high-quality deck catalog",
-      "Card freezing to take a break",
-      "Automatic robotic text-to-speech supporting 50 languages",
-      "One-time links for decks and folders",
-    ],
-  },
 };
 
 export type Translation = typeof en;
 
 const ru: Translation = {
-  plans: {
-    title: "Доступные планы",
-    free: "Бесплатный",
-    pro: "Pro · $4/мес",
-  },
   what: {
     title: "Что такое MemoCard?",
     description: "A flashcard app and a website to improve your memory",
@@ -236,12 +190,6 @@ const ru: Translation = {
         description: "Выбирайте из каталога высококачественных готовых колод.",
       },
       {
-        icon: Pause,
-        title: "Пауза при необходимости",
-        description:
-          "Замораживайте карточки, когда нужен перерыв или вы заняты.",
-      },
-      {
         icon: Headphones,
         title: "Озвучивание текста",
         description:
@@ -268,38 +216,9 @@ const ru: Translation = {
     tryBrowser: "Запустить в браузере",
     tryTelegram: "Запустить в Telegram",
   },
-  freePlanFeatures: {
-    included: [
-      "Создавайте неограниченное количество колод, карточек и папок",
-      "Два типа карточек - обычные и с готовыми вариантами ответов",
-      "Уведомления о карточках для повторения",
-      "Форматирование карточек",
-      "Доступ к модерируемому каталогу качественных колод",
-      "Замораживание карточек для перерыва",
-      "Автоматическая роботизированная речь на 50 языках",
-    ],
-    notIncluded: ["Одноразовые ссылки на колоды и папки"],
-  },
-  proPlanFeatures: {
-    included: [
-      "Создавайте неограниченное количество колод, карточек и папок",
-      "Два типа карточек - обычные и с готовыми вариантами ответов",
-      "Уведомления о карточках для повторения",
-      "Форматирование карточек",
-      "Доступ к модерируемому каталогу качественных колод",
-      "Замораживание карточек для перерыва",
-      "Автоматическая роботизированная речь на 50 языках",
-      "Одноразовые ссылки на колоды и папки",
-    ],
-  },
 };
 
 const es: Translation = {
-  plans: {
-    title: "Planes disponibles",
-    free: "Gratis",
-    pro: "Pro · $4/mes",
-  },
   what: {
     title: "¿Qué es MemoCard?",
     description:
@@ -380,12 +299,6 @@ const es: Translation = {
         description: "Elige del catálogo de mazos pre-hechos de alta calidad.",
       },
       {
-        icon: Pause,
-        title: "Pausa cuando necesites",
-        description:
-          "Congela tarjetas cuando necesites un descanso o estés muy ocupado.",
-      },
-      {
         icon: Headphones,
         title: "Texto a voz",
         description:
@@ -405,30 +318,6 @@ const es: Translation = {
       },
     ],
   },
-  freePlanFeatures: {
-    included: [
-      "Crea un número ilimitado de barajas, tarjetas y carpetas",
-      "Dos tipos de tarjetas: normales y con opciones de respuesta predefinidas",
-      "Notificaciones sobre tarjetas para revisar",
-      "Formato de tarjetas",
-      "Acceso a un catálogo de barajas de alta calidad moderado",
-      "Congelación de tarjetas para tomar un descanso",
-      "Texto a voz robótico automático compatible con 50 idiomas",
-    ],
-    notIncluded: ["Enlaces de barajas y carpetas de un solo uso"],
-  },
-  proPlanFeatures: {
-    included: [
-      "Crea un número ilimitado de barajas, tarjetas y carpetas",
-      "Dos tipos de tarjetas: normales y con opciones de respuesta predefinidas",
-      "Notificaciones sobre tarjetas para revisar",
-      "Formato de tarjetas",
-      "Acceso a un catálogo de barajas de alta calidad moderado",
-      "Congelación de tarjetas para tomar un descanso",
-      "Texto a voz robótico automático compatible con 50 idiomas",
-      "Enlaces de barajas y carpetas de un solo uso",
-    ],
-  },
   hero: {
     title: "[Retén] lo que aprendes",
     description1: `En una hora, hasta el 60% de la información nueva puede escapar, y al final de una semana, solo queda alrededor del 10%.`,
@@ -439,27 +328,10 @@ const es: Translation = {
 };
 
 const ptBr: Translation = {
-  plans: {
-    title: "Planos disponíveis",
-    free: "Grátis",
-    pro: "Pro · $4/mês",
-  },
   what: {
     title: "O que é MemoCard?",
     description:
       "Uma aplicação de tarjetas flash e um site para melhorar sua memória",
-  },
-  proPlanFeatures: {
-    included: [
-      "Crie um número ilimitado de baralhos, cartões e pastas",
-      "Dois tipos de cartões - regulares e com opções de resposta pré-definidas",
-      "Notificações sobre cartões para revisão",
-      "Formato de cartões",
-      "Acesso a um catálogo de baralhos de alta qualidade moderado",
-      "Congelamento de cartões para fazer uma pausa",
-      "Texto para fala robótico automático suportando 50 idiomas",
-      "Links de baralhos e pastas de uso único",
-    ],
   },
   why: {
     awardWinningTitle: "Aplicativo premiado",
@@ -467,18 +339,6 @@ const ptBr: Translation = {
       "Ganhou um prêmio na competição mundial de mini aplicativos do Telegram",
     usersDescription: "Junte-se a milhares de usuários",
     usersTitle: "6000+ usuários ativos",
-  },
-  freePlanFeatures: {
-    included: [
-      "Crie um número ilimitado de baralhos, cartões e pastas",
-      "Dois tipos de cartões - regulares e com opções de resposta pré-definidas",
-      "Notificações sobre cartões para revisão",
-      "Formato de cartões",
-      "Acesso a um catálogo de baralhos de alta qualidade moderado",
-      "Congelamento de cartões para fazer uma pausa",
-      "Texto para fala robótico automático suportando 50 idiomas",
-    ],
-    notIncluded: ["Links de baralhos e pastas de uso único"],
   },
   footer: {
     links: {
@@ -549,12 +409,6 @@ const ptBr: Translation = {
           "Escolha do catálogo de baralhos prontos de alta qualidade.",
       },
       {
-        icon: Pause,
-        title: "Pause quando precisar",
-        description:
-          "Congele cartões quando precisar de uma pausa ou estiver ocupado.",
-      },
-      {
         icon: Headphones,
         title: "Texto para fala",
         description: "Aprenda palavras estrangeiras com pronúncia automática.",
@@ -583,27 +437,10 @@ const ptBr: Translation = {
 };
 
 const uk: Translation = {
-  plans: {
-    title: "Доступні плани",
-    free: "Безкоштовний",
-    pro: "Pro · $4/міс",
-  },
   what: {
     title: "Що таке MemoCard?",
     description:
       "Додаток і вебсайт для покращення пам’яті за допомогою флешкарт",
-  },
-  proPlanFeatures: {
-    included: [
-      "Створюйте необмежену кількість колод, карток та папок",
-      "Два типи карток - звичайні та з готовими варіантами відповідей",
-      "Сповіщення про картки для повторення",
-      "Форматування карток",
-      "Доступ до модерованого каталогу якісних колод",
-      "Заморожування карток для перерви",
-      "Автоматичне роботизоване озвучування, що підтримує 50 мов",
-      "Одноразові посилання на колоди та папки",
-    ],
   },
   why: {
     awardWinningTitle: "Нагороджений додаток",
@@ -611,18 +448,6 @@ const uk: Translation = {
       "Отримав приз на всесвітньому конкурсі міні-додатків Telegram",
     usersDescription: "Приєднуйтесь до тисяч користувачів",
     usersTitle: "6000+ активних користувачів",
-  },
-  freePlanFeatures: {
-    included: [
-      "Створюйте необмежену кількість колод, карток та папок",
-      "Два типи карток - звичайні та з готовими варіантами відповідей",
-      "Сповіщення про картки для повторення",
-      "Форматування карток",
-      "Доступ до модерованого каталогу якісних колод",
-      "Заморожування карток для перерви",
-      "Автоматичне роботизоване озвучування, що підтримує 50 мов",
-    ],
-    notIncluded: ["Одноразові посилання на колоди та папки"],
   },
   footer: {
     links: {
@@ -690,12 +515,6 @@ const uk: Translation = {
         icon: Folder,
         title: "Якісний контент",
         description: "Обирайте з каталогу високоякісних готових колод.",
-      },
-      {
-        icon: Pause,
-        title: "Пауза коли потрібно",
-        description:
-          "Заморожуйте картки, коли потрібна перерва або ви зайняті.",
       },
       {
         icon: Headphones,

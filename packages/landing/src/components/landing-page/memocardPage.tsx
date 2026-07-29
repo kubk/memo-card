@@ -14,7 +14,7 @@ import {
 import { getTranslation } from "@/shared/translations";
 import { LanguageSwitcher } from "./languageSwitcher";
 import { FeatureCard } from "./featureCard";
-import { PlanCard } from "./planCard";
+import { ProPlanSection } from "./proPlanSection";
 import { TryActionButton } from "./tryActionButton";
 import { renderHighlightedText } from "./renderHighlightedText";
 import { demoPreviews } from "./demoPreviews";
@@ -37,19 +37,22 @@ export function MemoCardPage(props: { language: LandingLanguage }) {
           WebkitBackdropFilter: "saturate(180%) blur(20px)",
         }}
       >
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center max-w-(--breakpoint-lg) lg:max-w-5xl xl:max-w-6xl">
+        <div className="container relative mx-auto flex max-w-(--breakpoint-lg) items-center justify-between px-4 py-4 lg:max-w-5xl xl:max-w-6xl">
           <div className="flex items-center">
             <div className="flex items-center font-semibold gap-2">
               <img src={"/logoI.png"} alt="MemoCard Logo" className="h-6" />
               <span>MemoCard</span>
             </div>
           </div>
-          <nav className="hidden md:flex space-x-6 -ml-[80px]">
+          <nav className="absolute left-1/2 hidden -translate-x-1/2 space-x-6 md:flex">
             <a href={links.botChannel} className="text font-semibold">
               Telegram
             </a>
             <a href={youtubeChannelLink} className="text font-semibold">
               YouTube
+            </a>
+            <a href="#pricing" className="text font-semibold">
+              Pro
             </a>
             <a href={links.github} className="text font-semibold">
               GitHub
@@ -132,43 +135,7 @@ export function MemoCardPage(props: { language: LandingLanguage }) {
         </div>
       </section>
 
-      <section>
-        <div className={"my-12 mt-14"}>
-          <TryActionButton translation={translation} />
-        </div>
-      </section>
-
-      <section className="max-w-(--breakpoint-lg) mx-auto lg:max-w-5xl xl:max-w-6xl mb-12">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold mb-8 text-center">
-            {translation.plans.title}
-          </h2>
-          <div className="grid md:grid-cols-2 gap-8">
-            <PlanCard
-              title={translation.plans.free}
-              features={translation.freePlanFeatures.included
-                .map((item) => ({
-                  included: true,
-                  text: item,
-                }))
-                .concat(
-                  translation.freePlanFeatures.notIncluded.map((item) => ({
-                    included: false,
-                    text: item,
-                  })),
-                )}
-            />
-            <PlanCard
-              title={translation.plans.pro}
-              features={translation.proPlanFeatures.included.map((item) => ({
-                included: true,
-                text: item,
-              }))}
-              isProPlan={true}
-            />
-          </div>
-        </div>
-      </section>
+      <ProPlanSection language={language} />
 
       <Footer translation={translation} />
     </div>
