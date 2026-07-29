@@ -373,6 +373,12 @@ importers:
         specifier: ^6.0.3
         version: 6.0.3
 
+  tools/detect-unused-methods:
+    dependencies:
+      typescript-api6:
+        specifier: workspace:*
+        version: link:../typescript-api6
+
   tools/typescript-api6:
     dependencies:
       typescript:

@@ -108,15 +108,7 @@ export function DeleteItemModalPlayground() {
       </PreviewFrame>
 
       {store.isOpen ? (
-        <DeleteItemModal
-          key={store.info.type}
-          store={
-            store satisfies Pick<
-              DeleteItemModalPlaygroundStore,
-              "form" | "info" | "infoError" | "isDeleting" | "close" | "submit"
-            >
-          }
-        />
+        <DeleteItemModal key={store.info.type} store={store} />
       ) : null}
 
       <PropsPanel>

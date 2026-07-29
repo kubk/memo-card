@@ -1,0 +1,12 @@
+{
+  "name": "detect-unused-methods",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test index.test.mjs"
+  },
+  "dependencies": {
+    "typescript-api6": "workspace:*"
+  }
+}
