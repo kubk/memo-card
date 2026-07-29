@@ -5,6 +5,7 @@ import { t } from "../../translations/t.ts";
 import { ButtonGrid } from "../../ui/button-grid.tsx";
 import { ButtonSideAligned } from "../../ui/button-side-aligned.tsx";
 import { Dropdown } from "../../ui/dropdown.tsx";
+import { deleteItemModalStore } from "./delete-item-modal-store.ts";
 import { shareMemoCardUrl } from "./share-memo-card-url.tsx";
 
 type Props = {
@@ -21,7 +22,10 @@ export function DeckActions({ deck, variant }: Props) {
   };
 
   const onDelete = () => {
-    deckListStore.removeDeck(deck);
+    deleteItemModalStore.open({
+      type: "deck",
+      deckId: deck.id,
+    });
   };
 
   if (!canShare && !canRemove) {

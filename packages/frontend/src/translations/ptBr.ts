@@ -174,12 +174,21 @@ export const ptBr: Translation = {
   cards_to_repeat: "Para repetir",
   cards_new: "Novos cartões",
   cards_total: "Total de cartões",
-  delete_deck_confirm_shared: "Excluir baralho da sua coleção?",
-  delete_folder_confirm_author:
-    "Excluir pasta do MemoCard? Esta ação não pode ser desfeita",
-  delete_folder_confirm_shared: "Excluir pasta da sua coleção?",
-  delete_deck_confirm_author:
-    "Excluir baralho do MemoCard? Esta ação não pode ser desfeita",
+  delete_item_title_deck: "Excluir este baralho?",
+  delete_item_description_deck: "Este baralho será removido da sua coleção",
+  delete_item_remove_for_others_deck:
+    "Remover este baralho também para outros usuários",
+  delete_item_other_users_deck: "Outros usuários que têm o mesmo baralho",
+  delete_item_public_catalog_deck:
+    "Remover este baralho também do catálogo público",
+  delete_item_title_folder: "Excluir esta pasta?",
+  delete_item_description_folder: "Esta pasta será removida da sua coleção",
+  delete_item_remove_for_others_folder:
+    "Remover esta pasta também para outros usuários",
+  delete_item_other_users_folder: "Outros usuários que têm a mesma pasta",
+  delete_item_public_catalog_folder:
+    "Remover esta pasta também do catálogo público",
+  delete_item_load_error: "Não foi possível carregar as opções de exclusão",
   delete: "Deletar",
   no_cards_to_review_in_deck: `Ótimo trabalho! 🌟 Você já revisou todos os cartões neste baralho por enquanto. Volte posteriormente para mais.`,
   no_cards_to_review_all: `Ótimo trabalho! 🌟 Você revisou todos os cartões para hoje. Volte posteriormente para mais.`,

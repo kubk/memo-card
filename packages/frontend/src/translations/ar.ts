@@ -124,12 +124,19 @@ export const ar: Translation = {
   cards_to_repeat: "للتكرار",
   cards_new: "بطاقات جديدة",
   cards_total: "إجمالي البطاقات",
-  delete_deck_confirm_shared: "إزالة المجموعة من مجموعتك؟",
-  delete_folder_confirm_shared: "إزالة المجلد من مجموعتك؟",
-  delete_deck_confirm_author:
-    "إزالة المجموعة من MemoCard؟ لا يمكن التراجع عن هذا الإجراء",
-  delete_folder_confirm_author:
-    "إزالة المجلد من MemoCard؟ لا يمكن التراجع عن هذا الإجراء",
+  delete_item_title_deck: "حذف هذه المجموعة؟",
+  delete_item_description_deck: "ستتم إزالة هذه المجموعة من مجموعتك",
+  delete_item_remove_for_others_deck:
+    "إزالة هذه المجموعة لدى المستخدمين الآخرين أيضًا",
+  delete_item_other_users_deck: "مستخدمون آخرون لديهم المجموعة نفسها",
+  delete_item_public_catalog_deck: "إزالة هذه المجموعة من الكتالوج العام أيضًا",
+  delete_item_title_folder: "حذف هذا المجلد؟",
+  delete_item_description_folder: "ستتم إزالة هذا المجلد من مجموعتك",
+  delete_item_remove_for_others_folder:
+    "إزالة هذا المجلد لدى المستخدمين الآخرين أيضًا",
+  delete_item_other_users_folder: "مستخدمون آخرون لديهم المجلد نفسه",
+  delete_item_public_catalog_folder: "إزالة هذا المجلد من الكتالوج العام أيضًا",
+  delete_item_load_error: "تعذر تحميل خيارات الحذف",
   deck_form_remove_card_confirm:
     "هل أنت متأكد أنك تريد إزالة البطاقة؟ ستفقد جميع مراجعات البطاقات من جميع المستخدمين",
   deck_form_remove_cards_confirm:

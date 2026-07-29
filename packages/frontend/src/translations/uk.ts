@@ -175,12 +175,21 @@ export const uk: Translation = {
   cards_to_repeat: "Повторити",
   cards_new: "Нові картки",
   cards_total: "Всього карток",
-  delete_deck_confirm_shared: "Видалити колоду з вашої колекції?",
-  delete_folder_confirm_shared: "Видалити папку з вашої колекції?",
-  delete_deck_confirm_author:
-    "Видалити колоду з MemoCard? Цю дію не можна скасувати",
-  delete_folder_confirm_author:
-    "Видалити папку з MemoCard? Цю дію не можна скасувати",
+  delete_item_title_deck: "Видалити цю колоду?",
+  delete_item_description_deck: "Цю колоду буде видалено з вашої колекції",
+  delete_item_remove_for_others_deck:
+    "Видалити цю колоду й в інших користувачів",
+  delete_item_other_users_deck: "Інші користувачі, у яких є ця колода",
+  delete_item_public_catalog_deck:
+    "Видалити цю колоду й із публічного каталогу",
+  delete_item_title_folder: "Видалити цю папку?",
+  delete_item_description_folder: "Цю папку буде видалено з вашої колекції",
+  delete_item_remove_for_others_folder:
+    "Видалити цю папку й в інших користувачів",
+  delete_item_other_users_folder: "Інші користувачі, у яких є ця папка",
+  delete_item_public_catalog_folder:
+    "Видалити цю папку й із публічного каталогу",
+  delete_item_load_error: "Не вдалося завантажити параметри видалення",
   delete: "Видалити",
   no_cards_to_review_in_deck:
     "Чудова робота! 🌟 Ви переглянули всі картки в цій колоді. Поверніться пізніше за більшим.",

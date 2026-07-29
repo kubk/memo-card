@@ -114,12 +114,20 @@ export const en = {
   cards_to_repeat: "To repeat",
   cards_new: "New cards",
   cards_total: "Total cards",
-  delete_deck_confirm_shared: "Remove deck from your collection?",
-  delete_folder_confirm_shared: "Remove folder from your collection?",
-  delete_deck_confirm_author:
-    "Remove deck from MemoCard? This action can't be undone",
-  delete_folder_confirm_author:
-    "Remove folder from MemoCard? This action can't be undone",
+  delete_item_title_deck: "Delete this deck?",
+  delete_item_description_deck: "Will be removed from your collection",
+  delete_item_remove_for_others_deck: "Remove this deck for other people too",
+  delete_item_other_users_deck: "Other users having the same deck",
+  delete_item_public_catalog_deck:
+    "Remove this deck from the public catalog too",
+  delete_item_title_folder: "Delete this folder?",
+  delete_item_description_folder: "Will be removed from your collection",
+  delete_item_remove_for_others_folder:
+    "Remove this folder for other people too",
+  delete_item_other_users_folder: "Other users having the same folder",
+  delete_item_public_catalog_folder:
+    "Remove this folder from the public catalog too",
+  delete_item_load_error: "Unable to load deletion options",
   deck_form_remove_card_confirm:
     "Are you sure you want to remove the card? All the card reviews from all the users will be lost",
   deck_form_remove_cards_confirm:

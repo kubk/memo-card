@@ -167,12 +167,23 @@ export const ru: Translation = {
   cards_to_repeat: "К повторению",
   cards_new: "Новые",
   cards_total: "Всего",
-  delete_deck_confirm_shared: "Удалить колоду из вашей коллекции?",
-  delete_folder_confirm_shared: "Удалить папку из вашей коллекции?",
-  delete_folder_confirm_author:
-    "Удалить папку из MemoCard? Это действие нельзя отменить",
-  delete_deck_confirm_author:
-    "Удалить колоду из MemoCard? Это действие нельзя отменить",
+  delete_item_title_deck: "Удалить эту колоду?",
+  delete_item_description_deck: "Колода будет удалена из коллекции",
+  delete_item_remove_for_others_deck:
+    "Удалить эту колоду и у других пользователей",
+  delete_item_other_users_deck:
+    "Другие пользователи, у которых есть эта колода",
+  delete_item_public_catalog_deck:
+    "Удалить эту колоду и из публичного каталога",
+  delete_item_title_folder: "Удалить эту папку?",
+  delete_item_description_folder: "Папка будет удалена из коллекции",
+  delete_item_remove_for_others_folder:
+    "Удалить эту папку и у других пользователей",
+  delete_item_other_users_folder:
+    "Другие пользователи, у которых есть эта папка",
+  delete_item_public_catalog_folder:
+    "Удалить эту папку и из публичного каталога",
+  delete_item_load_error: "Не удалось загрузить параметры удаления",
   delete: "Удалить",
   no_cards_to_review_in_deck: `Отличная работа! 🌟 Вы прошли все карточки в этой колоде. Возвращайтесь позже за новыми.`,
   no_cards_to_review_all: `Отличная работа! 🌟 Вы повторили все карточки на сегодня`,

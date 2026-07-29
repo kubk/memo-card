@@ -73,7 +73,7 @@ describe("DeckListStore", () => {
   });
 
   it("does not allow removing a public deck that has not been added", () => {
-    expect(deckListStore.canRemoveDeck({ id: 42, authorId: 2 })).toBe(false);
+    expect(deckListStore.canRemoveDeck({ id: 42 })).toBe(false);
   });
 
   it("allows removing a non-owned deck after it has been added", () => {
@@ -83,7 +83,7 @@ describe("DeckListStore", () => {
       publicDeck as MyInfoResponse["myDecks"][number],
     );
 
-    expect(deckListStore.canRemoveDeck({ id: 42, authorId: 2 })).toBe(true);
+    expect(deckListStore.canRemoveDeck({ id: 42 })).toBe(true);
   });
 
   it("allows folder removal only after it has been added", () => {
@@ -95,6 +95,7 @@ describe("DeckListStore", () => {
       folder_description: null,
       folder_author_id: 2,
       folder_share_id: "travel-folder",
+      folder_is_public: false,
       deck_id: null,
     });
 

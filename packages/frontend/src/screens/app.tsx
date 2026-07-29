@@ -52,6 +52,7 @@ import { SpeakingCards } from "./deck-form/deck-form/speaking-cards.tsx";
 import { AnkiImportScreen } from "./anki-import/anki-import-screen.tsx";
 import { userStore } from "../store/user-store.ts";
 import { RouteScreenContainer } from "../lib/react/route-screen-container.tsx";
+import { DeleteItemModalContainer } from "./shared/delete-item-modal.tsx";
 
 export function App() {
   useRestoreFullScreenExpand();
@@ -281,6 +282,7 @@ export function App() {
       <BrowserMainButton />
 
       <PaywallModals />
+      <DeleteItemModalContainer />
     </div>
   );
 }

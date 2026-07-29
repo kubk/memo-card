@@ -1,11 +1,4 @@
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-  type ReactNode,
-} from "react";
-import { createPortal } from "react-dom";
+import { useEffect, useState, type ReactNode } from "react";
 import {
   House,
   Languages,
@@ -27,7 +20,6 @@ import { isLanguage } from "../src/translations/t.ts";
 import { cn } from "../src/ui/cn.ts";
 import { theme } from "../src/ui/theme.tsx";
 import { ShadcnButton } from "../src/ui/shadcn/button.tsx";
-import { ShadcnCheckbox } from "../src/ui/shadcn/checkbox.tsx";
 import { ShadcnInput } from "../src/ui/shadcn/input.tsx";
 import { ShadcnLabel } from "../src/ui/shadcn/label.tsx";
 import {
@@ -48,6 +40,14 @@ import {
 } from "./catalog-stories.tsx";
 import { CatalogModals, type ModalStoryId } from "./modal-stories.tsx";
 import { ProPage } from "../src/screens/pro/pro-page.tsx";
+import { DeleteItemModalPlayground } from "./delete-item-modal/delete-item-modal-playground.tsx";
+import {
+  BooleanProp,
+  PreviewFrame,
+  PropGroup,
+  PropsPanel,
+  PropsPanelContext,
+} from "./playground-components.tsx";
 
 const PLAYGROUND_COMPONENTS = [
   {
@@ -81,6 +81,10 @@ const PLAYGROUND_COMPONENTS = [
     propsPanel: false,
   },
   {
+    id: "delete-modal",
+    label: "Delete modal",
+  },
+  {
     id: "chip",
     label: "Chip",
   },
@@ -111,7 +115,7 @@ const PLAYGROUND_HOME_SECTIONS = [
   },
   {
     label: "Feedback",
-    componentIds: ["snackbar", "modals", "progress-bar"],
+    componentIds: ["snackbar", "modals", "delete-modal", "progress-bar"],
   },
 ] as const satisfies ReadonlyArray<{
   label: string;
@@ -148,13 +152,6 @@ function getSelectedComponentId(): PlaygroundComponentId | null {
 
 function getSidebarOpen() {
   return window.localStorage.getItem(SIDEBAR_OPEN_STORAGE_KEY) !== "false";
-}
-
-const PropsPanelContext = createContext<HTMLDivElement | null>(null);
-
-function PropsPanel({ children }: { children: ReactNode }) {
-  const container = useContext(PropsPanelContext);
-  return container ? createPortal(children, container) : null;
 }
 
 export function Playground() {
@@ -449,6 +446,8 @@ function ComponentPreview({
       return <RadioListPlayground />;
     case "modals":
       return <ModalsPlayground />;
+    case "delete-modal":
+      return <DeleteItemModalPlayground />;
     case "chip":
       return <ChipPlayground />;
     case "badge":
@@ -502,33 +501,6 @@ function DeviceFrame({
   );
 }
 
-function PreviewFrame({ children }: { children: ReactNode }) {
-  return (
-    <div className="grid w-full max-w-[320px] place-items-center text-[var(--tg-theme-text-color)]">
-      {children}
-    </div>
-  );
-}
-
-function PropGroup({
-  children,
-  label,
-}: {
-  children: ReactNode;
-  label?: string;
-}) {
-  return (
-    <section className="border-t border-border py-[18px] first:border-t-0">
-      {label && (
-        <h3 className="mb-3.5 text-xs font-semibold text-muted-foreground">
-          {label}
-        </h3>
-      )}
-      <div className="space-y-3.5">{children}</div>
-    </section>
-  );
-}
-
 function TextProp({
   id,
   label,
@@ -547,29 +519,6 @@ function TextProp({
         id={id}
         value={value}
         onChange={(event) => onChange(event.target.value)}
-      />
-    </div>
-  );
-}
-
-function BooleanProp({
-  checked,
-  id,
-  label,
-  onCheckedChange,
-}: {
-  checked: boolean;
-  id: string;
-  label: string;
-  onCheckedChange: (checked: boolean) => void;
-}) {
-  return (
-    <div className="flex min-h-7 items-center justify-between gap-4">
-      <ShadcnLabel htmlFor={id}>{label}</ShadcnLabel>
-      <ShadcnCheckbox
-        id={id}
-        checked={checked}
-        onCheckedChange={(value) => onCheckedChange(value === true)}
       />
     </div>
   );

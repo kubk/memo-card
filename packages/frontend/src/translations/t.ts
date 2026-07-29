@@ -9,6 +9,8 @@ import { ar } from "./ar.ts";
 import { fa } from "./fa.ts";
 import { uk } from "./uk.ts";
 
+export type TranslationKey = keyof Translation;
+
 const translations = { en, ru, es, "pt-br": ptBr, ar, fa, uk };
 
 export const isLanguage = (lang?: string | null): lang is LanguageShared => {
@@ -27,6 +29,6 @@ export const translator = new Translator<LanguageShared, Translation>(
   },
 );
 
-export const t = (key: keyof Translation, defaultValue?: string) => {
+export const t = (key: TranslationKey, defaultValue?: string) => {
   return translator.translate(key, defaultValue);
 };

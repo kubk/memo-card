@@ -131,11 +131,17 @@ export const fa: Translation = {
   cards_to_repeat: "برای تکرار",
   cards_new: "کارت‌های جدید",
   cards_total: "کل کارت‌ها",
-  delete_deck_confirm_shared: "حذف دسته کارت از مجموعه شما؟",
-  delete_folder_confirm_shared: "حذف پوشه از مجموعه شما؟",
-  delete_deck_confirm_author:
-    "حذف دسته کارت از MemoCard؟ این عمل قابل برگشت نیست",
-  delete_folder_confirm_author: "حذف پوشه از MemoCard؟ این عمل قابل برگشت نیست",
+  delete_item_title_deck: "این دسته حذف شود؟",
+  delete_item_description_deck: "این دسته از مجموعه شما حذف می‌شود",
+  delete_item_remove_for_others_deck: "این دسته برای کاربران دیگر هم حذف شود",
+  delete_item_other_users_deck: "کاربران دیگری که همین دسته را دارند",
+  delete_item_public_catalog_deck: "این دسته از فهرست عمومی هم حذف شود",
+  delete_item_title_folder: "این پوشه حذف شود؟",
+  delete_item_description_folder: "این پوشه از مجموعه شما حذف می‌شود",
+  delete_item_remove_for_others_folder: "این پوشه برای کاربران دیگر هم حذف شود",
+  delete_item_other_users_folder: "کاربران دیگری که همین پوشه را دارند",
+  delete_item_public_catalog_folder: "این پوشه از فهرست عمومی هم حذف شود",
+  delete_item_load_error: "گزینه‌های حذف بارگیری نشد",
   deck_form_remove_card_confirm:
     "آیا مطمئن هستید که می‌خواهید کارت را حذف کنید؟ تمام بررسی‌های کارت از تمام کاربران از دست خواهد رفت",
   deck_form_remove_cards_confirm:

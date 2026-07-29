@@ -172,12 +172,21 @@ export const es: Translation = {
   cards_to_repeat: "Para repetir",
   cards_new: "Nuevas tarjetas",
   cards_total: "Total de tarjetas",
-  delete_deck_confirm_shared: "¿Eliminar el mazo de tu colección?",
-  delete_folder_confirm_author:
-    "¿Eliminar la carpeta de MemoCard? Esta acción no se puede deshacer",
-  delete_folder_confirm_shared: "¿Eliminar la carpeta de tu colección?",
-  delete_deck_confirm_author:
-    "¿Eliminar el mazo de MemoCard? Esta acción no se puede deshacer",
+  delete_item_title_deck: "¿Eliminar este mazo?",
+  delete_item_description_deck: "Este mazo se eliminará de tu colección",
+  delete_item_remove_for_others_deck:
+    "Eliminar este mazo también para otros usuarios",
+  delete_item_other_users_deck: "Otros usuarios que tienen el mismo mazo",
+  delete_item_public_catalog_deck:
+    "Eliminar este mazo también del catálogo público",
+  delete_item_title_folder: "¿Eliminar esta carpeta?",
+  delete_item_description_folder: "Esta carpeta se eliminará de tu colección",
+  delete_item_remove_for_others_folder:
+    "Eliminar esta carpeta también para otros usuarios",
+  delete_item_other_users_folder: "Otros usuarios que tienen la misma carpeta",
+  delete_item_public_catalog_folder:
+    "Eliminar esta carpeta también del catálogo público",
+  delete_item_load_error: "No se pudieron cargar las opciones de eliminación",
   delete: "Eliminar",
   no_cards_to_review_in_deck: `¡Increíble trabajo! 🌟 Has repasado todas las tarjetas en este mazo por ahora. Vuelve más tarde para más.`,
   no_cards_to_review_all: `¡Increíble trabajo! 🌟 Has repasado todas las tarjetas por hoy. Vuelve más tarde para más.`,

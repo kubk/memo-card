@@ -4,6 +4,7 @@ import { t } from "../../translations/t.ts";
 import { ButtonGrid } from "../../ui/button-grid.tsx";
 import { ButtonSideAligned } from "../../ui/button-side-aligned.tsx";
 import { Dropdown } from "../../ui/dropdown.tsx";
+import { deleteItemModalStore } from "./delete-item-modal-store.ts";
 import { shareMemoCardUrl } from "./share-memo-card-url.tsx";
 
 type FolderActionTarget = {
@@ -30,10 +31,10 @@ export function FolderActions({ folder, variant }: Props) {
   };
 
   const onDelete = () => {
-    const folderToRemove = deckListStore.searchFolderById(folder.id);
-    if (folderToRemove) {
-      deckListStore.deleteFolder(folderToRemove);
-    }
+    deleteItemModalStore.open({
+      type: "folder",
+      folderId: folder.id,
+    });
   };
 
   if (variant === "dropdown") {

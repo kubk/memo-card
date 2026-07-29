@@ -1,4 +1,4 @@
-import { action, makeAutoObservable, when } from "mobx";
+import { makeAutoObservable, when } from "mobx";
 import { appLoaderStore } from "./app-loader-store.ts";
 import { type RouterOutput } from "api";
 import { type DeckCardDbType, type DeckWithCardsDbType } from "api";
@@ -13,8 +13,6 @@ import {
 import { reportHandledError } from "../lib/rollbar/rollbar.tsx";
 import { BooleanToggle } from "mobx-form-lite";
 import { userStore } from "./user-store.ts";
-import { showConfirm } from "../lib/platform/show-confirm.ts";
-import { t } from "../translations/t.ts";
 import { platform } from "../lib/platform/platform.ts";
 import { type FolderWithDeckIdDbType } from "api";
 import { api } from "../api/trpc-api.ts";
@@ -253,8 +251,7 @@ class DeckListStore {
         folderDescription: folder.folder_description,
         folderAuthorId: folder.folder_author_id,
         folderShareId: folder.folder_share_id,
-        // Actually checked via user ownership
-        folderIsPublic: false,
+        folderIsPublic: folder.folder_is_public,
         decks: [],
       };
       const deck = myDecks.find((deck) => deck.id === folder.deck_id);
@@ -345,70 +342,6 @@ class DeckListStore {
     }, 0);
   }
 
-  async deleteFolder(folder: FolderWithDeckIdDbType) {
-    const isAuthor = folder.folder_author_id === userStore.myId;
-    const confirmMessage = isAuthor
-      ? t("delete_folder_confirm_author")
-      : t("delete_folder_confirm_shared");
-
-    const isConfirmed = await showConfirm(confirmMessage);
-    if (!isConfirmed) {
-      return;
-    }
-
-    platform.haptic("heavy");
-    appLoaderStore.enable();
-
-    api.folder.delete
-      .mutate({ folderId: folder.folder_id })
-      .then(() => api.me.info.query())
-      .then(
-        action((result) => {
-          if (!result) {
-            return;
-          }
-          this.setMyInfo(result);
-          screenStore.push({ type: "main" });
-        }),
-      )
-      .catch((e) => {
-        reportHandledError(`Unable to remove folder ${folder.folder_id}`, e);
-      })
-      .finally(appLoaderStore.disable);
-  }
-
-  async removeDeck(deck: Pick<DeckListDeck, "id" | "authorId">) {
-    const isAuthor = this.isDeckOwner(deck);
-    const confirmMessage = isAuthor
-      ? t("delete_deck_confirm_author")
-      : t("delete_deck_confirm_shared");
-
-    const isConfirmed = await showConfirm(confirmMessage);
-    if (!isConfirmed) {
-      return;
-    }
-
-    platform.haptic("heavy");
-    appLoaderStore.enable();
-
-    api.deck.removeFromMine
-      .mutate({ deckId: deck.id })
-      .then(() => api.me.info.query())
-      .then(
-        action((result) => {
-          if (!result) {
-            return;
-          }
-          this.setMyInfo(result);
-          screenStore.push({ type: "main" });
-        }),
-      )
-      .catch((e) => {
-        reportHandledError(`Unable to remove deck ${deck.id}`, e);
-      })
-      .finally(appLoaderStore.disable);
-  }
-
   updateFolders(body: FolderWithDeckIdDbType[]) {
     if (!this.myInfo) {
       return;
@@ -423,11 +356,6 @@ class DeckListStore {
     }
     this.myInfo.cardsToReview = body;
     this.myInfoQuery.setData(this.myInfo);
-  }
-
-  private setMyInfo(userData: MyInfoResponse) {
-    this.myInfoQuery.setData(userData);
-    userStore.setUser(userData.user, userData.plan);
   }
 
   async handleStartParam(startParam?: string) {
@@ -518,8 +446,8 @@ class DeckListStore {
     return deck.authorId === userStore.myId;
   }
 
-  canRemoveDeck(deck: Pick<DeckListDeck, "authorId" | "id">) {
-    return this.isDeckOwner(deck) || this.myDeckIds.includes(deck.id);
+  canRemoveDeck(deck: Pick<DeckListDeck, "id">) {
+    return this.myDeckIds.includes(deck.id);
   }
 
   deckIdsOwnedByMe() {
