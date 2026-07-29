@@ -55,17 +55,16 @@ class DeleteItemModalPlaygroundStore {
     return this.isDeletingToggle.value;
   }
 
-  get info(): LibraryItemDeletionInfo {
+  get infoQuery() {
     return {
-      ...getDeleteModalTarget(this.itemName),
-      canRemoveForOtherUsers: this.isOwner.value && this.isUsedByOthers.value,
-      canRemoveFromPublicCatalog: this.isOwner.value && this.isPublic.value,
-      otherUserCount: this.isUsedByOthers.value ? 3 : 0,
+      data: {
+        ...getDeleteModalTarget(this.itemName),
+        canRemoveForOtherUsers: this.isOwner.value && this.isUsedByOthers.value,
+        canRemoveFromPublicCatalog: this.isOwner.value && this.isPublic.value,
+        otherUserCount: this.isUsedByOthers.value ? 3 : 0,
+      } satisfies LibraryItemDeletionInfo,
+      isPending: false,
     };
-  }
-
-  get infoError() {
-    return null;
   }
 
   setItemName(itemName: "deck" | "folder") {
@@ -108,7 +107,7 @@ export function DeleteItemModalPlayground() {
       </PreviewFrame>
 
       {store.isOpen ? (
-        <DeleteItemModal key={store.info.type} store={store} />
+        <DeleteItemModal key={store.infoQuery.data.type} store={store} />
       ) : null}
 
       <PropsPanel>

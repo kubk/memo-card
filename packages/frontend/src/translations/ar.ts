@@ -136,7 +136,6 @@ export const ar: Translation = {
     "إزالة هذا المجلد لدى المستخدمين الآخرين أيضًا",
   delete_item_other_users_folder: "مستخدمون آخرون لديهم المجلد نفسه",
   delete_item_public_catalog_folder: "إزالة هذا المجلد من الكتالوج العام أيضًا",
-  delete_item_load_error: "تعذر تحميل خيارات الحذف",
   deck_form_remove_card_confirm:
     "هل أنت متأكد أنك تريد إزالة البطاقة؟ ستفقد جميع مراجعات البطاقات من جميع المستخدمين",
   deck_form_remove_cards_confirm:
@@ -219,12 +218,9 @@ export const ar: Translation = {
   teacher_stats_top_decks: "أفضل الرزم",
   teacher_stats_no_deck_activity: "لا يوجد نشاط بعد في الرزم لدى الطلاب.",
   teacher_stats_all_students: "كل الطلاب",
-  teacher_stats_students_load_error: "تعذر تحميل الطلاب.",
   teacher_stats_no_students: "لا يوجد طلاب بعد.",
   teacher_stats_all_decks: "كل الرزم",
-  teacher_stats_decks_load_error: "تعذر تحميل الرزم.",
   teacher_stats_no_shared_decks: "لم يضف الطلاب أي رزم من رزمك بعد.",
-  teacher_stats_load_error: "تعذر تحميل إحصاءات المعلم.",
   teacher_stats_see_all: "عرض الكل",
   teacher_stats_last_repeat: "آخر مراجعة",
   teacher_stats_decks: "الرزم",

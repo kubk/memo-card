@@ -52,14 +52,6 @@ export class DeleteItemModalStore {
     return !!this.form;
   }
 
-  get info() {
-    return this.infoQuery.data;
-  }
-
-  get infoError() {
-    return this.infoQuery.error;
-  }
-
   get isDeleting() {
     return this.deleteMutation.isPending;
   }
@@ -82,12 +74,7 @@ export class DeleteItemModalStore {
 
   async submit() {
     const form = this.form;
-    if (!form || this.isDeleting) {
-      return;
-    }
-
-    const info = this.info;
-    if (!info) {
+    if (!form || this.isDeleting || this.infoQuery.isPending) {
       return;
     }
 

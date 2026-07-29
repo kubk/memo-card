@@ -141,7 +141,6 @@ export const fa: Translation = {
   delete_item_remove_for_others_folder: "این پوشه برای کاربران دیگر هم حذف شود",
   delete_item_other_users_folder: "کاربران دیگری که همین پوشه را دارند",
   delete_item_public_catalog_folder: "این پوشه از فهرست عمومی هم حذف شود",
-  delete_item_load_error: "گزینه‌های حذف بارگیری نشد",
   deck_form_remove_card_confirm:
     "آیا مطمئن هستید که می‌خواهید کارت را حذف کنید؟ تمام بررسی‌های کارت از تمام کاربران از دست خواهد رفت",
   deck_form_remove_cards_confirm:
@@ -225,13 +224,10 @@ export const fa: Translation = {
   teacher_stats_no_deck_activity:
     "دسته‌هایی که دانش‌آموزان اضافه کرده‌اند هنوز فعالیتی ندارند.",
   teacher_stats_all_students: "همه دانش‌آموزان",
-  teacher_stats_students_load_error: "بارگذاری دانش‌آموزان ممکن نشد.",
   teacher_stats_no_students: "هنوز دانش‌آموزی نیست.",
   teacher_stats_all_decks: "همه دسته‌ها",
-  teacher_stats_decks_load_error: "بارگذاری دسته‌ها ممکن نشد.",
   teacher_stats_no_shared_decks:
     "دانش‌آموزان هنوز دسته‌های شما را اضافه نکرده‌اند.",
-  teacher_stats_load_error: "بارگذاری آمار معلم ممکن نشد.",
   teacher_stats_see_all: "نمایش همه",
   teacher_stats_last_repeat: "آخرین مرور",
   teacher_stats_decks: "دسته‌ها",

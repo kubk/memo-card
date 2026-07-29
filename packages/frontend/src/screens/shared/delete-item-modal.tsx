@@ -11,8 +11,10 @@ import {
 
 type DeleteItemModalViewStore = Pick<
   DeleteItemModalStore,
-  "form" | "info" | "infoError" | "isDeleting" | "close" | "submit"
->;
+  "form" | "isDeleting" | "close" | "submit"
+> & {
+  infoQuery: Pick<DeleteItemModalStore["infoQuery"], "data" | "isPending">;
+};
 
 const copyKeys = {
   deck: {
@@ -78,25 +80,7 @@ export function DeleteItemModal({
     return null;
   }
 
-  const info = store.info;
-  if (store.infoError) {
-    return (
-      <div className="fixed inset-0 z-confirm-alert grid place-items-center bg-black/50 p-4">
-        <div className="flex w-full max-w-[425px] flex-col gap-5 rounded-2xl bg-bg p-5 text-text shadow">
-          <h2 className="m-0 text-center text-xl font-semibold leading-snug">
-            {t("error")}
-          </h2>
-          <p className="m-0 text-sm leading-5 text-hint">
-            {t("delete_item_load_error")}
-          </p>
-          <Button type="button" outline onClick={store.close}>
-            {t("confirm_cancel")}
-          </Button>
-        </div>
-      </div>
-    );
-  }
-
+  const info = store.infoQuery.data;
   const keys = copyKeys[form.target.type];
   const hasDeleteOptions =
     info && (info.canRemoveForOtherUsers || info.canRemoveFromPublicCatalog);
@@ -154,7 +138,7 @@ export function DeleteItemModal({
           </Button>
           <Button
             type="button"
-            disabled={!info || store.isDeleting}
+            disabled={store.infoQuery.isPending || store.isDeleting}
             mainColor={theme.danger}
             onClick={store.submit}
           >

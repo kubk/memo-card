@@ -186,7 +186,6 @@ export const es: Translation = {
   delete_item_other_users_folder: "Otros usuarios que tienen la misma carpeta",
   delete_item_public_catalog_folder:
     "Eliminar esta carpeta también del catálogo público",
-  delete_item_load_error: "No se pudieron cargar las opciones de eliminación",
   delete: "Eliminar",
   no_cards_to_review_in_deck: `¡Increíble trabajo! 🌟 Has repasado todas las tarjetas en este mazo por ahora. Vuelve más tarde para más.`,
   no_cards_to_review_all: `¡Increíble trabajo! 🌟 Has repasado todas las tarjetas por hoy. Vuelve más tarde para más.`,
@@ -232,13 +231,9 @@ export const es: Translation = {
   teacher_stats_no_deck_activity:
     "Los mazos con estudiantes aún no tienen actividad.",
   teacher_stats_all_students: "Todos los estudiantes",
-  teacher_stats_students_load_error: "No se pudieron cargar los estudiantes.",
   teacher_stats_no_students: "Aún no hay estudiantes.",
   teacher_stats_all_decks: "Todos los mazos",
-  teacher_stats_decks_load_error: "No se pudieron cargar los mazos.",
   teacher_stats_no_shared_decks: "Aún no hay mazos con estudiantes.",
-  teacher_stats_load_error:
-    "No se pudieron cargar las estadísticas del profesor.",
   teacher_stats_see_all: "Ver todo",
   teacher_stats_last_repeat: "Último repaso",
   teacher_stats_decks: "Mazos",

@@ -84,9 +84,9 @@ export function CardList() {
     screenStore.back();
   });
 
-  useProgress(() => cardListStore.isInitialLoading);
+  useProgress(() => cardListStore.detailsQuery.isPending);
 
-  if (cardListStore.error) {
+  if (cardListStore.detailsQuery.error) {
     return <ErrorScreen />;
   }
 

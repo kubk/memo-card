@@ -189,7 +189,6 @@ export const uk: Translation = {
   delete_item_other_users_folder: "Інші користувачі, у яких є ця папка",
   delete_item_public_catalog_folder:
     "Видалити цю папку й із публічного каталогу",
-  delete_item_load_error: "Не вдалося завантажити параметри видалення",
   delete: "Видалити",
   no_cards_to_review_in_deck:
     "Чудова робота! 🌟 Ви переглянули всі картки в цій колоді. Поверніться пізніше за більшим.",
@@ -236,12 +235,9 @@ export const uk: Translation = {
   teacher_stats_top_decks: "Найкращі колоди",
   teacher_stats_no_deck_activity: "У колодах в учнів ще немає активності.",
   teacher_stats_all_students: "Усі учні",
-  teacher_stats_students_load_error: "Не вдалося завантажити учнів.",
   teacher_stats_no_students: "Учнів ще немає.",
   teacher_stats_all_decks: "Усі колоди",
-  teacher_stats_decks_load_error: "Не вдалося завантажити колоди.",
   teacher_stats_no_shared_decks: "Учні ще не додали ваші колоди.",
-  teacher_stats_load_error: "Не вдалося завантажити статистику вчителя.",
   teacher_stats_see_all: "Усі",
   teacher_stats_last_repeat: "Останнє повторення",
   teacher_stats_decks: "Колоди",

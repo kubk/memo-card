@@ -22,11 +22,11 @@ export function McpSettingsWizard() {
 function McpTokenSettings() {
   const store = useMcpSettingsStore();
 
-  if (store.isLoading) {
+  if (store.mcpTokenQuery.isPending) {
     return <FullScreenLoader />;
   }
 
-  if (store.hasLoadError || !store.connectionUrl) {
+  if (store.mcpTokenQuery.error || !store.connectionUrl) {
     return <McpTokenSettingsError />;
   }
 

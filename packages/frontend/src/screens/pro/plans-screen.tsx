@@ -23,6 +23,7 @@ import { FullScreenLoader } from "../../ui/full-screen-loader.tsx";
 import { Label } from "../../ui/label.tsx";
 import { RadioList } from "../../ui/radio-list/radio-list.tsx";
 import { Screen } from "../shared/screen.tsx";
+import { ErrorScreen } from "../error-screen/error-screen.tsx";
 import { IconTelegramStar } from "./icon-telegram-star.tsx";
 import { ProPage } from "./pro-page.tsx";
 import { PlansScreenStore } from "./store/plans-screen-store.ts";
@@ -48,8 +49,12 @@ export function PlansScreen() {
 
   useProgress(() => store.isCreatingOrder);
 
-  if (!store.hasLoadedPlans) {
+  if (store.plansQuery.isPending) {
     return <FullScreenLoader />;
+  }
+
+  if (!store.hasLoadedPlans) {
+    return <ErrorScreen />;
   }
 
   return (

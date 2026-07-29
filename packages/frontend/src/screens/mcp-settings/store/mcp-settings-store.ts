@@ -27,14 +27,6 @@ export class McpSettingsStore {
     return url.toString();
   }
 
-  get isLoading() {
-    return this.mcpTokenQuery.isPending;
-  }
-
-  get hasLoadError() {
-    return this.mcpTokenQuery.error !== null;
-  }
-
   get isConfigured() {
     return this.mcpTokenQuery.data?.status === "used";
   }

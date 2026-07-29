@@ -145,6 +145,10 @@ function EmptyBlock(props: { children: ReactNode }) {
   );
 }
 
+function LoadError() {
+  return <EmptyBlock>{t("error_contact_support")}</EmptyBlock>;
+}
+
 function ShortStat(props: {
   label: string;
   value: string | number;
@@ -363,8 +367,8 @@ function StudentListScreen() {
     <Screen title={t("teacher_stats_all_students")}>
       {studentsQuery.isPending ? (
         <ListLoading />
-      ) : studentsQuery.error && studentsQuery.items.length === 0 ? (
-        <EmptyBlock>{t("teacher_stats_students_load_error")}</EmptyBlock>
+      ) : studentsQuery.data === undefined ? (
+        <LoadError />
       ) : studentsQuery.items.length > 0 ? (
         <>
           <div className="flex flex-col gap-2">
@@ -399,8 +403,8 @@ function DeckListScreen() {
     <Screen title={t("teacher_stats_all_decks")}>
       {decksQuery.isPending ? (
         <ListLoading />
-      ) : decksQuery.error && decksQuery.items.length === 0 ? (
-        <EmptyBlock>{t("teacher_stats_decks_load_error")}</EmptyBlock>
+      ) : decksQuery.data === undefined ? (
+        <LoadError />
       ) : decksQuery.items.length > 0 ? (
         <>
           <div className="flex flex-col gap-2">
@@ -450,8 +454,8 @@ export function TeacherStatisticsScreen() {
     <Screen title="MemoCard Teacher">
       {teacherStatisticsQuery.isPending ? (
         <TeacherStatisticsLoading />
-      ) : teacherStatisticsQuery.error || !statistics ? (
-        <EmptyBlock>{t("teacher_stats_load_error")}</EmptyBlock>
+      ) : !statistics ? (
+        <LoadError />
       ) : (
         <TeacherStatisticsContent statistics={statistics} />
       )}

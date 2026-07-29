@@ -188,7 +188,6 @@ export const ptBr: Translation = {
   delete_item_other_users_folder: "Outros usuários que têm a mesma pasta",
   delete_item_public_catalog_folder:
     "Remover esta pasta também do catálogo público",
-  delete_item_load_error: "Não foi possível carregar as opções de exclusão",
   delete: "Deletar",
   no_cards_to_review_in_deck: `Ótimo trabalho! 🌟 Você já revisou todos os cartões neste baralho por enquanto. Volte posteriormente para mais.`,
   no_cards_to_review_all: `Ótimo trabalho! 🌟 Você revisou todos os cartões para hoje. Volte posteriormente para mais.`,
@@ -234,13 +233,9 @@ export const ptBr: Translation = {
   teacher_stats_no_deck_activity:
     "Os baralhos com alunos ainda não têm atividade.",
   teacher_stats_all_students: "Todos os alunos",
-  teacher_stats_students_load_error: "Não foi possível carregar os alunos.",
   teacher_stats_no_students: "Ainda não há alunos.",
   teacher_stats_all_decks: "Todos os baralhos",
-  teacher_stats_decks_load_error: "Não foi possível carregar os baralhos.",
   teacher_stats_no_shared_decks: "Ainda não há baralhos com alunos.",
-  teacher_stats_load_error:
-    "Não foi possível carregar as estatísticas do professor.",
   teacher_stats_see_all: "Ver tudo",
   teacher_stats_last_repeat: "Última revisão",
   teacher_stats_decks: "Baralhos",

@@ -21,7 +21,7 @@ export class CardListStore {
   isSelectionMode = new BooleanToggle(false);
   selectedCardIds = new Set<number>();
   moveToDeckStore = new MoveToDeckSelectorStore();
-  private detailsQuery;
+  detailsQuery;
   private deckId: number;
 
   constructor() {
@@ -42,14 +42,6 @@ export class CardListStore {
 
   get deck() {
     return this.detailsQuery.data ?? null;
-  }
-
-  get isInitialLoading() {
-    return this.detailsQuery.isPending;
-  }
-
-  get error() {
-    return this.detailsQuery.error;
   }
 
   get canEdit() {

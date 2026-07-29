@@ -302,8 +302,6 @@ export function UserStatisticsDailyScreen() {
     <Screen title={t("user_stats_daily_page")}>
       {dailyReviewsQuery.isPending ? (
         <StatisticsLoading />
-      ) : dailyReviewsQuery.error && days.length === 0 ? (
-        <StatisticsLoadError />
       ) : dailyReviewsQuery.data !== undefined ? (
         <>
           <List

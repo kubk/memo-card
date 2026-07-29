@@ -127,7 +127,6 @@ export const en = {
   delete_item_other_users_folder: "Other users having the same folder",
   delete_item_public_catalog_folder:
     "Remove this folder from the public catalog too",
-  delete_item_load_error: "Unable to load deletion options",
   deck_form_remove_card_confirm:
     "Are you sure you want to remove the card? All the card reviews from all the users will be lost",
   deck_form_remove_cards_confirm:
@@ -217,12 +216,9 @@ export const en = {
   teacher_stats_top_decks: "Top decks",
   teacher_stats_no_deck_activity: "Decks with students have no activity yet.",
   teacher_stats_all_students: "All students",
-  teacher_stats_students_load_error: "Unable to load students.",
   teacher_stats_no_students: "No students yet.",
   teacher_stats_all_decks: "All decks",
-  teacher_stats_decks_load_error: "Unable to load decks.",
   teacher_stats_no_shared_decks: "No decks with students yet.",
-  teacher_stats_load_error: "Unable to load teacher statistics.",
   teacher_stats_see_all: "See all",
   teacher_stats_last_repeat: "Last repeat",
   teacher_stats_decks: "Decks",
