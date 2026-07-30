@@ -137,7 +137,7 @@ export function MemoCardPage(props: { language: LandingLanguage }) {
 
       <ProPlanSection language={language} />
 
-      <Footer translation={translation} />
+      <Footer language={language} translation={translation} />
     </div>
   );
 }

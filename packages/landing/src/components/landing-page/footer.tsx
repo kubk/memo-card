@@ -1,9 +1,22 @@
 import { ExternalLink, Github, Mail, Youtube } from "lucide-react";
-import { links } from "api";
+import { LandingLanguage, links } from "api";
 import { Translation } from "@/shared/translations";
 
-export function Footer(props: { translation: Translation }) {
-  const { translation } = props;
+export function Footer({
+  language,
+  translation,
+}: {
+  language: LandingLanguage;
+  translation: Translation;
+}) {
+  const privacyPolicyHref =
+    language === LandingLanguage.ru
+      ? links.appBrowser + links.privacyPolicyRuPath
+      : links.privacyPolicy;
+  const termsOfServiceHref =
+    language === LandingLanguage.ru
+      ? links.appBrowser + links.tosRuPath
+      : links.termsOfService;
 
   const memoCardFooterLinks = {
     support: [
@@ -56,12 +69,12 @@ export function Footer(props: { translation: Translation }) {
       {
         icon: ExternalLink,
         text: translation.footer.links.privacyPolicy,
-        href: links.privacyPolicy,
+        href: privacyPolicyHref,
       },
       {
         icon: ExternalLink,
         text: translation.footer.links.termsOfService,
-        href: links.termsOfService,
+        href: termsOfServiceHref,
       },
     ],
   };
