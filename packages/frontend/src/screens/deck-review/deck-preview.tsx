@@ -43,9 +43,7 @@ export function DeckPreview(props: Props) {
     }
   };
 
-  useMainButton(t("review_deck"), onStart, () => store.canReview, [], {
-    forceHide: true,
-  });
+  useMainButton(t("review_deck"), onStart, () => store.canReview);
 
   if (store.detailsQuery.error) {
     return <ErrorScreen />;

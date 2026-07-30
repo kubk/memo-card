@@ -39,7 +39,6 @@ export type UseMainButtonType = (
   condition?: () => boolean,
   deps?: any[],
   options?: {
-    forceHide?: boolean;
     hasShineEffect?: boolean;
     isAboveBottomSheet?: boolean;
   },

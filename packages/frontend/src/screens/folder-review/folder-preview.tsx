@@ -41,8 +41,6 @@ export function FolderPreview(props: Props) {
       store.startReview(reviewStore);
     },
     () => store.isReviewVisible,
-    [],
-    { forceHide: true },
   );
 
   if (store.detailsQuery.error) {

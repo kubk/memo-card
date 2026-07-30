@@ -4,30 +4,6 @@ import { UseMainButtonType } from "../platform.ts";
 import { useEffect } from "react";
 import { getWebApp } from "./telegram-web-app.ts";
 
-// Track visible state to avoid flickering
-let isVisible = false;
-
-const hide = (forceHide = false) => {
-  if (
-    forceHide ||
-    (getWebApp().platform !== "ios" && getWebApp().platform !== "android")
-  ) {
-    getWebApp().MainButton.hide();
-    isVisible = false;
-    return;
-  }
-
-  // Avoid flickering of the Telegram main button
-  isVisible = false;
-  setTimeout(() => {
-    if (isVisible) {
-      return;
-    }
-    getWebApp().MainButton.hide();
-    isVisible = false;
-  }, 100);
-};
-
 export const useMainButtonTelegram: UseMainButtonType = (
   text,
   onClick,
@@ -36,8 +12,7 @@ export const useMainButtonTelegram: UseMainButtonType = (
   options,
 ) => {
   const hideMainButton = () => {
-    // Some transitions need an immediate hide to avoid Telegram button flicker.
-    hide(!!options?.forceHide);
+    getWebApp().MainButton.hide();
     getWebApp().MainButton.offClick(onClick);
     getWebApp().MainButton.hideProgress();
   };
@@ -49,7 +24,6 @@ export const useMainButtonTelegram: UseMainButtonType = (
         return;
       }
 
-      isVisible = true;
       getWebApp().MainButton.show();
       getWebApp().MainButton.setText(typeof text === "string" ? text : text());
       getWebApp().MainButton.onClick(onClick);
