@@ -2,7 +2,6 @@ import ReactDOM from "react-dom/client";
 import { App } from "./screens/app.tsx";
 import "./index.css";
 import { platform } from "./lib/platform/platform.ts";
-import { erudaStore } from "./store/eruda-store.ts";
 import { polyfillCountryFlagEmojis } from "country-flag-emoji-polyfill";
 import { Settings } from "luxon";
 
@@ -15,7 +14,6 @@ if (import.meta.env.DEV) {
 }
 
 platform.initialize();
-erudaStore.load();
 
 Settings.throwOnInvalid = false;
 

@@ -7,6 +7,7 @@ import {
   bottomNavigationStore,
   type BottomNavigationTab,
 } from "../store/bottom-navigation-store.ts";
+import { useDevMenuReveal } from "../screens/dev-menu/use-dev-menu-reveal.tsx";
 import { t, type TranslationKey } from "../translations/t.ts";
 import { cn } from "./cn.ts";
 
@@ -92,18 +93,25 @@ export function BottomNavigationView({
 export function BottomNavigation({ children }: { children: ReactNode }) {
   const activeTab = bottomNavigationStore.activeTab;
   const isVisible = bottomNavigationStore.isVisible && activeTab !== null;
+  const { handleMainTap, devMenu } = useDevMenuReveal();
+
+  function handleSelect(tab: BottomNavigationTab) {
+    if (tab === "main") {
+      handleMainTap();
+    }
+
+    bottomNavigationStore.navigate(tab);
+  }
 
   return (
     <div className="absolute inset-0 flex flex-col">
       <div className="relative min-h-0 flex-1">{children}</div>
       {isVisible ? (
         <div className="z-30 shrink-0 border-t border-black/[0.12] bg-[#f2f2f2] pb-[var(--tg-safe-area-inset-bottom,0px)] dark:border-white/[0.12] dark:bg-bg">
-          <BottomNavigationView
-            activeTab={activeTab}
-            onSelect={bottomNavigationStore.navigate}
-          />
+          <BottomNavigationView activeTab={activeTab} onSelect={handleSelect} />
         </div>
       ) : null}
+      {devMenu}
     </div>
   );
 }

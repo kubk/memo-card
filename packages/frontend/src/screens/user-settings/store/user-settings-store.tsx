@@ -20,7 +20,6 @@ import { platform } from "../../../lib/platform/platform.ts";
 import { BrowserPlatform } from "../../../lib/platform/browser/browser-platform.ts";
 import { LanguageShared } from "api";
 import { api } from "../../../api/trpc-api.ts";
-import { type PaidPlanType } from "api";
 
 const DEFAULT_TIME = "12:00";
 
@@ -33,7 +32,6 @@ export class UserSettingsStore {
   };
   userSettingsMutation = makeMutation(api.userSettings.mutate);
   deleteAccountMutation = makeMutation(api.me.deleteAccount.mutate);
-  setDevPlanMutation = makeMutation(api.setDevPlan.mutate);
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
@@ -116,20 +114,5 @@ export class UserSettingsStore {
     formUnTouchAll(this.form);
 
     notifySuccess(t("user_settings_updated"));
-  }
-
-  async setDevPlan(planType: PaidPlanType | null) {
-    const result = await this.setDevPlanMutation.mutateResult({ planType });
-
-    if (!result.ok) {
-      notifyError({ e: result.error, info: "Failed to update paid status" });
-      return;
-    }
-
-    userStore.setActivePlan(result.data.plan);
-
-    notifySuccess(
-      planType ? `Plan set to ${planType}` : "Paid status disabled",
-    );
   }
 }

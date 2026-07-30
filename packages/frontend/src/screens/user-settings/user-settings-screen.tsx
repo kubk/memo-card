@@ -13,7 +13,6 @@ import { HintTransparent } from "../../ui/hint-transparent.tsx";
 import { t } from "../../translations/t.ts";
 import { Screen } from "../shared/screen.tsx";
 import { links, sharedProTitle } from "api";
-import { type PaidPlanType } from "api";
 import { List } from "../../ui/list.tsx";
 import { FilledIcon } from "../../ui/filled-icon.tsx";
 import { boolNarrow } from "../../lib/typescript/bool-narrow.ts";
@@ -37,23 +36,10 @@ import {
   LogOutIcon,
   UserXIcon,
   LanguagesIcon,
-  FastForwardIcon,
   InfoIcon,
-  BugIcon,
-  DollarSignIcon,
-  TerminalIcon,
 } from "lucide-react";
-import { env } from "../../env.ts";
-import { erudaStore } from "../../store/eruda-store.ts";
 
 const timeRanges = generateTimeRange();
-type DevPlanOption = "none" | PaidPlanType;
-
-const devPlanOptions: Array<{ value: DevPlanOption; label: string }> = [
-  { value: "none", label: "Not paid" },
-  { value: "pro", label: "Pro" },
-  { value: "teacher", label: "Teacher" },
-];
 
 export function UserSettingsScreen() {
   const userSettingsStore = useUserSettingsStore();
@@ -81,10 +67,6 @@ export function UserSettingsScreen() {
 
   const { isRemindNotifyEnabled, isSpeakingCardsEnabled, time, language } =
     userSettingsStore.form;
-  const devPlanValue: DevPlanOption =
-    userStore.plan?.type === "pro" || userStore.plan?.type === "teacher"
-      ? userStore.plan.type
-      : "none";
 
   return (
     <Screen title={t("settings")}>
@@ -212,86 +194,6 @@ export function UserSettingsScreen() {
 
         <HintTransparent>{t("card_speak_description")}</HintTransparent>
       </div>
-
-      {(env.VITE_STAGE === "local" || env.VITE_STAGE === "staging") && (
-        <div className="mt-1">
-          <List
-            animateTap={false}
-            items={[
-              {
-                icon: (
-                  <FilledIcon
-                    backgroundColor={theme.orange}
-                    icon={<FastForwardIcon size={18} />}
-                  />
-                ),
-                right: (
-                  <span className="relative top-[3px]">
-                    <RadioSwitcher
-                      isOn={userStore.isSkipReview.value}
-                      onToggle={userStore.isSkipReview.toggle}
-                    />
-                  </span>
-                ),
-                text: "Skip review",
-              },
-              {
-                icon: (
-                  <FilledIcon
-                    backgroundColor={theme.orange}
-                    icon={<DollarSignIcon size={18} />}
-                  />
-                ),
-                right: (
-                  <div className="text-link">
-                    <Select
-                      value={devPlanValue}
-                      onChange={(value) => {
-                        userSettingsStore.setDevPlan(
-                          value === "none" ? null : value,
-                        );
-                      }}
-                      options={devPlanOptions}
-                    />
-                  </div>
-                ),
-                text: "Plan",
-              },
-              {
-                icon: (
-                  <FilledIcon
-                    backgroundColor={theme.orange}
-                    icon={<TerminalIcon size={18} />}
-                  />
-                ),
-                right: (
-                  <span className="relative top-[3px]">
-                    <RadioSwitcher
-                      isOn={erudaStore.isEnabled.value}
-                      onToggle={erudaStore.isEnabled.toggle}
-                    />
-                  </span>
-                ),
-                text: "Eruda console",
-              },
-              {
-                icon: (
-                  <FilledIcon
-                    backgroundColor={theme.orange}
-                    icon={<BugIcon size={18} />}
-                  />
-                ),
-                text: "Debug",
-                onClick: () => {
-                  screenStore.push({ type: "debug" });
-                },
-              },
-            ]}
-          />
-
-          <HintTransparent>Admin actions</HintTransparent>
-        </div>
-      )}
 
       <div className="mt-1">
         <List

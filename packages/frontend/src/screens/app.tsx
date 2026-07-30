@@ -25,7 +25,8 @@ import {
   UserStatisticsDailyScreen,
   UserStatisticsScreen,
 } from "./user-statistics/user-statistics-screen.tsx";
-import { UserSettingsLazy } from "./user-settings/user-settings-lazy.tsx";
+import { UserSettingsStoreProvider } from "./user-settings/store/user-settings-store-context.tsx";
+import { UserSettingsScreen } from "./user-settings/user-settings-screen.tsx";
 import { McpSettingsWizard } from "./mcp-settings/mcp-settings-wizard.tsx";
 import {
   TeacherStatisticsLazy,
@@ -207,7 +208,9 @@ export function App() {
           {screenStore.screen.type === "userSettings" && (
             <SignedIn>
               <PreventTelegramSwipeDownClosingIos>
-                <UserSettingsLazy />
+                <UserSettingsStoreProvider>
+                  <UserSettingsScreen />
+                </UserSettingsStoreProvider>
               </PreventTelegramSwipeDownClosingIos>
             </SignedIn>
           )}
