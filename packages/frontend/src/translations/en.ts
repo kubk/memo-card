@@ -1,4 +1,14 @@
 export const en = {
+  navigation_main: "Main",
+  navigation_review: "Review",
+  leaderboard: "Leaderboard",
+  leaderboard_this_week: "This week",
+  leaderboard_your_position: "Your position",
+  leaderboard_not_ranked: "Not ranked yet",
+  leaderboard_join: "Review one card to join this week",
+  leaderboard_of: "of",
+  leaderboard_first: "You are first this week",
+  leaderboard_empty: "No reviews this week",
   logout: "Logout",
   error_contact_support:
     "An error occurred. Please contact support so we can help you.",

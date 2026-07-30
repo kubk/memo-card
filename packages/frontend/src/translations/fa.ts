@@ -1,6 +1,16 @@
 import { type Translation } from "./en";
 
 export const fa: Translation = {
+  navigation_main: "خانه",
+  navigation_review: "مرور",
+  leaderboard: "جدول رتبه بندی",
+  leaderboard_this_week: "این هفته",
+  leaderboard_your_position: "جایگاه شما",
+  leaderboard_not_ranked: "هنوز رتبه ندارید",
+  leaderboard_join: "برای پیوستن این هفته یک کارت را مرور کنید",
+  leaderboard_of: "از",
+  leaderboard_first: "این هفته نفر اول هستید",
+  leaderboard_empty: "این هفته هنوز مروری انجام نشده",
   voice_type_browser: "صدای مرورگر",
   voice_type_browser_description: "از صدای موجود در دستگاه شما استفاده می‌کند",
   voice_type_none: "هیچ",

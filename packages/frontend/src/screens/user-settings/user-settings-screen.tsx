@@ -64,7 +64,11 @@ export function UserSettingsScreen() {
     userSettingsStore.load();
   }, [userSettingsStore, screen.index]);
 
-  useMainButton(t("save"), () => userSettingsStore.submit());
+  useMainButton(
+    t("save"),
+    () => userSettingsStore.submit(),
+    () => userSettingsStore.isDirty,
+  );
 
   useBackButton(() => {
     screenStore.back();

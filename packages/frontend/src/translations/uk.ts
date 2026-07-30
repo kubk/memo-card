@@ -1,6 +1,16 @@
 import { type Translation } from "./en";
 
 export const uk: Translation = {
+  navigation_main: "Головна",
+  navigation_review: "Повторення",
+  leaderboard: "Рейтинг",
+  leaderboard_this_week: "Цього тижня",
+  leaderboard_your_position: "Ваша позиція",
+  leaderboard_not_ranked: "Поки без місця",
+  leaderboard_join: "Повторіть одну картку, щоб увійти до рейтингу",
+  leaderboard_of: "з",
+  leaderboard_first: "Ви на першому місці цього тижня",
+  leaderboard_empty: "Цього тижня ще немає повторень",
   voice_type_browser: "Голос браузера",
   voice_type_browser_description:
     "Використовує голос, доступний на вашому пристрої",

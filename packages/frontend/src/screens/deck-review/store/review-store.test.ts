@@ -84,6 +84,7 @@ const newCardsMock: DeckCardDbTypeWithType[] = [
 ];
 
 const reviewCardsReviewMock = vi.hoisted(() => vi.fn());
+const leaderboardInvalidateMock = vi.hoisted(() => vi.fn());
 
 vi.mock("../../../api/trpc-api.ts", () => {
   return {
@@ -95,6 +96,14 @@ vi.mock("../../../api/trpc-api.ts", () => {
     },
   };
 });
+
+vi.mock("../../leaderboard/leaderboard-store.ts", () => ({
+  leaderboardStore: {
+    leaderboardQuery: {
+      invalidate: leaderboardInvalidateMock,
+    },
+  },
+}));
 
 vi.mock("./../store/deck-list-store.ts", () => {
   return {
@@ -172,6 +181,7 @@ describe("card form store", () => {
     await when(() => !reviewStore.reviewCardsInProgressMutation.isPending);
 
     expect(reviewCardsReviewMock).toHaveBeenCalledTimes(1);
+    expect(leaderboardInvalidateMock).toHaveBeenCalledTimes(1);
     expect(reviewStore.sentResult).toEqual({
       hardIds: [1, 2, 3],
       neverIds: [],
@@ -226,6 +236,7 @@ describe("card form store", () => {
     expect(reviewCardsReviewMock.mock.calls[1]?.[0].cards).toEqual([
       { id: 4, outcome: "hard" },
     ]);
+    expect(leaderboardInvalidateMock).toHaveBeenCalledTimes(2);
     expect(onReviewSuccess).toHaveBeenCalledTimes(1);
   });
 

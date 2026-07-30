@@ -20,6 +20,7 @@ export type PlatformTheme = {
 };
 
 export interface Platform {
+  readonly isMainButtonVisible: boolean;
   initialize(): void;
   getInitData(): string | null;
   openExternalLink(link: string): void;

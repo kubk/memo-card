@@ -22,6 +22,7 @@ import { theme } from "../src/ui/theme.tsx";
 import { ShadcnButton } from "../src/ui/shadcn/button.tsx";
 import { ShadcnInput } from "../src/ui/shadcn/input.tsx";
 import { ShadcnLabel } from "../src/ui/shadcn/label.tsx";
+import { Tabs, TabsList, TabsTrigger } from "../src/ui/shadcn/tabs.tsx";
 import {
   ShadcnSelect,
   ShadcnSelectContent,
@@ -41,6 +42,8 @@ import {
 import { CatalogModals, type ModalStoryId } from "./modal-stories.tsx";
 import { ProPage } from "../src/screens/pro/pro-page.tsx";
 import { DeleteItemModalPlayground } from "./delete-item-modal/delete-item-modal-playground.tsx";
+import { BottomNavigationPlayground } from "./bottom-navigation-playground.tsx";
+import { LeaderboardPlayground } from "./leaderboard-playground.tsx";
 import {
   BooleanProp,
   PreviewFrame,
@@ -50,6 +53,15 @@ import {
 } from "./playground-components.tsx";
 
 const PLAYGROUND_COMPONENTS = [
+  {
+    id: "leaderboard",
+    label: "Leaderboard",
+  },
+  {
+    id: "bottom-navigation",
+    label: "Bottom navigation",
+    propsPanel: false,
+  },
   {
     id: "pro-page",
     label: "Pro page",
@@ -103,7 +115,7 @@ type PlaygroundComponentId = (typeof PLAYGROUND_COMPONENTS)[number]["id"];
 const PLAYGROUND_HOME_SECTIONS = [
   {
     label: "Screens",
-    componentIds: ["pro-page"],
+    componentIds: ["leaderboard", "bottom-navigation", "pro-page"],
   },
   {
     label: "Controls",
@@ -138,6 +150,10 @@ const DEVICES = [
 ] as const;
 
 type DeviceId = (typeof DEVICES)[number]["id"];
+
+function isDeviceId(value: string): value is DeviceId {
+  return DEVICES.some((device) => device.id === value);
+}
 
 function isPlaygroundComponentId(
   value: string | null,
@@ -315,23 +331,27 @@ export function Playground() {
           >
             <PanelLeft size={17} />
           </ShadcnButton>
-          <div className="inline-flex h-9 w-fit items-center justify-center rounded-lg bg-muted p-1 text-muted-foreground">
-            {DEVICES.map((device) => (
-              <button
-                type="button"
-                key={device.id}
-                title={device.label}
-                className={cn(
-                  "inline-flex h-7 items-center justify-center rounded-md px-2.5 transition-[color,box-shadow,background-color]",
-                  deviceId === device.id &&
-                    "bg-background text-foreground shadow-sm",
-                )}
-                onClick={() => setDeviceId(device.id)}
-              >
-                <device.icon size={16} />
-              </button>
-            ))}
-          </div>
+          <Tabs
+            value={deviceId}
+            onValueChange={(value) => {
+              if (isDeviceId(value)) {
+                setDeviceId(value);
+              }
+            }}
+          >
+            <TabsList>
+              {DEVICES.map((device) => (
+                <TabsTrigger
+                  className="h-7 px-2.5"
+                  key={device.id}
+                  title={device.label}
+                  value={device.id}
+                >
+                  <device.icon size={16} />
+                </TabsTrigger>
+              ))}
+            </TabsList>
+          </Tabs>
         </header>
 
         <main
@@ -428,6 +448,10 @@ function ComponentPreview({
   componentId: PlaygroundComponentId;
 }) {
   switch (componentId) {
+    case "leaderboard":
+      return <LeaderboardPlayground />;
+    case "bottom-navigation":
+      return <BottomNavigationPlayground />;
     case "pro-page":
       return (
         <div className="h-full w-full overflow-y-auto">

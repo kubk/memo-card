@@ -1,6 +1,16 @@
 import { type Translation } from "./en";
 
 export const ru: Translation = {
+  navigation_main: "Главная",
+  navigation_review: "Повторение",
+  leaderboard: "Рейтинг",
+  leaderboard_this_week: "На этой неделе",
+  leaderboard_your_position: "Ваша позиция",
+  leaderboard_not_ranked: "Пока без места",
+  leaderboard_join: "Повторите одну карточку, чтобы войти в рейтинг",
+  leaderboard_of: "из",
+  leaderboard_first: "Вы на первом месте на этой неделе",
+  leaderboard_empty: "На этой неделе пока нет повторений",
   settings_lang: "Язык",
   copy_code: "Скопировать код",
   copied: "Скопировано",

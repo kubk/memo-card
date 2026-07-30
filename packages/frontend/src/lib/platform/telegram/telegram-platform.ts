@@ -4,7 +4,7 @@ import {
   cssVariablesLight,
 } from "../browser/browser-colors.ts";
 import { PlatformSchemaType } from "api";
-import { makeObservable, observable, action } from "mobx";
+import { makeObservable, observable, action, computed } from "mobx";
 import { LanguageShared } from "api";
 import { getWebApp } from "./telegram-web-app.ts";
 import { cloudStorageAdapter } from "./cloud-storage.ts";
@@ -17,11 +17,17 @@ const appBackgroundColorVariable = "--tg-theme-secondary-bg-color";
 export class TelegramPlatform implements Platform {
   isFullScreen = this.calcIsFullScreen();
   languageCached: LanguageShared | null = null;
+  isMainButtonRegistered = false;
+  mainButtonCondition?: () => boolean;
 
   constructor() {
     makeObservable(this, {
       isFullScreen: observable,
       languageCached: observable,
+      isMainButtonRegistered: observable,
+      isMainButtonVisible: computed,
+      registerMainButton: action,
+      unregisterMainButton: action,
     });
 
     if (!this.isCloudStorageAvailable()) {
@@ -39,6 +45,23 @@ export class TelegramPlatform implements Platform {
       }
       this.languageCached = languageCached;
     });
+  }
+
+  get isMainButtonVisible() {
+    return (
+      this.isMainButtonRegistered &&
+      (this.mainButtonCondition === undefined || this.mainButtonCondition())
+    );
+  }
+
+  registerMainButton(condition?: () => boolean) {
+    this.mainButtonCondition = condition;
+    this.isMainButtonRegistered = true;
+  }
+
+  unregisterMainButton() {
+    this.isMainButtonRegistered = false;
+    this.mainButtonCondition = undefined;
   }
 
   getInitData(): string {

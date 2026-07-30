@@ -1,5 +1,5 @@
-import { ReactNode } from "react";
-import { Tabs, TabsList, TabsTrigger } from "./tabs";
+import { type ReactNode } from "react";
+import { Tabs, TabsList, TabsTrigger } from "./shadcn/tabs.tsx";
 import { userStore } from "../store/user-store";
 import { cn } from "./cn";
 
@@ -16,9 +16,12 @@ type TabsProps<T extends string> = {
   className?: string;
 };
 
-export const AppTabs = <T extends string>(props: TabsProps<T>) => {
-  const { tabs, value, onChange, className } = props;
-
+export function SearchTabs<T extends string>({
+  tabs,
+  value,
+  onChange,
+  className,
+}: TabsProps<T>) {
   const isRtl = userStore.isRtl;
 
   return (
@@ -29,9 +32,15 @@ export const AppTabs = <T extends string>(props: TabsProps<T>) => {
         onChange?.(newValue as T);
       }}
     >
-      <TabsList className={cn("flex w-full", isRtl && "flex-row-reverse")}>
+      <TabsList
+        className={cn(
+          "flex w-full bg-bg p-[3px] text-hint",
+          isRtl && "flex-row-reverse",
+        )}
+      >
         {tabs.map((tab) => (
           <TabsTrigger
+            className="h-[calc(100%-1px)] flex-1 gap-1.5 border border-transparent px-2 text-text data-[state=active]:bg-button-outline-bg-light data-[state=active]:text-button-outline-fg-light dark:text-hint dark:data-[state=active]:bg-button-outline-bg-dark dark:data-[state=active]:text-button-outline-fg-dark"
             key={tab.value}
             value={tab.value}
             disabled={tab.disabled}
@@ -42,4 +51,4 @@ export const AppTabs = <T extends string>(props: TabsProps<T>) => {
       </TabsList>
     </Tabs>
   );
-};
+}

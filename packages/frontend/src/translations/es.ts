@@ -1,6 +1,16 @@
 import { type Translation } from "./en";
 
 export const es: Translation = {
+  navigation_main: "Inicio",
+  navigation_review: "Repasar",
+  leaderboard: "Clasificación",
+  leaderboard_this_week: "Esta semana",
+  leaderboard_your_position: "Tu posición",
+  leaderboard_not_ranked: "Aún sin posición",
+  leaderboard_join: "Repasa una tarjeta para unirte esta semana",
+  leaderboard_of: "de",
+  leaderboard_first: "Vas en primer lugar esta semana",
+  leaderboard_empty: "Aún no hay repasos esta semana",
   voice_type_browser: "Voz del navegador",
   voice_type_browser_description: "Usa una voz disponible en tu dispositivo",
   voice_type_none: "Ninguno",

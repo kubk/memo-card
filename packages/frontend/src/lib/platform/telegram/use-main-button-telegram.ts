@@ -1,8 +1,10 @@
 import { useHotkeys } from "react-hotkeys-hook";
 import { autorun } from "mobx";
-import { UseMainButtonType } from "../platform.ts";
+import { platform, UseMainButtonType } from "../platform.ts";
 import { useEffect } from "react";
 import { getWebApp } from "./telegram-web-app.ts";
+import { assert } from "api";
+import { TelegramPlatform } from "./telegram-platform.ts";
 
 export const useMainButtonTelegram: UseMainButtonType = (
   text,
@@ -11,6 +13,9 @@ export const useMainButtonTelegram: UseMainButtonType = (
   deps = [],
   options,
 ) => {
+  const telegramPlatform = platform;
+  assert(telegramPlatform instanceof TelegramPlatform);
+
   const hideMainButton = () => {
     getWebApp().MainButton.hide();
     getWebApp().MainButton.offClick(onClick);
@@ -18,6 +23,8 @@ export const useMainButtonTelegram: UseMainButtonType = (
   };
 
   useEffect(() => {
+    telegramPlatform.registerMainButton(condition);
+
     const stopAutoRun = autorun(() => {
       if (condition !== undefined && !condition()) {
         hideMainButton();
@@ -35,6 +42,7 @@ export const useMainButtonTelegram: UseMainButtonType = (
     return () => {
       stopAutoRun();
       hideMainButton();
+      telegramPlatform.unregisterMainButton();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps);

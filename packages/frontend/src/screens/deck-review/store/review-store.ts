@@ -17,6 +17,7 @@ import { api } from "../../../api/trpc-api.ts";
 import { userStore } from "../../../store/user-store.ts";
 import { shuffleInPlace } from "../../../lib/array/shuffle-in-place.ts";
 import { separateReversePairs } from "./reverse-pair-shuffle.ts";
+import { leaderboardStore } from "../../leaderboard/leaderboard-store.ts";
 
 // Don't wait until the user has finished reviewing all the cards to send the progress
 const cardProgressSend = 3;
@@ -440,6 +441,7 @@ export class ReviewStore {
       );
       this.sentReviewEventCount += cardsToSendInProgress.length;
     });
+    leaderboardStore.leaderboardQuery.invalidate();
   }
 
   get isFinished() {
@@ -474,12 +476,16 @@ export class ReviewStore {
       return;
     }
 
-    return api.cardsReview.mutate({
-      cards: this.cardsToSend,
-      isInterrupted: true,
-      skipReview: userStore.isSkipReview.value,
-      isStudyAnyway: this.isStudyAnyway,
-    });
+    return api.cardsReview
+      .mutate({
+        cards: this.cardsToSend,
+        isInterrupted: true,
+        skipReview: userStore.isSkipReview.value,
+        isStudyAnyway: this.isStudyAnyway,
+      })
+      .then(() => {
+        leaderboardStore.leaderboardQuery.invalidate();
+      });
   }
 
   get cardsToSend(): Array<{ id: number; outcome: ReviewOutcome }> {
@@ -510,6 +516,7 @@ export class ReviewStore {
       notifyError({ e: result.error, info: "Error submitting review" });
       return;
     }
+    leaderboardStore.leaderboardQuery.invalidate();
     onReviewSuccess?.();
     platform.haptic("success");
   }

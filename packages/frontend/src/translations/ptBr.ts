@@ -1,6 +1,16 @@
 import { type Translation } from "./en";
 
 export const ptBr: Translation = {
+  navigation_main: "Início",
+  navigation_review: "Revisar",
+  leaderboard: "Classificação",
+  leaderboard_this_week: "Esta semana",
+  leaderboard_your_position: "Sua posição",
+  leaderboard_not_ranked: "Ainda sem posição",
+  leaderboard_join: "Revise um cartão para participar esta semana",
+  leaderboard_of: "de",
+  leaderboard_first: "Você está em primeiro esta semana",
+  leaderboard_empty: "Ainda não há revisões esta semana",
   voice_type_browser: "Voz do navegador",
   voice_type_browser_description: "Usa uma voz disponível no seu dispositivo",
   voice_type_none: "Nenhum",

@@ -5,7 +5,7 @@ import { CircleXIcon, SearchIcon } from "lucide-react";
 import { Flex } from "../../ui/flex.tsx";
 import { screenStore } from "../../store/screen-store.ts";
 import { useBackButton } from "../../lib/platform/use-back-button.ts";
-import { AppTabs } from "../../ui/app-tabs.tsx";
+import { SearchTabs } from "../../ui/search-tabs.tsx";
 import { Badge } from "../../ui/badge.tsx";
 import { userStore } from "../../store/user-store.ts";
 import { cn } from "../../ui/cn.ts";
@@ -54,7 +54,7 @@ export function SearchScreen() {
           </button>
         </div>
         {globalSearchStore.isSearchActive && globalSearchStore.hasResults && (
-          <AppTabs
+          <SearchTabs
             tabs={globalSearchStore.tabs.map((tab) => ({
               ...tab,
               title: (

@@ -1,6 +1,16 @@
 import { type Translation } from "./en";
 
 export const ar: Translation = {
+  navigation_main: "الرئيسية",
+  navigation_review: "مراجعة",
+  leaderboard: "لوحة المتصدرين",
+  leaderboard_this_week: "هذا الأسبوع",
+  leaderboard_your_position: "ترتيبك",
+  leaderboard_not_ranked: "غير مصنف بعد",
+  leaderboard_join: "راجع بطاقة واحدة للانضمام هذا الأسبوع",
+  leaderboard_of: "من",
+  leaderboard_first: "أنت في المركز الأول هذا الأسبوع",
+  leaderboard_empty: "لا توجد مراجعات هذا الأسبوع",
   voice_type_browser: "صوت المتصفح",
   voice_type_browser_description: "يستخدم صوتًا متاحًا على جهازك",
   voice_type_none: "لا شيء",

@@ -23,6 +23,10 @@ const mainRouteSchema = v.object({
   type: v.literal("main"),
 });
 
+const leaderboardRouteSchema = v.object({
+  type: v.literal("leaderboard"),
+});
+
 const deckPreviewRouteSchema = v.object({
   type: v.literal("deckPreview"),
   deckId: stringToNumber,
@@ -151,6 +155,7 @@ const aboutRouteSchema = v.object({
 
 export const routeSchema = v.union([
   mainRouteSchema,
+  leaderboardRouteSchema,
   deckPreviewRouteSchema,
   deckFormRouteSchema,
   ankiImportRouteSchema,

@@ -24,7 +24,6 @@ import { DeckOrFolderChoose } from "./deck-or-folder-choose/deck-or-folder-choos
 import { BooleanToggle } from "mobx-form-lite";
 import { RuEduVideoChoice } from "./ru-edu-video-choice.tsx";
 import { userStore } from "../../store/user-store.ts";
-import { ReviewButton } from "../repeat-custom/review-button/review-button.tsx";
 import {
   CogIcon,
   GraduationCapIcon,
@@ -278,8 +277,6 @@ export function MainScreen() {
           </div>
         </>
       )}
-
-      <ReviewButton />
     </Flex>
   );
 }

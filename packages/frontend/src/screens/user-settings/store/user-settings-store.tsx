@@ -1,7 +1,9 @@
 import { action, makeAutoObservable, when } from "mobx";
 import {
   BooleanField,
+  formUnTouchAll,
   formTouchAll,
+  isFormDirty,
   isFormValid,
   TextField,
 } from "mobx-form-lite";
@@ -29,19 +31,16 @@ export class UserSettingsStore {
     time: TextField<string>;
     language: TextField<LanguageShared>;
   };
-  isLangChanged = false;
   userSettingsMutation = makeMutation(api.userSettings.mutate);
   deleteAccountMutation = makeMutation(api.me.deleteAccount.mutate);
   setDevPlanMutation = makeMutation(api.setDevPlan.mutate);
 
   constructor() {
-    makeAutoObservable(
-      this,
-      {
-        isLangChanged: false,
-      },
-      { autoBind: true },
-    );
+    makeAutoObservable(this, {}, { autoBind: true });
+  }
+
+  get isDirty() {
+    return this.form ? isFormDirty(this.form) : false;
   }
 
   load() {
@@ -55,11 +54,7 @@ export class UserSettingsStore {
 
         this.form = {
           isRemindNotifyEnabled: new BooleanField(userInfo.isRemindEnabled),
-          language: new TextField(getUserLanguage(userInfo), {
-            afterChange: () => {
-              this.isLangChanged = true;
-            },
-          }),
+          language: new TextField(getUserLanguage(userInfo)),
           isSpeakingCardsEnabled: new BooleanField(
             !!userInfo.isSpeakingCardEnabled,
           ),
@@ -85,7 +80,7 @@ export class UserSettingsStore {
     const body: RouterInput["userSettings"] = {
       isRemindNotifyEnabled: this.form.isRemindNotifyEnabled.value,
       isSpeakingCardEnabled: this.form.isSpeakingCardsEnabled.value,
-      language: this.isLangChanged ? this.form.language.value : null,
+      language: this.form.language.isDirty ? this.form.language.value : null,
       remindNotificationTime: DateTime.local()
         .set({
           hour: parseInt(hour),
@@ -103,7 +98,7 @@ export class UserSettingsStore {
       return;
     }
 
-    if (this.isLangChanged && platform instanceof BrowserPlatform) {
+    if (body.language !== null && platform instanceof BrowserPlatform) {
       platform.setLanguageCached(this.form.language.value);
     }
 
@@ -113,11 +108,12 @@ export class UserSettingsStore {
       isSpeakingCardEnabled: body.isSpeakingCardEnabled,
     };
 
-    if (this.isLangChanged) {
-      settings.forceLanguageCode = this.form.language.value;
+    if (body.language !== null) {
+      settings.forceLanguageCode = body.language;
     }
 
     userStore.updateSettings(settings);
+    formUnTouchAll(this.form);
 
     notifySuccess(t("user_settings_updated"));
   }
