@@ -68,7 +68,7 @@ export class ScreenStore {
   private history: HistoryEntry[] = [createHistoryEntry({ type: "main" })];
   private isUrlSyncEnabled: boolean;
   private isNavigatingFromPopstate = false;
-  private navigationDirection: NavigationDirection = "replace";
+  screenNavigationDirection: NavigationDirection = "replace";
   screenTransition: ScreenTransition = "animated";
 
   constructor(options: ScreenStoreOptions = {}) {
@@ -103,10 +103,11 @@ export class ScreenStore {
     const routeIndex = findRouteIndex(this.history, route);
 
     if (routeIndex >= 0) {
-      this.navigationDirection = routeIndex < currentIndex ? "back" : "replace";
+      this.screenNavigationDirection =
+        routeIndex < currentIndex ? "back" : "replace";
       this.history = this.history.slice(0, routeIndex + 1);
     } else {
-      this.navigationDirection = "forward";
+      this.screenNavigationDirection = "forward";
       this.history = trimBackStack([
         ...this.history,
         createHistoryEntry(route),
@@ -117,7 +118,7 @@ export class ScreenStore {
   };
 
   push(route: Route, options: NavigationOptions = {}) {
-    this.navigationDirection = "forward";
+    this.screenNavigationDirection = "forward";
     this.screenTransition = options.transition ?? "animated";
     this.history.push(createHistoryEntry(route));
     this.history = trimBackStack(this.history);
@@ -128,7 +129,7 @@ export class ScreenStore {
   }
 
   replace(route: Route) {
-    this.navigationDirection = "replace";
+    this.screenNavigationDirection = "replace";
     this.screenTransition = "animated";
 
     const currentEntry = this.history[this.history.length - 1];
@@ -150,7 +151,7 @@ export class ScreenStore {
   }
 
   back() {
-    this.navigationDirection = "back";
+    this.screenNavigationDirection = "back";
     this.screenTransition = "animated";
 
     if (this.isUrlSyncEnabled) {
@@ -164,7 +165,7 @@ export class ScreenStore {
   }
 
   backToDeck(deckId: number) {
-    this.navigationDirection = "back";
+    this.screenNavigationDirection = "back";
     this.screenTransition = "animated";
 
     for (let i = this.history.length - 2; i >= 0; i--) {
@@ -199,10 +200,6 @@ export class ScreenStore {
 
   get currentScrollTop() {
     return this.history[this.history.length - 1].scrollTop;
-  }
-
-  get screenNavigationDirection() {
-    return this.navigationDirection;
   }
 
   goToUserSettings(options: NavigationOptions = {}) {

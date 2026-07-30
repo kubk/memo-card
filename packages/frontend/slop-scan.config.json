@@ -1,6 +1,7 @@
 {
   "plugins": {
-    "kubk": "../../tools/slop-scan/no-identity-type-alias.mjs"
+    "no-identity-type-alias": "../../tools/slop-scan/no-identity-type-alias.mjs",
+    "no-pass-through-getter": "../../tools/slop-scan/no-pass-through-getter.mjs"
   },
   "overrides": [
     {
@@ -11,7 +12,8 @@
     }
   ],
   "rules": {
-    "kubk/no-identity-type-alias": { "enabled": true },
+    "no-identity-type-alias/no-identity-type-alias": { "enabled": true },
+    "no-pass-through-getter/no-pass-through-getter": { "enabled": true },
     "tests.duplicate-mock-setup": { "enabled": false },
     "defensive.error-swallowing": { "enabled": false },
     "defensive.error-obscuring": { "enabled": false },
