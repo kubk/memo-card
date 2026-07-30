@@ -45,4 +45,14 @@ describe("screen store", () => {
 
     expect(store.screen).toEqual({ type: "deckForm", deckId: 1 });
   });
+
+  it("supports instant transitions without changing later navigation", () => {
+    const store = new ScreenStore({ enableUrlSync: false });
+
+    store.push({ type: "leaderboard" }, { transition: "instant" });
+    expect(store.screenTransition).toBe("instant");
+
+    store.push({ type: "about" });
+    expect(store.screenTransition).toBe("animated");
+  });
 });

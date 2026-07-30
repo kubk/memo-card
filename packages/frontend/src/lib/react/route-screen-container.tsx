@@ -50,6 +50,7 @@ export function RouteScreenContainer(props: RouteScreenContainerProps) {
   const screenType = screenStore.screen.type;
   const navigationDirection = screenStore.screenNavigationDirection;
   const animation = getRouteAnimation(screenType, navigationDirection);
+  const shouldAnimate = screenStore.screenTransition === "animated";
 
   useLayoutEffect(() => {
     const scrollContainer = scrollContainerRef.current;
@@ -80,7 +81,7 @@ export function RouteScreenContainer(props: RouteScreenContainerProps) {
         screenType === "browserLogin" &&
           "flex min-h-[calc(100vh_-_48px)] items-center justify-center",
       )}
-      initial={animation.initial}
+      initial={shouldAnimate ? animation.initial : false}
       animate={animation.animate}
       transition={animation.transition}
       onScroll={(event) => {

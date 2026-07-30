@@ -49,19 +49,19 @@ class BottomNavigationStore {
     platform.haptic("selection");
 
     if (tab === "main") {
-      screenStore.push({ type: "main" });
+      screenStore.push({ type: "main" }, { transition: "instant" });
       return;
     }
     if (tab === "leaderboard") {
-      screenStore.push({ type: "leaderboard" });
+      screenStore.push({ type: "leaderboard" }, { transition: "instant" });
       return;
     }
     if (tab === "settings") {
-      screenStore.goToUserSettings();
+      screenStore.goToUserSettings({ transition: "instant" });
       return;
     }
 
-    screenStore.push({ type: "reviewCustom" });
+    screenStore.push({ type: "reviewCustom" }, { transition: "instant" });
   }
 }
 

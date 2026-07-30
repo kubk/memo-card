@@ -14,6 +14,12 @@ type ScreenStoreOptions = {
 
 type NavigationDirection = "forward" | "back" | "replace";
 
+type ScreenTransition = "animated" | "instant";
+
+type NavigationOptions = {
+  transition?: ScreenTransition;
+};
+
 type HistoryEntry = {
   id: number;
   route: Route;
@@ -63,6 +69,7 @@ export class ScreenStore {
   private isUrlSyncEnabled: boolean;
   private isNavigatingFromPopstate = false;
   private navigationDirection: NavigationDirection = "replace";
+  screenTransition: ScreenTransition = "animated";
 
   constructor(options: ScreenStoreOptions = {}) {
     this.isUrlSyncEnabled =
@@ -90,6 +97,7 @@ export class ScreenStore {
     }
 
     this.isNavigatingFromPopstate = true;
+    this.screenTransition = "animated";
 
     const currentIndex = this.history.length - 1;
     const routeIndex = findRouteIndex(this.history, route);
@@ -108,8 +116,9 @@ export class ScreenStore {
     this.isNavigatingFromPopstate = false;
   };
 
-  push(route: Route) {
+  push(route: Route, options: NavigationOptions = {}) {
     this.navigationDirection = "forward";
+    this.screenTransition = options.transition ?? "animated";
     this.history.push(createHistoryEntry(route));
     this.history = trimBackStack(this.history);
 
@@ -120,6 +129,7 @@ export class ScreenStore {
 
   replace(route: Route) {
     this.navigationDirection = "replace";
+    this.screenTransition = "animated";
 
     const currentEntry = this.history[this.history.length - 1];
     if (currentEntry) {
@@ -141,6 +151,7 @@ export class ScreenStore {
 
   back() {
     this.navigationDirection = "back";
+    this.screenTransition = "animated";
 
     if (this.isUrlSyncEnabled) {
       window.history.back();
@@ -154,6 +165,7 @@ export class ScreenStore {
 
   backToDeck(deckId: number) {
     this.navigationDirection = "back";
+    this.screenTransition = "animated";
 
     for (let i = this.history.length - 2; i >= 0; i--) {
       const { route } = this.history[i];
@@ -193,8 +205,8 @@ export class ScreenStore {
     return this.navigationDirection;
   }
 
-  goToUserSettings() {
-    this.push({ type: "userSettings", index: ++routeIndex });
+  goToUserSettings(options: NavigationOptions = {}) {
+    this.push({ type: "userSettings", index: ++routeIndex }, options);
   }
 
   private pushBrowserUrl(route: Route) {
