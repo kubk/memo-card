@@ -102,7 +102,7 @@ const ru: ProPlanTranslation = {
   proOrganizePrompt: "Разложи мои языковые колоды по папкам",
   proOrganizeResponse: "Готово — распределил их по 3 папкам",
   proOrganizeDetail: "История повторений всех карточек сохранена",
-  upgradePro: "Получить Pro · $4/мес",
+  upgradePro: "Получить Pro · 350 руб/мес",
 };
 
 const es: ProPlanTranslation = {
