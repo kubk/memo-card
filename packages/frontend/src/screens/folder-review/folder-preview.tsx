@@ -90,10 +90,8 @@ export function FolderPreview(props: Props) {
               onClick={() => {
                 screenStore.push({
                   type: "deckForm",
-                  folder: {
-                    id: folder.id,
-                    name: folder.name,
-                  },
+                  folderId: folder.id,
+                  folderName: folder.name,
                 });
               }}
             >

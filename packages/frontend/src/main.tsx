@@ -3,7 +3,6 @@ import { App } from "./screens/app.tsx";
 import "./index.css";
 import { platform } from "./lib/platform/platform.ts";
 import { polyfillCountryFlagEmojis } from "country-flag-emoji-polyfill";
-import { Settings } from "luxon";
 
 polyfillCountryFlagEmojis();
 
@@ -14,8 +13,6 @@ if (import.meta.env.DEV) {
 }
 
 platform.initialize();
-
-Settings.throwOnInvalid = false;
 
 // https://vitejs.dev/guide/build#load-error-handling
 window.addEventListener("vite:preloadError", () => {

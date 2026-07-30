@@ -7,9 +7,8 @@ import {
   isFormValid,
   TextField,
 } from "mobx-form-lite";
-import { DateTime } from "luxon";
 import { formatTime } from "../generate-time-range.tsx";
-import { RouterInput, stringToDate, UserDbType } from "api";
+import { RouterInput, UserDbType } from "api";
 import { userStore } from "../../../store/user-store.ts";
 import { makeMutation } from "../../../lib/mobx-query-lite/make-mutation.ts";
 import { notifyError, notifySuccess } from "../../shared/snackbar/snackbar.tsx";
@@ -20,6 +19,8 @@ import { platform } from "../../../lib/platform/platform.ts";
 import { BrowserPlatform } from "../../../lib/platform/browser/browser-platform.ts";
 import { LanguageShared } from "api";
 import { api } from "../../../api/trpc-api.ts";
+import { parseDate } from "../../../lib/date/parse-date.ts";
+import { set } from "date-fns";
 
 const DEFAULT_TIME = "12:00";
 
@@ -47,7 +48,7 @@ export class UserSettingsStore {
         assert(userStore.userInfo);
         const userInfo = userStore.userInfo;
         const remindDate = userInfo.lastRemindedDate
-          ? stringToDate(userInfo.lastRemindedDate)
+          ? parseDate(userInfo.lastRemindedDate)
           : null;
 
         this.form = {
@@ -58,7 +59,7 @@ export class UserSettingsStore {
           ),
           time: new TextField(
             remindDate
-              ? formatTime(remindDate.hour, remindDate.minute)
+              ? formatTime(remindDate.getHours(), remindDate.getMinutes())
               : DEFAULT_TIME,
           ),
         };
@@ -74,19 +75,18 @@ export class UserSettingsStore {
     }
 
     const [hour, minute] = this.form.time.value.split(":");
+    const remindNotificationDate = set(new Date(), {
+      hours: parseInt(hour),
+      minutes: parseInt(minute),
+      seconds: 0,
+      milliseconds: 0,
+    });
 
     const body: RouterInput["userSettings"] = {
       isRemindNotifyEnabled: this.form.isRemindNotifyEnabled.value,
       isSpeakingCardEnabled: this.form.isSpeakingCardsEnabled.value,
       language: this.form.language.isDirty ? this.form.language.value : null,
-      remindNotificationTime: DateTime.local()
-        .set({
-          hour: parseInt(hour),
-          minute: parseInt(minute),
-          second: 0,
-        })
-        .toUTC()
-        .toString(),
+      remindNotificationTime: remindNotificationDate.toISOString(),
     };
 
     const result = await this.userSettingsMutation.mutateResult(body);

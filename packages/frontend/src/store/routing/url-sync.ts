@@ -1,4 +1,3 @@
-import qs from "qs";
 import {
   Route,
   routeSchema,
@@ -10,17 +9,21 @@ import * as v from "valibot";
 export function routeToUrl(route: Route): string {
   const currentParams = new URLSearchParams(window.location.search);
   const startParam = currentParams.get("start");
+  const params = new URLSearchParams();
 
-  if (route.type === "main") {
-    return startParam ? `/?start=${startParam}` : "/";
+  if (startParam) {
+    params.set("start", startParam);
   }
 
-  const routeParams = qs.stringify(withoutRouteState(route), { encode: false });
-  const finalParams = startParam
-    ? `start=${startParam}&${routeParams}`
-    : routeParams;
+  if (route.type !== "main") {
+    for (const [key, value] of Object.entries(withoutRouteState(route))) {
+      if (value !== undefined) {
+        params.set(key, String(value));
+      }
+    }
+  }
 
-  return `/?${finalParams}`;
+  return params.size ? `/?${params}` : "/";
 }
 
 export function urlToRoute(url: string): Route | null {
@@ -31,7 +34,7 @@ export function urlToRoute(url: string): Route | null {
     return { type: "main" };
   }
 
-  // Handle legacy start params (for Telegram compatibility)
+  // Handle Telegram start params
   const start = urlObj.searchParams.get("start");
   if (
     start &&
@@ -40,7 +43,8 @@ export function urlToRoute(url: string): Route | null {
     return null;
   }
 
-  const params = qs.parse(urlObj.search, { ignoreQueryPrefix: true });
+  const params = Object.fromEntries(urlObj.searchParams);
+  delete params.start;
 
   const result = v.safeParse(routeSchema, params);
   return result.success ? result.output : null;

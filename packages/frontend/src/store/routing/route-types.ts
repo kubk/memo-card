@@ -35,12 +35,8 @@ const deckPreviewRouteSchema = v.object({
 const deckFormRouteSchema = v.object({
   type: v.literal("deckForm"),
   deckId: optionalStringToNumber,
-  folder: v.optional(
-    v.object({
-      id: stringToNumber,
-      name: v.string(),
-    }),
-  ),
+  folderId: optionalStringToNumber,
+  folderName: v.optional(v.string()),
   cardId: v.optional(v.union([stringToNumber, v.literal("new")])),
   sortBy: cardFilterSortBySchema,
   sortDirection: cardFilterDirectionSchema,

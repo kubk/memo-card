@@ -19,7 +19,6 @@ import {
   RouterOutput,
   SpeakLanguage,
 } from "api";
-import { v4 } from "uuid";
 import { makeMutation } from "../../../../lib/mobx-query-lite/make-mutation.ts";
 import { notifyError } from "../../../shared/snackbar/snackbar.tsx";
 import { assert } from "api";
@@ -91,7 +90,7 @@ export const createBackCardField = (
 
 export const createAnswerForm = () => {
   return {
-    id: v4(),
+    id: crypto.randomUUID(),
     text: new TextField("", {
       validate: validators.required(t("validation_required")),
     }),
@@ -246,7 +245,7 @@ export class DeckFormStore {
         speakingCardsLocale: new TextField<SpeakLanguage | null>(null),
         speakingCardsField: new TextField<DeckSpeakField | null>(null),
         reverseCards: new BooleanField(false),
-        folderId: screen.folder?.id ?? undefined,
+        folderId: screen.folderId,
       };
     }
   }

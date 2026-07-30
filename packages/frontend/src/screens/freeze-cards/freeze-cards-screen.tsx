@@ -6,7 +6,6 @@ import { theme } from "../../ui/theme.tsx";
 import { Flex } from "../../ui/flex.tsx";
 import { useMainButton } from "../../lib/platform/use-main-button.ts";
 import { Input } from "../../ui/input.tsx";
-import { DateTime } from "luxon";
 import { Chip } from "../../ui/chip.tsx";
 import { FreezeCardsStore } from "./store/freeze-cards-store.ts";
 import { FilledIcon } from "../../ui/filled-icon.tsx";
@@ -16,6 +15,16 @@ import { formatDays } from "./translations.ts";
 import { List } from "../../ui/list.tsx";
 import { BottomSheet } from "../../ui/bottom-sheet/bottom-sheet.tsx";
 import { SnowflakeIcon } from "lucide-react";
+import { addDays } from "date-fns";
+
+const formatFreezeEndDate = (freezeDays: number) => {
+  return addDays(new Date(), freezeDays + 1).toLocaleDateString(undefined, {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+};
 
 export function FreezeCardsScreen() {
   const [store] = useState(() => new FreezeCardsStore());
@@ -72,10 +81,7 @@ export function FreezeCardsScreen() {
       </div>
       {store.freezeDays ? (
         <div className="text-hint self-center text-sm">
-          {t("freeze_notified")}{" "}
-          {DateTime.now()
-            .plus({ days: store.freezeDays + 1 })
-            .toLocaleString(DateTime.DATE_HUGE)}
+          {t("freeze_notified")} {formatFreezeEndDate(store.freezeDays)}
         </div>
       ) : null}
 

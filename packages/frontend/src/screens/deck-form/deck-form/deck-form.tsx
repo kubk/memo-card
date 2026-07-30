@@ -66,28 +66,29 @@ export function DeckForm() {
   const deck = screen.deckId
     ? deckListStore.searchDeckById(screen.deckId)
     : null;
+  const folderId = screen.folderId;
+  const folderName = screen.folderName;
 
   return (
     <>
       <Screen
         title={screen.deckId ? t("edit_deck") : t("add_deck")}
         subtitle={
-          screen.folder ? (
+          folderId && folderName ? (
             <div className="text-center text-sm">
               {t("folder")}{" "}
               <button
                 onClick={() => {
                   deckFormStore.executeViaConfirm(() => {
-                    assert(screen.folder, "Folder should be defined");
                     screenStore.push({
                       type: "folderPreview",
-                      folderId: screen.folder.id,
+                      folderId,
                     });
                   });
                 }}
                 className="reset-button text-inherit text-link"
               >
-                {screen.folder.name}
+                {folderName}
               </button>
             </div>
           ) : undefined
