@@ -4,6 +4,9 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+overrides:
+  mobx-react-observer>mobx-react-lite: ^5.0.0
+
 importers:
 
   .:
@@ -185,17 +188,17 @@ importers:
         specifier: ^3.0.2
         version: 3.0.2
       mobx:
-        specifier: ^6.16.0
-        version: 6.16.1
+        specifier: ^7.0.0
+        version: 7.0.0
       mobx-form-lite:
         specifier: ^0.9.7
-        version: 0.9.7(mobx@6.16.1)
+        version: 0.9.7(mobx@7.0.0)
       mobx-persist-store:
         specifier: ^1.1.8
-        version: 1.1.8(mobx@6.16.1)
+        version: 1.1.8(mobx@7.0.0)
       mobx-react-observer:
         specifier: ^1.0.3
-        version: 1.1.0(mobx@6.16.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        version: 1.1.0(mobx@7.0.0)(react@18.3.1)
       notistack:
         specifier: ^3.0.1
         version: 3.0.2(csstype@3.2.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -269,9 +272,6 @@ importers:
       jsdom:
         specifier: ^26.1.0
         version: 26.1.0
-      mobx-log:
-        specifier: ^2.2.4
-        version: 2.2.4(react@18.3.1)
       oxlint:
         specifier: ^1.70.0
         version: 1.73.0
@@ -4360,35 +4360,22 @@ packages:
     peerDependencies:
       mobx: ^5.0.0 || ^6.0.0
 
-  mobx-log@2.2.4:
-    resolution: {integrity: sha512-TRrKgXkhH5HsfCv3zcm4Fs8s/t405RkabUD6LGiZvWnCzOh/930FqkWKMaPev6oFLTs48a07bU1RgYE62soazw==}
-    engines: {node: '>=10'}
-    peerDependencies:
-      react: '>=16'
-
   mobx-persist-store@1.1.8:
     resolution: {integrity: sha512-7SiLvang0POfGvfP69fzmppBKv36e0TNndKJT1UokZuLXt13CqF3PAxIcRacHqjTBe4ktmzDsh3DK+fbM6epNg==}
     peerDependencies:
       mobx: '*'
 
-  mobx-react-lite@4.1.1:
-    resolution: {integrity: sha512-iUxiMpsvNraCKXU+yPotsOncNNmyeS2B5DKL+TL6Tar/xm+wwNJAubJmtRSeAoYawdZqwv8Z/+5nPRHeQxTiXg==}
+  mobx-react-lite@5.0.0:
+    resolution: {integrity: sha512-+Kg+KhOQx/ggkFuHViUJvsOsgmAFvBUHfGb/cimNX5Csb1MfMYjbp5CcUu6kw2zr11HwB1gaD7FnqdAcCryvhg==}
     peerDependencies:
-      mobx: ^6.9.0
-      react: ^16.8.0 || ^17 || ^18 || ^19
-      react-dom: '*'
-      react-native: '*'
-    peerDependenciesMeta:
-      react-dom:
-        optional: true
-      react-native:
-        optional: true
+      mobx: ^7.0.0
+      react: ^18 || ^19
 
   mobx-react-observer@1.1.0:
     resolution: {integrity: sha512-EtSneDeiuSDYHnCu1lANGgLuss14LmAHTMd3SWxvmF3GXfYH0Bl4wdeAGRP2VSt4nB4nGpwAiHval6P6mWjRJA==}
 
-  mobx@6.16.1:
-    resolution: {integrity: sha512-syNcDdX3KT+Jq3je6eGjBhuc24Z68td2VG0zNFqRswaE433D9SNH5VRy/xrGbJsUixfppLLccXhAW9JSf6n+SQ==}
+  mobx@7.0.0:
+    resolution: {integrity: sha512-J+hR/wq6RdBnB4QXQRqGrWL9vOOLKaYhXh0ooxLAW4AE72av10Y5+xiaxohUYmPZiUswfpxMjQooYqpWkv+Fxg==}
 
   modern-tar@0.7.7:
     resolution: {integrity: sha512-t9VmxaqrmANnEOBhpSDI6HD192Ge48k8vmWqQQL7hSFEqHEYwZbbsu49+aKLWZeRvFs3j1pMhXOqqF4kPlvjkQ==}
@@ -9033,39 +9020,30 @@ snapshots:
   mkdirp-classic@0.5.3:
     optional: true
 
-  mobx-form-lite@0.9.7(mobx@6.16.1):
+  mobx-form-lite@0.9.7(mobx@7.0.0):
     dependencies:
-      mobx: 6.16.1
+      mobx: 7.0.0
 
-  mobx-log@2.2.4(react@18.3.1):
+  mobx-persist-store@1.1.8(mobx@7.0.0):
     dependencies:
+      mobx: 7.0.0
+
+  mobx-react-lite@5.0.0(mobx@7.0.0)(react@18.3.1):
+    dependencies:
+      mobx: 7.0.0
       react: 18.3.1
 
-  mobx-persist-store@1.1.8(mobx@6.16.1):
-    dependencies:
-      mobx: 6.16.1
-
-  mobx-react-lite@4.1.1(mobx@6.16.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
-    dependencies:
-      mobx: 6.16.1
-      react: 18.3.1
-      use-sync-external-store: 1.6.0(react@18.3.1)
-    optionalDependencies:
-      react-dom: 18.3.1(react@18.3.1)
-
-  mobx-react-observer@1.1.0(mobx@6.16.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+  mobx-react-observer@1.1.0(mobx@7.0.0)(react@18.3.1):
     dependencies:
       babel-plugin-observing-components: 0.2.0
-      mobx-react-lite: 4.1.1(mobx@6.16.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      mobx-react-lite: 5.0.0(mobx@7.0.0)(react@18.3.1)
       swc-plugin-observing-components: 0.2.0
     transitivePeerDependencies:
       - mobx
       - react
-      - react-dom
-      - react-native
       - supports-color
 
-  mobx@6.16.1: {}
+  mobx@7.0.0: {}
 
   modern-tar@0.7.7: {}
 

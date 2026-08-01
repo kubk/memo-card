@@ -1,5 +1,5 @@
 import {
-  action,
+  actionBound,
   computed,
   makeAutoObservable,
   makeObservable,
@@ -100,13 +100,13 @@ class StaticQuery<T> implements QueryState<T> {
     makeObservable(this, {
       data: observable,
       error: observable,
-      invalidate: action.bound,
+      invalidate: actionBound,
       isFetching: observable,
       isPending: computed,
       lastFetched: observable,
-      prefetch: action.bound,
-      refetch: action.bound,
-      setData: action.bound,
+      prefetch: actionBound,
+      refetch: actionBound,
+      setData: actionBound,
     });
 
     onBecomeObserved(this, "data", () => {

@@ -17,6 +17,16 @@
     "detect-unused-methods": "concurrently -n api,frontend -c green,blue \"node tools/detect-unused-methods/index.mjs packages/api\" \"node tools/detect-unused-methods/index.mjs packages/frontend\""
   },
   "packageManager": "pnpm@9.15.0",
+  "pnpm": {
+    "overrides": {
+      "mobx-react-observer>mobx-react-lite": "^5.0.0"
+    },
+    "peerDependencyRules": {
+      "allowedVersions": {
+        "mobx-form-lite>mobx": "7"
+      }
+    }
+  },
   "dependencies": {
     "patch-package": "^8.0.0"
   },

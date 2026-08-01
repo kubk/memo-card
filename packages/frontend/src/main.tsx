@@ -6,12 +6,6 @@ import { polyfillCountryFlagEmojis } from "country-flag-emoji-polyfill";
 
 polyfillCountryFlagEmojis();
 
-if (import.meta.env.DEV) {
-  import("mobx-log").then(({ applyFormatters }) => {
-    applyFormatters();
-  });
-}
-
 platform.initialize();
 
 // https://vitejs.dev/guide/build#load-error-handling
