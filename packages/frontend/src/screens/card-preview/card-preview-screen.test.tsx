@@ -78,6 +78,10 @@ vi.mock("../error-screen/error-screen.tsx", () => ({
   ErrorScreen: () => <div>Error</div>,
 }));
 
+vi.mock("../error-screen/deck-not-found-screen.tsx", () => ({
+  DeckNotFoundScreen: () => <div>Deck not found</div>,
+}));
+
 const completeDeck = {
   id: 42,
   createdAt: "2026-01-01T00:00:00.000Z",
