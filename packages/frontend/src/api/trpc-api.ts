@@ -36,6 +36,10 @@ export const api = createTRPCClient<ApiRouter>({
           return false;
         }
 
+        if (opts.error.data?.code === "NOT_FOUND") {
+          return false;
+        }
+
         const shouldRetry =
           opts.op.type === "query" || allowedToReFetch.includes(opts.op.path);
 

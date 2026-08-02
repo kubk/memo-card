@@ -4,10 +4,16 @@ import { links } from "api";
 import { Button } from "../../ui/button.tsx";
 import { t } from "../../translations/t.ts";
 
-export function ErrorScreen() {
+export function ErrorScreenLayout({
+  title,
+  message,
+}: {
+  title: string;
+  message: string;
+}) {
   return (
-    <Screen title={t("error")}>
-      <div className="self-center my-6">{t("error_contact_support")}</div>
+    <Screen title={title}>
+      <div className="self-center my-6">{message}</div>
       <Button
         onClick={() => {
           platform.openInternalLink(links.supportChat);
@@ -16,5 +22,14 @@ export function ErrorScreen() {
         {t("settings_contact_support")}
       </Button>
     </Screen>
+  );
+}
+
+export function ErrorScreen() {
+  return (
+    <ErrorScreenLayout
+      title={t("error")}
+      message={t("error_contact_support")}
+    />
   );
 }

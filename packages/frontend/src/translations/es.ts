@@ -29,6 +29,9 @@ export const es: Translation = {
   browser_no_personal_decks_start: "No tienes mazos personales todavía",
   error_contact_support:
     "Se ha producido un error. Por favor, contacta con soporte para que podamos ayudarte.",
+  deck_not_found: "Mazo no encontrado",
+  think_error_contact_support:
+    "Si crees que se trata de un error, contacta con soporte",
   upgrade_pro: "Obtener Pro",
   upgrade: "Mejorar plan",
   login_google: "Iniciar sesión con Google",

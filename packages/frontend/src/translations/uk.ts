@@ -28,6 +28,9 @@ export const uk: Translation = {
   logout: "Вийти",
   error_contact_support:
     "Сталася помилка. Будь ласка, зв'яжіться з підтримкою, щоб ми могли вам допомогти.",
+  deck_not_found: "Колоду не знайдено",
+  think_error_contact_support:
+    "Якщо ви вважаєте, що це помилка, зверніться до підтримки",
   browser_no_personal_decks_start: "У вас ще немає персональних колод",
   browser_no_personal_decks_end: ". Успішного навчання! 😊",
   browser_no_personal_decks_link: "Дізнайтеся, як користуватися MemoCard у ",

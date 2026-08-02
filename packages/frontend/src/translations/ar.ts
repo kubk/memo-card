@@ -21,6 +21,8 @@ export const ar: Translation = {
   settings_lang: "اللغة",
   logout: "تسجيل الخروج",
   error_contact_support: "حدث خطأ. يرجى الاتصال بالدعم حتى نتمكن من مساعدتك.",
+  deck_not_found: "تعذر العثور على المجموعة",
+  think_error_contact_support: "إذا كنت تعتقد أن هذا خطأ، فتواصل مع الدعم",
   login_google: "تسجيل الدخول باستخدام Google",
   folder_form_no_decks: "لا توجد مجموعات في المجلد",
   card_next: "التالي",

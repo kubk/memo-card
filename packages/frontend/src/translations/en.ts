@@ -12,6 +12,9 @@ export const en = {
   logout: "Logout",
   error_contact_support:
     "An error occurred. Please contact support so we can help you.",
+  deck_not_found: "Deck not found",
+  think_error_contact_support:
+    "If you think this is a mistake, contact support",
   login_google: "Login with Google",
   folder_form_no_decks: "No decks in the folder",
   card_next: "Next",

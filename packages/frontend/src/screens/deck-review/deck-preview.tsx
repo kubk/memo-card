@@ -17,11 +17,13 @@ import { CardReviewStats } from "../shared/deck-stats/card-review-stats.tsx";
 import { PencilIcon, PlusIcon, RefreshCwIcon } from "lucide-react";
 import { type DeckScreenStore } from "./store/deck-screen-store.ts";
 import { ErrorScreen } from "../error-screen/error-screen.tsx";
+import { DeckNotFoundScreen } from "../error-screen/deck-not-found-screen.tsx";
 import {
   CardListRowsReadonly,
   CardListRowsReadonlyLoading,
 } from "./preview-readonly/card-list-readonly.tsx";
 import { DeckActions } from "../shared/deck-actions.tsx";
+import { isTrpcNotFoundError } from "../../api/is-trpc-not-found-error.ts";
 
 type Props = {
   store: DeckScreenStore;
@@ -44,6 +46,10 @@ export function DeckPreview(props: Props) {
   };
 
   useMainButton(t("review_deck"), onStart, () => store.canReview);
+
+  if (isTrpcNotFoundError(store.detailsQuery.error)) {
+    return <DeckNotFoundScreen />;
+  }
 
   if (store.detailsQuery.error) {
     return <ErrorScreen />;

@@ -32,6 +32,8 @@ import { userStore } from "../../../store/user-store.ts";
 import { WithProIcon } from "../../shared/with-pro-icon.tsx";
 import { useProgress } from "../../../lib/platform/use-progress.tsx";
 import { ErrorScreen } from "../../error-screen/error-screen.tsx";
+import { DeckNotFoundScreen } from "../../error-screen/deck-not-found-screen.tsx";
+import { isTrpcNotFoundError } from "../../../api/is-trpc-not-found-error.ts";
 
 const sortOptions: Array<{
   id: string;
@@ -85,6 +87,10 @@ export function CardList() {
   });
 
   useProgress(() => cardListStore.detailsQuery.isPending);
+
+  if (isTrpcNotFoundError(cardListStore.detailsQuery.error)) {
+    return <DeckNotFoundScreen />;
+  }
 
   if (cardListStore.detailsQuery.error) {
     return <ErrorScreen />;

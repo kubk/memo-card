@@ -29,6 +29,9 @@ export const ptBr: Translation = {
   browser_no_personal_decks_link: "Aprenda como usar o MemoCard em ",
   error_contact_support:
     "Ocorreu um erro. Por favor, entre em contato com o suporte para que possamos ajudar.",
+  deck_not_found: "Baralho não encontrado",
+  think_error_contact_support:
+    "Se você acha que isso é um erro, entre em contato com o suporte",
   upgrade_pro: "Obter Pro",
   upgrade: "Melhorar plano",
   login_google: "Entrar com Google",

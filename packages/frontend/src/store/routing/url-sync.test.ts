@@ -55,9 +55,7 @@ describe("routeToUrl", () => {
 describe("urlToRoute", () => {
   it("parses route data", () => {
     expect(
-      urlToRoute(
-        "/?type=deckForm&folderId=42&folderName=Travel+%26+English",
-      ),
+      urlToRoute("/?type=deckForm&folderId=42&folderName=Travel+%26+English"),
     ).toEqual({
       type: "deckForm",
       folderId: 42,

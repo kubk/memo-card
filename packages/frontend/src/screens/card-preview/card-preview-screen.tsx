@@ -7,6 +7,8 @@ import { DeckScreenStore } from "../deck-review/store/deck-screen-store.ts";
 import { useProgress } from "../../lib/platform/use-progress.tsx";
 import { ErrorScreen } from "../error-screen/error-screen.tsx";
 import { type DeckWithCardsWithReviewType } from "../../store/deck-list-store.ts";
+import { DeckNotFoundScreen } from "../error-screen/deck-not-found-screen.tsx";
+import { isTrpcNotFoundError } from "../../api/is-trpc-not-found-error.ts";
 
 function LoadedCardPreview({
   card,
@@ -57,7 +59,10 @@ export function CardPreviewScreen() {
       return null;
     }
 
-    console.error("Card or deck not found: ", { cardId, deckId });
+    if (isTrpcNotFoundError(store.detailsQuery.error)) {
+      return <DeckNotFoundScreen />;
+    }
+
     return <ErrorScreen />;
   }
 

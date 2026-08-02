@@ -19,6 +19,9 @@ export const ru: Translation = {
   logout: "Выйти",
   error_contact_support:
     "Произошла ошибка. Пожалуйста свяжитесь с поддержкой, чтобы мы могли помочь вам.",
+  deck_not_found: "Колода не найдена",
+  think_error_contact_support:
+    "Если вы считаете, что это ошибка, свяжитесь с поддержкой",
   browser_no_personal_decks_start: "У вас еще нет персональных колод. ",
   browser_no_personal_decks_end: ". Удачного изучения! 😊",
   browser_no_personal_decks_link: "Рекомендуем посмотреть ",
