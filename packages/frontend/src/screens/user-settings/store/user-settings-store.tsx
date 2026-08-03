@@ -16,7 +16,6 @@ import { t } from "../../../translations/t.ts";
 import { assert } from "api";
 import { getUserLanguage } from "api";
 import { platform } from "../../../lib/platform/platform.ts";
-import { BrowserPlatform } from "../../../lib/platform/browser/browser-platform.ts";
 import { LanguageShared } from "api";
 import { api } from "../../../api/trpc-api.ts";
 import { parseDate } from "../../../lib/date/parse-date.ts";
@@ -96,7 +95,7 @@ export class UserSettingsStore {
       return;
     }
 
-    if (body.language !== null && platform instanceof BrowserPlatform) {
+    if (body.language !== null) {
       platform.setLanguageCached(this.form.language.value);
     }
 

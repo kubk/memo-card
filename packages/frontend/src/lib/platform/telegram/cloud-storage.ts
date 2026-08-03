@@ -15,8 +15,8 @@ const isCloudStorageKeyValid = (key: string): boolean => {
 
 function getStorage() {
   return getWebApp().isVersionAtLeast("9.0")
-    ? getWebApp().CloudStorage
-    : getWebApp().DeviceStorage;
+    ? getWebApp().DeviceStorage
+    : getWebApp().CloudStorage;
 }
 
 type StorageError = string | null;

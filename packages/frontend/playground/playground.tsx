@@ -7,7 +7,11 @@ import {
   RotateCcw,
   Smartphone,
 } from "lucide-react";
-import { languageSharedToHuman, languagesShared } from "api";
+import {
+  isLanguage,
+  languageSharedToHuman,
+  languagesShared,
+} from "api";
 import { Badge } from "../src/ui/badge.tsx";
 import { Button } from "../src/ui/button.tsx";
 import { BottomSheetPortalProvider } from "../src/ui/bottom-sheet/bottom-sheet.tsx";
@@ -16,7 +20,6 @@ import { ProgressBar } from "../src/ui/progress-bar.tsx";
 import { BrowserPlatform } from "../src/lib/platform/browser/browser-platform.ts";
 import { platform } from "../src/lib/platform/platform.ts";
 import { userStore } from "../src/store/user-store.ts";
-import { isLanguage } from "../src/translations/t.ts";
 import { cn } from "../src/ui/cn.ts";
 import { theme } from "../src/ui/theme.tsx";
 import { ShadcnButton } from "../src/ui/shadcn/button.tsx";

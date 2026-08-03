@@ -17,6 +17,7 @@ import { LanguageShared } from "api";
 import { api } from "../../../api/trpc-api.ts";
 import { applyColorScheme } from "../../color-scheme/apply-color-scheme.ts";
 import { env } from "../../../env.ts";
+import { normalizeLanguage } from "../../../translations/normalize-language.ts";
 
 export class BrowserPlatform implements Platform {
   isMobile = false;
@@ -32,9 +33,9 @@ export class BrowserPlatform implements Platform {
     onClick: () => void;
   };
 
-  languageCached: LanguageShared =
-    (localStorage.getItem(browserPlatformLangKey) as LanguageShared | null) ||
-    "en";
+  languageCached = normalizeLanguage(
+    localStorage.getItem(browserPlatformLangKey),
+  );
 
   constructor() {
     makeAutoObservable<this, "webHaptics">(

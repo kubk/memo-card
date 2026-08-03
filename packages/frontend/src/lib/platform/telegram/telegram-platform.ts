@@ -10,6 +10,7 @@ import { getWebApp } from "./telegram-web-app.ts";
 import { cloudStorageAdapter } from "./cloud-storage.ts";
 import { lockOrientationWhenPortrait } from "./lock-orientation-when-portrait.ts";
 import { applyColorScheme } from "../../color-scheme/apply-color-scheme.ts";
+import { normalizeLanguage } from "../../../translations/normalize-language.ts";
 
 const LANGUAGE_CACHE_KEY = "languageCached";
 const appBackgroundColorVariable = "--tg-theme-secondary-bg-color";
@@ -43,7 +44,7 @@ export class TelegramPlatform implements Platform {
       if (!languageCached) {
         return;
       }
-      this.languageCached = languageCached;
+      this.languageCached = normalizeLanguage(languageCached);
     });
   }
 
@@ -226,16 +227,7 @@ export class TelegramPlatform implements Platform {
     }
     // If there's no cached language - use Telegram's language before we load user preferences
 
-    const languageCode = getWebApp().initDataUnsafe.user?.language_code;
-    switch (languageCode) {
-      case "ru":
-      case "es":
-      case "pt-br":
-      case "ar":
-        return languageCode;
-      default:
-        return "en";
-    }
+    return normalizeLanguage(getWebApp().initDataUnsafe.user?.language_code);
   }
 
   openExternalLink(link: string) {

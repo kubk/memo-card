@@ -1,33 +1,46 @@
-import { Translator } from "api";
+import type { LanguageShared } from "api";
 import { userStore } from "../store/user-store.ts";
-import { LanguageShared } from "api";
-import { en, Translation } from "./en.ts";
-import { ru } from "./ru.ts";
-import { es } from "./es.ts";
-import { ptBr } from "./ptBr.ts";
-import { ar } from "./ar.ts";
-import { fa } from "./fa.ts";
-import { uk } from "./uk.ts";
+import type { Translation } from "./en.ts";
+import { normalizeLanguage } from "./normalize-language.ts";
+import {
+  TranslationResourceStore,
+  type TranslationLoaders,
+} from "./translation-resource-store.ts";
+
+const fullTranslationLoaders = {
+  en: () => import("./en.ts").then(({ en }) => en),
+  ru: () => import("./ru.ts").then(({ ru }) => ru),
+  es: () => import("./es.ts").then(({ es }) => es),
+  "pt-br": () => import("./ptBr.ts").then(({ ptBr }) => ptBr),
+  ar: () => import("./ar.ts").then(({ ar }) => ar),
+  fa: () => import("./fa.ts").then(({ fa }) => fa),
+  uk: () => import("./uk.ts").then(({ uk }) => uk),
+} satisfies TranslationLoaders;
+
+export const translationResourceStore = new TranslationResourceStore(
+  fullTranslationLoaders,
+);
 
 export type TranslationKey = keyof Translation;
-
-const translations = { en, ru, es, "pt-br": ptBr, ar, fa, uk };
-
-export const isLanguage = (lang?: string | null): lang is LanguageShared => {
-  return lang ? lang in translations : false;
-};
 
 export const translateCategory = (category: string) => {
   return t(`category_${category}` as any, category);
 };
 
-export const translator = new Translator<LanguageShared, Translation>(
-  translations,
-  () => {
-    const language = userStore.language;
-    return isLanguage(language) ? language : "en";
+function getActiveLanguage(): LanguageShared {
+  return normalizeLanguage(userStore.language);
+}
+
+export const translator = {
+  getLang: getActiveLanguage,
+  translate(key: TranslationKey, defaultValue?: string) {
+    return translationResourceStore.translate(
+      getActiveLanguage(),
+      key,
+      defaultValue,
+    );
   },
-);
+};
 
 export const t = (key: TranslationKey, defaultValue?: string) => {
   return translator.translate(key, defaultValue);
