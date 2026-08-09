@@ -153,7 +153,7 @@ export class TelegramPlatform implements Platform {
       return;
     }
 
-    if (!this.isMobile()) {
+    if (!this.isMobile) {
       return;
     }
 
@@ -198,7 +198,7 @@ export class TelegramPlatform implements Platform {
     return getWebApp().platform === "android";
   }
 
-  isMobile() {
+  get isMobile() {
     return this.isIos() || this.isAndroid();
   }
 
@@ -251,7 +251,7 @@ export class TelegramPlatform implements Platform {
   }
 
   haptic(type: HapticType) {
-    if (!this.isMobile()) return;
+    if (!this.isMobile) return;
 
     switch (type) {
       case "error":

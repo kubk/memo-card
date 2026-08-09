@@ -73,7 +73,7 @@ export function App() {
   }
 
   const isTelegramMobile =
-    platform instanceof TelegramPlatform && platform.isMobile();
+    platform instanceof TelegramPlatform && platform.isMobile;
   const isDesktopWidth =
     platform instanceof BrowserPlatform ||
     (platform instanceof TelegramPlatform &&

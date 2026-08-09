@@ -1,6 +1,61 @@
 import { platform } from "../../lib/platform/platform.ts";
 import { TelegramPlatform } from "../../lib/platform/telegram/telegram-platform.ts";
 import { t } from "../../translations/t.ts";
+import { useEffect, useState } from "react";
+
+function isTextEditingElement(target: EventTarget | null) {
+  if (!(target instanceof HTMLElement)) {
+    return false;
+  }
+
+  if (target instanceof HTMLTextAreaElement || target.isContentEditable) {
+    return true;
+  }
+
+  if (!(target instanceof HTMLInputElement)) {
+    return false;
+  }
+
+  return ![
+    "button",
+    "checkbox",
+    "color",
+    "file",
+    "hidden",
+    "image",
+    "radio",
+    "range",
+    "reset",
+    "submit",
+  ].includes(target.type);
+}
+
+function useIsMobileTextEditing() {
+  const [isTextEditing, setIsTextEditing] = useState(false);
+
+  useEffect(() => {
+    const update = (target: EventTarget | null) => {
+      setIsTextEditing(platform.isMobile && isTextEditingElement(target));
+    };
+    const handleFocusIn = (event: FocusEvent) => {
+      update(event.target);
+    };
+    const handleFocusOut = (event: FocusEvent) => {
+      update(event.relatedTarget);
+    };
+
+    update(document.activeElement);
+    document.addEventListener("focusin", handleFocusIn);
+    document.addEventListener("focusout", handleFocusOut);
+
+    return () => {
+      document.removeEventListener("focusin", handleFocusIn);
+      document.removeEventListener("focusout", handleFocusOut);
+    };
+  }, []);
+
+  return isTextEditing;
+}
 
 export function BackBottomButton({
   isVisible = true,
@@ -9,7 +64,9 @@ export function BackBottomButton({
   isVisible?: boolean;
   onClick: () => void;
 }) {
-  if (!isVisible) {
+  const isMobileTextEditing = useIsMobileTextEditing();
+
+  if (!isVisible || isMobileTextEditing) {
     return null;
   }
 

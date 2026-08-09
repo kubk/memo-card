@@ -94,7 +94,7 @@ export const useRestoreFullScreenExpand = () => {
       return;
     }
 
-    if (!platform.isMobile()) {
+    if (!platform.isMobile) {
       return;
     }
 
