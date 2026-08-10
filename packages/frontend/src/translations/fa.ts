@@ -14,7 +14,7 @@ export const fa: Translation = {
   voice_type_browser: "صدای مرورگر",
   voice_type_browser_description: "از صدای موجود در دستگاه شما استفاده می‌کند",
   voice_type_none: "هیچ",
-  review_custom: "انتخاب موارد مرور",
+  review_custom: "انتخاب دسته‌ها",
   custom_new_cards: "کارت‌های جدید",
   custom_due_cards: "کارت‌های مرور",
   review_card_type: "نوع کارت را انتخاب کنید",

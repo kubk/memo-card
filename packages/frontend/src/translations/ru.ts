@@ -168,7 +168,7 @@ export const ru: Translation = {
   front: "Лицевая",
   back: "Обратная",
   card_speak_description: "Позволяет услышать произношение",
-  review_custom: "Выбрать что повторять",
+  review_custom: "Выберите колоды",
   custom_due_cards: "Карточки к повторению",
   custom_new_cards: "Новые карточки",
   review_card_type: "Тип карточки",

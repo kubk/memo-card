@@ -17,7 +17,7 @@ export const ar: Translation = {
   review_card_type: "اختر نوع البطاقة",
   custom_due_cards: "البطاقات المستحقة",
   custom_new_cards: "البطاقات الجديدة",
-  review_custom: "اختر ما تريد مراجعته",
+  review_custom: "اختر المجموعات",
   settings_lang: "اللغة",
   logout: "تسجيل الخروج",
   error_contact_support: "حدث خطأ. يرجى الاتصال بالدعم حتى نتمكن من مساعدتك.",

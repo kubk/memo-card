@@ -15,7 +15,7 @@ export const uk: Translation = {
   voice_type_browser_description:
     "Використовує голос, доступний на вашому пристрої",
   voice_type_none: "Немає",
-  review_custom: "Виберіть, що повторити",
+  review_custom: "Виберіть колоди",
   review_card_type: "Тип картки",
   custom_due_cards: "Картки для повторення",
   custom_new_cards: "Нові картки",

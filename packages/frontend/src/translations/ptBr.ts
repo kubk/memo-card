@@ -14,7 +14,7 @@ export const ptBr: Translation = {
   voice_type_browser: "Voz do navegador",
   voice_type_browser_description: "Usa uma voz disponível no seu dispositivo",
   voice_type_none: "Nenhum",
-  review_custom: "Selecionar o que revisar",
+  review_custom: "Selecionar baralhos",
   custom_new_cards: "Novas cartas",
   custom_due_cards: "Cartas para revisar",
   review_card_type: "Tipo de carta",

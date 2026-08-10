@@ -30,7 +30,7 @@ export const en = {
   next: "Next",
   custom_due_cards: "Due cards",
   custom_new_cards: "New cards",
-  review_custom: "Custom review",
+  review_custom: "Choose decks",
   review_card_type: "Type of card",
   wysiwyg_text_color: "Text color",
   wysiwyg_bold: "Bold",

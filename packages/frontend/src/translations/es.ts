@@ -14,7 +14,7 @@ export const es: Translation = {
   voice_type_browser: "Voz del navegador",
   voice_type_browser_description: "Usa una voz disponible en tu dispositivo",
   voice_type_none: "Ninguno",
-  review_custom: "Seleccionar qué revisar",
+  review_custom: "Elegir mazos",
   review_card_type: "Tipo de tarjeta",
   custom_due_cards: "Tarjetas por revisar",
   custom_new_cards: "Tarjetas nuevas",
