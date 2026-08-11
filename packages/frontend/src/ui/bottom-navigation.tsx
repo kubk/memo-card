@@ -9,6 +9,8 @@ import {
 } from "../store/bottom-navigation-store.ts";
 import { useDevMenuReveal } from "../screens/dev-menu/use-dev-menu-reveal.tsx";
 import { t, type TranslationKey } from "../translations/t.ts";
+import { BrowserPlatform } from "../lib/platform/browser/browser-platform.ts";
+import { platform } from "../lib/platform/platform.ts";
 import { cn } from "./cn.ts";
 
 const navigationItems: ReadonlyArray<{
@@ -107,7 +109,14 @@ export function BottomNavigation({ children }: { children: ReactNode }) {
     <div className="absolute inset-0 flex flex-col">
       <div className="relative min-h-0 flex-1">{children}</div>
       {isVisible ? (
-        <div className="z-30 shrink-0 border-t border-black/[0.12] bg-[#f2f2f2] pb-[var(--tg-safe-area-inset-bottom,0px)] dark:border-white/[0.12] dark:bg-bg">
+        <div
+          className={cn(
+            "z-30 shrink-0 border-t border-black/[0.12] bg-[#f2f2f2] dark:border-white/[0.12] dark:bg-bg",
+            platform instanceof BrowserPlatform && platform.isMobile
+              ? "pb-[18px]"
+              : "pb-[var(--tg-safe-area-inset-bottom,0px)]",
+          )}
+        >
           <BottomNavigationView activeTab={activeTab} onSelect={handleSelect} />
         </div>
       ) : null}
