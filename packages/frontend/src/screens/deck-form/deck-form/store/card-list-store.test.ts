@@ -132,6 +132,32 @@ describe("CardListStore", () => {
     expect(store.filteredCards.map((card) => card.id)).toEqual([3]);
   });
 
+  it("ignores whitespace around a search phrase", () => {
+    mocks.screen.searchText = " play ";
+    deckDetailsStore.setDeck(
+      createDeck([
+        { id: 1, front: "to play" },
+        { id: 2, front: "to call" },
+      ]),
+    );
+    const store = new CardListStore();
+
+    expect(store.filteredCards.map((card) => card.id)).toEqual([1]);
+  });
+
+  it("preserves whitespace inside a search phrase", () => {
+    mocks.screen.searchText = "to cal";
+    deckDetailsStore.setDeck(
+      createDeck([
+        { id: 1, front: "tocal" },
+        { id: 2, front: "to call" },
+      ]),
+    );
+    const store = new CardListStore();
+
+    expect(store.filteredCards.map((card) => card.id)).toEqual([2]);
+  });
+
   it("derives edit behavior from authorship", () => {
     deckDetailsStore.setDeck(createDeck([{ id: 1, front: "Airport" }]));
     const store = new CardListStore();

@@ -75,7 +75,7 @@ export class CardListStore {
 
   get filteredCards(): DeckCardDbType[] {
     const cards = this.deck?.deckCards ?? [];
-    const textFilter = this.cardFilterText.toLowerCase();
+    const textFilter = this.cardFilterText.trim().toLowerCase();
 
     return cards
       .filter((card) => {
@@ -114,7 +114,7 @@ export class CardListStore {
   }
 
   get isEmptySearchResults() {
-    return this.filteredCards.length === 0 && !!this.cardFilterText;
+    return this.filteredCards.length === 0 && !!this.cardFilterText.trim();
   }
 
   setSortByIdAndDirection(
