@@ -107,35 +107,29 @@ class DeckListStore {
     return authOptionalScreenTypes.includes(screenStore.screen.type);
   }
 
-  addDeckToMine(deckId: number, silent = false) {
-    return api.deck.addToMine
-      .mutate({
+  async addDeckToMine(deckId: number, silent = false) {
+    try {
+      await api.deck.addToMine.mutate({ deckId });
+      if (silent) {
+        return;
+      }
+      await this.myInfoQuery.invalidate();
+    } catch (error) {
+      reportHandledError("Error while adding deck to mine", error, {
         deckId,
-      })
-      .then(() => {
-        if (silent) {
-          return;
-        }
-        return this.myInfoQuery.invalidate();
-      })
-      .catch((error) => {
-        reportHandledError("Error while adding deck to mine", error, {
-          deckId,
-        });
       });
+    }
   }
 
-  addFolderToMine(folderId: number) {
-    return api.folder.addToMine
-      .mutate({
+  async addFolderToMine(folderId: number) {
+    try {
+      await api.folder.addToMine.mutate({ folderId });
+      await this.myInfoQuery.invalidate();
+    } catch (error) {
+      reportHandledError("Error while adding folder to mine", error, {
         folderId,
-      })
-      .then(() => this.myInfoQuery.invalidate())
-      .catch((error) => {
-        reportHandledError("Error while adding folder to mine", error, {
-          folderId,
-        });
       });
+    }
   }
 
   searchDeckById(deckId: number) {

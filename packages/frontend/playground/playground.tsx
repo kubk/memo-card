@@ -7,11 +7,7 @@ import {
   RotateCcw,
   Smartphone,
 } from "lucide-react";
-import {
-  isLanguage,
-  languageSharedToHuman,
-  languagesShared,
-} from "api";
+import { isLanguage, languageSharedToHuman, languagesShared } from "api";
 import { Badge } from "../src/ui/badge.tsx";
 import { Button } from "../src/ui/button.tsx";
 import { BottomSheetPortalProvider } from "../src/ui/bottom-sheet/bottom-sheet.tsx";
