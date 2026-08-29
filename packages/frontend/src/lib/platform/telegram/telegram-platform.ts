@@ -211,6 +211,7 @@ export class TelegramPlatform implements Platform {
   getClientData(): PlatformSchemaType {
     return {
       platform: getWebApp().platform,
+      userAgent: navigator.userAgent,
       colorScheme: getWebApp().colorScheme,
       tgVersion: getWebApp().version,
     };

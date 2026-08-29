@@ -96,6 +96,7 @@ export class BrowserPlatform implements Platform {
   getClientData(): PlatformSchemaType {
     return {
       platform: navigator.userAgent,
+      userAgent: navigator.userAgent,
       colorScheme: isDarkTheme() ? "dark" : "light",
     };
   }
