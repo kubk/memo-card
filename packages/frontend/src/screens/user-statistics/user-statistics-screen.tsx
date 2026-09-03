@@ -150,7 +150,7 @@ function Heatmap() {
               userStatisticsStore.canFetchMoreReviewDays
             ) {
               scrollAnchor.current = element.scrollWidth - element.scrollLeft;
-              userStatisticsStore.fetchNextReviewDaysPage();
+              userStatisticsStore.reviewDaysQuery.fetchNextPage();
             }
           }}
         >
@@ -328,7 +328,7 @@ export function UserStatisticsDailyScreen() {
     screenStore.back();
   });
 
-  useBottomReached(userStatisticsStore.fetchNextReviewDaysPage, {
+  useBottomReached(userStatisticsStore.reviewDaysQuery.fetchNextPage, {
     enabled: userStatisticsStore.canFetchMoreReviewDays,
   });
 

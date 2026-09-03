@@ -155,8 +155,4 @@ export class UserStatisticsStore {
   getHeatmapIntensity(reviews: number) {
     return getReviewIntensity(reviews, this.maxReviewsInHeatmap);
   }
-
-  fetchNextReviewDaysPage() {
-    return this.reviewDaysQuery.fetchNextPage();
-  }
 }
