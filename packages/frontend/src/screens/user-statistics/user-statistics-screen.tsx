@@ -5,7 +5,7 @@ import { screenStore } from "../../store/screen-store.ts";
 import { t } from "../../translations/t.ts";
 import { CardRowLoading } from "../shared/card-row-loading.tsx";
 import { cn } from "../../ui/cn.ts";
-import { type ReactNode } from "react";
+import { type ReactNode, useLayoutEffect, useRef } from "react";
 import { List } from "../../ui/list.tsx";
 import { FilledIcon } from "../../ui/filled-icon.tsx";
 import { FlameIcon, LoaderCircleIcon, TrophyIcon } from "lucide-react";
@@ -112,9 +112,22 @@ function Section(props: {
   );
 }
 
-function Heatmap(props: { isLoading: boolean }) {
+function Heatmap() {
   const userStatisticsStore = useUserStatisticsStore();
-  const showEmptyText = !props.isLoading && !userStatisticsStore.hasActivity;
+  const heatmapElement = useRef<HTMLDivElement>(null);
+  const scrollAnchor = useRef<number | null>(null);
+
+  useLayoutEffect(() => {
+    const element = heatmapElement.current;
+    if (element) {
+      if (scrollAnchor.current === null) {
+        element.scrollLeft = element.scrollWidth;
+      } else {
+        element.scrollLeft = element.scrollWidth - scrollAnchor.current;
+        scrollAnchor.current = null;
+      }
+    }
+  }, [userStatisticsStore.heatmapWeeks.length]);
 
   return (
     <button
@@ -125,26 +138,57 @@ function Heatmap(props: { isLoading: boolean }) {
         screenStore.push({ type: "userStatisticsDaily" });
       }}
     >
-      <div className="grid grid-cols-[repeat(14,minmax(0,1fr))] gap-[3px]">
-        {userStatisticsStore.heatmapWeeks.map((week, weekIndex) => (
-          <div key={weekIndex} className="flex flex-col gap-[3px]">
-            {week.map((day) => (
+      <div className="relative">
+        <div
+          ref={heatmapElement}
+          dir="ltr"
+          className="overflow-x-auto"
+          onScroll={(event) => {
+            const element = event.currentTarget;
+            if (
+              element.scrollLeft <= 1 &&
+              userStatisticsStore.canFetchMoreReviewDays
+            ) {
+              scrollAnchor.current = element.scrollWidth - element.scrollLeft;
+              userStatisticsStore.fetchNextReviewDaysPage();
+            }
+          }}
+        >
+          <div className="flex min-w-full gap-[3px]">
+            {userStatisticsStore.heatmapWeeks.map((week, weekIndex) => (
               <div
-                key={day.date}
-                title={`${day.date}: ${day.reviews}`}
-                className={cn(
-                  "aspect-square rounded-[3px]",
-                  heatmapColors[
-                    userStatisticsStore.getHeatmapIntensity(day.reviews)
-                  ],
-                )}
-              />
+                key={weekIndex}
+                className="flex w-[calc((100%_-_39px)_/_14)] shrink-0 flex-col gap-[3px]"
+              >
+                {week.map((day) => (
+                  <div
+                    key={day.date}
+                    title={`${day.date}: ${day.reviews}`}
+                    className={cn(
+                      "aspect-square rounded-[3px]",
+                      heatmapColors[
+                        userStatisticsStore.getHeatmapIntensity(day.reviews)
+                      ],
+                    )}
+                  />
+                ))}
+              </div>
             ))}
           </div>
-        ))}
+        </div>
+
+        {userStatisticsStore.reviewDaysQuery.isFetchingNextPage ? (
+          <div className="pointer-events-none absolute inset-y-0 left-0 z-10 flex w-11 items-center justify-center">
+            <LoaderCircleIcon
+              size={32}
+              strokeWidth={2.5}
+              className="animate-spin text-link"
+            />
+          </div>
+        ) : null}
       </div>
 
-      {showEmptyText ? (
+      {userStatisticsStore.shouldShowHeatmapEmptyText ? (
         <div className="mt-3 text-center text-[13px] leading-5 text-hint">
           {t("user_stats_empty_text")}
         </div>
@@ -160,7 +204,7 @@ function DailyStatsMarker(props: { reviews: number }) {
     <div
       className={cn(
         "h-[30px] w-[30px] shrink-0 rounded-lg",
-        heatmapColors[userStatisticsStore.getDailyListIntensity(props.reviews)],
+        heatmapColors[userStatisticsStore.getHeatmapIntensity(props.reviews)],
       )}
     />
   );
@@ -170,8 +214,6 @@ function UserStatisticsContent(props: {
   statistics: UserStatistics | undefined;
 }) {
   const { statistics } = props;
-  const isLoading = statistics === undefined;
-
   return (
     <>
       <Section title={t("user_stats_streaks")}>
@@ -231,7 +273,7 @@ function UserStatisticsContent(props: {
           />
         </div>
 
-        <Heatmap isLoading={isLoading} />
+        <Heatmap />
       </Section>
 
       <Section title={t("user_stats_memory")}>
@@ -281,31 +323,23 @@ export function UserStatisticsScreen() {
 
 export function UserStatisticsDailyScreen() {
   const userStatisticsStore = useUserStatisticsStore();
-  const dailyReviewsQuery = userStatisticsStore.dailyReviewsQuery;
-  const days = dailyReviewsQuery.items;
 
   useBackButton(() => {
     screenStore.back();
   });
 
-  useBottomReached(
-    () => {
-      dailyReviewsQuery.fetchNextPage();
-    },
-    {
-      enabled:
-        dailyReviewsQuery.data !== undefined && !dailyReviewsQuery.isPending,
-    },
-  );
+  useBottomReached(userStatisticsStore.fetchNextReviewDaysPage, {
+    enabled: userStatisticsStore.canFetchMoreReviewDays,
+  });
 
   return (
     <Screen title={t("user_stats_daily_page")}>
-      {dailyReviewsQuery.isPending ? (
+      {userStatisticsStore.reviewDaysQuery.isPending ? (
         <StatisticsLoading />
-      ) : dailyReviewsQuery.data !== undefined ? (
+      ) : userStatisticsStore.reviewDaysQuery.data !== undefined ? (
         <>
           <List
-            items={days.map((day) => ({
+            items={userStatisticsStore.reviewDays.map((day) => ({
               text: (
                 <span className="inline-flex items-baseline gap-1">
                   <span>{t("teacher_stats_repeats")}:</span>
@@ -322,7 +356,7 @@ export function UserStatisticsDailyScreen() {
               ),
             }))}
           />
-          {dailyReviewsQuery.isFetchingNextPage && (
+          {userStatisticsStore.reviewDaysQuery.isFetchingNextPage && (
             <div className="flex justify-center py-3">
               <LoaderCircleIcon size={24} className="animate-spin text-hint" />
             </div>

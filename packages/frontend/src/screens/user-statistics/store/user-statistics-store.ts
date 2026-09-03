@@ -1,9 +1,9 @@
 import { makeAutoObservable } from "mobx";
 import { api, apiProxy } from "../../../api/trpc-api.ts";
 import { type RouterOutput } from "api";
+import { makeInfiniteQuery } from "../../../lib/mobx-query-lite/make-infinite-query.ts";
 import { makeQuery } from "../../../lib/mobx-query-lite/make-query.ts";
 import { getTz } from "../../../lib/platform/get-tz.ts";
-import { makeInfiniteQuery } from "../../../lib/mobx-query-lite/make-infinite-query.ts";
 import {
   addDays,
   differenceInCalendarDays,
@@ -15,9 +15,7 @@ import {
   subWeeks,
 } from "date-fns";
 
-const recentHeatmapDaysCount = 98;
-
-type HeatmapReview = RouterOutput["myStatistics"]["heatmapReviews"][number];
+type DailyReview = RouterOutput["myStatisticsReviewDays"]["items"][number];
 
 const formatIsoDate = (date: Date) => {
   return formatISO(date, { representation: "date" });
@@ -40,26 +38,43 @@ const getTodayDate = () => {
   return formatIsoDate(new Date());
 };
 
-export const getPaddedRecentHeatmap = (
-  heatmapReviews: HeatmapReview[],
+export const getPaddedHeatmap = (
+  reviewDays: DailyReview[],
   today: string,
+  hasMoreReviewDays: boolean,
 ) => {
   const todayDate = parseIsoDate(today);
-  const startDateValue = subDays(
+  const recentStartDate = subDays(
     subWeeks(todayDate, 13),
     getISODay(todayDate) - 1,
   );
+  const oldestLoadedDay = reviewDays.at(-1);
+
+  let startDateValue = recentStartDate;
+  if (hasMoreReviewDays && oldestLoadedDay) {
+    const oldestLoadedDate = parseIsoDate(oldestLoadedDay.date);
+    startDateValue = addDays(
+      oldestLoadedDate,
+      (8 - getISODay(oldestLoadedDate)) % 7,
+    );
+  } else if (oldestLoadedDay) {
+    const firstReviewDate = parseIsoDate(oldestLoadedDay.date);
+    const firstReviewWeekStart = subDays(
+      firstReviewDate,
+      getISODay(firstReviewDate) - 1,
+    );
+    if (firstReviewWeekStart < recentStartDate) {
+      startDateValue = firstReviewWeekStart;
+    }
+  }
   const startDate = formatIsoDate(startDateValue);
 
   const daysByDate = new Map(
-    heatmapReviews
-      .filter((day) => day.date >= startDate && day.date <= today)
+    reviewDays
+      .filter((day) => day.date >= startDate)
       .map((day) => [day.date, day]),
   );
-  const daysCount = Math.min(
-    recentHeatmapDaysCount,
-    differenceInCalendarDays(todayDate, startDateValue) + 1,
-  );
+  const daysCount = differenceInCalendarDays(todayDate, startDateValue) + 1;
 
   return Array.from({ length: daysCount }, (_, index) => {
     const date = addDaysToIsoDate(startDate, index);
@@ -79,10 +94,10 @@ export class UserStatisticsStore {
   userStatisticsQuery = makeQuery(
     apiProxy.myStatistics.query({ timeZone: getTz() }),
   );
-  dailyReviewsQuery = makeInfiniteQuery({
-    key: "userStatisticsDaily",
+  reviewDaysQuery = makeInfiniteQuery({
+    key: "userStatistics.reviewDays",
     query: ({ cursor }) =>
-      api.myStatisticsDailyReviews.query({
+      api.myStatisticsReviewDays.query({
         timeZone: getTz(),
         cursor,
       }),
@@ -92,44 +107,56 @@ export class UserStatisticsStore {
     makeAutoObservable(this, {}, { autoBind: true });
   }
 
-  get heatmapReviews() {
-    return this.userStatisticsQuery.data?.heatmapReviews ?? [];
+  get reviewDays() {
+    return this.reviewDaysQuery.items;
   }
 
-  get maxReviewsInRecentHeatmap() {
-    return Math.max(0, ...this.recentHeatmap.map((day) => day.reviews));
-  }
-
-  get maxReviewsInDailyList() {
-    return Math.max(
-      0,
-      ...this.dailyReviewsQuery.items.map((day) => day.reviews),
-    );
+  get maxReviewsInHeatmap() {
+    return Math.max(0, ...this.heatmap.map((day) => day.reviews));
   }
 
   get hasActivity() {
-    return this.heatmapReviews.some((day) => day.reviews > 0);
+    return this.reviewDays.some((day) => day.reviews > 0);
   }
 
-  get recentHeatmap() {
-    return getPaddedRecentHeatmap(this.heatmapReviews, getTodayDate());
+  get shouldShowHeatmapEmptyText() {
+    return (
+      this.reviewDaysQuery.data !== undefined &&
+      !this.reviewDaysQuery.hasNextPage &&
+      !this.hasActivity
+    );
+  }
+
+  get canFetchMoreReviewDays() {
+    return (
+      this.reviewDaysQuery.hasNextPage &&
+      !this.reviewDaysQuery.isFetchingNextPage
+    );
+  }
+
+  get heatmap() {
+    return getPaddedHeatmap(
+      this.reviewDays,
+      getTodayDate(),
+      this.reviewDaysQuery.hasNextPage,
+    );
   }
 
   get heatmapWeeks() {
     const weeks = [];
 
-    for (let index = 0; index < this.recentHeatmap.length; index += 7) {
-      weeks.push(this.recentHeatmap.slice(index, index + 7));
+    for (let index = 0; index < this.heatmap.length; index += 7) {
+      weeks.push(this.heatmap.slice(index, index + 7));
     }
 
     return weeks;
   }
 
   getHeatmapIntensity(reviews: number) {
-    return getReviewIntensity(reviews, this.maxReviewsInRecentHeatmap);
+    return getReviewIntensity(reviews, this.maxReviewsInHeatmap);
   }
 
-  getDailyListIntensity(reviews: number) {
-    return getReviewIntensity(reviews, this.maxReviewsInDailyList);
+  fetchNextReviewDaysPage() {
+    return this.reviewDaysQuery.fetchNextPage();
   }
 }
