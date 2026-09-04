@@ -252,15 +252,13 @@ export function App() {
           {(screenStore.screen.type === "userStatistics" ||
             screenStore.screen.type === "userStatisticsDaily") && (
             <SignedIn>
-              <PreventTelegramSwipeDownClosingIos>
-                <UserStatisticsStoreProvider>
-                  {screenStore.screen.type === "userStatisticsDaily" ? (
-                    <UserStatisticsDailyScreen />
-                  ) : (
-                    <UserStatisticsScreen />
-                  )}
-                </UserStatisticsStoreProvider>
-              </PreventTelegramSwipeDownClosingIos>
+              <UserStatisticsStoreProvider>
+                {screenStore.screen.type === "userStatisticsDaily" ? (
+                  <UserStatisticsDailyScreen />
+                ) : (
+                  <UserStatisticsScreen />
+                )}
+              </UserStatisticsStoreProvider>
             </SignedIn>
           )}
           {screenStore.screen.type === "teacherStatistics" && (

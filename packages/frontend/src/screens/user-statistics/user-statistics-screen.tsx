@@ -130,14 +130,7 @@ function Heatmap() {
   }, [userStatisticsStore.heatmapWeeks.length]);
 
   return (
-    <button
-      type="button"
-      title={t("user_stats_daily_page")}
-      className="mt-2 w-full cursor-pointer rounded-lg border-0 bg-bg p-3 text-start text-text active:scale-[0.99] active:transition-transform active:duration-300"
-      onClick={() => {
-        screenStore.push({ type: "userStatisticsDaily" });
-      }}
-    >
+    <div className="mt-2 w-full rounded-lg bg-bg p-3 text-start text-text">
       <div className="relative">
         <div
           ref={heatmapElement}
@@ -193,7 +186,7 @@ function Heatmap() {
           {t("user_stats_empty_text")}
         </div>
       ) : null}
-    </button>
+    </div>
   );
 }
 
