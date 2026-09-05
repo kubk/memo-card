@@ -18,6 +18,7 @@ export enum SpeakLanguageEnum {
   French = "fr-FR",
   Bulgarian = "bg-BG",
   Spanish = "es-ES",
+  MexicanSpanish = "es-MX",
   Finnish = "fi-FI",
   Japanese = "ja-JP",
   Romanian = "ro-RO",

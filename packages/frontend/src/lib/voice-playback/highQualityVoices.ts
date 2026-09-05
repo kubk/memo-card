@@ -106,6 +106,15 @@ export const highQualityVoices: Partial<Record<SpeakLanguageEnum, string[]>> = {
     "Google español 3 (Natural)",
     "Google español 5 (Natural)",
   ],
+  "es-MX": [
+    "Microsoft Dalia Online (Natural) - Spanish (Mexico)",
+    "Microsoft Jorge Online (Natural) - Spanish (Mexico)",
+    "Angelica",
+    "Paulina",
+    "Juan",
+    "Microsoft Sabina - Spanish (Mexico)",
+    "Microsoft Raul - Spanish (Mexico)",
+  ],
   "ru-RU": [
     "Microsoft Svetlana Online (Natural) - Russian (Russia)",
     "Microsoft Ekaterina Online - Russian (Russia)",

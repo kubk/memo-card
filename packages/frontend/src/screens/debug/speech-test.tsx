@@ -17,7 +17,16 @@ type Language = {
 
 const LANGUAGES: Language[] = [
   { code: "en-US", name: "English (US)", defaultText: "Hello, how are you?" },
-  { code: "es-ES", name: "Spanish", defaultText: "Hola, ¿cómo estás?" },
+  {
+    code: "es-ES",
+    name: "Spanish (Spain)",
+    defaultText: "Hola, ¿cómo estás?",
+  },
+  {
+    code: "es-MX",
+    name: "Spanish (Mexico)",
+    defaultText: "Hola, ¿cómo estás?",
+  },
   {
     code: "de-DE",
     name: "German",
