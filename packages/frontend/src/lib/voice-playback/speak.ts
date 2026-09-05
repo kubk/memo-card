@@ -1,4 +1,3 @@
-import { camelCaseToHuman } from "../string/camel-case-to-human.ts";
 import EasySpeech from "easy-speech";
 
 export async function loadHighQualityVoices() {
@@ -50,7 +49,7 @@ export const languageKeyToHuman = (str: string): string => {
   if (str === "USEnglish") {
     return "US English";
   }
-  return camelCaseToHuman(str);
+  return str.replace(/([A-Z])/g, " $1").trimStart();
 };
 
 export const isSpeechSynthesisSupported =
