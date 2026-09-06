@@ -31,6 +31,7 @@ import {
   createAnswerTypeField,
   createAnswerListField,
   createAnswerForm,
+  createCardForm,
 } from "../../deck-form/store/deck-form-store.ts";
 import { platform } from "../../../../lib/platform/platform.ts";
 import { notifyNewCards } from "../notify-new-cards.ts";
@@ -105,24 +106,9 @@ export class CardFormStore {
   private get deckCards(): CardFormType[] {
     const deck = this.deck;
     if (!deck) return [];
-    return deck.deckCards.map((card) => ({
-      id: card.id,
-      front: createFrontCardField(card.front),
-      back: createBackCardField(card.back, () => this.cardForm),
-      example: new TextField(card.example || ""),
-      answerType: createAnswerTypeField(card),
-      options: new TextField<DeckCardOptions>(card.options ?? null),
-      answers: createAnswerListField(
-        card.answers
-          ? card.answers.map((answer) => ({
-              id: answer.id,
-              text: new TextField(answer.text),
-              isCorrect: new BooleanField(answer.isCorrect),
-            }))
-          : [],
-        () => this.cardForm,
-      ),
-    }));
+    return deck.deckCards.map((card) =>
+      createCardForm(card, () => this.cardForm),
+    );
   }
 
   get cardFilterSortBy(): CardFilterSortBy {

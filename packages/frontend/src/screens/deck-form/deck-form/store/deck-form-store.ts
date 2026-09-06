@@ -8,7 +8,7 @@ import {
   TextField,
   validators,
 } from "mobx-form-lite";
-import { makeAutoObservable, runInAction } from "mobx";
+import { makeAutoObservable } from "mobx";
 import { screenStore } from "../../../../store/screen-store.ts";
 import { Route } from "../../../../store/routing/route-types.ts";
 import { deckListStore } from "../../../../store/deck-list-store.ts";
@@ -131,6 +131,30 @@ export const createAnswerTypeField = (card?: DeckCardDbType) => {
   );
 };
 
+export const createCardForm = (
+  card: DeckCardDbType,
+  getCardForm?: () => CardFormType | null,
+): CardFormType => {
+  return {
+    id: card.id,
+    front: createFrontCardField(card.front),
+    back: createBackCardField(card.back, getCardForm),
+    example: new TextField(card.example || ""),
+    answerType: createAnswerTypeField(card),
+    options: new TextField<DeckCardOptions>(card.options ?? null),
+    answers: createAnswerListField(
+      card.answers
+        ? card.answers.map((answer) => ({
+            id: answer.id,
+            text: new TextField(answer.text),
+            isCorrect: new BooleanField(answer.isCorrect),
+          }))
+        : [],
+      getCardForm,
+    ),
+  };
+};
+
 const createUpdateForm = (id: number, deck: MyDeck): DeckFormType => {
   return {
     id: id,
@@ -139,23 +163,7 @@ const createUpdateForm = (id: number, deck: MyDeck): DeckFormType => {
     speakingCardsLocale: new TextField(deck.speakLocale),
     speakingCardsField: new TextField(deck.speakField),
     reverseCards: new BooleanField(deck.reverseCards),
-    cards: deck.deckCards.map((card) => ({
-      id: card.id,
-      front: createFrontCardField(card.front),
-      back: createBackCardField(card.back),
-      example: new TextField(card.example || ""),
-      answerType: createAnswerTypeField(card),
-      options: new TextField<DeckCardOptions>(card.options ?? null),
-      answers: createAnswerListField(
-        card.answers
-          ? card.answers.map((answer) => ({
-              id: answer.id,
-              text: new TextField(answer.text),
-              isCorrect: new BooleanField(answer.isCorrect),
-            }))
-          : [],
-      ),
-    })),
+    cards: deck.deckCards.map((card) => createCardForm(card)),
   };
 };
 
@@ -388,6 +396,17 @@ export class DeckFormStore {
     );
   }
 
+  private applyDeckMutationResult(
+    { deck, folders, cardsToReview }: RouterOutput["deck"]["create"],
+    onSuccess?: (deck: DeckWithCardsDbType) => void,
+  ) {
+    this.deckForm = createUpdateForm(deck.id, deck);
+    deckListStore.replaceDeck(deck, true);
+    deckListStore.updateFolders(folders);
+    deckListStore.updateCardsToReview(cardsToReview);
+    onSuccess?.(deck);
+  }
+
   async onDeckSave(onSuccess?: (deck: DeckWithCardsDbType) => void) {
     assert(this.deckForm, "onDeckSave: form is empty");
 
@@ -409,15 +428,7 @@ export class DeckFormStore {
         return;
       }
 
-      const { deck, folders, cardsToReview } = deckResult.data;
-
-      runInAction(() => {
-        this.deckForm = createUpdateForm(deck.id, deck);
-        deckListStore.replaceDeck(deck, true);
-        deckListStore.updateFolders(folders);
-        deckListStore.updateCardsToReview(cardsToReview);
-        onSuccess?.(deck);
-      });
+      this.applyDeckMutationResult(deckResult.data, onSuccess);
 
       return;
     }
@@ -438,14 +449,6 @@ export class DeckFormStore {
       return;
     }
 
-    const { deck, folders, cardsToReview } = result.data;
-
-    runInAction(() => {
-      this.deckForm = createUpdateForm(deck.id, deck);
-      deckListStore.replaceDeck(deck, true);
-      deckListStore.updateFolders(folders);
-      deckListStore.updateCardsToReview(cardsToReview);
-      onSuccess?.(deck);
-    });
+    this.applyDeckMutationResult(result.data, onSuccess);
   }
 }

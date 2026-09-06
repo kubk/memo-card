@@ -6,7 +6,6 @@ import {
   type FsrsState,
 } from "api";
 import { makeAutoObservable } from "mobx";
-import { userStore } from "../../../store/user-store.ts";
 import { CardPreviewFormData } from "../../deck-form/card-form/store/card-preview-types.ts";
 import {
   createVoicePlayer,
@@ -14,6 +13,7 @@ import {
 } from "../voice-player/create-voice-player.ts";
 import { assert } from "api";
 import { platform } from "../../../lib/platform/platform.ts";
+import { isCardSpeakerVisible, speakCard } from "./card-speaking.ts";
 
 type CardAnswer = NonNullable<DeckCardDbType["answers"]>[number];
 
@@ -121,18 +121,10 @@ export class CardPreviewStore implements LimitedCardUnderReviewStore {
   }
 
   speak() {
-    if (!userStore.isSpeakingCardsEnabled) {
-      return;
-    }
-
-    this.voicePlayer?.play();
+    speakCard(this.voicePlayer);
   }
 
-  isCardSpeakerVisible(type: "front" | "back") {
-    if (!userStore.isSpeakingCardsEnabled || !this.voicePlayer) {
-      return false;
-    }
-
-    return this.isOpened && type === this.deckSpeakField;
+  isCardSpeakerVisible(side: "front" | "back") {
+    return isCardSpeakerVisible(this, side);
   }
 }

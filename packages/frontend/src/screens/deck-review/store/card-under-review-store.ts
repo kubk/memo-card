@@ -10,7 +10,6 @@ import {
   DeckWithCardsWithReviewType,
   DeckCardDbTypeWithType,
 } from "../../../store/deck-list-store.ts";
-import { userStore } from "../../../store/user-store.ts";
 import { CardReviewType } from "api";
 import { LimitedCardUnderReviewStore } from "../../shared/card/card.tsx";
 import {
@@ -20,6 +19,7 @@ import {
 import { assert } from "api";
 import { preloadCardImage } from "../../../lib/card-image/image-preloader.ts";
 import { platform } from "../../../lib/platform/platform.ts";
+import { isCardSpeakerVisible, speakCard } from "./card-speaking.ts";
 
 type CardAnswer = NonNullable<DeckCardDbType["answers"]>[number];
 
@@ -124,19 +124,11 @@ export class CardUnderReviewStore implements LimitedCardUnderReviewStore {
   }
 
   speak() {
-    if (!userStore.isSpeakingCardsEnabled) {
-      return;
-    }
-
-    this.voicePlayer?.play();
+    speakCard(this.voicePlayer);
   }
 
-  isCardSpeakerVisible(type: "front" | "back") {
-    if (!userStore.isSpeakingCardsEnabled || !this.voicePlayer) {
-      return false;
-    }
-
-    return this.isOpened && type === this.deckSpeakField;
+  isCardSpeakerVisible(side: "front" | "back") {
+    return isCardSpeakerVisible(this, side);
   }
 
   updateAfterReview(outcome: ReviewOutcome) {
