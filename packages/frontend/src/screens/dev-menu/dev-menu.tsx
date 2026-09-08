@@ -76,6 +76,13 @@ export function DevMenu({
                 screenStore.push({ type: "debug" });
               },
             },
+            {
+              text: "Open deck not found",
+              onClick: () => {
+                onOpenChange(false);
+                screenStore.push({ type: "sharedDeckNotFound" });
+              },
+            },
           ]}
         />
       </DrawerContent>

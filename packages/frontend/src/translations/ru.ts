@@ -20,6 +20,7 @@ export const ru: Translation = {
   error_contact_support:
     "Произошла ошибка. Пожалуйста свяжитесь с поддержкой, чтобы мы могли помочь вам.",
   deck_not_found: "Колода не найдена",
+  deck_was_deleted: "Эта колода была удалена автором",
   think_error_contact_support:
     "Если вы считаете, что это ошибка, свяжитесь с поддержкой",
   browser_no_personal_decks_start: "У вас еще нет персональных колод. ",

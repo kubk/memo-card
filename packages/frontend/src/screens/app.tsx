@@ -56,6 +56,7 @@ import { RouteScreenContainer } from "../lib/react/route-screen-container.tsx";
 import { DeleteItemModalContainer } from "./shared/delete-item-modal.tsx";
 import { BottomNavigation } from "../ui/bottom-navigation.tsx";
 import { LeaderboardScreen } from "./leaderboard/leaderboard-screen.tsx";
+import { SharedDeckNotFoundScreen } from "./error-screen/shared-deck-not-found-screen.tsx";
 
 export function App() {
   useRestoreFullScreenExpand();
@@ -287,6 +288,11 @@ export function App() {
             <PreventTelegramSwipeDownClosingIos>
               <AboutScreen />
             </PreventTelegramSwipeDownClosingIos>
+          )}
+          {screenStore.screen.type === "sharedDeckNotFound" && (
+            <SignedIn>
+              <SharedDeckNotFoundScreen />
+            </SignedIn>
           )}
         </RouteScreenContainer>
       </BottomNavigation>

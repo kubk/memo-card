@@ -4,6 +4,30 @@ import { type RouterOutput } from "api";
 type MyInfoResponse = RouterOutput["me"]["info"];
 import { deckDetailsStore } from "./deck-details-store.ts";
 import { deckListStore } from "./deck-list-store.ts";
+import { screenStore } from "./screen-store.ts";
+
+const mocks = vi.hoisted(() => ({
+  getByShareIdQuery: vi.fn(),
+  notFoundError: {},
+  reportHandledError: vi.fn(),
+}));
+
+vi.mock("../api/trpc-api.ts", () => ({
+  api: {
+    deck: { addToMine: { mutate: vi.fn() } },
+    folder: { addToMine: { mutate: vi.fn() } },
+    getByShareId: { query: mocks.getByShareIdQuery },
+    me: { info: { query: vi.fn() } },
+  },
+}));
+
+vi.mock("../api/is-trpc-not-found-error.ts", () => ({
+  isTrpcNotFoundError: (error: unknown) => error === mocks.notFoundError,
+}));
+
+vi.mock("../lib/rollbar/rollbar.tsx", () => ({
+  reportHandledError: mocks.reportHandledError,
+}));
 
 vi.mock("./user-store.ts", () => ({
   userStore: {
@@ -22,6 +46,9 @@ vi.mock("../lib/platform/show-confirm.ts", () => ({
 
 describe("DeckListStore", () => {
   beforeEach(() => {
+    vi.clearAllMocks();
+    deckListStore.isStartParamHandled = false;
+    screenStore.replace({ type: "main" });
     deckListStore.myInfoQuery.setData({
       user: {} as MyInfoResponse["user"],
       plan: null,
@@ -100,5 +127,16 @@ describe("DeckListStore", () => {
     });
 
     expect(deckListStore.canRemoveFolder({ id: 7 })).toBe(true);
+  });
+
+  it("shows the deleted deck screen for a missing share link", async () => {
+    mocks.getByShareIdQuery.mockRejectedValueOnce(mocks.notFoundError);
+
+    await deckListStore.handleStartParam("deleted");
+
+    await vi.waitFor(() => {
+      expect(screenStore.screen).toEqual({ type: "sharedDeckNotFound" });
+    });
+    expect(mocks.reportHandledError).not.toHaveBeenCalled();
   });
 });

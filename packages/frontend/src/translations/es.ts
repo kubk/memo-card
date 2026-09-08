@@ -30,6 +30,7 @@ export const es: Translation = {
   error_contact_support:
     "Se ha producido un error. Por favor, contacta con soporte para que podamos ayudarte.",
   deck_not_found: "Mazo no encontrado",
+  deck_was_deleted: "Este mazo fue eliminado por su autor",
   think_error_contact_support:
     "Si crees que se trata de un error, contacta con soporte",
   upgrade_pro: "Obtener Pro",

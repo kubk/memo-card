@@ -43,6 +43,7 @@ import { ProPage } from "../src/screens/pro/pro-page.tsx";
 import { DeleteItemModalPlayground } from "./delete-item-modal/delete-item-modal-playground.tsx";
 import { BottomNavigationPlayground } from "./bottom-navigation-playground.tsx";
 import { LeaderboardPlayground } from "./leaderboard-playground.tsx";
+import { SharedDeckNotFoundPlayground } from "./shared-deck-not-found-playground.tsx";
 import {
   BooleanProp,
   PreviewFrame,
@@ -59,6 +60,11 @@ const PLAYGROUND_COMPONENTS = [
   {
     id: "bottom-navigation",
     label: "Bottom navigation",
+    propsPanel: false,
+  },
+  {
+    id: "deleted-deck",
+    label: "Deleted deck",
     propsPanel: false,
   },
   {
@@ -114,7 +120,12 @@ type PlaygroundComponentId = (typeof PLAYGROUND_COMPONENTS)[number]["id"];
 const PLAYGROUND_HOME_SECTIONS = [
   {
     label: "Screens",
-    componentIds: ["leaderboard", "bottom-navigation", "pro-page"],
+    componentIds: [
+      "leaderboard",
+      "bottom-navigation",
+      "deleted-deck",
+      "pro-page",
+    ],
   },
   {
     label: "Controls",
@@ -451,6 +462,8 @@ function ComponentPreview({
       return <LeaderboardPlayground />;
     case "bottom-navigation":
       return <BottomNavigationPlayground />;
+    case "deleted-deck":
+      return <SharedDeckNotFoundPlayground />;
     case "pro-page":
       return (
         <div className="h-full w-full overflow-y-auto">

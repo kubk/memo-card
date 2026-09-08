@@ -27,6 +27,7 @@ export const fa: Translation = {
   error_contact_support:
     "خطایی رخ داده است. لطفاً با پشتیبانی تماس بگیرید تا بتوانیم به شما کمک کنیم.",
   deck_not_found: "دسته پیدا نشد",
+  deck_was_deleted: "این دسته توسط سازنده‌اش حذف شده است",
   think_error_contact_support:
     "اگر فکر می‌کنید اشتباهی رخ داده، با پشتیبانی تماس بگیرید",
   browser_no_personal_decks_start: "شما هنوز هیچ دسته کارت شخصی ندارید",

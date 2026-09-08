@@ -30,6 +30,7 @@ export const ptBr: Translation = {
   error_contact_support:
     "Ocorreu um erro. Por favor, entre em contato com o suporte para que possamos ajudar.",
   deck_not_found: "Baralho não encontrado",
+  deck_was_deleted: "Este baralho foi excluído pelo autor",
   think_error_contact_support:
     "Se você acha que isso é um erro, entre em contato com o suporte",
   upgrade_pro: "Obter Pro",

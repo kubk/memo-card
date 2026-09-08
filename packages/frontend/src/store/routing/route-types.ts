@@ -149,6 +149,10 @@ const aboutRouteSchema = v.object({
   type: v.literal("about"),
 });
 
+const sharedDeckNotFoundRouteSchema = v.object({
+  type: v.literal("sharedDeckNotFound"),
+});
+
 export const routeSchema = v.union([
   mainRouteSchema,
   leaderboardRouteSchema,
@@ -176,6 +180,7 @@ export const routeSchema = v.union([
   mcpSettingsRouteSchema,
   globalSearchRouteSchema,
   aboutRouteSchema,
+  sharedDeckNotFoundRouteSchema,
 ]);
 
 type RouteWithoutState = v.InferOutput<typeof routeSchema>;

@@ -21,6 +21,7 @@ import { StartParamType } from "./routing/route-types.ts";
 import { makeQuery } from "../lib/mobx-query-lite/make-query.ts";
 import { type DeckListDeck } from "./deck-types.ts";
 import { deckDetailsStore } from "./deck-details-store.ts";
+import { isTrpcNotFoundError } from "../api/is-trpc-not-found-error.ts";
 
 export type DeckCardDbTypeWithType = DeckCardDbType & {
   type: CardReviewType;
@@ -406,6 +407,11 @@ class DeckListStore {
           }
         })
         .catch((e) => {
+          if (isTrpcNotFoundError(e)) {
+            screenStore.replace({ type: "sharedDeckNotFound" });
+            return;
+          }
+
           reportHandledError("Error while retrieving shared deck", e, {
             shareId: startParam,
           });

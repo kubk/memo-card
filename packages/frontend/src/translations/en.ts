@@ -13,6 +13,7 @@ export const en = {
   error_contact_support:
     "An error occurred. Please contact support so we can help you.",
   deck_not_found: "Deck not found",
+  deck_was_deleted: "This deck was deleted by its author",
   think_error_contact_support:
     "If you think this is a mistake, contact support",
   login_google: "Login with Google",
