@@ -15,7 +15,6 @@ import {
   Copy,
   Ellipsis,
   FolderTree,
-  Languages,
   LibraryBig,
   Mic,
   PencilLine,
@@ -87,12 +86,6 @@ const BENEFITS = [
     iconColor: theme.icons.sea,
     titleKey: "benefitTranscriptionTitle",
     descriptionKey: "benefitTranscriptionDescription",
-  },
-  {
-    icon: <Languages size={17} />,
-    iconColor: theme.icons.green,
-    titleKey: "benefitTranslateTitle",
-    descriptionKey: "benefitTranslateDescription",
   },
 ] as const;
 
