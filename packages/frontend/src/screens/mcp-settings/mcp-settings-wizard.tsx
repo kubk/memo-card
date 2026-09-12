@@ -5,22 +5,22 @@ import { ErrorScreen } from "../error-screen/error-screen.tsx";
 import { Screen } from "../shared/screen.tsx";
 import { McpTokenSettingsContent } from "./mcp-token-settings-content.tsx";
 import {
-  McpSettingsStoreProvider,
-  useMcpSettingsStore,
-} from "./store/mcp-settings-store-context.tsx";
+  McpWizardStoreProvider,
+  useMcpWizardStore,
+} from "./store/mcp-wizard-store-context.tsx";
 
 export function McpSettingsWizard() {
   return (
-    <McpSettingsStoreProvider>
+    <McpWizardStoreProvider>
       <Screen>
         <McpTokenSettings />
       </Screen>
-    </McpSettingsStoreProvider>
+    </McpWizardStoreProvider>
   );
 }
 
 function McpTokenSettings() {
-  const store = useMcpSettingsStore();
+  const store = useMcpWizardStore();
 
   if (store.mcpTokenQuery.isPending) {
     return <FullScreenLoader />;

@@ -1,80 +1,46 @@
-import { makeAutoObservable } from "mobx";
-import { apiProxy } from "../../../api/trpc-api.ts";
-import { env } from "../../../env.ts";
+import { makeAutoObservable, runInAction } from "mobx";
+import { api, apiProxy } from "../../../api/trpc-api.ts";
+import { platform } from "../../../lib/platform/platform.ts";
 import { makeQuery } from "../../../lib/mobx-query-lite/make-query.ts";
 import { screenStore } from "../../../store/screen-store.ts";
 import { mcpT } from "../translations.ts";
 
-export const MCP_WIZARD_STEPS = [1, 2, 3] as const;
-type McpWizardStep = (typeof MCP_WIZARD_STEPS)[number];
-
 export class McpSettingsStore {
-  mcpTokenQuery = makeQuery(apiProxy.mcpToken.getMyToken.query);
-  step: McpWizardStep = 1;
+  connectionsQuery = makeQuery(apiProxy.mcpOAuth.connections.query);
+  disconnectingId: string | null = null;
+  disconnectFailed = false;
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
   }
 
-  get connectionUrl() {
-    const token = this.mcpTokenQuery.data?.token;
-    if (!token) {
-      return null;
-    }
-
-    const url = new URL("/mcp", env.VITE_API_URL);
-    url.searchParams.set("token", token);
-    return url.toString();
-  }
-
-  get isConfigured() {
-    return this.mcpTokenQuery.data?.status === "used";
-  }
-
-  get title() {
-    if (this.step === 2) {
-      return mcpT("openChatGptTitle");
-    }
-
-    return mcpT("tryAgentTitle");
-  }
-
   get mainButtonText() {
-    if (this.isConfigured) {
-      return mcpT("quitButton");
-    }
-
-    if (this.step === 1) {
-      return mcpT("startButton");
-    }
-
-    if (this.step === 2) {
-      return mcpT("addedButton");
-    }
-
-    return mcpT("quitButton");
+    return this.connectionsQuery.data?.pluginUrl
+      ? mcpT("openPlugin")
+      : mcpT("quitButton");
   }
 
-  goToStep(step: McpWizardStep) {
-    this.step = step;
+  connect() {
+    const url = this.connectionsQuery.data?.pluginUrl;
+    if (url) platform.openExternalLink(url);
+    else screenStore.back();
   }
 
-  submitCurrentStep() {
-    if (this.isConfigured) {
-      screenStore.back();
-      return;
+  async disconnect(grantId: string) {
+    if (this.disconnectingId) return;
+    this.disconnectingId = grantId;
+    this.disconnectFailed = false;
+    try {
+      await api.mcpOAuth.disconnect.mutate({ grantId });
+      await this.connectionsQuery.invalidate();
+    } catch {
+      runInAction(() => {
+        this.disconnectFailed = true;
+      });
+    } finally {
+      runInAction(() => {
+        this.disconnectingId = null;
+      });
     }
-
-    if (this.step === 1) {
-      this.step = 2;
-      return;
-    }
-
-    if (this.step === 2) {
-      this.step = 3;
-      return;
-    }
-
-    screenStore.back();
   }
 }

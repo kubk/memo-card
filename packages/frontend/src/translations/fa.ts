@@ -37,6 +37,8 @@ export const fa: Translation = {
   upgrade: "ارتقای طرح",
   youtube_channel: "کانال یوتیوب",
   login_google: "ورود با گوگل",
+  login_telegram: "ورود با Telegram",
+  login_telegram_failed: "ورود با Telegram ناموفق بود — دوباره تلاش کنید",
   folder_form_no_decks: "هیچ دسته کارتی در پوشه نیست",
   card_next: "بعدی",
   card_previous: "قبلی",

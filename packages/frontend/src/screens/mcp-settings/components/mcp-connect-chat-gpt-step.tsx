@@ -1,6 +1,6 @@
 import { ExternalLinkIcon } from "lucide-react";
 import { ExternalLink } from "../../../ui/external-link.tsx";
-import { useMcpSettingsStore } from "../store/mcp-settings-store-context.tsx";
+import { useMcpWizardStore } from "../store/mcp-wizard-store-context.tsx";
 import { mcpT } from "../translations.ts";
 import { CopyableValue } from "./copyable-value.tsx";
 import { McpField } from "./mcp-field.tsx";
@@ -8,7 +8,7 @@ import { McpField } from "./mcp-field.tsx";
 const CHATGPT_APPS_URL = "https://chatgpt.com/plugins";
 
 export function McpConnectChatGptStep() {
-  const store = useMcpSettingsStore();
+  const store = useMcpWizardStore();
   const connectionUrl = store.connectionUrl;
 
   if (!connectionUrl) {

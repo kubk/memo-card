@@ -10,7 +10,7 @@ import { formatPaidUntil } from "../screens/pro/format-paid-until.tsx";
 import { assert } from "api";
 import { canDeleteItsAccount } from "api";
 import { getUserLanguage } from "api";
-import { LanguageShared } from "api";
+import { isRtlLanguage, LanguageShared } from "api";
 import { platform } from "../lib/platform/platform.ts";
 import { apiProxy } from "../api/trpc-api.ts";
 import { makeQuery } from "../lib/mobx-query-lite/make-query.ts";
@@ -64,7 +64,7 @@ class UserStore {
   }
 
   get isRtl() {
-    return this.language === "ar" || this.language === "fa";
+    return isRtlLanguage(this.language);
   }
 
   get isPaid() {

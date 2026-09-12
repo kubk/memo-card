@@ -7,10 +7,10 @@ import { McpConnectChatGptStep } from "./components/mcp-connect-chat-gpt-step.ts
 import { McpIntroStep } from "./components/mcp-intro-step.tsx";
 import { McpTryChatGptStep } from "./components/mcp-try-chat-gpt-step.tsx";
 import { McpWizardProgress } from "./components/mcp-wizard-progress.tsx";
-import { useMcpSettingsStore } from "./store/mcp-settings-store-context.tsx";
+import { useMcpWizardStore } from "./store/mcp-wizard-store-context.tsx";
 
 export function McpTokenSettingsContent() {
-  const store = useMcpSettingsStore();
+  const store = useMcpWizardStore();
 
   useBackButton(() => screenStore.back());
   useMainButton(() => store.mainButtonText, store.submitCurrentStep);

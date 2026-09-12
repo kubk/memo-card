@@ -36,6 +36,9 @@ export const ptBr: Translation = {
   upgrade_pro: "Obter Pro",
   upgrade: "Melhorar plano",
   login_google: "Entrar com Google",
+  login_telegram: "Entrar com Telegram",
+  login_telegram_failed:
+    "Não foi possível entrar com Telegram — tente novamente",
   youtube_channel: "Canal do YouTube",
   confirm_ok: "Confirmar",
   confirm_cancel: "Cancelar",

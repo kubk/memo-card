@@ -38,6 +38,8 @@ export const uk: Translation = {
   upgrade_pro: "Оновити до Pro",
   upgrade: "Покращити тариф",
   login_google: "Увійти через Google",
+  login_telegram: "Увійти через Telegram",
+  login_telegram_failed: "Не вдалося увійти через Telegram — спробуйте ще раз",
   youtube_channel: "YouTube канал",
   confirm_ok: "Підтвердити",
   confirm_cancel: "Скасувати",

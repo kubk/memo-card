@@ -52,7 +52,9 @@ export const api = createTRPCClient<ApiRouter>({
       retryDelayMs: (attemptIndex) => attemptIndex * 1000,
     }),
     loggerLink({
-      enabled: () => env.VITE_STAGE === "staging",
+      enabled: (opts) =>
+        env.VITE_STAGE === "staging" &&
+        !("path" in opts && opts.path === "telegramSignin"),
     }),
     httpLink({
       url: `${trimEnd(env.VITE_API_URL, "/")}/`,

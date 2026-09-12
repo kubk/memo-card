@@ -145,13 +145,14 @@ export class BrowserPlatform implements Platform {
     return localStorage.getItem(browserTokenKey) || null;
   }
 
-  // Telegram auth outside Telegram mini app
-  handleTelegramWidgetLogin(data: Record<any, any>) {
-    localStorage.setItem(
-      browserTokenKey,
-      `${UserSource.Telegram} ${JSON.stringify(data)}`,
-    );
-    window.location.href = "/";
+  handleTelegramOidcLogin(token: string, nonce: string) {
+    return api.telegramSignin.mutate({ token, nonce }).then((response) => {
+      localStorage.setItem(
+        browserTokenKey,
+        `${UserSource.Api} ${response.browserToken}`,
+      );
+      window.location.href = "/";
+    });
   }
 
   // Google auth outside Telegram mini app

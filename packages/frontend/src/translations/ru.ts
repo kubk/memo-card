@@ -35,6 +35,8 @@ export const ru: Translation = {
   voice_type_none: "Нет",
 
   login_google: "Войти через Google",
+  login_telegram: "Войти через Telegram",
+  login_telegram_failed: "Не удалось войти через Telegram — попробуйте ещё раз",
   youtube_channel: "YouTube канал",
   confirm_cancel: "Отмена",
   confirm_ok: "Подтвердить",

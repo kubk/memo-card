@@ -7,7 +7,5 @@ type Props = {
 };
 
 export function DeckActions({ deck, variant }: Props) {
-  return (
-    <LibraryItemActions type="deck" target={deck} variant={variant} />
-  );
+  return <LibraryItemActions type="deck" target={deck} variant={variant} />;
 }

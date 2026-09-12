@@ -1,4 +1,5 @@
 import { useUserSettingsStore } from "./store/user-settings-store-context.tsx";
+import { McpSettingsEntry } from "../mcp-settings/mcp-settings-entry.tsx";
 import { deckListStore } from "../../store/deck-list-store.ts";
 import { useEffect } from "react";
 import { generateTimeRange } from "./generate-time-range.tsx";
@@ -93,6 +94,8 @@ export function UserSettingsScreen() {
           )}
         </HintTransparent>
       </div>
+
+      <McpSettingsEntry />
 
       <div className="mt-1">
         <List

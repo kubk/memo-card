@@ -36,6 +36,9 @@ export const es: Translation = {
   upgrade_pro: "Obtener Pro",
   upgrade: "Mejorar plan",
   login_google: "Iniciar sesión con Google",
+  login_telegram: "Iniciar sesión con Telegram",
+  login_telegram_failed:
+    "No se pudo iniciar sesión con Telegram — inténtalo de nuevo",
   youtube_channel: "Canal de YouTube",
   confirm_ok: "Confirmar",
   confirm_cancel: "Cancelar",

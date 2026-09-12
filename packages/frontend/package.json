@@ -17,7 +17,6 @@
     "@radix-ui/react-select": "^2.3.5",
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-tabs": "^1.1.12",
-    "@telegram-auth/react": "^1.0.4",
     "@trpc/client": "^11.18.0",
     "api": "workspace:*",
     "autoprefixer": "^10.4.20",

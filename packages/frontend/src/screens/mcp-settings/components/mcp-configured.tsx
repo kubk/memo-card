@@ -1,10 +1,10 @@
 import { CheckIcon } from "lucide-react";
-import { useMcpSettingsStore } from "../store/mcp-settings-store-context.tsx";
+import { useMcpWizardStore } from "../store/mcp-wizard-store-context.tsx";
 import { mcpT } from "../translations.ts";
 import { CopyableValue } from "./copyable-value.tsx";
 
 export function McpConfigured() {
-  const store = useMcpSettingsStore();
+  const store = useMcpWizardStore();
   const connectionUrl = store.connectionUrl;
 
   if (!connectionUrl) {

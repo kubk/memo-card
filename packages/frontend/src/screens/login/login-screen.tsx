@@ -1,4 +1,3 @@
-import { LoginButton } from "@telegram-auth/react";
 import { platform } from "../../lib/platform/platform.ts";
 import { BrowserPlatform } from "../../lib/platform/browser/browser-platform.ts";
 import { useState } from "react";
@@ -9,15 +8,14 @@ import { ErrorScreen } from "../error-screen/error-screen.tsx";
 import { useGoogleOneTapLogin } from "react-google-one-tap-login";
 import { Button } from "../../ui/button.tsx";
 import { Chrome } from "lucide-react";
+import { TelegramLoginStore } from "./telegram-login-store.ts";
 
 export function LoginScreen() {
-  const BOT_NAME = import.meta.env.VITE_BOT_NAME;
-  assert(BOT_NAME, "VITE_BOT_NAME is not set");
-
   const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
   assert(googleClientId, "VITE_GOOGLE_CLIENT_ID is not set");
 
   const [isGoogleSignInHidden, setGoogleSignInHidden] = useState(true);
+  const [telegramLogin] = useState(() => new TelegramLoginStore());
   const [isGoogleSignInInProgress, setIsGoogleSignInInProgress] =
     useState(false);
 
@@ -60,17 +58,17 @@ export function LoginScreen() {
             {isGoogleSignInInProgress ? t("ui_loading") : t("login_google")}
           </Button>
         </div>
-        <div className="h-[22px]">
-          <LoginButton
-            showAvatar={false}
-            cornerRadius={12}
-            botUsername={BOT_NAME}
-            onAuthCallback={(data) => {
-              assert(platform instanceof BrowserPlatform);
-              platform.handleTelegramWidgetLogin(data);
-            }}
-          />
+        <div className="w-[219px]">
+          <Button
+            disabled={telegramLogin.isLoading}
+            onClick={telegramLogin.signIn}
+          >
+            {telegramLogin.isLoading ? t("ui_loading") : t("login_telegram")}
+          </Button>
         </div>
+        {telegramLogin.hasError && (
+          <p className="text-sm text-hint">{t("login_telegram_failed")}</p>
+        )}
       </div>
     </div>
   );

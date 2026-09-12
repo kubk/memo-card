@@ -2,6 +2,13 @@ import { type LanguageShared, Translator } from "api";
 import { translator } from "../../translations/t.ts";
 
 const en = {
+  telegramSetup: "Sign in with Telegram once to connect your library",
+  pluginComingSoon: "Memo Card is coming to the ChatGPT directory soon",
+  openPlugin: "Open Memo Card in ChatGPT",
+  connectedApps: "Connected apps",
+  stayConnected: "Stay connected until you disconnect",
+  disconnect: "Disconnect",
+  disconnectError: "Could not disconnect, please try again",
   settingsTitle: "ChatGPT",
   createCardsTitle: "Create with ChatGPT",
   settingsHint: "Manage cards with ChatGPT",
@@ -39,7 +46,7 @@ const en = {
   proOrganizePrompt: "Organize my language decks into folders",
   proOrganizeResponse: "Done — I organized them into 3 folders",
   proOrganizeDetail: "Every card kept its review history",
-  introTitle: "Connect ChatGPT to Memo Card",
+  introTitle: "Connect ChatGPT to Memo Card",
   introDescription: "ChatGPT can create and update cards in MemoCard",
   startButton: "Start",
   openChatGptTitle: "Open ChatGPT",
@@ -66,6 +73,13 @@ const en = {
 type McpTranslation = Record<keyof typeof en, string>;
 
 const ru: McpTranslation = {
+  telegramSetup: "Войдите через Telegram один раз, чтобы подключить библиотеку",
+  pluginComingSoon: "Memo Card скоро появится в каталоге ChatGPT",
+  openPlugin: "Открыть Memo Card в ChatGPT",
+  connectedApps: "Подключённые приложения",
+  stayConnected: "Подключение действует, пока вы его не отключите",
+  disconnect: "Отключить",
+  disconnectError: "Не удалось отключить, попробуйте ещё раз",
   settingsTitle: "ChatGPT",
   createCardsTitle: "Создать через ChatGPT",
   settingsHint: "Управляйте карточками через ChatGPT",
@@ -104,7 +118,7 @@ const ru: McpTranslation = {
   proOrganizePrompt: "Разложи мои языковые колоды по папкам",
   proOrganizeResponse: "Готово — распределил их по 3 папкам",
   proOrganizeDetail: "История повторений всех карточек сохранена",
-  introTitle: "Подключите ChatGPT к Memo Card",
+  introTitle: "Подключите ChatGPT к Memo Card",
   introDescription: "ChatGPT сможет создавать и обновлять карточки в MemoCard",
   startButton: "Начать",
   openChatGptTitle: "Откройте ChatGPT",
@@ -129,6 +143,14 @@ const ru: McpTranslation = {
 };
 
 const es: McpTranslation = {
+  telegramSetup:
+    "Inicia sesión con Telegram una vez para conectar tu biblioteca",
+  pluginComingSoon: "Memo Card llegará pronto al directorio de ChatGPT",
+  openPlugin: "Abrir Memo Card en ChatGPT",
+  connectedApps: "Apps conectadas",
+  stayConnected: "La conexión se mantiene hasta que la desconectes",
+  disconnect: "Desconectar",
+  disconnectError: "No se pudo desconectar, inténtalo de nuevo",
   settingsTitle: "ChatGPT",
   createCardsTitle: "Crear con ChatGPT",
   settingsHint: "Gestiona tus tarjetas con ChatGPT",
@@ -169,7 +191,7 @@ const es: McpTranslation = {
   proOrganizePrompt: "Organiza mis mazos de idiomas en carpetas",
   proOrganizeResponse: "Listo — los organicé en 3 carpetas",
   proOrganizeDetail: "Todas las tarjetas conservaron su historial de repaso",
-  introTitle: "Conecta ChatGPT a Memo Card",
+  introTitle: "Conecta ChatGPT a Memo Card",
   introDescription: "ChatGPT podrá crear y actualizar tarjetas en MemoCard",
   startButton: "Empezar",
   openChatGptTitle: "Abre ChatGPT",
@@ -194,6 +216,13 @@ const es: McpTranslation = {
 };
 
 const ptBr: McpTranslation = {
+  telegramSetup: "Entre com o Telegram uma vez para conectar sua biblioteca",
+  pluginComingSoon: "O Memo Card estará no diretório do ChatGPT em breve",
+  openPlugin: "Abrir Memo Card no ChatGPT",
+  connectedApps: "Apps conectados",
+  stayConnected: "A conexão continua até você desconectar",
+  disconnect: "Desconectar",
+  disconnectError: "Não foi possível desconectar, tente novamente",
   settingsTitle: "ChatGPT",
   createCardsTitle: "Criar com o ChatGPT",
   settingsHint: "Gerencie seus cartões com o ChatGPT",
@@ -235,7 +264,7 @@ const ptBr: McpTranslation = {
   proOrganizePrompt: "Organize meus baralhos de idiomas em pastas",
   proOrganizeResponse: "Pronto — organizei tudo em 3 pastas",
   proOrganizeDetail: "Todos os cartões mantiveram o histórico de revisão",
-  introTitle: "Conecte o ChatGPT ao Memo Card",
+  introTitle: "Conecte o ChatGPT ao Memo Card",
   introDescription: "O ChatGPT poderá criar e atualizar cartões no MemoCard",
   startButton: "Começar",
   openChatGptTitle: "Abra o ChatGPT",
@@ -260,6 +289,13 @@ const ptBr: McpTranslation = {
 };
 
 const uk: McpTranslation = {
+  telegramSetup: "Увійдіть через Telegram один раз, щоб підключити бібліотеку",
+  pluginComingSoon: "Memo Card незабаром з’явиться в каталозі ChatGPT",
+  openPlugin: "Відкрити Memo Card у ChatGPT",
+  connectedApps: "Підключені застосунки",
+  stayConnected: "Підключення діє, доки ви його не вимкнете",
+  disconnect: "Відключити",
+  disconnectError: "Не вдалося відключити, спробуйте ще раз",
   settingsTitle: "ChatGPT",
   createCardsTitle: "Створити через ChatGPT",
   settingsHint: "Керуйте картками через ChatGPT",
@@ -297,7 +333,7 @@ const uk: McpTranslation = {
   proOrganizePrompt: "Розклади мої мовні колоди за папками",
   proOrganizeResponse: "Готово — розподілено за 3 папками",
   proOrganizeDetail: "Історію повторень усіх карток збережено",
-  introTitle: "Підключіть ChatGPT до Memo Card",
+  introTitle: "Підключіть ChatGPT до Memo Card",
   introDescription: "ChatGPT зможе створювати й оновлювати картки в MemoCard",
   startButton: "Почати",
   openChatGptTitle: "Відкрийте ChatGPT",
@@ -322,6 +358,13 @@ const uk: McpTranslation = {
 };
 
 const ar: McpTranslation = {
+  telegramSetup: "سجّل الدخول باستخدام Telegram مرة واحدة لربط مكتبتك",
+  pluginComingSoon: "سيتوفر Memo Card قريبًا في دليل ChatGPT",
+  openPlugin: "افتح Memo Card في ChatGPT",
+  connectedApps: "التطبيقات المتصلة",
+  stayConnected: "يبقى الاتصال حتى تقطع الاتصال بنفسك",
+  disconnect: "قطع الاتصال",
+  disconnectError: "تعذر قطع الاتصال، حاول مرة أخرى",
   settingsTitle: "ChatGPT",
   createCardsTitle: "إنشاء باستخدام ChatGPT",
   settingsHint: "أدِر البطاقات باستخدام ChatGPT",
@@ -360,7 +403,7 @@ const ar: McpTranslation = {
   proOrganizePrompt: "نظّم مجموعات اللغات في مجلدات",
   proOrganizeResponse: "تم — نظّمتها في 3 مجلدات",
   proOrganizeDetail: "احتفظت كل بطاقة بسجل مراجعتها",
-  introTitle: "اربط ChatGPT بـ Memo Card",
+  introTitle: "اربط ChatGPT بـ Memo Card",
   introDescription: "سيتمكن ChatGPT من إنشاء البطاقات وتحديثها في MemoCard",
   startButton: "ابدأ",
   openChatGptTitle: "افتح ChatGPT",
@@ -385,6 +428,13 @@ const ar: McpTranslation = {
 };
 
 const fa: McpTranslation = {
+  telegramSetup: "یک بار با Telegram وارد شوید تا کتابخانه‌تان متصل شود",
+  pluginComingSoon: "Memo Card به‌زودی در فهرست ChatGPT قرار می‌گیرد",
+  openPlugin: "باز کردن Memo Card در ChatGPT",
+  connectedApps: "برنامه‌های متصل",
+  stayConnected: "تا وقتی اتصال را قطع نکنید، متصل می‌مانید",
+  disconnect: "قطع اتصال",
+  disconnectError: "قطع اتصال انجام نشد، دوباره تلاش کنید",
   settingsTitle: "ChatGPT",
   createCardsTitle: "ساخت با ChatGPT",
   settingsHint: "کارت‌ها را با ChatGPT مدیریت کنید",
@@ -423,7 +473,7 @@ const fa: McpTranslation = {
   proOrganizePrompt: "دسته‌های زبانم را در پوشه‌ها مرتب کن",
   proOrganizeResponse: "انجام شد — آن‌ها را در ۳ پوشه مرتب کردم",
   proOrganizeDetail: "سابقهٔ مرور همهٔ کارت‌ها حفظ شد",
-  introTitle: "ChatGPT را به Memo Card متصل کنید",
+  introTitle: "ChatGPT را به Memo Card متصل کنید",
   introDescription:
     "ChatGPT می‌تواند کارت‌ها را در MemoCard ایجاد و به‌روزرسانی کند",
   startButton: "شروع",

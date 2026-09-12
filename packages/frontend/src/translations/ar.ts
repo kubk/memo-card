@@ -25,6 +25,8 @@ export const ar: Translation = {
   deck_was_deleted: "تم حذف هذه المجموعة بواسطة منشئها",
   think_error_contact_support: "إذا كنت تعتقد أن هذا خطأ، فتواصل مع الدعم",
   login_google: "تسجيل الدخول باستخدام Google",
+  login_telegram: "تسجيل الدخول باستخدام Telegram",
+  login_telegram_failed: "تعذر تسجيل الدخول باستخدام Telegram — حاول مرة أخرى",
   folder_form_no_decks: "لا توجد مجموعات في المجلد",
   card_next: "التالي",
   card_previous: "السابق",

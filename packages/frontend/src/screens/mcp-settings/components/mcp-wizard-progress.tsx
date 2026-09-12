@@ -1,8 +1,8 @@
-import { MCP_WIZARD_STEPS } from "../store/mcp-settings-store.ts";
-import { useMcpSettingsStore } from "../store/mcp-settings-store-context.tsx";
+import { MCP_WIZARD_STEPS } from "../store/mcp-wizard-store.ts";
+import { useMcpWizardStore } from "../store/mcp-wizard-store-context.tsx";
 
 export function McpWizardProgress() {
-  const store = useMcpSettingsStore();
+  const store = useMcpWizardStore();
 
   return (
     <div>

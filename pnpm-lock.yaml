@@ -45,6 +45,9 @@ importers:
 
   packages/api:
     dependencies:
+      '@cloudflare/workers-oauth-provider':
+        specifier: ^0.10.3
+        version: 0.10.3
       '@dotenvx/dotenvx':
         specifier: ^1.44.1
         version: 1.75.1
@@ -72,6 +75,9 @@ importers:
       grammy:
         specifier: ^1.24.1
         version: 1.44.0
+      hono:
+        specifier: ^4.13.7
+        version: 4.13.7
       jose:
         specifier: ^4.15.9
         version: 4.15.9
@@ -142,9 +148,6 @@ importers:
       '@radix-ui/react-tabs':
         specifier: ^1.1.12
         version: 1.1.17(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@telegram-auth/react':
-        specifier: ^1.0.4
-        version: 1.0.4(react@18.3.1)
       '@trpc/client':
         specifier: ^11.18.0
         version: 11.18.0(@trpc/server@11.18.0(typescript@7.0.2))(typescript@7.0.2)
@@ -594,6 +597,9 @@ packages:
     engines: {node: '>=16'}
     cpu: [x64]
     os: [win32]
+
+  '@cloudflare/workers-oauth-provider@0.10.3':
+    resolution: {integrity: sha512-25ufMONJir9PllqVpK4GwOOoSFgpYm3+bM6NBedj7ufMCIfNf5jk4OI0LPuTJBaJgLl2lGCLqFqEPJXcSuPopQ==}
 
   '@cloudflare/workers-types@4.20260702.1':
     resolution: {integrity: sha512-mOhf5TUEB1m2vPrxtqoIGfz0fUC9xyxRDx5gWHy5s+OCo6dcV+g7wI1R7gYCMFohhqF/2y2xeKVwMwCJjfn/WA==}
@@ -2725,12 +2731,6 @@ packages:
   '@tailwindcss/postcss@4.3.2':
     resolution: {integrity: sha512-rjVWYCa7Ngbi5AarT6k8TkxUG3Wl1QKzHdIZVsjZSzf36Jmo2IKZt/NHRAwly8oDkbBOH0YTu+CHuf9jPxMc+g==}
 
-  '@telegram-auth/react@1.0.4':
-    resolution: {integrity: sha512-VPCIrA6h5+w69S1QvB/k2PphmAA9E8BSqEX4WMSE1P7KxexKl/VRdoTRKSsSx1/In94S+R7FufbjLrRMnEGEKg==}
-    deprecated: 'Deprecated in favour of Telegram''s OpenID Connect login: https://core.telegram.org/bots/telegram-login — migration guide: https://github.com/manzoorwanijk/telegram-auth/blob/main/MIGRATION.md'
-    peerDependencies:
-      react: '>=18'
-
   '@tokenizer/inflate@0.4.1':
     resolution: {integrity: sha512-2mAv+8pkG6GIZiF1kNg1jAjh27IDxEPKwdGul3snfztFerfPGI1LjDezZp3i7BElXompqEtPmoPx6c2wgtWsOA==}
     engines: {node: '>=18'}
@@ -3956,8 +3956,8 @@ packages:
     resolution: {integrity: sha512-T2UbfbBEF32wiepXIsMlTW9+dDYC6wMh/t/vYA4tuOMKqWz/n3vr1NFSxQiyP+zk2mXsoMA/i/7qV6LKut1t1A==}
     engines: {node: '>= 0.4'}
 
-  hono@4.12.31:
-    resolution: {integrity: sha512-zJIHFrl6bq3RDd2YusFNCDlM8qUprxKswyi/OPzPyzKDdyBXDqWx8bZlZ7R+saTdSTatUmb3O7K4SspGPaEOQg==}
+  hono@4.13.7:
+    resolution: {integrity: sha512-c8/gF9ac8Y78/agExVocyLevgR+JlpNB444Py0FSX8pJoPdYUfUzRcXtYEYGwt6l19qIlVZPN5Mfsw9jFShmQQ==}
     engines: {node: '>=16.9.0'}
 
   html-encoding-sniffer@4.0.0:
@@ -5997,6 +5997,8 @@ snapshots:
   '@cloudflare/workerd-windows-64@1.20260708.1':
     optional: true
 
+  '@cloudflare/workers-oauth-provider@0.10.3': {}
+
   '@cloudflare/workers-types@4.20260702.1': {}
 
   '@corex/deepmerge@4.0.43': {}
@@ -6339,9 +6341,9 @@ snapshots:
 
   '@grammyjs/types@3.28.0': {}
 
-  '@hono/node-server@1.19.14(hono@4.12.31)':
+  '@hono/node-server@1.19.14(hono@4.13.7)':
     dependencies:
-      hono: 4.12.31
+      hono: 4.13.7
 
   '@img/colour@1.1.0': {}
 
@@ -6485,7 +6487,7 @@ snapshots:
 
   '@modelcontextprotocol/sdk@1.29.0(@cfworker/json-schema@4.1.1)(zod@4.5.2)':
     dependencies:
-      '@hono/node-server': 1.19.14(hono@4.12.31)
+      '@hono/node-server': 1.19.14(hono@4.13.7)
       ajv: 8.20.0
       ajv-formats: 3.0.1(ajv@8.20.0)
       content-type: 1.0.5
@@ -6495,7 +6497,7 @@ snapshots:
       eventsource-parser: 3.1.0
       express: 5.2.1
       express-rate-limit: 8.6.0(express@5.2.1)
-      hono: 4.12.31
+      hono: 4.13.7
       jose: 6.2.4
       json-schema-typed: 8.0.2
       pkce-challenge: 5.0.1
@@ -7561,10 +7563,6 @@ snapshots:
       '@tailwindcss/oxide': 4.3.2
       postcss: 8.5.18
       tailwindcss: 4.3.2
-
-  '@telegram-auth/react@1.0.4(react@18.3.1)':
-    dependencies:
-      react: 18.3.1
 
   '@tokenizer/inflate@0.4.1':
     dependencies:
@@ -8720,7 +8718,7 @@ snapshots:
     dependencies:
       function-bind: 1.1.2
 
-  hono@4.12.31: {}
+  hono@4.13.7: {}
 
   html-encoding-sniffer@4.0.0:
     dependencies:

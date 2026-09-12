@@ -12,7 +12,5 @@ type Props = {
 };
 
 export function FolderActions({ folder, variant }: Props) {
-  return (
-    <LibraryItemActions type="folder" target={folder} variant={variant} />
-  );
+  return <LibraryItemActions type="folder" target={folder} variant={variant} />;
 }
