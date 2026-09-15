@@ -66,7 +66,7 @@ Production test mode requires the exact production origin and the configured neg
 
 Long description:
 
-> Turn material you choose in a conversation into flashcards saved in your Memo Card library. Find folders and decks, create cards with examples, improve existing cards, and organize them into decks and folders. Study your saved cards in the Memo Card web app or Telegram. Connect your Memo Card account through Telegram and approve library access. Moving cards preserves their review history. Permanent deletion happens only when explicitly requested. You can disconnect access in Memo Card settings. Requires an existing paid Memo Card plan, which includes MCP automation across supported clients. There is no additional charge for connecting ChatGPT.
+> Turn material you choose in a conversation into flashcards saved in your Memo Card library. Find folders and decks, create cards with examples, improve existing cards, and organize them into decks and folders. Study your saved cards in the Memo Card web app or Telegram. Sign in through Telegram to grant the listed library access in one step. Moving cards preserves their review history. Permanent deletion happens only when explicitly requested. You can disconnect access in Memo Card settings. Requires an existing paid Memo Card plan, which includes MCP automation across supported clients. There is no additional charge for connecting ChatGPT.
 
 Starter prompts:
 
@@ -79,7 +79,7 @@ Starter prompts:
 1. Connect to the production MCP URL with OAuth
 2. On Memo Card's consent page, expand **Demo account**
 3. Enter username `openai-review` and the supplied reviewer password
-4. Click **Sign in to demo**, then **Allow access**
+4. Click **Sign in to demo** to authenticate and grant the listed access
 5. Run the cases below, using a unique `RUN` suffix for new objects
 
 Supply the password only in OpenAI's review-credentials field. The generated credential bundle is stored locally in the ignored `.mcp-reviewer-production.local` file with mode 0600, and encrypted in the API production environment. Do not paste it into this document, source control, a public video, or the listing.
