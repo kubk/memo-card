@@ -18,7 +18,6 @@ import { BrowserPlatform } from "../src/lib/platform/browser/browser-platform.ts
 import { platform } from "../src/lib/platform/platform.ts";
 import { userStore } from "../src/store/user-store.ts";
 import { cn } from "../src/ui/cn.ts";
-import { theme } from "../src/ui/theme.tsx";
 import { ShadcnButton } from "../src/ui/shadcn/button.tsx";
 import { ShadcnInput } from "../src/ui/shadcn/input.tsx";
 import { ShadcnLabel } from "../src/ui/shadcn/label.tsx";
@@ -572,13 +571,13 @@ function ButtonPlayground() {
   const [label, setLabel] = useState("Review cards");
   const [outline, setOutline] = useState(false);
   const [disabled, setDisabled] = useState(false);
-  const [mainColor, setMainColor] = useState(theme.buttonColorComputed);
+  const [variant, setVariant] = useState<"main" | "danger">("main");
 
   return (
     <>
       <PreviewFrame>
         <div className="w-full">
-          <Button outline={outline} disabled={disabled} mainColor={mainColor}>
+          <Button outline={outline} disabled={disabled} variant={variant}>
             {label || "Button"}
           </Button>
         </div>
@@ -594,19 +593,16 @@ function ButtonPlayground() {
         </PropGroup>
         <PropGroup>
           <div className="flex flex-col gap-2">
-            <ShadcnLabel htmlFor="button-color">mainColor</ShadcnLabel>
-            <div className="grid grid-cols-[38px_minmax(0,1fr)] items-center gap-2.5">
-              <ShadcnInput
-                className="w-[38px] p-1"
-                id="button-color"
-                type="color"
-                value={mainColor}
-                onChange={(event) => setMainColor(event.target.value)}
-              />
-              <code className="font-mono text-[11px] text-muted-foreground">
-                {mainColor}
-              </code>
-            </div>
+            <ShadcnLabel>variant</ShadcnLabel>
+            <Tabs
+              value={variant}
+              onValueChange={(value) => setVariant(value as "main" | "danger")}
+            >
+              <TabsList>
+                <TabsTrigger value="main">main</TabsTrigger>
+                <TabsTrigger value="danger">danger</TabsTrigger>
+              </TabsList>
+            </Tabs>
           </div>
           <BooleanProp
             id="button-outline"

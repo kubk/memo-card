@@ -10,7 +10,7 @@ import { theme } from "./theme.tsx";
 import { cn } from "./cn.ts";
 
 type Props = {
-  mainColor?: string;
+  variant?: "main" | "danger";
   outline?: boolean;
   noPseudoClasses?: boolean;
   icon?: string | ReactNode;
@@ -27,7 +27,7 @@ type ButtonStyle = CSSProperties & {
 export function Button(props: Props) {
   const {
     className,
-    mainColor = theme.buttonColorComputed,
+    variant = "main",
     outline,
     noPseudoClasses,
     children,
@@ -37,6 +37,8 @@ export function Button(props: Props) {
     ...restProps
   } = props;
 
+  const mainColor =
+    variant === "danger" ? theme.danger : theme.buttonColorComputed;
   const parsedColor = useMemo(() => colord(mainColor), [mainColor]);
   const buttonStyle: ButtonStyle = {
     "--button-bg": outline ? parsedColor.alpha(0.2).toHex() : mainColor,

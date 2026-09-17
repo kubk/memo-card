@@ -3,7 +3,6 @@ import {
   type CSSProperties,
   type MouseEvent,
   type ReactNode,
-  useMemo,
 } from "react";
 import { colord } from "colord";
 import { reset } from "./reset.ts";
@@ -14,7 +13,6 @@ import { StarIcon } from "lucide-react";
 import { cn } from "./cn.ts";
 
 type Props = {
-  mainColor?: string;
   outline?: boolean;
   icon: ReactNode;
   column?: boolean;
@@ -31,7 +29,6 @@ export function ButtonSideAligned(props: Props) {
   const align = props.align || "left";
   const {
     className,
-    mainColor = theme.buttonColorComputed,
     outline,
     children,
     icon,
@@ -51,10 +48,14 @@ export function ButtonSideAligned(props: Props) {
     onClick?.(e);
   };
 
-  const parsedColor = useMemo(() => colord(mainColor), [mainColor]);
+  const parsedColor = colord(theme.buttonColorComputed);
   const buttonStyle: ButtonStyle = {
-    "--button-bg": outline ? parsedColor.alpha(0.2).toHex() : mainColor,
-    "--button-color": outline ? mainColor : theme.buttonTextColorComputed,
+    "--button-bg": outline
+      ? parsedColor.alpha(0.2).toHex()
+      : theme.buttonColorComputed,
+    "--button-color": outline
+      ? theme.buttonColorComputed
+      : theme.buttonTextColorComputed,
     ...style,
   };
 

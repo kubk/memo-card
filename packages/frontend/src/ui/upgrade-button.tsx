@@ -1,7 +1,6 @@
 import { cn } from "./cn.ts";
 
 type Props = {
-  mainColor?: string;
   noPseudoClasses?: boolean;
   column?: boolean;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;

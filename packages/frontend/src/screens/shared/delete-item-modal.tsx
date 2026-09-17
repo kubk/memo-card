@@ -2,7 +2,6 @@ import { InfoIcon } from "lucide-react";
 import { t } from "../../translations/t.ts";
 import { Button } from "../../ui/button.tsx";
 import { ShadcnCheckbox } from "../../ui/shadcn/checkbox.tsx";
-import { theme } from "../../ui/theme.tsx";
 import { LoadingSwap } from "../../ui/loading-swap.tsx";
 import {
   type DeleteItemModalStore,
@@ -139,7 +138,7 @@ export function DeleteItemModal({
           <Button
             type="button"
             disabled={store.infoQuery.isPending || store.isDeleting}
-            mainColor={theme.danger}
+            variant="danger"
             onClick={store.submit}
           >
             <LoadingSwap isLoading={store.isDeleting}>
