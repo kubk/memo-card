@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useBackButton } from "../../lib/platform/use-back-button.ts";
 import { useMainButton } from "../../lib/platform/use-main-button.ts";
 import { screenStore } from "../../store/screen-store.ts";
@@ -27,6 +28,8 @@ function McpSettingsContent() {
   useBackButton(() => screenStore.back());
   useMainButton(() => store.mainButtonText, store.connect);
 
+  // Refetch when returning from the external ChatGPT OAuth browser: the
+  // webview survives the round-trip, so the connection list would be stale.
   useEffect(() => {
     function refreshConnections() {
       if (document.visibilityState === "visible") {
@@ -53,4 +56,3 @@ function McpSettingsContent() {
     </div>
   );
 }
-import { useEffect } from "react";

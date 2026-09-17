@@ -65,10 +65,7 @@ export class LoginFormStore {
   }
 
   get hasTelegramError() {
-    return (
-      this.telegramState.type === "initializationError" ||
-      this.telegramState.type === "signInError"
-    );
+    return this.telegramState.type === "signInError";
   }
 
   signInWithGoogle() {
