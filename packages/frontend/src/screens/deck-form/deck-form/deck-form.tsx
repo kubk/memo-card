@@ -210,7 +210,7 @@ export function DeckForm() {
                     />
                   ),
                   onClick: () => {
-                    userStore.executeViaPaywall("reverse_cards", () => {
+                    userStore.executeViaPaywall(() => {
                       deckFormStore.deckForm?.reverseCards.toggle();
                     });
                   },
@@ -219,7 +219,7 @@ export function DeckForm() {
                       <RadioSwitcher
                         isOn={deckFormStore.deckForm.reverseCards.value}
                         onToggle={() => {
-                          userStore.executeViaPaywall("reverse_cards", () => {
+                          userStore.executeViaPaywall(() => {
                             deckFormStore.deckForm?.reverseCards.toggle();
                           });
                         }}

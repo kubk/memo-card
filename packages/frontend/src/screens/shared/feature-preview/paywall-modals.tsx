@@ -6,7 +6,7 @@ export function PaywallModals() {
     <ReverseCardsPreview
       showUpgrade
       onClose={userStore.closePaywall}
-      isOpen={userStore.selectedPaywall === "reverse_cards"}
+      isOpen={userStore.isPaywallOpen}
     />
   );
 }

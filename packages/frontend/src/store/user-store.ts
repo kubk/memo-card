@@ -15,8 +15,6 @@ import { platform } from "../lib/platform/platform.ts";
 import { apiProxy } from "../api/trpc-api.ts";
 import { makeQuery } from "../lib/mobx-query-lite/make-query.ts";
 
-type PaywallType = "reverse_cards";
-
 class UserStore {
   userInfo?: UserDbType;
   isCardFormattingOn = persistableField(
@@ -30,7 +28,7 @@ class UserStore {
   isSkipReview = persistableField(new BooleanToggle(false), "isSkipReview");
   isSpeakingCardsMuted = new BooleanToggle(false);
   activePlanQuery = makeQuery(apiProxy.activePlan.query);
-  selectedPaywall: PaywallType | null = null;
+  isPaywallOpen = false;
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
@@ -106,7 +104,7 @@ class UserStore {
   }
 
   updateSettings(body: Partial<UserDbType>) {
-    assert(this.userInfo, "myInfo is not loaded in optimisticUpdateSettings");
+    assert(this.userInfo);
     Object.assign(this.userInfo, body);
   }
 
@@ -117,16 +115,16 @@ class UserStore {
     return canDeleteItsAccount(this.user);
   }
 
-  executeViaPaywall(feature: PaywallType, cb: () => void) {
+  executeViaPaywall(cb: () => void) {
     if (this.isPaid) {
       cb();
     } else {
-      this.selectedPaywall = feature;
+      this.isPaywallOpen = true;
     }
   }
 
   closePaywall() {
-    this.selectedPaywall = null;
+    this.isPaywallOpen = false;
   }
 }
 

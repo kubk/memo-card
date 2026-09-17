@@ -122,9 +122,7 @@ export function CardList() {
       icon: CopyPlusIcon,
       label: t("bulk_create_reverse_cards"),
       onClick: () =>
-        userStore.executeViaPaywall("reverse_cards", () =>
-          cardListStore.createReverseCards(),
-        ),
+        userStore.executeViaPaywall(() => cardListStore.createReverseCards()),
       colorClass: "text-button",
       right: <WithProIcon />,
     },

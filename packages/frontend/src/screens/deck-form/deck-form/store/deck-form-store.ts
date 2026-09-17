@@ -391,9 +391,7 @@ export class DeckFormStore {
     if (this.deckForm.id && !isFormDirty(this.deckForm)) {
       return false;
     }
-    return (
-      wysiwygStore.bottomSheet === null && userStore.selectedPaywall === null
-    );
+    return wysiwygStore.bottomSheet === null && !userStore.isPaywallOpen;
   }
 
   private applyDeckMutationResult(

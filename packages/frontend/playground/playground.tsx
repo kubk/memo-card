@@ -1,3 +1,4 @@
+import { LoginPlayground } from "./login-playground.tsx";
 import { useEffect, useState, type ReactNode } from "react";
 import {
   House,
@@ -53,6 +54,10 @@ import {
 } from "./playground-components.tsx";
 
 const PLAYGROUND_COMPONENTS = [
+  {
+    id: "login",
+    label: "Login",
+  },
   {
     id: "leaderboard",
     label: "Leaderboard",
@@ -121,6 +126,7 @@ const PLAYGROUND_HOME_SECTIONS = [
   {
     label: "Screens",
     componentIds: [
+      "login",
       "leaderboard",
       "bottom-navigation",
       "deleted-deck",
@@ -458,6 +464,8 @@ function ComponentPreview({
   componentId: PlaygroundComponentId;
 }) {
   switch (componentId) {
+    case "login":
+      return <LoginPlayground />;
     case "leaderboard":
       return <LeaderboardPlayground />;
     case "bottom-navigation":

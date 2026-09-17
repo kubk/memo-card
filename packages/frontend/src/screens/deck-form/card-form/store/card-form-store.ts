@@ -557,8 +557,6 @@ export class CardFormStore {
     if (this.moveToDeckStore.isOpen) {
       return false;
     }
-    return (
-      wysiwygStore.bottomSheet === null && userStore.selectedPaywall === null
-    );
+    return wysiwygStore.bottomSheet === null && !userStore.isPaywallOpen;
   }
 }
