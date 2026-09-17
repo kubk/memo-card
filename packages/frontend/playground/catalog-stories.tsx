@@ -17,7 +17,7 @@ import { Select } from "../src/ui/select.tsx";
 
 export type CatalogCountry = "de" | "fr" | "us";
 
-export const catalogCountries: Array<{
+const catalogCountries: Array<{
   value: CatalogCountry;
   label: string;
 }> = [
