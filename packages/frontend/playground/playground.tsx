@@ -37,7 +37,6 @@ import {
   CatalogRadioList,
   CatalogSelect,
   CatalogSnackbar,
-  catalogCountries,
 } from "./catalog-stories.tsx";
 import { CatalogModals, type ModalStoryId } from "./modal-stories.tsx";
 import { ProPage } from "../src/screens/pro/pro-page.tsx";
@@ -84,6 +83,7 @@ const PLAYGROUND_COMPONENTS = [
   {
     id: "select",
     label: "Select",
+    propsPanel: false,
   },
   {
     id: "snackbar",
@@ -584,7 +584,7 @@ function ButtonPlayground() {
         </div>
       </PreviewFrame>
       <PropsPanel>
-        <PropGroup label="Content">
+        <PropGroup>
           <TextProp
             id="button-label"
             label="children"
@@ -636,23 +636,6 @@ function SelectPlayground() {
           <CatalogSelect value={value} onChange={setValue} />
         </div>
       </PreviewFrame>
-      <PropsPanel>
-        <PropGroup label="Value">
-          <div className="flex flex-wrap gap-1.5">
-            {catalogCountries.map((country) => (
-              <ShadcnButton
-                type="button"
-                size="sm"
-                variant={value === country.value ? "default" : "outline"}
-                key={country.value}
-                onClick={() => setValue(country.value)}
-              >
-                {country.value.toUpperCase()}
-              </ShadcnButton>
-            ))}
-          </div>
-        </PropGroup>
-      </PropsPanel>
     </>
   );
 }

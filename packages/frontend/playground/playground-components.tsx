@@ -26,7 +26,7 @@ export function PropGroup({
   label?: string;
 }) {
   return (
-    <section className="border-t border-border py-[18px] first:border-t-0">
+    <section className="py-3">
       {label && (
         <h3 className="mb-3.5 text-xs font-semibold text-muted-foreground">
           {label}
