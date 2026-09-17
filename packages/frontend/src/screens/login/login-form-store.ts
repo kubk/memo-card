@@ -58,10 +58,7 @@ export class LoginFormStore {
   }
 
   get isTelegramLoading() {
-    return (
-      this.telegramState.type === "initializing" ||
-      this.telegramState.type === "signingIn"
-    );
+    return this.telegramState.type === "signingIn";
   }
 
   get hasTelegramError() {
