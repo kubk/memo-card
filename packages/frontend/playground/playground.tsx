@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import { isLanguage, languageSharedToHuman, languagesShared } from "api";
 import { Badge } from "../src/ui/badge.tsx";
-import { Button } from "../src/ui/button.tsx";
+import { Button, type ButtonVariant } from "../src/ui/button.tsx";
 import { BottomSheetPortalProvider } from "../src/ui/bottom-sheet/bottom-sheet.tsx";
 import { Chip } from "../src/ui/chip.tsx";
 import { ProgressBar } from "../src/ui/progress-bar.tsx";
@@ -571,7 +571,7 @@ function ButtonPlayground() {
   const [label, setLabel] = useState("Review cards");
   const [outline, setOutline] = useState(false);
   const [disabled, setDisabled] = useState(false);
-  const [variant, setVariant] = useState<"main" | "danger">("main");
+  const [variant, setVariant] = useState<ButtonVariant>("main");
 
   return (
     <>
@@ -596,7 +596,7 @@ function ButtonPlayground() {
             <ShadcnLabel>variant</ShadcnLabel>
             <Tabs
               value={variant}
-              onValueChange={(value) => setVariant(value as "main" | "danger")}
+              onValueChange={(value) => setVariant(value as ButtonVariant)}
             >
               <TabsList>
                 <TabsTrigger value="main">main</TabsTrigger>

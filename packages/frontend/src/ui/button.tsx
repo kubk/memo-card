@@ -9,8 +9,10 @@ import { reset } from "./reset.ts";
 import { theme } from "./theme.tsx";
 import { cn } from "./cn.ts";
 
+export type ButtonVariant = "main" | "danger";
+
 type Props = {
-  variant?: "main" | "danger";
+  variant?: ButtonVariant;
   outline?: boolean;
   noPseudoClasses?: boolean;
   icon?: string | ReactNode;
