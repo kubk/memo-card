@@ -9,7 +9,7 @@ import { reset } from "./reset.ts";
 import { theme } from "./theme.tsx";
 import { cn } from "./cn.ts";
 
-export type ButtonVariant = "main" | "danger";
+type ButtonVariant = "main" | "danger";
 
 type Props = {
   variant?: ButtonVariant;
