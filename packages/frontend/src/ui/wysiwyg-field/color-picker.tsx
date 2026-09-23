@@ -1,15 +1,15 @@
-import { theme } from "../theme.tsx";
+import { cn } from "../cn.ts";
 
 const colors = [
-  theme.success,
-  theme.icons.blue,
-  theme.orange,
-  theme.danger,
-  theme.icons.pink,
-  theme.icons.sea,
-  theme.icons.violet,
-  theme.dangerLight,
-];
+  { className: "bg-success", value: "#2ecb47" },
+  { className: "bg-icon-blue", value: "#0e77f1" },
+  { className: "bg-orange", value: "#FF9F0A" },
+  { className: "bg-danger", value: "#fc2025" },
+  { className: "bg-icon-pink", value: "#c72ab9" },
+  { className: "bg-icon-sea", value: "#1abe8a" },
+  { className: "bg-icon-violet", value: "#5454d6" },
+  { className: "bg-danger-light", value: "#fc202566" },
+] as const;
 
 type Props = {
   onColorSelect: (color: string) => void;
@@ -26,10 +26,9 @@ export function ColorPicker({ onColorSelect }: Props) {
       <div className="grid grid-cols-2 gap-2 w-full max-w-md mx-auto">
         {colors.map((color) => (
           <button
-            key={color}
-            className="h-12 rounded-lg"
-            style={{ backgroundColor: color }}
-            onClick={() => handleColorClick(color)}
+            key={color.className}
+            className={cn("h-12 rounded-lg", color.className)}
+            onClick={() => handleColorClick(color.value)}
           />
         ))}
       </div>

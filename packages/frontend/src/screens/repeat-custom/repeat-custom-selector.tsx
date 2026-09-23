@@ -8,7 +8,6 @@ import { DeckRowWithCardsToReview } from "../shared/deck-row-with-cards-to-revie
 import { CardsToReview } from "../../ui/cards-to-review.tsx";
 import { ListHeader } from "../../ui/list-header.tsx";
 import { CardsToReviewCount } from "../shared/deck-row-with-cards-to-review/cards-to-review-count.tsx";
-import { theme } from "../../ui/theme.tsx";
 import { cn } from "../../ui/cn.ts";
 import { translateReviewCardsLabel } from "./translate-review-cards-label.ts";
 import { t } from "../../translations/t.ts";
@@ -59,7 +58,7 @@ export function RepeatCustomSelector({ onClick, store }: Props) {
               right: (
                 <CardsToReviewCount
                   items={deckListStore.cardsToReviewCount}
-                  color={theme.orange}
+                  className="text-orange"
                   isDisabled={!store.form.reviewTypes.includes("repeat")}
                 />
               ),
@@ -89,7 +88,7 @@ export function RepeatCustomSelector({ onClick, store }: Props) {
                 <CardsToReviewCount
                   isDisabled={!store.form.reviewTypes.includes("new")}
                   items={deckListStore.newCardsCount}
-                  color={theme.success}
+                  className="text-success"
                 />
               ),
             },

@@ -17,14 +17,17 @@ export default {
         'button-outline-fg-light': '#2481cc',
         'button-outline-bg-dark': '#2ea6ff33',
         'button-outline-fg-dark': '#2ea6ff',
+        'button-alpha-20': 'var(--memo-button-color-alpha-20)',
+        'button-darkened': 'var(--memo-button-color-darkened)',
         'button-text': 'var(--tg-theme-button-text-color)',
         'secondary-bg': 'var(--tg-theme-secondary-bg-color)',
 
 
         success: '#2ecb47',
-        'success-light': 'rgba(46, 203, 71, 0.4)',
         danger: '#fc2025',
         'danger-light': 'rgba(252, 32, 37, 0.4)',
+        'danger-alpha-20': '#fc202533',
+        'danger-darkened': '#e60308',
         orange: '#FF9F0A',
 
         'orange-100': 'oklch(0.954 0.038 75.164)',
@@ -43,7 +46,10 @@ export default {
         'icon-green': '#1edb59',
       },
       boxShadow: {
-        DEFAULT: '0 12px 24px 0 rgba(0, 0, 0, .05)'
+        DEFAULT: '0 12px 24px 0 rgba(0, 0, 0, .05)',
+        'button-focus': '0 0 0 0.2rem var(--memo-button-color-alpha-40)',
+        'danger-focus': '0 0 0 0.2rem #fc202566',
+        'hint-focus': '0 0 0 0.2rem var(--tg-theme-hint-color)'
       },
       zIndex: {
         'confirm-alert': 1000,

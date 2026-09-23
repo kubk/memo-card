@@ -3,7 +3,6 @@ import { screenStore } from "../../store/screen-store.ts";
 import { FilledIcon } from "../../ui/filled-icon.tsx";
 import { HintTransparent } from "../../ui/hint-transparent.tsx";
 import { List, type ListItemType } from "../../ui/list.tsx";
-import { theme } from "../../ui/theme.tsx";
 import { userStore } from "../../store/user-store.ts";
 import { mcpT } from "./translations.ts";
 import { ChevronIcon } from "../../ui/chevron-icon.tsx";
@@ -22,7 +21,7 @@ export function McpSettingsEntry({
           {
             icon: (
               <FilledIcon
-                backgroundColor={theme.icons.violet}
+                className="bg-icon-violet"
                 icon={<BotIcon size={18} />}
               />
             ),

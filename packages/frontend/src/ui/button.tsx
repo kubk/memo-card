@@ -1,30 +1,70 @@
 import {
   type ButtonHTMLAttributes,
-  type CSSProperties,
   type ReactNode,
-  useMemo,
 } from "react";
-import { colord } from "colord";
 import { reset } from "./reset.ts";
-import { theme } from "./theme.tsx";
+import { userStore } from "../store/user-store.ts";
 import { cn } from "./cn.ts";
 
-type ButtonVariant = "main" | "danger";
+type ButtonVariant = "main" | "danger" | "secondary";
+type ButtonAlignment = "left" | "center";
 
-type Props = {
-  variant?: ButtonVariant;
-  outline?: boolean;
+type CommonProps = {
   noPseudoClasses?: boolean;
-  icon?: string | ReactNode;
-  column?: boolean;
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
-type ButtonStyle = CSSProperties & {
-  "--button-bg": string;
-  "--button-color": string;
-  "--button-focus-shadow": string;
-  "--button-active-bg": string;
+type CenteredButtonProps = {
+  variant?: ButtonVariant;
+  outline?: boolean;
+  icon?: string | ReactNode;
+  column?: boolean;
+  align?: never;
 };
+
+type SideAlignedButtonProps = {
+  align: ButtonAlignment;
+  icon: ReactNode;
+  variant?: never;
+  outline?: never;
+  column?: never;
+};
+
+type Props = CommonProps & (CenteredButtonProps | SideAlignedButtonProps);
+
+type ButtonColorClasses = {
+  base: string;
+  focus: string;
+  active: string;
+};
+
+function getButtonColorClasses(
+  variant: ButtonVariant,
+  outline: boolean,
+): ButtonColorClasses {
+  if (variant === "secondary") {
+    return {
+      base: "bg-secondary-bg text-text",
+      focus: "focus:shadow-hint-focus",
+      active: "active:bg-bg",
+    };
+  }
+  if (variant === "danger") {
+    return {
+      base: outline
+        ? "bg-danger-alpha-20 text-danger"
+        : "bg-danger text-button-text",
+      focus: "focus:shadow-danger-focus",
+      active: "active:bg-danger-darkened",
+    };
+  }
+  return {
+    base: outline
+      ? "bg-button-alpha-20 text-button"
+      : "bg-button text-button-text",
+    focus: "focus:shadow-button-focus",
+    active: "active:bg-button-darkened",
+  };
+}
 
 export function Button(props: Props) {
   const {
@@ -35,42 +75,64 @@ export function Button(props: Props) {
     children,
     icon,
     column,
+    align,
     style,
     ...restProps
   } = props;
 
-  const mainColor =
-    variant === "danger" ? theme.danger : theme.buttonColorComputed;
-  const parsedColor = useMemo(() => colord(mainColor), [mainColor]);
-  const buttonStyle: ButtonStyle = {
-    "--button-bg": outline ? parsedColor.alpha(0.2).toHex() : mainColor,
-    "--button-color": outline ? mainColor : theme.buttonTextColorComputed,
-    "--button-focus-shadow": parsedColor.alpha(0.4).toHex(),
-    "--button-active-bg": parsedColor.darken(0.1).toHex(),
-    ...style,
-  };
+  const isSideAligned = align !== undefined;
+  const colorClasses = isSideAligned
+    ? { base: "bg-button-alpha-20 text-button", focus: "", active: "" }
+    : getButtonColorClasses(variant, outline ?? false);
 
   return (
     <button
       {...restProps}
-      style={buttonStyle}
+      style={style}
       className={cn(
         reset.button,
-        "flex h-[45px] w-full items-center justify-center rounded-xl bg-[var(--button-bg)] px-3 py-3 text-sm font-semibold leading-[1.5] text-[var(--button-color)] select-none transition-[background-color,border,box-shadow,color] duration-200 ease-in-out",
-        column ? "flex-col gap-0" : "gap-2",
+        isSideAligned
+          ? "relative flex h-[45px] w-full items-center justify-center rounded-xl px-3 py-3 text-sm font-semibold leading-[1.5] select-none transition-[background-color,border,box-shadow,color] duration-200 ease-in-out active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-40 disabled:active:scale-100"
+          : "flex h-[45px] w-full items-center justify-center rounded-xl px-3 py-3 text-sm font-semibold leading-[1.5] select-none transition-[background-color,border,box-shadow,color] duration-200 ease-in-out",
+        colorClasses.base,
+        isSideAligned ? "gap-2" : column ? "flex-col gap-0" : "gap-2",
         !noPseudoClasses &&
-          "focus:shadow-[0_0_0_0.2rem_var(--button-focus-shadow)] active:scale-[0.97] active:bg-[var(--button-active-bg)] disabled:cursor-not-allowed disabled:opacity-40 disabled:active:scale-100",
+          !isSideAligned &&
+          cn(
+            colorClasses.focus,
+            "active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-40 disabled:active:scale-100",
+            !outline && colorClasses.active,
+          ),
         className,
       )}
     >
-      {icon ? (
-        typeof icon === "string" ? (
-          <span className="relative top-px text-inherit">{icon}</span>
-        ) : (
-          icon
-        )
+      {isSideAligned ? (
+        <span
+          className={cn(
+            "absolute flex items-center gap-2",
+            align === "center"
+              ? "left-1/2 -translate-x-1/2"
+              : userStore.isRtl
+                ? "right-4"
+                : "left-4",
+          )}
+        >
+          {icon ? icon : null}
+          {children}
+        </span>
       ) : null}
-      {children}
+      {!isSideAligned ? (
+        <>
+          {icon ? (
+            typeof icon === "string" ? (
+              <span className="relative top-px text-inherit">{icon}</span>
+            ) : (
+              icon
+            )
+          ) : null}
+          {children}
+        </>
+      ) : null}
     </button>
   );
 }

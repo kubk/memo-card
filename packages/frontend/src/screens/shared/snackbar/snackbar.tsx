@@ -1,5 +1,4 @@
 import { closeSnackbar, enqueueSnackbar, type SnackbarOrigin } from "notistack";
-import { theme } from "../../../ui/theme.tsx";
 import { reportHandledError } from "../../../lib/rollbar/rollbar.tsx";
 import { userStore } from "../../../store/user-store.ts";
 import { platform } from "../../../lib/platform/platform.ts";
@@ -13,9 +12,9 @@ export function SnackbarWrapper({ children }: { children: React.ReactNode }) {
 }
 
 const sharedStyles = {
-  borderRadius: theme.borderRadius,
+  borderRadius: 12,
   backgroundColor: "rgba(56, 56, 56, 0.85)",
-  boxShadow: theme.boxShadow,
+  boxShadow: "0 12px 24px 0 rgba(0, 0, 0, .05)",
 };
 
 const defaultDuration = 3000;

@@ -9,7 +9,6 @@ import { PencilIcon, RotateCcwIcon } from "lucide-react";
 import { Button } from "../../../ui/button.tsx";
 import { t } from "../../../translations/t.ts";
 import { CardPreviewFormData } from "./store/card-preview-types.ts";
-import { ButtonSideAligned } from "../../../ui/button-side-aligned.tsx";
 
 type Props = {
   form: CardPreviewFormData;
@@ -57,14 +56,13 @@ export function CardPreview(props: Props) {
         }
         cardFooter={
           onEdit ? (
-            <ButtonSideAligned
+            <Button
               align="center"
               icon={<PencilIcon size={24} />}
-              outline
               onClick={onEdit}
             >
               {t("edit")}
-            </ButtonSideAligned>
+            </Button>
           ) : null
         }
         card={cardPreviewStore}

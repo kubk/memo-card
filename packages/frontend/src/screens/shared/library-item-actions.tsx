@@ -3,7 +3,7 @@ import { deckListStore } from "../../store/deck-list-store.ts";
 import { type DeckListDeck } from "../../store/deck-types.ts";
 import { t } from "../../translations/t.ts";
 import { ButtonGrid } from "../../ui/button-grid.tsx";
-import { ButtonSideAligned } from "../../ui/button-side-aligned.tsx";
+import { Button } from "../../ui/button.tsx";
 import { Dropdown } from "../../ui/dropdown.tsx";
 import { deleteItemModalStore } from "./delete-item-modal-store.ts";
 import { shareMemoCardUrl } from "./share-memo-card-url.tsx";
@@ -84,7 +84,8 @@ export function LibraryItemActions(props: Props) {
   return (
     <ButtonGrid>
       {actions.map((action) => (
-        <ButtonSideAligned
+        <Button
+          align="left"
           key={action.type}
           icon={
             action.type === "share" ? (
@@ -93,11 +94,10 @@ export function LibraryItemActions(props: Props) {
               <TrashIcon size={24} />
             )
           }
-          outline
           onClick={action.onClick}
         >
           {t(action.type === "share" ? "share" : "delete")}
-        </ButtonSideAligned>
+        </Button>
       ))}
     </ButtonGrid>
   );

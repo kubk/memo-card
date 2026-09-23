@@ -16,10 +16,9 @@ import { HintTransparent } from "../../../ui/hint-transparent.tsx";
 import { ListHeader } from "../../../ui/list-header.tsx";
 import { List } from "../../../ui/list.tsx";
 import { FilledIcon } from "../../../ui/filled-icon.tsx";
-import { theme } from "../../../ui/theme.tsx";
 import { ListRightText } from "../../../ui/list-right-text.tsx";
 import { formatCardType } from "./format-card-type.ts";
-import { ButtonSideAligned } from "../../../ui/button-side-aligned.tsx";
+import { Button } from "../../../ui/button.tsx";
 import { ButtonGrid } from "../../../ui/button-grid.tsx";
 import { CardAnswerErrors } from "./card-answer-errors.tsx";
 import { screenStore } from "../../../store/screen-store.ts";
@@ -134,7 +133,7 @@ export function ManualCardFormView() {
               {
                 icon: (
                   <FilledIcon
-                    backgroundColor={theme.icons.violet}
+                    className="bg-icon-violet"
                     icon={<BookOpenCheckIcon size={18} />}
                   />
                 ),
@@ -147,7 +146,7 @@ export function ManualCardFormView() {
               {
                 icon: (
                   <FilledIcon
-                    backgroundColor={theme.icons.blue}
+                    className="bg-icon-blue"
                     icon={<LayersIcon size={18} />}
                   />
                 ),
@@ -167,7 +166,7 @@ export function ManualCardFormView() {
                     {
                       icon: (
                         <FilledIcon
-                          backgroundColor={theme.icons.turquoise}
+                          className="bg-icon-turquoise"
                           icon={<BotIcon size={18} />}
                         />
                       ),
@@ -266,71 +265,71 @@ export function ManualCardFormView() {
           <ButtonGrid>
             {cardFormStore.isCardNavigationVisible && (
               <>
-                <ButtonSideAligned
+                <Button
+                  align="left"
                   onClick={cardFormStore.onPreviousCard}
                   icon={<ArrowLeftIcon size={24} />}
                   disabled={!cardFormStore.isPreviousCardVisible}
-                  outline
                 >
                   {t("card_previous")}
-                </ButtonSideAligned>
-                <ButtonSideAligned
+                </Button>
+                <Button
+                  align="left"
                   onClick={cardFormStore.onNextCard}
                   icon={<ArrowRightIcon size={24} />}
                   disabled={!cardFormStore.isNextCardVisible}
-                  outline
                 >
                   {t("card_next")}
-                </ButtonSideAligned>
+                </Button>
               </>
             )}
 
             {cardFormStore.isCardPreviewVisible && (
-              <ButtonSideAligned
+              <Button
+                align="left"
                 icon={<EyeIcon size={24} />}
-                outline
                 onClick={() => {
                   cardFormStore.cardInnerScreen.onChange("cardPreview");
                 }}
               >
                 {t("card_preview")}
-              </ButtonSideAligned>
+              </Button>
             )}
 
             {cardForm.id && (
               <>
-                <ButtonSideAligned
+                <Button
+                  align="left"
                   onClick={() => {
                     cardFormStore.onOpenNewFromCard();
                   }}
                   icon={<PlusIcon size={24} />}
-                  outline
                 >
                   {t("add_card_short")}
-                </ButtonSideAligned>
+                </Button>
               </>
             )}
 
             {cardFormStore.isMoveCardVisible && (
-              <ButtonSideAligned
+              <Button
+                align="left"
                 onClick={() => {
                   cardFormStore.openMoveCardSheet();
                 }}
                 icon={<FolderInputIcon size={24} />}
-                outline
               >
                 {t("move_card_move")}
-              </ButtonSideAligned>
+              </Button>
             )}
 
             {markCardAsRemoved && cardForm.id && (
-              <ButtonSideAligned
+              <Button
+                align="left"
                 icon={<TrashIcon size={24} />}
-                outline
                 onClick={markCardAsRemoved}
               >
                 {t("delete")}
-              </ButtonSideAligned>
+              </Button>
             )}
           </ButtonGrid>
         </div>

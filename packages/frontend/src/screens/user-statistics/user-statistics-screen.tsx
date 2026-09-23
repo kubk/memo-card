@@ -216,7 +216,7 @@ function UserStatisticsContent(props: {
               text: t("user_stats_best_streak"),
               icon: (
                 <FilledIcon
-                  backgroundColor="#f4b400"
+                  className="bg-[#f4b400]"
                   icon={<TrophyIcon size={18} className="text-white" />}
                 />
               ),
@@ -226,7 +226,7 @@ function UserStatisticsContent(props: {
               text: t("user_stats_current_streak"),
               icon: (
                 <FilledIcon
-                  backgroundColor="#ff8a00"
+                  className="bg-[#ff8a00]"
                   icon={<FlameIcon size={18} className="text-white" />}
                 />
               ),

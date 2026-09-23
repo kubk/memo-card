@@ -13,12 +13,6 @@ export type HapticType =
   | "heavy"
   | "selection";
 
-export type PlatformTheme = {
-  buttonColor: string;
-  hintColor: string;
-  buttonTextColor: string;
-};
-
 export interface Platform {
   readonly isMobile: boolean;
   readonly isMainButtonVisible: boolean;
@@ -26,7 +20,6 @@ export interface Platform {
   getInitData(): string | null;
   openExternalLink(link: string): void;
   openInternalLink(link: string): void;
-  getTheme(): PlatformTheme;
   getClientData(): PlatformSchemaType;
   getLanguageCached(): LanguageShared;
   setLanguageCached(language: LanguageShared): void;

@@ -2,15 +2,12 @@ import { type RouterOutput } from "api";
 import { makeAutoObservable } from "mobx";
 import { BooleanField, BooleanToggle } from "mobx-form-lite";
 import { useState } from "react";
-import { DeleteItemModal } from "../../src/screens/shared/delete-item-modal.tsx";
-import { Button } from "../../src/ui/button.tsx";
-import { ShadcnButton } from "../../src/ui/shadcn/button.tsx";
-import {
-  BooleanProp,
-  PreviewFrame,
-  PropGroup,
-  PropsPanel,
-} from "../playground-components.tsx";
+import { DeleteItemModal } from "../src/screens/shared/delete-item-modal.tsx";
+import { Button } from "../src/ui/button.tsx";
+import { BooleanProp, PropGroup } from "./ui/prop-controls.tsx";
+import { PlaygroundButton } from "./ui/playground-button.tsx";
+import { PreviewFrame } from "./ui/preview-frame.tsx";
+import { PropsPanel } from "./ui/props-panel.tsx";
 
 type LibraryItemDeletionInfo = RouterOutput["libraryItem"]["deletionInfo"];
 
@@ -114,7 +111,7 @@ export function DeleteItemModalPlayground() {
         <PropGroup label="Item">
           <div className="flex gap-1.5">
             {(["deck", "folder"] as const).map((value) => (
-              <ShadcnButton
+              <PlaygroundButton
                 type="button"
                 size="sm"
                 variant={store.itemName === value ? "default" : "outline"}
@@ -122,7 +119,7 @@ export function DeleteItemModalPlayground() {
                 onClick={() => store.setItemName(value)}
               >
                 {value}
-              </ShadcnButton>
+              </PlaygroundButton>
             ))}
           </div>
         </PropGroup>

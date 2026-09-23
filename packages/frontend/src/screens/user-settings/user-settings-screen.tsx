@@ -6,7 +6,6 @@ import { generateTimeRange } from "./generate-time-range.tsx";
 import { useMainButton } from "../../lib/platform/use-main-button.ts";
 import { useProgress } from "../../lib/platform/use-progress.tsx";
 import { RadioSwitcher } from "../../ui/radio-switcher.tsx";
-import { theme } from "../../ui/theme.tsx";
 import { Select } from "../../ui/select.tsx";
 import { useBackButton } from "../../lib/platform/use-back-button.ts";
 import { screenStore } from "../../store/screen-store.ts";
@@ -103,7 +102,7 @@ export function UserSettingsScreen() {
             {
               icon: (
                 <FilledIcon
-                  backgroundColor={theme.icons.turquoise}
+                  className="bg-icon-turquoise"
                   icon={<SnowflakeIcon size={18} />}
                 />
               ),
@@ -124,7 +123,7 @@ export function UserSettingsScreen() {
             {
               icon: (
                 <FilledIcon
-                  backgroundColor={theme.icons.sea}
+                  className="bg-icon-sea"
                   icon={<BellIcon size={18} />}
                 />
               ),
@@ -142,7 +141,7 @@ export function UserSettingsScreen() {
               ? {
                   icon: (
                     <FilledIcon
-                      backgroundColor={theme.icons.green}
+                      className="bg-icon-green"
                       icon={<ClockIcon size={18} />}
                     />
                   ),
@@ -178,7 +177,7 @@ export function UserSettingsScreen() {
             {
               icon: (
                 <FilledIcon
-                  backgroundColor={theme.icons.pink}
+                  className="bg-icon-pink"
                   icon={<MicIcon size={18} />}
                 />
               ),
@@ -204,7 +203,7 @@ export function UserSettingsScreen() {
             {
               icon: (
                 <FilledIcon
-                  backgroundColor={theme.icons.violet}
+                  className="bg-icon-violet"
                   icon={<LanguagesIcon size={18} />}
                 />
               ),
@@ -228,7 +227,7 @@ export function UserSettingsScreen() {
             {
               icon: (
                 <FilledIcon
-                  backgroundColor={theme.icons.blue}
+                  className="bg-icon-blue"
                   icon={<HeadsetIcon size={18} />}
                 />
               ),
@@ -242,7 +241,7 @@ export function UserSettingsScreen() {
             {
               icon: (
                 <FilledIcon
-                  backgroundColor={theme.icons.turquoise}
+                  className="bg-icon-turquoise"
                   icon={<ShieldIcon size={18} />}
                 />
               ),
@@ -255,7 +254,7 @@ export function UserSettingsScreen() {
             {
               icon: (
                 <FilledIcon
-                  backgroundColor={theme.icons.sea}
+                  className="bg-icon-sea"
                   icon={<MailIcon size={18} />}
                 />
               ),
@@ -283,7 +282,7 @@ export function UserSettingsScreen() {
             {
               icon: (
                 <FilledIcon
-                  backgroundColor={theme.icons.green}
+                  className="bg-icon-green"
                   icon={<InfoIcon size={18} />}
                 />
               ),
@@ -306,7 +305,7 @@ export function UserSettingsScreen() {
               {
                 icon: (
                   <FilledIcon
-                    backgroundColor={theme.icons.sea}
+                    className="bg-icon-sea"
                     icon={<LogOutIcon size={18} />}
                   />
                 ),
@@ -321,7 +320,7 @@ export function UserSettingsScreen() {
                 ? {
                     icon: (
                       <FilledIcon
-                        backgroundColor={theme.danger}
+                        className="bg-danger"
                         icon={<UserXIcon size={18} />}
                       />
                     ),

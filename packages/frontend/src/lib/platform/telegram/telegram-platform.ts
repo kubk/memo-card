@@ -1,8 +1,5 @@
-import { Platform, PlatformTheme, HapticType } from "../platform.ts";
-import {
-  cssVariablesDark,
-  cssVariablesLight,
-} from "../browser/browser-colors.ts";
+import { Platform, HapticType } from "../platform.ts";
+import { cssVariablesDark, cssVariablesLight } from "../../../ui/theme.tsx";
 import { PlatformSchemaType } from "api";
 import { makeObservable, observable, action, computed } from "mobx";
 import { LanguageShared } from "api";
@@ -94,15 +91,6 @@ export class TelegramPlatform implements Platform {
     } else {
       webApp.setHeaderColor("secondary_bg_color");
     }
-  }
-
-  getTheme(): PlatformTheme {
-    const cssVariables = this.getCssVariables();
-    return {
-      buttonColor: cssVariables["--tg-theme-button-color"],
-      hintColor: cssVariables["--tg-theme-hint-color"],
-      buttonTextColor: cssVariables["--tg-theme-button-text-color"],
-    };
   }
 
   getStartParam(): string | undefined {

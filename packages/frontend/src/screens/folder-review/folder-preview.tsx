@@ -3,7 +3,7 @@ import { screenStore } from "../../store/screen-store.ts";
 import { Hint } from "../../ui/hint.tsx";
 import { useBackButton } from "../../lib/platform/use-back-button.ts";
 import { useMainButton } from "../../lib/platform/use-main-button.ts";
-import { ButtonSideAligned } from "../../ui/button-side-aligned.tsx";
+import { Button } from "../../ui/button.tsx";
 import { useProgress } from "../../lib/platform/use-progress.tsx";
 import { t } from "../../translations/t.ts";
 import { useReviewStore } from "../deck-review/store/review-store-context.tsx";
@@ -84,9 +84,9 @@ export function FolderPreview(props: Props) {
       {store.canEdit ? (
         <div className="mt-3 pb-1">
           <ButtonGrid>
-            <ButtonSideAligned
+            <Button
+              align="left"
               icon={<PlusIcon size={24} />}
-              outline
               onClick={() => {
                 screenStore.push({
                   type: "deckForm",
@@ -96,16 +96,16 @@ export function FolderPreview(props: Props) {
               }}
             >
               {t("add_deck_short")}
-            </ButtonSideAligned>
-            <ButtonSideAligned
+            </Button>
+            <Button
+              align="left"
               icon={<PencilIcon size={24} />}
-              outline
               onClick={() => {
                 screenStore.push({ type: "folderForm", folderId: folder.id });
               }}
             >
               {t("edit")}
-            </ButtonSideAligned>
+            </Button>
           </ButtonGrid>
         </div>
       ) : null}

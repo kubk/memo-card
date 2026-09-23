@@ -3,7 +3,6 @@ import { PublicDeck } from "./public-deck.tsx";
 import { DeckRowWithCardsToReview } from "../shared/deck-row-with-cards-to-review/deck-row-with-cards-to-review.tsx";
 import { deckListStore } from "../../store/deck-list-store.ts";
 import { Hint } from "../../ui/hint.tsx";
-import { theme } from "../../ui/theme.tsx";
 import { screenStore } from "../../store/screen-store.ts";
 import { CardRowLoading } from "../shared/card-row-loading.tsx";
 import { ListHeader } from "../../ui/list-header.tsx";
@@ -19,7 +18,7 @@ import { platform } from "../../lib/platform/platform.ts";
 import { YouTubeIcon } from "../shared/youtube/youtube.tsx";
 import { TelegramIcon } from "../shared/telegram/telegram-icon.tsx";
 import { boolNarrow } from "../../lib/typescript/bool-narrow.ts";
-import { ButtonSideAligned } from "../../ui/button-side-aligned.tsx";
+import { Button } from "../../ui/button.tsx";
 import { DeckOrFolderChoose } from "./deck-or-folder-choose/deck-or-folder-choose.tsx";
 import { BooleanToggle } from "mobx-form-lite";
 import { RuEduVideoChoice } from "./ru-edu-video-choice.tsx";
@@ -135,10 +134,9 @@ export function MainScreen() {
           ) : null}
 
           {deckListStore.myInfo ? (
-            <ButtonSideAligned
-              align={"center"}
+            <Button
+              align="center"
               icon={<PlusIcon size={24} />}
-              outline
               onClick={() => {
                 platform.haptic("light");
                 if (deckListStore.myDecks.length > 0) {
@@ -149,7 +147,7 @@ export function MainScreen() {
               }}
             >
               {t("add")}
-            </ButtonSideAligned>
+            </Button>
           ) : null}
 
           {deckListStore.areAllDecksReviewed && (
@@ -197,7 +195,7 @@ export function MainScreen() {
                   icon: (
                     <FilledIcon
                       icon={<TelegramIcon />}
-                      backgroundColor={theme.icons.blue}
+                      className="bg-icon-blue"
                     />
                   ),
                   onClick: () => {
@@ -214,7 +212,7 @@ export function MainScreen() {
                       icon: (
                         <FilledIcon
                           icon={<VideoIcon size={18} />}
-                          backgroundColor={theme.icons.turquoise}
+                          className="bg-icon-turquoise"
                         />
                       ),
                     }
@@ -223,7 +221,7 @@ export function MainScreen() {
                       icon: (
                         <FilledIcon
                           icon={<YouTubeIcon />}
-                          backgroundColor={theme.danger}
+                          className="bg-danger"
                         />
                       ),
                       onClick: () => {
@@ -242,7 +240,7 @@ export function MainScreen() {
                   text: t("settings"),
                   icon: (
                     <FilledIcon
-                      backgroundColor={theme.icons.violet}
+                      className="bg-icon-violet"
                       icon={<CogIcon size={18} />}
                     />
                   ),

@@ -1,4 +1,4 @@
-import { Platform, PlatformTheme, HapticType } from "../platform.ts";
+import { Platform, HapticType } from "../platform.ts";
 import type { WebHaptics, defaultPatterns } from "web-haptics";
 import { action, makeAutoObservable } from "mobx";
 import { BooleanToggle } from "mobx-form-lite";
@@ -12,7 +12,7 @@ import {
   browserPlatformLangKey,
   browserTokenKey,
 } from "./local-storage-keys.ts";
-import { cssVariablesDark, cssVariablesLight } from "./browser-colors.ts";
+import { cssVariablesDark, cssVariablesLight } from "../../../ui/theme.tsx";
 import { LanguageShared } from "api";
 import { api } from "../../../api/trpc-api.ts";
 import { applyColorScheme } from "../../color-scheme/apply-color-scheme.ts";
@@ -41,7 +41,6 @@ export class BrowserPlatform implements Platform {
     makeAutoObservable<this, "webHaptics">(
       this,
       {
-        getTheme: false,
         getInitData: false,
         initialize: false,
         openInternalLink: false,
@@ -73,15 +72,6 @@ export class BrowserPlatform implements Platform {
         cssVariables[variable],
       );
     }
-  }
-
-  getTheme(): PlatformTheme {
-    const cssVariables = this.getCssVariables();
-    return {
-      buttonColor: cssVariables["--tg-theme-button-color"],
-      hintColor: cssVariables["--tg-theme-hint-color"],
-      buttonTextColor: cssVariables["--tg-theme-button-text-color"],
-    };
   }
 
   getStartParam(): string | undefined {

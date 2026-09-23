@@ -12,7 +12,6 @@ import { cn } from "../../ui/cn.ts";
 import { ChevronIcon } from "../../ui/chevron-icon.tsx";
 import { FilledIcon } from "../../ui/filled-icon.tsx";
 import { ListHeader } from "../../ui/list-header.tsx";
-import { theme } from "../../ui/theme.tsx";
 import { t, translator } from "../../translations/t.ts";
 import { CardRowLoading } from "../shared/card-row-loading.tsx";
 import { Screen } from "../shared/screen.tsx";
@@ -100,7 +99,7 @@ function SummaryTile(props: {
   label: string;
   value: string | number;
   icon: ReactNode;
-  iconColor: string;
+  iconClassName: string;
 }) {
   return (
     <div className="min-w-0 rounded-xl bg-bg p-4">
@@ -108,7 +107,7 @@ function SummaryTile(props: {
         <div className="text-[12px] font-medium uppercase leading-4 text-hint">
           {props.label}
         </div>
-        <FilledIcon backgroundColor={props.iconColor} icon={props.icon} />
+        <FilledIcon className={props.iconClassName} icon={props.icon} />
       </div>
       <div className="truncate text-[32px] font-semibold leading-9 tabular-nums text-text">
         {props.value}
@@ -282,13 +281,13 @@ function TeacherStatisticsContent(props: { statistics: TeacherStatistics }) {
           label={t("teacher_stats_students")}
           value={formatNumber(overview.studentCount)}
           icon={<UsersIcon size={17} />}
-          iconColor={theme.icons.blue}
+          iconClassName="bg-icon-blue"
         />
         <SummaryTile
           label={t("teacher_stats_decks_shared")}
           value={formatNumber(overview.sharedDeckCount)}
           icon={<LibraryBigIcon size={17} />}
-          iconColor={theme.icons.turquoise}
+          iconClassName="bg-icon-turquoise"
         />
       </div>
 

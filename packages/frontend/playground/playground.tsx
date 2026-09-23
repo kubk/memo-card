@@ -1,12 +1,21 @@
 import { LoginPlayground } from "./login-playground.tsx";
-import { useEffect, useState, type ReactNode } from "react";
+import {
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
 import {
   House,
   Languages,
   Monitor,
   PanelLeft,
+  Plus,
   RotateCcw,
+  SlidersHorizontal,
   Smartphone,
+  X,
 } from "lucide-react";
 import { isLanguage, languageSharedToHuman, languagesShared } from "api";
 import { Badge } from "../src/ui/badge.tsx";
@@ -18,7 +27,7 @@ import { BrowserPlatform } from "../src/lib/platform/browser/browser-platform.ts
 import { platform } from "../src/lib/platform/platform.ts";
 import { userStore } from "../src/store/user-store.ts";
 import { cn } from "../src/ui/cn.ts";
-import { ShadcnButton } from "../src/ui/shadcn/button.tsx";
+import { PlaygroundButton } from "./ui/playground-button.tsx";
 import { ShadcnInput } from "../src/ui/shadcn/input.tsx";
 import { ShadcnLabel } from "../src/ui/shadcn/label.tsx";
 import { Tabs, TabsList, TabsTrigger } from "../src/ui/shadcn/tabs.tsx";
@@ -39,83 +48,101 @@ import {
 } from "./catalog-stories.tsx";
 import { CatalogModals, type ModalStoryId } from "./modal-stories.tsx";
 import { ProPage } from "../src/screens/pro/pro-page.tsx";
-import { DeleteItemModalPlayground } from "./delete-item-modal/delete-item-modal-playground.tsx";
+import { DeleteItemModalPlayground } from "./delete-item-modal-playground.tsx";
 import { BottomNavigationPlayground } from "./bottom-navigation-playground.tsx";
 import { LeaderboardPlayground } from "./leaderboard-playground.tsx";
 import { SharedDeckNotFoundPlayground } from "./shared-deck-not-found-playground.tsx";
-import {
-  BooleanProp,
-  PreviewFrame,
-  PropGroup,
-  PropsPanel,
-  PropsPanelContext,
-} from "./playground-components.tsx";
+import { CardReviewPlayground } from "./card-review-playground.tsx";
+import { routeScreenContainerClassName } from "../src/lib/react/route-screen-container-class.ts";
+import { BooleanProp, PropGroup, TextProp } from "./ui/prop-controls.tsx";
+import { PreviewFrame } from "./ui/preview-frame.tsx";
+import { PropsPanel, PropsPanelContext } from "./ui/props-panel.tsx";
 
 const PLAYGROUND_COMPONENTS = [
   {
     id: "login",
     label: "Login",
+    layout: "screen",
   },
   {
     id: "leaderboard",
     label: "Leaderboard",
+    layout: "screen",
+  },
+  {
+    id: "card-review",
+    label: "Card review",
+    layout: "screen",
   },
   {
     id: "bottom-navigation",
     label: "Bottom navigation",
+    layout: "component",
     propsPanel: false,
   },
   {
     id: "deleted-deck",
     label: "Deleted deck",
+    layout: "screen",
     propsPanel: false,
   },
   {
     id: "pro-page",
     label: "Pro page",
+    layout: "screen",
     propsPanel: false,
   },
   {
     id: "button",
     label: "Button",
+    layout: "component",
   },
   {
     id: "select",
     label: "Select",
+    layout: "component",
     propsPanel: false,
   },
   {
     id: "snackbar",
     label: "Snackbar",
+    layout: "component",
   },
   {
     id: "list",
     label: "List",
+    layout: "component",
   },
   {
     id: "radio-list",
     label: "Radio list",
+    layout: "component",
   },
   {
     id: "modals",
     label: "Modals",
+    layout: "component",
     propsPanel: false,
   },
   {
     id: "delete-modal",
     label: "Delete modal",
+    layout: "component",
   },
   {
     id: "chip",
     label: "Chip",
+    layout: "component",
   },
   {
     id: "badge",
     label: "Badge",
+    layout: "component",
   },
   {
     id: "progress-bar",
     label: "Progress bar",
+    layout: "component",
   },
 ] as const;
 
@@ -127,6 +154,7 @@ const PLAYGROUND_HOME_SECTIONS = [
     componentIds: [
       "login",
       "leaderboard",
+      "card-review",
       "bottom-navigation",
       "deleted-deck",
       "pro-page",
@@ -190,8 +218,13 @@ export function Playground() {
   const [sidebarOpen, setSidebarOpen] = useState(getSidebarOpen);
   const [propsPanelContainer, setPropsPanelContainer] =
     useState<HTMLDivElement | null>(null);
+  const propsPanelRef = useRef<HTMLElement>(null);
   const [previewVersion, setPreviewVersion] = useState(0);
   const [deviceId, setDeviceId] = useState<DeviceId>("iphone");
+  const [propsPanelOpen, setPropsPanelOpen] = useState(false);
+  const [isMobileViewport, setIsMobileViewport] = useState(() =>
+    window.matchMedia("(max-width: 767px)").matches,
+  );
 
   const selectedComponent = PLAYGROUND_COMPONENTS.find(
     (component) => component.id === selectedId,
@@ -209,6 +242,26 @@ export function Playground() {
   useEffect(() => {
     window.localStorage.setItem(SIDEBAR_OPEN_STORAGE_KEY, String(sidebarOpen));
   }, [sidebarOpen]);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 767px)");
+    const syncViewport = () => {
+      setIsMobileViewport(mediaQuery.matches);
+      if (!mediaQuery.matches) {
+        setPropsPanelOpen(false);
+      }
+    };
+
+    mediaQuery.addEventListener("change", syncViewport);
+    return () => mediaQuery.removeEventListener("change", syncViewport);
+  }, []);
+
+  useEffect(() => {
+    propsPanelRef.current?.toggleAttribute(
+      "inert",
+      isMobileViewport && !propsPanelOpen,
+    );
+  }, [isMobileViewport, propsPanelOpen]);
 
   useEffect(() => {
     if (!(platform instanceof BrowserPlatform)) {
@@ -256,17 +309,18 @@ export function Playground() {
     <div
       dir="ltr"
       className={cn(
-        "grid h-screen min-w-[560px] overflow-hidden font-sans transition-[grid-template-columns] duration-200 ease-linear",
+        "grid h-screen min-w-0 grid-cols-1 overflow-hidden font-sans transition-[grid-template-columns] duration-200 ease-linear",
+        showPropsPanel ? "md:min-w-[760px]" : "md:min-w-[560px]",
         showPropsPanel
           ? sidebarOpen
-            ? "grid-cols-[200px_minmax(280px,1fr)_280px]"
-            : "grid-cols-[0px_minmax(280px,1fr)_280px]"
+            ? "md:grid-cols-[200px_minmax(280px,1fr)_280px]"
+            : "md:grid-cols-[0px_minmax(280px,1fr)_280px]"
           : sidebarOpen
-            ? "grid-cols-[200px_minmax(280px,1fr)]"
-            : "grid-cols-[0px_minmax(280px,1fr)]",
+            ? "md:grid-cols-[200px_minmax(280px,1fr)]"
+            : "md:grid-cols-[0px_minmax(280px,1fr)]",
       )}
     >
-      <div className="min-h-0 min-w-0 overflow-hidden">
+      <div className="hidden min-h-0 min-w-0 overflow-hidden md:block">
         <aside className="flex h-full w-[200px] flex-col border-r border-border bg-background">
           <button
             type="button"
@@ -337,15 +391,16 @@ export function Playground() {
 
       <section className="flex min-h-0 min-w-0 flex-col">
         <header className="flex h-14 shrink-0 items-center gap-1.5 border-b border-border bg-background px-3">
-          <ShadcnButton
+          <PlaygroundButton
             type="button"
             variant="ghost"
             size="icon"
             title="Toggle sidebar"
+            className="hidden md:inline-flex"
             onClick={() => setSidebarOpen((open) => !open)}
           >
             <PanelLeft size={17} />
-          </ShadcnButton>
+          </PlaygroundButton>
           <Tabs
             value={deviceId}
             onValueChange={(value) => {
@@ -367,6 +422,18 @@ export function Playground() {
               ))}
             </TabsList>
           </Tabs>
+          {showPropsPanel && (
+            <PlaygroundButton
+              type="button"
+              variant="ghost"
+              size="icon"
+              title="Open props"
+              className="ml-auto md:hidden"
+              onClick={() => setPropsPanelOpen(true)}
+            >
+              <SlidersHorizontal size={17} />
+            </PlaygroundButton>
+          )}
         </header>
 
         <main
@@ -376,7 +443,7 @@ export function Playground() {
           <PropsPanelContext.Provider
             value={showPropsPanel ? propsPanelContainer : null}
           >
-            <DeviceFrame deviceId={deviceId}>
+            <DeviceFrame deviceId={deviceId} layout={selectedComponent.layout}>
               <ComponentPreview
                 key={`${selectedId}-${previewVersion}`}
                 componentId={selectedComponent.id}
@@ -387,9 +454,18 @@ export function Playground() {
       </section>
 
       {showPropsPanel && (
-        <aside className="flex min-h-0 flex-col border-l border-border bg-background">
+        <aside
+          ref={propsPanelRef}
+          className={cn(
+            "fixed inset-0 z-50 flex min-h-0 w-full flex-col border-l border-border bg-background shadow-xl transition-transform duration-200 ease-out md:static md:z-auto md:w-auto md:translate-x-0 md:shadow-none md:transition-none",
+            propsPanelOpen
+              ? "pointer-events-auto translate-x-0"
+              : "pointer-events-none translate-x-full",
+            "md:pointer-events-auto",
+          )}
+        >
           <header className="flex h-14 shrink-0 items-center justify-end border-b border-border px-3">
-            <ShadcnButton
+            <PlaygroundButton
               type="button"
               variant="ghost"
               size="icon"
@@ -397,7 +473,17 @@ export function Playground() {
               onClick={() => setPreviewVersion((version) => version + 1)}
             >
               <RotateCcw size={15} />
-            </ShadcnButton>
+            </PlaygroundButton>
+            <PlaygroundButton
+              type="button"
+              variant="ghost"
+              size="icon"
+              title="Close props"
+              className="ml-1 md:hidden"
+              onClick={() => setPropsPanelOpen(false)}
+            >
+              <X size={17} />
+            </PlaygroundButton>
           </header>
           <div
             className="min-h-0 flex-1 overflow-y-auto px-4 pb-6"
@@ -467,6 +553,8 @@ function ComponentPreview({
       return <LoginPlayground />;
     case "leaderboard":
       return <LeaderboardPlayground />;
+    case "card-review":
+      return <CardReviewPlayground />;
     case "bottom-navigation":
       return <BottomNavigationPlayground />;
     case "deleted-deck":
@@ -505,24 +593,50 @@ function ComponentPreview({
 function DeviceFrame({
   children,
   deviceId,
+  layout,
 }: {
   children: ReactNode;
   deviceId: DeviceId;
+  layout: "component" | "screen";
 }) {
   const [portalContainer, setPortalContainer] = useState<HTMLDivElement | null>(
     null,
   );
+  useLayoutEffect(() => {
+    if (!portalContainer) {
+      return;
+    }
+
+    const updateViewportHeight = () => {
+      portalContainer.style.setProperty(
+        "--tg-viewport-height",
+        `${portalContainer.clientHeight}px`,
+      );
+    };
+
+    updateViewportHeight();
+    const resizeObserver = new ResizeObserver(updateViewportHeight);
+    resizeObserver.observe(portalContainer);
+    return () => resizeObserver.disconnect();
+  }, [portalContainer]);
+
+  const screenContent =
+    layout === "screen" ? (
+      <div className={routeScreenContainerClassName}>{children}</div>
+    ) : (
+      children
+    );
 
   const content = (
     <BottomSheetPortalProvider container={portalContainer}>
-      {children}
+      {screenContent}
     </BottomSheetPortalProvider>
   );
 
   if (deviceId === "desktop") {
     return (
       <div
-        className="relative flex min-h-[720px] w-full items-center justify-center overflow-hidden bg-secondary-bg"
+        className="relative flex h-[calc(100vh_-_88px)] min-h-[720px] w-full items-center justify-center overflow-hidden border border-border bg-secondary-bg"
         ref={setPortalContainer}
         style={{ transform: "translateZ(0)" }}
       >
@@ -534,7 +648,7 @@ function DeviceFrame({
   return (
     <div className="flex items-start justify-center px-0 py-4 sm:px-4 sm:py-6">
       <div
-        className="relative flex h-[844px] w-[390px] shrink-0 items-center justify-center overflow-hidden bg-secondary-bg shadow-xl"
+        className="relative box-border flex h-[844px] w-[390px] shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-foreground/20 bg-secondary-bg"
         ref={setPortalContainer}
         style={{ transform: "translateZ(0)" }}
       >
@@ -544,53 +658,56 @@ function DeviceFrame({
   );
 }
 
-function TextProp({
-  id,
-  label,
-  onChange,
-  value,
-}: {
-  id: string;
-  label: string;
-  onChange: (value: string) => void;
-  value: string;
-}) {
-  return (
-    <div className="flex flex-col gap-2">
-      <ShadcnLabel htmlFor={id}>{label}</ShadcnLabel>
-      <ShadcnInput
-        id={id}
-        value={value}
-        onChange={(event) => onChange(event.target.value)}
-      />
-    </div>
-  );
-}
-
 function ButtonPlayground() {
-  const [outline, setOutline] = useState(false);
+  const [align, setAlign] = useState<"left" | "center">("left");
   const [disabled, setDisabled] = useState(false);
+
+  const handleAlignChange = (value: string) => {
+    if (value !== "left" && value !== "center") {
+      return;
+    }
+
+    setAlign(value);
+  };
 
   return (
     <>
       <PreviewFrame>
         <div className="flex w-full flex-col gap-3">
-          <Button outline={outline} disabled={disabled} variant="main">
-            Review cards
+          <Button disabled={disabled} variant="main">
+            Main
           </Button>
-          <Button outline={outline} disabled={disabled} variant="danger">
-            Delete account
+          <Button disabled={disabled} outline variant="main">
+            Main outline
+          </Button>
+          <Button disabled={disabled} variant="danger">
+            Danger
+          </Button>
+          <Button disabled={disabled} outline variant="danger">
+            Danger outline
+          </Button>
+          <Button disabled={disabled} variant="secondary">
+            Secondary
+          </Button>
+          <Button align={align} disabled={disabled} icon={<Plus size={24} />}>
+            Add deck
           </Button>
         </div>
       </PreviewFrame>
       <PropsPanel>
+        <PropGroup label="Side alignment">
+          <Tabs value={align} onValueChange={handleAlignChange}>
+            <TabsList className="w-full">
+              <TabsTrigger className="flex-1" value="left">
+                Left
+              </TabsTrigger>
+              <TabsTrigger className="flex-1" value="center">
+                Center
+              </TabsTrigger>
+            </TabsList>
+          </Tabs>
+        </PropGroup>
         <PropGroup>
-          <BooleanProp
-            id="button-outline"
-            label="outline"
-            checked={outline}
-            onCheckedChange={setOutline}
-          />
           <BooleanProp
             id="button-disabled"
             label="disabled"
@@ -647,7 +764,7 @@ function SnackbarPlayground() {
             <ShadcnLabel>variant</ShadcnLabel>
             <div className="flex gap-1.5">
               {(["success", "error"] as const).map((value) => (
-                <ShadcnButton
+                <PlaygroundButton
                   type="button"
                   size="sm"
                   variant={variant === value ? "default" : "outline"}
@@ -655,7 +772,7 @@ function SnackbarPlayground() {
                   onClick={() => setVariant(value)}
                 >
                   {value}
-                </ShadcnButton>
+                </PlaygroundButton>
               ))}
             </div>
           </div>
@@ -816,7 +933,7 @@ function BadgePlayground() {
             <ShadcnLabel>variant</ShadcnLabel>
             <div className="flex flex-wrap gap-1.5">
               {BADGE_VARIANTS.map((value) => (
-                <ShadcnButton
+                <PlaygroundButton
                   type="button"
                   size="sm"
                   variant={variant === value ? "default" : "outline"}
@@ -824,7 +941,7 @@ function BadgePlayground() {
                   onClick={() => setVariant(value)}
                 >
                   {value}
-                </ShadcnButton>
+                </PlaygroundButton>
               ))}
             </div>
           </div>

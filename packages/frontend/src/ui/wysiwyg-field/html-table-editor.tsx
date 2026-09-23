@@ -4,7 +4,7 @@ import { notifySuccess } from "../../screens/shared/snackbar/snackbar.tsx";
 import { t } from "../../translations/t.ts";
 import { wysiwygTableStyle } from "../wysiwyg-table-style.ts";
 import { ButtonGrid } from "../button-grid.tsx";
-import { ButtonSideAligned } from "../button-side-aligned.tsx";
+import { Button } from "../button.tsx";
 import { CopyIcon, MinusIcon, PlusIcon } from "lucide-react";
 import { cn } from "../cn.ts";
 
@@ -104,34 +104,22 @@ export function HtmlTableEditor() {
       className={cn("html-table-editor flex flex-col gap-2", wysiwygTableStyle)}
     >
       <ButtonGrid>
-        <ButtonSideAligned
-          outline
-          icon={<PlusIcon size={18} />}
-          onClick={addColumn}
-        >
+        <Button align="left" icon={<PlusIcon size={18} />} onClick={addColumn}>
           {t("html_column")}
-        </ButtonSideAligned>
-        <ButtonSideAligned
-          outline
-          icon={<PlusIcon size={18} />}
-          onClick={addRow}
-        >
+        </Button>
+        <Button align="left" icon={<PlusIcon size={18} />} onClick={addRow}>
           {t("html_row")}
-        </ButtonSideAligned>
-        <ButtonSideAligned
-          outline
+        </Button>
+        <Button
+          align="left"
           icon={<MinusIcon size={18} />}
           onClick={removeColumn}
         >
           {t("html_column")}
-        </ButtonSideAligned>
-        <ButtonSideAligned
-          outline
-          icon={<MinusIcon size={18} />}
-          onClick={removeRow}
-        >
+        </Button>
+        <Button align="left" icon={<MinusIcon size={18} />} onClick={removeRow}>
           {t("html_row")}
-        </ButtonSideAligned>
+        </Button>
       </ButtonGrid>
       <table>
         <thead>
@@ -165,8 +153,8 @@ export function HtmlTableEditor() {
       </table>
 
       <div>
-        <ButtonSideAligned
-          outline
+        <Button
+          align="left"
           onClick={() => {
             const tableHtml = tableDataToHtml(tableData);
             copyToClipboard(tableHtml, { html: tableHtml });
@@ -175,7 +163,7 @@ export function HtmlTableEditor() {
           icon={<CopyIcon size={18} />}
         >
           {t("copy_code")}
-        </ButtonSideAligned>
+        </Button>
       </div>
     </div>
   );

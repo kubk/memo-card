@@ -1,10 +1,7 @@
 import { useState } from "react";
 import { LoginForm } from "../src/screens/login/login-form.tsx";
-import {
-  BooleanProp,
-  PropGroup,
-  PropsPanel,
-} from "./playground-components.tsx";
+import { BooleanProp, PropGroup } from "./ui/prop-controls.tsx";
+import { PropsPanel } from "./ui/props-panel.tsx";
 
 export function LoginPlayground() {
   const [googleLoading, setGoogleLoading] = useState(false);

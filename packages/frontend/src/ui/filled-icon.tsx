@@ -1,15 +1,18 @@
 import { ReactNode } from "react";
+import { cn } from "./cn.ts";
 
 type Props = {
-  backgroundColor: string;
+  className: string;
   icon: ReactNode;
 };
 
-export function FilledIcon({ backgroundColor, icon }: Props) {
+export function FilledIcon({ className, icon }: Props) {
   return (
     <div
-      style={{ backgroundColor }}
-      className="rounded-lg w-[30px] h-[30px] flex justify-center text-white items-center"
+      className={cn(
+        "rounded-lg w-[30px] h-[30px] flex justify-center text-white items-center",
+        className,
+      )}
     >
       {icon}
     </div>

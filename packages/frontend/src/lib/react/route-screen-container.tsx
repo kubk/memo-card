@@ -6,6 +6,7 @@ import { TelegramPlatform } from "../platform/telegram/telegram-platform.ts";
 import { routeScrollContainerProps } from "./route-scroll-container.ts";
 import { cn } from "../../ui/cn.ts";
 import { Route } from "../../store/routing/route-types.ts";
+import { routeScreenContainerClassName } from "./route-screen-container-class.ts";
 
 type RouteScreenContainerProps = {
   children: ReactNode;
@@ -76,7 +77,7 @@ export function RouteScreenContainer(props: RouteScreenContainerProps) {
       ref={scrollContainerRef}
       {...routeScrollContainerProps}
       className={cn(
-        "absolute inset-0 box-border overflow-y-auto overscroll-contain pb-[var(--tg-safe-area-inset-bottom,0px)] pl-[calc(var(--tg-safe-area-inset-left,0px)_+_var(--app-horizontal-padding))] pr-[calc(var(--tg-safe-area-inset-right,0px)_+_var(--app-horizontal-padding))] pt-[calc(var(--tg-safe-area-inset-top,0px)_+_var(--app-top-offset,12px))]",
+        routeScreenContainerClassName,
         platform instanceof TelegramPlatform && platform.isWeb() && "mt-4",
         screenType === "browserLogin" &&
           "flex min-h-[calc(100vh_-_48px)] items-center justify-center",

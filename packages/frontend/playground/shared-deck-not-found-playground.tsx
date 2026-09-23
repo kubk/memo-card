@@ -4,7 +4,7 @@ import { BrowserMainButton } from "../src/screens/shared/browser-platform/browse
 export function SharedDeckNotFoundPlayground() {
   return (
     <>
-      <div className="h-full w-full overflow-y-auto bg-secondary-bg px-3 py-3 text-text">
+      <div className="h-full w-full overflow-y-auto bg-secondary-bg text-text">
         <SharedDeckNotFoundScreen />
       </div>
       <BrowserMainButton />

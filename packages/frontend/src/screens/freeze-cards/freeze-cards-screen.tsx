@@ -2,7 +2,6 @@ import { Screen } from "../shared/screen.tsx";
 import { useBackButton } from "../../lib/platform/use-back-button.ts";
 import { screenStore } from "../../store/screen-store.ts";
 import { useState } from "react";
-import { theme } from "../../ui/theme.tsx";
 import { Flex } from "../../ui/flex.tsx";
 import { useMainButton } from "../../lib/platform/use-main-button.ts";
 import { Input } from "../../ui/input.tsx";
@@ -49,7 +48,7 @@ export function FreezeCardsScreen() {
             text: t("how"),
             icon: (
               <FilledIcon
-                backgroundColor={theme.icons.turquoise}
+                className="bg-icon-turquoise"
                 icon={<SnowflakeIcon size={18} />}
               />
             ),

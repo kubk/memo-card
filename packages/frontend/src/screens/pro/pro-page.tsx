@@ -29,14 +29,8 @@ import { userStore } from "../../store/user-store.ts";
 import { cn } from "../../ui/cn.ts";
 import { FilledIcon } from "../../ui/filled-icon.tsx";
 import { List } from "../../ui/list.tsx";
-import { theme } from "../../ui/theme.tsx";
 
 const CHAT_EXAMPLES = [
-  {
-    promptKey: "proReversePrompt",
-    responseKey: "proReverseResponse",
-    detailKey: "proReverseDetail",
-  },
   {
     promptKey: "proCreatePrompt",
     responseKey: "proCreateResponse",
@@ -65,25 +59,25 @@ const splitGraphemes = (text: string) =>
 const BENEFITS = [
   {
     icon: <LibraryBig size={17} />,
-    iconColor: theme.icons.violet,
+    iconClassName: "bg-icon-violet",
     titleKey: "benefitCreateTitle",
     descriptionKey: "benefitCreateDescription",
   },
   {
     icon: <PencilLine size={17} />,
-    iconColor: theme.icons.blue,
+    iconClassName: "bg-icon-blue",
     titleKey: "benefitImproveTitle",
     descriptionKey: "benefitImproveDescription",
   },
   {
     icon: <FolderTree size={17} />,
-    iconColor: theme.icons.turquoise,
+    iconClassName: "bg-icon-turquoise",
     titleKey: "benefitManageTitle",
     descriptionKey: "benefitManageDescription",
   },
   {
     icon: <AudioLines size={17} />,
-    iconColor: theme.icons.sea,
+    iconClassName: "bg-icon-sea",
     titleKey: "benefitTranscriptionTitle",
     descriptionKey: "benefitTranscriptionDescription",
   },
@@ -134,7 +128,7 @@ export function ProPage({
                 items={BENEFITS.map((benefit) => ({
                   icon: (
                     <FilledIcon
-                      backgroundColor={benefit.iconColor}
+                      className={benefit.iconClassName}
                       icon={benefit.icon}
                     />
                   ),

@@ -161,6 +161,7 @@ export function CardReviewWithControls(props: Props) {
           {card.answers.map((answer) => (
             <Button
               key={answer.id}
+              outline
               onClick={() => {
                 card.openWithAnswer(answer);
               }}
@@ -169,6 +170,7 @@ export function CardReviewWithControls(props: Props) {
             </Button>
           ))}
           <Button
+            outline
             onClick={() => {
               card.openWithAnswer({ id: IDK_ID, text: "", isCorrect: false });
             }}

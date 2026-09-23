@@ -1,22 +1,7 @@
-import { createContext, useContext, type ReactNode } from "react";
-import { createPortal } from "react-dom";
-import { ShadcnCheckbox } from "../src/ui/shadcn/checkbox.tsx";
-import { ShadcnLabel } from "../src/ui/shadcn/label.tsx";
-
-export const PropsPanelContext = createContext<HTMLDivElement | null>(null);
-
-export function PropsPanel({ children }: { children: ReactNode }) {
-  const container = useContext(PropsPanelContext);
-  return container ? createPortal(children, container) : null;
-}
-
-export function PreviewFrame({ children }: { children: ReactNode }) {
-  return (
-    <div className="grid w-full max-w-[320px] place-items-center text-[var(--tg-theme-text-color)]">
-      {children}
-    </div>
-  );
-}
+import { type ReactNode } from "react";
+import { ShadcnCheckbox } from "../../src/ui/shadcn/checkbox.tsx";
+import { ShadcnInput } from "../../src/ui/shadcn/input.tsx";
+import { ShadcnLabel } from "../../src/ui/shadcn/label.tsx";
 
 export function PropGroup({
   children,
@@ -55,6 +40,29 @@ export function BooleanProp({
         id={id}
         checked={checked}
         onCheckedChange={(value) => onCheckedChange(value === true)}
+      />
+    </div>
+  );
+}
+
+export function TextProp({
+  id,
+  label,
+  onChange,
+  value,
+}: {
+  id: string;
+  label: string;
+  onChange: (value: string) => void;
+  value: string;
+}) {
+  return (
+    <div className="flex flex-col gap-2">
+      <ShadcnLabel htmlFor={id}>{label}</ShadcnLabel>
+      <ShadcnInput
+        id={id}
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
       />
     </div>
   );

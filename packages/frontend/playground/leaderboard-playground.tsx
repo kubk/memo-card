@@ -14,7 +14,8 @@ import {
 } from "../src/ui/shadcn/select.tsx";
 import { Tabs, TabsList, TabsTrigger } from "../src/ui/shadcn/tabs.tsx";
 import { ShadcnLabel } from "../src/ui/shadcn/label.tsx";
-import { PropGroup, PropsPanel } from "./playground-components.tsx";
+import { PropGroup } from "./ui/prop-controls.tsx";
+import { PropsPanel } from "./ui/props-panel.tsx";
 
 const topEntryData: Array<
   [
@@ -101,7 +102,7 @@ export function LeaderboardPlayground() {
 
   return (
     <>
-      <div className="h-full w-full overflow-y-auto bg-secondary-bg px-3 py-3 text-text">
+      <div className="h-full w-full overflow-y-auto bg-secondary-bg text-text">
         <LeaderboardView query={query} />
       </div>
 

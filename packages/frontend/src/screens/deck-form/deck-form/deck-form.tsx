@@ -5,7 +5,6 @@ import { useDeckFormStore } from "./store/deck-form-store-context.tsx";
 import { screenStore } from "../../../store/screen-store.ts";
 import { useBackButton } from "../../../lib/platform/use-back-button.ts";
 import { useProgress } from "../../../lib/platform/use-progress.tsx";
-import { theme } from "../../../ui/theme.tsx";
 import { t } from "../../../translations/t.ts";
 import { deckListStore } from "../../../store/deck-list-store.ts";
 import { Screen } from "../../shared/screen.tsx";
@@ -124,7 +123,7 @@ export function DeckForm() {
               {
                 icon: (
                   <FilledIcon
-                    backgroundColor={theme.icons.blue}
+                    className="bg-icon-blue"
                     icon={<UploadIcon size={18} />}
                   />
                 ),
@@ -144,7 +143,7 @@ export function DeckForm() {
               {
                 icon: (
                   <FilledIcon
-                    backgroundColor={theme.icons.violet}
+                    className="bg-icon-violet"
                     icon={<LayersIcon size={18} className="text-white" />}
                   />
                 ),
@@ -183,7 +182,7 @@ export function DeckForm() {
                   text: t("speaking_cards"),
                   icon: (
                     <FilledIcon
-                      backgroundColor={theme.icons.blue}
+                      className="bg-icon-blue"
                       icon={<MicIcon size={18} className="text-white" />}
                     />
                   ),
@@ -205,7 +204,7 @@ export function DeckForm() {
                   text: t("reverse_cards"),
                   icon: (
                     <FilledIcon
-                      backgroundColor={theme.icons.green}
+                      className="bg-icon-green"
                       icon={<FilesIcon size={18} className="text-white" />}
                     />
                   ),

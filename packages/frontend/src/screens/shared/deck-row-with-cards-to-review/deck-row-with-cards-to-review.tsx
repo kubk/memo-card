@@ -1,4 +1,3 @@
-import { theme } from "../../../ui/theme.tsx";
 import { DeckCardDbTypeWithType } from "../../../store/deck-list-store.ts";
 import { CardsToReviewCount } from "./cards-to-review-count.tsx";
 import { Flex } from "../../../ui/flex.tsx";
@@ -29,11 +28,11 @@ export function DeckRowWithCardsToReview(props: Props) {
       <Flex justifyContent={"space-between"} gap={10}>
         <CardsToReviewCount
           items={item.cardsToReview.filter((card) => card.type === "repeat")}
-          color={theme.orange}
+          className="text-orange"
         />
         <CardsToReviewCount
           items={item.cardsToReview.filter((card) => card.type === "new")}
-          color={theme.success}
+          className="text-success"
         />
       </Flex>
     </div>
