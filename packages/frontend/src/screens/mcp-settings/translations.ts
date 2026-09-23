@@ -21,7 +21,7 @@ const en = {
   benefitManageDescription: "AI quickly organizes cards into decks and folders",
   benefitTranscriptionTitle: "Add phonetic transcriptions",
   benefitTranscriptionDescription:
-    "AI adds IPA pronunciation to every word in a deck",
+    "AI adds the correct pronunciation",
   proTitle: "Manage MemoCard with ChatGPT",
   proDescription: "Create, edit and improve your decks via ChatGPT",
   proBenefitsTitle: "Less busywork, more learning",
@@ -86,8 +86,7 @@ const ru: McpTranslation = {
   benefitManageTitle: "Управляйте всей библиотекой",
   benefitManageDescription: "ИИ быстро разложит карточки по колодам и папкам",
   benefitTranscriptionTitle: "Добавляйте транскрипции",
-  benefitTranscriptionDescription:
-    "ИИ добавит произношение в МФА ко всем словам в колоде",
+  benefitTranscriptionDescription: "ИИ добавит правильное произношение",
   proTitle: "Управляйте MemoCard через ChatGPT",
   proDescription: "Создавайте, редактируйте и улучшайте колоды через ChatGPT",
   proBenefitsTitle: "Меньше рутины, больше учёбы",
@@ -152,8 +151,7 @@ const es: McpTranslation = {
   benefitManageDescription:
     "La IA organiza rápidamente las tarjetas en mazos y carpetas",
   benefitTranscriptionTitle: "Añade transcripciones fonéticas",
-  benefitTranscriptionDescription:
-    "La IA añade la pronunciación IPA a cada palabra del mazo",
+  benefitTranscriptionDescription: "La IA añadirá la pronunciación correcta",
   proTitle: "Gestiona MemoCard con ChatGPT",
   proDescription: "Crea, edita y mejora tus mazos con ChatGPT",
   proBenefitsTitle: "Menos rutina, más aprendizaje",
@@ -217,8 +215,7 @@ const ptBr: McpTranslation = {
   benefitManageDescription:
     "A IA organiza rapidamente os cartões em baralhos e pastas",
   benefitTranscriptionTitle: "Adicione transcrições fonéticas",
-  benefitTranscriptionDescription:
-    "A IA adiciona a pronúncia em AFI a cada palavra do baralho",
+  benefitTranscriptionDescription: "A IA adicionará a pronúncia correta",
   proTitle: "Gerencie o MemoCard com ChatGPT",
   proDescription: "Crie, edite e melhore seus baralhos com ChatGPT",
   proBenefitsTitle: "Menos rotina, mais aprendizado",
@@ -282,8 +279,7 @@ const uk: McpTranslation = {
   benefitManageTitle: "Керуйте всією бібліотекою",
   benefitManageDescription: "ШІ швидко розкладе картки за колодами й папками",
   benefitTranscriptionTitle: "Додавайте фонетичні транскрипції",
-  benefitTranscriptionDescription:
-    "ШІ додасть вимову за МФА до кожного слова в колоді",
+  benefitTranscriptionDescription: "ШІ додасть правильну вимову",
   proTitle: "Керуйте MemoCard через ChatGPT",
   proDescription: "Створюйте, редагуйте й покращуйте колоди через ChatGPT",
   proBenefitsTitle: "Менше рутини — більше навчання",
@@ -347,8 +343,7 @@ const ar: McpTranslation = {
   benefitManageDescription:
     "ينظّم الذكاء الاصطناعي البطاقات بسرعة في مجموعات ومجلدات",
   benefitTranscriptionTitle: "أضف النسخ الصوتي للكلمات",
-  benefitTranscriptionDescription:
-    "يضيف الذكاء الاصطناعي نطق IPA لكل كلمة في المجموعة",
+  benefitTranscriptionDescription: "سيضيف الذكاء الاصطناعي النطق الصحيح",
   proTitle: "أدِر MemoCard باستخدام ChatGPT",
   proDescription: "أنشئ مجموعاتك وعدّلها وحسّنها باستخدام ChatGPT",
   proBenefitsTitle: "روتين أقل، تعلّم أكثر",
@@ -412,8 +407,7 @@ const fa: McpTranslation = {
   benefitManageDescription:
     "هوش مصنوعی کارت‌ها را سریع در دسته‌ها و پوشه‌ها مرتب می‌کند",
   benefitTranscriptionTitle: "آوانگاری اضافه کنید",
-  benefitTranscriptionDescription:
-    "هوش مصنوعی تلفظ IPA را به همه واژه‌های یک دسته اضافه می‌کند",
+  benefitTranscriptionDescription: "هوش مصنوعی تلفظ درست را اضافه می‌کند",
   proTitle: "مدیریت MemoCard با ChatGPT",
   proDescription: "دسته‌هایتان را با ChatGPT بسازید، ویرایش کنید و بهبود دهید",
   proBenefitsTitle: "کار تکراری کمتر، یادگیری بیشتر",

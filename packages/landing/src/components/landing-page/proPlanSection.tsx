@@ -30,7 +30,7 @@ const en = {
   benefitManageDescription: "AI quickly organizes cards into decks and folders",
   benefitTranscriptionTitle: "Add phonetic transcriptions",
   benefitTranscriptionDescription:
-    "AI adds IPA pronunciation to every word in a deck",
+    "AI adds the correct pronunciation",
   benefitTranslateTitle: "Translate entire decks",
   benefitTranslateDescription: "Create a copy in another language in 1 request",
   sectionTitle: "MemoCard Pro",
@@ -70,8 +70,7 @@ const ru: ProPlanTranslation = {
   benefitManageTitle: "Управляйте всей библиотекой",
   benefitManageDescription: "ИИ быстро разложит карточки по колодам и папкам",
   benefitTranscriptionTitle: "Добавляйте транскрипции",
-  benefitTranscriptionDescription:
-    "ИИ добавит произношение в МФА ко всем словам в колоде",
+  benefitTranscriptionDescription: "ИИ добавит правильное произношение",
   benefitTranslateTitle: "Переводите целые колоды",
   benefitTranslateDescription: "Создавайте копию на другом языке за 1 запрос",
   sectionTitle: "MemoCard Pro",
@@ -108,8 +107,7 @@ const es: ProPlanTranslation = {
   benefitManageDescription:
     "La IA organiza rápidamente las tarjetas en mazos y carpetas",
   benefitTranscriptionTitle: "Añade transcripciones fonéticas",
-  benefitTranscriptionDescription:
-    "La IA añade la pronunciación IPA a cada palabra del mazo",
+  benefitTranscriptionDescription: "La IA añadirá la pronunciación correcta",
   benefitTranslateTitle: "Traduce mazos completos",
   benefitTranslateDescription:
     "Crea una copia en otro idioma con 1 sola petición",
@@ -147,8 +145,7 @@ const ptBr: ProPlanTranslation = {
   benefitManageDescription:
     "A IA organiza rapidamente os cartões em baralhos e pastas",
   benefitTranscriptionTitle: "Adicione transcrições fonéticas",
-  benefitTranscriptionDescription:
-    "A IA adiciona a pronúncia em AFI a cada palavra do baralho",
+  benefitTranscriptionDescription: "A IA adicionará a pronúncia correta",
   benefitTranslateTitle: "Traduza baralhos completos",
   benefitTranslateDescription:
     "Crie uma cópia em outro idioma em 1 solicitação",
@@ -186,8 +183,7 @@ const uk: ProPlanTranslation = {
   benefitManageTitle: "Керуйте всією бібліотекою",
   benefitManageDescription: "ШІ швидко розкладе картки за колодами й папками",
   benefitTranscriptionTitle: "Додавайте фонетичні транскрипції",
-  benefitTranscriptionDescription:
-    "ШІ додасть вимову за МФА до кожного слова в колоді",
+  benefitTranscriptionDescription: "ШІ додасть правильну вимову",
   benefitTranslateTitle: "Перекладайте цілі колоди",
   benefitTranslateDescription: "Створіть копію іншою мовою за 1 запит",
   sectionTitle: "MemoCard Pro",
