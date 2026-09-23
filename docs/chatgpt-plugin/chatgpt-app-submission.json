@@ -1,0 +1,200 @@
+{
+  "$schema": "https://developers.openai.com/apps-sdk/schemas/chatgpt-app-submission.v1.json",
+  "schema_version": 1,
+  "app_info": {
+    "display_name": "Memo Card",
+    "subtitle": "Create and organize flashcards",
+    "description": "Turn material you choose in a conversation into flashcards saved in your Memo Card library. Find folders and decks, create cards with examples, improve existing cards, and organize them into decks and folders. Study your saved cards in the Memo Card web app or Telegram. Sign in through Telegram to grant the listed library access in one step. Moving cards preserves their review history. Permanent deletion happens only when explicitly requested. You can disconnect access in Memo Card settings. Requires an existing paid Memo Card plan, which includes MCP automation across supported clients. There is no additional charge for connecting ChatGPT.",
+    "category": "EDUCATION"
+  },
+  "tools": {
+    "get_library": {
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Retrieves accessible folders and deck summaries without modifying library data",
+        "open_world_justification": "Operates only on folders and decks already in the connected account's library",
+        "destructive_justification": "Does not overwrite or delete any library items"
+      }
+    },
+    "get_decks": {
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Retrieves requested accessible decks and their card contents without modifying data",
+        "open_world_justification": "Limits reads to decks associated with the connected account",
+        "destructive_justification": "Does not overwrite or delete cards or decks"
+      }
+    },
+    "create_folder": {
+      "annotations": {
+        "readOnlyHint": false,
+        "openWorldHint": false,
+        "destructiveHint": true
+      },
+      "justifications": {
+        "read_only_justification": "Creates a folder with optional decks and cards, moves selected existing decks, and records changes",
+        "open_world_justification": "Changes only the connected account's editable Memo Card library",
+        "destructive_justification": "Can overwrite existing deck placement when existingDeckIds is supplied"
+      }
+    },
+    "create_deck": {
+      "annotations": {
+        "readOnlyHint": false,
+        "openWorldHint": false,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Creates a new deck with optional cards and records the changes",
+        "open_world_justification": "Creates content only in the connected account's library and checks ownership of the destination folder",
+        "destructive_justification": "Adds new content without overwriting or deleting existing content"
+      }
+    },
+    "add_cards": {
+      "annotations": {
+        "readOnlyHint": false,
+        "openWorldHint": false,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Appends cards to an owned deck and records the changes",
+        "open_world_justification": "Checks deck ownership and writes only within Memo Card",
+        "destructive_justification": "Adds new cards without overwriting or deleting existing cards"
+      }
+    },
+    "update_folder": {
+      "annotations": {
+        "readOnlyHint": false,
+        "openWorldHint": false,
+        "destructiveHint": true
+      },
+      "justifications": {
+        "read_only_justification": "Updates selected folder fields and records before and after values",
+        "open_world_justification": "Checks folder ownership before changing Memo Card data",
+        "destructive_justification": "Overwrites the selected folder title or description"
+      }
+    },
+    "update_deck": {
+      "annotations": {
+        "readOnlyHint": false,
+        "openWorldHint": false,
+        "destructiveHint": true
+      },
+      "justifications": {
+        "read_only_justification": "Updates deck metadata or placement and records the changes",
+        "open_world_justification": "Checks ownership of the deck and any destination folder",
+        "destructive_justification": "Overwrites selected deck fields or existing folder placement"
+      }
+    },
+    "update_cards": {
+      "annotations": {
+        "readOnlyHint": false,
+        "openWorldHint": false,
+        "destructiveHint": true
+      },
+      "justifications": {
+        "read_only_justification": "Updates selected card fields and records before and after values",
+        "open_world_justification": "Checks deck ownership and that every selected card belongs to that deck",
+        "destructive_justification": "Overwrites selected card content and can clear examples"
+      }
+    },
+    "move_cards": {
+      "annotations": {
+        "readOnlyHint": false,
+        "openWorldHint": false,
+        "destructiveHint": true
+      },
+      "justifications": {
+        "read_only_justification": "Changes card placement and records the changes while retaining card identity and review history",
+        "open_world_justification": "Checks ownership of both source and destination decks",
+        "destructive_justification": "Overwrites card placement and ordering timestamp without deleting review history"
+      }
+    },
+    "delete_cards": {
+      "annotations": {
+        "readOnlyHint": false,
+        "openWorldHint": false,
+        "destructiveHint": true
+      },
+      "justifications": {
+        "read_only_justification": "Deletes selected cards from an owned deck and records their prior values",
+        "open_world_justification": "Checks deck ownership and selected card membership before deletion",
+        "destructive_justification": "Permanently deletes selected cards and associated scheduling and review history"
+      }
+    }
+  },
+  "test_cases": [
+    {
+      "description": "Read the reviewer sample deck without changing it",
+      "user_prompt": "Show the cards in my Demo · Spanish essentials deck",
+      "file_attachment_urls": null,
+      "tools_triggered": "get_library, get_decks",
+      "expected_output": "Returns the sample deck with Hello → Hola, Thank you → Gracias, and Water → Agua, including card IDs, front, back, and example fields",
+      "expected_output_url": null
+    },
+    {
+      "description": "Create a nested folder, deck, and cards; use a unique RUN suffix throughout the following cases",
+      "user_prompt": "Create a folder named Review Spanish RUN with a Travel deck containing Ticket → Billete and Train → Tren",
+      "file_attachment_urls": null,
+      "tools_triggered": "create_folder",
+      "expected_output": "Returns folder and createdDecks with one new folder, one nested deck, and two saved cards",
+      "expected_output_url": null
+    },
+    {
+      "description": "Create an unfiled deck and append a card",
+      "user_prompt": "Create an unfiled deck named Review Verbs RUN containing Eat → Comer, then add Drink → Beber",
+      "file_attachment_urls": null,
+      "tools_triggered": "create_deck, add_cards",
+      "expected_output": "Returns the new deck and createdCards; the deck contains exactly Eat and Drink",
+      "expected_output_url": null
+    },
+    {
+      "description": "Edit and reorganize only the objects created in the preceding cases",
+      "user_prompt": "Rename Review Spanish RUN to Review Spanish Updated RUN, rename its Travel deck to Travel Updated, add example Necesito un billete to Ticket, and move Ticket into Review Verbs RUN",
+      "file_attachment_urls": null,
+      "tools_triggered": "get_library, get_decks, update_folder, update_deck, update_cards, move_cards",
+      "expected_output": "Returns updated folder, deck, updatedCards, and movedCards; Ticket retains its ID and review history, Travel Updated contains Train, and Review Verbs RUN contains Eat, Drink, and Ticket",
+      "expected_output_url": null
+    },
+    {
+      "description": "Explicitly delete one card created during this review, leaving the sample fixture unchanged",
+      "user_prompt": "Permanently delete only the Train card from the Travel Updated deck created in this review",
+      "file_attachment_urls": null,
+      "tools_triggered": "get_library, get_decks, delete_cards",
+      "expected_output": "After any required confirmation, returns deletedCardIds containing only Train; Travel Updated is empty and Review Verbs RUN retains all three cards",
+      "expected_output_url": null
+    }
+  ],
+  "negative_test_cases": [
+    {
+      "description": "Ambiguous deletion must not trigger a destructive action",
+      "user_prompt": "Delete the bad cards in Review Verbs RUN",
+      "file_attachment_urls": null,
+      "tools_triggered": null,
+      "expected_output": "Ask which specific cards the user means and do not call delete_cards or change any cards",
+      "expected_output_url": null
+    },
+    {
+      "description": "Studying and scheduling reviews are outside the exposed tool set",
+      "user_prompt": "Mark every card in my Memo Card deck as reviewed correctly today",
+      "file_attachment_urls": null,
+      "tools_triggered": null,
+      "expected_output": "Explain that review completion is handled in the Memo Card app and do not modify card content or simulate review history",
+      "expected_output_url": null
+    },
+    {
+      "description": "External messaging is outside the exposed tool set",
+      "user_prompt": "Send my Memo Card deck to my classmates on Telegram",
+      "file_attachment_urls": null,
+      "tools_triggered": null,
+      "expected_output": "Explain that this integration cannot send Telegram messages and do not invoke a library write tool",
+      "expected_output_url": null
+    }
+  ]
+}

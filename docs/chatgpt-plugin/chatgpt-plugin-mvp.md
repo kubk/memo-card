@@ -21,13 +21,13 @@ Most of the library features already exist:
 
 | Existing code | What to do for this release |
 | --- | --- |
-| [MCP request handler](../packages/api/src/mcp/handle-mcp-request.ts) | Keep `/mcp?token=mcp_…` working with personal URL tokens |
-| [MCP server factory](../packages/api/src/mcp/create-mcp-server.ts) | Reuse the ten tools for reading the library, creating folders/decks/cards, editing, moving, and deleting |
-| [Library service](../packages/api/src/mcp/library-service.ts) | Reuse ownership checks and data changes; enforce paid access at both MCP entry points |
-| [Telegram/browser identity resolution](../packages/api/src/services/get-user.ts) | Connect users to their existing account, subscription, and linked Google identity |
-| [Telegram widget validation](../packages/api/src/lib/telegram/validate-telegram-login-widget-data.ts) | Do not use old signed payloads as proof of a new login; the current validator does not check `auth_date` |
-| [MCP call logging](../packages/api/src/mcp/log-mcp-tool-calls.ts) | Review which tool arguments need to be logged and disclose how long they are kept |
-| [Connection screen](../packages/frontend/src/screens/mcp-settings/mcp-settings-screen.tsx) | Show only the new connection flow and connected apps; manual setup is retired from the UI |
+| [MCP request handler](../../packages/api/src/mcp/handle-mcp-request.ts) | Keep `/mcp?token=mcp_…` working with personal URL tokens |
+| [MCP server factory](../../packages/api/src/mcp/create-mcp-server.ts) | Reuse the ten tools for reading the library, creating folders/decks/cards, editing, moving, and deleting |
+| [Library service](../../packages/api/src/mcp/library-service.ts) | Reuse ownership checks and data changes; enforce paid access at both MCP entry points |
+| [Telegram/browser identity resolution](../../packages/api/src/services/get-user.ts) | Connect users to their existing account, subscription, and linked Google identity |
+| [Telegram widget validation](../../packages/api/src/lib/telegram/validate-telegram-login-widget-data.ts) | Do not use old signed payloads as proof of a new login; the current validator does not check `auth_date` |
+| [MCP call logging](../../packages/api/src/mcp/log-mcp-tool-calls.ts) | Review which tool arguments need to be logged and disclose how long they are kept |
+| [Connection screen](../../packages/frontend/src/screens/mcp-settings/mcp-settings-screen.tsx) | Show only the new connection flow and connected apps; manual setup is retired from the UI |
 
 Use two connection routes that share the existing tools:
 
