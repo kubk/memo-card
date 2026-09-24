@@ -10,6 +10,7 @@ export const en = {
   leaderboard_rank_label: "place",
   leaderboard_statistics: "Statistics",
   leaderboard_first: "You are first this week",
+  leaderboard_statistics_empty: "No results yet",
   leaderboard_empty: "No reviews this week",
   logout: "Logout",
   error_contact_support:

@@ -156,6 +156,7 @@ const sharedDeckNotFoundRouteSchema = v.object({
 export const routeSchema = v.union([
   mainRouteSchema,
   leaderboardRouteSchema,
+  v.object({ type: v.literal("leaderboardStatistics") }),
   deckPreviewRouteSchema,
   deckFormRouteSchema,
   ankiImportRouteSchema,

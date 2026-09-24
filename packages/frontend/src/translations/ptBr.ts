@@ -12,6 +12,7 @@ export const ptBr: Translation = {
   leaderboard_rank_label: "posição",
   leaderboard_statistics: "Estatísticas",
   leaderboard_first: "Você está em primeiro esta semana",
+  leaderboard_statistics_empty: "Ainda não há resultados",
   leaderboard_empty: "Ainda não há revisões esta semana",
   voice_type_browser: "Voz do navegador",
   voice_type_browser_description: "Usa uma voz disponível no seu dispositivo",

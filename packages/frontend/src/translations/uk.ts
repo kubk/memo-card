@@ -12,6 +12,7 @@ export const uk: Translation = {
   leaderboard_rank_label: "місце",
   leaderboard_statistics: "Статистика",
   leaderboard_first: "Ви на першому місці цього тижня",
+  leaderboard_statistics_empty: "Поки немає результатів",
   leaderboard_empty: "Цього тижня ще немає повторень",
   voice_type_browser: "Голос браузера",
   voice_type_browser_description:

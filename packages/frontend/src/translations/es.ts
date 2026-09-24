@@ -12,6 +12,7 @@ export const es: Translation = {
   leaderboard_rank_label: "puesto",
   leaderboard_statistics: "Estadísticas",
   leaderboard_first: "Vas en primer lugar esta semana",
+  leaderboard_statistics_empty: "Aún no hay resultados",
   leaderboard_empty: "Aún no hay repasos esta semana",
   voice_type_browser: "Voz del navegador",
   voice_type_browser_description: "Usa una voz disponible en tu dispositivo",

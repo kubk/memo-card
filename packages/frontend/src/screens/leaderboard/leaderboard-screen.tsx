@@ -1,3 +1,4 @@
+import { screenStore } from "../../store/screen-store.ts";
 import { type LeaderboardEntry, type LeaderboardResponse } from "api";
 import { TrophyIcon } from "lucide-react";
 import { type QueryState } from "../../lib/mobx-query-lite/make-query.ts";
@@ -191,10 +192,14 @@ function LeaderboardContent({
       <ListHeader
         text={t("leaderboard_this_week")}
         rightSlot={
-          <div className="absolute top-1 end-1 flex shrink-0 items-center gap-1 text-sm uppercase text-link">
+          <button
+            type="button"
+            onClick={() => screenStore.push({ type: "leaderboardStatistics" })}
+            className="absolute top-1 end-1 flex shrink-0 items-center gap-1 text-sm uppercase text-link"
+          >
             {t("leaderboard_statistics")}
             <ChevronIcon direction="right" />
-          </div>
+          </button>
         }
       />
 

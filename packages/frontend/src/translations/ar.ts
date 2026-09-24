@@ -12,6 +12,7 @@ export const ar: Translation = {
   leaderboard_rank_label: "المركز",
   leaderboard_statistics: "الإحصاءات",
   leaderboard_first: "أنت في المركز الأول هذا الأسبوع",
+  leaderboard_statistics_empty: "لا توجد نتائج بعد",
   leaderboard_empty: "لا توجد مراجعات هذا الأسبوع",
   voice_type_browser: "صوت المتصفح",
   voice_type_browser_description: "يستخدم صوتًا متاحًا على جهازك",

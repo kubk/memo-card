@@ -12,6 +12,7 @@ export const fa: Translation = {
   leaderboard_rank_label: "رتبه",
   leaderboard_statistics: "آمار",
   leaderboard_first: "این هفته نفر اول هستید",
+  leaderboard_statistics_empty: "هنوز نتیجه‌ای وجود ندارد",
   leaderboard_empty: "این هفته هنوز مروری انجام نشده",
   voice_type_browser: "صدای مرورگر",
   voice_type_browser_description: "از صدای موجود در دستگاه شما استفاده می‌کند",

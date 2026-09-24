@@ -1,3 +1,4 @@
+import { LeaderboardStatisticsScreen } from "./leaderboard/leaderboard-statistics-screen.tsx";
 import { MainScreen } from "./deck-list/main-screen.tsx";
 import { SearchScreen } from "./global-search/search-screen.tsx";
 import { DeckScreen } from "./deck-review/deck-screen.tsx";
@@ -106,6 +107,13 @@ export function App() {
             <PreventTelegramSwipeDownClosingIos>
               <MainScreen />
             </PreventTelegramSwipeDownClosingIos>
+          )}
+          {screenStore.screen.type === "leaderboardStatistics" && (
+            <SignedIn>
+              <PreventTelegramSwipeDownClosingIos>
+                <LeaderboardStatisticsScreen />
+              </PreventTelegramSwipeDownClosingIos>
+            </SignedIn>
           )}
           {screenStore.screen.type === "leaderboard" && (
             <SignedIn>
