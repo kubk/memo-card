@@ -32,10 +32,10 @@
     "framer-motion": "^10.16.4",
     "lucide-react": "^0.479.0",
     "mathml-tag-names": "^3.0.2",
-    "mobx": "^7.0.0",
+    "mobx": "^7.0.4",
     "mobx-form-lite": "^0.9.7",
     "mobx-persist-store": "^1.1.8",
-    "mobx-react-observer": "^1.0.3",
+    "mobx-react-observer": "^2.0.0",
     "notistack": "^3.0.1",
     "postcss": "^8.4.41",
     "react": "^18.3.1",
@@ -53,8 +53,6 @@
     "wouter": "^3.3.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.29.7",
-    "@rolldown/plugin-babel": "^0.2.3",
     "@types/autosize": "^4.0.3",
     "@types/node": "^25.9.1",
     "@types/react": "^18.2.15",

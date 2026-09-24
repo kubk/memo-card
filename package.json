@@ -28,7 +28,7 @@
   "packageManager": "pnpm@9.15.0",
   "pnpm": {
     "overrides": {
-      "mobx-react-observer>mobx-react-lite": "^5.0.0"
+      "mobx-react-observer>mobx-react-lite": "^5.1.0"
     },
     "peerDependencyRules": {
       "allowedVersions": {

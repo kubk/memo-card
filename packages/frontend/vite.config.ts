@@ -1,10 +1,9 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import babel from "@rolldown/plugin-babel";
 import { execSync } from "node:child_process";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import observerPlugin from "mobx-react-observer/babel-plugin";
+import observerPlugin from "mobx-react-observer/vite-plugin";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -29,9 +28,7 @@ const getLastCommit = () => {
 export default defineConfig({
   plugins: [
     react(),
-    babel({
-      plugins: [observerPlugin({ exclude: ["src/ui/shadcn/**"] })],
-    }),
+    observerPlugin({ exclude: ["src/ui/shadcn/**"] }),
   ],
   define: {
     __LAST_COMMIT__: JSON.stringify(getLastCommit()),
