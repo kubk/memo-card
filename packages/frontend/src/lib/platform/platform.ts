@@ -18,6 +18,7 @@ export interface Platform {
   readonly isMainButtonVisible: boolean;
   initialize(): void;
   getInitData(): string | null;
+  getUserAvatarUrl(): string | null;
   openExternalLink(link: string): void;
   openInternalLink(link: string): void;
   getClientData(): PlatformSchemaType;

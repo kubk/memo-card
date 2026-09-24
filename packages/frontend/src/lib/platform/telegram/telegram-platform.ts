@@ -66,6 +66,10 @@ export class TelegramPlatform implements Platform {
     return getWebApp().initData;
   }
 
+  getUserAvatarUrl(): string | null {
+    return getWebApp().initDataUnsafe.user?.photo_url ?? null;
+  }
+
   private getCssVariables() {
     return getWebApp().colorScheme === "dark"
       ? cssVariablesDark

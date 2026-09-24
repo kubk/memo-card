@@ -53,7 +53,10 @@ const topEntries: LeaderboardEntry[] = topEntryData.map(
   }),
 );
 
-const currentUserPositions = [1, 2, 3, 8, 10, 11, 50, 500, 1000] as const;
+const currentUserPositions = [
+  1, 2, 3, 8, 10, 11, 20, 50, 100, 200, 500, 1000,
+] as const;
+const totalUserCounts = [10, 11, 20, 50, 100, 200, 500, 1000] as const;
 
 const leaderboardStates = ["loaded", "loading", "empty"] as const;
 type LeaderboardState = (typeof leaderboardStates)[number];
@@ -67,6 +70,7 @@ const emptyLeaderboard: LeaderboardResponse = {
 export function LeaderboardPlayground() {
   const [state, setState] = useState<LeaderboardState>("loaded");
   const [currentUserPosition, setCurrentUserPosition] = useState(11);
+  const [totalUserCount, setTotalUserCount] = useState(11);
 
   const entries = topEntries.map((entry) => ({
     ...entry,
@@ -84,7 +88,7 @@ export function LeaderboardPlayground() {
       isCurrentUser: true,
     } satisfies LeaderboardEntry);
   const leaderboard: LeaderboardResponse = {
-    participantCount: Math.max(topEntries.length, currentUserPosition),
+    participantCount: totalUserCount,
     currentUser,
     entries,
   };
@@ -103,7 +107,11 @@ export function LeaderboardPlayground() {
   return (
     <>
       <div className="h-full w-full overflow-y-auto bg-secondary-bg text-text">
-        <LeaderboardView query={query} />
+        <LeaderboardView
+          query={query}
+          avatarPeerId={123456789}
+          avatarFallbackName="Current learner"
+        />
       </div>
 
       <PropsPanel>
@@ -154,8 +162,52 @@ export function LeaderboardPlayground() {
               <ShadcnSelectContent>
                 <ShadcnSelectGroup>
                   {currentUserPositions.map((position) => (
-                    <ShadcnSelectItem key={position} value={String(position)}>
+                    <ShadcnSelectItem
+                      key={position}
+                      value={String(position)}
+                      disabled={position > totalUserCount}
+                    >
                       #{position}
+                    </ShadcnSelectItem>
+                  ))}
+                </ShadcnSelectGroup>
+              </ShadcnSelectContent>
+            </ShadcnSelect>
+          </div>
+          <div className="flex flex-col gap-2">
+            <ShadcnLabel>Total users</ShadcnLabel>
+            <ShadcnSelect
+              disabled={state !== "loaded"}
+              value={String(totalUserCount)}
+              onValueChange={(value) => {
+                const nextTotalUserCount = Number(value);
+                if (
+                  totalUserCounts.some(
+                    (count) => count === nextTotalUserCount,
+                  )
+                ) {
+                  setTotalUserCount(nextTotalUserCount);
+                  setCurrentUserPosition((position) =>
+                    position <= nextTotalUserCount
+                      ? position
+                      : Math.max(
+                          ...currentUserPositions.filter(
+                            (availablePosition) =>
+                              availablePosition <= nextTotalUserCount,
+                          ),
+                        ),
+                  );
+                }
+              }}
+            >
+              <ShadcnSelectTrigger className="w-full">
+                <ShadcnSelectValue />
+              </ShadcnSelectTrigger>
+              <ShadcnSelectContent>
+                <ShadcnSelectGroup>
+                  {totalUserCounts.map((count) => (
+                    <ShadcnSelectItem key={count} value={String(count)}>
+                      {count}
                     </ShadcnSelectItem>
                   ))}
                 </ShadcnSelectGroup>

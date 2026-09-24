@@ -1,98 +1,90 @@
 import { type LeaderboardEntry, type LeaderboardResponse } from "api";
 import { TrophyIcon } from "lucide-react";
 import { type QueryState } from "../../lib/mobx-query-lite/make-query.ts";
+import { platform } from "../../lib/platform/platform.ts";
+import { userStore } from "../../store/user-store.ts";
+import { ChevronIcon } from "../../ui/chevron-icon.tsx";
 import { cn } from "../../ui/cn.ts";
 import { ListHeader } from "../../ui/list-header.tsx";
 import { Skeleton } from "../../ui/skeleton.tsx";
 import { formatNumber } from "../../translations/format-number.ts";
 import { t } from "../../translations/t.ts";
 import { Screen } from "../shared/screen.tsx";
+import { LeaderboardAvatar } from "./leaderboard-avatar.tsx";
 import { leaderboardStore } from "./leaderboard-store.ts";
-import {
-  translateLeaderboardReviewLabel,
-  translateLeaderboardReviewsToPass,
-} from "./translations.ts";
+import { translateLeaderboardReviewLabel } from "./translations.ts";
+
+function getUserAvatarFallbackName() {
+  const firstName = userStore.user?.firstName?.trim();
+  const lastName = userStore.user?.lastName?.trim();
+  const fullName = [firstName, lastName].filter(Boolean).join(" ");
+  return fullName || userStore.user?.username?.trim() || "";
+}
 
 function PositionCard({
   currentUser,
+  isLoading,
   participantCount,
+  userAvatarUrl,
+  avatarPeerId,
+  avatarFallbackName,
 }: {
   currentUser: LeaderboardEntry | null | undefined;
+  isLoading: boolean;
   participantCount: number | undefined;
+  userAvatarUrl: string | null;
+  avatarPeerId: number | undefined;
+  avatarFallbackName: string;
 }) {
-  if (currentUser === undefined) {
-    return (
-      <div className="rounded-xl bg-bg px-4 py-4">
-        <div className="text-[11px] font-semibold uppercase tracking-[0.06em] text-hint">
-          {t("leaderboard_your_position")}
-        </div>
-        <div className="mt-2 flex items-end justify-between gap-4">
-          <Skeleton className="h-7 w-24 rounded" />
-          <div className="text-right">
-            <Skeleton className="ml-auto h-6 w-12 rounded" />
-            <div className="text-[11px] text-hint">
-              {translateLeaderboardReviewLabel(2)}
-            </div>
-          </div>
-        </div>
-
-        <div className="mt-3 border-t border-secondary-bg pt-3 text-[12px]">
-          <Skeleton className="h-[18px] w-4/5 rounded" />
-        </div>
-      </div>
-    );
-  }
-
-  if (!currentUser) {
-    return (
-      <div className="rounded-xl bg-bg px-4 py-4">
-        <div className="text-[11px] font-semibold uppercase tracking-[0.06em] text-hint">
-          {t("leaderboard_your_position")}
-        </div>
-        <div className="mt-2 flex min-h-10 items-end text-[19px] font-semibold">
-          {t("leaderboard_not_ranked")}
-        </div>
-        <div className="mt-3 border-t border-secondary-bg pt-3 text-[12px] text-hint">
-          {t("leaderboard_join")}
-        </div>
-      </div>
-    );
-  }
+  const reviewCount = currentUser?.reviews ?? 0;
+  const displayName = avatarFallbackName || currentUser?.displayName || "";
 
   return (
     <div className="rounded-xl bg-bg px-4 py-4">
-      <div className="text-[11px] font-semibold uppercase tracking-[0.06em] text-hint">
-        {t("leaderboard_your_position")}
-      </div>
-      <div className="mt-2 flex items-end justify-between gap-4">
-        <div className="text-[25px] font-bold leading-7 tabular-nums">
-          #{currentUser.rank}
-          <span className="ml-1.5 text-[13px] font-medium text-hint">
-            {t("leaderboard_of")} {participantCount}
-          </span>
+      <div className="flex items-center justify-between gap-3">
+        <div className="flex min-w-0 items-center gap-3">
+          <LeaderboardAvatar
+            avatarUrl={userAvatarUrl}
+            fallbackName={displayName}
+            peerId={avatarPeerId}
+          />
+          <div className="min-w-0">
+            <div className="flex items-baseline gap-1 whitespace-nowrap">
+              {isLoading ? (
+                <Skeleton className="h-9 w-24 rounded" />
+              ) : (
+                <>
+                  <span className="text-[34px] font-bold leading-9 tabular-nums">
+                    {currentUser?.rank ?? "\u00a0-"}
+                  </span>
+                  {currentUser && participantCount !== undefined && (
+                    <span className="text-[13px] font-medium leading-4 text-hint">
+                      <span className="relative -top-0.5 inline-block text-[10px] leading-[10px]">
+                        /
+                      </span>{" "}
+                      {participantCount}
+                    </span>
+                  )}
+                </>
+              )}
+            </div>
+            <div className="mt-1 pl-[2px] text-[13px] leading-4 text-hint">
+              {t("leaderboard_rank_label")}
+            </div>
+          </div>
         </div>
         <div className="text-right">
-          <div className="text-[22px] font-bold leading-6 tabular-nums">
-            {formatNumber(currentUser.reviews)}
-          </div>
-          <div className="text-[11px] text-hint">
-            {translateLeaderboardReviewLabel(currentUser.reviews)}
+          {isLoading ? (
+            <Skeleton className="ml-auto h-9 w-12 rounded" />
+          ) : (
+            <div className="text-[34px] font-bold leading-9 tabular-nums">
+              {formatNumber(reviewCount)}
+            </div>
+          )}
+          <div className="mt-1 text-[13px] leading-4 text-hint">
+            {translateLeaderboardReviewLabel(reviewCount)}
           </div>
         </div>
-      </div>
-
-      <div className="mt-3 border-t border-secondary-bg pt-3 text-[12px]">
-        {currentUser.reviewsToNextRank !== null ? (
-          <span className="text-hint">
-            {formatNumber(currentUser.reviewsToNextRank)}{" "}
-            {translateLeaderboardReviewsToPass(currentUser.reviewsToNextRank)} #
-            {currentUser.rank - 1}
-          </span>
-        ) : (
-          <span className="font-medium text-button">
-            {t("leaderboard_first")}
-          </span>
-        )}
       </div>
     </div>
   );
@@ -178,23 +170,44 @@ function LeaderboardRow({ entry }: { entry?: LeaderboardEntry }) {
 
 const loadingRows = Array.from({ length: 10 }, (_, index) => index);
 
-function LeaderboardContent({ data }: { data?: LeaderboardResponse }) {
+function LeaderboardContent({
+  data,
+  isLoading = false,
+  avatarPeerId,
+  avatarFallbackName,
+}: {
+  data?: LeaderboardResponse;
+  isLoading?: boolean;
+  avatarPeerId?: number;
+  avatarFallbackName?: string;
+}) {
   const topEntries = data?.entries.filter((entry) => entry.rank <= 10);
+  const userAvatarUrl = platform.getUserAvatarUrl();
   const currentUserOutsideTopTen =
     data?.currentUser && data.currentUser.rank > 10 ? data.currentUser : null;
 
   return (
     <>
-      <div className="px-1 text-[12px] text-hint">
-        {t("leaderboard_this_week")}
-      </div>
+      <ListHeader
+        text={t("leaderboard_this_week")}
+        rightSlot={
+          <div className="absolute top-1 end-1 flex shrink-0 items-center gap-1 text-sm uppercase text-link">
+            {t("leaderboard_statistics")}
+            <ChevronIcon direction="right" />
+          </div>
+        }
+      />
 
       <PositionCard
         currentUser={data?.currentUser}
+        isLoading={isLoading}
         participantCount={data?.participantCount}
+        userAvatarUrl={userAvatarUrl}
+        avatarPeerId={avatarPeerId}
+        avatarFallbackName={avatarFallbackName ?? ""}
       />
 
-      <div className="mt-1">
+      <div className="mt-2">
         <ListHeader text={t("leaderboard")} />
         {!topEntries || topEntries.length > 0 ? (
           <div className="overflow-hidden rounded-xl bg-bg">
@@ -215,7 +228,7 @@ function LeaderboardContent({ data }: { data?: LeaderboardResponse }) {
       </div>
 
       {currentUserOutsideTopTen && (
-        <div className="mt-1">
+        <div className="mt-2">
           <ListHeader text={t("leaderboard_your_position")} />
           <div className="overflow-hidden rounded-xl bg-bg">
             <LeaderboardRow entry={currentUserOutsideTopTen} />
@@ -231,13 +244,33 @@ export type LeaderboardViewQuery = Pick<
   "data" | "error" | "isPending"
 >;
 
-export function LeaderboardView({ query }: { query: LeaderboardViewQuery }) {
+export function LeaderboardView({
+  query,
+  avatarPeerId,
+  avatarFallbackName,
+}: {
+  query: LeaderboardViewQuery;
+  avatarPeerId?: number;
+  avatarFallbackName?: string;
+}) {
   if (query.data) {
-    return <LeaderboardContent data={query.data} />;
+    return (
+      <LeaderboardContent
+        data={query.data}
+        avatarPeerId={avatarPeerId}
+        avatarFallbackName={avatarFallbackName}
+      />
+    );
   }
 
   if (query.isPending) {
-    return <LeaderboardContent />;
+    return (
+      <LeaderboardContent
+        isLoading
+        avatarPeerId={avatarPeerId}
+        avatarFallbackName={avatarFallbackName}
+      />
+    );
   }
 
   return (
@@ -252,7 +285,13 @@ export function LeaderboardScreen() {
 
   return (
     <Screen title={t("leaderboard")}>
-      <LeaderboardView query={query} />
+      <div className="flex flex-col gap-0">
+        <LeaderboardView
+          query={query}
+          avatarPeerId={userStore.myId}
+          avatarFallbackName={getUserAvatarFallbackName()}
+        />
+      </div>
     </Screen>
   );
 }

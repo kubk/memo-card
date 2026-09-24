@@ -9,6 +9,8 @@ export const ru: Translation = {
   leaderboard_not_ranked: "Пока без места",
   leaderboard_join: "Повторите одну карточку, чтобы войти в рейтинг",
   leaderboard_of: "из",
+  leaderboard_rank_label: "место",
+  leaderboard_statistics: "Статистика",
   leaderboard_first: "Вы на первом месте на этой неделе",
   leaderboard_empty: "На этой неделе пока нет повторений",
   settings_lang: "Язык",

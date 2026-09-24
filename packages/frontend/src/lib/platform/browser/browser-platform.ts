@@ -91,6 +91,10 @@ export class BrowserPlatform implements Platform {
     };
   }
 
+  getUserAvatarUrl(): string | null {
+    return null;
+  }
+
   showMainButton(
     text: string,
     onClick: () => void,

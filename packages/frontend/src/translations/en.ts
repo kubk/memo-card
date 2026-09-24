@@ -7,6 +7,8 @@ export const en = {
   leaderboard_not_ranked: "Not ranked yet",
   leaderboard_join: "Review one card to join this week",
   leaderboard_of: "of",
+  leaderboard_rank_label: "place",
+  leaderboard_statistics: "Statistics",
   leaderboard_first: "You are first this week",
   leaderboard_empty: "No reviews this week",
   logout: "Logout",

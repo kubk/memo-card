@@ -9,6 +9,8 @@ export const uk: Translation = {
   leaderboard_not_ranked: "Поки без місця",
   leaderboard_join: "Повторіть одну картку, щоб увійти до рейтингу",
   leaderboard_of: "з",
+  leaderboard_rank_label: "місце",
+  leaderboard_statistics: "Статистика",
   leaderboard_first: "Ви на першому місці цього тижня",
   leaderboard_empty: "Цього тижня ще немає повторень",
   voice_type_browser: "Голос браузера",

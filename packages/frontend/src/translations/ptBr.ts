@@ -9,6 +9,8 @@ export const ptBr: Translation = {
   leaderboard_not_ranked: "Ainda sem posição",
   leaderboard_join: "Revise um cartão para participar esta semana",
   leaderboard_of: "de",
+  leaderboard_rank_label: "posição",
+  leaderboard_statistics: "Estatísticas",
   leaderboard_first: "Você está em primeiro esta semana",
   leaderboard_empty: "Ainda não há revisões esta semana",
   voice_type_browser: "Voz do navegador",

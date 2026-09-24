@@ -9,6 +9,8 @@ export const es: Translation = {
   leaderboard_not_ranked: "Aún sin posición",
   leaderboard_join: "Repasa una tarjeta para unirte esta semana",
   leaderboard_of: "de",
+  leaderboard_rank_label: "puesto",
+  leaderboard_statistics: "Estadísticas",
   leaderboard_first: "Vas en primer lugar esta semana",
   leaderboard_empty: "Aún no hay repasos esta semana",
   voice_type_browser: "Voz del navegador",

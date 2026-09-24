@@ -9,6 +9,8 @@ export const fa: Translation = {
   leaderboard_not_ranked: "هنوز رتبه ندارید",
   leaderboard_join: "برای پیوستن این هفته یک کارت را مرور کنید",
   leaderboard_of: "از",
+  leaderboard_rank_label: "رتبه",
+  leaderboard_statistics: "آمار",
   leaderboard_first: "این هفته نفر اول هستید",
   leaderboard_empty: "این هفته هنوز مروری انجام نشده",
   voice_type_browser: "صدای مرورگر",
