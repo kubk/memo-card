@@ -112,6 +112,7 @@ export const fa: Translation = {
   add_card: "افزودن کارت",
   edit_card: "ویرایش کارت",
   card_preview: "پیش‌نمایش",
+  more: "بیشتر",
   add_card_short: "افزودن کارت",
   add_deck_short: "دسته کارت",
   card_front_title: "روی کارت",
@@ -324,7 +325,6 @@ export const fa: Translation = {
   // Move card to deck
   move_card_to_deck_title: "انتقال به دسته",
   move_card_without_folder: "بدون پوشه",
-  move_card_move: "انتقال",
   move_card_open_deck: "باز کردن دسته",
   bulk_create_reverse_cards: "ایجاد کارت‌های معکوس",
 

@@ -103,6 +103,7 @@ export const ar: Translation = {
   add_card: "إضافة بطاقة",
   edit_card: "تحرير البطاقة",
   card_preview: "معاينة",
+  more: "المزيد",
   add_card_short: "إضافة بطاقة",
   add_deck_short: "مجموعة",
   card_front_title: "الجانب الأمامي",
@@ -319,7 +320,6 @@ export const ar: Translation = {
   // Move card to deck
   move_card_to_deck_title: "نقل إلى رزمة",
   move_card_without_folder: "بدون مجلد",
-  move_card_move: "نقل",
   move_card_open_deck: "فتح الرزمة",
   bulk_create_reverse_cards: "إنشاء بطاقات عكسية",
 

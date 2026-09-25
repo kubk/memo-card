@@ -372,7 +372,7 @@ export class CardFormStore {
   }
 
   get isPreviousCardVisible() {
-    if (this.filteredCards.length < 1) {
+    if (!this.cardForm?.id || this.filteredCards.length < 1) {
       return false;
     }
     const isCurrentFirst = this.filteredCards[0].id === this.cardForm?.id;
@@ -380,20 +380,13 @@ export class CardFormStore {
   }
 
   get isNextCardVisible() {
-    if (this.filteredCards.length < 1) {
+    if (!this.cardForm?.id || this.filteredCards.length < 1) {
       return false;
     }
     const isCurrentLast =
       this.filteredCards[this.filteredCards.length - 1].id ===
       this.cardForm?.id;
     return !isCurrentLast;
-  }
-
-  get isCardNavigationVisible() {
-    return (
-      !!this.cardForm?.id &&
-      (this.isPreviousCardVisible || this.isNextCardVisible)
-    );
   }
 
   get isCardPreviewVisible() {

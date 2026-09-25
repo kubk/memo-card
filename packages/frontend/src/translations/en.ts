@@ -97,6 +97,7 @@ export const en = {
   add_card: "Add card",
   edit_card: "Edit card",
   card_preview: "Preview",
+  more: "More",
   add_card_short: "Add card",
   add_deck_short: "Deck",
   card_front_title: "Front side",
@@ -323,7 +324,6 @@ export const en = {
   // Move card to deck
   move_card_to_deck_title: "Move to deck",
   move_card_without_folder: "Without folder",
-  move_card_move: "Move",
   move_card_open_deck: "Open deck",
 
   // Bulk card actions

@@ -7,12 +7,27 @@ import { platform } from "../lib/platform/platform.ts";
 import { EllipsisIcon } from "lucide-react";
 import { AnimatedDropdownItem } from "./animated-dropdown/animated-dropdown-item.tsx";
 
-type Props = {
-  items: Array<{ text: ReactNode; onClick: () => void; icon: ReactNode }>;
-  className?: string;
+export type DropdownItem = {
+  text: ReactNode;
+  onClick: () => void;
+  icon: ReactNode;
 };
 
-export function Dropdown({ items, className }: Props) {
+type Props = {
+  items: DropdownItem[];
+  className?: string;
+  trigger?: ReactNode;
+  triggerClassName?: string;
+  placement?: "down" | "up";
+};
+
+export function Dropdown({
+  items,
+  className,
+  trigger,
+  triggerClassName,
+  placement = "down",
+}: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const toggleDropdown = () => {
     platform.haptic("selection");
@@ -38,9 +53,13 @@ export function Dropdown({ items, className }: Props) {
     <div ref={dropdownRef} className={cn("inline-block", className)}>
       <button
         onClick={toggleDropdown}
-        className="dropdown-icon text-hint select-none cursor-pointer active:scale-90"
+        className={cn(
+          "select-none cursor-pointer",
+          trigger ? "block w-full" : "dropdown-icon text-hint active:scale-90",
+          triggerClassName,
+        )}
       >
-        <EllipsisIcon size={24} />
+        {trigger ?? <EllipsisIcon size={24} />}
       </button>
       <LazyLoadFramerMotion>
         <AnimatePresence>
@@ -49,6 +68,7 @@ export function Dropdown({ items, className }: Props) {
               className={cn(
                 "dropdown-content border border-secondary-bg block absolute bg-bg min-w-[160px] rounded-xl shadow z-10 text-text",
                 userStore.isRtl ? "left-0" : "right-0",
+                placement === "up" && "bottom-full mb-1.5",
               )}
               initial={{
                 opacity: 0,

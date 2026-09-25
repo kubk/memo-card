@@ -101,7 +101,7 @@ export function MoveToDeckSelector({
         </Button>
         <Button disabled={!store.canConfirm} onClick={store.submit}>
           <LoadingSwap isLoading={store.isMoving.value}>
-            {t("move_card_move")}
+            {t("move_card_to_deck_title")}
           </LoadingSwap>
         </Button>
       </Flex>

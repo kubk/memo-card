@@ -97,6 +97,7 @@ export const es: Translation = {
   answer_text: "Texto de la respuesta",
   add_answer: "Añadir respuesta",
   card_preview: "Vista previa",
+  more: "Más",
   review_folder: "Repasar carpeta",
   folder_description: "Una colección de mazos",
   add_deck_short: "Mazo",
@@ -327,7 +328,6 @@ export const es: Translation = {
   // Move card to deck
   move_card_to_deck_title: "Mover a mazo",
   move_card_without_folder: "Sin carpeta",
-  move_card_move: "Mover",
   move_card_open_deck: "Abrir mazo",
   bulk_create_reverse_cards: "Crear tarjetas inversas",
 

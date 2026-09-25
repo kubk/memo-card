@@ -98,6 +98,7 @@ export const uk: Translation = {
   answer_text: "Текст відповіді",
   add_answer: "Додати відповідь",
   card_preview: "Перегляд",
+  more: "Ще",
   review_folder: "Повторити папку",
   folder_description: "Колекція колод",
   add_deck_short: "Колода",
@@ -330,7 +331,6 @@ export const uk: Translation = {
   // Move card to deck
   move_card_to_deck_title: "Перемістити в колоду",
   move_card_without_folder: "Без папки",
-  move_card_move: "Перемістити",
   move_card_open_deck: "Відкрити колоду",
   bulk_create_reverse_cards: "Створити зворотні картки",
 

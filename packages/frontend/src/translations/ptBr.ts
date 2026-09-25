@@ -99,6 +99,7 @@ export const ptBr: Translation = {
     "Pelo menos uma resposta deve ser fornecida",
   validation_at_least_one_deck: "Por favor, selecione pelo menos 1 baralho",
   card_preview: "Visualização",
+  more: "Mais",
   review_folder: "Revisar pasta",
   add_deck_short: "Baralho",
   deck: "Baralho",
@@ -327,7 +328,6 @@ export const ptBr: Translation = {
   // Move card to deck
   move_card_to_deck_title: "Mover para baralho",
   move_card_without_folder: "Sem pasta",
-  move_card_move: "Mover",
   move_card_open_deck: "Abrir baralho",
   bulk_create_reverse_cards: "Criar cartões reversos",
 

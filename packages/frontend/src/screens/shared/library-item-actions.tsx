@@ -4,7 +4,7 @@ import { type DeckListDeck } from "../../store/deck-types.ts";
 import { t } from "../../translations/t.ts";
 import { ButtonGrid } from "../../ui/button-grid.tsx";
 import { Button } from "../../ui/button.tsx";
-import { Dropdown } from "../../ui/dropdown.tsx";
+import { DropdownOrVault } from "../../ui/dropdown-or-vault.tsx";
 import { deleteItemModalStore } from "./delete-item-modal-store.ts";
 import { shareMemoCardUrl } from "./share-memo-card-url.tsx";
 
@@ -60,9 +60,9 @@ export function LibraryItemActions(props: Props) {
 
   if (variant === "dropdown") {
     return (
-      <Dropdown
+      <DropdownOrVault
         className="relative mt-3 shrink-0"
-        items={actions.map((action) => ({
+        options={actions.map((action) => ({
           icon:
             action.type === "share" ? (
               <ShareIcon size={20} className="text-hint" />

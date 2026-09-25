@@ -85,7 +85,8 @@ export const ru: Translation = {
   review_correct_label: "Правильно",
   review_wrong_label: "Неправильно",
   validation_at_least_one_answer_required: "Укажите хотя бы 1 ответ",
-  card_preview: "Предпросмотр",
+  card_preview: "Просмотр",
+  more: "Ещё",
   deck: "Колода",
   create: "Создать",
   create_deck_option: "Колоду",
@@ -326,7 +327,6 @@ export const ru: Translation = {
   // Move card to deck
   move_card_to_deck_title: "Переместить в колоду",
   move_card_without_folder: "Без папки",
-  move_card_move: "Переместить",
   move_card_open_deck: "Открыть колоду",
   bulk_create_reverse_cards: "Создать обратные карточки",
 

@@ -18,8 +18,12 @@ import { List } from "../../../ui/list.tsx";
 import { FilledIcon } from "../../../ui/filled-icon.tsx";
 import { ListRightText } from "../../../ui/list-right-text.tsx";
 import { formatCardType } from "./format-card-type.ts";
-import { Button } from "../../../ui/button.tsx";
-import { ButtonGrid } from "../../../ui/button-grid.tsx";
+import {
+  ActionTile,
+  ActionTileContent,
+  actionTileClassName,
+} from "../../../ui/action-tile.tsx";
+import { DropdownOrVault } from "../../../ui/dropdown-or-vault.tsx";
 import { CardAnswerErrors } from "./card-answer-errors.tsx";
 import { screenStore } from "../../../store/screen-store.ts";
 import { assert } from "api";
@@ -28,6 +32,7 @@ import {
   ArrowLeftIcon,
   ArrowRightIcon,
   BotIcon,
+  EllipsisIcon,
   EyeIcon,
   LayersIcon,
   PlusIcon,
@@ -73,6 +78,40 @@ export function ManualCardFormView() {
     screen.type === "deckForm" && screen.deckId
       ? deckListStore.searchDeckById(screen.deckId)
       : undefined;
+
+  const moreItems = [
+    ...(cardForm.id
+      ? [
+          {
+            icon: <PlusIcon size={20} className="text-hint" />,
+            text: t("add_card_short"),
+            onClick: () => {
+              cardFormStore.onOpenNewFromCard();
+            },
+          },
+        ]
+      : []),
+    ...(cardFormStore.isMoveCardVisible
+      ? [
+          {
+            icon: <FolderInputIcon size={20} className="text-hint" />,
+            text: t("move_card_to_deck_title"),
+            onClick: () => {
+              cardFormStore.openMoveCardSheet();
+            },
+          },
+        ]
+      : []),
+    ...(cardForm.id
+      ? [
+          {
+            icon: <TrashIcon size={20} className="text-danger" />,
+            text: <span className="text-danger">{t("delete")}</span>,
+            onClick: markCardAsRemoved,
+          },
+        ]
+      : []),
+  ];
 
   return (
     <>
@@ -125,8 +164,7 @@ export function ManualCardFormView() {
           )}
         </Flex>
 
-        <div>
-          <ListHeader text={t("advanced")} />
+        <div className="pt-4">
           <List
             items={[
               {
@@ -260,78 +298,48 @@ export function ManualCardFormView() {
           </div>
         )}
 
-        <div className="mt-3">
-          <ButtonGrid>
-            {cardFormStore.isCardNavigationVisible && (
-              <>
-                <Button
-                  align="left"
-                  onClick={cardFormStore.onPreviousCard}
-                  icon={<ArrowLeftIcon size={24} />}
-                  disabled={!cardFormStore.isPreviousCardVisible}
-                >
-                  {t("card_previous")}
-                </Button>
-                <Button
-                  align="left"
-                  onClick={cardFormStore.onNextCard}
-                  icon={<ArrowRightIcon size={24} />}
-                  disabled={!cardFormStore.isNextCardVisible}
-                >
-                  {t("card_next")}
-                </Button>
-              </>
-            )}
+        {cardForm.id && (
+          <div className="mt-3 grid grid-cols-[repeat(4,minmax(0,1fr))]">
+            <ActionTile
+              className="flex-1 rounded-s-xl"
+              icon={<ArrowLeftIcon size={24} />}
+              text={t("card_previous")}
+              onClick={cardFormStore.onPreviousCard}
+              disabled={!cardFormStore.isPreviousCardVisible}
+            />
 
-            {cardFormStore.isCardPreviewVisible && (
-              <Button
-                align="left"
-                icon={<EyeIcon size={24} />}
-                onClick={() => {
-                  cardFormStore.cardInnerScreen.onChange("cardPreview");
-                }}
-              >
-                {t("card_preview")}
-              </Button>
-            )}
+            <ActionTile
+              className="flex-1"
+              icon={<EyeIcon size={24} />}
+              text={t("card_preview")}
+              disabled={!cardFormStore.isCardPreviewVisible}
+              onClick={() => {
+                cardFormStore.cardInnerScreen.onChange("cardPreview");
+              }}
+            />
 
-            {cardForm.id && (
-              <>
-                <Button
-                  align="left"
-                  onClick={() => {
-                    cardFormStore.onOpenNewFromCard();
-                  }}
-                  icon={<PlusIcon size={24} />}
-                >
-                  {t("add_card_short")}
-                </Button>
-              </>
-            )}
+            <DropdownOrVault
+              className="relative min-w-0 flex-1"
+              placement="up"
+              triggerClassName={actionTileClassName}
+              trigger={
+                <ActionTileContent
+                  icon={<EllipsisIcon size={24} />}
+                  text={t("more")}
+                />
+              }
+              options={moreItems}
+            />
 
-            {cardFormStore.isMoveCardVisible && (
-              <Button
-                align="left"
-                onClick={() => {
-                  cardFormStore.openMoveCardSheet();
-                }}
-                icon={<FolderInputIcon size={24} />}
-              >
-                {t("move_card_move")}
-              </Button>
-            )}
-
-            {markCardAsRemoved && cardForm.id && (
-              <Button
-                align="left"
-                icon={<TrashIcon size={24} />}
-                onClick={markCardAsRemoved}
-              >
-                {t("delete")}
-              </Button>
-            )}
-          </ButtonGrid>
-        </div>
+            <ActionTile
+              className="flex-1 rounded-e-xl"
+              icon={<ArrowRightIcon size={24} />}
+              text={t("card_next")}
+              onClick={cardFormStore.onNextCard}
+              disabled={!cardFormStore.isNextCardVisible}
+            />
+          </div>
+        )}
 
         <MoveToDeckSelector store={cardFormStore.moveToDeckStore} />
         <CardTypeModal />

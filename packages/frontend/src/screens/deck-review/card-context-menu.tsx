@@ -3,7 +3,7 @@ import { platform } from "../../lib/platform/platform.ts";
 import { boolNarrow } from "../../lib/typescript/bool-narrow";
 import { userStore } from "../../store/user-store";
 import { t } from "../../translations/t";
-import { Dropdown } from "../../ui/dropdown";
+import { DropdownOrVault } from "../../ui/dropdown-or-vault.tsx";
 import { useReviewStore } from "./store/review-store-context";
 
 export function CardContextMenu() {
@@ -13,8 +13,8 @@ export function CardContextMenu() {
   if (!card) return null;
 
   return (
-    <Dropdown
-      items={[
+    <DropdownOrVault
+      options={[
         {
           icon: <SkipForwardIcon className="h-5 w-5 text-hint" />,
           text: t("skip_card_for_now"),
