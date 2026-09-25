@@ -7,7 +7,7 @@ export const ru: Translation = {
   leaderboard_this_week: "На этой неделе",
   leaderboard_your_position: "Ваша позиция",
   leaderboard_rank_label: "место",
-  leaderboard_statistics: "Статистика",
+  leaderboard_statistics: "История",
   leaderboard_statistics_empty: "Пока нет результатов",
   leaderboard_empty: "На этой неделе пока нет повторений",
   settings_lang: "Язык",

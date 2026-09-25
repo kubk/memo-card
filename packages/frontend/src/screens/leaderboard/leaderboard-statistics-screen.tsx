@@ -7,6 +7,7 @@ import { t, translator } from "../../translations/t.ts";
 import { cn } from "../../ui/cn.ts";
 import { Skeleton } from "../../ui/skeleton.tsx";
 import { Screen } from "../shared/screen.tsx";
+import { LeaderboardMedal } from "./leaderboard-medal.tsx";
 import { leaderboardStore } from "./leaderboard-store.ts";
 
 function Podium({
@@ -62,18 +63,8 @@ function Podium({
                       </span>
                     )}
                   </div>
-                  <div
-                    className={cn(
-                      "mb-2 flex size-9 items-center justify-center rounded-full text-xl font-bold shadow-inner",
-                      rank === 1 &&
-                        "size-[42px] bg-[linear-gradient(135deg,#ffd457,#ee9e06)] text-[#744700]",
-                      rank === 2 &&
-                        "bg-[linear-gradient(135deg,#e1e7ec,#8b99a6)] text-[#35414c]",
-                      rank === 3 &&
-                        "bg-[linear-gradient(135deg,#dc935e,#914619)] text-white",
-                    )}
-                  >
-                    {rank}
+                  <div className="mb-2">
+                    <LeaderboardMedal rank={rank} size="podium" />
                   </div>
                   <div
                     className={cn(
