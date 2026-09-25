@@ -35,7 +35,6 @@ import {
 } from "../../deck-form/store/deck-form-store.ts";
 import { platform } from "../../../../lib/platform/platform.ts";
 import { notifyNewCards } from "../notify-new-cards.ts";
-import { userStore } from "../../../../store/user-store.ts";
 import { wysiwygStore } from "../../../../store/wysiwyg-store.ts";
 
 type DeckCardOptions = DeckCardDbType["options"];
@@ -101,6 +100,30 @@ export class CardFormStore {
 
   get speakingCardsField(): DeckSpeakField | null {
     return this.deck?.speakField ?? null;
+  }
+
+  get isSpeakingCardsEnabled() {
+    return Boolean(this.speakingCardsLocale && this.speakingCardsField);
+  }
+
+  get effectiveSpeakField() {
+    return this.cardForm?.options.value?.speakField ?? this.speakingCardsField;
+  }
+
+  setSpeakField(speakField: DeckSpeakField) {
+    if (!this.cardForm) return;
+    this.cardForm.options.onChange({
+      ...this.cardForm.options.value,
+      speakField,
+    });
+  }
+
+  openDeckSpeakingSettings() {
+    this.onQuitCard(() => {
+      if (!this.deckId) return;
+      this.cardInnerScreen.onChange(null);
+      screenStore.push({ type: "speakingCards", deckId: this.deckId });
+    });
   }
 
   private get deckCards(): CardFormType[] {
@@ -550,6 +573,6 @@ export class CardFormStore {
     if (this.moveToDeckStore.isOpen) {
       return false;
     }
-    return wysiwygStore.bottomSheet === null && !userStore.isPaywallOpen;
+    return wysiwygStore.bottomSheet === null;
   }
 }

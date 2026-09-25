@@ -174,6 +174,9 @@ export const es: Translation = {
   speaking_cards_enable: "Activar la voz",
   speaking_cards: "Tarjetas habladas",
   voice_language: "Idioma de voz",
+  speaking_card: "Tarjeta hablada",
+  card_voiceover_deck_hint: "Puedes configurar las tarjetas habladas en",
+  card_voiceover_deck_settings: "Ajustes del mazo",
   card_speak_side: "Lado de la tarjeta",
   card_speak_side_hint: "El lado elegido se pronunciará automáticamente",
   front: "Frente",
@@ -319,17 +322,12 @@ export const es: Translation = {
   wysiwyg_help_clear: "Quitar todo el formato",
   wysiwyg_help_undo: "Deshacer última acción",
 
-  reverse_cards: "Tarjetas inversas",
-  reverse_cards_title: "Tarjetas Inversas",
-  reverse_cards_helper: "Crea una y obtén dos. Ayuda a recordar mejor",
-  two_cards_created: "Se han creado 2 tarjetas",
   card_created: "Tarjeta creada",
 
   // Move card to deck
   move_card_to_deck_title: "Mover a mazo",
   move_card_without_folder: "Sin carpeta",
   move_card_open_deck: "Abrir mazo",
-  bulk_create_reverse_cards: "Crear tarjetas inversas",
 
   // Image related
   image: "Imagen",

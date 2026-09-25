@@ -11,7 +11,6 @@ import { notifyError } from "../../../shared/snackbar/snackbar";
 import { screenStore } from "../../../../store/screen-store.ts";
 import { assert, type DeckCardDbType } from "api";
 import { deckDetailsStore } from "../../../../store/deck-details-store.ts";
-import { translateCreateReverseConfirm } from "../translate-create-reverse-confirm.ts";
 
 export type CardFilterSortBy = "createdAt" | "frontAlpha" | "backAlpha";
 export type CardFilterDirection = "desc" | "asc";
@@ -219,31 +218,6 @@ export class CardListStore {
       this.isSelectionMode.setTrue();
       const validCardIds = this.filteredCards.map((card) => card.id);
       validCardIds.forEach((id) => this.selectedCardIds.add(id));
-    }
-  }
-
-  async createReverseCards() {
-    const confirmed = await showConfirm(
-      translateCreateReverseConfirm(this.selectedCardIds.size),
-    );
-    if (!confirmed) return;
-
-    appLoaderStore.enable();
-    try {
-      const result = await api.card.createMissingReverse.mutate({
-        cardIds: Array.from(this.selectedCardIds),
-      });
-
-      const { deck, cardsToReview } = result;
-      runInAction(() => {
-        deckListStore.replaceDeck(deck, true);
-        deckListStore.updateCardsToReview(cardsToReview);
-      });
-      this.clearSelection();
-    } catch (e) {
-      notifyError({ e, info: "Error creating reverse cards" });
-    } finally {
-      appLoaderStore.disable();
     }
   }
 

@@ -92,7 +92,6 @@ const completeDeck = {
   isPublic: true,
   speakLocale: null,
   speakField: null,
-  reverseCards: false,
   availableIn: "en",
   categoryId: null,
   deckCategory: undefined,

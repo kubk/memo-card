@@ -12,10 +12,17 @@ import { useMcpWizardStore } from "./store/mcp-wizard-store-context.tsx";
 export function McpTokenSettingsContent() {
   const store = useMcpWizardStore();
 
-  useBackButton(() => screenStore.back());
+  useBackButton(() => {
+    if (store.isGuideOpen) {
+      store.closeGuide();
+      return;
+    }
+
+    screenStore.back();
+  });
   useMainButton(() => store.mainButtonText, store.submitCurrentStep);
 
-  if (store.isConfigured) {
+  if (store.isConfigured && !store.isGuideOpen) {
     return (
       <div className="mx-auto flex min-h-[calc(100vh_-_120px)] w-full max-w-[430px] flex-col items-center justify-center px-5 py-8">
         <McpConfigured />
@@ -25,9 +32,11 @@ export function McpTokenSettingsContent() {
 
   return (
     <div className="mx-auto flex min-h-[calc(100vh_-_120px)] w-full max-w-[430px] flex-col items-center px-5 pt-8">
-      <div className="w-full">
-        <McpWizardProgress />
-      </div>
+      {store.isGuideOpen ? null : (
+        <div className="w-full">
+          <McpWizardProgress />
+        </div>
+      )}
 
       <div
         className={cn(

@@ -7,8 +7,5 @@ export function notifyNewCards(cards: unknown[]) {
     if (cards.length === 1) {
       notifySuccess(t("card_created"));
     }
-    if (cards.length === 2) {
-      notifySuccess(t("two_cards_created"));
-    }
   }, 300);
 }

@@ -176,6 +176,9 @@ export const ptBr: Translation = {
   speaking_cards_enable: "Ativar a voz",
   speaking_cards: "Cartões com voz",
   voice_language: "Idioma da voz",
+  speaking_card: "Cartão falante",
+  card_voiceover_deck_hint: "Os cartões falantes podem ser configurados em",
+  card_voiceover_deck_settings: "Configurações do baralho",
   card_speak_side: "Lado do cartão",
   card_speak_side_hint: "O lado escolhido será pronunciado automaticamente",
   front: "Frente",
@@ -319,17 +322,12 @@ export const ptBr: Translation = {
   wysiwyg_help_clear: "Remover toda a formatação",
   wysiwyg_help_undo: "Desfazer última ação",
 
-  reverse_cards: "Cartões reversos",
-  reverse_cards_title: "Cartões Reversos",
-  reverse_cards_helper: "Crie um e ganhe dois. Ajuda a lembrar melhor",
-  two_cards_created: "2 cartões foram criados",
   card_created: "Cartão criado",
 
   // Move card to deck
   move_card_to_deck_title: "Mover para baralho",
   move_card_without_folder: "Sem pasta",
   move_card_open_deck: "Abrir baralho",
-  bulk_create_reverse_cards: "Criar cartões reversos",
 
   // Image related
   image: "Imagem",

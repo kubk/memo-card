@@ -1,3 +1,4 @@
+import { SpeakingCard } from "./speaking-card.tsx";
 import { CardPreview } from "./card-preview.tsx";
 import { CardExample } from "./card-example.tsx";
 import { useCardFormStore } from "./store/card-form-store-context.tsx";
@@ -26,6 +27,10 @@ export function CardFormWrapper() {
 
   if (cardFormStore.cardInnerScreen.value === "example") {
     return <CardExample />;
+  }
+
+  if (cardFormStore.cardInnerScreen.value === "speakingCard") {
+    return <SpeakingCard />;
   }
 
   return <ManualCardFormView />;

@@ -28,7 +28,6 @@ class UserStore {
   isSkipReview = persistableField(new BooleanToggle(false), "isSkipReview");
   isSpeakingCardsMuted = new BooleanToggle(false);
   activePlanQuery = makeQuery(apiProxy.activePlan.query);
-  isPaywallOpen = false;
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
@@ -113,18 +112,6 @@ class UserStore {
       return false;
     }
     return canDeleteItsAccount(this.user);
-  }
-
-  executeViaPaywall(cb: () => void) {
-    if (this.isPaid) {
-      cb();
-    } else {
-      this.isPaywallOpen = true;
-    }
-  }
-
-  closePaywall() {
-    this.isPaywallOpen = false;
   }
 }
 

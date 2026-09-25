@@ -163,6 +163,9 @@ export const ru: Translation = {
   speaking_cards_enable: "Включить озвучку",
   speaking_cards: "Озвучка карточек",
   voice_language: "Язык озвучки",
+  speaking_card: "Озвучивание карточки",
+  card_voiceover_deck_hint: "Озвучивание карточек можно настроить в разделе",
+  card_voiceover_deck_settings: "Настройки колоды",
   card_speak_side: "Сторона карточки",
   card_speak_side_hint: "Выбранная сторона будет озвучиваться автоматически",
   front: "Лицевая",
@@ -318,17 +321,12 @@ export const ru: Translation = {
   wysiwyg_help_clear: "Удалить все форматирование",
   wysiwyg_help_undo: "Отменить последнее действие",
 
-  reverse_cards: "Обратные карточки",
-  reverse_cards_title: "Обратные карточки",
-  reverse_cards_helper: "Создай одну - получи две. Помогает лучше запоминать",
-  two_cards_created: "Создано 2 карточки",
   card_created: "Карточка создана",
 
   // Move card to deck
   move_card_to_deck_title: "Переместить в колоду",
   move_card_without_folder: "Без папки",
   move_card_open_deck: "Открыть колоду",
-  bulk_create_reverse_cards: "Создать обратные карточки",
 
   // Image related
   image: "Картинка",

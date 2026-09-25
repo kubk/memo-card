@@ -59,7 +59,6 @@ const folder = {
       isPublic: true,
       speakLocale: null,
       speakField: null,
-      reverseCards: false,
       availableIn: "en",
       categoryId: null,
       deckCards: [],

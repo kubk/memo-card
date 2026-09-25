@@ -24,7 +24,6 @@ import { notifyError } from "../../../shared/snackbar/snackbar.tsx";
 import { assert } from "api";
 import { t } from "../../../../translations/t.ts";
 import { api } from "../../../../api/trpc-api.ts";
-import { userStore } from "../../../../store/user-store.ts";
 import { wysiwygStore } from "../../../../store/wysiwyg-store.ts";
 import { deckDetailsStore } from "../../../../store/deck-details-store.ts";
 
@@ -55,7 +54,6 @@ type DeckFormType = {
   cards: CardFormType[];
   speakingCardsLocale: TextField<SpeakLanguage | null>;
   speakingCardsField: TextField<DeckSpeakField | null>;
-  reverseCards: BooleanField;
   folderId?: number;
 };
 
@@ -162,7 +160,6 @@ const createUpdateForm = (id: number, deck: MyDeck): DeckFormType => {
     description: new TextField(deck.description ?? ""),
     speakingCardsLocale: new TextField(deck.speakLocale),
     speakingCardsField: new TextField(deck.speakField),
-    reverseCards: new BooleanField(deck.reverseCards),
     cards: deck.deckCards.map((card) => createCardForm(card)),
   };
 };
@@ -250,7 +247,6 @@ export class DeckFormStore {
         cards: [],
         speakingCardsLocale: new TextField<SpeakLanguage | null>(null),
         speakingCardsField: new TextField<DeckSpeakField | null>(null),
-        reverseCards: new BooleanField(false),
         folderId: screen.folderId,
       };
     }
@@ -386,7 +382,7 @@ export class DeckFormStore {
     if (this.deckForm.id && !isFormDirty(this.deckForm)) {
       return false;
     }
-    return wysiwygStore.bottomSheet === null && !userStore.isPaywallOpen;
+    return wysiwygStore.bottomSheet === null;
   }
 
   private applyDeckMutationResult(
@@ -433,7 +429,6 @@ export class DeckFormStore {
       description: this.deckForm.description.value,
       speakLocale: this.deckForm.speakingCardsLocale.value,
       speakField: this.deckForm.speakingCardsField.value,
-      reverseCards: this.deckForm.reverseCards.value,
       folderId: this.deckForm.folderId,
     });
 

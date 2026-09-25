@@ -5,8 +5,9 @@ import { CardPreviewStore } from "../../deck-review/store/card-preview-store.ts"
 import { platform } from "../../../lib/platform/platform.ts";
 import { BrowserPlatform } from "../../../lib/platform/browser/browser-platform.ts";
 import { BrowserBackButton } from "../../shared/browser-platform/browser-back-button.tsx";
-import { PencilIcon, RotateCcwIcon } from "lucide-react";
+import { RotateCcwIcon } from "lucide-react";
 import { Button } from "../../../ui/button.tsx";
+import { TextButton } from "../../../ui/text-button.tsx";
 import { t } from "../../../translations/t.ts";
 import { CardPreviewFormData } from "./store/card-preview-types.ts";
 
@@ -56,13 +57,9 @@ export function CardPreview(props: Props) {
         }
         cardFooter={
           onEdit ? (
-            <Button
-              align="center"
-              icon={<PencilIcon size={24} />}
-              onClick={onEdit}
-            >
+            <TextButton className="w-full text-center" onClick={onEdit}>
               {t("edit")}
-            </Button>
+            </TextButton>
           ) : null
         }
         card={cardPreviewStore}

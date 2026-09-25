@@ -117,6 +117,9 @@ export const en = {
   speaking_cards_enable: "Enable voice",
   speaking_cards: "Speaking cards",
   voice_language: "Voice language",
+  speaking_card: "Speaking card",
+  card_voiceover_deck_hint: "Speaking cards can be configured in",
+  card_voiceover_deck_settings: "Deck settings",
   card_speak_side: "Speak side",
   card_speak_side_hint: "The selected side is voiced automatically",
   front: "Front",
@@ -314,20 +317,12 @@ export const en = {
   wysiwyg_help_clear: "Remove all formatting",
   wysiwyg_help_undo: "Undo last action",
 
-  reverse_cards: "Reverse cards",
-  reverse_cards_title: "Reverse Cards",
-  reverse_cards_helper:
-    "Get 2 cards from a single entry. Helps remember better",
-  two_cards_created: "2 cards have been created",
   card_created: "Card has been created",
 
   // Move card to deck
   move_card_to_deck_title: "Move to deck",
   move_card_without_folder: "Without folder",
   move_card_open_deck: "Open deck",
-
-  // Bulk card actions
-  bulk_create_reverse_cards: "Create reverse cards",
 
   // Image related
   image: "Image",

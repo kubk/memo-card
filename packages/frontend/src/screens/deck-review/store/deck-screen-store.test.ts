@@ -60,7 +60,6 @@ const publicDeck = {
   isPublic: true,
   speakLocale: null,
   speakField: null,
-  reverseCards: false,
   deckCards: [],
   deckCategory: { name: "Travel", logo: "🇬🇧" },
 };

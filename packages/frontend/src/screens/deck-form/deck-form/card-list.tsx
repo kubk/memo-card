@@ -6,13 +6,7 @@ import { Button } from "../../../ui/button.tsx";
 import { t } from "../../../translations/t.ts";
 import { Screen } from "../../shared/screen.tsx";
 import { CardNumber } from "../../../ui/card-number.tsx";
-import {
-  SearchIcon,
-  XIcon,
-  TrashIcon,
-  FolderInputIcon,
-  CopyPlusIcon,
-} from "lucide-react";
+import { SearchIcon, XIcon, TrashIcon, FolderInputIcon } from "lucide-react";
 import { BottomSheet } from "../../../ui/bottom-sheet/bottom-sheet.tsx";
 import { RadioList } from "../../../ui/radio-list/radio-list.tsx";
 import {
@@ -28,8 +22,6 @@ import { platform } from "../../../lib/platform/platform.ts";
 import { TelegramPlatform } from "../../../lib/platform/telegram/telegram-platform.ts";
 import { BrowserPlatform } from "../../../lib/platform/browser/browser-platform.ts";
 import { removeAllTags } from "../../../lib/sanitize-html/remove-all-tags.ts";
-import { userStore } from "../../../store/user-store.ts";
-import { WithProIcon } from "../../shared/with-pro-icon.tsx";
 import { useProgress } from "../../../lib/platform/use-progress.tsx";
 import { ErrorScreen } from "../../error-screen/error-screen.tsx";
 import { DeckNotFoundScreen } from "../../error-screen/deck-not-found-screen.tsx";
@@ -117,15 +109,6 @@ export function CardList() {
           },
         ]
       : []),
-    {
-      key: "reverse",
-      icon: CopyPlusIcon,
-      label: t("bulk_create_reverse_cards"),
-      onClick: () =>
-        userStore.executeViaPaywall(() => cardListStore.createReverseCards()),
-      colorClass: "text-button",
-      right: <WithProIcon />,
-    },
     {
       key: "delete",
       icon: TrashIcon,
@@ -305,7 +288,6 @@ export function CardList() {
                   >
                     {action.label}
                   </span>
-                  {"right" in action && action.right}
                 </button>
               ))}
             </div>

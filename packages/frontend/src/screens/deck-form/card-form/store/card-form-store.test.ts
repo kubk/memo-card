@@ -1,3 +1,4 @@
+import { deckListStore } from "../../../../store/deck-list-store.ts";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { CardFormStore } from "./card-form-store.ts";
 import { DeckCardDbType } from "api";
@@ -18,7 +19,6 @@ const mocks = vi.hoisted(() => {
       isPublic: false,
       speakLocale: null,
       speakField: null,
-      reverseCards: false,
       deckCategory: null,
       categoryId: null,
       deckCards: [],
@@ -175,6 +175,40 @@ describe("card form store", () => {
 
   afterEach(() => {
     vi.clearAllMocks();
+  });
+
+  it("inherits the deck speak side and saves an override without losing other options", async () => {
+    mockScreenStore.reset({ type: "deckForm", deckId: 1, cardId: 3 });
+    const deck = deckListStore.searchDeckById(1)!;
+    const previousLocale = deck.speakLocale;
+    const previousField = deck.speakField;
+    try {
+      deck.speakLocale = "en-US" as typeof deck.speakLocale;
+      deck.speakField = "front";
+      const store = new CardFormStore();
+      store.loadForm();
+      expect(store.isSpeakingCardsEnabled).toBe(true);
+      expect(store.effectiveSpeakField).toBe("front");
+      expect(store.cardForm?.options.value?.speakField).toBeUndefined();
+      deck.speakField = "back";
+      expect(store.effectiveSpeakField).toBe("back");
+      store.setSpeakField("front");
+      expect(store.effectiveSpeakField).toBe("front");
+      await store.onSaveCard();
+      expect(mocks.cardUpdate).toHaveBeenCalledWith(
+        expect.objectContaining({
+          options: {
+            speakField: "front",
+            voice: "https://media.memocard.org/existing-card-voice.mp3",
+          },
+        }),
+      );
+      deck.speakLocale = null;
+      expect(store.isSpeakingCardsEnabled).toBe(false);
+    } finally {
+      deck.speakLocale = previousLocale;
+      deck.speakField = previousField;
+    }
   });
 
   it("creates new card", async () => {

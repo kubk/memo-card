@@ -1,4 +1,6 @@
 import { CheckIcon } from "lucide-react";
+import { Label } from "../../../ui/label.tsx";
+import { TextButton } from "../../../ui/text-button.tsx";
 import { useMcpWizardStore } from "../store/mcp-wizard-store-context.tsx";
 import { mcpT } from "../translations.ts";
 import { CopyableValue } from "./copyable-value.tsx";
@@ -20,11 +22,13 @@ export function McpConfigured() {
         {mcpT("configuredTitle")}
       </h2>
       <div className="mt-6 w-full rounded-2xl bg-secondary-bg p-4">
-        <div className="text-xs font-medium text-hint">
-          {mcpT("serverUrlLabel")}
-        </div>
-        <CopyableValue className="mt-1.5" monospace value={connectionUrl} />
+        <Label isPlain text={mcpT("serverUrlLabel")}>
+          <CopyableValue monospace value={connectionUrl} />
+        </Label>
       </div>
+      <TextButton className="mt-4" onClick={store.openGuide} type="button">
+        {mcpT("guideLink")}
+      </TextButton>
     </>
   );
 }

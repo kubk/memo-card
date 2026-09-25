@@ -11,6 +11,7 @@ type McpWizardStep = (typeof MCP_WIZARD_STEPS)[number];
 export class McpWizardStore {
   mcpTokenQuery = makeQuery(apiProxy.mcpToken.getMyToken.query);
   step: McpWizardStep = 1;
+  isGuideOpen = false;
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
@@ -40,6 +41,10 @@ export class McpWizardStore {
   }
 
   get mainButtonText() {
+    if (this.isGuideOpen) {
+      return mcpT("guideBackButton");
+    }
+
     if (this.isConfigured) {
       return mcpT("quitButton");
     }
@@ -59,7 +64,21 @@ export class McpWizardStore {
     this.step = step;
   }
 
+  openGuide() {
+    this.step = 2;
+    this.isGuideOpen = true;
+  }
+
+  closeGuide() {
+    this.isGuideOpen = false;
+  }
+
   submitCurrentStep() {
+    if (this.isGuideOpen) {
+      this.closeGuide();
+      return;
+    }
+
     if (this.isConfigured) {
       screenStore.back();
       return;

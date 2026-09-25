@@ -11,23 +11,18 @@ import { Screen } from "../../shared/screen.tsx";
 import { ListHeader } from "../../../ui/list-header.tsx";
 import { List } from "../../../ui/list.tsx";
 import { ListRightText } from "../../../ui/list-right-text.tsx";
-import { RadioSwitcher } from "../../../ui/radio-switcher.tsx";
 import { userStore } from "../../../store/user-store.ts";
 import { assert } from "api";
-import { WithProIcon } from "../../shared/with-pro-icon.tsx";
 import { FormattingSwitcher } from "../card-form/formatting-switcher.tsx";
 import { WysiwygField } from "../../../ui/wysiwyg-field/wysiwig-field.tsx";
-import {
-  LayersIcon,
-  MicIcon,
-  PlusIcon,
-  FilesIcon,
-  UploadIcon,
-} from "lucide-react";
+import { LayersIcon, MicIcon, PlusIcon, UploadIcon } from "lucide-react";
 import { FilledIcon, TransparentIcon } from "../../../ui/filled-icon.tsx";
 import { DeckActions } from "../../shared/deck-actions.tsx";
 import { BackBottomButton } from "../../shared/back-bottom-button.tsx";
-import { McpSettingsEntry } from "../../mcp-settings/mcp-settings-entry.tsx";
+import {
+  createMcpSettingsEntryItem,
+  McpSettingsEntry,
+} from "../../mcp-settings/mcp-settings-entry.tsx";
 import { ChevronIcon } from "../../../ui/chevron-icon.tsx";
 
 export function DeckForm() {
@@ -199,32 +194,7 @@ export function DeckForm() {
                     />
                   ),
                 },
-                {
-                  text: t("reverse_cards"),
-                  icon: (
-                    <FilledIcon
-                      className="bg-icon-green"
-                      icon={<FilesIcon size={18} className="text-white" />}
-                    />
-                  ),
-                  onClick: () => {
-                    userStore.executeViaPaywall(() => {
-                      deckFormStore.deckForm?.reverseCards.toggle();
-                    });
-                  },
-                  right: (
-                    <WithProIcon>
-                      <RadioSwitcher
-                        isOn={deckFormStore.deckForm.reverseCards.value}
-                        onToggle={() => {
-                          userStore.executeViaPaywall(() => {
-                            deckFormStore.deckForm?.reverseCards.toggle();
-                          });
-                        }}
-                      />
-                    </WithProIcon>
-                  ),
-                },
+                createMcpSettingsEntryItem("ChatGPT", "bg-icon-turquoise"),
               ]}
             />
           </div>

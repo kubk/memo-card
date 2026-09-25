@@ -123,6 +123,9 @@ export const ar: Translation = {
   speaking_cards_enable: "تفعيل الصوت",
   speaking_cards: "بطاقات ناطقة",
   voice_language: "لغة الصوت",
+  speaking_card: "نطق البطاقة",
+  card_voiceover_deck_hint: "يمكن إعداد نطق البطاقات في",
+  card_voiceover_deck_settings: "إعدادات المجموعة",
   card_speak_side: "جانب البطاقة",
   card_speak_side_hint: "سيتم نطق الجانب المحدد تلقائيًا",
   front: "الواجهة",
@@ -310,18 +313,12 @@ export const ar: Translation = {
   wysiwyg_help_clear: "إزالة جميع التنسيقات",
   wysiwyg_help_undo: "التراجع عن آخر إجراء",
 
-  reverse_cards: "بطاقات عكسية",
-  reverse_cards_title: "البطاقات العكسية",
-  reverse_cards_helper:
-    "أنشئ واحدة واحصل على اثنتين. يساعد على التذكر بشكل أفضل",
-  two_cards_created: "تم إنشاء بطاقتين",
   card_created: "تم إنشاء البطاقة",
 
   // Move card to deck
   move_card_to_deck_title: "نقل إلى رزمة",
   move_card_without_folder: "بدون مجلد",
   move_card_open_deck: "فتح الرزمة",
-  bulk_create_reverse_cards: "إنشاء بطاقات عكسية",
 
   // Image related
   image: "صورة",

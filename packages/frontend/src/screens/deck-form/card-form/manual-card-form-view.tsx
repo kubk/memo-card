@@ -29,6 +29,7 @@ import { screenStore } from "../../../store/screen-store.ts";
 import { assert } from "api";
 import { deckListStore } from "../../../store/deck-list-store.ts";
 import {
+  Volume2Icon,
   ArrowLeftIcon,
   ArrowRightIcon,
   BotIcon,
@@ -102,6 +103,11 @@ export function ManualCardFormView() {
           },
         ]
       : []),
+    {
+      icon: <Volume2Icon size={20} className="text-hint" />,
+      text: t("speaking_card"),
+      onClick: () => cardFormStore.cardInnerScreen.onChange("speakingCard"),
+    },
     ...(cardForm.id
       ? [
           {

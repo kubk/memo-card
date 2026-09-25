@@ -23,7 +23,6 @@ const mocks = vi.hoisted(() => ({
 vi.mock("../../../../api/trpc-api.ts", () => ({
   api: {
     card: {
-      createMissingReverse: { mutate: vi.fn() },
       deleteMany: { mutate: vi.fn() },
       moveToOtherDeck: { mutate: vi.fn() },
     },
@@ -90,7 +89,6 @@ const createDeck = (cards: Array<{ id: number; front: string }>) => ({
   isPublic: true,
   speakLocale: null,
   speakField: null,
-  reverseCards: false,
   deckCards: cards.map(({ id, front }, index) => ({
     id,
     createdAt: `2026-01-0${index + 1}T00:00:00.000Z`,

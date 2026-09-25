@@ -9,7 +9,6 @@ const en = {
   stayConnected: "Stay connected until you disconnect",
   disconnect: "Disconnect",
   disconnectError: "Could not disconnect, please try again",
-  settingsHint: "Manage cards with ChatGPT",
   benefitCreateTitle: "Create complete decks",
   benefitCreateDescription: "Folders, decks, and cards in 1 request",
   benefitImproveTitle: "Improve existing cards",
@@ -59,6 +58,8 @@ const en = {
   serverUrlLabel: "Server URL",
   authenticationLabel: "Authentication",
   authenticationInstruction: "Select “No Auth”",
+  guideLink: "Guide",
+  guideBackButton: "Back",
 };
 
 type McpTranslation = Record<keyof typeof en, string>;
@@ -71,7 +72,6 @@ const ru: McpTranslation = {
   stayConnected: "Подключение действует, пока вы его не отключите",
   disconnect: "Отключить",
   disconnectError: "Не удалось отключить, попробуйте ещё раз",
-  settingsHint: "Управляйте карточками через ChatGPT",
   benefitCreateTitle: "Создавайте готовые колоды",
   benefitCreateDescription: "Папки, колоды и карточки — за 1 запрос",
   benefitImproveTitle: "Улучшайте карточки",
@@ -121,6 +121,8 @@ const ru: McpTranslation = {
   serverUrlLabel: "URL сервера",
   authenticationLabel: "Авторизация",
   authenticationInstruction: "Выберите «Без авторизации»",
+  guideLink: "Инструкция",
+  guideBackButton: "Назад",
 };
 
 const es: McpTranslation = {
@@ -132,7 +134,6 @@ const es: McpTranslation = {
   stayConnected: "La conexión se mantiene hasta que la desconectes",
   disconnect: "Desconectar",
   disconnectError: "No se pudo desconectar, inténtalo de nuevo",
-  settingsHint: "Gestiona tus tarjetas con ChatGPT",
   benefitCreateTitle: "Crea mazos completos",
   benefitCreateDescription: "Carpetas, mazos y tarjetas con 1 sola petición",
   benefitImproveTitle: "Mejora tus tarjetas",
@@ -183,6 +184,8 @@ const es: McpTranslation = {
   serverUrlLabel: "URL del servidor",
   authenticationLabel: "Autenticación",
   authenticationInstruction: "Selecciona «Sin autenticación»",
+  guideLink: "Guía",
+  guideBackButton: "Atrás",
 };
 
 const ptBr: McpTranslation = {
@@ -193,7 +196,6 @@ const ptBr: McpTranslation = {
   stayConnected: "A conexão continua até você desconectar",
   disconnect: "Desconectar",
   disconnectError: "Não foi possível desconectar, tente novamente",
-  settingsHint: "Gerencie seus cartões com o ChatGPT",
   benefitCreateTitle: "Crie baralhos completos",
   benefitCreateDescription: "Pastas, baralhos e cartões em 1 solicitação",
   benefitImproveTitle: "Melhore seus cartões",
@@ -245,6 +247,8 @@ const ptBr: McpTranslation = {
   serverUrlLabel: "URL do servidor",
   authenticationLabel: "Autenticação",
   authenticationInstruction: "Selecione “Sem autenticação”",
+  guideLink: "Guia",
+  guideBackButton: "Voltar",
 };
 
 const uk: McpTranslation = {
@@ -255,7 +259,6 @@ const uk: McpTranslation = {
   stayConnected: "Підключення діє, доки ви його не вимкнете",
   disconnect: "Відключити",
   disconnectError: "Не вдалося відключити, спробуйте ще раз",
-  settingsHint: "Керуйте картками через ChatGPT",
   benefitCreateTitle: "Створюйте повноцінні колоди",
   benefitCreateDescription: "Папки, колоди й картки — за 1 запит",
   benefitImproveTitle: "Покращуйте картки",
@@ -305,6 +308,8 @@ const uk: McpTranslation = {
   serverUrlLabel: "URL сервера",
   authenticationLabel: "Авторизація",
   authenticationInstruction: "Виберіть «Без авторизації»",
+  guideLink: "Інструкція",
+  guideBackButton: "Назад",
 };
 
 const ar: McpTranslation = {
@@ -315,7 +320,6 @@ const ar: McpTranslation = {
   stayConnected: "يبقى الاتصال حتى تقطع الاتصال بنفسك",
   disconnect: "قطع الاتصال",
   disconnectError: "تعذر قطع الاتصال، حاول مرة أخرى",
-  settingsHint: "أدِر البطاقات باستخدام ChatGPT",
   benefitCreateTitle: "أنشئ مجموعات متكاملة",
   benefitCreateDescription: "مجلدات ومجموعات وبطاقات في طلب واحد",
   benefitImproveTitle: "حسّن بطاقاتك",
@@ -366,6 +370,8 @@ const ar: McpTranslation = {
   serverUrlLabel: "عنوان URL للخادم",
   authenticationLabel: "المصادقة",
   authenticationInstruction: "اختر «بلا مصادقة»",
+  guideLink: "الدليل",
+  guideBackButton: "رجوع",
 };
 
 const fa: McpTranslation = {
@@ -376,7 +382,6 @@ const fa: McpTranslation = {
   stayConnected: "تا وقتی اتصال را قطع نکنید، متصل می‌مانید",
   disconnect: "قطع اتصال",
   disconnectError: "قطع اتصال انجام نشد، دوباره تلاش کنید",
-  settingsHint: "کارت‌ها را با ChatGPT مدیریت کنید",
   benefitCreateTitle: "دسته‌های کامل بسازید",
   benefitCreateDescription: "پوشه‌ها، دسته‌ها و کارت‌ها با ۱ درخواست",
   benefitImproveTitle: "کارت‌هایتان را بهتر کنید",
@@ -428,6 +433,8 @@ const fa: McpTranslation = {
   serverUrlLabel: "نشانی URL سرور",
   authenticationLabel: "احراز هویت",
   authenticationInstruction: "«بدون احراز هویت» را انتخاب کنید",
+  guideLink: "راهنما",
+  guideBackButton: "بازگشت",
 };
 
 const mcpTranslator = new Translator<LanguageShared, McpTranslation>(

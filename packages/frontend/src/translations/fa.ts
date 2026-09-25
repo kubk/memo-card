@@ -132,6 +132,9 @@ export const fa: Translation = {
   speaking_cards_enable: "فعال کردن صدا",
   speaking_cards: "کارت‌های گفتاری",
   voice_language: "زبان صدا",
+  speaking_card: "کارت گویا",
+  card_voiceover_deck_hint: "کارت‌های گویا را می‌توانید تنظیم کنید در",
+  card_voiceover_deck_settings: "تنظیمات دسته",
   card_speak_side: "طرف کارت",
   card_speak_side_hint: "سمت انتخاب‌شده به‌صورت خودکار خوانده می‌شود",
   front: "رو",
@@ -316,17 +319,12 @@ export const fa: Translation = {
   wysiwyg_help_clear: "حذف همه قالب‌بندی‌ها",
   wysiwyg_help_undo: "برگردان آخرین عمل",
 
-  reverse_cards: "کارت‌های معکوس",
-  reverse_cards_title: "کارت‌های معکوس",
-  reverse_cards_helper: "یکی بساز، دو تا بگیر. به یادآوری بهتر کمک می‌کند",
-  two_cards_created: "۲ کارت ایجاد شد",
   card_created: "کارت ایجاد شد",
 
   // Move card to deck
   move_card_to_deck_title: "انتقال به دسته",
   move_card_without_folder: "بدون پوشه",
   move_card_open_deck: "باز کردن دسته",
-  bulk_create_reverse_cards: "ایجاد کارت‌های معکوس",
 
   // Image related
   image: "تصویر",

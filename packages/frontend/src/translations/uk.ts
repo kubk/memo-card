@@ -175,6 +175,9 @@ export const uk: Translation = {
   speaking_cards_enable: "Увімкнути озвучення",
   speaking_cards: "Картки з озвучкою",
   voice_language: "Мова озвучки",
+  speaking_card: "Озвучування картки",
+  card_voiceover_deck_hint: "Озвучування карток можна налаштувати в розділі",
+  card_voiceover_deck_settings: "Налаштування колоди",
   card_speak_side: "Сторона картки",
   card_speak_side_hint: "Обрана сторона озвучуватиметься автоматично",
   front: "Лицьова",
@@ -321,18 +324,12 @@ export const uk: Translation = {
   wysiwyg_help_clear: "Видалити все форматування",
   wysiwyg_help_undo: "Скасувати останню дію",
 
-  reverse_cards: "Зворотні картки",
-  reverse_cards_title: "Зворотні картки",
-  reverse_cards_helper:
-    "Створи одну - отримай дві. Допомагає краще запам'ятовувати",
-  two_cards_created: "Створено 2 картки",
   card_created: "Картку створено",
 
   // Move card to deck
   move_card_to_deck_title: "Перемістити в колоду",
   move_card_without_folder: "Без папки",
   move_card_open_deck: "Відкрити колоду",
-  bulk_create_reverse_cards: "Створити зворотні картки",
 
   // Image related
   image: "Зображення",
