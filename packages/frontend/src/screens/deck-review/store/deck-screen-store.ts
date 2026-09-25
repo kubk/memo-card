@@ -91,6 +91,28 @@ export class DeckScreenStore {
     );
   }
 
+  openCard(cardId: number) {
+    const deck = this.deck;
+    if (!deck) {
+      return;
+    }
+
+    if (this.canEdit) {
+      screenStore.push({
+        type: "deckForm",
+        deckId: deck.id,
+        cardId,
+      });
+      return;
+    }
+
+    screenStore.push({
+      type: "cardPreviewId",
+      cardId,
+      deckId: deck.id,
+    });
+  }
+
   startReview(reviewStore: ReviewStore) {
     const deck = this.deck;
     if (!deck || !this.canReview) {

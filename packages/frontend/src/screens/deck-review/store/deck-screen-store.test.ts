@@ -200,4 +200,28 @@ describe("DeckScreenStore", () => {
       });
     },
   );
+
+  it.each([
+    {
+      authorId: 1,
+      expectedRoute: { type: "deckForm", deckId: 42, cardId: 1 },
+    },
+    {
+      authorId: 2,
+      expectedRoute: { type: "cardPreviewId", cardId: 1, deckId: 42 },
+    },
+  ] as const)(
+    "opens an editable or read-only card for author $authorId",
+    ({ authorId, expectedRoute }) => {
+      deckDetailsStore.setDeck({
+        ...completeDeck,
+        authorId,
+      });
+
+      const store = new DeckScreenStore(completeDeck.id);
+      store.openCard(1);
+
+      expect(mocks.push).toHaveBeenCalledWith(expectedRoute);
+    },
+  );
 });

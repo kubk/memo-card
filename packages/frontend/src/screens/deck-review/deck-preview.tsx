@@ -126,11 +126,7 @@ export function DeckPreview(props: Props) {
             <CardListRowsReadonly
               cards={previewCards}
               onClick={(card) => {
-                screenStore.push({
-                  type: "cardPreviewId",
-                  cardId: card.id,
-                  deckId: deck.id,
-                });
+                store.openCard(card.id);
               }}
               additionalItems={
                 deck.deckCards.length > previewCards.length

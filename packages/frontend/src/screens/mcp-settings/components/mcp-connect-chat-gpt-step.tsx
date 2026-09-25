@@ -36,10 +36,7 @@ export function McpConnectChatGptStep() {
 
       <div className="mt-3 flex w-full flex-col gap-4 rounded-2xl bg-secondary-bg p-4">
         <McpField label={mcpT("nameLabel")} value="Memo Card" />
-        <McpField
-          label={t("description")}
-          value={mcpT("descriptionValue")}
-        />
+        <McpField label={t("description")} value={mcpT("descriptionValue")} />
         <Label isPlain text={mcpT("serverUrlLabel")}>
           <CopyableValue monospace value={connectionUrl} />
         </Label>
