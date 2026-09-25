@@ -21,6 +21,7 @@ export default {
         'button-darkened': 'var(--memo-button-color-darkened)',
         'button-text': 'var(--tg-theme-button-text-color)',
         'secondary-bg': 'var(--tg-theme-secondary-bg-color)',
+        disabled: 'var(--memo-text-color-disabled)',
 
 
         success: '#2ecb47',

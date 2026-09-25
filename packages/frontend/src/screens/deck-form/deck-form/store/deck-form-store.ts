@@ -170,8 +170,6 @@ const createUpdateForm = (id: number, deck: MyDeck): DeckFormType => {
 export type CardFilterSortBy = "createdAt" | "frontAlpha" | "backAlpha";
 export type CardFilterDirection = "desc" | "asc";
 
-export type VoiceType = "none" | "browser";
-
 export class DeckFormStore {
   deckForm?: DeckFormType;
   deckCreateMutation = makeMutation(api.deck.create.mutate);
@@ -318,33 +316,30 @@ export class DeckFormStore {
     });
   }
 
-  get voiceType(): VoiceType {
-    if (!this.deckForm) return "none";
+  get isSpeakingCardsEnabled(): boolean {
+    if (!this.deckForm) return false;
 
     const { speakingCardsLocale, speakingCardsField } = this.deckForm;
 
-    if (!speakingCardsLocale.value || !speakingCardsField.value) {
-      return "none";
-    }
-
-    return "browser";
+    return Boolean(speakingCardsLocale.value && speakingCardsField.value);
   }
 
-  setVoiceType(type: VoiceType) {
+  toggleSpeakingCards() {
     if (!this.deckForm) return;
 
     const { speakingCardsLocale, speakingCardsField } = this.deckForm;
 
-    if (type === "none") {
+    if (this.isSpeakingCardsEnabled) {
       speakingCardsLocale.onChange(null);
       speakingCardsField.onChange(null);
-    } else if (type === "browser") {
-      if (!speakingCardsLocale.value) {
-        speakingCardsLocale.onChange(SpeakLanguage.USEnglish);
-      }
-      if (!speakingCardsField.value) {
-        speakingCardsField.onChange("front");
-      }
+      return;
+    }
+
+    if (!speakingCardsLocale.value) {
+      speakingCardsLocale.onChange(SpeakLanguage.USEnglish);
+    }
+    if (!speakingCardsField.value) {
+      speakingCardsField.onChange("front");
     }
   }
 

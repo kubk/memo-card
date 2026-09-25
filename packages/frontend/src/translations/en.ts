@@ -113,9 +113,11 @@ export const en = {
   sort_by: "Sort by",
   title: "Title",
   description: "Description",
+  speaking_cards_enable: "Enable voice",
   speaking_cards: "Speaking cards",
   voice_language: "Voice language",
   card_speak_side: "Speak side",
+  card_speak_side_hint: "The selected side is voiced automatically",
   front: "Front",
   back: "Back",
   card_speak_description:
@@ -271,10 +273,6 @@ export const en = {
 
   upgrade_pro: "Upgrade to Pro",
   upgrade: "Upgrade",
-
-  voice_type_browser: "Browser voice",
-  voice_type_browser_description: "Uses a voice available on your device",
-  voice_type_none: "None",
 
   // Global Search
   global_search_placeholder: "Search decks, folders, cards",

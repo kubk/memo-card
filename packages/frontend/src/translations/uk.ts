@@ -10,10 +10,6 @@ export const uk: Translation = {
   leaderboard_statistics: "Статистика",
   leaderboard_statistics_empty: "Поки немає результатів",
   leaderboard_empty: "Цього тижня ще немає повторень",
-  voice_type_browser: "Голос браузера",
-  voice_type_browser_description:
-    "Використовує голос, доступний на вашому пристрої",
-  voice_type_none: "Немає",
   review_custom: "Виберіть колоди",
   review_card_type: "Тип картки",
   custom_due_cards: "Картки для повторення",
@@ -175,9 +171,11 @@ export const uk: Translation = {
   sort_by: "Сортувати за",
   title: "Назва",
   description: "Опис",
+  speaking_cards_enable: "Увімкнути озвучення",
   speaking_cards: "Картки з озвучкою",
   voice_language: "Мова озвучки",
   card_speak_side: "Сторона картки",
+  card_speak_side_hint: "Обрана сторона озвучуватиметься автоматично",
   front: "Лицьова",
   back: "Зворотна",
   card_speak_description:

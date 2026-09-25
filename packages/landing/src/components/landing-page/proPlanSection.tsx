@@ -29,8 +29,7 @@ const en = {
   benefitManageTitle: "Manage your whole library",
   benefitManageDescription: "AI quickly organizes cards into decks and folders",
   benefitTranscriptionTitle: "Add phonetic transcriptions",
-  benefitTranscriptionDescription:
-    "AI adds the correct pronunciation",
+  benefitTranscriptionDescription: "AI adds the correct pronunciation",
   benefitTranslateTitle: "Translate entire decks",
   benefitTranslateDescription: "Create a copy in another language in 1 request",
   sectionTitle: "MemoCard Pro",

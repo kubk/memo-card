@@ -5,6 +5,7 @@ import { cn } from "./cn.ts";
 export type ListItemType = {
   text: ReactNode;
   isLinkColor?: boolean;
+  isDisabled?: boolean;
   onClick?: () => void;
   icon?: ReactNode;
   right?: ReactNode;
@@ -32,13 +33,15 @@ export function List(props: Props) {
         return (
           <div
             key={i}
-            onClick={item.onClick}
+            onClick={item.isDisabled ? undefined : item.onClick}
             className={cn(
-              "box-border flex items-center cursor-pointer gap-2 pl-3 bg-bg",
+              "box-border relative flex items-center gap-2 pl-3 bg-bg",
               item.alignCenter ? "justify-center" : "justify-between",
               userStore.isRtl && "pr-3",
               "first:rounded-t-xl last:rounded-b-xl",
-              animateTap &&
+              item.isDisabled ? "cursor-default" : "cursor-pointer",
+              !item.isDisabled &&
+                animateTap &&
                 "active:scale-[0.98] active:transition-transform active:duration-300 active:origin-center",
             )}
           >
@@ -46,6 +49,7 @@ export function List(props: Props) {
               className={cn(
                 "text-text flex items-center gap-2",
                 item.alignCenter ? "mr-3" : "w-full",
+                item.isDisabled && "text-disabled",
               )}
             >
               {item.icon}

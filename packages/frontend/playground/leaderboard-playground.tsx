@@ -182,9 +182,7 @@ export function LeaderboardPlayground() {
               onValueChange={(value) => {
                 const nextTotalUserCount = Number(value);
                 if (
-                  totalUserCounts.some(
-                    (count) => count === nextTotalUserCount,
-                  )
+                  totalUserCounts.some((count) => count === nextTotalUserCount)
                 ) {
                   setTotalUserCount(nextTotalUserCount);
                   setCurrentUserPosition((position) =>

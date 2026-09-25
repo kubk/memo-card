@@ -222,8 +222,8 @@ export function Playground() {
   const [previewVersion, setPreviewVersion] = useState(0);
   const [deviceId, setDeviceId] = useState<DeviceId>("iphone");
   const [propsPanelOpen, setPropsPanelOpen] = useState(false);
-  const [isMobileViewport, setIsMobileViewport] = useState(() =>
-    window.matchMedia("(max-width: 767px)").matches,
+  const [isMobileViewport, setIsMobileViewport] = useState(
+    () => window.matchMedia("(max-width: 767px)").matches,
   );
 
   const selectedComponent = PLAYGROUND_COMPONENTS.find(

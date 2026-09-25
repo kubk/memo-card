@@ -42,7 +42,6 @@ import { CircleCheckbox } from "../../../ui/circle-checkbox.tsx";
 import { CardRow } from "../../../ui/card-row.tsx";
 import { cn } from "../../../ui/cn.ts";
 import { BackBottomButton } from "../../shared/back-bottom-button.tsx";
-import { mcpT } from "../../mcp-settings/translations.ts";
 import { ChevronIcon } from "../../../ui/chevron-icon.tsx";
 
 export function ManualCardFormView() {
@@ -170,7 +169,7 @@ export function ManualCardFormView() {
                           icon={<BotIcon size={18} />}
                         />
                       ),
-                      text: mcpT("createCardsTitle"),
+                      text: "ChatGPT",
                       right: (
                         <ChevronIcon direction="right" className="text-hint" />
                       ),

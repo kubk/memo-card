@@ -26,10 +26,7 @@ const getLastCommit = () => {
 };
 
 export default defineConfig({
-  plugins: [
-    react(),
-    observerPlugin({ exclude: ["src/ui/shadcn/**"] }),
-  ],
+  plugins: [react(), observerPlugin({ exclude: ["src/ui/shadcn/**"] })],
   define: {
     __LAST_COMMIT__: JSON.stringify(getLastCommit()),
   },

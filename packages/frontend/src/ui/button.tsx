@@ -1,7 +1,4 @@
-import {
-  type ButtonHTMLAttributes,
-  type ReactNode,
-} from "react";
+import { type ButtonHTMLAttributes, type ReactNode } from "react";
 import { reset } from "./reset.ts";
 import { userStore } from "../store/user-store.ts";
 import { cn } from "./cn.ts";

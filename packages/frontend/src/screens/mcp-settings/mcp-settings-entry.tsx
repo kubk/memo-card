@@ -25,7 +25,7 @@ export function McpSettingsEntry({
                 icon={<BotIcon size={18} />}
               />
             ),
-            text: title ?? mcpT("settingsTitle"),
+            text: title ?? "ChatGPT",
             right: <ChevronIcon direction="right" className="text-hint" />,
             onClick: () => {
               screenStore.push(

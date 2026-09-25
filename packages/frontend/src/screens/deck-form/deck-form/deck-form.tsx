@@ -28,7 +28,6 @@ import { FilledIcon, TransparentIcon } from "../../../ui/filled-icon.tsx";
 import { DeckActions } from "../../shared/deck-actions.tsx";
 import { BackBottomButton } from "../../shared/back-bottom-button.tsx";
 import { McpSettingsEntry } from "../../mcp-settings/mcp-settings-entry.tsx";
-import { mcpT } from "../../mcp-settings/translations.ts";
 import { ChevronIcon } from "../../../ui/chevron-icon.tsx";
 
 export function DeckForm() {
@@ -118,7 +117,7 @@ export function DeckForm() {
 
         {!deckFormStore.deckForm?.id && (
           <McpSettingsEntry
-            title={mcpT("createCardsTitle")}
+            title="ChatGPT"
             trailingItems={[
               {
                 icon: (
@@ -192,7 +191,7 @@ export function DeckForm() {
                   right: (
                     <ListRightText
                       text={
-                        deckFormStore.deckForm.speakingCardsLocale.value
+                        deckFormStore.isSpeakingCardsEnabled
                           ? t("is_on")
                           : t("is_off")
                       }

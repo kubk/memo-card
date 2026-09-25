@@ -28,11 +28,6 @@ export const ru: Translation = {
   upgrade_pro: "Получить Pro",
   upgrade: "Тарифы",
 
-  voice_type_browser: "Голос браузера",
-  voice_type_browser_description:
-    "Использует голос, доступный на вашем устройстве",
-  voice_type_none: "Нет",
-
   login_google: "Войти через Google",
   login_telegram: "Войти через Telegram",
   login_telegram_failed: "Не удалось войти через Telegram — попробуйте ещё раз",
@@ -164,9 +159,11 @@ export const ru: Translation = {
   sort_by: "Сортировка",
   title: "Название",
   description: "Описание",
+  speaking_cards_enable: "Включить озвучку",
   speaking_cards: "Озвучка карточек",
   voice_language: "Язык озвучки",
   card_speak_side: "Сторона карточки",
+  card_speak_side_hint: "Выбранная сторона будет озвучиваться автоматически",
   front: "Лицевая",
   back: "Обратная",
   card_speak_description: "Позволяет услышать произношение",

@@ -33,7 +33,7 @@ export function McpConnectChatGptStep() {
       </div>
 
       <div className="mt-3 w-full rounded-2xl bg-secondary-bg p-4">
-        <McpField label={mcpT("nameLabel")} value={mcpT("nameValue")} />
+        <McpField label={mcpT("nameLabel")} value="Memo Card" />
         <McpField
           className="mt-4"
           label={mcpT("descriptionLabel")}
