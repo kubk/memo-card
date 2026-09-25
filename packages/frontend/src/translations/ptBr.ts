@@ -262,7 +262,6 @@ export const ptBr: Translation = {
   teacher_stats_due: "Pendentes",
   teacher_stats_repeats: "Revisões",
   teacher_stats_users: "Usuários",
-  teacher_stats_today: "Hoje",
   teacher_stats_yesterday: "Ontem",
   freeze_title: "Congelar cartões",
   freeze_rule_4:
@@ -286,13 +285,10 @@ export const ptBr: Translation = {
   // Global Search
   global_search_placeholder: "Buscar baralhos, pastas, cartões",
   global_search_no_results: "Nenhum resultado encontrado",
-  global_search_cancel: "Cancelar",
   global_search_start_typing:
     "Comece a digitar para buscar baralhos, pastas e cartões",
-  global_search_tabs_cards: "Cartões",
   global_search_tabs_decks: "Baralhos",
   global_search_tabs_folders: "Pastas",
-  global_search_context_folder: "Pasta",
   global_search_context_deck: "Baralho",
 
   // About page
@@ -307,8 +303,6 @@ export const ptBr: Translation = {
     "MemoCard ganhou prêmio no concurso. Hoje milhares de pessoas usam no mundo todo.",
   about_visit_website: "Visitar site →",
   about_github_frontend: "Repositório do GitHub do frontend →",
-
-  quit_card: "Voltar",
 
   // Wysiwyg Help
   wysiwyg_help_title: "Guia de formatação de texto",

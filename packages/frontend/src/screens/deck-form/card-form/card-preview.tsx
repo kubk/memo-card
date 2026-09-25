@@ -52,7 +52,7 @@ export function CardPreview(props: Props) {
               onBack();
             }}
           >
-            {t("quit_card")}
+            {t("go_back")}
           </Button>
         }
         cardFooter={

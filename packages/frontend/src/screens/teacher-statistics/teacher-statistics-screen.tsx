@@ -78,7 +78,7 @@ function formatDateDistance(value: string | null) {
   const diffDays = Math.floor(diffMs / (24 * 60 * 60 * 1000));
 
   if (diffDays <= 0) {
-    return t("teacher_stats_today");
+    return t("user_stats_today");
   }
 
   if (diffDays === 1) {

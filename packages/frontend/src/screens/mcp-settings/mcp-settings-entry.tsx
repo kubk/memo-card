@@ -6,14 +6,13 @@ import { userStore } from "../../store/user-store.ts";
 import { ChevronIcon } from "../../ui/chevron-icon.tsx";
 
 export function createMcpSettingsEntryItem(
-  title = "ChatGPT",
   iconBgClassName = "bg-icon-violet",
 ): ListItemType {
   return {
     icon: (
       <FilledIcon className={iconBgClassName} icon={<BotIcon size={18} />} />
     ),
-    text: title,
+    text: "ChatGPT",
     right: <ChevronIcon direction="right" className="text-hint" />,
     onClick: () => {
       screenStore.push(
@@ -26,15 +25,13 @@ export function createMcpSettingsEntryItem(
 }
 
 export function McpSettingsEntry({
-  title,
   trailingItems = [],
 }: {
-  title?: string;
   trailingItems?: ListItemType[];
 }) {
   return (
     <div className="mt-1">
-      <List items={[createMcpSettingsEntryItem(title), ...trailingItems]} />
+      <List items={[createMcpSettingsEntryItem(), ...trailingItems]} />
     </div>
   );
 }

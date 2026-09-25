@@ -253,7 +253,6 @@ export const fa: Translation = {
   teacher_stats_due: "برای مرور",
   teacher_stats_repeats: "مرورها",
   teacher_stats_users: "کاربران",
-  teacher_stats_today: "امروز",
   teacher_stats_yesterday: "دیروز",
   validate_positive: "لطفاً یک عدد مثبت وارد کنید",
   validate_under_100: "لطفاً عددی کمتر از ۱۰۰ وارد کنید",
@@ -283,13 +282,10 @@ export const fa: Translation = {
   // Global Search
   global_search_placeholder: "جستجوی دسته‌ها، پوشه‌ها، کارت‌ها",
   global_search_no_results: "نتیجه‌ای یافت نشد",
-  global_search_cancel: "لغو",
   global_search_start_typing:
     "برای جستجوی دسته‌ها، پوشه‌ها و کارت‌ها شروع به تایپ کنید",
-  global_search_tabs_cards: "کارت‌ها",
   global_search_tabs_decks: "دسته‌ها",
   global_search_tabs_folders: "پوشه‌ها",
-  global_search_context_folder: "پوشه",
   global_search_context_deck: "دسته",
 
   // About page
@@ -304,8 +300,6 @@ export const fa: Translation = {
     "MemoCard تو مسابقه جایزه برد. حالا هزاران نفر در سراسر دنیا ازش استفاده می‌کنن.",
   about_visit_website: "بازدید از وب‌سایت ←",
   about_github_frontend: "مخزن GitHub فرانت‌اند ←",
-
-  quit_card: "بازگشت",
 
   // Wysiwyg Help
   wysiwyg_help_title: "راهنمای قالب‌بندی متن",

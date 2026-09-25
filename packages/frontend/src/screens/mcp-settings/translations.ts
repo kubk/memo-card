@@ -53,13 +53,11 @@ const en = {
   appSettingsLink: "ChatGPT plugins",
   instructionSuffix: ", click “+” and enter these details:",
   nameLabel: "Name",
-  descriptionLabel: "Description",
   descriptionValue: "Manage Memo Card folders, decks, and cards",
   serverUrlLabel: "Server URL",
   authenticationLabel: "Authentication",
   authenticationInstruction: "Select “No Auth”",
   guideLink: "Guide",
-  guideBackButton: "Back",
 };
 
 type McpTranslation = Record<keyof typeof en, string>;
@@ -116,13 +114,11 @@ const ru: McpTranslation = {
   appSettingsLink: "плагины ChatGPT",
   instructionSuffix: ", нажмите «+» и укажите данные:",
   nameLabel: "Название",
-  descriptionLabel: "Описание",
   descriptionValue: "Управление папками, колодами и карточками Memo Card",
   serverUrlLabel: "URL сервера",
   authenticationLabel: "Авторизация",
   authenticationInstruction: "Выберите «Без авторизации»",
   guideLink: "Инструкция",
-  guideBackButton: "Назад",
 };
 
 const es: McpTranslation = {
@@ -179,13 +175,11 @@ const es: McpTranslation = {
   appSettingsLink: "los plugins de ChatGPT",
   instructionSuffix: ", pulsa «+» e introduce estos datos:",
   nameLabel: "Nombre",
-  descriptionLabel: "Descripción",
   descriptionValue: "Gestión de carpetas, mazos y tarjetas de Memo Card",
   serverUrlLabel: "URL del servidor",
   authenticationLabel: "Autenticación",
   authenticationInstruction: "Selecciona «Sin autenticación»",
   guideLink: "Guía",
-  guideBackButton: "Atrás",
 };
 
 const ptBr: McpTranslation = {
@@ -242,13 +236,11 @@ const ptBr: McpTranslation = {
   appSettingsLink: "os plugins do ChatGPT",
   instructionSuffix: ", toque em “+” e informe os dados:",
   nameLabel: "Nome",
-  descriptionLabel: "Descrição",
   descriptionValue: "Gerenciamento de pastas, baralhos e cartões do Memo Card",
   serverUrlLabel: "URL do servidor",
   authenticationLabel: "Autenticação",
   authenticationInstruction: "Selecione “Sem autenticação”",
   guideLink: "Guia",
-  guideBackButton: "Voltar",
 };
 
 const uk: McpTranslation = {
@@ -303,13 +295,11 @@ const uk: McpTranslation = {
   appSettingsLink: "плагіни ChatGPT",
   instructionSuffix: ", натисніть «+» і вкажіть дані:",
   nameLabel: "Назва",
-  descriptionLabel: "Опис",
   descriptionValue: "Керування папками, колодами та картками Memo Card",
   serverUrlLabel: "URL сервера",
   authenticationLabel: "Авторизація",
   authenticationInstruction: "Виберіть «Без авторизації»",
   guideLink: "Інструкція",
-  guideBackButton: "Назад",
 };
 
 const ar: McpTranslation = {
@@ -365,13 +355,11 @@ const ar: McpTranslation = {
   appSettingsLink: "إضافات ChatGPT",
   instructionSuffix: "، واضغط على «+»، ثم أدخل البيانات التالية:",
   nameLabel: "الاسم",
-  descriptionLabel: "الوصف",
   descriptionValue: "إدارة مجلدات Memo Card ومجموعاته وبطاقاته",
   serverUrlLabel: "عنوان URL للخادم",
   authenticationLabel: "المصادقة",
   authenticationInstruction: "اختر «بلا مصادقة»",
   guideLink: "الدليل",
-  guideBackButton: "رجوع",
 };
 
 const fa: McpTranslation = {
@@ -428,13 +416,11 @@ const fa: McpTranslation = {
   appSettingsLink: "افزونه‌های ChatGPT",
   instructionSuffix: " بروید، روی «+» بزنید و این اطلاعات را وارد کنید:",
   nameLabel: "نام",
-  descriptionLabel: "توضیحات",
   descriptionValue: "مدیریت پوشه‌ها، دسته‌ها و کارت‌های Memo Card",
   serverUrlLabel: "نشانی URL سرور",
   authenticationLabel: "احراز هویت",
   authenticationInstruction: "«بدون احراز هویت» را انتخاب کنید",
   guideLink: "راهنما",
-  guideBackButton: "بازگشت",
 };
 
 const mcpTranslator = new Translator<LanguageShared, McpTranslation>(

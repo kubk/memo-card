@@ -254,7 +254,6 @@ export const ru: Translation = {
   teacher_stats_due: "Пора",
   teacher_stats_repeats: "Повторы",
   teacher_stats_users: "Ученики",
-  teacher_stats_today: "Сегодня",
   teacher_stats_yesterday: "Вчера",
   card_answer_type: "Тип карточки",
   yes_no: "Помню",
@@ -285,13 +284,10 @@ export const ru: Translation = {
   // Global Search
   global_search_placeholder: "Поиск колод, папок, карточек",
   global_search_no_results: "Ничего не найдено",
-  global_search_cancel: "Отмена",
   global_search_start_typing:
     "Начните вводить текст для поиска колод, папок и карточек",
-  global_search_tabs_cards: "Карточки",
   global_search_tabs_decks: "Колоды",
   global_search_tabs_folders: "Папки",
-  global_search_context_folder: "Папка",
   global_search_context_deck: "Колода",
 
   // About page
@@ -306,8 +302,6 @@ export const ru: Translation = {
     "MemoCard получил приз в конкурсе. Сегодня тысячи людей используют его для лучшего обучения и запоминания.",
   about_visit_website: "Посетить сайт →",
   about_github_frontend: "GitHub репозиторий фронтенда →",
-
-  quit_card: "Назад",
 
   // Wysiwyg Help
   wysiwyg_help_title: "Как форматировать текст",

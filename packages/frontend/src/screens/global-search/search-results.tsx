@@ -116,7 +116,7 @@ export function SearchResults() {
         return (
           <span className="text-xs text-hint">
             {result.parentItem.type === "folder"
-              ? t("global_search_context_folder")
+              ? t("folder")
               : t("global_search_context_deck")}
             : {result.parentItem.name}
           </span>
@@ -125,7 +125,7 @@ export function SearchResults() {
         // For decks: show "Folder: FolderName" if deck is in folder
         return (
           <span className="text-xs text-hint">
-            {t("global_search_context_folder")}: {result.parentItem.name}
+            {t("folder")}: {result.parentItem.name}
           </span>
         );
       }

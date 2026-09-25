@@ -245,7 +245,6 @@ export const ar: Translation = {
   teacher_stats_due: "مستحقة",
   teacher_stats_repeats: "المراجعات",
   teacher_stats_users: "المستخدمون",
-  teacher_stats_today: "اليوم",
   teacher_stats_yesterday: "أمس",
   validate_positive: "يرجى إدخال رقم موجب",
   validate_under_100: "يرجى إدخال رقم أقل من 100",
@@ -277,13 +276,10 @@ export const ar: Translation = {
   // Global Search
   global_search_placeholder: "البحث في المجموعات، المجلدات، البطاقات",
   global_search_no_results: "لا توجد نتائج",
-  global_search_cancel: "إلغاء",
   global_search_start_typing:
     "ابدأ الكتابة للبحث في المجموعات والمجلدات والبطاقات",
-  global_search_tabs_cards: "البطاقات",
   global_search_tabs_decks: "المجموعات",
   global_search_tabs_folders: "المجلدات",
-  global_search_context_folder: "مجلد",
   global_search_context_deck: "مجموعة",
 
   // About page
@@ -298,8 +294,6 @@ export const ar: Translation = {
     "MemoCard فاز بجائزة في المسابقة. الآن يستخدمه آلاف الناس حول العالم.",
   about_visit_website: "زيارة الموقع →",
   about_github_frontend: "مستودع GitHub للواجهة الأمامية →",
-
-  quit_card: "العودة",
 
   // Wysiwyg Help
   wysiwyg_help_title: "دليل تنسيق النص",

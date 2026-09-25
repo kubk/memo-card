@@ -112,7 +112,6 @@ export function DeckForm() {
 
         {!deckFormStore.deckForm?.id && (
           <McpSettingsEntry
-            title="ChatGPT"
             trailingItems={[
               {
                 icon: (
@@ -194,7 +193,7 @@ export function DeckForm() {
                     />
                   ),
                 },
-                createMcpSettingsEntryItem("ChatGPT", "bg-icon-turquoise"),
+                createMcpSettingsEntryItem("bg-icon-turquoise"),
               ]}
             />
           </div>

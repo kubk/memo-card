@@ -50,7 +50,7 @@ export function SearchScreen() {
             className="text-link whitespace-nowrap"
             aria-label="Cancel search"
           >
-            {t("global_search_cancel")}
+            {t("confirm_cancel")}
           </button>
         </div>
         {globalSearchStore.isSearchActive && globalSearchStore.hasResults && (

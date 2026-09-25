@@ -69,7 +69,7 @@ class GlobalSearchStore {
     return [
       {
         value: "card",
-        title: t("global_search_tabs_cards"),
+        title: t("user_stats_memory"),
         count: `${cardItems.length}${hasMoreCards ? "+" : ""}`,
         disabled: cardItems.length === 0,
       },

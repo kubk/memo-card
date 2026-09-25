@@ -262,7 +262,6 @@ export const uk: Translation = {
   teacher_stats_due: "До повторення",
   teacher_stats_repeats: "Повторення",
   teacher_stats_users: "Користувачі",
-  teacher_stats_today: "Сьогодні",
   teacher_stats_yesterday: "Вчора",
   validate_positive: "Будь ласка, введіть додатне число",
   validate_under_100: "Будь ласка, введіть число менше 100",
@@ -288,13 +287,10 @@ export const uk: Translation = {
   // Global Search
   global_search_placeholder: "Пошук колод, папок, карток",
   global_search_no_results: "Нічого не знайдено",
-  global_search_cancel: "Скасувати",
   global_search_start_typing:
     "Почніть вводити текст для пошуку колод, папок та карток",
-  global_search_tabs_cards: "Картки",
   global_search_tabs_decks: "Колоди",
   global_search_tabs_folders: "Папки",
-  global_search_context_folder: "Папка",
   global_search_context_deck: "Колода",
 
   // About page
@@ -309,8 +305,6 @@ export const uk: Translation = {
     "MemoCard виграв приз на конкурсі. Зараз ним користуються тисячі людей по всьому світу.",
   about_visit_website: "Відвідати сайт →",
   about_github_frontend: "GitHub репозиторій фронтенду →",
-
-  quit_card: "Назад",
 
   // Wysiwyg Help
   wysiwyg_help_title: "Як форматувати текст",

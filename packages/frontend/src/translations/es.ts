@@ -260,7 +260,6 @@ export const es: Translation = {
   teacher_stats_due: "Pendientes",
   teacher_stats_repeats: "Repasos",
   teacher_stats_users: "Usuarios",
-  teacher_stats_today: "Hoy",
   teacher_stats_yesterday: "Ayer",
   validate_under_100: "Por favor, introduce un número menor que 100",
   validate_positive: "Por favor, introduce un número positivo",
@@ -286,13 +285,10 @@ export const es: Translation = {
   // Global Search
   global_search_placeholder: "Buscar mazos, carpetas, tarjetas",
   global_search_no_results: "No se encontraron resultados",
-  global_search_cancel: "Cancelar",
   global_search_start_typing:
     "Comienza a escribir para buscar mazos, carpetas y tarjetas",
-  global_search_tabs_cards: "Tarjetas",
   global_search_tabs_decks: "Mazos",
   global_search_tabs_folders: "Carpetas",
-  global_search_context_folder: "Carpeta",
   global_search_context_deck: "Mazo",
 
   // About page
@@ -307,8 +303,6 @@ export const es: Translation = {
     "MemoCard ganó premio en el concurso. Ahora lo usan miles de personas en todo el mundo.",
   about_visit_website: "Visitar sitio web →",
   about_github_frontend: "Repositorio de GitHub del frontend →",
-
-  quit_card: "Volver",
 
   // Wysiwyg Help
   wysiwyg_help_title: "Guía de formato de texto",

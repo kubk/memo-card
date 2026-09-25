@@ -247,7 +247,6 @@ export const en = {
   teacher_stats_due: "Due",
   teacher_stats_repeats: "Repeats",
   teacher_stats_users: "Users",
-  teacher_stats_today: "Today",
   teacher_stats_yesterday: "Yesterday",
   validate_positive: "Please enter a positive number",
   validate_under_100: "Please enter a number less than 100",
@@ -281,13 +280,10 @@ export const en = {
   // Global Search
   global_search_placeholder: "Search decks, folders, cards",
   global_search_no_results: "No results found",
-  global_search_cancel: "Cancel",
   global_search_start_typing:
     "Start typing to search for decks, folders, and cards",
-  global_search_tabs_cards: "Cards",
   global_search_tabs_decks: "Decks",
   global_search_tabs_folders: "Folders",
-  global_search_context_folder: "Folder",
   global_search_context_deck: "Deck",
 
   // About page
@@ -302,8 +298,6 @@ export const en = {
     "MemoCard won a prize at the contest. Now thousands of people around the world use it to learn better.",
   about_visit_website: "Visit Website →",
   about_github_frontend: "GitHub Frontend Repository →",
-
-  quit_card: "Back",
 
   // Wysiwyg Help
   wysiwyg_help_title: "Text Formatting Guide",

@@ -3,6 +3,7 @@ import { apiProxy } from "../../../api/trpc-api.ts";
 import { env } from "../../../env.ts";
 import { makeQuery } from "../../../lib/mobx-query-lite/make-query.ts";
 import { screenStore } from "../../../store/screen-store.ts";
+import { t } from "../../../translations/t.ts";
 import { mcpT } from "../translations.ts";
 
 export const MCP_WIZARD_STEPS = [1, 2, 3] as const;
@@ -42,7 +43,7 @@ export class McpWizardStore {
 
   get mainButtonText() {
     if (this.isGuideOpen) {
-      return mcpT("guideBackButton");
+      return t("go_back");
     }
 
     if (this.isConfigured) {
