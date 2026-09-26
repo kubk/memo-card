@@ -22,7 +22,7 @@ export const fa: Translation = {
   logout: "خروج",
   error_contact_support:
     "خطایی رخ داده است. لطفاً با پشتیبانی تماس بگیرید تا بتوانیم به شما کمک کنیم.",
-  deck_not_found: "دسته پیدا نشد",
+  deck_not_found: "پیدا نکردیم",
   deck_was_deleted: "این دسته توسط سازنده‌اش حذف شده است",
   think_error_contact_support:
     "اگر فکر می‌کنید اشتباهی رخ داده، با پشتیبانی تماس بگیرید",
@@ -79,7 +79,7 @@ export const fa: Translation = {
   selected: "انتخاب شده",
   add_deck: "افزودن دسته کارت",
   add: "افزودن",
-  edit_deck: "ویرایش دسته کارت",
+  edit_deck: "ویرایش کنید",
   edit: "ویرایش",
   view: "مشاهده",
   view_more: "مشاهده بیشتر",
@@ -110,7 +110,7 @@ export const fa: Translation = {
   category_Other: "سایر",
   save: "ذخیره",
   add_card: "افزودن کارت",
-  edit_card: "ویرایش کارت",
+  edit_card: "ویرایش کنید",
   card_preview: "پیش‌نمایش",
   more: "بیشتر",
   add_card_short: "افزودن کارت",
@@ -132,7 +132,7 @@ export const fa: Translation = {
   speaking_cards_enable: "فعال کردن صدا",
   speaking_cards: "کارت‌های گفتاری",
   voice_language: "زبان صدا",
-  speaking_card: "کارت گویا",
+  speaking_card: "بخوانید",
   card_voiceover_deck_hint: "کارت‌های گویا را می‌توانید تنظیم کنید در",
   card_voiceover_deck_settings: "تنظیمات دسته",
   card_speak_side: "طرف کارت",
@@ -316,7 +316,7 @@ export const fa: Translation = {
   card_created: "کارت ایجاد شد",
 
   // Move card to deck
-  move_card_to_deck_title: "انتقال به دسته",
+  move_card_to_deck_title: "جابجا کنید",
   move_card_without_folder: "بدون پوشه",
   move_card_open_deck: "باز کردن دسته",
 

@@ -25,7 +25,7 @@ export const ptBr: Translation = {
   browser_no_personal_decks_link: "Aprenda como usar o MemoCard em ",
   error_contact_support:
     "Ocorreu um erro. Por favor, entre em contato com o suporte para que possamos ajudar.",
-  deck_not_found: "Baralho não encontrado",
+  deck_not_found: "Não encontramos",
   deck_was_deleted: "Este baralho foi excluído pelo autor",
   think_error_contact_support:
     "Se você acha que isso é um erro, entre em contato com o suporte",
@@ -128,8 +128,8 @@ export const ptBr: Translation = {
     "Tem certeza de que deseja remover todos os cartões selecionados?",
   add_deck: "Adicionar baralho",
   add: "Adicionar",
-  edit_deck: "Editar baralho",
-  edit_card: "Editar cartão",
+  edit_deck: "Editar",
+  edit_card: "Editar",
   edit: "Editar",
   view: "Visualizar",
   view_more: "Ver mais",
@@ -176,7 +176,7 @@ export const ptBr: Translation = {
   speaking_cards_enable: "Ativar a voz",
   speaking_cards: "Cartões com voz",
   voice_language: "Idioma da voz",
-  speaking_card: "Cartão falante",
+  speaking_card: "Falar",
   card_voiceover_deck_hint: "Os cartões falantes podem ser configurados em",
   card_voiceover_deck_settings: "Configurações do baralho",
   card_speak_side: "Lado do cartão",
@@ -319,7 +319,7 @@ export const ptBr: Translation = {
   card_created: "Cartão criado",
 
   // Move card to deck
-  move_card_to_deck_title: "Mover para baralho",
+  move_card_to_deck_title: "Mover",
   move_card_without_folder: "Sem pasta",
   move_card_open_deck: "Abrir baralho",
 

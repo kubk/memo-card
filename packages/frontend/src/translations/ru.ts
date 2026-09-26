@@ -18,7 +18,7 @@ export const ru: Translation = {
   logout: "Выйти",
   error_contact_support:
     "Произошла ошибка. Пожалуйста свяжитесь с поддержкой, чтобы мы могли помочь вам.",
-  deck_not_found: "Колода не найдена",
+  deck_not_found: "Не нашли",
   deck_was_deleted: "Эта колода была удалена автором",
   think_error_contact_support:
     "Если вы считаете, что это ошибка, свяжитесь с поддержкой",
@@ -111,14 +111,14 @@ export const ru: Translation = {
   selected: "Выбрано",
   add_deck: "Добавить колоду",
   add: "Добавить",
-  edit_deck: "Редактировать колоду",
+  edit_deck: "Редактировать",
   edit: "Изменить",
   view: "Просмотр",
   view_more: "Показать ещё",
   all_decks_reviewed: `Отличная работа! 🌟 Все колоды пройдены. Возвращайтесь позже за новыми.`,
   public_decks: "Публичные колоды",
   explore_public_decks: "Больше колод",
-  edit_card: "Редактировать карточку",
+  edit_card: "Редактировать",
   news_and_updates: "Новости и обновления",
   telegram_channel: "Телеграм канал",
   settings: "Настройки",
@@ -163,8 +163,8 @@ export const ru: Translation = {
   speaking_cards_enable: "Включить озвучку",
   speaking_cards: "Озвучка карточек",
   voice_language: "Язык озвучки",
-  speaking_card: "Озвучивание карточки",
-  card_voiceover_deck_hint: "Озвучивание карточек можно настроить в разделе",
+  speaking_card: "Озвучить",
+  card_voiceover_deck_hint: "Озвучку карточек можно настроить в разделе",
   card_voiceover_deck_settings: "Настройки колоды",
   card_speak_side: "Сторона карточки",
   card_speak_side_hint: "Выбранная сторона будет озвучиваться автоматически",
@@ -318,7 +318,7 @@ export const ru: Translation = {
   card_created: "Карточка создана",
 
   // Move card to deck
-  move_card_to_deck_title: "Переместить в колоду",
+  move_card_to_deck_title: "Переместить",
   move_card_without_folder: "Без папки",
   move_card_open_deck: "Открыть колоду",
 

@@ -25,7 +25,7 @@ export const es: Translation = {
   browser_no_personal_decks_start: "No tienes mazos personales todavía",
   error_contact_support:
     "Se ha producido un error. Por favor, contacta con soporte para que podamos ayudarte.",
-  deck_not_found: "Mazo no encontrado",
+  deck_not_found: "No lo encontramos",
   deck_was_deleted: "Este mazo fue eliminado por su autor",
   think_error_contact_support:
     "Si crees que se trata de un error, contacta con soporte",
@@ -125,8 +125,8 @@ export const es: Translation = {
     "¿Estás seguro de que quieres eliminar la tarjeta? Todas las revisiones de tarjetas de todos los usuarios se perderán",
   deck_form_remove_cards_confirm:
     "¿Estás seguro de que quieres eliminar todas las tarjetas seleccionadas?",
-  edit_deck: "Editar mazo",
-  edit_card: "Editar tarjeta",
+  edit_deck: "Editar",
+  edit_card: "Editar",
   add: "Añadir",
   edit: "Editar",
   view: "Ver",
@@ -174,7 +174,7 @@ export const es: Translation = {
   speaking_cards_enable: "Activar la voz",
   speaking_cards: "Tarjetas habladas",
   voice_language: "Idioma de voz",
-  speaking_card: "Tarjeta hablada",
+  speaking_card: "Hablar",
   card_voiceover_deck_hint: "Puedes configurar las tarjetas habladas en",
   card_voiceover_deck_settings: "Ajustes del mazo",
   card_speak_side: "Lado de la tarjeta",
@@ -319,7 +319,7 @@ export const es: Translation = {
   card_created: "Tarjeta creada",
 
   // Move card to deck
-  move_card_to_deck_title: "Mover a mazo",
+  move_card_to_deck_title: "Mover",
   move_card_without_folder: "Sin carpeta",
   move_card_open_deck: "Abrir mazo",
 

@@ -23,7 +23,7 @@ export const uk: Translation = {
   logout: "Вийти",
   error_contact_support:
     "Сталася помилка. Будь ласка, зв'яжіться з підтримкою, щоб ми могли вам допомогти.",
-  deck_not_found: "Колоду не знайдено",
+  deck_not_found: "Не знайшли",
   deck_was_deleted: "Цю колоду видалив автор",
   think_error_contact_support:
     "Якщо ви вважаєте, що це помилка, зверніться до підтримки",
@@ -126,8 +126,8 @@ export const uk: Translation = {
     "Ви впевнені, що хочете видалити картку? Всі перегляди картки від усіх користувачів буде втрачено",
   deck_form_remove_cards_confirm:
     "Ви впевнені, що хочете видалити всі вибрані картки?",
-  edit_deck: "Редагувати колоду",
-  edit_card: "Редагувати картку",
+  edit_deck: "Редагувати",
+  edit_card: "Редагувати",
   add: "Додати",
   edit: "Редагувати",
   view: "Переглянути",
@@ -175,7 +175,7 @@ export const uk: Translation = {
   speaking_cards_enable: "Увімкнути озвучення",
   speaking_cards: "Картки з озвучкою",
   voice_language: "Мова озвучки",
-  speaking_card: "Озвучування картки",
+  speaking_card: "Озвучити",
   card_voiceover_deck_hint: "Озвучування карток можна налаштувати в розділі",
   card_voiceover_deck_settings: "Налаштування колоди",
   card_speak_side: "Сторона картки",
@@ -321,7 +321,7 @@ export const uk: Translation = {
   card_created: "Картку створено",
 
   // Move card to deck
-  move_card_to_deck_title: "Перемістити в колоду",
+  move_card_to_deck_title: "Перемістити",
   move_card_without_folder: "Без папки",
   move_card_open_deck: "Відкрити колоду",
 

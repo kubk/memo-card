@@ -11,7 +11,7 @@ export const en = {
   logout: "Logout",
   error_contact_support:
     "An error occurred. Please contact support so we can help you.",
-  deck_not_found: "Deck not found",
+  deck_not_found: "Can't find it",
   deck_was_deleted: "This deck was deleted by its author",
   think_error_contact_support:
     "If you think this is a mistake, contact support",
@@ -65,7 +65,7 @@ export const en = {
   browser_no_personal_decks_end: ". Happy learning! 😊",
   add_deck: "Add deck",
   add: "Add",
-  edit_deck: "Edit deck",
+  edit_deck: "Edit",
   edit: "Edit",
   view: "View",
   view_more: "View more",
@@ -95,7 +95,7 @@ export const en = {
   category_Other: "Other",
   save: "Save",
   add_card: "Add card",
-  edit_card: "Edit card",
+  edit_card: "Edit",
   card_preview: "Preview",
   more: "More",
   add_card_short: "Add card",
@@ -117,7 +117,7 @@ export const en = {
   speaking_cards_enable: "Enable voice",
   speaking_cards: "Speaking cards",
   voice_language: "Voice language",
-  speaking_card: "Speaking card",
+  speaking_card: "Speak",
   card_voiceover_deck_hint: "Speaking cards can be configured in",
   card_voiceover_deck_settings: "Deck settings",
   card_speak_side: "Speak side",
@@ -314,7 +314,7 @@ export const en = {
   card_created: "Card has been created",
 
   // Move card to deck
-  move_card_to_deck_title: "Move to deck",
+  move_card_to_deck_title: "Move",
   move_card_without_folder: "Without folder",
   move_card_open_deck: "Open deck",
 
