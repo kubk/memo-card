@@ -44,14 +44,6 @@ export function SearchScreen() {
               placeholder={t("search_card")}
             />
           </div>
-
-          <button
-            onClick={() => screenStore.back()}
-            className="text-link whitespace-nowrap"
-            aria-label="Cancel search"
-          >
-            {t("confirm_cancel")}
-          </button>
         </div>
         {globalSearchStore.isSearchActive && globalSearchStore.hasResults && (
           <SearchTabs
