@@ -31,7 +31,6 @@ export class UserSettingsStore {
     language: TextField<LanguageShared>;
   };
   userSettingsMutation = makeMutation(api.userSettings.mutate);
-  deleteAccountMutation = makeMutation(api.me.deleteAccount.mutate);
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });

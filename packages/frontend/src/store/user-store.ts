@@ -8,7 +8,6 @@ import { BooleanToggle } from "mobx-form-lite";
 import { persistableField } from "../lib/mobx-form-lite-persistable/persistable-field.ts";
 import { formatPaidUntil } from "../screens/pro/format-paid-until.tsx";
 import { assert } from "api";
-import { canDeleteItsAccount } from "api";
 import { getUserLanguage } from "api";
 import { isRtlLanguage, LanguageShared } from "api";
 import { platform } from "../lib/platform/platform.ts";
@@ -105,13 +104,6 @@ class UserStore {
   updateSettings(body: Partial<UserDbType>) {
     assert(this.userInfo);
     Object.assign(this.userInfo, body);
-  }
-
-  get canDeleteItsAccount() {
-    if (!this.user) {
-      return false;
-    }
-    return canDeleteItsAccount(this.user);
   }
 }
 

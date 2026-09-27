@@ -22,8 +22,7 @@ import { ProIcon } from "../../ui/pro-icon.tsx";
 import { ChevronIcon } from "../../ui/chevron-icon.tsx";
 import { copyToClipboard } from "../../lib/copy-to-clipboard/copy-to-clipboard.ts";
 import { assert } from "api";
-import { showConfirm } from "../../lib/platform/show-confirm.ts";
-import { notifyError, notifySuccess } from "../shared/snackbar/snackbar.tsx";
+import { notifySuccess } from "../shared/snackbar/snackbar.tsx";
 import { languageSharedToHuman, languagesShared } from "api";
 import {
   BellIcon,
@@ -34,7 +33,6 @@ import {
   ShieldIcon,
   MailIcon,
   LogOutIcon,
-  UserXIcon,
   LanguagesIcon,
   InfoIcon,
 } from "lucide-react";
@@ -312,41 +310,7 @@ export function UserSettingsScreen() {
                   platform.logout();
                 },
               },
-
-              userStore.canDeleteItsAccount
-                ? {
-                    icon: (
-                      <FilledIcon
-                        className="bg-danger"
-                        icon={<UserXIcon size={18} />}
-                      />
-                    ),
-                    text: userSettingsStore.deleteAccountMutation.isPending
-                      ? t("ui_loading")
-                      : "Delete account",
-                    onClick: async () => {
-                      const confirm = await showConfirm(
-                        "Are you sure you want to delete your account?",
-                      );
-                      if (!confirm) {
-                        return;
-                      }
-
-                      const result =
-                        await userSettingsStore.deleteAccountMutation.mutateResult();
-
-                      if (!result.ok) {
-                        notifyError({
-                          e: result.error,
-                          info: "Failed to remove account",
-                        });
-                      } else {
-                        window.location.reload();
-                      }
-                    },
-                  }
-                : null,
-            ].filter(boolNarrow)}
+            ]}
           />
         </div>
       )}
