@@ -265,7 +265,6 @@ export const en = {
   freeze_for_or_manual: "or type manually",
   freeze_notified: "You'll get notified on",
   freeze_hint: "Postpone studying cards",
-  ui_loading: "Loading...",
   is_on: "On",
   is_off: "Off",
   error_solving: "We're solving the issue",

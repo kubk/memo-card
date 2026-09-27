@@ -5,6 +5,9 @@ import { generateTimeRange } from "./generate-time-range.tsx";
 import { useMainButton } from "../../lib/platform/use-main-button.ts";
 import { useProgress } from "../../lib/platform/use-progress.tsx";
 import { RadioSwitcher } from "../../ui/radio-switcher.tsx";
+import { DropdownOrVault } from "../../ui/dropdown-or-vault.tsx";
+import { RadioBoxEmpty } from "../../ui/radio-list/radio-box-empty.tsx";
+import { RadioBoxFilled } from "../../ui/radio-list/radio-box-filled.tsx";
 import { Select } from "../../ui/select.tsx";
 import { useBackButton } from "../../lib/platform/use-back-button.ts";
 import { screenStore } from "../../store/screen-store.ts";
@@ -148,9 +151,7 @@ export function UserSettingsScreen() {
                       <div className="text-link">
                         <Select
                           value={time.value.toString()}
-                          onChange={(value) => {
-                            time.onChange(value);
-                          }}
+                          onChange={(value) => time.onChange(value)}
                           options={timeRanges.map((range) => ({
                             value: range,
                             label: range,
@@ -206,14 +207,20 @@ export function UserSettingsScreen() {
                 text: t("settings_lang"),
                 right: (
                   <div className="text-link">
-                    <Select
-                      value={language.value}
-                      onChange={(value) => {
-                        language.onChange(value);
-                      }}
+                    <DropdownOrVault
+                      trigger={
+                        <span>{languageSharedToHuman(language.value)}</span>
+                      }
+                      triggerClassName="text-left text-base text-link"
                       options={languagesShared.map((lang) => ({
-                        value: lang,
-                        label: languageSharedToHuman(lang),
+                        icon:
+                          language.value === lang ? (
+                            <RadioBoxFilled />
+                          ) : (
+                            <RadioBoxEmpty />
+                          ),
+                        text: languageSharedToHuman(lang),
+                        onClick: () => language.onChange(lang),
                       }))}
                     />
                   </div>

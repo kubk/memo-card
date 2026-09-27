@@ -277,7 +277,6 @@ export const ru: Translation = {
   validate_positive: "Пожалуйста, введите положительное число",
   validate_under_100: "Пожалуйста, введите число меньше 100",
   freeze_hint: "Отложите изучение карточек",
-  ui_loading: "Загрузка...",
   error_solving: "Мы решаем проблему",
   quit_without_saving: "Выйти без сохранения?",
 

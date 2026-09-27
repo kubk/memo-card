@@ -44,7 +44,6 @@ export const uk: Translation = {
   folder_form_no_decks: "У папці немає колод",
   card_next: "Наступна",
   card_previous: "Попередня",
-  ui_loading: "Завантаження...",
   yes_no: "Пам'ятаю",
   card_answer_type: "Тип картки",
   answer_type_explanation_choice: "Картка з варіантами відповідей",

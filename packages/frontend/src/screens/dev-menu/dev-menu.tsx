@@ -70,13 +70,6 @@ export function DevMenu({
               text: "Eruda console",
             },
             {
-              text: "Debug",
-              onClick: () => {
-                onOpenChange(false);
-                screenStore.push({ type: "debug" });
-              },
-            },
-            {
               text: "Open deck not found",
               onClick: () => {
                 onOpenChange(false);

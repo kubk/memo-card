@@ -31,7 +31,7 @@ export type DeckWithCardsWithReviewType = DeckListDeck & {
   cardsToReview: DeckCardDbTypeWithType[];
 };
 
-const authOptionalScreenTypes = ["about", "debug"];
+const authOptionalScreenTypes = ["about"];
 
 export type DeckListItem = {
   id: number;
@@ -371,8 +371,6 @@ class DeckListStore {
         .finally(appLoaderStore.disable);
     } else if (startParam === StartParamType.DeckCatalog) {
       screenStore.push({ type: "deckCatalog" });
-    } else if (startParam === StartParamType.Debug) {
-      screenStore.push({ type: "debug" });
     } else if (startParam === StartParamType.Components) {
       window.location.replace("/playground/");
     } else if (startParam === StartParamType.Settings) {

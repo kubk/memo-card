@@ -11,9 +11,11 @@ import { cn } from "../src/ui/cn.ts";
 import { Flex } from "../src/ui/flex.tsx";
 import { List } from "../src/ui/list.tsx";
 import { ProIcon } from "../src/ui/pro-icon.tsx";
+import { DropdownOrVault } from "../src/ui/dropdown-or-vault.tsx";
+import { RadioBoxEmpty } from "../src/ui/radio-list/radio-box-empty.tsx";
+import { RadioBoxFilled } from "../src/ui/radio-list/radio-box-filled.tsx";
 import { RadioList } from "../src/ui/radio-list/radio-list.tsx";
 import { reset } from "../src/ui/reset.ts";
-import { Select } from "../src/ui/select.tsx";
 
 export type CatalogCountry = "de" | "fr" | "us";
 
@@ -34,7 +36,24 @@ export function CatalogSelect({
   value: CatalogCountry;
 }) {
   return (
-    <Select value={value} onChange={onChange} options={catalogCountries} />
+    <DropdownOrVault
+      trigger={
+        <span>
+          {catalogCountries.find((country) => country.value === value)?.label}
+        </span>
+      }
+      triggerClassName="text-left text-base text-link"
+      options={catalogCountries.map((country) => ({
+        icon:
+          country.value === value ? (
+            <RadioBoxFilled />
+          ) : (
+            <RadioBoxEmpty />
+          ),
+        text: country.label,
+        onClick: () => onChange(country.value),
+      }))}
+    />
   );
 }
 

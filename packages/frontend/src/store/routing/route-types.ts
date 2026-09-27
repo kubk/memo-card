@@ -7,7 +7,6 @@ export enum StartParamType {
   Pro = "pro",
   Settings = "settings",
   Components = "ui_kit",
-  Debug = "debug",
   Break = "break",
 }
 
@@ -103,10 +102,6 @@ const plansRouteSchema = v.object({
   planType: v.literal("pro"),
 });
 
-const debugRouteSchema = v.object({
-  type: v.literal("debug"),
-});
-
 const freezeCardsRouteSchema = v.object({
   type: v.literal("freezeCards"),
 });
@@ -170,7 +165,6 @@ export const routeSchema = v.union([
   reviewCustomRouteSchema,
   deckCatalogRouteSchema,
   plansRouteSchema,
-  debugRouteSchema,
   freezeCardsRouteSchema,
   userStatisticsRouteSchema,
   userStatisticsDailyRouteSchema,

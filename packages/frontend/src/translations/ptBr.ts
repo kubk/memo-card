@@ -46,7 +46,6 @@ export const ptBr: Translation = {
   folder_form_no_decks: "Não há baralhos na pasta",
   card_next: "Próxima",
   card_previous: "Anterior",
-  ui_loading: "Carregando...",
   yes_no: "Lembrar",
   card_answer_type: "Tipo de cartão",
   answer_type_explanation_choice: `Um cartão com opções de resposta`,

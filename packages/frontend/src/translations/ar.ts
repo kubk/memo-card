@@ -261,7 +261,6 @@ export const ar: Translation = {
   freeze_for_or_manual: "أو اكتب يدويًا",
   freeze_notified: "ستتلقى إشعارًا في",
   freeze_hint: "تأجيل دراسة البطاقات",
-  ui_loading: "جارٍ التحميل...",
   is_on: "تشغيل",
   is_off: "إيقاف",
   error_solving: "نحن نحل المشكلة",

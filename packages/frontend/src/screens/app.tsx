@@ -36,7 +36,6 @@ import {
 import { PlansScreen } from "./pro/plans-screen.tsx";
 import { FreezeCardsScreenLazy } from "./freeze-cards/freeze-cards-screen-lazy.tsx";
 import { SnackbarProviderWrapper } from "./shared/snackbar/snackbar-provider-wrapper.tsx";
-import { DebugLazy } from "./debug/debug-lazy.tsx";
 import { BrowserMainButton } from "./shared/browser-platform/browser-main-button.tsx";
 import { platform } from "../lib/platform/platform.ts";
 import { BrowserPlatform } from "../lib/platform/browser/browser-platform.ts";
@@ -95,11 +94,6 @@ export function App() {
         <RouteScreenContainer>
           <VersionWarning />
 
-          {screenStore.screen.type === "debug" && (
-            <PreventTelegramSwipeDownClosingIos>
-              <DebugLazy />
-            </PreventTelegramSwipeDownClosingIos>
-          )}
           {screenStore.screen.type === "browserLogin" && <LoginScreen />}
 
           {screenStore.screen.type === "main" && (

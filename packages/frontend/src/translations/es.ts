@@ -44,7 +44,6 @@ export const es: Translation = {
   folder_form_no_decks: "No hay mazos en la carpeta",
   card_next: "Siguiente",
   card_previous: "Anterior",
-  ui_loading: "Cargando...",
   yes_no: "Recordar",
   card_answer_type: "Tipo de tarjeta",
   answer_type_explanation_choice: `Una tarjeta con opciones de respuesta`,

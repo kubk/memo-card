@@ -270,7 +270,6 @@ export const fa: Translation = {
   freeze_for_or_manual: "یا به صورت دستی وارد کنید",
   freeze_notified: "به شما اطلاع داده خواهد شد در",
   freeze_hint: "به تعویق انداختن مطالعه کارت‌ها",
-  ui_loading: "در حال بارگذاری...",
   is_on: "روشن",
   is_off: "خاموش",
   error_solving: "ما در حال حل مشکل هستیم",
