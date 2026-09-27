@@ -25,7 +25,7 @@ export function RadioList<T extends RadioItemId>(props: Props<T>) {
             key={option.id}
             className={cn(
               "flex items-center gap-2 p-4 px-3.5 bg-bg rounded-xl cursor-pointer",
-              isSelected && "outline-2 outline-button",
+              isSelected && "ring-2 ring-button",
             )}
             onClick={() => {
               platform.haptic("selection");
