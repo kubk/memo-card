@@ -2,7 +2,6 @@
 
 import fs from 'fs';
 import path from 'path';
-import { execSync } from 'child_process';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -14,7 +13,7 @@ const SRC_DIR = path.join(__dirname, 'src');
 const EN_TRANSLATIONS_FILE = path.join(TRANSLATIONS_DIR, 'en.ts');
 
 // Exclusion list for keys that don't need to be checked
-const EXCLUDED_KEYS = [
+const EXCLUDED_KEYS = new Set([
   'category_Chemistry',
   'category_English',
   'category_Geography',
@@ -22,7 +21,7 @@ const EXCLUDED_KEYS = [
   'category_Other',
   'category_Spanish',
   'category_Thai'
-];
+]);
 
 // Colors for terminal output
 const colors = {
@@ -58,59 +57,72 @@ function extractTranslationKeys() {
   }
 }
 
-function searchForKeyUsage(key) {
-  try {
-    // Search for t("key") and t('key') patterns
-    const patterns = [
-      `t\\("${key}"\\)`,
-      `t\\('${key}'\\)`,
-      `t\\\`${key}\\\``,
-      `\\b${key}\\b` // also search for the key as a word boundary (for dynamic usage)
-    ];
-    
-    for (const pattern of patterns) {
-      try {
-        const result = execSync(
-          `grep -r --include="*.ts" --include="*.tsx" --include="*.js" --include="*.jsx" --exclude-dir=translations -E '${pattern}' "${SRC_DIR}"`,
-          { encoding: 'utf8', stdio: 'pipe' }
-        );
-        
-        if (result && result.trim()) {
-          return true;
+function findUsedTranslationKeys(keys) {
+  const keysToFind = new Set(keys.filter((key) => !EXCLUDED_KEYS.has(key)));
+  const usedKeys = new Set();
+
+  if (keysToFind.size === 0) {
+    return usedKeys;
+  }
+
+  const directories = [SRC_DIR];
+  const sourceExtensions = new Set(['.ts', '.tsx', '.js', '.jsx']);
+
+  while (directories.length > 0) {
+    const directory = directories.pop();
+    let entries;
+
+    try {
+      entries = fs.readdirSync(directory, { withFileTypes: true });
+    } catch {
+      continue;
+    }
+
+    for (const entry of entries) {
+      if (entry.isDirectory()) {
+        if (entry.name !== 'translations') {
+          directories.push(path.join(directory, entry.name));
         }
-      } catch {
-        // grep returns non-zero exit code when no matches found, continue to next pattern
         continue;
       }
+
+      if (!sourceExtensions.has(path.extname(entry.name))) {
+        continue;
+      }
+
+      let content;
+
+      try {
+        content = fs.readFileSync(path.join(directory, entry.name), 'utf8');
+      } catch {
+        continue;
+      }
+
+      const wordRegex = /\b[A-Za-z_][A-Za-z0-9_]*\b/g;
+      let match;
+
+      while ((match = wordRegex.exec(content)) !== null) {
+        if (keysToFind.has(match[0])) {
+          usedKeys.add(match[0]);
+
+          if (usedKeys.size === keysToFind.size) {
+            return usedKeys;
+          }
+        }
+      }
     }
-    
-    return false;
-  } catch {
-    return false;
   }
+
+  return usedKeys;
 }
 
 function findUnusedTranslations() {
   const allKeys = extractTranslationKeys();
-  const unusedKeys = [];
-  const usedKeys = [];
-  
-  for (const key of allKeys) {
-    // Skip excluded keys
-    if (EXCLUDED_KEYS.includes(key)) {
-      usedKeys.push(key);
-      continue;
-    }
-    
-    const isUsed = searchForKeyUsage(key);
-    
-    if (isUsed) {
-      usedKeys.push(key);
-    } else {
-      unusedKeys.push(key);
-    }
-  }
-  
+  const usedKeys = findUsedTranslationKeys(allKeys);
+  const unusedKeys = allKeys.filter(
+    (key) => !EXCLUDED_KEYS.has(key) && !usedKeys.has(key)
+  );
+
   return { unusedKeys, usedKeys, total: allKeys.length };
 }
 
