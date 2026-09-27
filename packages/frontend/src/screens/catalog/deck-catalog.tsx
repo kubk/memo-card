@@ -1,27 +1,24 @@
 import { useBackButton } from "../../lib/platform/use-back-button.ts";
 import { screenStore } from "../../store/screen-store.ts";
 import { useDeckCatalogStore } from "./store/deck-catalog-store-context.tsx";
-import { Select } from "../../ui/select.tsx";
-import { DeckLanguage } from "./store/deck-catalog-store.ts";
 import { DeckListItemWithDescription } from "../../ui/deck-list-item-with-description.tsx";
 import { range } from "../../lib/array/range.ts";
 import { CardRowLoading } from "../shared/card-row-loading.tsx";
 import { NoDecksMatchingFilters } from "./no-decks-matching-filters.tsx";
 import { deckListStore } from "../../store/deck-list-store.ts";
 import { DeckAddedLabel } from "./deck-added-label.tsx";
-import { t, translateCategory } from "../../translations/t.ts";
-import { enumValues } from "../../lib/typescript/enum-values.ts";
+import { t } from "../../translations/t.ts";
 import { Screen } from "../shared/screen.tsx";
-import { LabelGroup } from "../../ui/label-group.tsx";
 import { languageFilterToNativeName } from "./translations.ts";
-import { LanguageCatalogItemAvailableIn } from "api";
 import { useBottomReached } from "../../lib/react/use-bottom-reached.ts";
 import { LoaderCircle } from "lucide-react";
+import { BottomSheet } from "../../ui/bottom-sheet/bottom-sheet.tsx";
+import { RadioList } from "../../ui/radio-list/radio-list.tsx";
+import { Skeleton } from "../../ui/skeleton.tsx";
 
 export function DeckCatalog() {
   const store = useDeckCatalogStore();
   const catalogQuery = store.catalogQuery;
-  const categoriesQuery = store.categoriesQuery;
 
   useBottomReached(
     () => {
@@ -38,34 +35,59 @@ export function DeckCatalog() {
 
   return (
     <Screen title={t("deck_catalog")}>
-      <LabelGroup title={t("category")} fullWidth>
-        <Select
-          value={store.categoryId}
-          onChange={store.setCategoryId}
-          isLoading={categoriesQuery.isFetching}
-          options={[{ value: "", label: t("any_category") }].concat(
-            (categoriesQuery.data?.categories ?? []).map((category) => ({
-              value: category.id,
-              label: translateCategory(category.name),
-            })),
+      <div className="flex flex-col gap-1">
+        <button
+          type="button"
+          className={`reset-button flex w-fit max-w-full flex-wrap items-baseline gap-x-1 text-start leading-6 ${store.categoriesQuery.isPending ? "cursor-default" : ""}`}
+          disabled={store.categoriesQuery.isPending}
+          onClick={() => store.openFilter("category")}
+        >
+          <span>{t("category")}:</span>
+          {store.categoriesQuery.isPending ? (
+            <Skeleton className="h-4 w-16 rounded" />
+          ) : (
+            <span className="text-link">
+              {store.categoryOptions.find(
+                (option) => option.id === store.categoryId,
+              )?.title ?? store.categoryId}
+            </span>
           )}
-        />
-      </LabelGroup>
+        </button>
+        <button
+          type="button"
+          className="reset-button flex w-fit max-w-full flex-wrap items-baseline gap-x-1 text-start leading-6"
+          onClick={() => store.openFilter("language")}
+        >
+          <span>{t("translated_to")}:</span>
+          <span className="text-link">
+            {languageFilterToNativeName(store.language)}
+          </span>
+        </button>
+      </div>
 
-      <LabelGroup title={t("translated_to")} fullWidth>
-        <Select<DeckLanguage>
-          value={store.language}
-          onChange={store.setLanguage}
-          options={(
-            enumValues(LanguageCatalogItemAvailableIn) as DeckLanguage[]
-          )
-            .concat(["any"])
-            .map((key) => ({
-              value: key,
-              label: languageFilterToNativeName(key),
-            }))}
+      <BottomSheet
+        title={t("category")}
+        isOpen={store.activeFilter === "category"}
+        onClose={store.closeFilter}
+      >
+        <RadioList
+          selectedId={store.categoryId}
+          options={store.categoryOptions}
+          onChange={store.setCategoryId}
         />
-      </LabelGroup>
+      </BottomSheet>
+
+      <BottomSheet
+        title={t("translated_to")}
+        isOpen={store.activeFilter === "language"}
+        onClose={store.closeFilter}
+      >
+        <RadioList
+          selectedId={store.language}
+          options={store.languageOptions}
+          onChange={store.setLanguage}
+        />
+      </BottomSheet>
 
       {(() => {
         if (catalogQuery.isPending) {

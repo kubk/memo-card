@@ -4,8 +4,14 @@ import { api, apiProxy } from "../../../api/trpc-api.ts";
 import { screenStore } from "../../../store/screen-store.ts";
 import { makeQuery } from "../../../lib/mobx-query-lite/make-query.ts";
 import { makeInfiniteQuery } from "../../../lib/mobx-query-lite/make-infinite-query.ts";
+import { enumValues } from "../../../lib/typescript/enum-values.ts";
+import { t, translateCategory } from "../../../translations/t.ts";
+import { languageFilterToNativeName } from "../translations.ts";
 
 export type DeckLanguage = "any" | LanguageCatalogItemAvailableIn;
+
+type CatalogFilter = "category" | "language";
+type ActiveFilter = CatalogFilter | null;
 
 type CatalogFilters = {
   availableIn?: DeckLanguage;
@@ -28,6 +34,7 @@ export class DeckCatalogStore {
     };
   });
   categoriesQuery = makeQuery(apiProxy.catalog.deckCategories.query);
+  activeFilter: ActiveFilter = null;
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
@@ -49,11 +56,39 @@ export class DeckCatalogStore {
     return this.route.categoryId || "";
   }
 
+  get categoryOptions() {
+    return [
+      { id: "", title: t("any_category") },
+      ...(this.categoriesQuery.data?.categories ?? []).map((category) => ({
+        id: category.id,
+        title: translateCategory(category.name),
+      })),
+    ];
+  }
+
+  get languageOptions() {
+    return (["any"] as DeckLanguage[])
+      .concat(enumValues(LanguageCatalogItemAvailableIn) as DeckLanguage[])
+      .map((key) => ({
+        id: key,
+        title: languageFilterToNativeName(key),
+      }));
+  }
+
+  openFilter(filter: CatalogFilter) {
+    this.activeFilter = filter;
+  }
+
+  closeFilter() {
+    this.activeFilter = null;
+  }
+
   setLanguage(value: DeckLanguage) {
     screenStore.replace({
       ...this.route,
       availableIn: value === "any" ? undefined : value,
     });
+    this.closeFilter();
   }
 
   setCategoryId(value: string) {
@@ -61,6 +96,7 @@ export class DeckCatalogStore {
       ...this.route,
       categoryId: value || undefined,
     });
+    this.closeFilter();
   }
 
   private get apiFilters(): CatalogFilters {
