@@ -93,7 +93,7 @@ export function UserSettingsScreen() {
         />
       </LabelGroup>
 
-      <div className="mt-1">
+      <div className="mt-3">
         <LabelGroup description={t("freeze_hint")}>
           <List
             items={[
@@ -114,7 +114,7 @@ export function UserSettingsScreen() {
         </LabelGroup>
       </div>
 
-      <div className="mt-1">
+      <div className="mt-3">
         <LabelGroup description={t("settings_review_notifications_hint")}>
           <List
             items={[
@@ -165,7 +165,7 @@ export function UserSettingsScreen() {
         </LabelGroup>
       </div>
 
-      <div className="mt-1">
+      <div className="mt-3">
         <LabelGroup description={t("card_speak_description")}>
           <List
             animateTap={false}
@@ -192,7 +192,7 @@ export function UserSettingsScreen() {
         </LabelGroup>
       </div>
 
-      <div className="mt-1">
+      <div className="mt-3">
         <LabelGroup description={t("settings_support_hint")}>
           <List
             items={[
@@ -294,7 +294,7 @@ export function UserSettingsScreen() {
       </div>
 
       {platform instanceof BrowserPlatform && (
-        <div className="mt-1">
+        <div className="mt-3">
           <List
             items={[
               {
