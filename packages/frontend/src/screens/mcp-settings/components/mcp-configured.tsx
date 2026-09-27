@@ -26,7 +26,11 @@ export function McpConfigured() {
           <CopyableValue monospace value={connectionUrl} />
         </Label>
       </div>
-      <TextButton className="mt-4" onClick={store.openGuide} type="button">
+      <TextButton
+        className="mt-4 underline"
+        onClick={store.openGuide}
+        type="button"
+      >
         {mcpT("guideLink")}
       </TextButton>
     </>

@@ -58,7 +58,7 @@ export function SpeakingCard() {
           <span className="inline">
             {t("card_voiceover_deck_hint")}{" "}
             <button
-              className="reset-button inline text-link"
+              className="reset-button inline text-link underline"
               style={{ fontSize: "inherit" }}
               onClick={store.openDeckSpeakingSettings}
             >
