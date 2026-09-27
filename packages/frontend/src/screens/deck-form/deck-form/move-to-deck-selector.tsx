@@ -1,6 +1,6 @@
 import { BottomSheet } from "../../../ui/bottom-sheet/bottom-sheet.tsx";
 import { List } from "../../../ui/list.tsx";
-import { ListHeader } from "../../../ui/list-header.tsx";
+import { LabelGroup } from "../../../ui/label-group.tsx";
 import { CircleCheckbox } from "../../../ui/circle-checkbox.tsx";
 import { cn } from "../../../ui/cn.ts";
 import { platform } from "../../../lib/platform/platform.ts";
@@ -33,8 +33,7 @@ export function MoveToDeckSelector({
           if (listItem.type !== "folder") return null;
 
           return (
-            <div key={listItem.id} className="flex flex-col gap-2">
-              <ListHeader text={listItem.name} />
+            <LabelGroup key={listItem.id} title={listItem.name}>
               <List
                 items={listItem.decks.map((deck) => ({
                   onClick: () => {
@@ -59,14 +58,13 @@ export function MoveToDeckSelector({
                   ),
                 }))}
               />
-            </div>
+            </LabelGroup>
           );
         })}
 
         {/* Render standalone decks under "Without folder" */}
         {standaloneDecks.length > 0 && (
-          <div className="flex flex-col gap-2">
-            <ListHeader text={t("move_card_without_folder")} />
+          <LabelGroup title={t("move_card_without_folder")}>
             <List
               items={standaloneDecks.map((item) => ({
                 onClick: () => {
@@ -91,7 +89,7 @@ export function MoveToDeckSelector({
                 ),
               }))}
             />
-          </div>
+          </LabelGroup>
         )}
       </div>
 

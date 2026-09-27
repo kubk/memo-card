@@ -1,4 +1,4 @@
-import { Label } from "../../../ui/label.tsx";
+import { LabelGroup } from "../../../ui/label-group.tsx";
 import { Input } from "../../../ui/input.tsx";
 import { useMainButton } from "../../../lib/platform/use-main-button.ts";
 import { useDeckFormStore } from "./store/deck-form-store-context.tsx";
@@ -8,7 +8,6 @@ import { useProgress } from "../../../lib/platform/use-progress.tsx";
 import { t } from "../../../translations/t.ts";
 import { deckListStore } from "../../../store/deck-list-store.ts";
 import { Screen } from "../../shared/screen.tsx";
-import { ListHeader } from "../../../ui/list-header.tsx";
 import { List } from "../../../ui/list.tsx";
 import { ListRightText } from "../../../ui/list-right-text.tsx";
 import { userStore } from "../../../store/user-store.ts";
@@ -87,15 +86,11 @@ export function DeckForm() {
           ) : undefined
         }
       >
-        <Label text={t("title")} isRequired>
+        <LabelGroup title={t("title")} isRequired isLabel>
           <Input field={deckFormStore.deckForm.title} />
-        </Label>
+        </LabelGroup>
 
-        <Label
-          isPlain
-          text={t("description")}
-          slotRight={<FormattingSwitcher />}
-        >
+        <LabelGroup title={t("description")} slotRight={<FormattingSwitcher />}>
           {userStore.isCardFormattingOn.value ? (
             <WysiwygField
               field={deckFormStore.deckForm.description}
@@ -108,7 +103,7 @@ export function DeckForm() {
               rows={3}
             />
           )}
-        </Label>
+        </LabelGroup>
 
         {!deckFormStore.deckForm?.id && (
           <McpSettingsEntry
@@ -168,34 +163,35 @@ export function DeckForm() {
 
         {deckFormStore.deckForm?.id && (
           <div>
-            <ListHeader text={t("advanced")} />
-            <List
-              items={[
-                {
-                  text: t("speaking_cards"),
-                  icon: (
-                    <FilledIcon
-                      className="bg-icon-blue"
-                      icon={<MicIcon size={18} className="text-white" />}
-                    />
-                  ),
-                  onClick: () => {
-                    deckFormStore.goToSpeakingCards();
+            <LabelGroup title={t("advanced")}>
+              <List
+                items={[
+                  {
+                    text: t("speaking_cards"),
+                    icon: (
+                      <FilledIcon
+                        className="bg-icon-blue"
+                        icon={<MicIcon size={18} className="text-white" />}
+                      />
+                    ),
+                    onClick: () => {
+                      deckFormStore.goToSpeakingCards();
+                    },
+                    right: (
+                      <ListRightText
+                        text={
+                          deckFormStore.isSpeakingCardsEnabled
+                            ? t("is_on")
+                            : t("is_off")
+                        }
+                        chevron
+                      />
+                    ),
                   },
-                  right: (
-                    <ListRightText
-                      text={
-                        deckFormStore.isSpeakingCardsEnabled
-                          ? t("is_on")
-                          : t("is_off")
-                      }
-                      chevron
-                    />
-                  ),
-                },
-                createMcpSettingsEntryItem("bg-icon-turquoise"),
-              ]}
-            />
+                  createMcpSettingsEntryItem("bg-icon-turquoise"),
+                ]}
+              />
+            </LabelGroup>
           </div>
         )}
 

@@ -1,11 +1,10 @@
 import { Screen } from "../../shared/screen.tsx";
 import { t } from "../../../translations/t.ts";
 import { List } from "../../../ui/list.tsx";
-import { ListHeader } from "../../../ui/list-header.tsx";
+import { LabelGroup } from "../../../ui/label-group.tsx";
 import { ListRightText } from "../../../ui/list-right-text.tsx";
 import { RadioSwitcher } from "../../../ui/radio-switcher.tsx";
 import { CircleCheckbox } from "../../../ui/circle-checkbox.tsx";
-import { HintTransparent } from "../../../ui/hint-transparent.tsx";
 import { enumEntries } from "../../../lib/typescript/enum-values.ts";
 import { languageKeyToHuman } from "../../../lib/voice-playback/speak.ts";
 import { SpeakLanguage } from "api";
@@ -73,38 +72,41 @@ export function SpeakingCards() {
 
       {isSpeakingCardsEnabled && (
         <div className="mt-3">
-          <ListHeader text={t("card_speak_side")} />
-          <List
-            items={[
-              {
-                text: t("front"),
-                onClick: () => {
-                  speakingCardsField.onChange("front");
+          <LabelGroup
+            title={t("card_speak_side")}
+            description={t("card_speak_side_hint")}
+          >
+            <List
+              items={[
+                {
+                  text: t("front"),
+                  onClick: () => {
+                    speakingCardsField.onChange("front");
+                  },
+                  right: (
+                    <CircleCheckbox
+                      checked={isFrontSide}
+                      checkedClassName={"bg-button"}
+                      onChange={() => {}}
+                    />
+                  ),
                 },
-                right: (
-                  <CircleCheckbox
-                    checked={isFrontSide}
-                    checkedClassName={"bg-button"}
-                    onChange={() => {}}
-                  />
-                ),
-              },
-              {
-                text: t("back"),
-                onClick: () => {
-                  speakingCardsField.onChange("back");
+                {
+                  text: t("back"),
+                  onClick: () => {
+                    speakingCardsField.onChange("back");
+                  },
+                  right: (
+                    <CircleCheckbox
+                      checked={!isFrontSide}
+                      checkedClassName={"bg-button"}
+                      onChange={() => {}}
+                    />
+                  ),
                 },
-                right: (
-                  <CircleCheckbox
-                    checked={!isFrontSide}
-                    checkedClassName={"bg-button"}
-                    onChange={() => {}}
-                  />
-                ),
-              },
-            ]}
-          />
-          <HintTransparent>{t("card_speak_side_hint")}</HintTransparent>
+              ]}
+            />
+          </LabelGroup>
         </div>
       )}
     </Screen>

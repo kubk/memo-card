@@ -10,7 +10,7 @@ function CardFormattingSwitcherInner({ field }: { field: BooleanToggle }) {
       onClick={() => {
         field.toggle();
       }}
-      className="reset-button text-base text-link cursor-pointer"
+      className="reset-button h-5 text-base leading-5 text-link cursor-pointer"
     >
       <span
         className="inline-block"

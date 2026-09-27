@@ -2,11 +2,10 @@ import { SpeakLanguage } from "api";
 import { Screen } from "../../shared/screen.tsx";
 import { t } from "../../../translations/t.ts";
 import { List } from "../../../ui/list.tsx";
-import { ListHeader } from "../../../ui/list-header.tsx";
+import { LabelGroup } from "../../../ui/label-group.tsx";
 import { ListRightText } from "../../../ui/list-right-text.tsx";
 import { RadioSwitcher } from "../../../ui/radio-switcher.tsx";
 import { CircleCheckbox } from "../../../ui/circle-checkbox.tsx";
-import { HintTransparent } from "../../../ui/hint-transparent.tsx";
 import { languageKeyToHuman } from "../../../lib/voice-playback/speak.ts";
 import { useBackButton } from "../../../lib/platform/use-back-button.ts";
 import { useMainButton } from "../../../lib/platform/use-main-button.ts";
@@ -30,7 +29,20 @@ export function SpeakingCard() {
 
   return (
     <Screen title={t("speaking_card")}>
-      <div>
+      <LabelGroup
+        description={
+          <span className="inline">
+            {t("card_voiceover_deck_hint")}{" "}
+            <button
+              className="reset-button inline text-link underline"
+              style={{ fontSize: "inherit" }}
+              onClick={store.openDeckSpeakingSettings}
+            >
+              {t("card_voiceover_deck_settings")}
+            </button>
+          </span>
+        }
+      >
         <List
           items={[
             {
@@ -54,36 +66,27 @@ export function SpeakingCard() {
             },
           ]}
         />
-        <HintTransparent>
-          <span className="inline">
-            {t("card_voiceover_deck_hint")}{" "}
-            <button
-              className="reset-button inline text-link underline"
-              style={{ fontSize: "inherit" }}
-              onClick={store.openDeckSpeakingSettings}
-            >
-              {t("card_voiceover_deck_settings")}
-            </button>
-          </span>
-        </HintTransparent>
-      </div>
+      </LabelGroup>
       {store.isSpeakingCardsEnabled && (
         <div className="mt-3">
-          <ListHeader text={t("card_speak_side")} />
-          <List
-            items={(["front", "back"] as const).map((side) => ({
-              text: t(side),
-              onClick: () => store.setSpeakField(side),
-              right: (
-                <CircleCheckbox
-                  checked={store.effectiveSpeakField === side}
-                  checkedClassName="bg-button"
-                  onChange={() => {}}
-                />
-              ),
-            }))}
-          />
-          <HintTransparent>{t("card_speak_side_hint")}</HintTransparent>
+          <LabelGroup
+            title={t("card_speak_side")}
+            description={t("card_speak_side_hint")}
+          >
+            <List
+              items={(["front", "back"] as const).map((side) => ({
+                text: t(side),
+                onClick: () => store.setSpeakField(side),
+                right: (
+                  <CircleCheckbox
+                    checked={store.effectiveSpeakField === side}
+                    checkedClassName="bg-button"
+                    onChange={() => {}}
+                  />
+                ),
+              }))}
+            />
+          </LabelGroup>
         </div>
       )}
     </Screen>

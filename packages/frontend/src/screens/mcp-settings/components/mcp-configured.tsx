@@ -1,5 +1,5 @@
 import { CheckIcon } from "lucide-react";
-import { Label } from "../../../ui/label.tsx";
+import { LabelGroup } from "../../../ui/label-group.tsx";
 import { TextButton } from "../../../ui/text-button.tsx";
 import { useMcpWizardStore } from "../store/mcp-wizard-store-context.tsx";
 import { mcpT } from "../translations.ts";
@@ -22,9 +22,9 @@ export function McpConfigured() {
         {mcpT("configuredTitle")}
       </h2>
       <div className="mt-6 w-full rounded-2xl bg-secondary-bg p-4">
-        <Label isPlain text={mcpT("serverUrlLabel")}>
+        <LabelGroup title={mcpT("serverUrlLabel")}>
           <CopyableValue monospace value={connectionUrl} />
-        </Label>
+        </LabelGroup>
       </div>
       <TextButton
         className="mt-4 underline"

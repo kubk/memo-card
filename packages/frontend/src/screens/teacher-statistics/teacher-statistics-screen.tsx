@@ -11,7 +11,7 @@ import { screenStore } from "../../store/screen-store.ts";
 import { cn } from "../../ui/cn.ts";
 import { ChevronIcon } from "../../ui/chevron-icon.tsx";
 import { FilledIcon } from "../../ui/filled-icon.tsx";
-import { ListHeader } from "../../ui/list-header.tsx";
+import { LabelGroup } from "../../ui/label-group.tsx";
 import { t, translator } from "../../translations/t.ts";
 import { CardRowLoading } from "../shared/card-row-loading.tsx";
 import { Screen } from "../shared/screen.tsx";
@@ -116,15 +116,19 @@ function SummaryTile(props: {
   );
 }
 
-function SectionTitle(props: { title: string; onSeeAll?: () => void }) {
+function SectionTitle(props: {
+  title: string;
+  onSeeAll?: () => void;
+  children: ReactNode;
+}) {
   return (
-    <ListHeader
-      text={props.title}
-      rightSlot={
+    <LabelGroup
+      title={props.title}
+      slotRight={
         props.onSeeAll ? (
           <button
             type="button"
-            className="absolute top-1 end-1 flex shrink-0 items-center gap-1 text-sm uppercase text-link"
+            className="flex shrink-0 items-center gap-1 text-sm uppercase text-link"
             onClick={props.onSeeAll}
           >
             {t("teacher_stats_see_all")}
@@ -132,7 +136,9 @@ function SectionTitle(props: { title: string; onSeeAll?: () => void }) {
           </button>
         ) : undefined
       }
-    />
+    >
+      {props.children}
+    </LabelGroup>
   );
 }
 
@@ -307,16 +313,19 @@ function TeacherStatisticsContent(props: { statistics: TeacherStatistics }) {
                       })
                   : undefined
               }
-            />
-            {statistics.topStudents.length > 0 ? (
-              <div className="flex flex-col gap-2">
-                {statistics.topStudents.map((student) => (
-                  <StudentRow key={student.studentId} student={student} />
-                ))}
-              </div>
-            ) : (
-              <EmptyBlock>{t("teacher_stats_no_student_activity")}</EmptyBlock>
-            )}
+            >
+              {statistics.topStudents.length > 0 ? (
+                <div className="flex flex-col gap-2">
+                  {statistics.topStudents.map((student) => (
+                    <StudentRow key={student.studentId} student={student} />
+                  ))}
+                </div>
+              ) : (
+                <EmptyBlock>
+                  {t("teacher_stats_no_student_activity")}
+                </EmptyBlock>
+              )}
+            </SectionTitle>
           </section>
 
           <section>
@@ -331,16 +340,17 @@ function TeacherStatisticsContent(props: { statistics: TeacherStatistics }) {
                       })
                   : undefined
               }
-            />
-            {statistics.topDecks.length > 0 ? (
-              <div className="flex flex-col gap-2">
-                {statistics.topDecks.map((deck) => (
-                  <DeckRow key={deck.deckId} deck={deck} />
-                ))}
-              </div>
-            ) : (
-              <EmptyBlock>{t("teacher_stats_no_deck_activity")}</EmptyBlock>
-            )}
+            >
+              {statistics.topDecks.length > 0 ? (
+                <div className="flex flex-col gap-2">
+                  {statistics.topDecks.map((deck) => (
+                    <DeckRow key={deck.deckId} deck={deck} />
+                  ))}
+                </div>
+              ) : (
+                <EmptyBlock>{t("teacher_stats_no_deck_activity")}</EmptyBlock>
+              )}
+            </SectionTitle>
           </section>
         </>
       )}

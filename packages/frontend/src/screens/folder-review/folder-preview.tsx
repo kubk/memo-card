@@ -7,7 +7,7 @@ import { Button } from "../../ui/button.tsx";
 import { useProgress } from "../../lib/platform/use-progress.tsx";
 import { t } from "../../translations/t.ts";
 import { useReviewStore } from "../deck-review/store/review-store-context.tsx";
-import { ListHeader } from "../../ui/list-header.tsx";
+import { LabelGroup } from "../../ui/label-group.tsx";
 import { ButtonGrid } from "../../ui/button-grid.tsx";
 import { DeckFolderDescription } from "../shared/deck-folder-description.tsx";
 import { Flex } from "../../ui/flex.tsx";
@@ -59,27 +59,29 @@ export function FolderPreview(props: Props) {
 
   return (
     <Flex direction={"column"} pb={82}>
-      <ListHeader text={t("folder")} />
-      <div className="flex flex-col gap-4 rounded-[12px] px-4 pb-4 pt-0 bg-bg">
-        <div className={cn("flex items-start gap-1.5")}>
-          <BrowserBackButton className="mt-3" />
-          <h3 className={cn("min-w-0 flex-1 pt-3")}>{folder.name}</h3>
-          <FolderActions folder={folder} variant="dropdown" />
+      <LabelGroup title={t("folder")}>
+        <div className="flex flex-col gap-4 rounded-[12px] px-4 pb-4 pt-0 bg-bg">
+          <div className={cn("flex items-start gap-1.5")}>
+            <BrowserBackButton className="mt-3" />
+            <h3 className={cn("min-w-0 flex-1 pt-3")}>{folder.name}</h3>
+            <FolderActions folder={folder} variant="dropdown" />
+          </div>
+          <div>
+            <DeckFolderDescription deck={folder} />
+          </div>
+          <CardReviewStats
+            isLoading={store.isInitialLoading}
+            newCardsCount={
+              folder.cardsToReview.filter((card) => card.type === "new").length
+            }
+            repeatCardsCount={
+              folder.cardsToReview.filter((card) => card.type === "repeat")
+                .length
+            }
+            totalCardsCount={cardsTotal}
+          />
         </div>
-        <div>
-          <DeckFolderDescription deck={folder} />
-        </div>
-        <CardReviewStats
-          isLoading={store.isInitialLoading}
-          newCardsCount={
-            folder.cardsToReview.filter((card) => card.type === "new").length
-          }
-          repeatCardsCount={
-            folder.cardsToReview.filter((card) => card.type === "repeat").length
-          }
-          totalCardsCount={cardsTotal}
-        />
-      </div>
+      </LabelGroup>
 
       {store.canEdit ? (
         <div className="mt-3 pb-1">
@@ -112,8 +114,7 @@ export function FolderPreview(props: Props) {
 
       {folder.decks.length > 0 && (
         <Flex pt={6} direction={"column"} gap={8}>
-          <div>
-            <ListHeader text={t("decks")} />
+          <LabelGroup title={t("decks")}>
             <List
               items={folder.decks.map((deck) => ({
                 onClick: () => {
@@ -130,7 +131,7 @@ export function FolderPreview(props: Props) {
                 ),
               }))}
             />
-          </div>
+          </LabelGroup>
         </Flex>
       )}
 

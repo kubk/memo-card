@@ -1,5 +1,5 @@
 import { Screen } from "../shared/screen.tsx";
-import { Label } from "../../ui/label.tsx";
+import { LabelGroup } from "../../ui/label-group.tsx";
 import { t } from "../../translations/t.ts";
 import { Input } from "../../ui/input.tsx";
 import { useBackButton } from "../../lib/platform/use-back-button.ts";
@@ -57,17 +57,17 @@ export function FolderForm() {
 
   return (
     <Screen title={screen.folderId ? t("edit_folder") : t("add_folder")}>
-      <Label text={t("title")} isRequired>
+      <LabelGroup title={t("title")} isRequired isLabel>
         <Input field={folderForm.title} />
-      </Label>
+      </LabelGroup>
 
-      <Label isPlain text={t("description")} slotRight={<FormattingSwitcher />}>
+      <LabelGroup title={t("description")} slotRight={<FormattingSwitcher />}>
         {userStore.isCardFormattingOn.value ? (
           <WysiwygField field={folderForm.description} allowImage={false} />
         ) : (
           <Input field={folderForm.description} type={"textarea"} rows={3} />
         )}
-      </Label>
+      </LabelGroup>
 
       {folder && (
         <div className="mt-0.5 mb-2.5">
@@ -82,11 +82,13 @@ export function FolderForm() {
         </div>
       )}
 
-      <Label text={t("decks")} isPlain>
+      <LabelGroup
+        title={folderForm.decks.value.length > 0 ? t("decks") : undefined}
+      >
         {folderForm.decks.value.length === 0 && (
-          <div className="mb-2.5">
-            <EmptyState>{t("folder_form_no_decks")}</EmptyState>
-          </div>
+          <EmptyState className="my-8 text-base">
+            {t("folder_form_no_decks")}
+          </EmptyState>
         )}
         {folderForm.decks.isTouched && folderForm.decks.error && (
           <ValidationError error={folderForm.decks.error} />
@@ -113,9 +115,9 @@ export function FolderForm() {
             };
           })}
         />
-      </Label>
+      </LabelGroup>
 
-      <Label text={t("add_deck_to_folder")} isPlain>
+      <LabelGroup title={t("add_deck_to_folder")}>
         {folderStore.decksMineQuery.isPending && <Loader />}
         {folderStore.decksMineQuery.data !== undefined &&
         folderStore.decksAvailableFiltered.length === 0 ? (
@@ -143,10 +145,10 @@ export function FolderForm() {
             };
           })}
         />
-      </Label>
+      </LabelGroup>
 
       {folderStore.decksNotAvailable.length > 0 && (
-        <Label text={t("decks_in_other_folders")} isPlain>
+        <LabelGroup title={t("decks_in_other_folders")}>
           <List
             items={folderStore.decksNotAvailable.map((deck) => {
               return {
@@ -163,7 +165,7 @@ export function FolderForm() {
               };
             })}
           />
-        </Label>
+        </LabelGroup>
       )}
     </Screen>
   );

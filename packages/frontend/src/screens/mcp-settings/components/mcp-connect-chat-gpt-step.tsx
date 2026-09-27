@@ -1,6 +1,6 @@
 import { ExternalLinkIcon } from "lucide-react";
 import { ExternalLink } from "../../../ui/external-link.tsx";
-import { Label } from "../../../ui/label.tsx";
+import { LabelGroup } from "../../../ui/label-group.tsx";
 import { t } from "../../../translations/t.ts";
 import { useMcpWizardStore } from "../store/mcp-wizard-store-context.tsx";
 import { mcpT } from "../translations.ts";
@@ -34,18 +34,18 @@ export function McpConnectChatGptStep() {
         {mcpT("instructionSuffix")}
       </div>
 
-      <div className="mt-3 flex w-full flex-col gap-4 rounded-2xl bg-secondary-bg p-4">
+      <div className="mt-3 flex w-full flex-col gap-5 rounded-2xl bg-secondary-bg p-4">
         <McpField label={mcpT("nameLabel")} value="Memo Card" />
         <McpField label={t("description")} value={mcpT("descriptionValue")} />
-        <Label isPlain text={mcpT("serverUrlLabel")}>
+        <LabelGroup title={mcpT("serverUrlLabel")}>
           <CopyableValue monospace value={connectionUrl} />
-        </Label>
+        </LabelGroup>
 
-        <Label isPlain text={mcpT("authenticationLabel")}>
-          <div className="py-2 ps-3 text-sm font-medium text-text">
+        <LabelGroup title={mcpT("authenticationLabel")}>
+          <div className="py-1 ps-3 text-sm font-medium text-text">
             {mcpT("authenticationInstruction")}
           </div>
-        </Label>
+        </LabelGroup>
       </div>
     </>
   );

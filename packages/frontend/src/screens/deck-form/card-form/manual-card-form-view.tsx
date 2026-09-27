@@ -5,15 +5,13 @@ import { useBackButton } from "../../../lib/platform/use-back-button.ts";
 import { userStore } from "../../../store/user-store.ts";
 import { Screen } from "../../shared/screen.tsx";
 import { Flex } from "../../../ui/flex.tsx";
-import { Label } from "../../../ui/label.tsx";
+import { LabelGroup } from "../../../ui/label-group.tsx";
 import {
   FormattingSwitcher,
   QuickCardFormattingSwitcher,
 } from "./formatting-switcher.tsx";
 import { WysiwygField } from "../../../ui/wysiwyg-field/wysiwig-field.tsx";
 import { Input } from "../../../ui/input.tsx";
-import { HintTransparent } from "../../../ui/hint-transparent.tsx";
-import { ListHeader } from "../../../ui/list-header.tsx";
 import { List } from "../../../ui/list.tsx";
 import { FilledIcon } from "../../../ui/filled-icon.tsx";
 import { ListRightText } from "../../../ui/list-right-text.tsx";
@@ -138,34 +136,32 @@ export function ManualCardFormView() {
         }
       >
         <Flex direction={"column"} gap={16}>
-          <Label
-            text={t("card_front_title")}
-            isPlain
+          <LabelGroup
+            title={t("card_front_title")}
             isRequired
             slotRight={<FormattingSwitcher />}
+            description={t("card_front_side_hint")}
           >
             {isCardFormattingOn ? (
               <WysiwygField field={cardForm.front} />
             ) : (
               <Input field={cardForm.front} type={"textarea"} rows={2} />
             )}
-            <HintTransparent>{t("card_front_side_hint")}</HintTransparent>
-          </Label>
+          </LabelGroup>
 
           {cardForm.answerType.value === "remember" && (
-            <Label
-              text={t("card_back_title")}
-              isPlain
+            <LabelGroup
+              title={t("card_back_title")}
               isRequired
               slotRight={<FormattingSwitcher />}
+              description={t("card_back_side_hint")}
             >
               {isCardFormattingOn ? (
                 <WysiwygField field={cardForm.back} />
               ) : (
                 <Input field={cardForm.back} type={"textarea"} rows={2} />
               )}
-              <HintTransparent>{t("card_back_side_hint")}</HintTransparent>
-            </Label>
+            </LabelGroup>
           )}
         </Flex>
 
@@ -210,75 +206,72 @@ export function ManualCardFormView() {
 
         {cardForm.answerType.value !== "remember" && (
           <div className="w-full">
-            <ListHeader
-              text={formatCardType(cardForm.answerType.value)}
-              rightSlot={
-                <>
-                  <span className="pl-1 text-danger">*</span>
-                  {cardForm.answers.value.length > 0 ? (
-                    <span className="absolute -top-1 end-3 normal-case">
-                      <QuickCardFormattingSwitcher />
-                    </span>
-                  ) : undefined}
-                </>
+            <LabelGroup
+              title={formatCardType(cardForm.answerType.value)}
+              isRequired
+              slotRight={
+                cardForm.answers.value.length > 0 ? (
+                  <QuickCardFormattingSwitcher />
+                ) : undefined
               }
-            />
-            <div className="flex flex-col gap-1">
-              {cardForm.answers.value.map((answerForm) => (
-                <div
-                  key={answerForm.id}
-                  className={cn("flex items-start gap-2 relative", {})}
-                >
+            >
+              <div className="flex flex-col gap-1">
+                {cardForm.answers.value.map((answerForm) => (
                   <div
-                    className={cn("mt-[16px]", {
-                      "mt-[5px]": isQuizzCardFormattingOn,
-                    })}
-                    onClick={() =>
-                      cardFormStore.toggleAnswerCorrect(answerForm.id)
-                    }
+                    key={answerForm.id}
+                    className={cn("flex items-start gap-2 relative", {})}
                   >
-                    <CircleCheckbox
-                      checkedClassName="bg-success"
-                      checked={answerForm.isCorrect.value}
-                      onChange={() => {}}
-                    />
-                  </div>
-                  <div className="flex-1">
-                    {isQuizzCardFormattingOn ? (
-                      <WysiwygField field={answerForm.text} />
-                    ) : (
-                      <Input
-                        field={answerForm.text}
-                        placeholder={t("answer_text")}
+                    <div
+                      className={cn("mt-[16px]", {
+                        "mt-[5px]": isQuizzCardFormattingOn,
+                      })}
+                      onClick={() =>
+                        cardFormStore.toggleAnswerCorrect(answerForm.id)
+                      }
+                    >
+                      <CircleCheckbox
+                        checkedClassName="bg-success"
+                        checked={answerForm.isCorrect.value}
+                        onChange={() => {}}
                       />
-                    )}
+                    </div>
+                    <div className="flex-1">
+                      {isQuizzCardFormattingOn ? (
+                        <WysiwygField field={answerForm.text} />
+                      ) : (
+                        <Input
+                          field={answerForm.text}
+                          placeholder={t("answer_text")}
+                        />
+                      )}
+                    </div>
+                    <button
+                      type="button"
+                      className={cn("mt-[19px]", {
+                        "mt-[7px]": isQuizzCardFormattingOn,
+                      })}
+                      onClick={() => cardFormStore.deleteAnswer(answerForm.id)}
+                    >
+                      <TrashIcon size={18} />
+                    </button>
                   </div>
-                  <button
-                    type="button"
-                    className={cn("mt-[19px]", {
-                      "mt-[7px]": isQuizzCardFormattingOn,
-                    })}
-                    onClick={() => cardFormStore.deleteAnswer(answerForm.id)}
-                  >
-                    <TrashIcon size={18} />
-                  </button>
-                </div>
-              ))}
+                ))}
 
-              <CardRow
-                className={cn({
-                  "mt-[3px]": cardForm.answers.value.length > 0,
-                })}
-                onClick={cardFormStore.addAnswer}
-              >
-                <span className="flex items-center gap-2 text-link">
-                  <PlusIcon size={18} className="text-inherit" />{" "}
-                  {t("add_answer")}
-                </span>
-              </CardRow>
+                <CardRow
+                  className={cn({
+                    "mt-[3px]": cardForm.answers.value.length > 0,
+                  })}
+                  onClick={cardFormStore.addAnswer}
+                >
+                  <span className="flex items-center gap-2 text-link">
+                    <PlusIcon size={18} className="text-inherit" />{" "}
+                    {t("add_answer")}
+                  </span>
+                </CardRow>
 
-              <CardAnswerErrors cardForm={cardForm} />
-            </div>
+                <CardAnswerErrors cardForm={cardForm} />
+              </div>
+            </LabelGroup>
           </div>
         )}
 

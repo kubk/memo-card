@@ -5,7 +5,7 @@ import { deckListStore } from "../../store/deck-list-store.ts";
 import { Hint } from "../../ui/hint.tsx";
 import { screenStore } from "../../store/screen-store.ts";
 import { CardRowLoading } from "../shared/card-row-loading.tsx";
-import { ListHeader } from "../../ui/list-header.tsx";
+import { LabelGroup } from "../../ui/label-group.tsx";
 import { range } from "../../lib/array/range.ts";
 import { ViewMoreDecksToggle } from "./view-more-decks-toggle.tsx";
 import { t } from "../../translations/t.ts";
@@ -47,15 +47,14 @@ export function MainScreen() {
       <WeekHeatmap />
       <GlobalSearchTrigger />
 
-      <div>
-        <ListHeader
-          text={t("my_decks")}
-          rightSlot={
-            deckListStore.shouldShowMyDecksToggle ? (
-              <ViewMoreDecksToggle />
-            ) : undefined
-          }
-        />
+      <LabelGroup
+        title={t("my_decks")}
+        slotRight={
+          deckListStore.shouldShowMyDecksToggle ? (
+            <ViewMoreDecksToggle />
+          ) : undefined
+        }
+      >
         <Flex direction={"column"} gap={6}>
           {deckListStore.myInfoQuery.isPending &&
             range(deckListStore.skeletonLoaderData.myDecksCount).map((i) => (
@@ -154,10 +153,9 @@ export function MainScreen() {
             <Hint>{t("all_decks_reviewed")}</Hint>
           )}
         </Flex>
-      </div>
+      </LabelGroup>
 
-      <div>
-        <ListHeader text={t("public_decks")} />
+      <LabelGroup title={t("public_decks")}>
         <Flex direction={"column"} gap={6}>
           {deckListStore.myInfo ? (
             <>
@@ -182,12 +180,11 @@ export function MainScreen() {
               <CardRowLoading key={i} />
             ))}
         </Flex>
-      </div>
+      </LabelGroup>
 
       {deckListStore.myInfo && (
         <>
-          <div>
-            <ListHeader text={t("news_and_updates")} />
+          <LabelGroup title={t("news_and_updates")}>
             <List
               items={[
                 {
@@ -230,10 +227,9 @@ export function MainScreen() {
                     },
               ].filter(boolNarrow)}
             />
-          </div>
+          </LabelGroup>
 
-          <div>
-            <ListHeader text={t("profile_section")} />
+          <LabelGroup title={t("profile_section")}>
             <List
               items={[
                 {
@@ -272,7 +268,7 @@ export function MainScreen() {
                   : null,
               ].filter(boolNarrow)}
             />
-          </div>
+          </LabelGroup>
         </>
       )}
     </Flex>

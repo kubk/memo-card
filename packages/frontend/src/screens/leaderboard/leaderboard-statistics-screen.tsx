@@ -5,6 +5,7 @@ import { useBottomReached } from "../../lib/react/use-bottom-reached.ts";
 import { screenStore } from "../../store/screen-store.ts";
 import { t, translator } from "../../translations/t.ts";
 import { cn } from "../../ui/cn.ts";
+import { LabelGroup } from "../../ui/label-group.tsx";
 import { Skeleton } from "../../ui/skeleton.tsx";
 import { Screen } from "../shared/screen.tsx";
 import { LeaderboardMedal } from "./leaderboard-medal.tsx";
@@ -27,16 +28,17 @@ function Podium({
       .replace(/\.$/, "");
 
   return (
-    <section>
-      <h2 className="mb-2 px-1 text-[15px] font-medium leading-6 text-hint">
-        {result ? (
-          <time dateTime={new Date(result.date).toISOString()}>{date}</time>
+    <LabelGroup
+      title={
+        result ? (
+          date
         ) : (
-          <span className="flex h-6 items-center">
-            <Skeleton className="h-4 w-36 rounded" />
+          <span className="flex h-5 items-center">
+            <Skeleton className="h-3.5 w-36 rounded" />
           </span>
-        )}
-      </h2>
+        )
+      }
+    >
       <div
         dir="ltr"
         className="flex items-end gap-2 rounded-xl bg-bg px-5 pb-6 pt-5"
@@ -80,7 +82,7 @@ function Podium({
           );
         })}
       </div>
-    </section>
+    </LabelGroup>
   );
 }
 

@@ -3,6 +3,7 @@ import EasySpeech from "easy-speech";
 import { screenStore } from "../../store/screen-store.ts";
 import { useBackButton } from "../../lib/platform/use-back-button.ts";
 import { Select } from "../../ui/select.tsx";
+import { LabelGroup } from "../../ui/label-group.tsx";
 import {
   getVoicesByLanguage,
   speak as customSpeak,
@@ -163,8 +164,7 @@ export function SpeechTest() {
       <h1 className="text-2xl font-bold text-text">Speech Synthesis Test</h1>
 
       {/* Language Tabs */}
-      <div className="flex flex-col gap-2">
-        <label className="text-text font-medium">Language:</label>
+      <LabelGroup title="Language">
         <div className="flex gap-2">
           {LANGUAGES.map((lang) => (
             <button
@@ -180,11 +180,10 @@ export function SpeechTest() {
             </button>
           ))}
         </div>
-      </div>
+      </LabelGroup>
 
       {/* Voice Method Tabs */}
-      <div className="flex flex-col gap-2">
-        <label className="text-text font-medium">Voice Method:</label>
+      <LabelGroup title="Voice Method">
         <div className="flex gap-2">
           <button
             onClick={() => setVoiceMethod("default")}
@@ -217,10 +216,9 @@ export function SpeechTest() {
             Custom Speak
           </button>
         </div>
-      </div>
+      </LabelGroup>
 
-      <div className="flex flex-col gap-2">
-        <label className="text-text font-medium">Text to speak:</label>
+      <LabelGroup title="Text to speak">
         <input
           type="text"
           value={text}
@@ -228,7 +226,7 @@ export function SpeechTest() {
           className="py-3.5 px-2.5 text-base border-2 border-solid rounded-xl bg-bg border-secondary-bg focus:outline-none focus:border-button transition-colors duration-300"
           placeholder="Enter text to speak..."
         />
-      </div>
+      </LabelGroup>
 
       {voiceMethod === "select" && (
         <>
@@ -237,10 +235,7 @@ export function SpeechTest() {
           )}
 
           {isInitialized && (
-            <div className="flex flex-col gap-2">
-              <label className="text-text font-medium">
-                Voice ({voices.length} available):
-              </label>
+            <LabelGroup title={`Voice (${voices.length} available)`}>
               {voices.length > 0 ? (
                 <Select
                   value={selectedVoice}
@@ -252,7 +247,7 @@ export function SpeechTest() {
                   No voices available for selected language
                 </div>
               )}
-            </div>
+            </LabelGroup>
           )}
         </>
       )}

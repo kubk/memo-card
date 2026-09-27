@@ -1,10 +1,9 @@
 import { Screen } from "../../shared/screen.tsx";
-import { Label } from "../../../ui/label.tsx";
+import { LabelGroup } from "../../../ui/label-group.tsx";
 import { t } from "../../../translations/t.ts";
 import { FormattingSwitcher } from "./formatting-switcher.tsx";
 import { WysiwygField } from "../../../ui/wysiwyg-field/wysiwig-field.tsx";
 import { Input } from "../../../ui/input.tsx";
-import { HintTransparent } from "../../../ui/hint-transparent.tsx";
 import { userStore } from "../../../store/user-store.ts";
 import { useBackButton } from "../../../lib/platform/use-back-button.ts";
 import { useMainButton } from "../../../lib/platform/use-main-button.ts";
@@ -26,18 +25,17 @@ export function CardExample() {
 
   return (
     <Screen title={t("card_field_example_title")}>
-      <Label
-        isPlain
-        text={t("card_field_example_title")}
+      <LabelGroup
+        title={t("card_field_example_title")}
         slotRight={<FormattingSwitcher />}
+        description={t("card_field_example_hint")}
       >
         {isCardFormattingOn ? (
           <WysiwygField field={cardForm.example} />
         ) : (
           <Input field={cardForm.example} type={"textarea"} rows={2} />
         )}
-        <HintTransparent>{t("card_field_example_hint")}</HintTransparent>
-      </Label>
+      </LabelGroup>
     </Screen>
   );
 }

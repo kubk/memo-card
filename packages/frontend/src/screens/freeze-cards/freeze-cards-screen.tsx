@@ -12,6 +12,7 @@ import { useProgress } from "../../lib/platform/use-progress.tsx";
 import { t } from "../../translations/t.ts";
 import { formatDays } from "./translations.ts";
 import { List } from "../../ui/list.tsx";
+import { LabelGroup } from "../../ui/label-group.tsx";
 import { BottomSheet } from "../../ui/bottom-sheet/bottom-sheet.tsx";
 import { SnowflakeIcon } from "lucide-react";
 import { addDays } from "date-fns";
@@ -59,30 +60,36 @@ export function FreezeCardsScreen() {
         ]}
       />
 
-      <div className="self-center text-center flex flex-col gap-1 text-hint w-full text-sm">
-        <span>{t("freeze_for")}</span>
-        <Flex gap={8}>
-          {[1, 3, 5].map((days) => {
-            return (
-              <Chip
-                key={days}
-                fullWidth
-                isSelected={form.freezeCardSelect.value === days}
-                onClick={() => form.freezeCardSelect.onChange(days)}
-              >
-                {formatDays(days)}
-              </Chip>
-            );
-          })}
-        </Flex>
-        <span>{t("freeze_for_or_manual")}</span>
-        <Input field={form.freezeCardInput} />
-      </div>
-      {store.freezeDays ? (
-        <div className="text-hint self-center text-sm">
-          {t("freeze_notified")} {formatFreezeEndDate(store.freezeDays)}
+      <LabelGroup
+        className="self-center w-full"
+        description={
+          store.freezeDays ? (
+            <div className="text-center">
+              {t("freeze_notified")} {formatFreezeEndDate(store.freezeDays)}
+            </div>
+          ) : undefined
+        }
+      >
+        <div className="self-center text-center flex flex-col gap-1 text-hint w-full text-sm">
+          <span>{t("freeze_for")}</span>
+          <Flex gap={8}>
+            {[1, 3, 5].map((days) => {
+              return (
+                <Chip
+                  key={days}
+                  fullWidth
+                  isSelected={form.freezeCardSelect.value === days}
+                  onClick={() => form.freezeCardSelect.onChange(days)}
+                >
+                  {formatDays(days)}
+                </Chip>
+              );
+            })}
+          </Flex>
+          <span>{t("freeze_for_or_manual")}</span>
+          <Input field={form.freezeCardInput} />
         </div>
-      ) : null}
+      </LabelGroup>
 
       <BottomSheet
         title={t("how")}

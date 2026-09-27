@@ -1,10 +1,10 @@
-import { Label } from "../../../ui/label.tsx";
+import { LabelGroup } from "../../../ui/label-group.tsx";
 import { CopyableValue } from "./copyable-value.tsx";
 
 export function McpField({ label, value }: { label: string; value: string }) {
   return (
-    <Label isPlain text={label}>
+    <LabelGroup title={label}>
       <CopyableValue value={value} />
-    </Label>
+    </LabelGroup>
   );
 }

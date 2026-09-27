@@ -10,7 +10,7 @@ import { List } from "../../ui/list.tsx";
 import { FilledIcon } from "../../ui/filled-icon.tsx";
 import { FlameIcon, LoaderCircleIcon, TrophyIcon } from "lucide-react";
 import { formatDays } from "../../translations/format-days.ts";
-import { ListHeader } from "../../ui/list-header.tsx";
+import { LabelGroup } from "../../ui/label-group.tsx";
 import { translator } from "../../translations/t.ts";
 import { ChevronIcon } from "../../ui/chevron-icon.tsx";
 import { formatNumber } from "../../translations/format-number.ts";
@@ -106,8 +106,9 @@ function Section(props: {
 }) {
   return (
     <section className="mt-2">
-      <ListHeader text={props.title} rightSlot={props.rightSlot} />
-      {props.children}
+      <LabelGroup title={props.title} slotRight={props.rightSlot}>
+        {props.children}
+      </LabelGroup>
     </section>
   );
 }
@@ -241,7 +242,7 @@ function UserStatisticsContent(props: {
         rightSlot={
           <button
             type="button"
-            className="absolute top-1 end-1 flex shrink-0 items-center gap-1 text-sm uppercase text-link"
+            className="flex shrink-0 items-center gap-1 text-sm uppercase text-link"
             onClick={() => {
               screenStore.push({ type: "userStatisticsDaily" });
             }}

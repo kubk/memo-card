@@ -12,7 +12,7 @@ import { DeckAddedLabel } from "./deck-added-label.tsx";
 import { t, translateCategory } from "../../translations/t.ts";
 import { enumValues } from "../../lib/typescript/enum-values.ts";
 import { Screen } from "../shared/screen.tsx";
-import { Flex } from "../../ui/flex.tsx";
+import { LabelGroup } from "../../ui/label-group.tsx";
 import { languageFilterToNativeName } from "./translations.ts";
 import { LanguageCatalogItemAvailableIn } from "api";
 import { useBottomReached } from "../../lib/react/use-bottom-reached.ts";
@@ -38,8 +38,7 @@ export function DeckCatalog() {
 
   return (
     <Screen title={t("deck_catalog")}>
-      <Flex gap={4}>
-        <div className="text-hint">{t("category")}</div>
+      <LabelGroup title={t("category")} fullWidth>
         <Select
           value={store.categoryId}
           onChange={store.setCategoryId}
@@ -51,10 +50,9 @@ export function DeckCatalog() {
             })),
           )}
         />
-      </Flex>
+      </LabelGroup>
 
-      <Flex gap={4}>
-        <div className="text-hint">{t("translated_to")}</div>
+      <LabelGroup title={t("translated_to")} fullWidth>
         <Select<DeckLanguage>
           value={store.language}
           onChange={store.setLanguage}
@@ -67,7 +65,7 @@ export function DeckCatalog() {
               label: languageFilterToNativeName(key),
             }))}
         />
-      </Flex>
+      </LabelGroup>
 
       {(() => {
         if (catalogQuery.isPending) {

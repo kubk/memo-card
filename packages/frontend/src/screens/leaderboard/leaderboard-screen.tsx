@@ -6,7 +6,7 @@ import { platform } from "../../lib/platform/platform.ts";
 import { userStore } from "../../store/user-store.ts";
 import { ChevronIcon } from "../../ui/chevron-icon.tsx";
 import { cn } from "../../ui/cn.ts";
-import { ListHeader } from "../../ui/list-header.tsx";
+import { LabelGroup } from "../../ui/label-group.tsx";
 import { Skeleton } from "../../ui/skeleton.tsx";
 import { formatNumber } from "../../translations/format-number.ts";
 import { t } from "../../translations/t.ts";
@@ -158,55 +158,57 @@ function LeaderboardContent({
 
   return (
     <>
-      <ListHeader
-        text={t("leaderboard_this_week")}
-        rightSlot={
+      <LabelGroup
+        title={t("leaderboard_this_week")}
+        slotRight={
           <button
             type="button"
             onClick={() => screenStore.push({ type: "leaderboardStatistics" })}
-            className="absolute top-1 end-1 flex shrink-0 items-center gap-1 text-sm uppercase text-link"
+            className="flex shrink-0 items-center gap-1 text-sm uppercase text-link"
           >
             {t("leaderboard_statistics")}
             <ChevronIcon direction="right" />
           </button>
         }
-      />
-
-      <PositionCard
-        currentUser={data?.currentUser}
-        isLoading={isLoading}
-        participantCount={data?.participantCount}
-        userAvatarUrl={userAvatarUrl}
-        avatarPeerId={avatarPeerId}
-        avatarFallbackName={avatarFallbackName ?? ""}
-      />
+      >
+        <PositionCard
+          currentUser={data?.currentUser}
+          isLoading={isLoading}
+          participantCount={data?.participantCount}
+          userAvatarUrl={userAvatarUrl}
+          avatarPeerId={avatarPeerId}
+          avatarFallbackName={avatarFallbackName ?? ""}
+        />
+      </LabelGroup>
 
       <div className="mt-2">
-        <ListHeader text={t("leaderboard")} />
-        {!topEntries || topEntries.length > 0 ? (
-          <div className="overflow-hidden rounded-xl bg-bg">
-            {topEntries
-              ? topEntries.map((entry) => (
-                  <LeaderboardRow key={entry.rank} entry={entry} />
-                ))
-              : loadingRows.map((row) => <LeaderboardRow key={row} />)}
-          </div>
-        ) : (
-          <div className="rounded-xl bg-bg px-4 py-8 text-center">
-            <TrophyIcon className="mx-auto text-hint" size={28} />
-            <div className="mt-2 text-[14px] text-hint">
-              {t("leaderboard_empty")}
+        <LabelGroup title={t("leaderboard")}>
+          {!topEntries || topEntries.length > 0 ? (
+            <div className="overflow-hidden rounded-xl bg-bg">
+              {topEntries
+                ? topEntries.map((entry) => (
+                    <LeaderboardRow key={entry.rank} entry={entry} />
+                  ))
+                : loadingRows.map((row) => <LeaderboardRow key={row} />)}
             </div>
-          </div>
-        )}
+          ) : (
+            <div className="rounded-xl bg-bg px-4 py-8 text-center">
+              <TrophyIcon className="mx-auto text-hint" size={28} />
+              <div className="mt-2 text-[14px] text-hint">
+                {t("leaderboard_empty")}
+              </div>
+            </div>
+          )}
+        </LabelGroup>
       </div>
 
       {currentUserOutsideTopTen && (
         <div className="mt-2">
-          <ListHeader text={t("leaderboard_your_position")} />
-          <div className="overflow-hidden rounded-xl bg-bg">
-            <LeaderboardRow entry={currentUserOutsideTopTen} />
-          </div>
+          <LabelGroup title={t("leaderboard_your_position")}>
+            <div className="overflow-hidden rounded-xl bg-bg">
+              <LeaderboardRow entry={currentUserOutsideTopTen} />
+            </div>
+          </LabelGroup>
         </div>
       )}
     </>

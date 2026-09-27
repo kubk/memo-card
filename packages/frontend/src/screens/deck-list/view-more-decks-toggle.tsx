@@ -8,7 +8,7 @@ export function ViewMoreDecksToggle() {
   return (
     <button
       className={cn(
-        "absolute top-1 text-link text-sm uppercase flex items-center gap-1 end-3",
+        "text-link text-sm uppercase flex shrink-0 items-center gap-1",
       )}
       onClick={() => {
         platform.haptic("selection");

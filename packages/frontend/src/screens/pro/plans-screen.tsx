@@ -20,7 +20,7 @@ import { cn } from "../../ui/cn.ts";
 import { ExternalLink } from "../../ui/external-link.tsx";
 import { Flex } from "../../ui/flex.tsx";
 import { FullScreenLoader } from "../../ui/full-screen-loader.tsx";
-import { Label } from "../../ui/label.tsx";
+import { LabelGroup } from "../../ui/label-group.tsx";
 import { RadioList } from "../../ui/radio-list/radio-list.tsx";
 import { Screen } from "../shared/screen.tsx";
 import { ErrorScreen } from "../error-screen/error-screen.tsx";
@@ -99,7 +99,7 @@ function PaymentOptions({ store }: { store: PlansScreenStore }) {
 
   return (
     <>
-      <Label fullWidth text={t("payment_choose_method")}>
+      <LabelGroup title={t("payment_choose_method")} fullWidth isLabel>
         <RadioList<PaymentMethodType | null>
           selectedId={store.method}
           options={[
@@ -125,11 +125,12 @@ function PaymentOptions({ store }: { store: PlansScreenStore }) {
           ]}
           onChange={store.updateMethod}
         />
-      </Label>
+      </LabelGroup>
 
-      <Label
+      <LabelGroup
         fullWidth
-        text={
+        isLabel
+        title={
           durationDisplayMethod === PaymentMethodType.Usd
             ? t("payment_choose_subscription")
             : t("payment_choose_duration")
@@ -187,7 +188,7 @@ function PaymentOptions({ store }: { store: PlansScreenStore }) {
           })}
           onChange={store.selectedPlanDuration.onChange}
         />
-      </Label>
+      </LabelGroup>
     </>
   );
 }
