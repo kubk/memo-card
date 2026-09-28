@@ -44,233 +44,239 @@ export function MainScreen() {
     <Flex direction={"column"} gap={12} pb={48}>
       <DeckOrFolderChoose toggle={deckFolderToggle} />
       <RuEduVideoChoice toggle={ruEduVideoToggle} />
-      <WeekHeatmap />
-      <GlobalSearchTrigger />
+      <Flex direction={"column"} gap={6}>
+        <WeekHeatmap />
+        <GlobalSearchTrigger />
+      </Flex>
 
-      <LabelGroup
-        title={t("my_decks")}
-        slotRight={
-          deckListStore.shouldShowMyDecksToggle ? (
-            <ViewMoreDecksToggle />
-          ) : undefined
-        }
-      >
-        <Flex direction={"column"} gap={6}>
-          {deckListStore.myInfoQuery.isPending &&
-            range(deckListStore.skeletonLoaderData.myDecksCount).map((i) => (
-              <CardRowLoading key={i} />
-            ))}
-          {deckListStore.myInfo
-            ? deckListStore.myDeckItemsVisible.map((listItem) => {
-                return (
-                  <Fragment key={listItem.id}>
-                    <DeckRowWithCardsToReview
-                      onClick={() => {
-                        platform.haptic("selection");
-                        if (listItem.type === "deck") {
-                          screenStore.push({
-                            type: "deckPreview",
-                            deckId: listItem.id,
-                          });
-                        }
-                        if (listItem.type === "folder") {
-                          screenStore.push({
-                            type: "folderPreview",
-                            folderId: listItem.id,
-                          });
-                        }
-                      }}
-                      item={listItem}
-                    />
-                    {listItem.type === "folder" &&
-                    deckListStore.isMyDecksExpanded.value ? (
-                      <div className="ml-6">
-                        <List
-                          items={listItem.decks.map((deck) => {
-                            return {
-                              onClick: () => {
-                                platform.haptic("selection");
-                                screenStore.push({
-                                  type: "deckPreview",
-                                  deckId: deck.id,
-                                });
-                              },
-                              text: deck.name,
-                              right: <CardsToReview item={deck} />,
-                            };
-                          })}
-                        />
-                      </div>
-                    ) : null}
-                  </Fragment>
-                );
-              })
-            : null}
-
-          {deckListStore.myInfo && !deckListStore.myDecks.length ? (
-            <Hint>
-              <div>
-                {t("browser_no_personal_decks_start")}
-                <br />
-
-                {t("browser_no_personal_decks_link")}
-                <span
-                  className="text-link cursor-pointer"
-                  onClick={() => {
-                    if (userStore.language === "ru") {
-                      ruEduVideoToggle.setTrue();
-                    } else {
-                      platform.openExternalLink(links.youtubeChannelEn);
-                    }
-                  }}
-                >
-                  {userStore.language === "ru" ? "обучающие видео" : "YouTube"}
-                </span>
-
-                {t("browser_no_personal_decks_end")}
-              </div>
-            </Hint>
-          ) : null}
-
-          {deckListStore.myInfo ? (
-            <Button
-              align="center"
-              icon={<PlusIcon size={24} />}
-              onClick={() => {
-                platform.haptic("light");
-                if (deckListStore.myDecks.length > 0) {
-                  deckFolderToggle.setTrue();
-                } else {
-                  screenStore.push({ type: "deckForm" });
-                }
-              }}
-            >
-              {t("add")}
-            </Button>
-          ) : null}
-
-          {deckListStore.areAllDecksReviewed && (
-            <Hint>{t("all_decks_reviewed")}</Hint>
-          )}
-        </Flex>
-      </LabelGroup>
-
-      <LabelGroup title={t("public_decks")}>
-        <Flex direction={"column"} gap={6}>
-          {deckListStore.myInfo ? (
-            <>
-              {deckListStore.publicDecks.map((deck) => (
-                <PublicDeck key={deck.id} deck={deck} />
+      <Flex direction={"column"} gap={16}>
+        <LabelGroup
+          title={t("my_decks")}
+          slotRight={
+            deckListStore.shouldShowMyDecksToggle ? (
+              <ViewMoreDecksToggle />
+            ) : undefined
+          }
+        >
+          <Flex direction={"column"} gap={6}>
+            {deckListStore.myInfoQuery.isPending &&
+              range(deckListStore.skeletonLoaderData.myDecksCount).map((i) => (
+                <CardRowLoading key={i} />
               ))}
-              <div
-                className="pt-1 text-link flex items-center gap-1 cursor-pointer justify-center"
+            {deckListStore.myInfo
+              ? deckListStore.myDeckItemsVisible.map((listItem) => {
+                  return (
+                    <Fragment key={listItem.id}>
+                      <DeckRowWithCardsToReview
+                        onClick={() => {
+                          platform.haptic("selection");
+                          if (listItem.type === "deck") {
+                            screenStore.push({
+                              type: "deckPreview",
+                              deckId: listItem.id,
+                            });
+                          }
+                          if (listItem.type === "folder") {
+                            screenStore.push({
+                              type: "folderPreview",
+                              folderId: listItem.id,
+                            });
+                          }
+                        }}
+                        item={listItem}
+                      />
+                      {listItem.type === "folder" &&
+                      deckListStore.isMyDecksExpanded.value ? (
+                        <div className="ml-6">
+                          <List
+                            items={listItem.decks.map((deck) => {
+                              return {
+                                onClick: () => {
+                                  platform.haptic("selection");
+                                  screenStore.push({
+                                    type: "deckPreview",
+                                    deckId: deck.id,
+                                  });
+                                },
+                                text: deck.name,
+                                right: <CardsToReview item={deck} />,
+                              };
+                            })}
+                          />
+                        </div>
+                      ) : null}
+                    </Fragment>
+                  );
+                })
+              : null}
+
+            {deckListStore.myInfo && !deckListStore.myDecks.length ? (
+              <Hint>
+                <div>
+                  {t("browser_no_personal_decks_start")}
+                  <br />
+
+                  {t("browser_no_personal_decks_link")}
+                  <span
+                    className="text-link cursor-pointer"
+                    onClick={() => {
+                      if (userStore.language === "ru") {
+                        ruEduVideoToggle.setTrue();
+                      } else {
+                        platform.openExternalLink(links.youtubeChannelEn);
+                      }
+                    }}
+                  >
+                    {userStore.language === "ru"
+                      ? "обучающие видео"
+                      : "YouTube"}
+                  </span>
+
+                  {t("browser_no_personal_decks_end")}
+                </div>
+              </Hint>
+            ) : null}
+
+            {deckListStore.myInfo ? (
+              <Button
+                align="center"
+                icon={<PlusIcon size={24} />}
                 onClick={() => {
                   platform.haptic("light");
-                  screenStore.push({ type: "deckCatalog" });
+                  if (deckListStore.myDecks.length > 0) {
+                    deckFolderToggle.setTrue();
+                  } else {
+                    screenStore.push({ type: "deckForm" });
+                  }
                 }}
               >
-                <SearchIcon size={18} />
-                {t("explore_public_decks")}
-              </div>
-            </>
-          ) : null}
+                {t("add")}
+              </Button>
+            ) : null}
 
-          {deckListStore.myInfoQuery.isPending &&
-            range(deckListStore.skeletonLoaderData.publicCount).map((i) => (
-              <CardRowLoading key={i} />
-            ))}
-        </Flex>
-      </LabelGroup>
+            {deckListStore.areAllDecksReviewed && (
+              <Hint>{t("all_decks_reviewed")}</Hint>
+            )}
+          </Flex>
+        </LabelGroup>
 
-      {deckListStore.myInfo && (
-        <>
-          <LabelGroup title={t("news_and_updates")}>
-            <List
-              items={[
-                {
-                  text: t("telegram_channel"),
-                  icon: (
-                    <FilledIcon
-                      icon={<TelegramIcon />}
-                      className="bg-icon-blue"
-                    />
-                  ),
-                  onClick: () => {
-                    platform.openInternalLink(getTelegramChannelLink());
-                  },
-                },
+        <LabelGroup title={t("public_decks")}>
+          <Flex direction={"column"} gap={6}>
+            {deckListStore.myInfo ? (
+              <>
+                {deckListStore.publicDecks.map((deck) => (
+                  <PublicDeck key={deck.id} deck={deck} />
+                ))}
+                <div
+                  className="pt-2 text-link flex items-center gap-1 cursor-pointer justify-center"
+                  onClick={() => {
+                    platform.haptic("light");
+                    screenStore.push({ type: "deckCatalog" });
+                  }}
+                >
+                  <SearchIcon size={18} />
+                  {t("explore_public_decks")}
+                </div>
+              </>
+            ) : null}
 
-                userStore.language === "ru"
-                  ? {
-                      text: "Обучающие видео",
-                      onClick: () => {
-                        ruEduVideoToggle.setTrue();
-                      },
-                      icon: (
-                        <FilledIcon
-                          icon={<VideoIcon size={18} />}
-                          className="bg-icon-turquoise"
-                        />
-                      ),
-                    }
-                  : {
-                      text: t("youtube_channel"),
-                      icon: (
-                        <FilledIcon
-                          icon={<YouTubeIcon />}
-                          className="bg-danger"
-                        />
-                      ),
-                      onClick: () => {
-                        platform.openExternalLink(getYouTubeChannelLink());
-                      },
+            {deckListStore.myInfoQuery.isPending &&
+              range(deckListStore.skeletonLoaderData.publicCount).map((i) => (
+                <CardRowLoading key={i} />
+              ))}
+          </Flex>
+        </LabelGroup>
+
+        {deckListStore.myInfo && (
+          <>
+            <LabelGroup title={t("news_and_updates")}>
+              <List
+                items={[
+                  {
+                    text: t("telegram_channel"),
+                    icon: (
+                      <FilledIcon
+                        icon={<TelegramIcon />}
+                        className="bg-icon-blue"
+                      />
+                    ),
+                    onClick: () => {
+                      platform.openInternalLink(getTelegramChannelLink());
                     },
-              ].filter(boolNarrow)}
-            />
-          </LabelGroup>
-
-          <LabelGroup title={t("profile_section")}>
-            <List
-              items={[
-                {
-                  text: t("settings"),
-                  icon: (
-                    <FilledIcon
-                      className="bg-icon-violet"
-                      icon={<CogIcon size={18} />}
-                    />
-                  ),
-                  onClick: () => {
-                    screenStore.goToUserSettings();
                   },
-                },
-                userStore.isTeacherPaid
-                  ? {
-                      text: getSharedPlanTitle("teacher"),
-                      icon: (
-                        <TeacherGradientIcon
-                          icon={<GraduationCapIcon size={18} />}
-                        />
-                      ),
-                      onClick: () => {
-                        screenStore.push({ type: "teacherStatistics" });
+
+                  userStore.language === "ru"
+                    ? {
+                        text: "Обучающие видео",
+                        onClick: () => {
+                          ruEduVideoToggle.setTrue();
+                        },
+                        icon: (
+                          <FilledIcon
+                            icon={<VideoIcon size={18} />}
+                            className="bg-icon-turquoise"
+                          />
+                        ),
+                      }
+                    : {
+                        text: t("youtube_channel"),
+                        icon: (
+                          <FilledIcon
+                            icon={<YouTubeIcon />}
+                            className="bg-danger"
+                          />
+                        ),
+                        onClick: () => {
+                          platform.openExternalLink(getYouTubeChannelLink());
+                        },
                       },
-                    }
-                  : null,
-                !userStore.isPaid
-                  ? {
-                      text: getSharedPlanTitle("pro"),
-                      icon: <ProIcon />,
-                      onClick: () => {
-                        screenStore.push({ type: "plans", planType: "pro" });
-                      },
-                    }
-                  : null,
-              ].filter(boolNarrow)}
-            />
-          </LabelGroup>
-        </>
-      )}
+                ].filter(boolNarrow)}
+              />
+            </LabelGroup>
+
+            <LabelGroup title={t("profile_section")}>
+              <List
+                items={[
+                  {
+                    text: t("settings"),
+                    icon: (
+                      <FilledIcon
+                        className="bg-icon-violet"
+                        icon={<CogIcon size={18} />}
+                      />
+                    ),
+                    onClick: () => {
+                      screenStore.goToUserSettings();
+                    },
+                  },
+                  userStore.isTeacherPaid
+                    ? {
+                        text: getSharedPlanTitle("teacher"),
+                        icon: (
+                          <TeacherGradientIcon
+                            icon={<GraduationCapIcon size={18} />}
+                          />
+                        ),
+                        onClick: () => {
+                          screenStore.push({ type: "teacherStatistics" });
+                        },
+                      }
+                    : null,
+                  !userStore.isPaid
+                    ? {
+                        text: getSharedPlanTitle("pro"),
+                        icon: <ProIcon />,
+                        onClick: () => {
+                          screenStore.push({ type: "plans", planType: "pro" });
+                        },
+                      }
+                    : null,
+                ].filter(boolNarrow)}
+              />
+            </LabelGroup>
+          </>
+        )}
+      </Flex>
     </Flex>
   );
 }
