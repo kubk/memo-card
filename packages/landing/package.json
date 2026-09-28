@@ -10,7 +10,7 @@
     "build": "next build && ./fix-html-lang.sh",
     "format": "oxfmt --write \"**/*.{ts,tsx}\"",
     "typecheck": "pnpm exec tsc --noEmit",
-    "lint": "oxlint ."
+    "lint": "oxlint --format=agent ."
   },
   "dependencies": {
     "@next/third-parties": "^16.2.10",

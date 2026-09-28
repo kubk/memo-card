@@ -44,12 +44,7 @@ export function CatalogSelect({
       }
       triggerClassName="text-left text-base text-link"
       options={catalogCountries.map((country) => ({
-        icon:
-          country.value === value ? (
-            <RadioBoxFilled />
-          ) : (
-            <RadioBoxEmpty />
-          ),
+        icon: country.value === value ? <RadioBoxFilled /> : <RadioBoxEmpty />,
         text: country.label,
         onClick: () => onChange(country.value),
       }))}

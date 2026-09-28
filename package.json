@@ -10,7 +10,7 @@
     "format": "oxfmt --write \"./packages/**/*.{ts,tsx,mts,json}\"",
     "lint": "pnpm run \"/^lint:.*/\"",
     "lint:packages": "pnpm --recursive --parallel --filter='./packages/*' run lint",
-    "lint:duplicates": "jscpd packages/api/src packages/frontend/src --min-lines 10 --min-tokens 50 --cross-formats js-ts --ignore \"**/*.test.*\" --skip-isolated \"packages/api|packages/frontend\" --exit-code 1 --no-colors --no-tips --reporters ai",
+    "lint:jscpd": "jscpd packages/api/src packages/frontend/src --min-lines 10 --min-tokens 50 --cross-formats js-ts --ignore \"**/*.test.*\" --skip-isolated \"packages/api|packages/frontend\" --exit-code 1 --no-colors --no-tips --reporters ai",
     "lint:knip": "knip --reporter compact",
     "lint:slop-api": "slop-scan scan packages/api --lint | tee /dev/stderr | grep -q '^0 findings$'",
     "lint:slop-frontend": "slop-scan scan packages/frontend --lint | tee /dev/stderr | grep -q '^0 findings$'",
