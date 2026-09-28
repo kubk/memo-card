@@ -30,125 +30,128 @@ export function RepeatCustomSelector({ onClick, store }: Props) {
 
   return (
     <Screen title={t("review_custom")}>
-      <LabelGroup title={t("review_card_type")}>
-        <List
-          items={[
-            {
-              icon: (
-                <CircleCheckbox
-                  checkedClassName={"bg-orange"}
-                  checked={store.form.reviewTypes.includes("repeat")}
-                  onChange={() => {}}
-                />
-              ),
-              text: (
-                <div
-                  className={cn({
-                    "text-gray-500": !store.form.reviewTypes.includes("repeat"),
-                  })}
-                >
-                  {t("custom_due_cards")}
-                </div>
-              ),
-              onClick: () => {
-                store.toggleCardType("repeat");
-                platform.haptic("selection");
+      <div className="flex flex-col gap-4">
+        <LabelGroup title={t("review_card_type")}>
+          <List
+            items={[
+              {
+                icon: (
+                  <CircleCheckbox
+                    checkedClassName={"bg-orange"}
+                    checked={store.form.reviewTypes.includes("repeat")}
+                    onChange={() => {}}
+                  />
+                ),
+                text: (
+                  <div
+                    className={cn({
+                      "text-gray-500":
+                        !store.form.reviewTypes.includes("repeat"),
+                    })}
+                  >
+                    {t("custom_due_cards")}
+                  </div>
+                ),
+                onClick: () => {
+                  store.toggleCardType("repeat");
+                  platform.haptic("selection");
+                },
+                right: (
+                  <CardsToReviewCount
+                    items={deckListStore.cardsToReviewCount}
+                    className="text-orange"
+                    isDisabled={!store.form.reviewTypes.includes("repeat")}
+                  />
+                ),
               },
-              right: (
-                <CardsToReviewCount
-                  items={deckListStore.cardsToReviewCount}
-                  className="text-orange"
-                  isDisabled={!store.form.reviewTypes.includes("repeat")}
-                />
-              ),
-            },
-            {
-              onClick: () => {
-                store.toggleCardType("new");
-                platform.haptic("selection");
+              {
+                onClick: () => {
+                  store.toggleCardType("new");
+                  platform.haptic("selection");
+                },
+                icon: (
+                  <CircleCheckbox
+                    checkedClassName={"bg-success"}
+                    checked={store.form.reviewTypes.includes("new")}
+                    onChange={() => {}}
+                  />
+                ),
+                text: (
+                  <div
+                    className={cn({
+                      "text-gray-500": !store.form.reviewTypes.includes("new"),
+                    })}
+                  >
+                    {t("custom_new_cards")}
+                  </div>
+                ),
+                right: (
+                  <CardsToReviewCount
+                    isDisabled={!store.form.reviewTypes.includes("new")}
+                    items={deckListStore.newCardsCount}
+                    className="text-success"
+                  />
+                ),
               },
-              icon: (
-                <CircleCheckbox
-                  checkedClassName={"bg-success"}
-                  checked={store.form.reviewTypes.includes("new")}
-                  onChange={() => {}}
-                />
-              ),
-              text: (
-                <div
-                  className={cn({
-                    "text-gray-500": !store.form.reviewTypes.includes("new"),
-                  })}
-                >
-                  {t("custom_new_cards")}
-                </div>
-              ),
-              right: (
-                <CardsToReviewCount
-                  isDisabled={!store.form.reviewTypes.includes("new")}
-                  items={deckListStore.newCardsCount}
-                  className="text-success"
-                />
-              ),
-            },
-          ]}
-        />
-      </LabelGroup>
+            ]}
+          />
+        </LabelGroup>
 
-      <LabelGroup
-        title={t("decks")}
-        slotRight={<SelectAllToggle store={store} />}
-      >
-        <div>
-          {deckListStore.myDeckItems.map((listItem) => {
-            return (
-              <div key={listItem.id} className={"flex flex-col gap-2 pb-2"}>
-                <DeckRowWithCardsToReview
-                  slotLeft={
-                    <div className={"mr-2"}>
-                      <CircleCheckbox
-                        checkedClassName={"bg-button"}
-                        checked={store.isListRootItemOn(listItem)}
-                        onChange={() => {}}
+        <LabelGroup
+          title={t("decks")}
+          slotRight={<SelectAllToggle store={store} />}
+        >
+          <div>
+            {deckListStore.myDeckItems.map((listItem) => {
+              return (
+                <div key={listItem.id} className={"flex flex-col gap-2 pb-2"}>
+                  <DeckRowWithCardsToReview
+                    slotLeft={
+                      <div className={"mr-2"}>
+                        <CircleCheckbox
+                          checkedClassName={"bg-button"}
+                          checked={store.isListRootItemOn(listItem)}
+                          onChange={() => {}}
+                        />
+                      </div>
+                    }
+                    onClick={() => {
+                      platform.haptic("selection");
+                      store.toggleListRoot(listItem);
+                    }}
+                    item={listItem}
+                  />
+                  {listItem.type === "folder" && (
+                    <div className="ml-6">
+                      <List
+                        items={listItem.decks.map((deck) => {
+                          return {
+                            onClick: () => {
+                              platform.haptic("selection");
+                              store.toggleDeckId(deck.id);
+                            },
+                            text: deck.name,
+                            icon: (
+                              <CircleCheckbox
+                                checkedClassName={"bg-button"}
+                                checked={store.form.selectedDecksIds.includes(
+                                  deck.id,
+                                )}
+                                onChange={() => {}}
+                              />
+                            ),
+                            right: <CardsToReview item={deck} />,
+                          };
+                        })}
                       />
                     </div>
-                  }
-                  onClick={() => {
-                    platform.haptic("selection");
-                    store.toggleListRoot(listItem);
-                  }}
-                  item={listItem}
-                />
-                {listItem.type === "folder" && (
-                  <div className="ml-6">
-                    <List
-                      items={listItem.decks.map((deck) => {
-                        return {
-                          onClick: () => {
-                            platform.haptic("selection");
-                            store.toggleDeckId(deck.id);
-                          },
-                          text: deck.name,
-                          icon: (
-                            <CircleCheckbox
-                              checkedClassName={"bg-button"}
-                              checked={store.form.selectedDecksIds.includes(
-                                deck.id,
-                              )}
-                              onChange={() => {}}
-                            />
-                          ),
-                          right: <CardsToReview item={deck} />,
-                        };
-                      })}
-                    />
-                  </div>
-                )}
-              </div>
-            );
-          })}
-        </div>
-      </LabelGroup>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </LabelGroup>
+      </div>
     </Screen>
   );
 }
