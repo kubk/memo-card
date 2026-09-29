@@ -419,27 +419,25 @@ export class ReviewStore {
     }
 
     runInAction(() => {
-      this.sentResult.hardIds.push(
-        ...cardsToSendInProgress
-          .filter((sentCard) => sentCard.outcome === "hard")
-          .map((sentCard) => sentCard.id),
-      );
-      this.sentResult.goodIds.push(
-        ...cardsToSendInProgress
-          .filter((sentCard) => sentCard.outcome === "good")
-          .map((sentCard) => sentCard.id),
-      );
-      this.sentResult.easyIds.push(
-        ...cardsToSendInProgress
-          .filter((sentCard) => sentCard.outcome === "easy")
-          .map((sentCard) => sentCard.id),
-      );
-      this.sentResult.neverIds.push(
-        ...cardsToSendInProgress
-          .filter((sentCard) => sentCard.outcome === "never")
-          .map((sentCard) => sentCard.id),
-      );
-      this.sentReviewEventCount += cardsToSendInProgress.length;
+      const cardCount = cardsToSendInProgress.length;
+      const { hardIds, goodIds, easyIds, neverIds } = this.sentResult;
+
+      for (let index = 0; index < cardCount; index += 1) {
+        const card = cardsToSendInProgress[index];
+        const outcome = card.outcome;
+
+        if (outcome === "hard") {
+          hardIds.push(card.id);
+        } else if (outcome === "good") {
+          goodIds.push(card.id);
+        } else if (outcome === "easy") {
+          easyIds.push(card.id);
+        } else if (outcome === "never") {
+          neverIds.push(card.id);
+        }
+      }
+
+      this.sentReviewEventCount += cardCount;
     });
     leaderboardStore.leaderboardQuery.invalidate();
   }
