@@ -34,3 +34,4 @@ packages/api/tsconfig.tsbuildinfo
 docs/public-decks.md
 packages/api/bin/load-public-decks.ts
 packages/api/src/data/
+docs/chatgpt-plugin/release/
