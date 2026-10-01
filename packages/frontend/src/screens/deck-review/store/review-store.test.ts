@@ -5,7 +5,7 @@ import {
   DeckCardDbTypeWithType,
   DeckWithCardsWithReviewType,
 } from "../../../store/deck-list-store.ts";
-import { when } from "mobx";
+import { autorun, when } from "mobx";
 import { createInitialFsrsReviewState, reviewCard } from "api";
 
 vi.mock(import("../../../lib/array/shuffle-in-place.ts"), () =>
@@ -349,6 +349,94 @@ describe("card form store", () => {
     expect(reviewStore.cardsToSend).toEqual([
       { id: 1, outcome: "again" },
       { id: 1, outcome: "good" },
+    ]);
+    expect(reviewStore.reviewedCards).toHaveLength(1);
+    expect(reviewStore.reviewedCards[0].outcome).toEqual("again");
+  });
+
+  it("resets reviewed-card tracking when a review starts again", () => {
+    const deck = createDeckWithCards([
+      createMockCardWithReview(1, "card1", "card1", "repeat"),
+    ]);
+    const reviewStore = new ReviewStore();
+
+    reviewStore.startDeckReview(deck);
+    reviewStore.open();
+    reviewStore.changeState("good");
+    expect(reviewStore.reviewedCards).toHaveLength(1);
+
+    reviewStore.startDeckReview(deck);
+    expect(reviewStore.reviewedCards).toHaveLength(0);
+    reviewStore.open();
+    reviewStore.changeState("good");
+    expect(reviewStore.reviewedCards).toHaveLength(1);
+  });
+
+  it("removes again membership when a card is hidden forever", () => {
+    const reviewStore = new ReviewStore();
+    reviewStore.startDeckReview(
+      createDeckWithCards([
+        createMockCardWithReview(1, "card1", "card1", "repeat"),
+      ]),
+    );
+
+    reviewStore.open();
+    reviewStore.changeState("again");
+    expect(reviewStore.result.againIds).toEqual([1]);
+
+    reviewStore.open();
+    reviewStore.changeState("never");
+
+    expect(reviewStore.result.againIds).toEqual([]);
+    expect(reviewStore.result.neverIds).toEqual([1]);
+  });
+
+  it("preserves retry order when the review queue wraps", () => {
+    const repeatCards = Array.from({ length: 7 }, (_, index) =>
+      createMockCardWithReview(
+        index + 1,
+        `card ${index + 1}`,
+        "back",
+        "repeat",
+      ),
+    );
+    const newCard = createMockCardWithReview(8, "new card", "back", "new");
+    const reviewStore = new ReviewStore();
+    reviewStore.startDeckReview(createDeckWithCards([...repeatCards, newCard]));
+    const observedCurrentIds: number[] = [];
+    const observedQueues: number[][] = [];
+    const dispose = autorun(() => {
+      const id = reviewStore.currentCard?.id;
+      if (id !== undefined) {
+        observedCurrentIds.push(id);
+      }
+    });
+    const disposeQueue = autorun(() => {
+      observedQueues.push(reviewStore.cardsToReview.map((card) => card.id));
+    });
+
+    try {
+      repeatCards.forEach((card) => {
+        expect(reviewStore.currentCard?.id).toEqual(card.id);
+        reviewStore.open();
+        reviewStore.changeState("again");
+      });
+
+      expect(reviewStore.currentCard?.id).toEqual(newCard.id);
+      reviewStore.open();
+      reviewStore.changeState("again");
+
+      expect(reviewStore.cardsToReview.map((card) => card.id)).toEqual([
+        1, 2, 8, 3, 4, 5, 6, 7,
+      ]);
+      expect(reviewStore.currentCard?.id).toEqual(1);
+    } finally {
+      dispose();
+      disposeQueue();
+    }
+    expect(observedCurrentIds).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 1]);
+    expect(observedQueues[observedQueues.length - 1]).toEqual([
+      1, 2, 8, 3, 4, 5, 6, 7,
     ]);
   });
 
@@ -697,5 +785,19 @@ describe("card form store", () => {
     expect(reviewStore.isFinished).toBeTruthy();
     expect(reviewStore.reviewedCards).toHaveLength(4);
     expect(reviewStore.sortedReviewedCards[3].outcome).toEqual("skip");
+  });
+
+  it("keeps skip entries unique by card ID", async () => {
+    showConfirmMock.mockResolvedValueOnce(true);
+    const card = createMockCardWithReview(1, "card1", "card1", "repeat");
+    const reviewStore = new ReviewStore();
+    reviewStore.startDeckReview(createDeckWithCards([card, card]));
+
+    await reviewStore.onSkipCard();
+    reviewStore.open();
+    reviewStore.changeState("good");
+
+    expect(reviewStore.reviewedCards).toHaveLength(1);
+    expect(reviewStore.reviewedCards[0].outcome).toEqual("skip");
   });
 });

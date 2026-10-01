@@ -45,7 +45,10 @@ type SilentSendResult = Pick<
 >;
 
 export class ReviewStore {
-  cardsToReview: CardUnderReviewStore[] = [];
+  private queue: CardUnderReviewStore[] = [];
+  private head = 0;
+  private reviewedCardIds = new Set<number>();
+  private againIds = new Set<number>();
   currentCardId?: number;
   reviewedCards: ReviewedCard[] = [];
   reviewEvents: Array<{ id: number; outcome: ReviewOutcome }> = [];
@@ -72,30 +75,62 @@ export class ReviewStore {
   isStudyAnyway = false;
 
   constructor() {
-    makeAutoObservable(
+    makeAutoObservable<this, "reviewedCardIds" | "againIds">(
       this,
-      { pendingProgressPromise: false },
+      {
+        pendingProgressPromise: false,
+        reviewedCardIds: false,
+        againIds: false,
+      },
       { autoBind: true },
     );
   }
 
-  private shuffleRepeatCards() {
-    const repeatCards = this.cardsToReview.filter(
+  get cardsToReview() {
+    return this.queue.slice(this.head);
+  }
+
+  private removeCurrent() {
+    this.head += 1;
+  }
+
+  private get queueSize() {
+    return this.queue.length - this.head;
+  }
+
+  private get currentCardAtHead() {
+    return this.queue[this.head];
+  }
+
+  private shuffleRepeatCards(cardsToReview: CardUnderReviewStore[]) {
+    const repeatCards = cardsToReview.filter(
       (card) => card.cardReviewType === "repeat",
     );
-    const newCards = this.cardsToReview.filter(
+    const newCards = cardsToReview.filter(
       (card) => card.cardReviewType === "new",
     );
     shuffleInPlace(repeatCards);
     if (userStore.isPaid) {
       separateReversePairs(repeatCards);
     }
-    this.cardsToReview = [...repeatCards, ...newCards];
+    this.setQueue([...repeatCards, ...newCards]);
+  }
+
+  private setQueue(cards: CardUnderReviewStore[]) {
+    this.queue = cards;
+    this.head = 0;
+  }
+
+  private resetReviewSession() {
+    this.reviewedCards = [];
+    this.reviewedCardIds.clear();
+    this.reviewEvents = [];
+    this.sentReviewEventCount = 0;
   }
 
   get reviewedCardsCount() {
     assert(this.initialCardCount, "initialCardCount is empty");
-    return this.initialCardCount - this.cardsToReview.length;
+    return this.initialCardCount - this.queueSize;
   }
 
   startDeckReview(deck: DeckWithCardsWithReviewType) {
@@ -103,14 +138,13 @@ export class ReviewStore {
       return;
     }
 
-    this.reviewedCards = [];
-    this.reviewEvents = [];
-    this.sentReviewEventCount = 0;
+    this.resetReviewSession();
+    const cardsToReview = this.cardsToReview;
     deck.cardsToReview.forEach((card) => {
-      this.cardsToReview.push(new CardUnderReviewStore(card, deck));
+      cardsToReview.push(new CardUnderReviewStore(card, deck));
     });
 
-    this.shuffleRepeatCards();
+    this.shuffleRepeatCards(cardsToReview);
     this.initializeInitialCurrentNextCards();
   }
 
@@ -118,10 +152,8 @@ export class ReviewStore {
     if (!deck) {
       return;
     }
-    this.cardsToReview = [];
-    this.reviewedCards = [];
-    this.reviewEvents = [];
-    this.sentReviewEventCount = 0;
+    this.resetReviewSession();
+    const cardsToReview: CardUnderReviewStore[] = [];
     deck.deckCards.forEach((card) => {
       const reviewState = reviewCard(
         new Date(Date.now() - dayMs),
@@ -133,15 +165,16 @@ export class ReviewStore {
         type: "repeat",
         ...reviewState,
       };
-      this.cardsToReview.push(new CardUnderReviewStore(cardWithReview, deck));
+      cardsToReview.push(new CardUnderReviewStore(cardWithReview, deck));
     });
-    if (this.cardsToReview.length) {
+    if (cardsToReview.length) {
       this.isStudyAnyway = true;
     }
-    shuffleInPlace(this.cardsToReview);
+    shuffleInPlace(cardsToReview);
     if (userStore.isPaid) {
-      separateReversePairs(this.cardsToReview);
+      separateReversePairs(cardsToReview);
     }
+    this.setQueue(cardsToReview);
     this.initializeInitialCurrentNextCards();
   }
 
@@ -150,16 +183,15 @@ export class ReviewStore {
       return;
     }
 
-    this.reviewedCards = [];
-    this.reviewEvents = [];
-    this.sentReviewEventCount = 0;
+    this.resetReviewSession();
+    const cardsToReview = this.cardsToReview;
     myDecks.forEach((deck) => {
       deck.cardsToReview.forEach((card) => {
-        this.cardsToReview.push(new CardUnderReviewStore(card, deck));
+        cardsToReview.push(new CardUnderReviewStore(card, deck));
       });
     });
 
-    this.shuffleRepeatCards();
+    this.shuffleRepeatCards(cardsToReview);
     this.initializeInitialCurrentNextCards();
   }
 
@@ -168,21 +200,21 @@ export class ReviewStore {
       return;
     }
 
-    this.reviewedCards = [];
-    this.reviewEvents = [];
-    this.sentReviewEventCount = 0;
+    this.resetReviewSession();
+    const cardsToReview = this.cardsToReview;
     myDecks.forEach((deck) => {
       deck.cardsToReview
         .filter((card) => card.type === "repeat")
         .forEach((card) => {
-          this.cardsToReview.push(new CardUnderReviewStore(card, deck));
+          cardsToReview.push(new CardUnderReviewStore(card, deck));
         });
     });
 
-    shuffleInPlace(this.cardsToReview);
+    shuffleInPlace(cardsToReview);
     if (userStore.isPaid) {
-      separateReversePairs(this.cardsToReview);
+      separateReversePairs(cardsToReview);
     }
+    this.setQueue(cardsToReview);
     this.initializeInitialCurrentNextCards();
   }
 
@@ -193,26 +225,25 @@ export class ReviewStore {
       return;
     }
 
-    this.reviewedCards = [];
-    this.reviewEvents = [];
-    this.sentReviewEventCount = 0;
+    this.resetReviewSession();
+    const cardsToReview = this.cardsToReview;
     decks.forEach(([card, deck]) => {
-      this.cardsToReview.push(new CardUnderReviewStore(card, deck));
+      cardsToReview.push(new CardUnderReviewStore(card, deck));
     });
 
-    this.shuffleRepeatCards();
+    this.shuffleRepeatCards(cardsToReview);
     this.initializeInitialCurrentNextCards();
   }
 
   private initializeInitialCurrentNextCards() {
-    if (!this.cardsToReview.length) {
+    if (!this.queueSize) {
       return;
     }
 
     platform.haptic("light");
 
-    this.initialCardCount = this.cardsToReview.length;
-    this.currentCardId = this.cardsToReview[0].id;
+    this.initialCardCount = this.queueSize;
+    this.currentCardId = this.currentCardAtHead?.id;
   }
 
   get currentCard() {
@@ -220,9 +251,8 @@ export class ReviewStore {
       return null;
     }
 
-    return (
-      this.cardsToReview.find((card) => this.currentCardId === card.id) || null
-    );
+    const card = this.currentCardAtHead;
+    return card?.id === this.currentCardId ? card : null;
   }
 
   open() {
@@ -273,15 +303,16 @@ export class ReviewStore {
       outcome: "skip",
       deckName: currentCard.deckName,
     });
+    this.reviewedCardIds.add(currentCard.id);
 
-    const currentCardIdx = this.cardsToReview.findIndex(
-      (card) => card.id === currentCard.id,
+    assert(
+      this.currentCardAtHead?.id === currentCard.id,
+      "Current card is not at the front of the review queue",
     );
-    assert(currentCardIdx !== -1, "currentCardIdx is empty");
-    this.cardsToReview.splice(currentCardIdx, 1);
+    this.removeCurrent();
 
-    if (this.cardsToReview.length !== 0) {
-      this.currentCardId = this.cardsToReview[0].id;
+    if (this.queueSize !== 0) {
+      this.currentCardId = this.currentCardAtHead?.id;
     }
   }
 
@@ -296,10 +327,8 @@ export class ReviewStore {
     this.reviewEvents.push({ id: currentCard.id, outcome: cardState });
 
     // Collect reviewed card data
-    const existingCardIdx = this.reviewedCards.findIndex(
-      (card) => card.id === currentCard.id,
-    );
-    if (existingCardIdx === -1) {
+    if (!this.reviewedCardIds.has(currentCard.id)) {
+      this.reviewedCardIds.add(currentCard.id);
       this.reviewedCards.push({
         id: currentCard.id,
         front: currentCard.front,
@@ -309,54 +338,40 @@ export class ReviewStore {
       });
     }
 
-    const currentCardIdx = this.cardsToReview.findIndex(
-      (card) => card.id === currentCard.id,
+    assert(
+      this.currentCardAtHead?.id === currentCard.id,
+      "Current card is not at the front of the review queue",
     );
-    assert(currentCardIdx !== -1, "currentCardIdx is empty");
-    this.cardsToReview.splice(currentCardIdx, 1);
+    this.removeCurrent();
     if (currentCard.state === "again") {
-      if (!this.result.againIds.includes(currentCard.id)) {
+      if (!this.againIds.has(currentCard.id)) {
         this.result.againIds.push(currentCard.id);
+        this.againIds.add(currentCard.id);
       }
       currentCard.close();
 
       if (currentCard.cardReviewType === "new") {
-        // Calculate new index, ensuring it doesn't exceed the array length
-        const newIndex = Math.min(
-          currentCardIdx + 2,
-          this.cardsToReview.length,
-        );
-        // Insert the card at the new index
-        // This way, the incorrectly answered card is reinserted 3 positions ahead,
-        // or at the end of the queue if there are less than 3 cards left.
-        this.cardsToReview.splice(newIndex, 0, currentCard);
+        const newIndex = Math.min(2, this.queueSize);
+        this.queue.splice(this.head + newIndex, 0, currentCard);
       } else {
-        this.cardsToReview.push(currentCard);
+        this.queue.push(currentCard);
       }
     }
 
-    if (
-      currentCard.state === "hard" &&
-      !this.result.againIds.includes(currentCard.id)
-    ) {
+    if (currentCard.state === "hard" && !this.againIds.has(currentCard.id)) {
       this.result.hardIds.push(currentCard.id);
     }
 
-    if (
-      currentCard.state === "good" &&
-      !this.result.againIds.includes(currentCard.id)
-    ) {
+    if (currentCard.state === "good" && !this.againIds.has(currentCard.id)) {
       this.result.goodIds.push(currentCard.id);
     }
 
-    if (
-      currentCard.state === "easy" &&
-      !this.result.againIds.includes(currentCard.id)
-    ) {
+    if (currentCard.state === "easy" && !this.againIds.has(currentCard.id)) {
       this.result.easyIds.push(currentCard.id);
     }
 
     if (currentCard.state === "never") {
+      this.againIds.delete(currentCard.id);
       this.result.againIds = this.result.againIds.filter(
         (id) => id !== currentCard.id,
       );
@@ -372,9 +387,9 @@ export class ReviewStore {
       this.result.neverIds.push(currentCard.id);
     }
 
-    if (this.cardsToReview.length !== 0) {
+    if (this.queueSize !== 0) {
       // Go to next card
-      this.currentCardId = this.cardsToReview[0].id;
+      this.currentCardId = this.currentCardAtHead?.id;
     }
 
     this.sendProgress();
@@ -443,7 +458,7 @@ export class ReviewStore {
   }
 
   get isFinished() {
-    return this.cardsToReview.length === 0 && this.hasResult;
+    return this.queueSize === 0 && this.hasResult;
   }
 
   get hasResult() {
