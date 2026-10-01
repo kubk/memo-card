@@ -113,16 +113,12 @@ function ActionTileIcon({ icon, text, className, ...restProps }: Props) {
       className={cn(
         actionTileClassName,
         "active:bg-button-alpha-20",
+        "disabled:cursor-not-allowed disabled:text-disabled",
         "disabled:active:bg-bg",
         className,
       )}
     >
-      <div
-        className={cn(
-          "flex w-full min-w-0 flex-col items-center gap-1.5",
-          restProps.disabled && "opacity-50",
-        )}
-      >
+      <div className="flex w-full min-w-0 flex-col items-center gap-1.5">
         <ActionTileContent icon={icon} text={text} />
       </div>
     </button>
@@ -149,20 +145,29 @@ function ActionTileStat({
   const isDisabled = value === 0 && !isLoading;
 
   const content = (
-    <div
-      className={cn(
-        "flex w-full min-w-0 flex-col items-center gap-1.5",
-        isDisabled && "opacity-50",
-      )}
-    >
+    <div className="flex w-full min-w-0 flex-col items-center gap-1.5">
       {isLoading ? (
         <Skeleton className="h-6 w-7 rounded" />
       ) : (
-        <span className={cn("text-2xl font-bold leading-none", valueClassName)}>
+        <span
+          className={cn(
+            "text-2xl font-bold leading-none",
+            valueClassName,
+            isDisabled && "text-disabled",
+          )}
+        >
           {value}
         </span>
       )}
-      <span className={cn("max-w-full truncate", textClassName)}>{text}</span>
+      <span
+        className={cn(
+          "max-w-full truncate",
+          textClassName,
+          isDisabled && "text-disabled",
+        )}
+      >
+        {text}
+      </span>
     </div>
   );
 
@@ -174,6 +179,7 @@ function ActionTileStat({
         className={cn(
           actionTileClassName,
           "active:bg-button-alpha-20",
+          "disabled:cursor-not-allowed disabled:text-disabled",
           "disabled:active:bg-bg",
         )}
       >
