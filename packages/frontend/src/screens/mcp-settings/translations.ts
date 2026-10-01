@@ -49,7 +49,8 @@ const en = {
     "Generate 6 cards with English French words related to fruits",
   doneButton: "Done",
   configuredTitle: "ChatGPT is connected",
-  instruction: "Open {link} in the browser, click “+” and enter these details:",
+  instruction:
+    "Open {link} in the browser, click «Add», then «Create MCP App» and enter:",
   appSettingsLink: "ChatGPT plugins",
   nameLabel: "Name",
   descriptionValue: "Manage Memo Card folders, decks, and cards",
@@ -109,7 +110,8 @@ const ru: McpTranslation = {
     "Сгенерируй 6 карточек с русскими и французскими словами на тему фруктов",
   doneButton: "Готово",
   configuredTitle: "ChatGPT подключён",
-  instruction: "Откройте {link} в браузере, нажмите «+» и укажите данные:",
+  instruction:
+    "Откройте {link} в браузере, нажмите «Добавить», затем «Создать MCP-приложение» и укажите:",
   appSettingsLink: "плагины ChatGPT",
   nameLabel: "Название",
   descriptionValue: "Управление папками, колодами и карточками Memo Card",
@@ -169,7 +171,8 @@ const es: McpTranslation = {
     "Genera 6 tarjetas con palabras en español y francés relacionadas con frutas",
   doneButton: "Listo",
   configuredTitle: "ChatGPT está conectado",
-  instruction: "Abre {link} en el navegador, pulsa «+» e introduce estos datos:",
+  instruction:
+    "Abre {link} en el navegador, pulsa «Añadir» y luego «Crear aplicación MCP» e introduce:",
   appSettingsLink: "los plugins de ChatGPT",
   nameLabel: "Nombre",
   descriptionValue: "Gestión de carpetas, mazos y tarjetas de Memo Card",
@@ -229,7 +232,8 @@ const ptBr: McpTranslation = {
     "Gere 6 cartões com palavras em português e francês relacionadas a frutas",
   doneButton: "Pronto",
   configuredTitle: "O ChatGPT está conectado",
-  instruction: "Abra {link} no navegador, toque em “+” e informe os dados:",
+  instruction:
+    "Abra {link} no navegador, clique em «Adicionar» e depois em «Criar aplicativo MCP» e preencha:",
   appSettingsLink: "os plugins do ChatGPT",
   nameLabel: "Nome",
   descriptionValue: "Gerenciamento de pastas, baralhos e cartões do Memo Card",
@@ -287,7 +291,8 @@ const uk: McpTranslation = {
     "Згенеруй 6 карток з українськими та французькими словами, пов'язаними з фруктами",
   doneButton: "Готово",
   configuredTitle: "ChatGPT підключено",
-  instruction: "Відкрийте {link} у браузері, натисніть «+» і вкажіть дані:",
+  instruction:
+    "Відкрийте {link} у браузері, натисніть «Додати», потім «Створити MCP-застосунок» і вкажіть:",
   appSettingsLink: "плагіни ChatGPT",
   nameLabel: "Назва",
   descriptionValue: "Керування папками, колодами та картками Memo Card",
@@ -346,7 +351,8 @@ const ar: McpTranslation = {
     "إنشاء 6 بطاقات بكلمات عربية وفرنسية تتعلق بالفواكه",
   doneButton: "تم",
   configuredTitle: "ChatGPT متصل",
-  instruction: "افتح {link} في المتصفح، واضغط على «+»، ثم أدخل البيانات التالية:",
+  instruction:
+    "افتح {link} في المتصفح، واضغط على «إضافة»، ثم اختر «إنشاء تطبيق MCP» وأدخل:",
   appSettingsLink: "إضافات ChatGPT",
   nameLabel: "الاسم",
   descriptionValue: "إدارة مجلدات Memo Card ومجموعاته وبطاقاته",
@@ -406,7 +412,8 @@ const fa: McpTranslation = {
     "ساخت 6 کارت با کلمات فارسی و فرانسوی مرتبط با میوه‌ها",
   doneButton: "انجام شد",
   configuredTitle: "ChatGPT متصل است",
-  instruction: "به {link} در مرورگر بروید، روی «+» بزنید و این اطلاعات را وارد کنید:",
+  instruction:
+    "در مرورگر {link} را باز کنید، روی «افزودن» و سپس «ایجاد برنامهٔ MCP» بزنید و وارد کنید:",
   appSettingsLink: "افزونه‌های ChatGPT",
   nameLabel: "نام",
   descriptionValue: "مدیریت پوشه‌ها، دسته‌ها و کارت‌های Memo Card",
