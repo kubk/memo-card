@@ -70,6 +70,12 @@ export const es: Translation = {
   payment_and: " y ",
   payment_tos: "Términos de servicio",
   payment_paid_until: "Pagado hasta",
+  payment_until_date: "Hasta {date}",
+  payment_renews_on: "Se renueva el {date}",
+  payment_cancel_subscription: "Cancelar suscripción",
+  payment_cancel_subscription_confirm:
+    "¿Cancelar la suscripción? Mantendrás el acceso hasta que termine el período pagado",
+  payment_cancel_subscription_error: "No se pudo cancelar la suscripción",
   payment_description: "Desbloquea más funciones",
   payment_title: "Pago",
   payment_choose_duration: "Elige la duración",

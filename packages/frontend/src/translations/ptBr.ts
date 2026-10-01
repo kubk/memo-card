@@ -70,6 +70,12 @@ export const ptBr: Translation = {
   payment_description: "Desbloqueie mais recursos",
   payment_title: "Pagamento",
   payment_paid_until: "Pago até",
+  payment_until_date: "Até {date}",
+  payment_renews_on: "Renova em {date}",
+  payment_cancel_subscription: "Cancelar assinatura",
+  payment_cancel_subscription_confirm:
+    "Cancelar assinatura? O acesso continua até o fim do período pago",
+  payment_cancel_subscription_error: "Não foi possível cancelar a assinatura",
   payment_pp: "Política de Privacidade",
   privacy_policy: "Política de Privacidade",
   payment_tos: "Termos de Serviço",

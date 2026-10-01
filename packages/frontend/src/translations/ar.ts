@@ -192,6 +192,12 @@ export const ar: Translation = {
   payment_method_usd: "بطاقة بنكية",
   payment_method_stars: "نجوم تيليجرام",
   payment_paid_until: "مدفوع حتى",
+  payment_until_date: "حتى {date}",
+  payment_renews_on: "يتجدد في {date}",
+  payment_cancel_subscription: "إلغاء الاشتراك",
+  payment_cancel_subscription_confirm:
+    "إلغاء الاشتراك؟ سيظل الوصول متاحًا حتى نهاية الفترة المدفوعة",
+  payment_cancel_subscription_error: "تعذر إلغاء الاشتراك",
   payment_tos_and_pp_agree: "بالشراء، فإنك توافق على",
   payment_tos: "شروط الخدمة",
   payment_and: " و ",

@@ -192,6 +192,12 @@ export const en = {
   payment_method_usd: "Bank card",
   payment_method_stars: "Telegram stars",
   payment_paid_until: "Paid until",
+  payment_until_date: "Until {date}",
+  payment_renews_on: "Renews on {date}",
+  payment_cancel_subscription: "Cancel subscription",
+  payment_cancel_subscription_confirm:
+    "Cancel the subscription? Access will continue until the paid period ends",
+  payment_cancel_subscription_error: "Unable to cancel subscription",
   payment_tos_and_pp_agree: "By purchasing, you agree to the ",
   payment_tos: "Terms of Service",
   payment_and: " and ",

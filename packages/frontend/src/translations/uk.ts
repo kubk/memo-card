@@ -71,6 +71,12 @@ export const uk: Translation = {
   payment_and: " та ",
   payment_tos: "Умовами використання",
   payment_paid_until: "Оплачено до",
+  payment_until_date: "До {date}",
+  payment_renews_on: "Наступне продовження {date}",
+  payment_cancel_subscription: "Скасувати підписку",
+  payment_cancel_subscription_confirm:
+    "Скасувати підписку? Доступ залишиться до кінця оплаченого періоду",
+  payment_cancel_subscription_error: "Не вдалося скасувати підписку",
   payment_description: "Розблокуйте більше можливостей",
   payment_title: "Оплата",
   payment_choose_duration: "Тривалість",

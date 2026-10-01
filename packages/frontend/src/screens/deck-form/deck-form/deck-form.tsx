@@ -18,10 +18,7 @@ import { LayersIcon, MicIcon, PlusIcon, UploadIcon } from "lucide-react";
 import { FilledIcon, TransparentIcon } from "../../../ui/filled-icon.tsx";
 import { DeckActions } from "../../shared/deck-actions.tsx";
 import { BackBottomButton } from "../../shared/back-bottom-button.tsx";
-import {
-  createMcpSettingsEntryItem,
-  McpSettingsEntry,
-} from "../../mcp-settings/mcp-settings-entry.tsx";
+import { createMcpSettingsEntryItem } from "../../mcp-settings/mcp-settings-entry.tsx";
 import { ChevronIcon } from "../../../ui/chevron-icon.tsx";
 
 export function DeckForm() {
@@ -106,23 +103,28 @@ export function DeckForm() {
         </LabelGroup>
 
         {!deckFormStore.deckForm?.id && (
-          <McpSettingsEntry
-            trailingItems={[
-              {
-                icon: (
-                  <FilledIcon
-                    className="bg-icon-blue"
-                    icon={<UploadIcon size={18} />}
-                  />
-                ),
-                text: t("anki_import_entry_button"),
-                right: <ChevronIcon direction="right" className="text-hint" />,
-                onClick: () => {
-                  screenStore.replace({ type: "ankiImport" });
+          <div className="mt-1">
+            <List
+              items={[
+                createMcpSettingsEntryItem(),
+                {
+                  icon: (
+                    <FilledIcon
+                      className="bg-icon-blue"
+                      icon={<UploadIcon size={18} />}
+                    />
+                  ),
+                  text: t("anki_import_entry_button"),
+                  right: (
+                    <ChevronIcon direction="right" className="text-hint" />
+                  ),
+                  onClick: () => {
+                    screenStore.replace({ type: "ankiImport" });
+                  },
                 },
-              },
-            ]}
-          />
+              ]}
+            />
+          </div>
         )}
 
         {deckFormStore.deckForm?.id && (

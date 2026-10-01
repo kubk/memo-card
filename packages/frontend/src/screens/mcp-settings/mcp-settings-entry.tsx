@@ -1,7 +1,7 @@
 import { BotIcon } from "lucide-react";
 import { screenStore } from "../../store/screen-store.ts";
 import { FilledIcon } from "../../ui/filled-icon.tsx";
-import { List, type ListItemType } from "../../ui/list.tsx";
+import type { ListItemType } from "../../ui/list.tsx";
 import { userStore } from "../../store/user-store.ts";
 import { ChevronIcon } from "../../ui/chevron-icon.tsx";
 
@@ -22,16 +22,4 @@ export function createMcpSettingsEntryItem(
       );
     },
   };
-}
-
-export function McpSettingsEntry({
-  trailingItems = [],
-}: {
-  trailingItems?: ListItemType[];
-}) {
-  return (
-    <div className="mt-1">
-      <List items={[createMcpSettingsEntryItem(), ...trailingItems]} />
-    </div>
-  );
 }

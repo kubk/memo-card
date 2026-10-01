@@ -8,10 +8,11 @@ import {
   McpWizardStoreProvider,
   useMcpWizardStore,
 } from "./store/mcp-wizard-store-context.tsx";
+import { McpWizardStore } from "./store/mcp-wizard-store.ts";
 
-export function McpSettingsWizard() {
+export function McpSettingsWizard({ store }: { store: McpWizardStore }) {
   return (
-    <McpWizardStoreProvider>
+    <McpWizardStoreProvider store={store}>
       <Screen>
         <McpTokenSettings />
       </Screen>

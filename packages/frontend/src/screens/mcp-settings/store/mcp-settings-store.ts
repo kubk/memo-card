@@ -17,7 +17,7 @@ export class McpSettingsStore {
   get mainButtonText() {
     return this.connectionsQuery.data?.pluginUrl
       ? mcpT("openPlugin")
-      : mcpT("quitButton");
+      : mcpT("doneButton");
   }
 
   connect() {

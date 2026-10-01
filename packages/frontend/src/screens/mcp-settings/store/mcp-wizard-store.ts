@@ -1,20 +1,32 @@
 import { makeAutoObservable } from "mobx";
-import { apiProxy } from "../../../api/trpc-api.ts";
+import { api, apiProxy } from "../../../api/trpc-api.ts";
 import { env } from "../../../env.ts";
+import { makeMutation } from "../../../lib/mobx-query-lite/make-mutation.ts";
 import { makeQuery } from "../../../lib/mobx-query-lite/make-query.ts";
+import { showConfirm } from "../../../lib/platform/show-confirm.ts";
 import { screenStore } from "../../../store/screen-store.ts";
+import { userStore } from "../../../store/user-store.ts";
 import { t } from "../../../translations/t.ts";
 import { mcpT } from "../translations.ts";
 
 export const MCP_WIZARD_STEPS = [1, 2, 3] as const;
 type McpWizardStep = (typeof MCP_WIZARD_STEPS)[number];
+type UserStoreLike = Pick<
+  typeof userStore,
+  "activePlanQuery" | "canCancelSubscription" | "paidUntil" | "plan"
+>;
 
 export class McpWizardStore {
-  mcpTokenQuery = makeQuery(apiProxy.mcpToken.getMyToken.query);
   step: McpWizardStep = 1;
   isGuideOpen = false;
 
-  constructor() {
+  constructor(
+    public mcpTokenQuery = makeQuery(apiProxy.mcpToken.getMyToken.query),
+    public accountStore: UserStoreLike = userStore,
+    public cancelSubscriptionMutation = makeMutation(
+      api.cancelStripeSubscription.mutate,
+    ),
+  ) {
     makeAutoObservable(this, {}, { autoBind: true });
   }
 
@@ -33,6 +45,14 @@ export class McpWizardStore {
     return this.mcpTokenQuery.data?.status === "used";
   }
 
+  get planDateTextParts() {
+    const messageKey = this.accountStore.plan?.subscription?.willRenew
+      ? "payment_renews_on"
+      : "payment_until_date";
+    const [before, after = ""] = t(messageKey).split("{date}");
+    return { before, after };
+  }
+
   get title() {
     if (this.step === 2) {
       return mcpT("openChatGptTitle");
@@ -47,7 +67,7 @@ export class McpWizardStore {
     }
 
     if (this.isConfigured) {
-      return mcpT("quitButton");
+      return mcpT("doneButton");
     }
 
     if (this.step === 1) {
@@ -58,7 +78,7 @@ export class McpWizardStore {
       return mcpT("addedButton");
     }
 
-    return mcpT("quitButton");
+    return mcpT("doneButton");
   }
 
   goToStep(step: McpWizardStep) {
@@ -72,6 +92,27 @@ export class McpWizardStore {
 
   closeGuide() {
     this.isGuideOpen = false;
+  }
+
+  async cancelSubscription() {
+    if (
+      !this.accountStore.canCancelSubscription ||
+      this.cancelSubscriptionMutation.isPending
+    ) {
+      return;
+    }
+
+    if (!(await showConfirm(t("payment_cancel_subscription_confirm")))) {
+      return;
+    }
+
+    const result = await this.cancelSubscriptionMutation.mutateResult();
+    if (!result.ok) {
+      return;
+    }
+
+    this.accountStore.activePlanQuery.setData(result.data);
+    await this.accountStore.activePlanQuery.invalidate();
   }
 
   submitCurrentStep() {

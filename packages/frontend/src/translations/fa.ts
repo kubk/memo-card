@@ -196,6 +196,12 @@ export const fa: Translation = {
   payment_method_usd: "کارت بانکی",
   payment_method_stars: "ستاره‌های تلگرام",
   payment_paid_until: "پرداخت شده تا",
+  payment_until_date: "تا {date}",
+  payment_renews_on: "تمدید در {date}",
+  payment_cancel_subscription: "لغو اشتراک",
+  payment_cancel_subscription_confirm:
+    "اشتراک لغو شود؟ دسترسی تا پایان دوره پرداخت‌شده ادامه دارد",
+  payment_cancel_subscription_error: "لغو اشتراک انجام نشد",
   payment_tos_and_pp_agree: "با خرید، شما موافقت می‌کنید با",
   payment_tos: "شرایط خدمات",
   payment_and: " و ",

@@ -17,24 +17,28 @@ export function McpConnectChatGptStep() {
     return null;
   }
 
+  const [instructionBeforeLink, instructionAfterLink] = mcpT("instruction").split(
+    "{link}",
+  );
+
   return (
     <>
       <h2 className="mt-6 text-center text-[28px] font-bold leading-tight">
         {store.title}
       </h2>
-      <div className="mt-3 whitespace-pre-line text-center text-[17px] leading-6 text-hint">
-        {mcpT("instructionPrefix")}
+      <div className="mt-3 text-pretty text-center text-[17px] leading-6 text-hint">
+        {instructionBeforeLink}
         <ExternalLink
-          className="inline border-0 bg-transparent p-0 font-[inherit] leading-6 text-link underline decoration-dashed underline-offset-4"
+          className="inline whitespace-nowrap border-0 bg-transparent p-0 font-[inherit] leading-6 text-link underline decoration-dashed underline-offset-4"
           href={CHATGPT_APPS_URL}
         >
           {mcpT("appSettingsLink")}
           <ExternalLinkIcon className="ms-1 inline-block" size={15} />
         </ExternalLink>
-        {mcpT("instructionSuffix")}
+        {instructionAfterLink}
       </div>
 
-      <div className="mt-3 flex w-full flex-col gap-5 rounded-2xl bg-secondary-bg p-4">
+      <div className="mt-3 flex w-full flex-col gap-5 rounded-2xl bg-secondary-bg pt-4">
         <McpField label={mcpT("nameLabel")} value="Memo Card" />
         <McpField label={t("description")} value={mcpT("descriptionValue")} />
         <LabelGroup title={mcpT("serverUrlLabel")}>

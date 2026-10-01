@@ -66,6 +66,12 @@ export const ru: Translation = {
   payment_description: "Получите больше возможностей",
   payment_title: "Оплата",
   payment_paid_until: "Оплачено до",
+  payment_until_date: "До {date}",
+  payment_renews_on: "Продление {date}",
+  payment_cancel_subscription: "Отменить подписку",
+  payment_cancel_subscription_confirm:
+    "Отменить подписку? Доступ останется до конца оплаченного периода",
+  payment_cancel_subscription_error: "Не удалось отменить подписку",
   payment_choose_duration: "Длительность",
   payment_choose_subscription: "Подписка",
   payment_choose_method: "Способ оплаты",

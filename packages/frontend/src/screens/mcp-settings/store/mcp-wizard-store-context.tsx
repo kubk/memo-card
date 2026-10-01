@@ -1,11 +1,16 @@
 import { assert } from "api";
-import { createContext, ReactNode, useContext, useState } from "react";
+import { createContext, ReactNode, useContext } from "react";
 import { McpWizardStore } from "./mcp-wizard-store.ts";
 
 const Context = createContext<McpWizardStore | null>(null);
 
-export function McpWizardStoreProvider({ children }: { children: ReactNode }) {
-  const [store] = useState(() => new McpWizardStore());
+export function McpWizardStoreProvider({
+  children,
+  store,
+}: {
+  children: ReactNode;
+  store: McpWizardStore;
+}) {
   return <Context.Provider value={store}>{children}</Context.Provider>;
 }
 

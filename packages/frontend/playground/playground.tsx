@@ -47,7 +47,7 @@ import {
   CatalogSnackbar,
 } from "./catalog-stories.tsx";
 import { CatalogModals, type ModalStoryId } from "./modal-stories.tsx";
-import { ProPage } from "../src/screens/pro/pro-page.tsx";
+import { ProPagePlayground } from "./pro-page-playground.tsx";
 import { DeleteItemModalPlayground } from "./delete-item-modal-playground.tsx";
 import { BottomNavigationPlayground } from "./bottom-navigation-playground.tsx";
 import { LeaderboardPlayground } from "./leaderboard-playground.tsx";
@@ -90,7 +90,6 @@ const PLAYGROUND_COMPONENTS = [
     id: "pro-page",
     label: "Pro page",
     layout: "screen",
-    propsPanel: false,
   },
   {
     id: "button",
@@ -560,11 +559,7 @@ function ComponentPreview({
     case "deleted-deck":
       return <SharedDeckNotFoundPlayground />;
     case "pro-page":
-      return (
-        <div className="h-full w-full overflow-y-auto">
-          <ProPage />
-        </div>
-      );
+      return <ProPagePlayground />;
     case "button":
       return <ButtonPlayground />;
     case "select":

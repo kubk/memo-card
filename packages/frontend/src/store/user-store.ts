@@ -67,6 +67,10 @@ class UserStore {
     return this.plan ? isPaidPlanType(this.plan.type) : false;
   }
 
+  get canCancelSubscription() {
+    return this.plan?.subscription?.willRenew ?? false;
+  }
+
   get isTeacherPaid() {
     return this.plan?.type === "teacher";
   }

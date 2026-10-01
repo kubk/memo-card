@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { LeaderboardStatisticsScreen } from "./leaderboard/leaderboard-statistics-screen.tsx";
 import { MainScreen } from "./deck-list/main-screen.tsx";
 import { SearchScreen } from "./global-search/search-screen.tsx";
@@ -56,6 +57,7 @@ import { DeleteItemModalContainer } from "./shared/delete-item-modal.tsx";
 import { BottomNavigation } from "../ui/bottom-navigation.tsx";
 import { LeaderboardScreen } from "./leaderboard/leaderboard-screen.tsx";
 import { SharedDeckNotFoundScreen } from "./error-screen/shared-deck-not-found-screen.tsx";
+import { McpWizardStore } from "./mcp-settings/store/mcp-wizard-store.ts";
 
 export function App() {
   useRestoreFullScreenExpand();
@@ -219,7 +221,7 @@ export function App() {
           {screenStore.screen.type === "mcpSettings" && (
             <SignedIn>
               <PreventTelegramSwipeDownClosingIos>
-                <McpSettingsWizard />
+                <McpSettingsWizardRoute />
               </PreventTelegramSwipeDownClosingIos>
             </SignedIn>
           )}
@@ -237,7 +239,7 @@ export function App() {
             <SignedIn>
               <PreventTelegramSwipeDownClosingIos>
                 {screenStore.screen.planType === "pro" && userStore.isPaid ? (
-                  <McpSettingsWizard />
+                  <McpSettingsWizardRoute />
                 ) : (
                   <PlansScreen />
                 )}
@@ -302,4 +304,9 @@ export function App() {
       <DeleteItemModalContainer />
     </div>
   );
+}
+
+function McpSettingsWizardRoute() {
+  const [store] = useState(() => new McpWizardStore());
+  return <McpSettingsWizard store={store} />;
 }
