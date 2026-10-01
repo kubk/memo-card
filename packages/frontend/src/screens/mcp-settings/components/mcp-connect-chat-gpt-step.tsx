@@ -22,7 +22,7 @@ export function McpConnectChatGptStep() {
       <h2 className="mt-6 text-center text-[28px] font-bold leading-tight">
         {store.title}
       </h2>
-      <div className="mt-3 text-center text-[17px] leading-6 text-hint">
+      <div className="mt-3 whitespace-pre-line text-center text-[17px] leading-6 text-hint">
         {mcpT("instructionPrefix")}
         <ExternalLink
           className="inline border-0 bg-transparent p-0 font-[inherit] leading-6 text-link underline decoration-dashed underline-offset-4"
