@@ -112,4 +112,16 @@ export class FolderScreenStore {
 
     reviewStore.startFolderReview(folder.decks);
   }
+
+  startFilteredReview(
+    reviewStore: ReviewStore,
+    filter: (card: DeckCardDbTypeWithType) => boolean,
+  ) {
+    const folder = this.folder;
+    if (!folder) {
+      return;
+    }
+
+    reviewStore.startFolderReview(folder.decks, filter);
+  }
 }

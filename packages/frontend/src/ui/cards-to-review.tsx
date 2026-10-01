@@ -16,6 +16,7 @@ export function getCardsToReviewCounts(item: CardsToReviewItem) {
 export function getCardsToReviewTileItems(
   item: CardsToReviewItem,
   isLoading: boolean,
+  onStatClick: (cardType: "repeat" | "new") => void,
 ): ActionTileRowItem[] {
   const counts = getCardsToReviewCounts(item);
 
@@ -27,6 +28,7 @@ export function getCardsToReviewTileItems(
       text: t("cards_to_repeat"),
       textClassName: "text-review-repeat",
       valueClassName: "text-review-repeat",
+      onClick: () => onStatClick("repeat"),
     },
     {
       type: "stat",
@@ -35,6 +37,7 @@ export function getCardsToReviewTileItems(
       text: t("cards_new"),
       textClassName: "text-review-new",
       valueClassName: "text-review-new",
+      onClick: () => onStatClick("new"),
     },
   ];
 }

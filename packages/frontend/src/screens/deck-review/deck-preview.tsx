@@ -82,7 +82,9 @@ export function DeckPreview(props: Props) {
           },
         ]
       : []),
-    ...getCardsToReviewTileItems(deck, store.isInitialLoading),
+    ...getCardsToReviewTileItems(deck, store.isInitialLoading, (cardType) => {
+      reviewStore.startDeckReview(deck, (card) => card.type === cardType);
+    }),
     ...(deckTileActions ? [deckTileActions] : []),
   ];
 

@@ -78,7 +78,9 @@ export function FolderPreview(props: Props) {
           },
         ]
       : []),
-    ...getCardsToReviewTileItems(folder, store.isInitialLoading),
+    ...getCardsToReviewTileItems(folder, store.isInitialLoading, (cardType) => {
+      store.startFilteredReview(reviewStore, (card) => card.type === cardType);
+    }),
     ...(folderTileActions ? [folderTileActions] : []),
   ];
 

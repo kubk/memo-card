@@ -133,18 +133,24 @@ export class ReviewStore {
     return this.initialCardCount - this.queueSize;
   }
 
-  startDeckReview(deck: DeckWithCardsWithReviewType) {
-    if (!deck.cardsToReview.length) {
+  startDeckReview(
+    deck: DeckWithCardsWithReviewType,
+    filter?: (card: DeckCardDbTypeWithType) => boolean,
+  ) {
+    const cardsToReview = filter
+      ? deck.cardsToReview.filter(filter)
+      : deck.cardsToReview;
+    if (!cardsToReview.length) {
       return;
     }
 
     this.resetReviewSession();
-    const cardsToReview = this.cardsToReview;
-    deck.cardsToReview.forEach((card) => {
-      cardsToReview.push(new CardUnderReviewStore(card, deck));
+    const cardsUnderReview = this.cardsToReview;
+    cardsToReview.forEach((card) => {
+      cardsUnderReview.push(new CardUnderReviewStore(card, deck));
     });
 
-    this.shuffleRepeatCards(cardsToReview);
+    this.shuffleRepeatCards(cardsUnderReview);
     this.initializeInitialCurrentNextCards();
   }
 
@@ -178,7 +184,10 @@ export class ReviewStore {
     this.initializeInitialCurrentNextCards();
   }
 
-  startFolderReview(myDecks: DeckWithCardsWithReviewType[]) {
+  startFolderReview(
+    myDecks: DeckWithCardsWithReviewType[],
+    filter?: (card: DeckCardDbTypeWithType) => boolean,
+  ) {
     if (!myDecks.length) {
       return;
     }
@@ -186,7 +195,10 @@ export class ReviewStore {
     this.resetReviewSession();
     const cardsToReview = this.cardsToReview;
     myDecks.forEach((deck) => {
-      deck.cardsToReview.forEach((card) => {
+      const deckCards = filter
+        ? deck.cardsToReview.filter(filter)
+        : deck.cardsToReview;
+      deckCards.forEach((card) => {
         cardsToReview.push(new CardUnderReviewStore(card, deck));
       });
     });

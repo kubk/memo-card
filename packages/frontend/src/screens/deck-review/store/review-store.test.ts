@@ -391,6 +391,49 @@ describe("card form store", () => {
     expect(reviewStore.result.neverIds).toEqual([1]);
   });
 
+  it("starts review with only repeat cards when filtered by repeat", () => {
+    const reviewStore = new ReviewStore();
+    reviewStore.startDeckReview(
+      createDeckWithCards([...repeatCardsMock, ...newCardsMock]),
+      (card) => card.type === "repeat",
+    );
+
+    expect(reviewStore.cardsToReview.map((card) => card.id)).toEqual([
+      3, 4, 5, 6,
+    ]);
+    expect(
+      reviewStore.cardsToReview.every(
+        (card) => card.cardReviewType === "repeat",
+      ),
+    ).toBe(true);
+  });
+
+  it("starts review with only new cards when filtered by new", () => {
+    const reviewStore = new ReviewStore();
+    reviewStore.startDeckReview(
+      createDeckWithCards([...repeatCardsMock, ...newCardsMock]),
+      (card) => card.type === "new",
+    );
+
+    expect(reviewStore.cardsToReview.map((card) => card.id)).toEqual([
+      3, 4, 5, 6,
+    ]);
+    expect(
+      reviewStore.cardsToReview.every((card) => card.cardReviewType === "new"),
+    ).toBe(true);
+  });
+
+  it("does not start review when filtered cards are empty", () => {
+    const reviewStore = new ReviewStore();
+    reviewStore.startDeckReview(
+      createDeckWithCards(repeatCardsMock),
+      (card) => card.type === "new",
+    );
+
+    expect(reviewStore.cardsToReview).toHaveLength(0);
+    expect(reviewStore.currentCardId).toBeUndefined();
+  });
+
   it("preserves retry order when the review queue wraps", () => {
     const repeatCards = Array.from({ length: 7 }, (_, index) =>
       createMockCardWithReview(

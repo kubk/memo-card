@@ -31,6 +31,7 @@ export type ActionTileRowItem =
       isLoading?: boolean;
       textClassName?: string;
       valueClassName?: string;
+      onClick?: () => void;
     }
   | {
       type: "dropdown";
@@ -65,6 +66,7 @@ export function ActionTileRow({
               isLoading={item.isLoading}
               textClassName={item.textClassName}
               valueClassName={item.valueClassName}
+              onClick={item.onClick}
             />
           );
         }
@@ -133,6 +135,7 @@ type StatProps = {
   isLoading?: boolean;
   textClassName?: string;
   valueClassName?: string;
+  onClick?: () => void;
 };
 
 function ActionTileStat({
@@ -141,28 +144,47 @@ function ActionTileStat({
   isLoading,
   textClassName,
   valueClassName,
+  onClick,
 }: StatProps) {
   const isDisabled = value === 0 && !isLoading;
 
-  return (
-    <div className={cn(actionTileClassName, "pointer-events-none")}>
-      <div
+  const content = (
+    <div
+      className={cn(
+        "flex w-full min-w-0 flex-col items-center gap-1.5",
+        isDisabled && "opacity-50",
+      )}
+    >
+      {isLoading ? (
+        <Skeleton className="h-6 w-7 rounded" />
+      ) : (
+        <span className={cn("text-2xl font-bold leading-none", valueClassName)}>
+          {value}
+        </span>
+      )}
+      <span className={cn("max-w-full truncate", textClassName)}>{text}</span>
+    </div>
+  );
+
+  if (onClick) {
+    return (
+      <button
+        onClick={onClick}
+        disabled={isDisabled}
         className={cn(
-          "flex w-full min-w-0 flex-col items-center gap-1.5",
-          isDisabled && "opacity-50",
+          actionTileClassName,
+          "active:bg-button-alpha-20",
+          "disabled:active:bg-bg",
         )}
       >
-        {isLoading ? (
-          <Skeleton className="h-6 w-7 rounded" />
-        ) : (
-          <span
-            className={cn("text-2xl font-bold leading-none", valueClassName)}
-          >
-            {value}
-          </span>
-        )}
-        <span className={cn("max-w-full truncate", textClassName)}>{text}</span>
-      </div>
+        {content}
+      </button>
+    );
+  }
+
+  return (
+    <div className={cn(actionTileClassName, "pointer-events-none")}>
+      {content}
     </div>
   );
 }
