@@ -17,9 +17,8 @@ export function McpConnectChatGptStep() {
     return null;
   }
 
-  const [instructionBeforeLink, instructionAfterLink] = mcpT("instruction").split(
-    "{link}",
-  );
+  const [instructionBeforeLink, instructionAfterLink] =
+    mcpT("instruction").split("{link}");
 
   return (
     <>

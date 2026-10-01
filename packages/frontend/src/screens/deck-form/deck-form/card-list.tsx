@@ -119,7 +119,14 @@ export function CardList() {
   ];
 
   return (
-    <Screen title={t("cards")}>
+    <Screen
+      title={t("cards")}
+      subtitle={
+        <div className="text-center text-sm text-hint">
+          {t("cards_total")}: {deck.deckCards.length}
+        </div>
+      }
+    >
       {deck.deckCards.length > 1 && (
         <Input
           field={

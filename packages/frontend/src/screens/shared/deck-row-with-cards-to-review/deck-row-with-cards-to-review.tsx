@@ -1,7 +1,8 @@
-import { DeckCardDbTypeWithType } from "../../../store/deck-list-store.ts";
+import { type DeckCardDbTypeWithType } from "../../../store/deck-list-store.ts";
 import { CardsToReviewCount } from "./cards-to-review-count.tsx";
 import { Flex } from "../../../ui/flex.tsx";
-import { ReactNode } from "react";
+import { type ReactNode } from "react";
+import { getCardsToReviewCounts } from "../../../ui/cards-to-review.tsx";
 
 type Props = {
   item: {
@@ -15,6 +16,7 @@ type Props = {
 
 export function DeckRowWithCardsToReview(props: Props) {
   const { item, onClick, slotLeft } = props;
+  const counts = getCardsToReviewCounts(item);
 
   return (
     <div
@@ -27,13 +29,10 @@ export function DeckRowWithCardsToReview(props: Props) {
       </div>
       <Flex justifyContent={"space-between"} gap={10}>
         <CardsToReviewCount
-          items={item.cardsToReview.filter((card) => card.type === "repeat")}
-          className="text-orange"
+          items={counts.repeat}
+          className="text-review-repeat"
         />
-        <CardsToReviewCount
-          items={item.cardsToReview.filter((card) => card.type === "new")}
-          className="text-success"
-        />
+        <CardsToReviewCount items={counts.new} className="text-review-new" />
       </Flex>
     </div>
   );

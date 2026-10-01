@@ -16,12 +16,7 @@ import { List } from "../../../ui/list.tsx";
 import { FilledIcon } from "../../../ui/filled-icon.tsx";
 import { ListRightText } from "../../../ui/list-right-text.tsx";
 import { formatCardType } from "./format-card-type.ts";
-import {
-  ActionTile,
-  ActionTileContent,
-  actionTileClassName,
-} from "../../../ui/action-tile.tsx";
-import { DropdownOrVault } from "../../../ui/dropdown-or-vault.tsx";
+import { ActionTileRow } from "../../../ui/action-tile.tsx";
 import { CardAnswerErrors } from "./card-answer-errors.tsx";
 import { screenStore } from "../../../store/screen-store.ts";
 import { assert } from "api";
@@ -276,46 +271,40 @@ export function ManualCardFormView() {
         )}
 
         {cardForm.id && (
-          <div className="mt-3 grid grid-cols-[repeat(4,minmax(0,1fr))]">
-            <ActionTile
-              className="flex-1 rounded-s-xl"
-              icon={<ArrowLeftIcon size={24} />}
-              text={t("card_previous")}
-              onClick={cardFormStore.onPreviousCard}
-              disabled={!cardFormStore.isPreviousCardVisible}
-            />
-
-            <ActionTile
-              className="flex-1"
-              icon={<EyeIcon size={24} />}
-              text={t("card_preview")}
-              disabled={!cardFormStore.isCardPreviewVisible}
-              onClick={() => {
-                cardFormStore.cardInnerScreen.onChange("cardPreview");
-              }}
-            />
-
-            <DropdownOrVault
-              className="relative min-w-0 flex-1"
-              placement="up"
-              triggerClassName={actionTileClassName}
-              trigger={
-                <ActionTileContent
-                  icon={<EllipsisIcon size={24} />}
-                  text={t("more")}
-                />
-              }
-              options={moreItems}
-            />
-
-            <ActionTile
-              className="flex-1 rounded-e-xl"
-              icon={<ArrowRightIcon size={24} />}
-              text={t("card_next")}
-              onClick={cardFormStore.onNextCard}
-              disabled={!cardFormStore.isNextCardVisible}
-            />
-          </div>
+          <ActionTileRow
+            className="mt-3"
+            items={[
+              {
+                type: "action",
+                icon: <ArrowLeftIcon size={24} />,
+                text: t("card_previous"),
+                onClick: cardFormStore.onPreviousCard,
+                disabled: !cardFormStore.isPreviousCardVisible,
+              },
+              {
+                type: "action",
+                icon: <EyeIcon size={24} />,
+                text: t("card_preview"),
+                disabled: !cardFormStore.isCardPreviewVisible,
+                onClick: () => {
+                  cardFormStore.cardInnerScreen.onChange("cardPreview");
+                },
+              },
+              {
+                type: "dropdown",
+                icon: <EllipsisIcon size={24} />,
+                text: t("more"),
+                options: moreItems,
+              },
+              {
+                type: "action",
+                icon: <ArrowRightIcon size={24} />,
+                text: t("card_next"),
+                onClick: cardFormStore.onNextCard,
+                disabled: !cardFormStore.isNextCardVisible,
+              },
+            ]}
+          />
         )}
 
         <MoveToDeckSelector store={cardFormStore.moveToDeckStore} />

@@ -48,8 +48,7 @@ function createFakeMcpWizardStore(
   state: ProPageState,
   billingType: BillingType,
 ) {
-  const status: "new" | "used" =
-    state === "paid-connected" ? "used" : "new";
+  const status: "new" | "used" = state === "paid-connected" ? "used" : "new";
   const tokenQuery = makeQuery(
     {
       key: `playground-mcp-token-${fakeMcpTokenQueryId++}`,

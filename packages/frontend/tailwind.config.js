@@ -26,6 +26,8 @@ export default {
 
         success: '#2ecb47',
         danger: '#fc2025',
+        'review-repeat': 'var(--memo-color-review-repeat)',
+        'review-new': 'var(--memo-color-review-new)',
         'danger-light': 'rgba(252, 32, 37, 0.4)',
         'danger-alpha-20': '#fc202533',
         'danger-darkened': '#e60308',

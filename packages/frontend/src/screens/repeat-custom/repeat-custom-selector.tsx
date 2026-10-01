@@ -37,7 +37,8 @@ export function RepeatCustomSelector({ onClick, store }: Props) {
               {
                 icon: (
                   <CircleCheckbox
-                    checkedClassName={"bg-orange"}
+                    checkedClassName={"bg-review-repeat"}
+                    checkClassName="text-bg"
                     checked={store.form.reviewTypes.includes("repeat")}
                     onChange={() => {}}
                   />
@@ -59,7 +60,7 @@ export function RepeatCustomSelector({ onClick, store }: Props) {
                 right: (
                   <CardsToReviewCount
                     items={deckListStore.cardsToReviewCount}
-                    className="text-orange"
+                    className="text-review-repeat"
                     isDisabled={!store.form.reviewTypes.includes("repeat")}
                   />
                 ),
@@ -71,7 +72,8 @@ export function RepeatCustomSelector({ onClick, store }: Props) {
                 },
                 icon: (
                   <CircleCheckbox
-                    checkedClassName={"bg-success"}
+                    checkedClassName={"bg-review-new"}
+                    checkClassName="text-bg"
                     checked={store.form.reviewTypes.includes("new")}
                     onChange={() => {}}
                   />
@@ -89,7 +91,7 @@ export function RepeatCustomSelector({ onClick, store }: Props) {
                   <CardsToReviewCount
                     isDisabled={!store.form.reviewTypes.includes("new")}
                     items={deckListStore.newCardsCount}
-                    className="text-success"
+                    className="text-review-new"
                   />
                 ),
               },
