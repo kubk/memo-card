@@ -1,6 +1,4 @@
-import { type Translation } from "./en";
-
-export const ptBr: Translation = {
+export const ptBr = {
   navigation_main: "Início",
   navigation_review: "Revisar",
   leaderboard: "Classificação",
@@ -70,8 +68,8 @@ export const ptBr: Translation = {
   payment_description: "Desbloqueie mais recursos",
   payment_title: "Pagamento",
   payment_paid_until: "Pago até",
-  payment_until_date: "Até {date}",
-  payment_renews_on: "Renova em {date}",
+  payment_until_date: "Até [date]",
+  payment_renews_on: "Renova em [date]",
   payment_cancel_subscription: "Cancelar assinatura",
   payment_cancel_subscription_confirm:
     "Cancelar assinatura? O acesso continua até o fim do período pago",
@@ -182,8 +180,8 @@ export const ptBr: Translation = {
   speaking_cards: "Cartões com voz",
   voice_language: "Idioma da voz",
   speaking_card: "Voz",
-  card_voiceover_deck_hint: "Configure o idioma da voz em {link}",
-  card_voiceover_deck_settings: "Configurações do baralho",
+  card_voiceover_deck_hint:
+    "Configure o idioma da voz em [link:configurações do baralho]",
   card_speak_side: "Lado do cartão",
   card_speak_side_hint: "O lado escolhido será pronunciado automaticamente",
   front: "Frente",
@@ -336,14 +334,12 @@ export const ptBr: Translation = {
   anki_import_main_button: "Enviar arquivo .apkg",
   anki_import_heading: "Importar baralho do Anki",
   anki_import_step_1_title: "Passo 1",
-  anki_import_step_1_text_before: "Abra o Anki e clique no ",
-  anki_import_step_1_link: "ícone de engrenagem",
-  anki_import_step_1_text_after: " ao lado do baralho",
+  anki_import_step_1:
+    "Abra o Anki e clique no [link:ícone de engrenagem] ao lado do baralho",
   anki_import_step_2_title: "Passo 2",
-  anki_import_step_2_text_before: "Clique em ",
-  anki_import_step_export_link: "Exportar",
+  anki_import_step_2: "Clique em [link:Exportar]",
   anki_import_step_3_title: "Passo 3",
-  anki_import_step_3_text_before: "Escolha o formato .apkg e clique em ",
+  anki_import_step_3: "Escolha o formato .apkg e clique em [link:Exportar]",
   anki_import_screenshot_gear_alt:
     "Lista de baralhos do Anki com o ícone de engrenagem ao lado de um baralho",
   anki_import_screenshot_export_menu_alt:
@@ -359,4 +355,63 @@ export const ptBr: Translation = {
   skip_card_confirm:
     "Pular este cartão? Ele ficará oculto até a próxima revisão",
   review_skipped: "Pulado",
-};
+
+  // MCP / ChatGPT
+  telegramSetup: "Entre com o Telegram uma vez para conectar sua biblioteca",
+  pluginComingSoon: "O Memo Card estará no diretório do ChatGPT em breve",
+  openPlugin: "Abrir Memo Card no ChatGPT",
+  connectedApps: "Apps conectados",
+  stayConnected: "A conexão continua até você desconectar",
+  disconnect: "Desconectar",
+  disconnectError: "Não foi possível desconectar, tente novamente",
+  benefitCreateTitle: "Crie baralhos completos",
+  benefitCreateDescription: "Pastas, baralhos e cartões em 1 solicitação",
+  benefitImproveTitle: "Melhore seus cartões",
+  benefitImproveDescription:
+    "A IA ajusta os textos, adiciona exemplos e completa o vocabulário que falta",
+  benefitManageTitle: "Gerencie toda a sua biblioteca",
+  benefitManageDescription:
+    "A IA organiza rapidamente os cartões em baralhos e pastas",
+  benefitTranscriptionTitle: "Adicione transcrições fonéticas",
+  benefitTranscriptionDescription: "A IA adicionará a pronúncia correta",
+  proTitle: "Gerencie o MemoCard com ChatGPT",
+  proDescription: "Crie, edite e melhore seus baralhos com ChatGPT",
+  proBenefitsTitle: "Menos rotina, mais aprendizado",
+  proInputPlaceholder: "Pergunte ao ChatGPT",
+  proShowExampleTitle: "Mostrar exemplo",
+  proNewChatTitle: "Novo chat",
+  proMoreTitle: "Mais",
+  proAddTitle: "Adicionar",
+  proVoiceInputTitle: "Entrada de voz",
+  proVoiceModeTitle: "Iniciar modo de voz",
+  proCreatePrompt: "Crie 20 cartões com vocabulário em inglês sobre viagens",
+  proCreateResponse: "Pronto — adicionei 20 cartões novos",
+  proCreateDetail: "Seu baralho «Inglês · Viagens» agora tem 148 cartões",
+  proReviewPrompt:
+    "Revise meu baralho «Família» e adicione as palavras que estão faltando",
+  proReviewResponse: "Encontrei 6 palavras que faltavam e as adicionei",
+  proReviewDetail: "Seu baralho «Família» agora tem 12 cartões",
+  proOrganizePrompt: "Organize meus baralhos de idiomas em pastas",
+  proOrganizeResponse: "Pronto — organizei tudo em 3 pastas",
+  proOrganizeDetail: "Todos os cartões mantiveram o histórico de revisão",
+  introTitle: "Conecte o ChatGPT ao Memo Card",
+  introDescription: "O ChatGPT poderá criar e atualizar cartões no MemoCard",
+  startButton: "Começar",
+  openChatGptTitle: "Abra o ChatGPT",
+  addedButton: "Adicionado",
+  tryAgentTitle: "Pergunte ao ChatGPT",
+  decksCountPrompt: "Quantos baralhos tenho no Memo Card?",
+  createCardsPrompt: "Gerar 10 cartões com capitais do mundo",
+  createLanguageCardsPrompt:
+    "Gere 6 cartões com palavras em português e francês relacionadas a frutas",
+  doneButton: "Pronto",
+  configuredTitle: "O ChatGPT está conectado",
+  instruction:
+    "Abra [link:os plugins do ChatGPT] no navegador, clique em «Adicionar» e depois em «Criar aplicativo MCP» e preencha:",
+  nameLabel: "Nome",
+  descriptionValue: "Gerenciamento de pastas, baralhos e cartões do Memo Card",
+  serverUrlLabel: "URL do servidor",
+  authenticationLabel: "Autenticação",
+  authenticationInstruction: "Selecione “Sem autenticação”",
+  guideLink: "Guia",
+} as const;

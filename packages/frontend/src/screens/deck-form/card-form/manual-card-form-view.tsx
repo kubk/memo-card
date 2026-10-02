@@ -1,3 +1,4 @@
+import { ButtonLink } from "../../../ui/button-link.tsx";
 import { useMainButton } from "../../../lib/platform/use-main-button.ts";
 import { t } from "../../../translations/t.ts";
 import { useProgress } from "../../../lib/platform/use-progress.tsx";
@@ -118,14 +119,13 @@ export function ManualCardFormView() {
         subtitle={
           deck && cardForm.id ? (
             <div className="text-center text-sm mb-2">
-              <button
+              <ButtonLink
                 onClick={() => {
                   screenStore.backToDeck(deck.id);
                 }}
-                className="reset-button text-inherit text-link"
               >
                 {userStore.isRtl ? `${deck.name} →` : `← ${deck.name}`}
-              </button>
+              </ButtonLink>
             </div>
           ) : undefined
         }

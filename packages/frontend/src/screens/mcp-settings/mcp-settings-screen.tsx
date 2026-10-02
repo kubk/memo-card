@@ -11,7 +11,7 @@ import {
   McpSettingsStoreProvider,
   useMcpSettingsStore,
 } from "./store/mcp-settings-store-context.tsx";
-import { mcpT } from "./translations.ts";
+import { t } from "../../translations/t.ts";
 
 export function McpSettingsScreen() {
   return (
@@ -49,8 +49,8 @@ function McpSettingsContent() {
       <McpIntroStep />
       <p className="mt-4 text-center text-sm text-hint">
         {store.connectionsQuery.data?.pluginUrl
-          ? mcpT("telegramSetup")
-          : mcpT("pluginComingSoon")}
+          ? t("telegramSetup")
+          : t("pluginComingSoon")}
       </p>
       <McpConnections />
     </div>

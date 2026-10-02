@@ -1,5 +1,5 @@
 import { BotIcon } from "lucide-react";
-import { mcpT } from "../translations.ts";
+import { t } from "../../../translations/t.ts";
 
 export function McpIntroStep() {
   return (
@@ -8,10 +8,10 @@ export function McpIntroStep() {
         <BotIcon size={70} strokeWidth={1.6} />
       </div>
       <h2 className="mt-6 text-center text-[28px] font-bold leading-tight">
-        {mcpT("introTitle")}
+        {t("introTitle")}
       </h2>
       <div className="mt-4 max-w-[360px] text-center text-[17px] leading-6 text-hint">
-        {mcpT("introDescription")}
+        {t("introDescription")}
       </div>
     </>
   );

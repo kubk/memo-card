@@ -7,7 +7,7 @@
     "dev": "vite",
     "typecheck": "pnpm exec tsc -b --noEmit",
     "lint": "oxlint --format=agent .",
-    "test": "pnpm exec vitest run --environment jsdom",
+    "test": "pnpm exec vitest run --environment jsdom --typecheck",
     "build": "cp index.build.html index.html && vite build",
     "bundle-visualize": "pnpm exec vite-bundle-visualizer"
   },

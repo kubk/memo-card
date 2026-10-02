@@ -3,7 +3,7 @@ import { api, apiProxy } from "../../../api/trpc-api.ts";
 import { platform } from "../../../lib/platform/platform.ts";
 import { makeQuery } from "../../../lib/mobx-query-lite/make-query.ts";
 import { screenStore } from "../../../store/screen-store.ts";
-import { mcpT } from "../translations.ts";
+import { t } from "../../../translations/t.ts";
 
 export class McpSettingsStore {
   connectionsQuery = makeQuery(apiProxy.mcpOAuth.connections.query);
@@ -16,8 +16,8 @@ export class McpSettingsStore {
 
   get mainButtonText() {
     return this.connectionsQuery.data?.pluginUrl
-      ? mcpT("openPlugin")
-      : mcpT("doneButton");
+      ? t("openPlugin")
+      : t("doneButton");
   }
 
   connect() {

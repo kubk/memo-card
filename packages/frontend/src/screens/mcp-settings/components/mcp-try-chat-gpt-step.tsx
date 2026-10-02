@@ -1,5 +1,5 @@
 import { useMcpWizardStore } from "../store/mcp-wizard-store-context.tsx";
-import { mcpT } from "../translations.ts";
+import { t } from "../../../translations/t.ts";
 import { CopyableValue } from "./copyable-value.tsx";
 
 export function McpTryChatGptStep() {
@@ -11,9 +11,9 @@ export function McpTryChatGptStep() {
         {store.title}
       </h2>
       <div className="mt-6 flex w-full flex-col gap-3">
-        <CopyableValue value={mcpT("decksCountPrompt")} />
-        <CopyableValue value={mcpT("createCardsPrompt")} />
-        <CopyableValue value={mcpT("createLanguageCardsPrompt")} />
+        <CopyableValue value={t("decksCountPrompt")} />
+        <CopyableValue value={t("createCardsPrompt")} />
+        <CopyableValue value={t("createLanguageCardsPrompt")} />
       </div>
     </>
   );

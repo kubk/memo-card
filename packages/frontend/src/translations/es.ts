@@ -1,6 +1,4 @@
-import { type Translation } from "./en";
-
-export const es: Translation = {
+export const es = {
   navigation_main: "Inicio",
   navigation_review: "Repasar",
   leaderboard: "Clasificación",
@@ -70,8 +68,8 @@ export const es: Translation = {
   payment_and: " y ",
   payment_tos: "Términos de servicio",
   payment_paid_until: "Pagado hasta",
-  payment_until_date: "Hasta {date}",
-  payment_renews_on: "Se renueva el {date}",
+  payment_until_date: "Hasta [date]",
+  payment_renews_on: "Se renueva el [date]",
   payment_cancel_subscription: "Cancelar suscripción",
   payment_cancel_subscription_confirm:
     "¿Cancelar la suscripción? Mantendrás el acceso hasta que termine el período pagado",
@@ -180,8 +178,8 @@ export const es: Translation = {
   speaking_cards: "Tarjetas habladas",
   voice_language: "Idioma de voz",
   speaking_card: "Voz",
-  card_voiceover_deck_hint: "Configura el idioma de voz en {link}",
-  card_voiceover_deck_settings: "Ajustes del mazo",
+  card_voiceover_deck_hint:
+    "Configura el idioma de voz en [link:ajustes del mazo]",
   card_speak_side: "Lado de la tarjeta",
   card_speak_side_hint: "El lado elegido se pronunciará automáticamente",
   front: "Frente",
@@ -336,14 +334,12 @@ export const es: Translation = {
   anki_import_main_button: "Subir archivo .apkg",
   anki_import_heading: "Importar mazo de Anki",
   anki_import_step_1_title: "Paso 1",
-  anki_import_step_1_text_before: "Abre Anki y haz clic en ",
-  anki_import_step_1_link: "el icono de engranaje",
-  anki_import_step_1_text_after: " junto a tu mazo",
+  anki_import_step_1:
+    "Abre Anki y haz clic en [link:el icono de engranaje] junto a tu mazo",
   anki_import_step_2_title: "Paso 2",
-  anki_import_step_2_text_before: "Haz clic en ",
-  anki_import_step_export_link: "Exportar",
+  anki_import_step_2: "Haz clic en [link:Exportar]",
   anki_import_step_3_title: "Paso 3",
-  anki_import_step_3_text_before: "Elige el formato .apkg y haz clic en ",
+  anki_import_step_3: "Elige el formato .apkg y haz clic en [link:Exportar]",
   anki_import_screenshot_gear_alt:
     "Lista de mazos de Anki con el icono de engranaje junto a un mazo",
   anki_import_screenshot_export_menu_alt:
@@ -359,4 +355,63 @@ export const es: Translation = {
   skip_card_confirm:
     "¿Saltar esta tarjeta? Estará oculta hasta tu próximo repaso",
   review_skipped: "Saltada",
-};
+
+  // MCP / ChatGPT
+  telegramSetup:
+    "Inicia sesión con Telegram una vez para conectar tu biblioteca",
+  pluginComingSoon: "Memo Card llegará pronto al directorio de ChatGPT",
+  openPlugin: "Abrir Memo Card en ChatGPT",
+  connectedApps: "Apps conectadas",
+  stayConnected: "La conexión se mantiene hasta que la desconectes",
+  disconnect: "Desconectar",
+  disconnectError: "No se pudo desconectar, inténtalo de nuevo",
+  benefitCreateTitle: "Crea mazos completos",
+  benefitCreateDescription: "Carpetas, mazos y tarjetas con 1 sola petición",
+  benefitImproveTitle: "Mejora tus tarjetas",
+  benefitImproveDescription:
+    "La IA corrige los textos, añade ejemplos y completa el vocabulario que falta",
+  benefitManageTitle: "Gestiona toda tu biblioteca",
+  benefitManageDescription:
+    "La IA organiza rápidamente las tarjetas en mazos y carpetas",
+  benefitTranscriptionTitle: "Añade transcripciones fonéticas",
+  benefitTranscriptionDescription: "La IA añadirá la pronunciación correcta",
+  proTitle: "Gestiona MemoCard con ChatGPT",
+  proDescription: "Crea, edita y mejora tus mazos con ChatGPT",
+  proBenefitsTitle: "Menos rutina, más aprendizaje",
+  proInputPlaceholder: "Pregunta a ChatGPT",
+  proShowExampleTitle: "Mostrar ejemplo",
+  proNewChatTitle: "Nuevo chat",
+  proMoreTitle: "Más",
+  proAddTitle: "Añadir",
+  proVoiceInputTitle: "Entrada de voz",
+  proVoiceModeTitle: "Iniciar modo de voz",
+  proCreatePrompt: "Crea 20 tarjetas con vocabulario en inglés sobre viajes",
+  proCreateResponse: "Listo — añadí 20 tarjetas nuevas",
+  proCreateDetail: "Tu mazo «Inglés · Viajes» ahora tiene 148 tarjetas",
+  proReviewPrompt: "Revisa mi mazo «Familia» y añade las palabras que faltan",
+  proReviewResponse: "Encontré 6 palabras que faltaban y las añadí",
+  proReviewDetail: "Tu mazo «Familia» ahora tiene 12 tarjetas",
+  proOrganizePrompt: "Organiza mis mazos de idiomas en carpetas",
+  proOrganizeResponse: "Listo — los organicé en 3 carpetas",
+  proOrganizeDetail: "Todas las tarjetas conservaron su historial de repaso",
+  introTitle: "Conecta ChatGPT a Memo Card",
+  introDescription: "ChatGPT podrá crear y actualizar tarjetas en MemoCard",
+  startButton: "Empezar",
+  openChatGptTitle: "Abre ChatGPT",
+  addedButton: "Añadido",
+  tryAgentTitle: "Pregúntale a ChatGPT",
+  decksCountPrompt: "¿Cuántos mazos tengo en Memo Card?",
+  createCardsPrompt: "Generar 10 tarjetas con capitales del mundo",
+  createLanguageCardsPrompt:
+    "Genera 6 tarjetas con palabras en español y francés relacionadas con frutas",
+  doneButton: "Listo",
+  configuredTitle: "ChatGPT está conectado",
+  instruction:
+    "Abre [link:los plugins de ChatGPT] en el navegador, pulsa «Añadir» y luego «Crear aplicación MCP» e introduce:",
+  nameLabel: "Nombre",
+  descriptionValue: "Gestión de carpetas, mazos y tarjetas de Memo Card",
+  serverUrlLabel: "URL del servidor",
+  authenticationLabel: "Autenticación",
+  authenticationInstruction: "Selecciona «Sin autenticación»",
+  guideLink: "Guía",
+} as const;

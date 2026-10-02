@@ -1,3 +1,4 @@
+import { ButtonLink } from "../../../ui/button-link.tsx";
 import { LabelGroup } from "../../../ui/label-group.tsx";
 import { Input } from "../../../ui/input.tsx";
 import { useMainButton } from "../../../lib/platform/use-main-button.ts";
@@ -66,7 +67,7 @@ export function DeckForm() {
           folderId && folderName ? (
             <div className="text-center text-sm">
               {t("folder")}{" "}
-              <button
+              <ButtonLink
                 onClick={() => {
                   deckFormStore.executeViaConfirm(() => {
                     screenStore.push({
@@ -75,10 +76,9 @@ export function DeckForm() {
                     });
                   });
                 }}
-                className="reset-button text-inherit text-link"
               >
                 {folderName}
-              </button>
+              </ButtonLink>
             </div>
           ) : undefined
         }

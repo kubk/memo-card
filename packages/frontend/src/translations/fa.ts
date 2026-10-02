@@ -1,6 +1,4 @@
-import { type Translation } from "./en";
-
-export const fa: Translation = {
+export const fa = {
   navigation_main: "خانه",
   navigation_review: "مرور",
   leaderboard: "جدول رتبه بندی",
@@ -133,8 +131,7 @@ export const fa: Translation = {
   speaking_cards: "کارت‌های گفتاری",
   voice_language: "زبان صدا",
   speaking_card: "صدا",
-  card_voiceover_deck_hint: "زبان صدا را در {link} تنظیم کنید",
-  card_voiceover_deck_settings: "تنظیمات دسته",
+  card_voiceover_deck_hint: "زبان صدا را در [link:تنظیمات دسته] تنظیم کنید",
   card_speak_side: "طرف کارت",
   card_speak_side_hint: "سمت انتخاب‌شده به‌صورت خودکار خوانده می‌شود",
   front: "رو",
@@ -196,8 +193,8 @@ export const fa: Translation = {
   payment_method_usd: "کارت بانکی",
   payment_method_stars: "ستاره‌های تلگرام",
   payment_paid_until: "پرداخت شده تا",
-  payment_until_date: "تا {date}",
-  payment_renews_on: "تمدید در {date}",
+  payment_until_date: "تا [date]",
+  payment_renews_on: "تمدید در [date]",
   payment_cancel_subscription: "لغو اشتراک",
   payment_cancel_subscription_confirm:
     "اشتراک لغو شود؟ دسترسی تا پایان دوره پرداخت‌شده ادامه دارد",
@@ -333,14 +330,13 @@ export const fa: Translation = {
   anki_import_main_button: "بارگذاری فایل .apkg",
   anki_import_heading: "وارد کردن دسته از Anki",
   anki_import_step_1_title: "مرحله ۱",
-  anki_import_step_1_text_before: "Anki را باز کنید و روی ",
-  anki_import_step_1_link: "آیکن چرخ‌دنده",
-  anki_import_step_1_text_after: " کنار دسته‌تان بزنید",
+  anki_import_step_1:
+    "Anki را باز کنید و روی [link:آیکن چرخ‌دنده] کنار دسته‌تان بزنید",
   anki_import_step_2_title: "مرحله ۲",
-  anki_import_step_2_text_before: "گزینه ",
-  anki_import_step_export_link: "خروجی گرفتن را بزنید",
+  anki_import_step_2: "گزینه [link:خروجی گرفتن] را بزنید",
   anki_import_step_3_title: "مرحله ۳",
-  anki_import_step_3_text_before: "قالب .apkg را انتخاب کنید، سپس گزینه ",
+  anki_import_step_3:
+    "قالب .apkg را انتخاب کنید، سپس گزینه [link:خروجی گرفتن] را بزنید",
   anki_import_screenshot_gear_alt:
     "فهرست دسته‌های Anki با آیکن چرخ‌دنده کنار یک دسته",
   anki_import_screenshot_export_menu_alt:
@@ -355,4 +351,63 @@ export const fa: Translation = {
   skip_card_for_now: "رد شدن فعلاً",
   skip_card_confirm: "از این کارت رد شوید؟ تا مرور بعدی پنهان می‌شود",
   review_skipped: "رد شده",
-};
+
+  // MCP / ChatGPT
+  telegramSetup: "یک بار با Telegram وارد شوید تا کتابخانه‌تان متصل شود",
+  pluginComingSoon: "Memo Card به‌زودی در فهرست ChatGPT قرار می‌گیرد",
+  openPlugin: "باز کردن Memo Card در ChatGPT",
+  connectedApps: "برنامه‌های متصل",
+  stayConnected: "تا وقتی اتصال را قطع نکنید، متصل می‌مانید",
+  disconnect: "قطع اتصال",
+  disconnectError: "قطع اتصال انجام نشد، دوباره تلاش کنید",
+  benefitCreateTitle: "دسته‌های کامل بسازید",
+  benefitCreateDescription: "پوشه‌ها، دسته‌ها و کارت‌ها با ۱ درخواست",
+  benefitImproveTitle: "کارت‌هایتان را بهتر کنید",
+  benefitImproveDescription:
+    "هوش مصنوعی عبارت‌ها را اصلاح می‌کند، مثال می‌زند و واژه‌های جاافتاده را اضافه می‌کند",
+  benefitManageTitle: "تمام کتابخانه‌تان را مدیریت کنید",
+  benefitManageDescription:
+    "هوش مصنوعی کارت‌ها را سریع در دسته‌ها و پوشه‌ها مرتب می‌کند",
+  benefitTranscriptionTitle: "آوانگاری اضافه کنید",
+  benefitTranscriptionDescription: "هوش مصنوعی تلفظ درست را اضافه می‌کند",
+  proTitle: "مدیریت MemoCard با ChatGPT",
+  proDescription: "دسته‌هایتان را با ChatGPT بسازید، ویرایش کنید و بهبود دهید",
+  proBenefitsTitle: "کار تکراری کمتر، یادگیری بیشتر",
+  proInputPlaceholder: "از ChatGPT بپرسید",
+  proShowExampleTitle: "نمایش نمونه",
+  proNewChatTitle: "گفت‌وگوی جدید",
+  proMoreTitle: "بیشتر",
+  proAddTitle: "افزودن",
+  proVoiceInputTitle: "ورودی صوتی",
+  proVoiceModeTitle: "شروع حالت صوتی",
+  proCreatePrompt: "۲۰ کارت با واژگان انگلیسی دربارهٔ سفر بساز",
+  proCreateResponse: "انجام شد — ۲۰ کارت جدید اضافه کردم",
+  proCreateDetail: "دستهٔ «انگلیسی · سفر» حالا ۱۴۸ کارت دارد",
+  proReviewPrompt: "دستهٔ «خانواده» را بررسی کن و واژه‌های جاافتاده را اضافه کن",
+  proReviewResponse: "۶ واژهٔ جاافتاده را پیدا کردم و اضافه کردم",
+  proReviewDetail: "دستهٔ «خانواده» حالا ۱۲ کارت دارد",
+  proOrganizePrompt: "دسته‌های زبانم را در پوشه‌ها مرتب کن",
+  proOrganizeResponse: "انجام شد — آن‌ها را در ۳ پوشه مرتب کردم",
+  proOrganizeDetail: "سابقهٔ مرور همهٔ کارت‌ها حفظ شد",
+  introTitle: "ChatGPT را به Memo Card متصل کنید",
+  introDescription:
+    "ChatGPT می‌تواند کارت‌ها را در MemoCard ایجاد و به‌روزرسانی کند",
+  startButton: "شروع",
+  openChatGptTitle: "ChatGPT را باز کنید",
+  addedButton: "اضافه شد",
+  tryAgentTitle: "از ChatGPT بپرسید",
+  decksCountPrompt: "چند دسته در Memo Card دارم؟",
+  createCardsPrompt: "ساخت 10 کارت با پایتخت‌های جهان",
+  createLanguageCardsPrompt:
+    "ساخت 6 کارت با کلمات فارسی و فرانسوی مرتبط با میوه‌ها",
+  doneButton: "انجام شد",
+  configuredTitle: "ChatGPT متصل است",
+  instruction:
+    "در مرورگر [link:افزونه‌های ChatGPT] را باز کنید، روی «افزودن» و سپس «ایجاد برنامهٔ MCP» بزنید و وارد کنید:",
+  nameLabel: "نام",
+  descriptionValue: "مدیریت پوشه‌ها، دسته‌ها و کارت‌های Memo Card",
+  serverUrlLabel: "نشانی URL سرور",
+  authenticationLabel: "احراز هویت",
+  authenticationInstruction: "«بدون احراز هویت» را انتخاب کنید",
+  guideLink: "راهنما",
+} as const;

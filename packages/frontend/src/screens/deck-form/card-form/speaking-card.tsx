@@ -1,6 +1,8 @@
 import { SpeakLanguage } from "api";
 import { Screen } from "../../shared/screen.tsx";
 import { t } from "../../../translations/t.ts";
+import { td } from "../../../translations/td.tsx";
+import { ButtonLink } from "../../../ui/button-link.tsx";
 import { List } from "../../../ui/list.tsx";
 import { LabelGroup } from "../../../ui/label-group.tsx";
 import { ListRightText } from "../../../ui/list-right-text.tsx";
@@ -27,24 +29,19 @@ export function SpeakingCard() {
   const language = Object.entries(SpeakLanguage).find(
     ([, value]) => value === store.speakingCardsLocale,
   )?.[0];
-  const [deckHintBeforeLink, deckHintAfterLink] = t(
-    "card_voiceover_deck_hint",
-  ).split("{link}");
 
   return (
     <Screen title={t("speaking_card")}>
       <LabelGroup
         description={
           <span className="inline">
-            {deckHintBeforeLink}
-            <button
-              className="reset-button inline text-link underline"
-              style={{ fontSize: "inherit" }}
-              onClick={store.openDeckSpeakingSettings}
-            >
-              {t("card_voiceover_deck_settings")}
-            </button>
-            {deckHintAfterLink}
+            {td("card_voiceover_deck_hint", {
+              link: (text) => (
+                <ButtonLink onClick={store.openDeckSpeakingSettings}>
+                  {text}
+                </ButtonLink>
+              ),
+            })}
           </span>
         }
       >
@@ -94,10 +91,7 @@ export function SpeakingCard() {
           </LabelGroup>
         </div>
       )}
-      <BackBottomButton
-        isVisible={!store.isSaveVisible}
-        onClick={onBack}
-      />
+      <BackBottomButton isVisible={!store.isSaveVisible} onClick={onBack} />
     </Screen>
   );
 }

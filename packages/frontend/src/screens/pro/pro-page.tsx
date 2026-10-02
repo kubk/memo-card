@@ -24,7 +24,7 @@ import {
   Wifi,
 } from "lucide-react";
 import { LazyLoadFramerMotion } from "../../lib/framer-motion/lazy-load-framer-motion.tsx";
-import { mcpT } from "../mcp-settings/translations.ts";
+import { t } from "../../translations/t.ts";
 import { userStore } from "../../store/user-store.ts";
 import { cn } from "../../ui/cn.ts";
 import { FilledIcon } from "../../ui/filled-icon.tsx";
@@ -108,10 +108,10 @@ export function ProPage({
 
           <section className="overflow-hidden rounded-[28px] bg-bg px-4 pb-5 pt-7 shadow">
             <h1 className="mx-auto max-w-[320px] text-center text-[30px] font-bold leading-[1.05] tracking-[-0.035em]">
-              {mcpT("proTitle")}
+              {t("proTitle")}
             </h1>
             <p className="mx-auto mt-4 max-w-[315px] text-center text-[16px] leading-[1.45] text-hint">
-              {mcpT("proDescription")}
+              {t("proDescription")}
             </p>
 
             <ChatConversation />
@@ -119,7 +119,7 @@ export function ProPage({
 
           <section className="mt-3 rounded-[24px] bg-bg pb-[5.33px] pt-5 shadow">
             <div className="px-[18px]">
-              <AutoFitHeading text={mcpT("proBenefitsTitle")} />
+              <AutoFitHeading text={t("proBenefitsTitle")} />
             </div>
 
             <div className="mx-1.5 mt-4 overflow-hidden rounded-xl">
@@ -135,10 +135,10 @@ export function ProPage({
                   text: (
                     <div className="py-0.5">
                       <div className="text-[15px] font-semibold leading-5">
-                        {mcpT(benefit.titleKey)}
+                        {t(benefit.titleKey)}
                       </div>
                       <div className="mt-0.5 pe-2 text-[13px] leading-[1.35] text-hint">
-                        {mcpT(benefit.descriptionKey)}
+                        {t(benefit.descriptionKey)}
                       </div>
                     </div>
                   ),
@@ -284,7 +284,7 @@ function ChatConversation() {
             }`}
             key={item.promptKey}
             onClick={() => selectSlide(index)}
-            title={`${mcpT("proShowExampleTitle")} ${index + 1}`}
+            title={`${t("proShowExampleTitle")} ${index + 1}`}
             type="button"
           />
         ))}
@@ -300,9 +300,9 @@ function PhoneFrame({
   example: (typeof CHAT_EXAMPLES)[number];
   isActive: boolean;
 }) {
-  const prompt = mcpT(example.promptKey);
-  const response = mcpT(example.responseKey);
-  const detail = mcpT(example.detailKey);
+  const prompt = t(example.promptKey);
+  const response = t(example.responseKey);
+  const detail = t(example.detailKey);
   const { responseGraphemes, detailGraphemes, fullReplyLength } =
     useMemo(() => {
       const nextResponseGraphemes = splitGraphemes(response);
@@ -407,14 +407,14 @@ function PhoneFrame({
           <div className="flex h-11 items-center gap-1 rounded-full bg-white px-2 shadow-[0_10px_28px_rgba(0,0,0,0.12)]">
             <button
               className="flex size-8 items-center justify-center rounded-full"
-              title={mcpT("proNewChatTitle")}
+              title={t("proNewChatTitle")}
               type="button"
             >
               <SquarePen size={20} strokeWidth={2.4} />
             </button>
             <button
               className="flex size-8 items-center justify-center rounded-full"
-              title={mcpT("proMoreTitle")}
+              title={t("proMoreTitle")}
               type="button"
             >
               <Ellipsis size={22} strokeWidth={2.8} />
@@ -462,24 +462,24 @@ function PhoneFrame({
           <div className="flex h-[50px] items-center gap-2 rounded-full bg-white px-2.5 shadow-[0_8px_30px_rgba(0,0,0,0.12)] ring-1 ring-black/[0.03]">
             <button
               className="flex size-8 shrink-0 items-center justify-center rounded-full"
-              title={mcpT("proAddTitle")}
+              title={t("proAddTitle")}
               type="button"
             >
               <ProperPlusIcon />
             </button>
             <span className="min-w-0 flex-1 truncate text-[14px] text-[#9b9b9b]">
-              {mcpT("proInputPlaceholder")}
+              {t("proInputPlaceholder")}
             </span>
             <button
               className="flex size-8 shrink-0 items-center justify-center rounded-full"
-              title={mcpT("proVoiceInputTitle")}
+              title={t("proVoiceInputTitle")}
               type="button"
             >
               <Mic size={21} strokeWidth={2.2} />
             </button>
             <button
               className="flex size-9 shrink-0 items-center justify-center rounded-full bg-[#111] text-white"
-              title={mcpT("proVoiceModeTitle")}
+              title={t("proVoiceModeTitle")}
               type="button"
             >
               <AudioLines size={19} strokeWidth={2.4} />

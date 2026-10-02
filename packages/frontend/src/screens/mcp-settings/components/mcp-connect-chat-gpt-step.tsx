@@ -1,9 +1,10 @@
 import { ExternalLinkIcon } from "lucide-react";
-import { ExternalLink } from "../../../ui/external-link.tsx";
+import { ButtonLink } from "../../../ui/button-link.tsx";
+import { platform } from "../../../lib/platform/platform.ts";
 import { LabelGroup } from "../../../ui/label-group.tsx";
 import { t } from "../../../translations/t.ts";
 import { useMcpWizardStore } from "../store/mcp-wizard-store-context.tsx";
-import { mcpT } from "../translations.ts";
+import { td } from "../../../translations/td.tsx";
 import { CopyableValue } from "./copyable-value.tsx";
 import { McpField } from "./mcp-field.tsx";
 
@@ -17,36 +18,35 @@ export function McpConnectChatGptStep() {
     return null;
   }
 
-  const [instructionBeforeLink, instructionAfterLink] =
-    mcpT("instruction").split("{link}");
-
   return (
     <>
       <h2 className="mt-6 text-center text-[28px] font-bold leading-tight">
         {store.title}
       </h2>
       <div className="mt-3 text-pretty text-center text-[17px] leading-6 text-hint">
-        {instructionBeforeLink}
-        <ExternalLink
-          className="inline whitespace-nowrap border-0 bg-transparent p-0 font-[inherit] leading-6 text-link underline decoration-dashed underline-offset-4"
-          href={CHATGPT_APPS_URL}
-        >
-          {mcpT("appSettingsLink")}
-          <ExternalLinkIcon className="ms-1 inline-block" size={15} />
-        </ExternalLink>
-        {instructionAfterLink}
+        {td("instruction", {
+          link: (text) => (
+            <ButtonLink
+              variant="dotted"
+              onClick={() => platform.openExternalLink(CHATGPT_APPS_URL)}
+            >
+              {text}
+              <ExternalLinkIcon className="ms-1 inline-block" size={15} />
+            </ButtonLink>
+          ),
+        })}
       </div>
 
       <div className="mt-3 flex w-full flex-col gap-5 rounded-2xl bg-secondary-bg pt-4">
-        <McpField label={mcpT("nameLabel")} value="Memo Card" />
-        <McpField label={t("description")} value={mcpT("descriptionValue")} />
-        <LabelGroup title={mcpT("serverUrlLabel")}>
+        <McpField label={t("nameLabel")} value="Memo Card" />
+        <McpField label={t("description")} value={t("descriptionValue")} />
+        <LabelGroup title={t("serverUrlLabel")}>
           <CopyableValue monospace value={connectionUrl} />
         </LabelGroup>
 
-        <LabelGroup title={mcpT("authenticationLabel")}>
+        <LabelGroup title={t("authenticationLabel")}>
           <div className="py-1 ps-3 text-sm font-medium text-text">
-            {mcpT("authenticationInstruction")}
+            {t("authenticationInstruction")}
           </div>
         </LabelGroup>
       </div>

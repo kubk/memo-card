@@ -7,7 +7,6 @@ import { showConfirm } from "../../../lib/platform/show-confirm.ts";
 import { screenStore } from "../../../store/screen-store.ts";
 import { userStore } from "../../../store/user-store.ts";
 import { t } from "../../../translations/t.ts";
-import { mcpT } from "../translations.ts";
 
 export const MCP_WIZARD_STEPS = [1, 2, 3] as const;
 type McpWizardStep = (typeof MCP_WIZARD_STEPS)[number];
@@ -45,20 +44,18 @@ export class McpWizardStore {
     return this.mcpTokenQuery.data?.status === "used";
   }
 
-  get planDateTextParts() {
-    const messageKey = this.accountStore.plan?.subscription?.willRenew
-      ? "payment_renews_on"
-      : "payment_until_date";
-    const [before, after = ""] = t(messageKey).split("{date}");
-    return { before, after };
+  get planDateMessageKey() {
+    return this.accountStore.plan?.subscription?.willRenew
+      ? ("payment_renews_on" as const)
+      : ("payment_until_date" as const);
   }
 
   get title() {
     if (this.step === 2) {
-      return mcpT("openChatGptTitle");
+      return t("openChatGptTitle");
     }
 
-    return mcpT("tryAgentTitle");
+    return t("tryAgentTitle");
   }
 
   get mainButtonText() {
@@ -67,18 +64,18 @@ export class McpWizardStore {
     }
 
     if (this.isConfigured) {
-      return mcpT("doneButton");
+      return t("doneButton");
     }
 
     if (this.step === 1) {
-      return mcpT("startButton");
+      return t("startButton");
     }
 
     if (this.step === 2) {
-      return mcpT("addedButton");
+      return t("addedButton");
     }
 
-    return mcpT("doneButton");
+    return t("doneButton");
   }
 
   goToStep(step: McpWizardStep) {

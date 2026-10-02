@@ -1,6 +1,6 @@
 import { Button } from "../../../ui/button.tsx";
 import { useMcpSettingsStore } from "../store/mcp-settings-store-context.tsx";
-import { mcpT } from "../translations.ts";
+import { t } from "../../../translations/t.ts";
 
 export function McpConnections() {
   const store = useMcpSettingsStore();
@@ -12,8 +12,8 @@ export function McpConnections() {
   return (
     <div className="mt-6 w-full">
       <div className="mt-4 rounded-2xl bg-secondary-bg p-4">
-        <h3 className="font-semibold">{mcpT("connectedApps")}</h3>
-        <p className="mt-1 text-sm text-hint">{mcpT("stayConnected")}</p>
+        <h3 className="font-semibold">{t("connectedApps")}</h3>
+        <p className="mt-1 text-sm text-hint">{t("stayConnected")}</p>
         {data.connections.map((connection) => (
           <div key={connection.id} className="mt-4 flex items-center gap-3">
             <span className="min-w-0 flex-1 break-words text-sm">
@@ -25,12 +25,12 @@ export function McpConnections() {
               disabled={store.disconnectingId !== null}
               onClick={() => store.disconnect(connection.id)}
             >
-              {mcpT("disconnect")}
+              {t("disconnect")}
             </Button>
           </div>
         ))}
         {store.disconnectFailed && (
-          <p className="mt-3 text-sm text-hint">{mcpT("disconnectError")}</p>
+          <p className="mt-3 text-sm text-hint">{t("disconnectError")}</p>
         )}
       </div>
     </div>

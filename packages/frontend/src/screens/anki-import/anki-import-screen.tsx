@@ -1,10 +1,12 @@
 import { useRef, useState } from "react";
 import { FileIcon } from "lucide-react";
+import { ButtonLink } from "../../ui/button-link.tsx";
 import { useBackButton } from "../../lib/platform/use-back-button.ts";
 import { useMainButton } from "../../lib/platform/use-main-button.ts";
 import { useProgress } from "../../lib/platform/use-progress.tsx";
 import { screenStore } from "../../store/screen-store.ts";
 import { t } from "../../translations/t.ts";
+import { td } from "../../translations/td.tsx";
 import { Screen } from "../shared/screen.tsx";
 import { AnkiImportScreenStore } from "./anki-import-screen-store.ts";
 
@@ -12,23 +14,19 @@ const steps = [
   {
     number: 1,
     titleKey: "anki_import_step_1_title",
-    textBeforeKey: "anki_import_step_1_text_before",
-    linkTextKey: "anki_import_step_1_link",
-    textAfterKey: "anki_import_step_1_text_after",
+    textKey: "anki_import_step_1",
     screenshotStep: 1,
   },
   {
     number: 2,
     titleKey: "anki_import_step_2_title",
-    textBeforeKey: "anki_import_step_2_text_before",
-    linkTextKey: "anki_import_step_export_link",
+    textKey: "anki_import_step_2",
     screenshotStep: 2,
   },
   {
     number: 3,
     titleKey: "anki_import_step_3_title",
-    textBeforeKey: "anki_import_step_3_text_before",
-    linkTextKey: "anki_import_step_export_link",
+    textKey: "anki_import_step_3",
     screenshotStep: 3,
   },
 ] as const;
@@ -90,17 +88,18 @@ export function AnkiImportScreen() {
                   {t(step.titleKey)}
                 </div>
                 <div className="mt-1 text-[17px] leading-6 text-hint">
-                  {t(step.textBeforeKey)}
-                  {"screenshotStep" in step && (
-                    <button
-                      className="inline cursor-pointer border-0 bg-transparent p-0 font-[inherit] leading-6 text-link underline decoration-dashed underline-offset-4"
-                      type="button"
-                      onClick={() => store.openScreenshot(step.screenshotStep)}
-                    >
-                      {t(step.linkTextKey)}
-                    </button>
-                  )}
-                  {"textAfterKey" in step && t(step.textAfterKey)}
+                  {td(step.textKey, {
+                    link: (text) => (
+                      <ButtonLink
+                        variant="dotted"
+                        onClick={() =>
+                          store.openScreenshot(step.screenshotStep)
+                        }
+                      >
+                        {text}
+                      </ButtonLink>
+                    ),
+                  })}
                 </div>
               </div>
             </div>

@@ -1,6 +1,4 @@
-import { type Translation } from "./en";
-
-export const uk: Translation = {
+export const uk = {
   navigation_main: "Головна",
   navigation_review: "Повторення",
   leaderboard: "Рейтинг",
@@ -71,8 +69,8 @@ export const uk: Translation = {
   payment_and: " та ",
   payment_tos: "Умовами використання",
   payment_paid_until: "Оплачено до",
-  payment_until_date: "До {date}",
-  payment_renews_on: "Наступне продовження {date}",
+  payment_until_date: "До [date]",
+  payment_renews_on: "Наступне продовження [date]",
   payment_cancel_subscription: "Скасувати підписку",
   payment_cancel_subscription_confirm:
     "Скасувати підписку? Доступ залишиться до кінця оплаченого періоду",
@@ -181,8 +179,8 @@ export const uk: Translation = {
   speaking_cards: "Картки з озвучкою",
   voice_language: "Мова озвучки",
   speaking_card: "Озвучення",
-  card_voiceover_deck_hint: "Налаштуйте мову озвучки в {link}",
-  card_voiceover_deck_settings: "налаштуваннях колоди",
+  card_voiceover_deck_hint:
+    "Налаштуйте мову озвучки в [link:налаштуваннях колоди]",
   card_speak_side: "Сторона картки",
   card_speak_side_hint: "Обрана сторона озвучуватиметься автоматично",
   front: "Лицьова",
@@ -338,14 +336,12 @@ export const uk: Translation = {
   anki_import_main_button: "Завантажити файл .apkg",
   anki_import_heading: "Імпорт колоди Anki",
   anki_import_step_1_title: "Крок 1",
-  anki_import_step_1_text_before: "Відкрийте Anki і натисніть ",
-  anki_import_step_1_link: "значок шестерні",
-  anki_import_step_1_text_after: " поруч з колодою",
+  anki_import_step_1:
+    "Відкрийте Anki і натисніть [link:значок шестерні] поруч з колодою",
   anki_import_step_2_title: "Крок 2",
-  anki_import_step_2_text_before: "Натисніть ",
-  anki_import_step_export_link: "Експорт",
+  anki_import_step_2: "Натисніть [link:Експорт]",
   anki_import_step_3_title: "Крок 3",
-  anki_import_step_3_text_before: "Виберіть формат .apkg, потім натисніть ",
+  anki_import_step_3: "Виберіть формат .apkg, потім натисніть [link:Експорт]",
   anki_import_screenshot_gear_alt:
     "Список колод Anki: значок шестерні поруч з колодою",
   anki_import_screenshot_export_menu_alt:
@@ -361,4 +357,61 @@ export const uk: Translation = {
   skip_card_confirm:
     "Пропустити цю картку? Вона буде прихована до наступного повторення",
   review_skipped: "Пропущено",
-};
+
+  // MCP / ChatGPT
+  telegramSetup: "Увійдіть через Telegram один раз, щоб підключити бібліотеку",
+  pluginComingSoon: "Memo Card незабаром з’явиться в каталозі ChatGPT",
+  openPlugin: "Відкрити Memo Card у ChatGPT",
+  connectedApps: "Підключені застосунки",
+  stayConnected: "Підключення діє, доки ви його не вимкнете",
+  disconnect: "Відключити",
+  disconnectError: "Не вдалося відключити, спробуйте ще раз",
+  benefitCreateTitle: "Створюйте повноцінні колоди",
+  benefitCreateDescription: "Папки, колоди й картки — за 1 запит",
+  benefitImproveTitle: "Покращуйте картки",
+  benefitImproveDescription:
+    "ШІ виправить формулювання, додасть приклади й доповнить словниковий запас",
+  benefitManageTitle: "Керуйте всією бібліотекою",
+  benefitManageDescription: "ШІ швидко розкладе картки за колодами й папками",
+  benefitTranscriptionTitle: "Додавайте фонетичні транскрипції",
+  benefitTranscriptionDescription: "ШІ додасть правильну вимову",
+  proTitle: "Керуйте MemoCard через ChatGPT",
+  proDescription: "Створюйте, редагуйте й покращуйте колоди через ChatGPT",
+  proBenefitsTitle: "Менше рутини — більше навчання",
+  proInputPlaceholder: "Запитати ChatGPT",
+  proShowExampleTitle: "Показати приклад",
+  proNewChatTitle: "Новий чат",
+  proMoreTitle: "Більше",
+  proAddTitle: "Додати",
+  proVoiceInputTitle: "Голосове введення",
+  proVoiceModeTitle: "Почати голосовий режим",
+  proCreatePrompt: "Створи 20 карток з англійськими словами про подорожі",
+  proCreateResponse: "Готово — додано 20 нових карток",
+  proCreateDetail: "Тепер у колоді «Англійська · Подорожі» 148 карток",
+  proReviewPrompt: "Перевір колоду «Сім’я» й додай слова, яких бракує",
+  proReviewResponse: "Знайшов і додав 6 слів, яких бракувало",
+  proReviewDetail: "Тепер у колоді «Сім’я» 12 карток",
+  proOrganizePrompt: "Розклади мої мовні колоди за папками",
+  proOrganizeResponse: "Готово — розподілено за 3 папками",
+  proOrganizeDetail: "Історію повторень усіх карток збережено",
+  introTitle: "Підключіть ChatGPT до Memo Card",
+  introDescription: "ChatGPT зможе створювати й оновлювати картки в MemoCard",
+  startButton: "Почати",
+  openChatGptTitle: "Відкрийте ChatGPT",
+  addedButton: "Додано",
+  tryAgentTitle: "Запитайте ChatGPT",
+  decksCountPrompt: "Скільки в мене колод у Memo Card?",
+  createCardsPrompt: "Згенеруй 10 карток зі столицями світу",
+  createLanguageCardsPrompt:
+    "Згенеруй 6 карток з українськими та французькими словами, пов'язаними з фруктами",
+  doneButton: "Готово",
+  configuredTitle: "ChatGPT підключено",
+  instruction:
+    "Відкрийте [link:плагіни ChatGPT] у браузері, натисніть «Додати», потім «Створити MCP-застосунок» і вкажіть:",
+  nameLabel: "Назва",
+  descriptionValue: "Керування папками, колодами та картками Memo Card",
+  serverUrlLabel: "URL сервера",
+  authenticationLabel: "Авторизація",
+  authenticationInstruction: "Виберіть «Без авторизації»",
+  guideLink: "Інструкція",
+} as const;

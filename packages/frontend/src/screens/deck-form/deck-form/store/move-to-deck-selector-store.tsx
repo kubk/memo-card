@@ -10,6 +10,7 @@ import {
 } from "../../../shared/snackbar/snackbar.tsx";
 import { BooleanToggle } from "mobx-form-lite";
 import { userStore } from "../../../../store/user-store.ts";
+import { ButtonLink } from "../../../../ui/button-link.tsx";
 import { cn } from "../../../../ui/cn.ts";
 import { screenStore } from "../../../../store/screen-store.ts";
 import { t } from "../../../../translations/t.ts";
@@ -82,8 +83,8 @@ export class MoveToDeckSelectorStore {
         <div className="flex flex-col gap-1">
           <div className={cn("font-medium")}>{t("move_card_open_deck")}</div>
           <div>
-            <span
-              className="underline"
+            <ButtonLink
+              className="text-inherit"
               onClick={() => {
                 screenStore.push({
                   type: "deckForm",
@@ -93,7 +94,7 @@ export class MoveToDeckSelectorStore {
               }}
             >
               {result.targetDeck.name}
-            </span>
+            </ButtonLink>
           </div>
         </div>,
         { anchorOrigin: notifyPosition },

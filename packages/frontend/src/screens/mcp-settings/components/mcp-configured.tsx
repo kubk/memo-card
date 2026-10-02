@@ -1,18 +1,17 @@
 import { CheckIcon, TrashIcon } from "lucide-react";
 import { sharedProTitle } from "api";
 import { t } from "../../../translations/t.ts";
+import { td } from "../../../translations/td.tsx";
 import { List } from "../../../ui/list.tsx";
 import { LoadingSwap } from "../../../ui/loading-swap.tsx";
 import { ProIcon } from "../../../ui/pro-icon.tsx";
-import { TextButton } from "../../../ui/text-button.tsx";
+import { ButtonLink } from "../../../ui/button-link.tsx";
 import { useMcpWizardStore } from "../store/mcp-wizard-store-context.tsx";
-import { mcpT } from "../translations.ts";
 
 export function McpConfigured() {
   const store = useMcpWizardStore();
   const plan = store.accountStore.plan;
   const paidUntil = store.accountStore.paidUntil;
-  const { before, after } = store.planDateTextParts;
 
   return (
     <>
@@ -20,7 +19,7 @@ export function McpConfigured() {
         <CheckIcon size={70} strokeWidth={1.8} />
       </div>
       <h2 className="mt-6 text-center text-[28px] font-bold leading-tight">
-        {mcpT("configuredTitle")}
+        {t("configuredTitle")}
       </h2>
       {plan && paidUntil ? (
         <div className="mt-6 w-full">
@@ -35,9 +34,9 @@ export function McpConfigured() {
                       {sharedProTitle}
                     </span>
                     <span className="text-xs text-hint">
-                      {before}
-                      <bdi>{paidUntil}</bdi>
-                      {after}
+                      {td(store.planDateMessageKey, {
+                        date: () => <bdi>{paidUntil}</bdi>,
+                      })}
                     </span>
                   </div>
                 ),
@@ -75,13 +74,13 @@ export function McpConfigured() {
           ) : null}
         </div>
       ) : null}
-      <TextButton
-        className="mt-4 underline"
+      <ButtonLink
+        className="mt-4 text-[17px] font-medium"
         onClick={store.openGuide}
         type="button"
       >
-        {mcpT("guideLink")}
-      </TextButton>
+        {t("guideLink")}
+      </ButtonLink>
     </>
   );
 }

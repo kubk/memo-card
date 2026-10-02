@@ -1,16 +1,19 @@
 import type { LanguageShared } from "api";
 import { makeAutoObservable, reaction, runInAction } from "mobx";
 import { userStore } from "../store/user-store.ts";
-import type { Translation } from "./en.ts";
+import type { TranslationStrings } from "./en.ts";
 import { normalizeLanguage } from "./normalize-language.ts";
 
-type TranslationLoader = () => Promise<Translation>;
+type TranslationLoader = () => Promise<TranslationStrings>;
 export type TranslationLoaders = Record<LanguageShared, TranslationLoader>;
 
 export class TranslationResourceStore {
-  loadedTranslations: Partial<Record<LanguageShared, Translation>> = {};
-  private fallbackTranslation?: Translation;
-  private loadingTranslations = new Map<LanguageShared, Promise<Translation>>();
+  loadedTranslations: Partial<Record<LanguageShared, TranslationStrings>> = {};
+  private fallbackTranslation?: TranslationStrings;
+  private loadingTranslations = new Map<
+    LanguageShared,
+    Promise<TranslationStrings>
+  >();
   private initialTranslationLoad?: Promise<void>;
 
   constructor(private loaders: TranslationLoaders) {
@@ -52,7 +55,7 @@ export class TranslationResourceStore {
 
   translate(
     language: LanguageShared,
-    key: keyof Translation,
+    key: keyof TranslationStrings,
     defaultValue?: string,
   ) {
     return (

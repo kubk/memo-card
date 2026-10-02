@@ -1,11 +1,11 @@
 import { describe, expect, it, vi } from "vitest";
-import { en, type Translation } from "./en.ts";
+import { en, type TranslationStrings } from "./en.ts";
 import {
   TranslationResourceStore,
   type TranslationLoaders,
 } from "./translation-resource-store.ts";
 
-function createLoaders(loader: () => Promise<Translation>) {
+function createLoaders(loader: () => Promise<TranslationStrings>) {
   return {
     en: loader,
     ru: loader,
@@ -36,10 +36,10 @@ describe("TranslationResourceStore", () => {
   });
 
   it("deduplicates concurrent loads for one language", async () => {
-    let finishLoading: ((translation: Translation) => void) | undefined;
+    let finishLoading: ((translation: TranslationStrings) => void) | undefined;
     const loader = vi.fn(
       () =>
-        new Promise<Translation>((resolve) => {
+        new Promise<TranslationStrings>((resolve) => {
           finishLoading = resolve;
         }),
     );
