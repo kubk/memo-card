@@ -120,6 +120,7 @@ export function ManualCardFormView() {
           deck && cardForm.id ? (
             <div className="text-center text-sm mb-2">
               <ButtonLink
+                variant="plain"
                 onClick={() => {
                   screenStore.backToDeck(deck.id);
                 }}

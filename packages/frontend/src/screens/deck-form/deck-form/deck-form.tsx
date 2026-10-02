@@ -68,6 +68,7 @@ export function DeckForm() {
             <div className="text-center text-sm">
               {t("folder")}{" "}
               <ButtonLink
+                variant="plain"
                 onClick={() => {
                   deckFormStore.executeViaConfirm(() => {
                     screenStore.push({

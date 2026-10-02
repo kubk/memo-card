@@ -8,7 +8,7 @@ export function ButtonLink({
   type = "button",
   ...props
 }: ButtonHTMLAttributes<HTMLButtonElement> & {
-  variant?: "underline" | "dotted";
+  variant?: "underline" | "dotted" | "plain";
 }) {
   return (
     <button
@@ -16,7 +16,8 @@ export function ButtonLink({
       type={type}
       className={cn(
         reset.button,
-        "inline whitespace-nowrap text-[length:inherit] text-link underline",
+        "inline whitespace-nowrap text-[length:inherit] text-link",
+        variant !== "plain" && "underline",
         variant === "dotted" && "decoration-dotted underline-offset-4",
         className,
       )}
