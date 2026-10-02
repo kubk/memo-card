@@ -11,6 +11,7 @@ import { useBackButton } from "../../../lib/platform/use-back-button.ts";
 import { useMainButton } from "../../../lib/platform/use-main-button.ts";
 import { useProgress } from "../../../lib/platform/use-progress.tsx";
 import { useCardFormStore } from "./store/card-form-store-context.tsx";
+import { BackBottomButton } from "../../shared/back-bottom-button.tsx";
 
 export function SpeakingCard() {
   const store = useCardFormStore();
@@ -26,13 +27,16 @@ export function SpeakingCard() {
   const language = Object.entries(SpeakLanguage).find(
     ([, value]) => value === store.speakingCardsLocale,
   )?.[0];
+  const [deckHintBeforeLink, deckHintAfterLink] = t(
+    "card_voiceover_deck_hint",
+  ).split("{link}");
 
   return (
     <Screen title={t("speaking_card")}>
       <LabelGroup
         description={
           <span className="inline">
-            {t("card_voiceover_deck_hint")}{" "}
+            {deckHintBeforeLink}
             <button
               className="reset-button inline text-link underline"
               style={{ fontSize: "inherit" }}
@@ -40,6 +44,7 @@ export function SpeakingCard() {
             >
               {t("card_voiceover_deck_settings")}
             </button>
+            {deckHintAfterLink}
           </span>
         }
       >
@@ -89,6 +94,10 @@ export function SpeakingCard() {
           </LabelGroup>
         </div>
       )}
+      <BackBottomButton
+        isVisible={!store.isSaveVisible}
+        onClick={onBack}
+      />
     </Screen>
   );
 }

@@ -6,9 +6,8 @@ import { platform } from "../../../lib/platform/platform.ts";
 import { BrowserPlatform } from "../../../lib/platform/browser/browser-platform.ts";
 import { BrowserBackButton } from "../../shared/browser-platform/browser-back-button.tsx";
 import { RotateCcwIcon } from "lucide-react";
-import { Button } from "../../../ui/button.tsx";
-import { t } from "../../../translations/t.ts";
 import { CardPreviewFormData } from "./store/card-preview-types.ts";
+import { BackBottomButton } from "../../shared/back-bottom-button.tsx";
 
 type Props = {
   form: CardPreviewFormData;
@@ -46,15 +45,7 @@ export function CardPreview(props: Props) {
         onShowAnswer={() => {
           cardPreviewStore.open();
         }}
-        cardOpenedRow={
-          <Button
-            onClick={() => {
-              onBack();
-            }}
-          >
-            {t("go_back")}
-          </Button>
-        }
+        cardOpenedRow={<BackBottomButton onClick={onBack} />}
         card={cardPreviewStore}
         onReviewCardWithAnswers={() => {}}
       />

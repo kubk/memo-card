@@ -6,10 +6,10 @@ import { WysiwygField } from "../../../ui/wysiwyg-field/wysiwig-field.tsx";
 import { Input } from "../../../ui/input.tsx";
 import { userStore } from "../../../store/user-store.ts";
 import { useBackButton } from "../../../lib/platform/use-back-button.ts";
-import { useMainButton } from "../../../lib/platform/use-main-button.ts";
 import { wysiwygStore } from "../../../store/wysiwyg-store.ts";
 import { useCardFormStore } from "./store/card-form-store-context.tsx";
 import { assert } from "api";
+import { BackBottomButton } from "../../shared/back-bottom-button.tsx";
 
 export function CardExample() {
   const cardFormStore = useCardFormStore();
@@ -20,8 +20,6 @@ export function CardExample() {
   const onBack = () => cardFormStore.cardInnerScreen.onChange(null);
 
   useBackButton(onBack);
-
-  useMainButton(t("go_back"), onBack, () => wysiwygStore.bottomSheet === null);
 
   return (
     <Screen title={t("card_field_example_title")}>
@@ -36,6 +34,10 @@ export function CardExample() {
           <Input field={cardForm.example} type={"textarea"} rows={2} />
         )}
       </LabelGroup>
+      <BackBottomButton
+        isVisible={wysiwygStore.bottomSheet === null}
+        onClick={onBack}
+      />
     </Screen>
   );
 }
