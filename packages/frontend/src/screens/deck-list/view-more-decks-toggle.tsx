@@ -15,7 +15,7 @@ export function ViewMoreDecksToggle() {
         deckListStore.isMyDecksExpanded.toggle();
       }}
     >
-      <span className="focus:outline-none">
+      <span className="focus:outline-hidden">
         <ChevronIcon
           direction={deckListStore.isMyDecksExpanded.value ? "top" : "bottom"}
         />

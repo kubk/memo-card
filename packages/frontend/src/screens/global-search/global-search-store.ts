@@ -414,7 +414,7 @@ class GlobalSearchStore {
     const regex = new RegExp(`(${escapedQuery})`, "gi");
     return text.replace(
       regex,
-      '<mark class="bg-button text-white py-0 rounded-sm font-medium">$1</mark>',
+      '<mark class="bg-button text-white py-0 rounded-xs font-medium">$1</mark>',
     );
   }
 }

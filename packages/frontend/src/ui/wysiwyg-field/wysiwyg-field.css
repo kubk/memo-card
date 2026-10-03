@@ -3,7 +3,7 @@
   border-top-right-radius: 12px;
   color: var(--tg-theme-text-color);
   background-color: var(--tg-theme-bg-color) !important;
-  @apply !border-secondary-bg;
+  border-color: var(--tg-theme-secondary-bg-color) !important;
 }
 
 .rsw-toolbar button:hover {

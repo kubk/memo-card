@@ -32,7 +32,7 @@ export function DrawerContent({
       />
       <DrawerPrimitive.Content
         className={cn(
-          "fixed inset-x-0 bottom-0 z-bottom-sheet-fg flex h-auto flex-col rounded-t-[20px] bg-bg p-5 text-text focus:outline-none",
+          "fixed inset-x-0 bottom-0 z-bottom-sheet-fg flex h-auto flex-col rounded-t-[20px] bg-bg p-5 text-text focus:outline-hidden",
           className,
         )}
         {...props}

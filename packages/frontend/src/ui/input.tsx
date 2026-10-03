@@ -71,7 +71,7 @@ export function Input(props: Props) {
           mainIcon && (isRtl ? "pr-10" : "pl-10"),
           secondaryIcon && (isRtl ? "pl-10" : "pr-10"),
           isTouched && error ? "border-danger" : "border-secondary-bg",
-          "focus:outline-none",
+          "focus:outline-hidden",
           isTouched && error ? "focus:border-danger" : "focus:border-button",
           isDisabled && "opacity-40 cursor-not-allowed",
           className,

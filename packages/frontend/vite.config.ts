@@ -1,4 +1,5 @@
 import { defineConfig } from "vite";
+import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 import { execSync } from "node:child_process";
 import { dirname, resolve } from "node:path";
@@ -26,7 +27,11 @@ const getLastCommit = () => {
 };
 
 export default defineConfig({
-  plugins: [react(), observerPlugin({ exclude: ["src/ui/shadcn/**"] })],
+  plugins: [
+    tailwindcss(),
+    react(),
+    observerPlugin({ exclude: ["src/ui/shadcn/**"] }),
+  ],
   define: {
     __LAST_COMMIT__: JSON.stringify(getLastCommit()),
   },

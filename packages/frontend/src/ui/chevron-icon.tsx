@@ -38,7 +38,7 @@ export function ChevronIcon(props: Props) {
         whileTap={{ scale: 0.9 }}
         animate={{ rotate: getRotation(direction) }}
         initial={false}
-        className="focus:outline-none"
+        className="focus:outline-hidden"
         {...restProps}
       >
         <path

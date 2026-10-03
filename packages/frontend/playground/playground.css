@@ -1,31 +1,38 @@
+@import "tailwindcss";
 @import "../src/ui/shadcn/theme.css";
-@config "./tailwind.config.js";
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 
-.reset-button {
-  @apply cursor-pointer border-0 bg-transparent p-0 outline-none focus:outline-none;
-  font-family: inherit;
-  font-size: 1rem;
-}
+@layer base {
+  .reset-button {
+    padding: 0;
+    border: 0;
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    cursor: pointer;
+    background-color: transparent;
+    font-family: inherit;
+    font-size: 1rem;
+  }
 
-:root {
-  --tg-theme-bg-color: #ffffff;
-  --tg-theme-secondary-bg-color: #f2f2f4;
-  --tg-theme-text-color: #17181c;
-  --tg-theme-hint-color: #8a8e97;
-  --tg-theme-link-color: #2481cc;
-  --tg-theme-button-color: #2481cc;
-  --tg-theme-button-text-color: #ffffff;
-}
+  :root {
+    --tg-theme-bg-color: #ffffff;
+    --tg-theme-secondary-bg-color: #f2f2f4;
+    --tg-theme-text-color: #17181c;
+    --tg-theme-hint-color: #8a8e97;
+    --tg-theme-link-color: #2481cc;
+    --tg-theme-button-color: #2481cc;
+    --tg-theme-button-text-color: #ffffff;
+  }
 
-html,
-body,
-#root {
-  @apply h-full;
-}
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
 
-body {
-  @apply m-0 overflow-hidden bg-background text-foreground;
+  body {
+    margin: 0;
+    overflow: hidden;
+    background: var(--background);
+    color: var(--foreground);
+  }
 }

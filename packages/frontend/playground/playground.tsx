@@ -518,7 +518,7 @@ function PlaygroundHome({
                     <button
                       type="button"
                       key={component.id}
-                      className="min-h-11 w-full rounded-full border border-border bg-background px-3 py-2 text-center text-sm font-medium leading-tight text-foreground transition-colors hover:bg-accent focus-visible:bg-accent focus-visible:outline-none sm:text-base"
+                      className="min-h-11 w-full rounded-full border border-border bg-background px-3 py-2 text-center text-sm font-medium leading-tight text-foreground transition-colors hover:bg-accent focus-visible:bg-accent focus-visible:outline-hidden sm:text-base"
                       onClick={() => onSelect(component.id)}
                     >
                       {component.label}
@@ -532,7 +532,7 @@ function PlaygroundHome({
 
         <a
           href="/"
-          className="inline-flex h-9 items-center gap-2 self-center rounded-full border border-border bg-background px-4 text-sm font-medium text-foreground transition-colors hover:bg-accent focus-visible:bg-accent focus-visible:outline-none"
+          className="inline-flex h-9 items-center gap-2 self-center rounded-full border border-border bg-background px-4 text-sm font-medium text-foreground transition-colors hover:bg-accent focus-visible:bg-accent focus-visible:outline-hidden"
         >
           <House size={16} />
           App

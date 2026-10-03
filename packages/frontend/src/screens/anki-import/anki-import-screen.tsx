@@ -148,7 +148,7 @@ function AnkiImportIllustration() {
         />
 
         <div className="h-[52px]" />
-        <div className="relative w-[112px] rounded-md bg-button py-1.5 text-center text-lg font-bold leading-none text-button-text shadow-sm">
+        <div className="relative w-[112px] rounded-md bg-button py-1.5 text-center text-lg font-bold leading-none text-button-text shadow-xs">
           .apkg
         </div>
       </div>

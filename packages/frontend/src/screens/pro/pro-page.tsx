@@ -458,7 +458,7 @@ function PhoneFrame({
           )}
         </div>
 
-        <div className="absolute inset-x-0 bottom-0 z-30 bg-gradient-to-t from-white via-white to-white/0 px-3 pb-2.5 pt-5">
+        <div className="absolute inset-x-0 bottom-0 z-30 bg-linear-to-t from-white via-white to-white/0 px-3 pb-2.5 pt-5">
           <div className="flex h-[50px] items-center gap-2 rounded-full bg-white px-2.5 shadow-[0_8px_30px_rgba(0,0,0,0.12)] ring-1 ring-black/[0.03]">
             <button
               className="flex size-8 shrink-0 items-center justify-center rounded-full"
