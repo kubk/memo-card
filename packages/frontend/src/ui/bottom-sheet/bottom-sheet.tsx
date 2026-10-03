@@ -1,5 +1,5 @@
 import { createContext, type ReactNode, useContext, useEffect } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { XIcon } from "lucide-react";
 import { platform } from "../../lib/platform/platform.ts";
 import { BrowserPlatform } from "../../lib/platform/browser/browser-platform.ts";
@@ -128,7 +128,7 @@ export function BottomSheet(props: Props) {
   return (
     isOpen && (
       <>
-        <motion.div
+        <m.div
           className="fixed inset-0 z-bottom-sheet-bg"
           style={{
             backgroundColor: "rgba(0, 0, 0, 0.5)",
@@ -140,7 +140,7 @@ export function BottomSheet(props: Props) {
           onClick={onClose}
         />
         <div className="fixed inset-0 z-bottom-sheet-fg grid place-items-center pointer-events-none">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
@@ -153,7 +153,7 @@ export function BottomSheet(props: Props) {
               <BottomSheetTitleContent title={title} onClose={onClose} />
             </h2>
             {children}
-          </motion.div>
+          </m.div>
         </div>
       </>
     )

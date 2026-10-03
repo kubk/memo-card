@@ -16,7 +16,7 @@ import {
 } from "./store/card-list-store.ts";
 import { CircleCheckbox } from "../../../ui/circle-checkbox.tsx";
 import { cn } from "../../../ui/cn.ts";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { MoveToDeckSelector } from "./move-to-deck-selector.tsx";
 import { platform } from "../../../lib/platform/platform.ts";
 import { TelegramPlatform } from "../../../lib/platform/telegram/telegram-platform.ts";
@@ -252,7 +252,7 @@ export function CardList() {
 
       <AnimatePresence>
         {cardListStore.isSelectionMode.value && !noneSelected && (
-          <motion.div
+          <m.div
             initial={{ y: "100%" }}
             animate={{ y: 0 }}
             exit={{ y: "100%" }}
@@ -298,7 +298,7 @@ export function CardList() {
                 </button>
               ))}
             </div>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
 

@@ -23,7 +23,6 @@ import {
   Volume2,
   Wifi,
 } from "lucide-react";
-import { LazyLoadFramerMotion } from "../../lib/framer-motion/lazy-load-framer-motion.tsx";
 import { t } from "../../translations/t.ts";
 import { userStore } from "../../store/user-store.ts";
 import { cn } from "../../ui/cn.ts";
@@ -93,64 +92,62 @@ export function ProPage({
   flush?: boolean;
 }) {
   return (
-    <LazyLoadFramerMotion>
-      <div
-        className="min-h-full w-full bg-secondary-bg text-text"
-        dir={userStore.isRtl ? "rtl" : "ltr"}
+    <div
+      className="min-h-full w-full bg-secondary-bg text-text"
+      dir={userStore.isRtl ? "rtl" : "ltr"}
+    >
+      <main
+        className={cn(
+          "mx-auto w-full max-w-[430px] pb-20 pt-1",
+          !flush && "px-3",
+        )}
       >
-        <main
-          className={cn(
-            "mx-auto w-full max-w-[430px] pb-20 pt-1",
-            !flush && "px-3",
-          )}
-        >
-          {notice ? <div className="mb-3">{notice}</div> : null}
+        {notice ? <div className="mb-3">{notice}</div> : null}
 
-          <section className="overflow-hidden rounded-[28px] bg-bg px-4 pb-5 pt-7 shadow">
-            <h1 className="mx-auto max-w-[320px] text-center text-[30px] font-bold leading-[1.05] tracking-[-0.035em]">
-              {t("proTitle")}
-            </h1>
-            <p className="mx-auto mt-4 max-w-[315px] text-center text-[16px] leading-[1.45] text-hint">
-              {t("proDescription")}
-            </p>
+        <section className="overflow-hidden rounded-[28px] bg-bg px-4 pb-5 pt-7 shadow">
+          <h1 className="mx-auto max-w-[320px] text-center text-[30px] font-bold leading-[1.05] tracking-[-0.035em]">
+            {t("proTitle")}
+          </h1>
+          <p className="mx-auto mt-4 max-w-[315px] text-center text-[16px] leading-[1.45] text-hint">
+            {t("proDescription")}
+          </p>
 
-            <ChatConversation />
-          </section>
+          <ChatConversation />
+        </section>
 
-          <section className="mt-3 rounded-[24px] bg-bg pb-[5.33px] pt-5 shadow">
-            <div className="px-[18px]">
-              <AutoFitHeading text={t("proBenefitsTitle")} />
-            </div>
+        <section className="mt-3 rounded-[24px] bg-bg pb-[5.33px] pt-5 shadow">
+          <div className="px-[18px]">
+            <AutoFitHeading text={t("proBenefitsTitle")} />
+          </div>
 
-            <div className="mx-1.5 mt-4 overflow-hidden rounded-xl">
-              <List
-                animateTap={false}
-                items={BENEFITS.map((benefit) => ({
-                  icon: (
-                    <FilledIcon
-                      className={benefit.iconClassName}
-                      icon={benefit.icon}
-                    />
-                  ),
-                  text: (
-                    <div className="py-0.5">
-                      <div className="text-[15px] font-semibold leading-5">
-                        {t(benefit.titleKey)}
-                      </div>
-                      <div className="mt-0.5 pe-2 text-[13px] leading-[1.35] text-hint">
-                        {t(benefit.descriptionKey)}
-                      </div>
+          <div className="mx-1.5 mt-4 overflow-hidden rounded-xl">
+            <List
+              animateTap={false}
+              items={BENEFITS.map((benefit) => ({
+                icon: (
+                  <FilledIcon
+                    className={benefit.iconClassName}
+                    icon={benefit.icon}
+                  />
+                ),
+                text: (
+                  <div className="py-0.5">
+                    <div className="text-[15px] font-semibold leading-5">
+                      {t(benefit.titleKey)}
                     </div>
-                  ),
-                }))}
-              />
-            </div>
-          </section>
+                    <div className="mt-0.5 pe-2 text-[13px] leading-[1.35] text-hint">
+                      {t(benefit.descriptionKey)}
+                    </div>
+                  </div>
+                ),
+              }))}
+            />
+          </div>
+        </section>
 
-          {footer ? <div className="mt-2">{footer}</div> : null}
-        </main>
-      </div>
-    </LazyLoadFramerMotion>
+        {footer ? <div className="mt-2">{footer}</div> : null}
+      </main>
+    </div>
   );
 }
 

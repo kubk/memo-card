@@ -1,3 +1,4 @@
+import { MotionProvider } from "./lib/framer-motion/motion-provider.tsx";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import { platform } from "./lib/platform/platform.ts";
@@ -18,7 +19,11 @@ platform.initialize();
 
 Promise.all([translationPromise, appPromise])
   .then(([, { App }]) => {
-    ReactDOM.createRoot(document.getElementById("root")!).render(<App />);
+    ReactDOM.createRoot(document.getElementById("root")!).render(
+      <MotionProvider>
+        <App />
+      </MotionProvider>,
+    );
   })
   .catch((error) => {
     reportHandledError("Failed to initialize frontend", error);

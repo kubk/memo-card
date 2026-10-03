@@ -1,3 +1,4 @@
+import { MotionProvider } from "../src/lib/framer-motion/motion-provider.tsx";
 import ReactDOM from "react-dom/client";
 import "./playground.css";
 import { platform } from "../src/lib/platform/platform.ts";
@@ -11,7 +12,9 @@ platform.initialize();
 Promise.all([translationPromise, playgroundPromise])
   .then(([, { Playground }]) => {
     ReactDOM.createRoot(document.getElementById("root")!).render(
-      <Playground />,
+      <MotionProvider>
+        <Playground />
+      </MotionProvider>,
     );
   })
   .catch(console.error);

@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { ReactNode, useLayoutEffect, useRef } from "react";
 import { screenStore } from "../../store/screen-store.ts";
 import { platform } from "../platform/platform.ts";
@@ -72,7 +72,7 @@ export function RouteScreenContainer(props: RouteScreenContainerProps) {
   }, [screenEntryId]);
 
   return (
-    <motion.div
+    <m.div
       key={screenEntryId}
       ref={scrollContainerRef}
       {...routeScrollContainerProps}
@@ -90,6 +90,6 @@ export function RouteScreenContainer(props: RouteScreenContainerProps) {
       }}
     >
       {children}
-    </motion.div>
+    </m.div>
   );
 }

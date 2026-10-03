@@ -1,5 +1,4 @@
 import { ReactNode, useEffect, useRef, useState } from "react";
-import { LazyLoadFramerMotion } from "../lib/framer-motion/lazy-load-framer-motion.tsx";
 import { AnimatePresence, m } from "framer-motion";
 import { userStore } from "../store/user-store.ts";
 import { cn } from "./cn.ts";
@@ -61,47 +60,45 @@ export function Dropdown({
       >
         {trigger ?? <EllipsisIcon size={24} />}
       </button>
-      <LazyLoadFramerMotion>
-        <AnimatePresence>
-          {isOpen && (
-            <m.div
-              className={cn(
-                "dropdown-content border border-secondary-bg block absolute bg-bg min-w-[160px] rounded-xl shadow z-10 text-text",
-                userStore.isRtl ? "left-0" : "right-0",
-                placement === "up" && "bottom-full mb-1.5",
-              )}
-              initial={{
-                opacity: 0,
-                scale: 0.8,
-                transformOrigin: userStore.isRtl ? "top left" : "top right",
-              }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.8 }}
-              transition={{ duration: 0.2 }}
-            >
-              {items.map((item, i) => (
-                <AnimatedDropdownItem
-                  key={i}
-                  className={cn(
-                    i === 0 ? "rounded-t-xl" : "border-t border-secondary-bg",
-                    i === items.length - 1 && "rounded-b-xl",
-                  )}
-                  onClick={() => {
-                    item.onClick();
-                    platform.haptic("selection");
-                    setIsOpen(false);
-                  }}
-                >
-                  <span className={"flex gap-3 items-center text-text"}>
-                    {item.icon}
-                    {item.text}
-                  </span>
-                </AnimatedDropdownItem>
-              ))}
-            </m.div>
-          )}
-        </AnimatePresence>
-      </LazyLoadFramerMotion>
+      <AnimatePresence>
+        {isOpen && (
+          <m.div
+            className={cn(
+              "dropdown-content border border-secondary-bg block absolute bg-bg min-w-[160px] rounded-xl shadow z-10 text-text",
+              userStore.isRtl ? "left-0" : "right-0",
+              placement === "up" && "bottom-full mb-1.5",
+            )}
+            initial={{
+              opacity: 0,
+              scale: 0.8,
+              transformOrigin: userStore.isRtl ? "top left" : "top right",
+            }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            transition={{ duration: 0.2 }}
+          >
+            {items.map((item, i) => (
+              <AnimatedDropdownItem
+                key={i}
+                className={cn(
+                  i === 0 ? "rounded-t-xl" : "border-t border-secondary-bg",
+                  i === items.length - 1 && "rounded-b-xl",
+                )}
+                onClick={() => {
+                  item.onClick();
+                  platform.haptic("selection");
+                  setIsOpen(false);
+                }}
+              >
+                <span className={"flex gap-3 items-center text-text"}>
+                  {item.icon}
+                  {item.text}
+                </span>
+              </AnimatedDropdownItem>
+            ))}
+          </m.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
