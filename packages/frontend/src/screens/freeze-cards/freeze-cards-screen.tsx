@@ -10,7 +10,6 @@ import { FreezeCardsStore } from "./store/freeze-cards-store.ts";
 import { FilledIcon } from "../../ui/filled-icon.tsx";
 import { useProgress } from "../../lib/platform/use-progress.tsx";
 import { t } from "../../translations/t.ts";
-import { formatDays } from "./translations.ts";
 import { List } from "../../ui/list.tsx";
 import { LabelGroup } from "../../ui/label-group.tsx";
 import { BottomSheet } from "../../ui/bottom-sheet/bottom-sheet.tsx";
@@ -81,7 +80,7 @@ export function FreezeCardsScreen() {
                   isSelected={form.freezeCardSelect.value === days}
                   onClick={() => form.freezeCardSelect.onChange(days)}
                 >
-                  {formatDays(days)}
+                  {t("days_count", { days: days })}
                 </Chip>
               );
             })}

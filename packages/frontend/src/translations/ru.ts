@@ -1,4 +1,84 @@
+import { selectPluralForm, type PlanDuration } from "api";
+import { random } from "../lib/array/random.ts";
+import type { ReviewIntervalUnit } from "../screens/deck-review/format-interval.ts";
+import { encouragingMessages } from "./encouraging-messages/ru.ts";
+
 export const ru = {
+  encouraging_message: () => random(encouragingMessages),
+  days_count: ({ days }: { days: number }) => {
+    return `${days} ${selectPluralForm("ru", days, {
+      one: "день",
+      few: "дня",
+      many: "дней",
+      other: "дня",
+    })}`;
+  },
+  leaderboard_review_label: ({ count }: { count: number }) => {
+    return selectPluralForm("ru", count, {
+      one: "повторение",
+      few: "повторения",
+      many: "повторений",
+      other: "повторения",
+    });
+  },
+  review_cards_label: ({ count }: { count: number }) => {
+    return selectPluralForm("ru", count, {
+      one: `Повторить ${count} карточку`,
+      few: `Повторить ${count} карточки`,
+      other: `Повторить ${count} карточек`,
+    });
+  },
+  frozen_cards_count: ({ cards }: { cards: number }) => {
+    return selectPluralForm("ru", cards, {
+      one: `${cards} карточка заморожена`,
+      few: `${cards} карточки заморожены`,
+      many: `${cards} карточек заморожено`,
+      other: `${cards} карточки заморожены`,
+    });
+  },
+  new_cards_count: ({ count }: { count: number }) => {
+    return selectPluralForm("ru", count, {
+      one: `${count} новая карточка`,
+      few: `${count} новые карточки`,
+      many: `${count} новых карточек`,
+      other: `${count} новые карточки`,
+    });
+  },
+  buy_plan: ({ title, price }: { title: string; price: string }) => {
+    return `Купить "${title}" за ${price}`;
+  },
+  days_ago: ({ daysText }: { daysText: string }) => {
+    return `${daysText} дн. назад`;
+  },
+  review_again_interval: "<10 мин",
+  review_interval: ({
+    value,
+    unit,
+  }: {
+    value: number;
+    unit: ReviewIntervalUnit;
+  }) => {
+    const units = {
+      minute: "мин",
+      hour: "ч",
+      day: "дн",
+      week: "нед",
+      month: "мес",
+      year: "г",
+    };
+    return `${value} ${units[unit]}`;
+  },
+  pro_duration: ({ duration }: { duration: PlanDuration }) => {
+    const labels = {
+      1: "1 месяц",
+      6: "6 месяцев",
+      12: "1 год",
+    };
+    return labels[duration];
+  },
+  discount_label: ({ discount }: { discount: string }) => {
+    return `Скидка ${discount}`;
+  },
   navigation_main: "Главная",
   navigation_review: "Повторение",
   leaderboard: "Рейтинг",

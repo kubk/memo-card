@@ -9,9 +9,8 @@ import { type ReactNode, useLayoutEffect, useRef } from "react";
 import { List } from "../../ui/list.tsx";
 import { FilledIcon } from "../../ui/filled-icon.tsx";
 import { FlameIcon, LoaderCircleIcon, TrophyIcon } from "lucide-react";
-import { formatDays } from "../../translations/format-days.ts";
 import { LabelGroup } from "../../ui/label-group.tsx";
-import { translator } from "../../translations/t.ts";
+import { getActiveLanguage } from "../../translations/t.ts";
 import { ChevronIcon } from "../../ui/chevron-icon.tsx";
 import { formatNumber } from "../../translations/format-number.ts";
 import { useBottomReached } from "../../lib/react/use-bottom-reached.ts";
@@ -31,7 +30,7 @@ type UserStatistics = RouterOutput["myStatistics"];
 function formatDailyStatsDate(value: string) {
   const [year, month, day] = value.split("-").map(Number);
 
-  return new Intl.DateTimeFormat(translator.getLang(), {
+  return new Intl.DateTimeFormat(getActiveLanguage(), {
     day: "numeric",
     month: "short",
     year: "numeric",
@@ -73,7 +72,7 @@ function StreakValue(props: { days: number | undefined }) {
       {props.days === undefined ? (
         <NumberSkeleton className="h-[18px] w-16" />
       ) : (
-        formatDays(props.days)
+        t("days_count", { days: props.days })
       )}
     </span>
   );

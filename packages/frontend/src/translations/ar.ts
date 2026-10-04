@@ -1,4 +1,82 @@
+import { selectPluralForm, type PlanDuration } from "api";
+import { random } from "../lib/array/random.ts";
+import type { ReviewIntervalUnit } from "../screens/deck-review/format-interval.ts";
+import { encouragingMessages } from "./encouraging-messages/ar.ts";
+
 export const ar = {
+  encouraging_message: () => random(encouragingMessages),
+  days_count: ({ days }: { days: number }) => {
+    return `${days} ${selectPluralForm("ar", days, {
+      one: "يوم",
+      few: "أيام",
+      many: "يومًا",
+      other: "يومًا",
+    })}`;
+  },
+  leaderboard_review_label: ({ count }: { count: number }) => {
+    return selectPluralForm("ar", count, {
+      zero: "مراجعة",
+      one: "مراجعة",
+      two: "مراجعتان",
+      few: "مراجعات",
+      many: "مراجعة",
+      other: "مراجعة",
+    });
+  },
+  review_cards_label: ({ count }: { count: number }) => {
+    return selectPluralForm("ar", count, {
+      one: `مراجعة ${count} بطاقة`,
+      two: `مراجعة ${count} بطاقتين`,
+      few: `مراجعة ${count} بطاقات`,
+      other: `مراجعة ${count} بطاقة`,
+    });
+  },
+  frozen_cards_count: ({ cards }: { cards: number }) => {
+    return selectPluralForm("ar", cards, {
+      one: `تم تجميد بطاقة واحدة`,
+      few: `تم تجميد ${cards} بطاقات`,
+      many: `تم تجميد ${cards} بطاقة`,
+      other: `تم تجميد ${cards} بطاقة`,
+    });
+  },
+  new_cards_count: ({ count }: { count: number }) => {
+    return count === 1 ? `${count} new card` : `${count} new cards`;
+  },
+  buy_plan: ({ title, price }: { title: string; price: string }) => {
+    return `اشتري "${title}" مقابل ${price}`;
+  },
+  days_ago: ({ daysText }: { daysText: string }) => {
+    return `قبل ${daysText} أيام`;
+  },
+  review_again_interval: "10 دق",
+  review_interval: ({
+    value,
+    unit,
+  }: {
+    value: number;
+    unit: ReviewIntervalUnit;
+  }) => {
+    const units = {
+      minute: "دق",
+      hour: "سا",
+      day: "يوم",
+      week: "أسب",
+      month: "شهر",
+      year: "سنة",
+    };
+    return `${value} ${units[unit]}`;
+  },
+  pro_duration: ({ duration }: { duration: PlanDuration }) => {
+    const labels = {
+      1: "1 شهر",
+      6: "6 أشهر",
+      12: "1 سنة",
+    };
+    return labels[duration];
+  },
+  discount_label: ({ discount }: { discount: string }) => {
+    return `خصم ${discount}`;
+  },
   navigation_main: "الرئيسية",
   navigation_review: "مراجعة",
   leaderboard: "لوحة المتصدرين",

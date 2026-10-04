@@ -1,6 +1,5 @@
 import { t } from "../../translations/t.ts";
 import { screenStore } from "../../store/screen-store.ts";
-import { translateNewCardsCount } from "../../translations/translate-new-cards-count.tsx";
 
 type Props = {
   newCardsCount?: number | null;
@@ -22,7 +21,7 @@ export function WantMoreCardsButton(props: Props) {
           screenStore.push({ type: "main" });
         }}
       >
-        {translateNewCardsCount(newCardsCount)}
+        {t("new_cards_count", { count: newCardsCount })}
       </span>{" "}
       {t("review_finished_to_review")}
     </>

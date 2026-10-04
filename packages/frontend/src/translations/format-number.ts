@@ -1,9 +1,9 @@
-import { translator } from "./t.ts";
+import { getActiveLanguage } from "./t.ts";
 
 const formatters = new Map<string, Intl.NumberFormat>();
 
 export const formatNumber = (value: number) => {
-  const language = translator.getLang();
+  const language = getActiveLanguage();
   const cachedFormatter = formatters.get(language);
   if (cachedFormatter) {
     return cachedFormatter.format(value);

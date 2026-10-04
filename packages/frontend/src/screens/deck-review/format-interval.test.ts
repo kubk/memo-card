@@ -1,5 +1,13 @@
-import { describe, it, expect } from "vitest";
+import { languagesShared } from "api";
+import { translationResourceStore } from "../../translations/t.ts";
+import { beforeAll, describe, it, expect } from "vitest";
 import { formatInterval } from "./format-interval";
+
+beforeAll(async () => {
+  await Promise.all(
+    languagesShared.map((language) => translationResourceStore.load(language)),
+  );
+});
 
 describe("formatInterval", () => {
   describe("English locale", () => {

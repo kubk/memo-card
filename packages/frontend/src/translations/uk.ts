@@ -1,4 +1,79 @@
+import { selectPluralForm, type PlanDuration } from "api";
+import { random } from "../lib/array/random.ts";
+import type { ReviewIntervalUnit } from "../screens/deck-review/format-interval.ts";
+import { encouragingMessages } from "./encouraging-messages/uk.ts";
+
 export const uk = {
+  encouraging_message: () => random(encouragingMessages),
+  days_count: ({ days }: { days: number }) => {
+    return `${days} ${selectPluralForm("uk", days, {
+      one: "день",
+      few: "дні",
+      many: "днів",
+      other: "дні",
+    })}`;
+  },
+  leaderboard_review_label: ({ count }: { count: number }) => {
+    return selectPluralForm("uk", count, {
+      one: "повторення",
+      few: "повторення",
+      many: "повторень",
+      other: "повторення",
+    });
+  },
+  review_cards_label: ({ count }: { count: number }) => {
+    return selectPluralForm("uk", count, {
+      one: `Повторити ${count} картку`,
+      few: `Повторити ${count} картки`,
+      other: `Повторити ${count} карток`,
+    });
+  },
+  frozen_cards_count: ({ cards }: { cards: number }) => {
+    return selectPluralForm("uk", cards, {
+      one: `${cards} картка заморожена`,
+      few: `${cards} картки заморожені`,
+      many: `${cards} карток заморожено`,
+      other: `${cards} картки заморожені`,
+    });
+  },
+  new_cards_count: ({ count }: { count: number }) => {
+    return count === 1 ? `${count} new card` : `${count} new cards`;
+  },
+  buy_plan: ({ title, price }: { title: string; price: string }) => {
+    return `Купити "${title}" за ${price}`;
+  },
+  days_ago: ({ daysText }: { daysText: string }) => {
+    return `${daysText} дн. тому`;
+  },
+  review_again_interval: "<10 хв",
+  review_interval: ({
+    value,
+    unit,
+  }: {
+    value: number;
+    unit: ReviewIntervalUnit;
+  }) => {
+    const units = {
+      minute: "хв",
+      hour: "год",
+      day: "дн",
+      week: "тиж",
+      month: "міс",
+      year: "р",
+    };
+    return `${value} ${units[unit]}`;
+  },
+  pro_duration: ({ duration }: { duration: PlanDuration }) => {
+    const labels = {
+      1: "1 місяць",
+      6: "6 місяців",
+      12: "1 рік",
+    };
+    return labels[duration];
+  },
+  discount_label: ({ discount }: { discount: string }) => {
+    return `Знижка ${discount}`;
+  },
   navigation_main: "Головна",
   navigation_review: "Повторення",
   leaderboard: "Рейтинг",

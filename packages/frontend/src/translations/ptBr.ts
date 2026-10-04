@@ -1,4 +1,72 @@
+import { selectPluralForm, type PlanDuration } from "api";
+import { random } from "../lib/array/random.ts";
+import type { ReviewIntervalUnit } from "../screens/deck-review/format-interval.ts";
+import { encouragingMessages } from "./encouraging-messages/ptBr.ts";
+
 export const ptBr = {
+  encouraging_message: () => random(encouragingMessages),
+  days_count: ({ days }: { days: number }) => {
+    return days === 1 ? "1 dia" : `${days} dias`;
+  },
+  leaderboard_review_label: ({ count }: { count: number }) => {
+    return selectPluralForm("pt-br", count, {
+      one: "revisão",
+      other: "revisões",
+    });
+  },
+  review_cards_label: ({ count }: { count: number }) => {
+    return selectPluralForm("pt-br", count, {
+      one: `Revisar ${count} carta`,
+      other: `Revisar ${count} cartas`,
+    });
+  },
+  frozen_cards_count: ({ cards }: { cards: number }) => {
+    return selectPluralForm("pt-br", cards, {
+      one: `${cards} cartão foi congelado`,
+      other: `${cards} foram congelados`,
+    });
+  },
+  new_cards_count: ({ count }: { count: number }) => {
+    return selectPluralForm("pt-br", count, {
+      one: `${count} novo cartão`,
+      other: `${count} novos cartões`,
+    });
+  },
+  buy_plan: ({ title, price }: { title: string; price: string }) => {
+    return `Comprar "${title}" por ${price}`;
+  },
+  days_ago: ({ daysText }: { daysText: string }) => {
+    return `há ${daysText} dias`;
+  },
+  review_again_interval: "<10 min",
+  review_interval: ({
+    value,
+    unit,
+  }: {
+    value: number;
+    unit: ReviewIntervalUnit;
+  }) => {
+    const units = {
+      minute: "min",
+      hour: "h",
+      day: "d",
+      week: "sem",
+      month: "mês",
+      year: "a",
+    };
+    return `${value} ${units[unit]}`;
+  },
+  pro_duration: ({ duration }: { duration: PlanDuration }) => {
+    const labels = {
+      1: "1 mês",
+      6: "6 meses",
+      12: "1 ano",
+    };
+    return labels[duration];
+  },
+  discount_label: ({ discount }: { discount: string }) => {
+    return `Desconto ${discount}`;
+  },
   navigation_main: "Início",
   navigation_review: "Revisar",
   leaderboard: "Classificação",

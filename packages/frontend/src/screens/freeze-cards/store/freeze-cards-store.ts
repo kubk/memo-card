@@ -8,7 +8,6 @@ import { makeAutoObservable } from "mobx";
 import { screenStore } from "../../../store/screen-store.ts";
 import { showConfirm } from "../../../lib/platform/show-confirm.ts";
 import { t } from "../../../translations/t.ts";
-import { formatFrozenCards } from "../translations.ts";
 import { makeMutation } from "../../../lib/mobx-query-lite/make-mutation.ts";
 import { notifyError, notifySuccess } from "../../shared/snackbar/snackbar.tsx";
 import { assert } from "api";
@@ -99,6 +98,6 @@ export class FreezeCardsStore {
 
     const { frozenCards } = result.data;
     screenStore.push({ type: "main" });
-    notifySuccess(formatFrozenCards(frozenCards));
+    notifySuccess(t("frozen_cards_count", { cards: frozenCards }));
   }
 }

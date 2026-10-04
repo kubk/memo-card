@@ -1,11 +1,13 @@
+import { action, autorun, observable } from "mobx";
+import { ru } from "./ru.ts";
 import { describe, expect, it, vi } from "vitest";
-import { en, type TranslationStrings } from "./en.ts";
+import { en, type TranslationResources } from "./en.ts";
 import {
   TranslationResourceStore,
   type TranslationLoaders,
 } from "./translation-resource-store.ts";
 
-function createLoaders(loader: () => Promise<TranslationStrings>) {
+function createLoaders(loader: () => Promise<TranslationResources>) {
   return {
     en: loader,
     ru: loader,
@@ -36,10 +38,12 @@ describe("TranslationResourceStore", () => {
   });
 
   it("deduplicates concurrent loads for one language", async () => {
-    let finishLoading: ((translation: TranslationStrings) => void) | undefined;
+    let finishLoading:
+      | ((translation: TranslationResources) => void)
+      | undefined;
     const loader = vi.fn(
       () =>
-        new Promise<TranslationStrings>((resolve) => {
+        new Promise<TranslationResources>((resolve) => {
           finishLoading = resolve;
         }),
     );
@@ -62,5 +66,79 @@ describe("TranslationResourceStore", () => {
     expect(store.translate("uk", "review_again", "Try again")).toBe(
       "Try again",
     );
+  });
+});
+
+describe("callback translations", () => {
+  it("invokes callbacks with named arguments and the selected locale", async () => {
+    const store = new TranslationResourceStore({
+      ...createLoaders(async () => en),
+      ru: async () => ru,
+    });
+    await Promise.all([store.load("en"), store.load("ru")]);
+    expect(
+      store.translate("en", "buy_plan", { title: "Pro", price: "$5" }),
+    ).toBe('Buy "Pro" for $5');
+    expect(store.translate("ru", "new_cards_count", { count: 21 })).toBe(
+      "21 новая карточка",
+    );
+    expect(store.translate("en", "new_cards_count", { count: 21 })).toBe(
+      "21 new cards",
+    );
+  });
+
+  it("uses the loaded fallback callback's plural rules while another locale is loading", async () => {
+    const store = new TranslationResourceStore(createLoaders(async () => ru));
+    expect(store.translate("es", "new_cards_count", { count: 21 })).toBe(
+      "new_cards_count",
+    );
+    await store.load("ru");
+    expect(store.translate("es", "new_cards_count", { count: 21 })).toBe(
+      "21 новая карточка",
+    );
+  });
+
+  it("reacts to loading and switching locales", async () => {
+    const store = new TranslationResourceStore({
+      ...createLoaders(async () => en),
+      ru: async () => ru,
+    });
+    const state = observable({ language: "en" as "en" | "ru" });
+    const results: string[] = [];
+    const dispose = autorun(() => {
+      results.push(
+        store.translate(state.language, "new_cards_count", { count: 5 }),
+      );
+    });
+    try {
+      await store.load("en");
+      action(() => {
+        state.language = "ru";
+      })();
+      await store.load("ru");
+      expect(results).toEqual([
+        "new_cards_count",
+        "5 new cards",
+        "5 new cards",
+        "5 новых карточек",
+      ]);
+    } finally {
+      dispose();
+    }
+  });
+
+  it("evaluates random messages on each call", async () => {
+    const store = new TranslationResourceStore(createLoaders(async () => en));
+    await store.load("en");
+    const random = vi.spyOn(Math, "random");
+    try {
+      random.mockReturnValueOnce(0).mockReturnValueOnce(0.99);
+      const first = store.translate("en", "encouraging_message");
+      const second = store.translate("en", "encouraging_message");
+      expect(first).not.toBe(second);
+      expect(random).toHaveBeenCalledTimes(2);
+    } finally {
+      random.mockRestore();
+    }
   });
 });

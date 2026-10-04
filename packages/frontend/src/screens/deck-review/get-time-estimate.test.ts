@@ -1,4 +1,14 @@
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { languagesShared } from "api";
+import { translationResourceStore } from "../../translations/t.ts";
+import {
+  afterEach,
+  beforeAll,
+  beforeEach,
+  describe,
+  expect,
+  it,
+  vi,
+} from "vitest";
 import { getTimeEstimate } from "./get-time-estimate.ts";
 import { CardUnderReviewStore } from "./store/card-under-review-store.ts";
 import { createInitialFsrsReviewState } from "api";
@@ -34,6 +44,12 @@ function createRepeatCard(id: number, scheduledDays = 2.5) {
     ).toISOString(),
   } as CardUnderReviewStore;
 }
+
+beforeAll(async () => {
+  await Promise.all(
+    languagesShared.map((language) => translationResourceStore.load(language)),
+  );
+});
 
 describe("time estimation for review buttons", () => {
   beforeEach(() => {

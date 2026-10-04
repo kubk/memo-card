@@ -1,6 +1,10 @@
 import type { LanguageShared } from "api";
 import { userStore } from "../store/user-store.ts";
-import type { Translation } from "./en.ts";
+import type {
+  Translation,
+  TranslationArguments,
+  TranslationKeyByValue,
+} from "./en.ts";
 import { normalizeLanguage } from "./normalize-language.ts";
 import {
   TranslationResourceStore,
@@ -22,26 +26,25 @@ export const translationResourceStore = new TranslationResourceStore(
 );
 
 export type TranslationKey = keyof Translation;
+export type StringTranslationKey = TranslationKeyByValue<string>;
 
 export const translateCategory = (category: string) => {
   return t(`category_${category}` as any, category);
 };
 
-function getActiveLanguage(): LanguageShared {
+export function getActiveLanguage(): LanguageShared {
   return normalizeLanguage(userStore.language);
 }
 
-export const translator = {
-  getLang: getActiveLanguage,
-  translate(key: TranslationKey, defaultValue?: string) {
-    return translationResourceStore.translate(
-      getActiveLanguage(),
-      key,
-      defaultValue,
-    );
-  },
-};
-
-export const t = (key: TranslationKey, defaultValue?: string) => {
-  return translator.translate(key, defaultValue);
-};
+export function t(key: StringTranslationKey, defaultValue?: string): string;
+export function t<K extends TranslationKey>(
+  key: K,
+  ...args: TranslationArguments<NoInfer<K>>
+): string;
+export function t(key: TranslationKey, ...args: unknown[]): string {
+  return translationResourceStore.translate(
+    getActiveLanguage(),
+    key,
+    ...(args as TranslationArguments<TranslationKey>),
+  );
+}

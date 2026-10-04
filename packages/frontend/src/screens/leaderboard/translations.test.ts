@@ -1,16 +1,19 @@
-import { describe, expect, test, vi } from "vitest";
-import {
-  translateLeaderboardReviewLabel,
-  translateLeaderboardReviewsToPass,
-} from "./translations.ts";
+import { languagesShared } from "api";
+import { t, translationResourceStore } from "../../translations/t.ts";
+import { beforeAll, describe, expect, test, vi } from "vitest";
 
 const lang = vi.hoisted(() => vi.fn());
-vi.mock("../../translations/t.ts", () => {
-  return {
-    translator: {
-      getLang: lang,
+vi.mock("../../store/user-store.ts", () => ({
+  userStore: {
+    get language() {
+      return lang();
     },
-  };
+  },
+}));
+beforeAll(async () => {
+  await Promise.all(
+    languagesShared.map((language) => translationResourceStore.load(language)),
+  );
 });
 
 describe("leaderboard review translations", () => {
@@ -27,7 +30,7 @@ describe("leaderboard review translations", () => {
   ])("selects the Russian form for %i", (count, expected) => {
     lang.mockReturnValue("ru");
 
-    expect(translateLeaderboardReviewLabel(count)).toBe(expected);
+    expect(t("leaderboard_review_label", { count })).toBe(expected);
   });
 
   test.each([
@@ -46,7 +49,7 @@ describe("leaderboard review translations", () => {
   ] as const)("selects the %s form for %i", (language, count, expected) => {
     lang.mockReturnValue(language);
 
-    expect(translateLeaderboardReviewLabel(count)).toBe(expected);
+    expect(t("leaderboard_review_label", { count })).toBe(expected);
   });
 
   test.each([
@@ -59,20 +62,6 @@ describe("leaderboard review translations", () => {
   ])("selects the Arabic form for %i", (count, expected) => {
     lang.mockReturnValue("ar");
 
-    expect(translateLeaderboardReviewLabel(count)).toBe(expected);
-  });
-
-  test("includes the selected plural form in the next-rank message", () => {
-    lang.mockReturnValue("ru");
-
-    expect(translateLeaderboardReviewsToPass(81)).toBe(
-      "повторение, чтобы обойти",
-    );
-    expect(translateLeaderboardReviewsToPass(82)).toBe(
-      "повторения, чтобы обойти",
-    );
-    expect(translateLeaderboardReviewsToPass(85)).toBe(
-      "повторений, чтобы обойти",
-    );
+    expect(t("leaderboard_review_label", { count })).toBe(expected);
   });
 });

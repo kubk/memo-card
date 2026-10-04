@@ -8,7 +8,7 @@ import {
   type BottomNavigationTab,
 } from "../store/bottom-navigation-store.ts";
 import { useDevMenuReveal } from "../screens/dev-menu/use-dev-menu-reveal.tsx";
-import { t, type TranslationKey } from "../translations/t.ts";
+import { t, type StringTranslationKey } from "../translations/t.ts";
 import { BrowserPlatform } from "../lib/platform/browser/browser-platform.ts";
 import { platform } from "../lib/platform/platform.ts";
 import { cn } from "./cn.ts";
@@ -16,7 +16,7 @@ import { cn } from "./cn.ts";
 const navigationItems: ReadonlyArray<{
   id: BottomNavigationTab;
   icon: string;
-  labelKey: TranslationKey;
+  labelKey: StringTranslationKey;
 }> = [
   {
     id: "main",

@@ -4,7 +4,6 @@ import { screenStore } from "../../store/screen-store.ts";
 import { useMainButton } from "../../lib/platform/use-main-button.ts";
 import { useProgress } from "../../lib/platform/use-progress.tsx";
 import { t } from "../../translations/t.ts";
-import { getEncouragingMessage } from "../../translations/get-encouraging-message.tsx";
 import { WantMoreCardsButton } from "./want-more-cards-button.tsx";
 import { deckListStore } from "../../store/deck-list-store.ts";
 import { Flex } from "../../ui/flex.tsx";
@@ -54,7 +53,7 @@ export function DeckFinished(props: Props) {
               <WantMoreCardsButton newCardsCount={newCardsCount} />
             </p>
           ) : (
-            <p>{getEncouragingMessage()}</p>
+            <p>{t("encouraging_message")}</p>
           )}
         </m.div>
       </Flex>

@@ -1,4 +1,69 @@
+import { selectPluralForm, type PlanDuration } from "api";
+import { random } from "../lib/array/random.ts";
+import type { ReviewIntervalUnit } from "../screens/deck-review/format-interval.ts";
+import { encouragingMessages } from "./encouraging-messages/fa.ts";
+
 export const fa = {
+  encouraging_message: () => random(encouragingMessages),
+  days_count: ({ days }: { days: number }) => {
+    return `${days} ${selectPluralForm("fa", days, {
+      one: "روز",
+      other: "روز",
+    })}`;
+  },
+  leaderboard_review_label: ({ count }: { count: number }) => {
+    return selectPluralForm("fa", count, {
+      one: "مرور",
+      other: "مرور",
+    });
+  },
+  review_cards_label: ({ count }: { count: number }) => {
+    return `مرور ${count} کارت`;
+  },
+  frozen_cards_count: ({ cards }: { cards: number }) => {
+    return selectPluralForm("fa", cards, {
+      one: `${cards} کارت یخ زده شده است`,
+      other: `${cards} کارت یخ زده شده اند`,
+    });
+  },
+  new_cards_count: ({ count }: { count: number }) => {
+    return count === 1 ? `${count} new card` : `${count} new cards`;
+  },
+  buy_plan: ({ title, price }: { title: string; price: string }) => {
+    return `خرید "${title}" برای ${price}`;
+  },
+  days_ago: ({ daysText }: { daysText: string }) => {
+    return `${daysText} روز پیش`;
+  },
+  review_again_interval: "10 دق",
+  review_interval: ({
+    value,
+    unit,
+  }: {
+    value: number;
+    unit: ReviewIntervalUnit;
+  }) => {
+    const units = {
+      minute: "دق",
+      hour: "سا",
+      day: "روز",
+      week: "هفته",
+      month: "ماه",
+      year: "سال",
+    };
+    return `${value} ${units[unit]}`;
+  },
+  pro_duration: ({ duration }: { duration: PlanDuration }) => {
+    const labels = {
+      1: "1 ماه",
+      6: "6 ماه",
+      12: "1 سال",
+    };
+    return labels[duration];
+  },
+  discount_label: ({ discount }: { discount: string }) => {
+    return `تخفیف ${discount}`;
+  },
   navigation_main: "خانه",
   navigation_review: "مرور",
   leaderboard: "جدول رتبه بندی",

@@ -9,7 +9,6 @@ import { CardsToReview } from "../../ui/cards-to-review.tsx";
 import { LabelGroup } from "../../ui/label-group.tsx";
 import { CardsToReviewCount } from "../shared/deck-row-with-cards-to-review/cards-to-review-count.tsx";
 import { cn } from "../../ui/cn.ts";
-import { translateReviewCardsLabel } from "./translate-review-cards-label.ts";
 import { t } from "../../translations/t.ts";
 import { platform } from "../../lib/platform/platform.ts";
 import { SelectAllToggle } from "./select-all-toggle.tsx";
@@ -21,7 +20,7 @@ type Props = {
 
 export function RepeatCustomSelector({ onClick, store }: Props) {
   useMainButton(
-    () => translateReviewCardsLabel(store.customCardsToReviewCount),
+    () => t("review_cards_label", { count: store.customCardsToReviewCount }),
     () => {
       onClick();
     },

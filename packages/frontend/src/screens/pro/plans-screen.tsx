@@ -2,11 +2,10 @@ import { useState } from "react";
 import {
   assert,
   calcPlanPriceForDuration,
-  formatDiscountAsText,
   getPlanDiscountForDuration,
+  formatDiscountNumber,
   links,
   PaymentMethodType,
-  translateProDuration,
   type PlanDuration,
 } from "api";
 import { useBackButton } from "../../lib/platform/use-back-button.ts";
@@ -14,7 +13,7 @@ import { useMainButton } from "../../lib/platform/use-main-button.ts";
 import { useProgress } from "../../lib/platform/use-progress.tsx";
 import { screenStore } from "../../store/screen-store.ts";
 import { userStore } from "../../store/user-store.ts";
-import { t, translator } from "../../translations/t.ts";
+import { t } from "../../translations/t.ts";
 import { BottomSheet } from "../../ui/bottom-sheet/bottom-sheet.tsx";
 import { cn } from "../../ui/cn.ts";
 import { ExternalLink } from "../../ui/external-link.tsx";
@@ -28,6 +27,13 @@ import { IconTelegramStar } from "./icon-telegram-star.tsx";
 import { ProPage } from "./pro-page.tsx";
 import { PlansScreenStore } from "./store/plans-screen-store.ts";
 import { Tag } from "./tag.tsx";
+
+function formatDiscountLabel(discount: number) {
+  const formatted = formatDiscountNumber(discount);
+  return formatted === null
+    ? ""
+    : t("discount_label", { discount: formatted.replace("-", "") });
+}
 
 export function PlansScreen() {
   const [store] = useState(() => new PlansScreenStore());
@@ -92,10 +98,7 @@ function PaymentOptionsSheet({ store }: { store: PlansScreenStore }) {
 function PaymentOptions({ store }: { store: PlansScreenStore }) {
   const selectedPlan = store.selectedPlan;
   const durationDisplayMethod = store.durationDisplayMethod;
-  const bankCardDiscountText = formatDiscountAsText(
-    store.bankCardDiscount,
-    translator.getLang(),
-  );
+  const bankCardDiscountText = formatDiscountLabel(store.bankCardDiscount);
 
   return (
     <>
@@ -151,16 +154,9 @@ function PaymentOptions({ store }: { store: PlansScreenStore }) {
               id: duration,
               title: (
                 <div className="flex gap-2">
-                  <span>
-                    {translateProDuration(duration, translator.getLang())}
-                  </span>
+                  <span>{t("pro_duration", { duration })}</span>
                   {discount > 0 ? (
-                    <Tag
-                      text={formatDiscountAsText(
-                        discount,
-                        translator.getLang(),
-                      )}
-                    />
+                    <Tag text={formatDiscountLabel(discount)} />
                   ) : null}
                   <div
                     className={cn(

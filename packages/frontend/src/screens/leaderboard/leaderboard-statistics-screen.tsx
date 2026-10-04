@@ -3,7 +3,7 @@ import { LoaderCircleIcon, TrophyIcon } from "lucide-react";
 import { useBackButton } from "../../lib/platform/use-back-button.ts";
 import { useBottomReached } from "../../lib/react/use-bottom-reached.ts";
 import { screenStore } from "../../store/screen-store.ts";
-import { t, translator } from "../../translations/t.ts";
+import { t, getActiveLanguage } from "../../translations/t.ts";
 import { cn } from "../../ui/cn.ts";
 import { LabelGroup } from "../../ui/label-group.tsx";
 import { Skeleton } from "../../ui/skeleton.tsx";
@@ -18,7 +18,7 @@ function Podium({
 }) {
   const date =
     result &&
-    new Intl.DateTimeFormat(translator.getLang(), {
+    new Intl.DateTimeFormat(getActiveLanguage(), {
       day: "numeric",
       month: "long",
       year: "numeric",

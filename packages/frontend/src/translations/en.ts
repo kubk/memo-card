@@ -1,4 +1,65 @@
+import { selectPluralForm, type PlanDuration } from "api";
+import { random } from "../lib/array/random.ts";
+import type { ReviewIntervalUnit } from "../screens/deck-review/format-interval.ts";
+import { encouragingMessages } from "./encouraging-messages/en.ts";
+
 export const en = {
+  encouraging_message: () => random(encouragingMessages),
+  days_count: ({ days }: { days: number }) => {
+    return `${days === 1 ? "1 day" : `${days} days`}`;
+  },
+  leaderboard_review_label: ({ count }: { count: number }) => {
+    return selectPluralForm("en", count, {
+      one: "review",
+      other: "reviews",
+    });
+  },
+  review_cards_label: ({ count }: { count: number }) => {
+    return count === 1 ? `Review ${count} card` : `Review ${count} cards`;
+  },
+  frozen_cards_count: ({ cards }: { cards: number }) => {
+    return cards === 1
+      ? `1 card has been frozen`
+      : `${cards} cards have been frozen`;
+  },
+  new_cards_count: ({ count }: { count: number }) => {
+    return count === 1 ? `${count} new card` : `${count} new cards`;
+  },
+  buy_plan: ({ title, price }: { title: string; price: string }) => {
+    return `Buy "${title}" for ${price}`;
+  },
+  days_ago: ({ daysText }: { daysText: string }) => {
+    return `${daysText} days ago`;
+  },
+  review_again_interval: "<10 m",
+  review_interval: ({
+    value,
+    unit,
+  }: {
+    value: number;
+    unit: ReviewIntervalUnit;
+  }) => {
+    const units = {
+      minute: "m",
+      hour: "h",
+      day: "d",
+      week: "w",
+      month: "mo",
+      year: "y",
+    };
+    return `${value} ${units[unit]}`;
+  },
+  pro_duration: ({ duration }: { duration: PlanDuration }) => {
+    const labels = {
+      1: "1 month",
+      6: "6 months",
+      12: "1 year",
+    };
+    return labels[duration];
+  },
+  discount_label: ({ discount }: { discount: string }) => {
+    return `${discount} off`;
+  },
   navigation_main: "Main",
   navigation_review: "Review",
   leaderboard: "Leaderboard",
@@ -409,4 +470,20 @@ export const en = {
 } as const;
 
 export type Translation = typeof en;
-export type TranslationStrings = Record<keyof Translation, string>;
+export type TranslationResources = {
+  [K in keyof Translation]: Translation[K] extends (
+    ...args: infer Args
+  ) => string
+    ? (...args: Args) => string
+    : string;
+};
+export type TranslationKeyByValue<Value> = {
+  [K in keyof Translation]: Translation[K] extends Value ? K : never;
+}[keyof Translation];
+export type TranslationArguments<K extends keyof Translation> = {
+  [Key in keyof Translation]: Translation[Key] extends (
+    ...args: infer Args
+  ) => string
+    ? Args
+    : [defaultValue?: string];
+}[K];

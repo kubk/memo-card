@@ -1,5 +1,5 @@
 import { Fragment, type ReactNode } from "react";
-import { t } from "./t.ts";
+import { t, type StringTranslationKey } from "./t.ts";
 import type { Translation } from "./en.ts";
 
 type TagsOf<S extends string> =
@@ -11,9 +11,9 @@ type TagsOf<S extends string> =
 
 type ChunkRenderer = (text: string) => ReactNode;
 
-export function td<K extends keyof Translation & string>(
+export function td<K extends StringTranslationKey & string>(
   key: K,
-  tags: Record<TagsOf<Translation[K]>, ChunkRenderer>,
+  tags: Record<TagsOf<Translation[K] & string>, ChunkRenderer>,
 ): ReactNode {
   const template = t(key);
   const parts = template.split(/(\[[a-zA-Z_]+(?::[^\]]*)?\])/g);
@@ -22,7 +22,7 @@ export function td<K extends keyof Translation & string>(
     const match = part.match(/^\[([a-zA-Z_]+)(?::([^\]]*))?\]$/);
     if (!match) return part;
     const [, tag, content = ""] = match;
-    const render = tags[tag as TagsOf<Translation[K]>];
+    const render = tags[tag as TagsOf<Translation[K] & string>];
     if (!render) return content;
     return <Fragment key={i}>{render(content)}</Fragment>;
   });

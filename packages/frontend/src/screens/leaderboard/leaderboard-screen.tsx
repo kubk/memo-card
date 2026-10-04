@@ -14,7 +14,6 @@ import { Screen } from "../shared/screen.tsx";
 import { LeaderboardAvatar } from "./leaderboard-avatar.tsx";
 import { LeaderboardMedal } from "./leaderboard-medal.tsx";
 import { leaderboardStore } from "./leaderboard-store.ts";
-import { translateLeaderboardReviewLabel } from "./translations.ts";
 
 function getUserAvatarFallbackName() {
   const firstName = userStore.user?.firstName?.trim();
@@ -84,7 +83,7 @@ function PositionCard({
             </div>
           )}
           <div className="mt-1 text-[13px] leading-4 text-hint">
-            {translateLeaderboardReviewLabel(reviewCount)}
+            {t("leaderboard_review_label", { count: reviewCount })}
           </div>
         </div>
       </div>

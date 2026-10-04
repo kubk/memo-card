@@ -1,18 +1,23 @@
 import type { LanguageShared } from "api";
 import { makeAutoObservable, reaction, runInAction } from "mobx";
 import { userStore } from "../store/user-store.ts";
-import type { TranslationStrings } from "./en.ts";
+import type {
+  Translation,
+  TranslationArguments,
+  TranslationResources,
+} from "./en.ts";
 import { normalizeLanguage } from "./normalize-language.ts";
 
-type TranslationLoader = () => Promise<TranslationStrings>;
+type TranslationLoader = () => Promise<TranslationResources>;
 export type TranslationLoaders = Record<LanguageShared, TranslationLoader>;
 
 export class TranslationResourceStore {
-  loadedTranslations: Partial<Record<LanguageShared, TranslationStrings>> = {};
-  private fallbackTranslation?: TranslationStrings;
+  loadedTranslations: Partial<Record<LanguageShared, TranslationResources>> =
+    {};
+  private fallbackTranslation?: TranslationResources;
   private loadingTranslations = new Map<
     LanguageShared,
-    Promise<TranslationStrings>
+    Promise<TranslationResources>
   >();
   private initialTranslationLoad?: Promise<void>;
 
@@ -53,17 +58,23 @@ export class TranslationResourceStore {
     return this.initialTranslationLoad;
   }
 
+  translate<K extends keyof Translation>(
+    language: LanguageShared,
+    key: K,
+    ...args: TranslationArguments<NoInfer<K>>
+  ): string;
   translate(
     language: LanguageShared,
-    key: keyof TranslationStrings,
-    defaultValue?: string,
-  ) {
-    return (
+    key: keyof Translation,
+    ...args: unknown[]
+  ): string {
+    const entry =
       this.loadedTranslations[language]?.[key] ??
-      this.fallbackTranslation?.[key] ??
-      defaultValue ??
-      key
-    );
+      this.fallbackTranslation?.[key];
+    if (typeof entry === "function") {
+      return (entry as (...params: unknown[]) => string)(...args);
+    }
+    return entry ?? (typeof args[0] === "string" ? args[0] : key);
   }
 
   async load(language: LanguageShared) {

@@ -1,4 +1,4 @@
-import { type LanguageShared, type RouterOutput } from "api";
+import { type RouterOutput } from "api";
 import { LibraryBigIcon, LoaderCircleIcon, UsersIcon } from "lucide-react";
 import { type ReactNode } from "react";
 import { api } from "../../api/trpc-api.ts";
@@ -12,7 +12,7 @@ import { cn } from "../../ui/cn.ts";
 import { ChevronIcon } from "../../ui/chevron-icon.tsx";
 import { FilledIcon } from "../../ui/filled-icon.tsx";
 import { LabelGroup } from "../../ui/label-group.tsx";
-import { t, translator } from "../../translations/t.ts";
+import { t, getActiveLanguage } from "../../translations/t.ts";
 import { CardRowLoading } from "../shared/card-row-loading.tsx";
 import { Screen } from "../shared/screen.tsx";
 import { formatNumber } from "../../translations/format-number.ts";
@@ -44,29 +44,6 @@ const decksQuery = makeInfiniteQuery({
     }),
 });
 
-function formatDaysAgo(days: number, lang: LanguageShared) {
-  const daysText = formatNumber(days);
-
-  switch (lang) {
-    case "en":
-      return `${daysText} days ago`;
-    case "ru":
-      return `${daysText} дн. назад`;
-    case "es":
-      return `hace ${daysText} días`;
-    case "pt-br":
-      return `há ${daysText} dias`;
-    case "uk":
-      return `${daysText} дн. тому`;
-    case "fa":
-      return `${daysText} روز پیش`;
-    case "ar":
-      return `قبل ${daysText} أيام`;
-    default:
-      return lang satisfies never;
-  }
-}
-
 function formatDateDistance(value: string | null) {
   if (!value) {
     return "-";
@@ -86,10 +63,10 @@ function formatDateDistance(value: string | null) {
   }
 
   if (diffDays < 7) {
-    return formatDaysAgo(diffDays, translator.getLang());
+    return t("days_ago", { daysText: formatNumber(diffDays) });
   }
 
-  return new Intl.DateTimeFormat(translator.getLang(), {
+  return new Intl.DateTimeFormat(getActiveLanguage(), {
     month: "short",
     day: "numeric",
   }).format(date);

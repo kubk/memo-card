@@ -1,4 +1,75 @@
+import { selectPluralForm, type PlanDuration } from "api";
+import { random } from "../lib/array/random.ts";
+import type { ReviewIntervalUnit } from "../screens/deck-review/format-interval.ts";
+import { encouragingMessages } from "./encouraging-messages/es.ts";
+
 export const es = {
+  encouraging_message: () => random(encouragingMessages),
+  days_count: ({ days }: { days: number }) => {
+    return `${days} ${selectPluralForm("es", days, {
+      one: "día",
+      other: "días",
+    })}`;
+  },
+  leaderboard_review_label: ({ count }: { count: number }) => {
+    return selectPluralForm("es", count, {
+      one: "repaso",
+      other: "repasos",
+    });
+  },
+  review_cards_label: ({ count }: { count: number }) => {
+    return selectPluralForm("es", count, {
+      one: `Revisar ${count} tarjeta`,
+      other: `Revisar ${count} tarjetas`,
+    });
+  },
+  frozen_cards_count: ({ cards }: { cards: number }) => {
+    return selectPluralForm("es", cards, {
+      one: `${cards} tarjeta ha sido congelada`,
+      other: `${cards} han sido congeladas`,
+    });
+  },
+  new_cards_count: ({ count }: { count: number }) => {
+    return selectPluralForm("es", count, {
+      one: `${count} nueva tarjeta`,
+      other: `${count} nuevas tarjetas`,
+    });
+  },
+  buy_plan: ({ title, price }: { title: string; price: string }) => {
+    return `Comprar "${title}" por ${price}`;
+  },
+  days_ago: ({ daysText }: { daysText: string }) => {
+    return `hace ${daysText} días`;
+  },
+  review_again_interval: "<10 min",
+  review_interval: ({
+    value,
+    unit,
+  }: {
+    value: number;
+    unit: ReviewIntervalUnit;
+  }) => {
+    const units = {
+      minute: "min",
+      hour: "h",
+      day: "d",
+      week: "sem",
+      month: "mes",
+      year: "a",
+    };
+    return `${value} ${units[unit]}`;
+  },
+  pro_duration: ({ duration }: { duration: PlanDuration }) => {
+    const labels = {
+      1: "1 mes",
+      6: "6 meses",
+      12: "1 año",
+    };
+    return labels[duration];
+  },
+  discount_label: ({ discount }: { discount: string }) => {
+    return `Descuento ${discount}`;
+  },
   navigation_main: "Inicio",
   navigation_review: "Repasar",
   leaderboard: "Clasificación",

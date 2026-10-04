@@ -5,8 +5,7 @@ import { platform } from "../../lib/platform/platform.ts";
 import { screenStore } from "../../store/screen-store.ts";
 import { userStore } from "../../store/user-store.ts";
 import { cn } from "../../ui/cn.ts";
-import { translator } from "../../translations/t.ts";
-import { formatDays } from "../../translations/format-days.ts";
+import { t, getActiveLanguage } from "../../translations/t.ts";
 import { getTz } from "../../lib/platform/get-tz.ts";
 import { makeQuery } from "../../lib/mobx-query-lite/make-query.ts";
 
@@ -92,7 +91,7 @@ function WeekHeatmapContent(props: {
           />
           <div className="min-w-0 text-start text-[15px] font-semibold leading-5">
             <span className="tabular-nums">
-              {formatDays(weekHeatmap.currentStreak)}
+              {t("days_count", { days: weekHeatmap.currentStreak })}
             </span>
           </div>
         </div>
@@ -100,7 +99,7 @@ function WeekHeatmapContent(props: {
         <div className="flex items-center gap-2 shrink-0">
           <div className="grid grid-cols-7 gap-2">
             {weekHeatmap.days.map((day) => {
-              const weekday = new Intl.DateTimeFormat(translator.getLang(), {
+              const weekday = new Intl.DateTimeFormat(getActiveLanguage(), {
                 weekday: "narrow",
               })
                 .format(parseIsoDate(day.date))
