@@ -196,7 +196,7 @@ export const es = {
   selected: "Seleccionado",
   add_deck: "Añadir mazo",
   deck_form_remove_card_confirm:
-    "¿Estás seguro de que quieres eliminar la tarjeta? Todas las revisiones de tarjetas de todos los usuarios se perderán",
+    "¿Estás seguro de que quieres eliminar la tarjeta?",
   deck_form_remove_cards_confirm:
     "¿Estás seguro de que quieres eliminar todas las tarjetas seleccionadas?",
   edit_deck: "Editar",

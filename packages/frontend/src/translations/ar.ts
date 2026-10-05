@@ -229,7 +229,7 @@ export const ar = {
   delete_item_other_users_folder: "مستخدمون آخرون لديهم المجلد نفسه",
   delete_item_public_catalog_folder: "إزالة هذا المجلد من الكتالوج العام أيضًا",
   deck_form_remove_card_confirm:
-    "هل أنت متأكد أنك تريد إزالة البطاقة؟ ستفقد جميع مراجعات البطاقات من جميع المستخدمين",
+    "هل أنت متأكد أنك تريد إزالة البطاقة؟",
   deck_form_remove_cards_confirm:
     "هل أنت متأكد أنك تريد إزالة جميع البطاقات المحددة؟",
   delete: "حذف",
