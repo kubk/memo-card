@@ -123,7 +123,7 @@ export function CardList() {
       title={t("cards")}
       subtitle={
         <div className="text-center text-sm text-hint">
-          {t("cards_total")}: {deck.deckCards.length}
+          {t("cards_total", { count: deck.deckCards.length })}
         </div>
       }
     >

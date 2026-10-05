@@ -215,7 +215,7 @@ export const ar = {
   review_folder: "مراجعة المجلد",
   cards_to_repeat: "للتكرار",
   cards_new: "بطاقات جديدة",
-  cards_total: "إجمالي البطاقات",
+  cards_total: ({ count }: { count: number }) => `إجمالي البطاقات: ${count}`,
   delete_item_title_deck: "حذف هذه المجموعة؟",
   delete_item_description_deck: "ستتم إزالة هذه المجموعة من مجموعتك",
   delete_item_remove_for_others_deck:

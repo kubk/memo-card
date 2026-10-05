@@ -263,7 +263,7 @@ export const ptBr = {
   review_deck: "Revisar baralho",
   cards_to_repeat: "Para repetir",
   cards_new: "Novos cartões",
-  cards_total: "Total de cartões",
+  cards_total: ({ count }: { count: number }) => `Total de cartões: ${count}`,
   delete_item_title_deck: "Excluir este baralho?",
   delete_item_description_deck: "Este baralho será removido da sua coleção",
   delete_item_remove_for_others_deck:

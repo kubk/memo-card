@@ -194,7 +194,7 @@ export const en = {
   review_folder: "Review folder",
   cards_to_repeat: "To repeat",
   cards_new: "New cards",
-  cards_total: "Total cards",
+  cards_total: ({ count }: { count: number }) => `Total cards: ${count}`,
   delete_item_title_deck: "Delete this deck?",
   delete_item_description_deck: "Will be removed from your collection",
   delete_item_remove_for_others_deck: "Remove this deck for other people too",

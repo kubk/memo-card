@@ -210,7 +210,7 @@ export const fa = {
   review_folder: "مرور پوشه",
   cards_to_repeat: "برای تکرار",
   cards_new: "کارت‌های جدید",
-  cards_total: "کل کارت‌ها",
+  cards_total: ({ count }: { count: number }) => `کل کارت‌ها: ${count}`,
   delete_item_title_deck: "این دسته حذف شود؟",
   delete_item_description_deck: "این دسته از مجموعه شما حذف می‌شود",
   delete_item_remove_for_others_deck: "این دسته برای کاربران دیگر هم حذف شود",

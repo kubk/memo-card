@@ -264,7 +264,7 @@ export const es = {
   review_deck: "Repasar mazo",
   cards_to_repeat: "Para repetir",
   cards_new: "Nuevas tarjetas",
-  cards_total: "Total de tarjetas",
+  cards_total: ({ count }: { count: number }) => `Total de tarjetas: ${count}`,
   delete_item_title_deck: "¿Eliminar este mazo?",
   delete_item_description_deck: "Este mazo se eliminará de tu colección",
   delete_item_remove_for_others_deck:

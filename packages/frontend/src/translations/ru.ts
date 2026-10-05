@@ -265,7 +265,7 @@ export const ru = {
   review_deck: "Пройти колоду",
   cards_to_repeat: "К повторению",
   cards_new: "Новые",
-  cards_total: "Всего",
+  cards_total: ({ count }: { count: number }) => `Всего ${count}`,
   delete_item_title_deck: "Удалить эту колоду?",
   delete_item_description_deck: "Колода будет удалена из коллекции",
   delete_item_remove_for_others_deck:

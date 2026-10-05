@@ -269,7 +269,7 @@ export const uk = {
   review_deck: "Повторити колоду",
   cards_to_repeat: "Повторити",
   cards_new: "Нові картки",
-  cards_total: "Всього карток",
+  cards_total: ({ count }: { count: number }) => `Всього карток: ${count}`,
   delete_item_title_deck: "Видалити цю колоду?",
   delete_item_description_deck: "Цю колоду буде видалено з вашої колекції",
   delete_item_remove_for_others_deck:
