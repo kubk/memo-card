@@ -10,14 +10,17 @@ import { Badge } from "../../ui/badge.tsx";
 import { userStore } from "../../store/user-store.ts";
 import { cn } from "../../ui/cn.ts";
 import { t } from "../../translations/t.ts";
+import { BackBottomButton } from "../shared/back-bottom-button.tsx";
 
 const searchInputId = "global-search-input";
 
 export function SearchScreen() {
-  useBackButton(() => {
+  const handleBack = () => {
     screenStore.back();
     globalSearchStore.clearSearch();
-  });
+  };
+
+  useBackButton(handleBack);
 
   return (
     <Flex direction="column" pb={48}>
@@ -85,6 +88,7 @@ export function SearchScreen() {
           {t("global_search_start_typing")}
         </div>
       )}
+      <BackBottomButton onClick={handleBack} />
     </Flex>
   );
 }
