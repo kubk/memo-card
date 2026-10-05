@@ -35,31 +35,29 @@ export function DeckFinished(props: Props) {
   useProgress(() => reviewStore.reviewCardsMutation.isPending);
 
   return (
-    <>
-      <Flex direction={"column"}>
-        <m.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0, duration: 0.4 }}
-          className="w-full flex flex-col p-6 bg-bg rounded-[12px]"
-        >
-          <span className="mb-2">
-            {type === "deck"
-              ? t("review_deck_finished")
-              : t("review_all_cards")}
-          </span>
-          {type === "repeat_all" ? (
-            <p>
-              <WantMoreCardsButton newCardsCount={newCardsCount} />
-            </p>
-          ) : (
-            <p>{t("encouraging_message")}</p>
-          )}
-        </m.div>
-      </Flex>
-      <div className="mt-1.5 mb-[100px]">
+    <Flex direction={"column"} className="gap-4">
+      <m.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0, duration: 0.4 }}
+        className="w-full flex flex-col p-6 bg-bg rounded-[12px]"
+      >
+        <span className="mb-2">
+          {type === "deck"
+            ? t("review_deck_finished")
+            : t("review_all_cards")}
+        </span>
+        {type === "repeat_all" ? (
+          <p>
+            <WantMoreCardsButton newCardsCount={newCardsCount} />
+          </p>
+        ) : (
+          <p>{t("encouraging_message")}</p>
+        )}
+      </m.div>
+      <div className="mb-[100px]">
         <ReviewedCardsList reviewedCards={reviewStore.sortedReviewedCards} />
       </div>
-    </>
+    </Flex>
   );
 }
