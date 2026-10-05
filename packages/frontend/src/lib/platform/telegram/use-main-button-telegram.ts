@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { getWebApp } from "./telegram-web-app.ts";
 import { assert } from "api";
 import { TelegramPlatform } from "./telegram-platform.ts";
+import { overlayStore } from "../../../store/overlay-store.ts";
 
 export const useMainButtonTelegram: UseMainButtonType = (
   text,
@@ -26,7 +27,10 @@ export const useMainButtonTelegram: UseMainButtonType = (
     telegramPlatform.registerMainButton(condition);
 
     const stopAutoRun = autorun(() => {
-      if (condition !== undefined && !condition()) {
+      const isHiddenByOverlay =
+        overlayStore.isOpen && !options?.isAboveBottomSheet;
+
+      if (isHiddenByOverlay || (condition !== undefined && !condition())) {
         hideMainButton();
         return;
       }

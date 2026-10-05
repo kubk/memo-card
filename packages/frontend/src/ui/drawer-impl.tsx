@@ -6,6 +6,8 @@ import {
 } from "react";
 import { Drawer as DrawerPrimitive } from "vaul";
 import { cn } from "./cn.ts";
+import { overlayStore } from "../store/overlay-store.ts";
+import { useMount } from "../lib/react/use-mount.ts";
 
 export function Drawer({
   shouldScaleBackground = false,
@@ -28,10 +30,20 @@ export function Drawer({
         <DrawerPrimitive.Title className={titleClassName}>
           {title}
         </DrawerPrimitive.Title>
+        <DrawerOverlayFlag />
         {children}
       </DrawerContent>
     </DrawerPrimitive.Root>
   );
+}
+
+function DrawerOverlayFlag() {
+  useMount(() => {
+    overlayStore.add();
+    return () => overlayStore.remove();
+  });
+
+  return null;
 }
 
 function DrawerContent({

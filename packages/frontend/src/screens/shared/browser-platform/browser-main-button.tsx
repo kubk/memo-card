@@ -1,21 +1,23 @@
 import { Button } from "../../../ui/button.tsx";
 import { platform } from "../../../lib/platform/platform.ts";
 import { BrowserPlatform } from "../../../lib/platform/browser/browser-platform.ts";
-import { assert } from "api";
 import { cn } from "../../../ui/cn.ts";
 import { LoaderCircleIcon } from "lucide-react";
+import { overlayStore } from "../../../store/overlay-store.ts";
 
 export function BrowserMainButton() {
   if (!(platform instanceof BrowserPlatform)) {
     return null;
   }
 
-  if (!platform.isMainButtonVisible) {
+  const { mainButtonInfo } = platform;
+  if (!mainButtonInfo) {
     return null;
   }
 
-  const { mainButtonInfo } = platform;
-  assert(mainButtonInfo);
+  if (overlayStore.isOpen && !mainButtonInfo.isAboveBottomSheet) {
+    return null;
+  }
 
   if (mainButtonInfo.condition && !mainButtonInfo.condition()) {
     return null;
