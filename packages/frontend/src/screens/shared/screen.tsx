@@ -60,7 +60,7 @@ export function Screen(props: Props) {
     >
       <div>
         <div className={cn("absolute -top-1")}>
-          <BrowserBackButton />
+          <BrowserBackButton className="ml-2" />
         </div>
         {title && <h3 className="text-center text-lg">{title}</h3>}
         {headerRight ? (
