@@ -201,7 +201,7 @@ export function ManualCardFormView() {
         </div>
 
         {cardForm.answerType.value !== "remember" && (
-          <div className="w-full">
+          <div className="w-full pt-4">
             <LabelGroup
               title={formatCardType(cardForm.answerType.value)}
               isRequired
