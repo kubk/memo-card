@@ -3,7 +3,7 @@ import { EllipsisIcon } from "lucide-react";
 import { platform } from "../lib/platform/platform.ts";
 import { t } from "../translations/t.ts";
 import { cn } from "./cn.ts";
-import { Drawer, DrawerContent, DrawerTitle } from "./drawer.tsx";
+import { Drawer } from "./drawer.tsx";
 import { Dropdown, type DropdownItem } from "./dropdown.tsx";
 
 type Props = {
@@ -51,43 +51,43 @@ function Vault({
             close();
           }
         }}
+        title={t("more")}
+        titleClassName="sr-only"
+        contentProps={{
+          showHandle: false,
+          overlayStyle: { zIndex: 1001 },
+          className:
+            "inset-x-3 bottom-3 rounded-[22px] bg-transparent p-0 shadow-none",
+          style: { zIndex: 1002 },
+        }}
       >
-        <DrawerContent
-          showHandle={false}
-          overlayStyle={{ zIndex: 1001 }}
-          className="inset-x-3 bottom-3 rounded-[22px] bg-transparent p-0 shadow-none"
-          style={{ zIndex: 1002 }}
+        <div className="overflow-hidden rounded-[22px] bg-bg">
+          {options.map((option, index) => (
+            <button
+              key={index}
+              onClick={() => {
+                close();
+                option.onClick();
+                platform.haptic("selection");
+              }}
+              className={cn(
+                "flex w-full items-center gap-4 bg-bg px-5 py-4 text-left text-[17px] text-text active:bg-secondary-bg",
+                index !== options.length - 1 && "border-b border-secondary-bg",
+              )}
+            >
+              <span className="flex w-6 shrink-0 justify-center">
+                {option.icon}
+              </span>
+              <span className="min-w-0 flex-1">{option.text}</span>
+            </button>
+          ))}
+        </div>
+        <button
+          onClick={close}
+          className="mt-2 w-full rounded-[22px] bg-bg py-4 text-[17px] font-semibold text-link active:bg-secondary-bg"
         >
-          <DrawerTitle className="sr-only">{t("more")}</DrawerTitle>
-          <div className="overflow-hidden rounded-[22px] bg-bg">
-            {options.map((option, index) => (
-              <button
-                key={index}
-                onClick={() => {
-                  close();
-                  option.onClick();
-                  platform.haptic("selection");
-                }}
-                className={cn(
-                  "flex w-full items-center gap-4 bg-bg px-5 py-4 text-left text-[17px] text-text active:bg-secondary-bg",
-                  index !== options.length - 1 &&
-                    "border-b border-secondary-bg",
-                )}
-              >
-                <span className="flex w-6 shrink-0 justify-center">
-                  {option.icon}
-                </span>
-                <span className="min-w-0 flex-1">{option.text}</span>
-              </button>
-            ))}
-          </div>
-          <button
-            onClick={close}
-            className="mt-2 w-full rounded-[22px] bg-bg py-4 text-[17px] font-semibold text-link active:bg-secondary-bg"
-          >
-            {t("confirm_cancel")}
-          </button>
-        </DrawerContent>
+          {t("confirm_cancel")}
+        </button>
       </Drawer>
     </div>
   );

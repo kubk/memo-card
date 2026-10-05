@@ -6,7 +6,7 @@ import { BrowserPlatform } from "../../lib/platform/browser/browser-platform.ts"
 import { userStore } from "../../store/user-store.ts";
 import { cn } from "../cn.ts";
 import { TelegramPlatform } from "../../lib/platform/telegram/telegram-platform.ts";
-import { Drawer, DrawerContent, DrawerTitle } from "../drawer.tsx";
+import { Drawer } from "../drawer.tsx";
 
 const overlayVariants = {
   open: { opacity: 1 },
@@ -108,19 +108,17 @@ export function BottomSheet(props: Props) {
             onClose();
           }
         }}
-      >
-        <DrawerContent
-          className={cn(
+        title={title}
+        titleClassName={titleClassName}
+        contentProps={{
+          className: cn(
             backgroundClassName,
             platform instanceof TelegramPlatform && platform.isIos() && "pb-10",
-          )}
-          style={{
-            boxShadow: "0 -2px 10px rgba(0, 0, 0, 0.1)",
-          }}
-        >
-          <DrawerTitle className={titleClassName}>{title}</DrawerTitle>
-          {children}
-        </DrawerContent>
+          ),
+          style: { boxShadow: "0 -2px 10px rgba(0, 0, 0, 0.1)" },
+        }}
+      >
+        {children}
       </Drawer>
     );
   }

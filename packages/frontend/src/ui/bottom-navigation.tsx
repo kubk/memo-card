@@ -1,8 +1,8 @@
 import { type ReactNode } from "react";
-import leaderboardIcon from "../assets/bottom-navigation/leaderboard.webp";
-import mainIcon from "../assets/bottom-navigation/main.webp";
-import reviewIcon from "../assets/bottom-navigation/review.webp";
-import settingsIcon from "../assets/bottom-navigation/settings.webp";
+import leaderboardIcon from "../assets/bottom-navigation/leaderboard.webp?no-inline";
+import mainIcon from "../assets/bottom-navigation/main.webp?no-inline";
+import reviewIcon from "../assets/bottom-navigation/review.webp?no-inline";
+import settingsIcon from "../assets/bottom-navigation/settings.webp?no-inline";
 import {
   bottomNavigationStore,
   type BottomNavigationTab,

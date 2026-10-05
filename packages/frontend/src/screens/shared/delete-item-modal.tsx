@@ -1,7 +1,6 @@
 import { InfoIcon } from "lucide-react";
 import { t } from "../../translations/t.ts";
 import { Button } from "../../ui/button.tsx";
-import { ShadcnCheckbox } from "../../ui/shadcn/checkbox.tsx";
 import { LoadingSwap } from "../../ui/loading-swap.tsx";
 import {
   type DeleteItemModalStore,
@@ -51,11 +50,12 @@ function DeleteOption({
         className="flex cursor-pointer items-start gap-3 rounded-xl bg-secondary-bg px-4 py-3.5"
         htmlFor={id}
       >
-        <ShadcnCheckbox
-          className="size-5 border-button bg-transparent focus-visible:ring-button data-[state=checked]:bg-button data-[state=checked]:text-button-text"
+        <input
+          type="checkbox"
+          className="mt-0 size-5 shrink-0 cursor-pointer accent-button focus-visible:outline-2 focus-visible:outline-button"
           checked={checked}
           id={id}
-          onCheckedChange={(value) => onCheckedChange(value === true)}
+          onChange={(event) => onCheckedChange(event.currentTarget.checked)}
         />
         <span className="text-sm font-medium leading-5 text-text">{label}</span>
       </label>
