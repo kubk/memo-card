@@ -208,8 +208,7 @@ export const en = {
   delete_item_other_users_folder: "Other users having the same folder",
   delete_item_public_catalog_folder:
     "Remove this folder from the public catalog too",
-  deck_form_remove_card_confirm:
-    "Are you sure you want to remove the card?",
+  deck_form_remove_card_confirm: "Are you sure you want to remove the card?",
   deck_form_remove_cards_confirm:
     "Are you sure you want to remove all of the selected cards?",
   delete: "Delete",

@@ -214,8 +214,7 @@ export const ru = {
   any_category: "Любая",
   deck_search_not_found: "Нет подходящих колод",
   card_search_not_found: "Карточки не найдены",
-  deck_form_remove_card_confirm:
-    "Удалить карточку?",
+  deck_form_remove_card_confirm: "Удалить карточку?",
   deck_form_remove_cards_confirm:
     "Вы уверены, что хотите удалить все выбранные карточки?",
   deck_search_not_found_description:

@@ -43,9 +43,7 @@ export function DeckFinished(props: Props) {
         className="w-full flex flex-col p-6 bg-bg rounded-[12px]"
       >
         <span className="mb-2">
-          {type === "deck"
-            ? t("review_deck_finished")
-            : t("review_all_cards")}
+          {type === "deck" ? t("review_deck_finished") : t("review_all_cards")}
         </span>
         {type === "repeat_all" ? (
           <p>

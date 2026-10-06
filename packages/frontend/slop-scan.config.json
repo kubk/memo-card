@@ -1,7 +1,8 @@
 {
   "plugins": {
     "no-identity-type-alias": "../../tools/slop-scan/no-identity-type-alias.mjs",
-    "no-pass-through-getter": "../../tools/slop-scan/no-pass-through-getter.mjs"
+    "no-pass-through-getter": "../../tools/slop-scan/no-pass-through-getter.mjs",
+    "no-single-string-cn": "../../tools/slop-scan/no-single-string-cn.mjs"
   },
   "overrides": [
     {
@@ -14,6 +15,7 @@
   "rules": {
     "no-identity-type-alias/no-identity-type-alias": { "enabled": true },
     "no-pass-through-getter/no-pass-through-getter": { "enabled": true },
+    "no-single-string-cn/no-single-string-cn": { "enabled": true },
     "tests.duplicate-mock-setup": { "enabled": false },
     "defensive.error-swallowing": { "enabled": false },
     "defensive.error-obscuring": { "enabled": false },

@@ -193,8 +193,7 @@ export const ptBr = {
   deselect_all: "Desselecionar tudo",
   select: "Selecionar",
   selected: "Selecionado",
-  deck_form_remove_card_confirm:
-    "Tem certeza de que deseja remover o cartão?",
+  deck_form_remove_card_confirm: "Tem certeza de que deseja remover o cartão?",
   deck_form_remove_cards_confirm:
     "Tem certeza de que deseja remover todos os cartões selecionados?",
   add_deck: "Adicionar baralho",

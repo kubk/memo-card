@@ -4,7 +4,6 @@ import { userStore } from "../../../store/user-store.ts";
 import { platform } from "../../../lib/platform/platform.ts";
 import { t } from "../../../translations/t.ts";
 import { ClearSnackbar } from "./clear-snackbar.tsx";
-import { cn } from "../../../ui/cn.ts";
 import "./notistack.css";
 
 export function SnackbarWrapper({ children }: { children: React.ReactNode }) {
@@ -57,7 +56,7 @@ export const notifyError = (report?: any, options?: NotifyErrorOptions) => {
 
   enqueueSnackbar(
     <div>
-      <div className={cn("font-medium")}>{t("error")}</div>
+      <div className="font-medium">{t("error")}</div>
       <div>{message}</div>
     </div>,
     {

@@ -9,7 +9,6 @@ import { screenStore } from "../../store/screen-store.ts";
 import { CardContextMenu } from "./card-context-menu.tsx";
 import { platform } from "../../lib/platform/platform.ts";
 import { deckListStore } from "../../store/deck-list-store.ts";
-import { cn } from "../../ui/cn.ts";
 import { ReviewScreenLayout } from "./review-screen-layout.tsx";
 
 export function Review() {
@@ -35,7 +34,7 @@ export function Review() {
     <ReviewScreenLayout>
       <div className="absolute left-0 top-2 flex w-full items-center gap-2">
         <button
-          className={cn("text-hint active:scale-90 cursor-pointer -ms-[3px]")}
+          className="text-hint active:scale-90 cursor-pointer -ms-[3px]"
           onClick={() => {
             platform.haptic("medium");
             screenStore.back();
@@ -51,7 +50,7 @@ export function Review() {
           />
         )}
 
-        <div className={cn("mt-[4px] -ms-[4px]")}>
+        <div className="mt-[4px] -ms-[4px]">
           <CardContextMenu />
         </div>
       </div>

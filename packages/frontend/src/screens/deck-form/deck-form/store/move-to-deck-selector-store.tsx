@@ -11,7 +11,6 @@ import {
 import { BooleanToggle } from "mobx-form-lite";
 import { userStore } from "../../../../store/user-store.ts";
 import { ButtonLink } from "../../../../ui/button-link.tsx";
-import { cn } from "../../../../ui/cn.ts";
 import { screenStore } from "../../../../store/screen-store.ts";
 import { t } from "../../../../translations/t.ts";
 
@@ -81,7 +80,7 @@ export class MoveToDeckSelectorStore {
 
       const { clear } = notifySuccess(
         <div className="flex flex-col gap-1">
-          <div className={cn("font-medium")}>{t("move_card_open_deck")}</div>
+          <div className="font-medium">{t("move_card_open_deck")}</div>
           <div>
             <ButtonLink
               className="text-inherit"

@@ -200,8 +200,7 @@ export const uk = {
   select: "Вибрати",
   selected: "Вибрано",
   add_deck: "Додати колоду",
-  deck_form_remove_card_confirm:
-    "Ви впевнені, що хочете видалити картку?",
+  deck_form_remove_card_confirm: "Ви впевнені, що хочете видалити картку?",
   deck_form_remove_cards_confirm:
     "Ви впевнені, що хочете видалити всі вибрані картки?",
   edit_deck: "Редагувати",
