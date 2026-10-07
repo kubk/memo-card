@@ -368,13 +368,13 @@ export const es = {
   // About page
   about_title: "Acerca de",
   about_paragraph_1:
-    "MemoCard existe porque apps como Anki son un dolor de cabeza. Sí, son potentes, pero hay que configurar mil cosas, no te avisan cuando repasar y parecen de los 90.",
+    "MemoCard se creó para que repasar tarjetas fuera sencillo y cómodo.",
   about_paragraph_2:
-    "En el concurso de Mini Apps de Telegram hice la app de tarjetas que siempre quise. No hay que configurar nada, los recordatorios ya funcionan y todo es simple.",
+    "Durante el concurso de miniaplicaciones de Telegram, decidí crear la aplicación de tarjetas con la que siempre había soñado. Sin configuraciones, con recordatorios inteligentes y una interfaz limpia.",
   about_paragraph_3:
-    "Usa el método científico de repetición espaciada de Ebbinghaus. Las tarjetas aparecen justo cuando empiezas a olvidar - así es como mejor se memoriza.",
+    "La aplicación utiliza un algoritmo de repetición espaciada con fundamento científico, basado en la curva del olvido de Ebbinghaus. Esto ayuda a memorizar idiomas, datos o cualquier información de forma eficaz, mostrando las tarjetas justo cuando es necesario repasarlas.",
   about_paragraph_4:
-    "MemoCard ganó premio en el concurso. Ahora lo usan miles de personas en todo el mundo.",
+    "MemoCard ganó un premio en el concurso. Hoy, miles de personas lo utilizan para aprender y memorizar mejor.",
   about_visit_website: "Visitar sitio web →",
   about_github_frontend: "Repositorio de GitHub del frontend →",
 

@@ -353,13 +353,13 @@ export const en = {
   // About page
   about_title: "About",
   about_paragraph_1:
-    "MemoCard was born because existing apps like Anki are just too clunky. Sure, they're powerful, but they demand endless setup, don't remind you when it matters, and look like they're stuck in the past.",
+    "MemoCard was created to make reviewing flashcards simple and convenient.",
   about_paragraph_2:
-    "During the Telegram Mini App Contest, I built the flashcard app I'd been dreaming of. Zero configuration needed, smart reminders, and an interface that just makes sense.",
+    "During the Telegram Mini App Contest, I decided to create the flashcard app I had always dreamed of. No configuration, smart reminders, and a clean interface.",
   about_paragraph_3:
-    "Under the hood is Ebbinghaus's proven spaced repetition method. Cards pop up exactly when you're starting to forget - that's when your brain learns best.",
+    "The app uses a scientifically grounded spaced repetition algorithm based on Ebbinghaus's forgetting curve. It helps you effectively memorize languages, facts, or any information by showing flashcards exactly when you need to review them.",
   about_paragraph_4:
-    "MemoCard won a prize at the contest. Now thousands of people around the world use it to learn better.",
+    "MemoCard won a prize in the contest. Today, thousands of people use it to learn and remember more effectively.",
   about_visit_website: "Visit Website →",
   about_github_frontend: "GitHub Frontend Repository →",
 
