@@ -73,7 +73,11 @@ export const getVoicesByLanguage = (
 
 const voiceCache = new Map<SpeakLanguageEnum, SpeechSynthesisVoice | null>();
 
-export const speak = async (text: string, language: SpeakLanguageEnum) => {
+export const speak = async (
+  text: string,
+  language: SpeakLanguageEnum,
+  onStart?: () => void,
+) => {
   if (!isSpeechSynthesisSupported) {
     return;
   }
@@ -119,6 +123,7 @@ export const speak = async (text: string, language: SpeakLanguageEnum) => {
     await EasySpeech.speak({
       text,
       voice,
+      start: onStart,
     });
   } catch (e) {
     console.error("Speech synthesis failed:", e);

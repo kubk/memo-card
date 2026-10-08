@@ -355,8 +355,7 @@ export const ar = {
 
   // About page
   about_title: "حول التطبيق",
-  about_paragraph_1:
-    "أُنشئ MemoCard لتكون مراجعة البطاقات بسيطة ومريحة.",
+  about_paragraph_1: "أُنشئ MemoCard لتكون مراجعة البطاقات بسيطة ومريحة.",
   about_paragraph_2:
     "خلال مسابقة تطبيقات Telegram المصغّرة، قررت إنشاء تطبيق البطاقات الذي لطالما حلمت به. دون إعدادات، مع تذكيرات ذكية وواجهة بسيطة وواضحة.",
   about_paragraph_3:

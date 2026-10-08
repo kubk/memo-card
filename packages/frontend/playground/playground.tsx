@@ -53,12 +53,19 @@ import { BottomNavigationPlayground } from "./bottom-navigation-playground.tsx";
 import { LeaderboardPlayground } from "./leaderboard-playground.tsx";
 import { SharedDeckNotFoundPlayground } from "./shared-deck-not-found-playground.tsx";
 import { CardReviewPlayground } from "./card-review-playground.tsx";
+import { CardAudioPlayground } from "./card-audio-playground.tsx";
 import { routeScreenContainerClassName } from "../src/lib/react/route-screen-container-class.ts";
 import { BooleanProp, PropGroup, TextProp } from "./ui/prop-controls.tsx";
 import { PreviewFrame } from "./ui/preview-frame.tsx";
 import { PropsPanel, PropsPanelContext } from "./ui/props-panel.tsx";
 
 const PLAYGROUND_COMPONENTS = [
+  {
+    id: "card-audio",
+    label: "Card audio",
+    layout: "component",
+    propsPanel: false,
+  },
   {
     id: "login",
     label: "Login",
@@ -165,7 +172,7 @@ const PLAYGROUND_HOME_SECTIONS = [
   },
   {
     label: "Content",
-    componentIds: ["list", "chip", "badge"],
+    componentIds: ["list", "chip", "badge", "card-audio"],
   },
   {
     label: "Feedback",
@@ -548,6 +555,8 @@ function ComponentPreview({
   componentId: PlaygroundComponentId;
 }) {
   switch (componentId) {
+    case "card-audio":
+      return <CardAudioPlayground />;
     case "login":
       return <LoginPlayground />;
     case "leaderboard":

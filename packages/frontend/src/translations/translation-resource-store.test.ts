@@ -76,9 +76,7 @@ describe("callback translations", () => {
       ru: async () => ru,
     });
     await Promise.all([store.load("en"), store.load("ru")]);
-    expect(
-      store.translate("en", "upgrade_pro"),
-    ).toBe("Buy Pro");
+    expect(store.translate("en", "upgrade_pro")).toBe("Buy Pro");
     expect(store.translate("ru", "upgrade_pro")).toBe("Купить Pro");
     expect(store.translate("ru", "new_cards_count", { count: 21 })).toBe(
       "21 новая карточка",

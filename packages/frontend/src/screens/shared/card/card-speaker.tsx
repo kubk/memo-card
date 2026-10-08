@@ -1,6 +1,6 @@
 import { throttle } from "../../../lib/throttle/throttle.ts";
 import { LimitedCardUnderReviewStore } from "./card.tsx";
-import { PlayCircle } from "lucide-react";
+import { PauseCircle, PlayCircle } from "lucide-react";
 
 type Props = {
   card: LimitedCardUnderReviewStore;
@@ -12,6 +12,7 @@ export function CardSpeaker(props: Props) {
   if (!card.isCardSpeakerVisible(type)) {
     return null;
   }
+  const Icon = card.voicePlayer?.isPlaying ? PauseCircle : PlayCircle;
 
   // Prevent rapid clicks from queueing overlapping speech.
   return (
@@ -19,7 +20,7 @@ export function CardSpeaker(props: Props) {
       tabIndex={0}
       className="transition-[scale] duration-200 ease-out active:scale-90"
     >
-      <PlayCircle
+      <Icon
         onClick={throttle(card.speak, 500)}
         size={24}
         className="cursor-pointer relative top-[3px] text-button"

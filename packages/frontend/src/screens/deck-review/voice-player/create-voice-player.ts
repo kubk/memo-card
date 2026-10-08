@@ -10,6 +10,7 @@ import { UrlRecordVoicePlayer } from "./url-record-voice-player.ts";
 import { GoogleTtsVoicePlayer } from "./google-tts-voice-player.ts";
 
 export interface VoicePlayer {
+  isPlaying: boolean;
   play(): void;
 }
 
