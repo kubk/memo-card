@@ -17,7 +17,7 @@
   background-color: var(--tg-theme-bg-color);
 }
 
-/* Make the Help button align to the right */
+/* The final toolbar button is Help */
 .rsw-toolbar button:last-child {
   margin-inline-start: auto;
   padding-inline-end: 2px;

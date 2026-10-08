@@ -209,7 +209,6 @@ class DeckListStore {
   }
 
   get myDecksWithoutFolder(): DeckListItem[] {
-    // filter my decks if they are not in this.myInfo.folders
     const decksWithinFolder =
       this.myInfo?.folders.map((folder) => folder.deck_id) ?? [];
 
@@ -292,7 +291,7 @@ class DeckListStore {
     return this.myFoldersAsDecks
       .concat(this.myDecksWithoutFolder)
       .sort((a, b) => {
-        // sort decks by cardsToReview count with type 'repeat' first, then with type 'new'
+        // Prioritize decks with repeat cards, then new cards, then alphabetical order.
         const aRepeatCount = a.cardsToReview.filter(
           (card) => card.type === "repeat",
         ).length;

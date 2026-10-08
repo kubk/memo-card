@@ -29,12 +29,11 @@ export function routeToUrl(route: Route): string {
 export function urlToRoute(url: string): Route | null {
   const urlObj = new URL(url, window.location.origin);
 
-  // Handle root path
   if (urlObj.pathname === "/" && !urlObj.searchParams.get("type")) {
     return { type: "main" };
   }
 
-  // Handle Telegram start params
+  // Known Telegram start params are handled by the platform launch flow.
   const start = urlObj.searchParams.get("start");
   if (
     start &&

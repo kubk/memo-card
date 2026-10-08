@@ -52,20 +52,17 @@ export class RepeatCustomSelectorStore {
     if (deckListItem.type === "deck") {
       this.toggleDeckId(deckListItem.id);
     } else if (deckListItem.type === "folder") {
-      // if we're trying to toggle folder, we should toggle all decks inside it
       const ids = deckListItem.decks.map((deck) => deck.id);
-      const isFolderOn = ids.every((id) =>
+      const areAllFolderDecksSelected = ids.every((id) =>
         this.form.selectedDecksIds.includes(id),
       );
-      if (isFolderOn) {
-        // Remove all deck ids from the folder
+      if (areAllFolderDecksSelected) {
         for (let i = this.form.selectedDecksIds.length - 1; i >= 0; i--) {
           if (ids.includes(this.form.selectedDecksIds[i])) {
             this.form.selectedDecksIds.splice(i, 1);
           }
         }
       } else {
-        // Add missing deck ids from the folder
         for (const id of ids) {
           if (!this.form.selectedDecksIds.includes(id)) {
             this.form.selectedDecksIds.push(id);

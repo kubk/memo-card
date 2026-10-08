@@ -17,7 +17,6 @@ export function MoveToDeckSelector({
 }) {
   const groupedItems = store.availableDecksGrouped;
 
-  // Separate folders and standalone decks
   const folders = groupedItems.filter((item) => item.type === "folder");
   const standaloneDecks = groupedItems.filter((item) => item.type === "deck");
 
@@ -28,7 +27,6 @@ export function MoveToDeckSelector({
       onClose={store.close}
     >
       <div className="flex flex-col gap-4 max-h-[60vh] overflow-y-auto">
-        {/* Render folders */}
         {folders.map((listItem) => {
           if (listItem.type !== "folder") return null;
 
@@ -62,7 +60,6 @@ export function MoveToDeckSelector({
           );
         })}
 
-        {/* Render standalone decks under "Without folder" */}
         {standaloneDecks.length > 0 && (
           <LabelGroup title={t("move_card_without_folder")}>
             <List

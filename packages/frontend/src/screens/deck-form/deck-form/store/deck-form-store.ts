@@ -404,7 +404,6 @@ export class DeckFormStore {
       return;
     }
 
-    // For new deck without id, create it first
     if (!this.deckForm.id) {
       const deckResult = await this.deckCreateMutation.mutateResult({
         title: this.deckForm.title.value,
@@ -422,7 +421,6 @@ export class DeckFormStore {
       return;
     }
 
-    // Update existing deck metadata
     const result = await this.deckUpdateMutation.mutateResult({
       id: this.deckForm.id,
       title: this.deckForm.title.value,

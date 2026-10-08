@@ -1,6 +1,5 @@
 import { t } from "../../../translations/t.ts";
 
-// Base color styles for review outcomes
 const baseOutcomeColors = {
   again:
     "bg-rose-50 text-rose-700 border-rose-50/50 dark:bg-rose-900/60 dark:text-rose-300 dark:border-rose-700/50",
@@ -12,7 +11,6 @@ const baseOutcomeColors = {
   skip: "bg-slate-200 text-slate-700 dark:bg-slate-800/60 dark:text-slate-300 border-slate-200/50 dark:border-slate-600/50",
 };
 
-// Styles for small badges (used in reviewed cards list)
 export const reviewOutcomeStyles = {
   again: baseOutcomeColors.again,
   hard: baseOutcomeColors.hard,
@@ -22,7 +20,6 @@ export const reviewOutcomeStyles = {
   skip: baseOutcomeColors.skip,
 };
 
-// Styles for review buttons (used in card review controls)
 export const reviewOutcomeButtonStyles = {
   again:
     "cursor-pointer py-2 flex-auto bg-rose-50 text-rose-700 border border-rose-50/50 dark:bg-rose-900/60 dark:text-rose-300 dark:border-rose-700/50 rounded-xl active:scale-95 relative",
@@ -34,7 +31,6 @@ export const reviewOutcomeButtonStyles = {
   skip: "cursor-pointer py-2 flex-auto bg-slate-200 text-slate-700 dark:bg-slate-800/60 dark:text-slate-300 border border-slate-200/50 dark:border-slate-600/50 rounded-xl active:scale-95 relative",
 };
 
-// Styles for hotkey badges (used in review controls)
 export const reviewOutcomeHotkeyStyles = {
   again:
     "bg-rose-50 text-rose-700 border-rose-200 border-2 dark:bg-rose-900/60 dark:text-rose-300 dark:border-rose-700",

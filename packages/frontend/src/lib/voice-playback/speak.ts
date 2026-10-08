@@ -71,7 +71,6 @@ export const getVoicesByLanguage = (
   });
 };
 
-// Cache for high quality voices by language
 const voiceCache = new Map<SpeakLanguageEnum, SpeechSynthesisVoice | null>();
 
 export const speak = async (text: string, language: SpeakLanguageEnum) => {
@@ -97,7 +96,6 @@ export const speak = async (text: string, language: SpeakLanguageEnum) => {
       const { highQualityVoices, arrayIntersection } =
         await loadHighQualityVoices();
 
-      // Search for high quality voice and cache the result
       const hqvByLanguage = highQualityVoices[language] || [];
       const existingHqv = arrayIntersection(
         hqvByLanguage,

@@ -1,7 +1,6 @@
 import { type StorageController } from "mobx-persist-store";
 import { getWebApp } from "./telegram-web-app.ts";
 
-// Spent too much time on this bs:
 // https://core.telegram.org/bots/webapps#cloudstorage:~:text=A%20method%20that%20receives%20values%20from%20the%20cloud%20storage%20using%20the%20specified%20keys.%20The%20keys%20should%20contain%201%2D128%20characters%2C%20only%20A%2DZ%2C%20a%2Dz%2C%200%2D9%2C%20_%20and%20%2D%20are%20allowed.
 const isCloudStorageKeyValid = (key: string): boolean => {
   if (!key) {
@@ -21,7 +20,6 @@ function getStorage() {
 
 type StorageError = string | null;
 
-// An adapter of the Telegram cloud storage to the mobx-persist-store interface
 export const cloudStorageAdapter: StorageController = {
   getItem(key: string) {
     return new Promise<string | null>((resolve, reject) => {

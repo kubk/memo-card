@@ -161,7 +161,7 @@ describe("card form store", () => {
       ]),
     );
 
-    // Review 2 cards with "hard" - should not trigger send yet
+    // Progress sends after three reviewed cards.
     reviewStore.open();
     reviewStore.changeState("hard");
     reviewStore.open();
@@ -174,7 +174,6 @@ describe("card form store", () => {
       easyIds: [],
     });
 
-    // Review 3rd card with "hard" - should trigger send
     reviewStore.open();
     reviewStore.changeState("hard");
     await when(() => !reviewStore.reviewCardsInProgressMutation.isPending);
@@ -805,19 +804,15 @@ describe("card form store", () => {
     reviewStore.startDeckReview(createDeckWithCards(repeatCardsMock));
     expect(reviewStore.currentCard?.id).toEqual(3);
 
-    // Skip the first card
     await reviewStore.onSkipCard();
 
-    // Should move to next card
     expect(reviewStore.currentCard?.id).toEqual(4);
 
-    // Skipped card should be in reviewedCards but not in result IDs
     expect(reviewStore.reviewedCards).toHaveLength(1);
     expect(reviewStore.reviewedCards[0].outcome).toEqual("skip");
     expect(reviewStore.result.againIds).toHaveLength(0);
     expect(reviewStore.result.neverIds).toHaveLength(0);
 
-    // Complete remaining cards
     reviewStore.open();
     reviewStore.changeState("good");
     reviewStore.open();

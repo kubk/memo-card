@@ -518,7 +518,6 @@ export class CardFormStore {
     }
 
     this.moveToDeckStore.open(deckId, [cardId], () => {
-      // this.quitCardForm();
       screenStore.back();
     });
   }

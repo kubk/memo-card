@@ -22,21 +22,17 @@ export const calculateRelevanceScore = (
       continue;
     }
 
-    // Exact match (query equals entire value) - highest priority
+    // Rank whole-value matches above whole-word matches and substrings.
     if (lowerValue === query) {
       score += 100;
-    }
-    // Word boundary match (query is a complete word, not part of another word)
-    else if (isWordBoundaryMatch(lowerValue, query)) {
+    } else if (isWordBoundaryMatch(lowerValue, query)) {
       score += 50;
 
-      // Extra bonus for matches at the beginning of text
+      // Prefer a match at the beginning of the field.
       if (lowerValue.startsWith(query)) {
         score += 10;
       }
-    }
-    // Substring match (query is part of another word like "rice" in "priced")
-    else {
+    } else {
       score += 5;
 
       if (lowerValue.startsWith(query)) {
@@ -44,7 +40,7 @@ export const calculateRelevanceScore = (
       }
     }
 
-    // Boost score based on field importance
+    // Names contribute more to relevance than card examples or descriptions.
     switch (match.field) {
       case "name":
         score += 5;

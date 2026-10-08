@@ -112,7 +112,6 @@ export function SearchResults() {
   const getResultContext = (result: SearchResultItem) => {
     if (result.parentItem) {
       if (result.type === "card") {
-        // For cards: show "Folder: FolderName" if deck is in folder, otherwise "Deck: DeckName"
         return (
           <span className="text-xs text-hint">
             {result.parentItem.type === "folder"
@@ -122,7 +121,6 @@ export function SearchResults() {
           </span>
         );
       } else if (result.type === "deck") {
-        // For decks: show "Folder: FolderName" if deck is in folder
         return (
           <span className="text-xs text-hint">
             {t("folder")}: {result.parentItem.name}

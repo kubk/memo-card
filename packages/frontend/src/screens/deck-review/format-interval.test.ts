@@ -181,34 +181,28 @@ describe("formatInterval", () => {
     });
 
     it("should handle boundary transitions correctly", () => {
-      // Day to week boundary (6 days vs 7 days)
       expect(formatInterval(6, "en")).toBe("6 d");
-      expect(formatInterval(6.9, "en")).toBe("7 d"); // Rounds to 7 days, still in days range
+      expect(formatInterval(6.9, "en")).toBe("7 d");
       expect(formatInterval(7, "en")).toBe("1 w");
-      expect(formatInterval(7.1, "en")).toBe("1 w"); // Should round to 1 w
+      expect(formatInterval(7.1, "en")).toBe("1 w");
 
-      // Week to month boundary (27 days vs 28 days)
       expect(formatInterval(27, "en")).toBe("3.9 w");
       expect(formatInterval(27.9, "en")).toBe("4 w");
       expect(formatInterval(28, "en")).toBe("1 mo");
-      expect(formatInterval(28.1, "en")).toBe("1 mo"); // Should round to 1 mo
+      expect(formatInterval(28.1, "en")).toBe("1 mo");
 
-      // Month to year boundary (around 365 days)
       expect(formatInterval(364, "en")).toBe("13 mo");
       expect(formatInterval(365, "en")).toBe("1 y");
       expect(formatInterval(366, "en")).toBe("1 y");
     });
 
     it("should show decimal precision for fractional values", () => {
-      // Weeks with decimals
       expect(formatInterval(8.5, "en")).toBe("1.2 w");
       expect(formatInterval(15.5, "en")).toBe("2.2 w");
 
-      // Months with decimals
       expect(formatInterval(40, "en")).toBe("1.4 mo");
       expect(formatInterval(70, "en")).toBe("2.5 mo");
 
-      // Years with decimals
       expect(formatInterval(400, "en")).toBe("1.1 y");
       expect(formatInterval(500, "en")).toBe("1.4 y");
     });

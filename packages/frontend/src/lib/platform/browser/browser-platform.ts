@@ -149,7 +149,6 @@ export class BrowserPlatform implements Platform {
     });
   }
 
-  // Google auth outside Telegram mini app
   handleGoogleAuth(credential: string) {
     api.googleSignin
       .mutate({ token: credential })

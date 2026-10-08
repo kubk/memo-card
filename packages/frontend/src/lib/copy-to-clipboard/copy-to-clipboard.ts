@@ -25,17 +25,16 @@ function copyToClipboardOld(textToCopy: string, options?: { html?: string }) {
     return;
   }
 
+  // The legacy copy command requires selected text, so select an offscreen textarea.
   const textarea = document.createElement("textarea");
   textarea.value = textToCopy;
 
-  // Move the textarea outside the viewport to make it invisible
   textarea.style.position = "absolute";
   textarea.style.left = "-99999999px";
 
   // @ts-ignore
   document.body.prepend(textarea);
 
-  // highlight the content of the textarea element
   textarea.select();
 
   try {

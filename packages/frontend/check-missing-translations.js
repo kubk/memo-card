@@ -7,12 +7,11 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Configuration
 const TRANSLATIONS_DIR = path.join(__dirname, 'src/translations');
 const SRC_DIR = path.join(__dirname, 'src');
 const EN_TRANSLATIONS_FILE = path.join(TRANSLATIONS_DIR, 'en.ts');
 
-// Exclusion list for keys that don't need to be checked
+// Category translation keys are built dynamically from the API category name.
 const EXCLUDED_KEYS = new Set([
   'category_Chemistry',
   'category_English',
@@ -23,7 +22,6 @@ const EXCLUDED_KEYS = new Set([
   'category_Thai'
 ]);
 
-// Colors for terminal output
 const colors = {
   red: '\x1b[31m',
   green: '\x1b[32m',
@@ -41,7 +39,6 @@ function extractTranslationKeys() {
   try {
     const enContent = fs.readFileSync(EN_TRANSLATIONS_FILE, 'utf8');
     
-    // Match all keys in the translation object using regex
     const keyRegex = /^ {2}([a-zA-Z_][a-zA-Z0-9_]*)\s*:/gm;
     const keys = [];
     let match;
@@ -127,7 +124,6 @@ function findUnusedTranslations() {
 }
 
 function main() {
-  // Check if we're in the right directory
   if (!fs.existsSync(EN_TRANSLATIONS_FILE)) {
     console.error(`Could not find translations file at: ${EN_TRANSLATIONS_FILE}`);
     process.exit(1);
@@ -139,9 +135,9 @@ function main() {
     unusedKeys.forEach((key) => {
       console.log(key);
     });
-    process.exit(1); // Exit with error code when there are missing translations
+    process.exit(1);
   } else {
-    process.exit(0); // Exit with success code when no missing translations
+    process.exit(0);
   }
 }
 

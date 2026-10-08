@@ -82,7 +82,6 @@ export function Footer({
   return (
     <footer className="bg-gray-50 py-12">
       <div className="container mx-auto px-4 max-w-(--breakpoint-lg) lg:max-w-5xl xl:max-w-6xl">
-        {/* MemoCard Footer Section - Only shown if translation is provided */}
         <div>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
@@ -158,7 +157,6 @@ export function Footer({
           </div>
         </div>
 
-        {/* Copyright section */}
         <div className="mt-12 pt-6 border-t border-gray-200 text-center text-sm text-gray-500">
           <p>
             © 2023 - {new Date().getFullYear()} MemoCard. All rights reserved.

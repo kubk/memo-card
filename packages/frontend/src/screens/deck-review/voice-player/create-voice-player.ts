@@ -29,7 +29,7 @@ export const createVoicePlayer = (
     return new UrlRecordVoicePlayer(card.voice);
   }
 
-  // Use card-level speakField override if provided, otherwise use deck default
+  // A card-level setting takes precedence over the deck-wide default.
   const effectiveSpeakField = card.speakField || deckForm.speakingCardsField;
 
   if (!deckForm.speakingCardsLocale || !effectiveSpeakField) {

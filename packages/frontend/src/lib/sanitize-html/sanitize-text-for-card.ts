@@ -5,34 +5,34 @@ import { env } from "../../env";
 const allowedTags = [
   // Text Formatting Tags
 
-  "a", // Link
-  "small", // Small text
-  "big", // Big text
-  "br", // Line break
-  "div", // Contenteditable paragraph
-  "p", // Paragraph
-  "i", // Italic
-  "font", // Font for color
-  "h1", // Heading 1
-  "h2", // Heading 2
-  "h3", // Heading 3
-  "h4", // Heading 4
-  "h5", // Heading 5
-  "h6", // Heading 6
-  "em", // Emphasized text
-  "strong", // Strongly emphasized text
-  "b", // Bold
-  "mark", // Marked or highlighted text
-  "sub", // Subscript
-  "sup", // Superscript
-  "pre", // Preformatted text
-  "blockquote", // Blockquote
-  "q", // Inline quote
+  "a",
+  "small",
+  "big",
+  "br",
+  "div", // Contenteditable emits divs for paragraph blocks.
+  "p",
+  "i",
+  "font", // Preserve text color emitted by contenteditable.
+  "h1",
+  "h2",
+  "h3",
+  "h4",
+  "h5",
+  "h6",
+  "em",
+  "strong",
+  "b",
+  "mark",
+  "sub",
+  "sup",
+  "pre",
+  "blockquote",
+  "q",
 
   // List Tags
-  "ul", // Unordered list
-  "ol", // Ordered list
-  "li", // List item
+  "ul",
+  "ol",
+  "li",
 
   "mark",
 

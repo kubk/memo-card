@@ -13,7 +13,7 @@ export function CardSpeaker(props: Props) {
     return null;
   }
 
-  // throttle is needed to avoid user clicking on the speaker many times in a row hence creating many sounds
+  // Prevent rapid clicks from queueing overlapping speech.
   return (
     <div
       tabIndex={0}

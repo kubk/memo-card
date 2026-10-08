@@ -77,7 +77,6 @@ export class CardPreviewStore implements LimitedCardUnderReviewStore {
       isCorrect: answer.isCorrect.value,
     }));
 
-    // Use card-level speakField override if provided, otherwise use deck default
     this.deckSpeakField =
       form.options.value?.speakField ??
       cardFormStore.speakingCardsField ??

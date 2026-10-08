@@ -24,7 +24,6 @@ type Props = {
 export function Flex(props: Props) {
   const { children, className } = props;
 
-  // Map CSS properties to Tailwind classes
   const getFlexDirection = () => {
     switch (props.direction) {
       case "row":
@@ -95,7 +94,6 @@ export function Flex(props: Props) {
     }
   };
 
-  // Handle spacing with inline styles for precise values
   const style: CSSProperties = {};
   if (props.gap) style.gap = props.gap;
   if (props.ml) style.marginLeft = props.ml;

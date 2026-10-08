@@ -32,7 +32,6 @@ export class TelegramPlatform implements Platform {
       return;
     }
 
-    // Here we already know we're inside the Telegram platform
     // We use cloud storage to cache language so we know it before we load user preferences
     // TS error is because mobx-persist-store StorageController can return different types but we know it's a Promise
     // @ts-expect-error
@@ -117,8 +116,6 @@ export class TelegramPlatform implements Platform {
     this.requestFullscreen();
     lockOrientationWhenPortrait();
 
-    // Def doesn't work on Mac :(
-    // Don't know yet about other platform
     getWebApp().onEvent(
       "fullscreenChanged",
       action(() => {
@@ -134,6 +131,7 @@ export class TelegramPlatform implements Platform {
     if (!getWebApp().isVersionAtLeast("8.0")) {
       return false;
     }
+    // Telegram Desktop for macOS reports fullscreen state unreliably.
     if (getWebApp().platform === "macos") {
       return true;
     }

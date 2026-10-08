@@ -338,7 +338,6 @@ export class ReviewStore {
     currentCard.updateAfterReview(cardState);
     this.reviewEvents.push({ id: currentCard.id, outcome: cardState });
 
-    // Collect reviewed card data
     if (!this.reviewedCardIds.has(currentCard.id)) {
       this.reviewedCardIds.add(currentCard.id);
       this.reviewedCards.push({
@@ -400,7 +399,6 @@ export class ReviewStore {
     }
 
     if (this.queueSize !== 0) {
-      // Go to next card
       this.currentCardId = this.currentCardAtHead?.id;
     }
 

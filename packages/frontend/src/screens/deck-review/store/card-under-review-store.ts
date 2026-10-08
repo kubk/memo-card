@@ -71,7 +71,6 @@ export class CardUnderReviewStore implements LimitedCardUnderReviewStore {
     this.answerType = card.answerType;
     this.answers = card.answers || [];
     this.deckName = deck.name;
-    // Use card-level speakField override if provided, otherwise use deck default
     this.deckSpeakField = card.options?.speakField || deck.speakField;
 
     preloadCardImage(card);

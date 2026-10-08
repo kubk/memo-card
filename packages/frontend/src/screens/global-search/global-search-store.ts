@@ -111,7 +111,6 @@ class GlobalSearchStore {
     let folderCount = 0;
     let cardCount = 0;
 
-    // Search through ALL folders (flat list)
     for (const folder of deckListStore.myFoldersAsDecks) {
       if (folderCount >= MAX_SEARCH) break;
 
@@ -120,7 +119,6 @@ class GlobalSearchStore {
       }
     }
 
-    // Search through ALL decks (flat list) - both standalone and those in folders
     for (const deck of deckListStore.myDecks) {
       if (deckCount >= MAX_SEARCH) break;
 
@@ -129,7 +127,6 @@ class GlobalSearchStore {
       }
     }
 
-    // Search through ALL cards (flat list) from all decks
     if (cardCount < MAX_SEARCH) {
       for (const deck of deckListStore.myDecks) {
         if (cardCount >= MAX_SEARCH) break;
@@ -143,7 +140,6 @@ class GlobalSearchStore {
       }
     }
 
-    // Sort by relevance score (higher is better)
     return results.sort((a, b) => b.relevanceScore - a.relevanceScore);
   }
 
@@ -227,14 +223,13 @@ class GlobalSearchStore {
     const deckMatches = nameMatches.concat(descriptionMatches);
 
     if (deckMatches.length > 0) {
-      // Find if this deck belongs to a folder
       const folderInfo = this.getDeckFolderInfo(deck.id);
 
       results.push({
         id: `deck-${deck.id}`,
         type: "deck",
         item: deck,
-        parentItem: folderInfo || undefined, // Will be undefined if deck is standalone
+        parentItem: folderInfo || undefined,
         matches: deckMatches,
         relevanceScore: calculateRelevanceScore(deckMatches, query),
       });
@@ -272,12 +267,10 @@ class GlobalSearchStore {
   private getDeckFolderInfo(deckId: number): DeckListItem | null {
     if (!deckListStore.myInfo) return null;
 
-    // Check if this deck belongs to any folder
     const folderRelation = deckListStore.myInfo.folders.find(
       (f) => f.deck_id === deckId,
     );
     if (folderRelation) {
-      // Find the folder details
       return (
         deckListStore.myFoldersAsDecks.find(
           (folder) => folder.id === folderRelation.folder_id,
@@ -296,17 +289,15 @@ class GlobalSearchStore {
       ? removeAllTags({ text: card.example, fallback: false })
       : null;
 
-    // Check if query matches in any field
     const frontMatches = frontText.toLowerCase().includes(query);
     const backMatches = backText.toLowerCase().includes(query);
     const exampleMatches = exampleText?.toLowerCase().includes(query) || false;
 
-    // Only return results if there's at least one match
     if (!frontMatches && !backMatches && !exampleMatches) {
       return [];
     }
 
-    // Always show Front (with context if long or if it matches)
+    // Keep both sides visible for context, even when only one side matches.
     const frontDisplayText =
       frontMatches && frontText.length > MAX_TEXT_LENGTH
         ? this.getContextAroundMatch(frontText, query)
@@ -322,7 +313,6 @@ class GlobalSearchStore {
         : undefined,
     });
 
-    // Always show Back (with context if long or if it matches)
     const backDisplayText =
       backMatches && backText.length > MAX_TEXT_LENGTH
         ? this.getContextAroundMatch(backText, query)
@@ -338,7 +328,6 @@ class GlobalSearchStore {
         : undefined,
     });
 
-    // Only show Example if it has a match
     if (exampleMatches && exampleText) {
       const exampleDisplayText =
         exampleText.length > MAX_TEXT_LENGTH
@@ -363,13 +352,12 @@ class GlobalSearchStore {
     const cleanText = text.toLowerCase();
     const matches: SearchMatch[] = [];
 
-    // Only check for exact substring match to avoid false positives
+    // Search by literal substring; word boundaries only affect ranking.
     const hasExactMatch = cleanText.includes(query);
 
     if (hasExactMatch) {
       let displayText = text;
 
-      // For long text, show context around the match
       if (text.length > MAX_TEXT_LENGTH) {
         displayText = this.getContextAroundMatch(text, query);
       }
@@ -392,16 +380,14 @@ class GlobalSearchStore {
 
     if (matchIndex === -1) return text;
 
-    const contextLength = CONTEXT_LENGTH; // Characters to show around the match
-    const start = Math.max(0, matchIndex - contextLength);
+    const start = Math.max(0, matchIndex - CONTEXT_LENGTH);
     const end = Math.min(
       text.length,
-      matchIndex + query.length + contextLength,
+      matchIndex + query.length + CONTEXT_LENGTH,
     );
 
     let result = text.substring(start, end);
 
-    // Add ellipsis if we truncated
     if (start > 0) result = "..." + result;
     if (end < text.length) result = result + "...";
 
@@ -409,7 +395,6 @@ class GlobalSearchStore {
   }
 
   private highlightText(text: string, query: string): string {
-    // Escape special regex characters and create case-insensitive regex
     const escapedQuery = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
     const regex = new RegExp(`(${escapedQuery})`, "gi");
     return text.replace(
