@@ -14,15 +14,15 @@ export function CardSpeaker(props: Props) {
     return null;
   }
   const iconProps = {
-    onClick: throttle(card.speak, 500),
-    className: "cursor-pointer relative top-[3px] text-button",
+    className: "relative top-[3px] text-button",
   };
 
   // Prevent rapid clicks from queueing overlapping speech.
   return (
-    <div
-      tabIndex={0}
-      className="transition-[scale] duration-200 ease-out active:scale-90"
+    <button
+      type="button"
+      onClick={throttle(card.speak, 500)}
+      className="cursor-pointer touch-manipulation transition-[scale] duration-200 ease-out active:scale-90"
     >
       {card.voicePlayer?.isPlaying ? (
         <svg
@@ -45,6 +45,6 @@ export function CardSpeaker(props: Props) {
       ) : (
         <PlayCircle {...iconProps} size={24} />
       )}
-    </div>
+    </button>
   );
 }
