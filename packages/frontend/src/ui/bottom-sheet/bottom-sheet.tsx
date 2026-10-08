@@ -116,10 +116,7 @@ export function BottomSheet(props: Props) {
         title={title}
         titleClassName={titleClassName}
         contentProps={{
-          className: cn(
-            backgroundClassName,
-            platform instanceof TelegramPlatform && platform.isIos() && "pb-10",
-          ),
+          className: backgroundClassName,
           style: { boxShadow: "0 -2px 10px rgba(0, 0, 0, 0.1)" },
         }}
       >
@@ -142,7 +139,7 @@ export function BottomSheet(props: Props) {
           transition={{ duration: 0.2 }}
           onClick={onClose}
         />
-        <div className="fixed inset-0 z-bottom-sheet-fg grid place-items-center pointer-events-none">
+        <div className="fixed inset-0 z-bottom-sheet-fg grid place-items-center pointer-events-none safe-viewport-padding">
           <m.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}

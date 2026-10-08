@@ -26,11 +26,8 @@ export function BrowserMainButton() {
   return (
     <div
       className={cn(
-        "fixed left-0 right-0 mx-auto box-border w-full max-w-2xl p-4 md:px-0 md:py-4",
+        "fixed bottom-safe-control left-0 right-0 mx-auto box-border w-full max-w-2xl px-4 md:px-0",
         mainButtonInfo.isAboveBottomSheet ? "z-[1001]" : "z-main-button",
-        platform.isMobile
-          ? "bottom-8"
-          : "bottom-[var(--tg-safe-area-inset-bottom,0px)]",
       )}
     >
       <Button

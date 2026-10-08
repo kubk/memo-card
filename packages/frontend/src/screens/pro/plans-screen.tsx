@@ -88,7 +88,7 @@ function PaymentOptionsSheet({ store }: { store: PlansScreenStore }) {
       onClose={store.closePaymentOptions}
       title={t("payment_title")}
     >
-      <div className="-mx-5 -mb-5 flex max-h-[calc(var(--tg-viewport-height,100vh)_-_80px)] flex-col gap-4 overflow-y-auto bg-secondary-bg px-5 pb-28 pt-2">
+      <div className="-mx-5 -mb-5 flex max-h-[calc(var(--app-viewport-height)_-_var(--app-safe-area-top)_-_var(--app-bottom-inset)_-_80px)] flex-col gap-4 overflow-y-auto bg-secondary-bg px-5 pb-28 pt-2">
         <PaymentOptions store={store} />
       </div>
     </BottomSheet>

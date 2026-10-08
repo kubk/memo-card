@@ -14,8 +14,6 @@ import {
   reviewOutcomeHotkeyStyles,
   reviewOutcomeLabels,
 } from "./shared/review-outcome-styles.ts";
-import { platform } from "../../lib/platform/platform.ts";
-import { BrowserPlatform } from "../../lib/platform/browser/browser-platform.ts";
 import { cn } from "../../ui/cn.ts";
 
 type Props = {
@@ -42,12 +40,7 @@ export function CardReviewWithControls(props: Props) {
     cardOpenedRow,
     cardFooter,
   } = props;
-  const bottomControlsClassName = cn(
-    "absolute flex w-full",
-    platform instanceof BrowserPlatform && platform.isMobile && "bottom-12",
-    (!(platform instanceof BrowserPlatform) || !platform.isMobile) &&
-      "bottom-4",
-  );
+  const bottomControlsClassName = "absolute bottom-layout-control flex w-full";
 
   return (
     <>

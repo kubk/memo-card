@@ -51,3 +51,9 @@ const createPlatform = (): Platform => {
 };
 
 export const platform = createPlatform();
+
+export function initializePlatform() {
+  document.documentElement.dataset.platform =
+    platform instanceof TelegramPlatform ? "telegram" : "browser";
+  platform.initialize();
+}

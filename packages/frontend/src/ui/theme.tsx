@@ -12,8 +12,6 @@ export const cssVariablesLight = {
   "--tg-theme-bg-color": "#ffffff",
   "--tg-theme-button-text-color": "#ffffff",
   "--tg-theme-link-color": "#2481cc",
-  "--tg-viewport-height": "100vh",
-  "--tg-viewport-stable-height": "100vh",
 };
 
 export const cssVariablesDark = {
@@ -30,6 +28,4 @@ export const cssVariablesDark = {
   "--tg-theme-bg-color": "#18222d",
   "--tg-theme-button-text-color": "#ffffff",
   "--tg-theme-link-color": "#62bcf9",
-  "--tg-viewport-height": "100vh",
-  "--tg-viewport-stable-height": "100vh",
 };

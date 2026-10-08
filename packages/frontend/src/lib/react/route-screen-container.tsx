@@ -84,8 +84,7 @@ export function RouteScreenContainer(props: RouteScreenContainerProps) {
       className={cn(
         routeScreenContainerClassName,
         platform instanceof TelegramPlatform && platform.isWeb() && "mt-4",
-        screenType === "browserLogin" &&
-          "flex min-h-[calc(100vh_-_48px)] items-center justify-center",
+        screenType === "browserLogin" && "flex items-center justify-center",
       )}
       initial={shouldAnimate ? animation.initial : false}
       animate={animation.animate}

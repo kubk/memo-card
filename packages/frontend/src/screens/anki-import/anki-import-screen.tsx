@@ -67,7 +67,7 @@ export function AnkiImportScreen() {
         }}
       />
 
-      <div className="mx-auto flex min-h-[calc(100vh_-_150px)] w-full max-w-[300px] flex-col items-center justify-center pb-28 pt-8">
+      <div className="mx-auto flex min-h-[calc(var(--app-viewport-height)_-_150px)] w-full max-w-[300px] flex-col items-center justify-center pb-28 pt-8">
         <AnkiImportIllustration />
 
         <h2 className="mt-5 text-center text-[28px] font-bold leading-tight">
@@ -122,11 +122,11 @@ function AnkiImportScreenshotLightbox(props: { store: AnkiImportScreenStore }) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/55 p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/55 safe-viewport-padding"
       onClick={store.closeScreenshot}
     >
       <img
-        className="block max-h-[calc(100vh_-_80px)] max-w-[calc(100vw_-_32px)] object-contain"
+        className="block max-h-[calc(var(--app-viewport-height)_-_var(--app-safe-area-top)_-_var(--app-bottom-inset)_-_80px)] max-w-[calc(100vw_-_32px)] object-contain"
         src={openScreenshot.src}
         alt={openScreenshot.alt}
         onClick={(event) => event.stopPropagation()}

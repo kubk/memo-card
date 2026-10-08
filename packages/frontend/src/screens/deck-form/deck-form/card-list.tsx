@@ -19,9 +19,6 @@ import { cn } from "../../../ui/cn.ts";
 import * as m from "motion/react-m";
 import { AnimatePresence } from "motion/react";
 import { MoveToDeckSelector } from "./move-to-deck-selector.tsx";
-import { platform } from "../../../lib/platform/platform.ts";
-import { TelegramPlatform } from "../../../lib/platform/telegram/telegram-platform.ts";
-import { BrowserPlatform } from "../../../lib/platform/browser/browser-platform.ts";
 import { removeAllTags } from "../../../lib/sanitize-html/remove-all-tags.ts";
 import { useProgress } from "../../../lib/platform/use-progress.tsx";
 import { ErrorScreen } from "../../error-screen/error-screen.tsx";
@@ -259,15 +256,7 @@ export function CardList() {
             exit={{ y: "100%" }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
             style={{ x: "-50%" }}
-            className={cn(
-              "fixed left-1/2 rounded-2xl bg-secondary-bg border border-bg z-main-button w-[calc(100vw-2rem)]",
-              platform instanceof BrowserPlatform && platform.isMobile
-                ? "bottom-12"
-                : "bottom-4",
-              platform instanceof TelegramPlatform && platform.isIos()
-                ? "mb-10"
-                : "",
-            )}
+            className="fixed bottom-safe-control left-1/2 rounded-2xl bg-secondary-bg border border-bg z-main-button w-[calc(100vw_-_2rem)] max-w-2xl"
           >
             <div className="flex items-center justify-between px-4 pt-3 pb-1">
               <span className="text-sm text-hint">

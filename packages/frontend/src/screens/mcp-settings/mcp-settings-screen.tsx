@@ -45,7 +45,7 @@ function McpSettingsContent() {
   if (store.connectionsQuery.error) return <ErrorScreen />;
 
   return (
-    <div className="mx-auto flex min-h-[calc(100vh_-_120px)] w-full max-w-[430px] flex-col items-center justify-center px-5 py-8">
+    <div className="mx-auto flex min-h-[calc(var(--app-viewport-height)_-_120px)] w-full max-w-[430px] flex-col items-center justify-center px-5 py-8">
       <McpIntroStep />
       <p className="mt-4 text-center text-sm text-hint">
         {store.connectionsQuery.data?.pluginUrl

@@ -92,7 +92,7 @@ export function DeleteItemModal({
 
   return (
     <div
-      className="fixed inset-0 z-confirm-alert grid place-items-center bg-black/50 p-4"
+      className="fixed inset-0 z-confirm-alert grid place-items-center bg-black/50 safe-viewport-padding"
       onClick={close}
     >
       <div

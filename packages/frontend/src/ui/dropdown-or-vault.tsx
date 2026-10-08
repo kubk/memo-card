@@ -44,7 +44,7 @@ function ActionMenuOverlay({
       />
       <m.div
         role="dialog"
-        className="fixed inset-x-3 bottom-0 z-[1002] max-h-dvh overflow-y-auto overscroll-contain pb-3 text-text will-change-transform"
+        className="fixed inset-x-3 bottom-0 z-[1002] max-h-[calc(var(--app-viewport-height)_-_var(--app-safe-area-top)_-_var(--app-content-safe-area-top))] overflow-y-auto overscroll-contain pb-[calc(var(--app-bottom-inset)_+_12px)] text-text will-change-transform"
         initial={{ y: "100%" }}
         animate={{
           y: 0,

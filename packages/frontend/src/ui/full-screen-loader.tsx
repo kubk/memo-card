@@ -7,7 +7,7 @@ type Props = {
 };
 
 export function FullScreenLoader({
-  height = "100vh",
+  height = "var(--app-viewport-height)",
   variant = "secondary-bg",
 }: Props) {
   return (

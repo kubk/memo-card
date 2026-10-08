@@ -1,0 +1,38 @@
+@layer base {
+  :root {
+    --app-viewport-height: 100dvh;
+    --app-safe-area-top: env(safe-area-inset-top);
+    --app-content-safe-area-top: 0px;
+    --app-bottom-inset: env(safe-area-inset-bottom);
+    --app-route-bottom-inset: var(--app-bottom-inset);
+    --app-bottom-control-gap: 16px;
+    --app-bottom-control-offset: calc(var(--app-bottom-inset) + var(--app-bottom-control-gap));
+  }
+
+  :root[data-platform="telegram"] {
+    --app-viewport-height: var(--tg-viewport-height, 100dvh);
+    --app-safe-area-top: var(--tg-safe-area-inset-top, env(safe-area-inset-top));
+    --app-content-safe-area-top: var(--tg-content-safe-area-inset-top, 0px);
+    --app-bottom-inset: calc(
+      var(--tg-safe-area-inset-bottom, env(safe-area-inset-bottom)) +
+        var(--tg-content-safe-area-inset-bottom, 0px)
+    );
+  }
+}
+
+/* Fixed viewport controls include the inset; controls inside an inset-adjusted layout do not */
+@utility bottom-safe-control {
+  bottom: var(--app-bottom-control-offset);
+}
+
+@utility bottom-layout-control {
+  bottom: var(--app-bottom-control-gap);
+}
+
+@utility safe-viewport-padding {
+  padding-top: calc(
+    var(--app-safe-area-top) + var(--app-content-safe-area-top) + 16px
+  );
+  padding-bottom: calc(var(--app-bottom-inset) + 16px);
+  padding-inline: 16px;
+}

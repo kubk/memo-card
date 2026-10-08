@@ -82,9 +82,9 @@ export function App() {
   return (
     <div
       className={cn(
-        "relative h-[var(--tg-viewport-height,100vh)] overflow-hidden [--app-top-offset:12px]",
+        "relative h-[var(--app-viewport-height)] overflow-hidden [--app-top-offset:12px]",
         isTelegramMobile &&
-          "[--app-top-offset:calc(var(--tg-content-safe-area-inset-top,0px)_+_4px)]",
+          "[--app-top-offset:calc(var(--app-content-safe-area-top)_+_4px)]",
         isDesktopWidth && "mx-auto max-w-2xl",
       )}
     >

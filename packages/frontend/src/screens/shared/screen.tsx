@@ -24,7 +24,7 @@ export function Screen(props: Props) {
         "flex flex-col gap-2 relative",
         platform instanceof BrowserPlatform ? "mb-20" : "mb-4",
         isTelegram &&
-          "pb-[calc(var(--tg-content-safe-area-inset-bottom,0px)_+_4px)] pl-[calc(var(--tg-content-safe-area-inset-left,0px)_+_4px)] pr-[calc(var(--tg-content-safe-area-inset-right,0px)_+_4px)]",
+          "pb-1 px-1",
       )}
     >
       <div
