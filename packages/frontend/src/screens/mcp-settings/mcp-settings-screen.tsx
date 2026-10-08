@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect } from "preact/compat";
 import { useBackButton } from "../../lib/platform/use-back-button.ts";
 import { useMainButton } from "../../lib/platform/use-main-button.ts";
 import { screenStore } from "../../store/screen-store.ts";

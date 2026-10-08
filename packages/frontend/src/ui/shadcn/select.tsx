@@ -1,6 +1,6 @@
 import * as SelectPrimitive from "@radix-ui/react-select";
 import { Check, ChevronDown } from "lucide-react";
-import { type ComponentPropsWithoutRef } from "react";
+import { type ComponentPropsWithoutRef } from "preact/compat";
 import { cn } from "../cn.ts";
 
 export const ShadcnSelect = SelectPrimitive.Root;

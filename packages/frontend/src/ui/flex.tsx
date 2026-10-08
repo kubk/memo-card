@@ -1,4 +1,4 @@
-import { CSSProperties, ReactNode } from "react";
+import { CSSProperties, ReactNode } from "preact/compat";
 import { userStore } from "../store/user-store.ts";
 import { cn } from "./cn.ts";
 

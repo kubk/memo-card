@@ -1,5 +1,5 @@
 import { CheckIcon } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useState } from "preact/compat";
 import { copyToClipboard } from "../../../lib/copy-to-clipboard/copy-to-clipboard.ts";
 import { platform } from "../../../lib/platform/platform.ts";
 

@@ -2,7 +2,7 @@ import { platform, UseMainButtonType } from "../platform.ts";
 import { BrowserPlatform } from "./browser-platform.ts";
 import { action, autorun, runInAction } from "mobx";
 import { assert } from "api";
-import { useEffect } from "react";
+import { useEffect } from "preact/compat";
 import { useHotkeys } from "react-hotkeys-hook";
 
 export const useMainButtonBrowser: UseMainButtonType = (

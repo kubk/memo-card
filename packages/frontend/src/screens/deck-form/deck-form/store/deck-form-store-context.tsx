@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useContext, useState } from "react";
+import { createContext, ReactNode, useContext, useState } from "preact/compat";
 import { DeckFormStore } from "./deck-form-store.ts";
 import { assert } from "api";
 import { useMount } from "../../../../lib/react/use-mount.ts";

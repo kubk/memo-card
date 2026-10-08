@@ -1,6 +1,6 @@
 import { useBackButton } from "../../../lib/platform/use-back-button.ts";
 import { CardReviewWithControls } from "../../deck-review/card-review-with-controls.tsx";
-import { useState } from "react";
+import { useState } from "preact/compat";
 import { CardPreviewStore } from "../../deck-review/store/card-preview-store.ts";
 import { platform } from "../../../lib/platform/platform.ts";
 import { BrowserPlatform } from "../../../lib/platform/browser/browser-platform.ts";

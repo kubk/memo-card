@@ -1,4 +1,4 @@
-import { type ReactNode } from "react";
+import { type ReactNode } from "preact/compat";
 import { useBackButton } from "../../lib/platform/use-back-button.ts";
 import { screenStore } from "../../store/screen-store.ts";
 import { deckListStore } from "../../store/deck-list-store.ts";

@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState } from "preact/compat";
 import { FileIcon } from "lucide-react";
 import { ButtonLink } from "../../ui/button-link.tsx";
 import { useBackButton } from "../../lib/platform/use-back-button.ts";

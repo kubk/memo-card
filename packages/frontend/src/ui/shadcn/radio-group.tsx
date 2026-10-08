@@ -1,5 +1,5 @@
 import * as RadioGroupPrimitive from "@radix-ui/react-radio-group";
-import * as React from "react";
+import * as React from "preact/compat";
 import { cn } from "../cn.ts";
 
 const ShadcnRadioGroup = React.forwardRef<

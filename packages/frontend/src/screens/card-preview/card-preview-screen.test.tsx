@@ -1,5 +1,5 @@
-import { act } from "react";
-import { createRoot, type Root } from "react-dom/client";
+import { act } from "preact/test-utils";
+import { createRoot } from "preact/compat/client";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { inMemoryCache } from "../../lib/mobx-query-lite/cache.ts";
 import { queryRegistry } from "../../lib/mobx-query-lite/make-query.ts";
@@ -114,7 +114,7 @@ function createDeferred<T>(): Deferred<T> {
 
 describe("CardPreviewScreen", () => {
   let container: HTMLDivElement;
-  let root: Root;
+  let root: ReturnType<typeof createRoot>;
 
   beforeEach(() => {
     vi.clearAllMocks();

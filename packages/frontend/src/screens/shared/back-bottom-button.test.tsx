@@ -1,5 +1,5 @@
-import { act } from "react";
-import { createRoot, type Root } from "react-dom/client";
+import { act } from "preact/test-utils";
+import { createRoot } from "preact/compat/client";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { BackBottomButton } from "./back-bottom-button.tsx";
 
@@ -32,7 +32,7 @@ vi.mock("../../translations/t.ts", () => ({
 
 describe("BackBottomButton", () => {
   let container: HTMLDivElement;
-  let root: Root;
+  let root: ReturnType<typeof createRoot>;
 
   beforeEach(() => {
     mocks.platform.isMobile = true;

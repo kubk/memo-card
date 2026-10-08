@@ -1,5 +1,10 @@
-import { createContext, type ReactNode, useContext, useEffect } from "react";
-import { m } from "framer-motion";
+import {
+  createContext,
+  type ReactNode,
+  useContext,
+  useEffect,
+} from "preact/compat";
+import * as m from "motion/react-m";
 import { XIcon } from "lucide-react";
 import { platform } from "../../lib/platform/platform.ts";
 import { BrowserPlatform } from "../../lib/platform/browser/browser-platform.ts";

@@ -1,7 +1,7 @@
 import { type RouterOutput } from "api";
 import { makeAutoObservable } from "mobx";
 import { BooleanField, BooleanToggle } from "mobx-form-lite";
-import { useState } from "react";
+import { useState } from "preact/compat";
 import { DeleteItemModal } from "../src/screens/shared/delete-item-modal.tsx";
 import { Button } from "../src/ui/button.tsx";
 import { BooleanProp, PropGroup } from "./ui/prop-controls.tsx";

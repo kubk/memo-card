@@ -1,7 +1,7 @@
 import { platform, UseBackButtonType } from "../platform.ts";
 import { BrowserPlatform } from "./browser-platform.ts";
 import { assert } from "api";
-import { useEffect } from "react";
+import { useEffect } from "preact/compat";
 
 export const useBackButtonBrowser: UseBackButtonType = (
   onClick: () => void,

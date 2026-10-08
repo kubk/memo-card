@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from "preact/compat";
 import { LoginForm } from "../src/screens/login/login-form.tsx";
 import { BooleanProp, PropGroup } from "./ui/prop-controls.tsx";
 import { PropsPanel } from "./ui/props-panel.tsx";

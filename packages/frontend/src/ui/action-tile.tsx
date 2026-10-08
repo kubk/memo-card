@@ -1,4 +1,4 @@
-import { type ButtonHTMLAttributes, type ReactNode } from "react";
+import { type ButtonHTMLAttributes, type ReactNode } from "preact/compat";
 import { cn } from "./cn.ts";
 import { DropdownOrVault } from "./dropdown-or-vault.tsx";
 import { type DropdownItem } from "./dropdown.tsx";
@@ -23,6 +23,7 @@ export type ActionTileRowItem =
       text: string;
       onClick: () => void;
       disabled?: boolean;
+      className?: string;
     }
   | {
       type: "stat";
@@ -76,7 +77,6 @@ export function ActionTileRow({
             <DropdownOrVault
               key={i}
               className="relative min-w-0 flex-1"
-              placement="up"
               triggerClassName={cn(
                 actionTileClassName,
                 "active:bg-button-alpha-20",
@@ -94,6 +94,7 @@ export function ActionTileRow({
             text={item.text}
             onClick={item.onClick}
             disabled={item.disabled}
+            className={item.className}
           />
         );
       })}

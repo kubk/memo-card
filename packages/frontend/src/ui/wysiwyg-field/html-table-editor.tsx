@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from "preact/compat";
 import { copyToClipboard } from "../../lib/copy-to-clipboard/copy-to-clipboard.ts";
 import { notifySuccess } from "../../screens/shared/snackbar/snackbar.tsx";
 import { t } from "../../translations/t.ts";
@@ -128,7 +128,9 @@ export function HtmlTableEditor() {
               <th key={colIndex}>
                 <input
                   value={header}
-                  onChange={(e) => handleHeaderChange(colIndex, e.target.value)}
+                  onChange={(e) =>
+                    handleHeaderChange(colIndex, e.currentTarget.value)
+                  }
                 />
               </th>
             ))}
@@ -142,7 +144,11 @@ export function HtmlTableEditor() {
                   <input
                     value={cell}
                     onChange={(e) =>
-                      handleCellChange(rowIndex, colIndex, e.target.value)
+                      handleCellChange(
+                        rowIndex,
+                        colIndex,
+                        e.currentTarget.value,
+                      )
                     }
                   />
                 </td>

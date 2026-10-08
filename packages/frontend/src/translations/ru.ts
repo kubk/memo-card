@@ -44,9 +44,6 @@ export const ru = {
       other: `${count} новые карточки`,
     });
   },
-  buy_plan: ({ title, price }: { title: string; price: string }) => {
-    return `Купить "${title}" за ${price}`;
-  },
   days_ago: ({ daysText }: { daysText: string }) => {
     return `${daysText} дн. назад`;
   },
@@ -103,7 +100,7 @@ export const ru = {
   browser_no_personal_decks_start: "У вас еще нет персональных колод. ",
   browser_no_personal_decks_end: ". Удачного изучения! 😊",
   browser_no_personal_decks_link: "Рекомендуем посмотреть ",
-  upgrade_pro: "Получить Pro",
+  upgrade_pro: "Купить Pro",
   upgrade: "Тарифы",
 
   login_google: "Войти через Google",
@@ -114,8 +111,6 @@ export const ru = {
   confirm_ok: "Подтвердить",
   error: "Ошибка",
   user_settings_updated: "Настройки обновлены",
-  is_on: "Включено",
-  is_off: "Выключено",
   folder_form_no_decks: "В папке нет колод",
   card_next: "Следующая",
   card_previous: "Предыдущая",
@@ -165,7 +160,6 @@ export const ru = {
   validation_answer_at_least_one_correct: "Выберите хотя бы 1 правильный ответ",
   add_answer: "Добавить ответ",
   answer_text: "Текст ответа",
-  advanced: "Дополнительно",
   review_correct_label: "Правильно",
   review_wrong_label: "Неправильно",
   validation_at_least_one_answer_required: "Укажите хотя бы 1 ответ",
@@ -266,9 +260,7 @@ export const ru = {
   cards_new: "Новые",
   cards_total: ({ count }: { count: number }) => `Всего ${count}`,
   delete_item_title_deck: "Удалить эту колоду?",
-  delete_item_description_deck: "Колода будет удалена из коллекции",
-  delete_item_remove_for_others_deck:
-    "Удалить эту колоду и у других пользователей",
+  delete_item_remove_for_others_deck: "Удалить у всех пользователей",
   delete_item_other_users_deck:
     "Другие пользователи, у которых есть эта колода",
   delete_item_public_catalog_deck:

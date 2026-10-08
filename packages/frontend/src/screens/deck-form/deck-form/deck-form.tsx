@@ -10,17 +10,29 @@ import { t } from "../../../translations/t.ts";
 import { deckListStore } from "../../../store/deck-list-store.ts";
 import { Screen } from "../../shared/screen.tsx";
 import { List } from "../../../ui/list.tsx";
-import { ListRightText } from "../../../ui/list-right-text.tsx";
+import {
+  ActionTileRow,
+  type ActionTileRowItem,
+} from "../../../ui/action-tile.tsx";
 import { userStore } from "../../../store/user-store.ts";
 import { assert } from "api";
 import { FormattingSwitcher } from "../card-form/formatting-switcher.tsx";
 import { WysiwygField } from "../../../ui/wysiwyg-field/wysiwig-field.tsx";
-import { LayersIcon, MicIcon, PlusIcon, UploadIcon } from "lucide-react";
+import {
+  BotIcon,
+  LayersIcon,
+  MicIcon,
+  PlusIcon,
+  ShareIcon,
+  TrashIcon,
+  UploadIcon,
+} from "lucide-react";
 import { FilledIcon, TransparentIcon } from "../../../ui/filled-icon.tsx";
-import { DeckActions } from "../../shared/deck-actions.tsx";
 import { BackBottomButton } from "../../shared/back-bottom-button.tsx";
 import { createMcpSettingsEntryItem } from "../../mcp-settings/mcp-settings-entry.tsx";
 import { ChevronIcon } from "../../../ui/chevron-icon.tsx";
+import { deleteItemModalStore } from "../../shared/delete-item-modal-store.ts";
+import { shareMemoCardUrl } from "../../shared/share-memo-card-url.tsx";
 
 export function DeckForm() {
   const deckFormStore = useDeckFormStore();
@@ -58,6 +70,48 @@ export function DeckForm() {
     : null;
   const folderId = screen.folderId;
   const folderName = screen.folderName;
+  const deckActionItems: ActionTileRowItem[] = [
+    ...(deck && deckListStore.isDeckOwner(deck)
+      ? [
+          {
+            type: "action" as const,
+            icon: <ShareIcon size={24} />,
+            text: t("share"),
+            onClick: () => shareMemoCardUrl(deck.shareId),
+          },
+        ]
+      : []),
+    {
+      type: "action" as const,
+      icon: <BotIcon size={24} />,
+      text: "ChatGPT",
+      onClick: () => {
+        screenStore.push(
+          userStore.isPaid
+            ? { type: "mcpSettings" }
+            : { type: "plans", planType: "pro" },
+        );
+      },
+    },
+    {
+      type: "action" as const,
+      icon: <MicIcon size={24} />,
+      text: t("speaking_card"),
+      onClick: () => deckFormStore.goToSpeakingCards(),
+    },
+    ...(deck && deckListStore.canRemoveDeck(deck)
+      ? [
+          {
+            type: "action" as const,
+            icon: <TrashIcon size={24} />,
+            text: t("delete"),
+            onClick: () => {
+              deleteItemModalStore.open({ type: "deck", deckId: deck.id });
+            },
+          },
+        ]
+      : []),
+  ];
 
   return (
     <>
@@ -129,79 +183,45 @@ export function DeckForm() {
         )}
 
         {deckFormStore.deckForm?.id && (
-          <List
-            items={[
-              {
-                icon: (
-                  <FilledIcon
-                    className="bg-icon-violet"
-                    icon={<LayersIcon size={18} className="text-white" />}
-                  />
-                ),
-                text: t("cards"),
-                onClick: () => {
-                  deckFormStore.goToCardList();
-                },
-                right: (
-                  <span className="text-hint">
-                    {deckFormStore.deckForm.cards.length}
-                  </span>
-                ),
-              },
-              {
-                icon: (
-                  <TransparentIcon
-                    icon={<PlusIcon size={24} className="text-link" />}
-                  />
-                ),
-                text: t("add_card"),
-                isLinkColor: true,
-                onClick: () => {
-                  deckFormStore.navigateToNewCard();
-                },
-              },
-            ]}
-          />
-        )}
-
-        {deckFormStore.deckForm?.id && (
-          <div>
-            <LabelGroup title={t("advanced")}>
-              <List
-                items={[
-                  {
-                    text: t("speaking_cards"),
-                    icon: (
-                      <FilledIcon
-                        className="bg-icon-blue"
-                        icon={<MicIcon size={18} className="text-white" />}
-                      />
-                    ),
-                    onClick: () => {
-                      deckFormStore.goToSpeakingCards();
-                    },
-                    right: (
-                      <ListRightText
-                        text={
-                          deckFormStore.isSpeakingCardsEnabled
-                            ? t("is_on")
-                            : t("is_off")
-                        }
-                        chevron
-                      />
-                    ),
+          <div className="mt-2">
+            <List
+              items={[
+                {
+                  icon: (
+                    <FilledIcon
+                      className="bg-icon-violet"
+                      icon={<LayersIcon size={18} className="text-white" />}
+                    />
+                  ),
+                  text: t("cards"),
+                  onClick: () => {
+                    deckFormStore.goToCardList();
                   },
-                  createMcpSettingsEntryItem("bg-icon-turquoise"),
-                ]}
-              />
-            </LabelGroup>
+                  right: (
+                    <span className="text-hint">
+                      {deckFormStore.deckForm.cards.length}
+                    </span>
+                  ),
+                },
+                {
+                  icon: (
+                    <TransparentIcon
+                      icon={<PlusIcon size={24} className="text-link" />}
+                    />
+                  ),
+                  text: t("add_card"),
+                  isLinkColor: true,
+                  onClick: () => {
+                    deckFormStore.navigateToNewCard();
+                  },
+                },
+              ]}
+            />
           </div>
         )}
 
-        {deck && (
-          <div className="mt-3">
-            <DeckActions deck={deck} variant="buttons" />
-          </div>
+        {deckFormStore.deckForm.id && (
+          <ActionTileRow className="mt-2" items={deckActionItems} />
         )}
 
         <div className="mt-[18px]" />

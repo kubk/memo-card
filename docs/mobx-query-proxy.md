@@ -81,27 +81,20 @@ Use this form when the input stays fixed for the lifetime of the query.
 Pass a config factory to `makeQuery` when the query input reads MobX state:
 
 ```ts
-export class CardStatsStore {
-  filters = {
-    period: new TextField<AdminCardStatsIntervalType>("month"),
-  };
+export class DeckStore {
+  deckId = 1;
 
-  request = makeQuery(() => {
-    const period = this.filters.period.value;
+  request = makeQuery(() =>
+    apiProxy.deck.deckWithCards.query({ deckId: this.deckId }),
+  );
 
-    return apiProxy.adminAtGlanceCardStats.query({
-      interval_type: period,
-      fn_type: this.statisticFn,
-    });
-  });
-
-  constructor(private statisticFn: AdminCardStatsFnType) {
+  constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
   }
 }
 ```
 
-The function passed to `makeQuery` reads `period`. When `period` changes,
+The function passed to `makeQuery` reads `deckId`. When `deckId` changes,
 `makeQuery` asks `apiProxy` for a new config and switches to the cache entry for
 the new input.
 
@@ -112,17 +105,16 @@ Switching back to an earlier input reuses the data cached for that input.
 Create a component-local query once with a lazy `useState` initializer:
 
 ```tsx
-export function UsersTopList(props: Props) {
-  const { fn } = props;
+export function DeckPreview({ deckId }: { deckId: number }) {
   const [query] = useState(() =>
-    makeQuery(apiProxy.adminTopUsers.query({ fn })),
+    makeQuery(apiProxy.deck.deckWithCards.query({ deckId })),
   );
 
   if (!query.data) {
     return <FullScreenLoader />;
   }
 
-  return <SimpleTable data={query.data} />;
+  return <DeckSummary deck={query.data} />;
 }
 ```
 

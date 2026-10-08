@@ -1,5 +1,5 @@
 import { useReviewStore } from "../deck-review/store/review-store-context.tsx";
-import { useState } from "react";
+import { useState } from "preact/compat";
 import { BooleanToggle } from "mobx-form-lite";
 import { action } from "mobx";
 import { RepeatCustomSelector } from "./repeat-custom-selector.tsx";

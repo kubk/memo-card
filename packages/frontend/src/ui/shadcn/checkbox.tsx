@@ -1,6 +1,6 @@
 import * as CheckboxPrimitive from "@radix-ui/react-checkbox";
 import { Check } from "lucide-react";
-import { type ComponentPropsWithoutRef } from "react";
+import { type ComponentPropsWithoutRef } from "preact/compat";
 import { cn } from "../cn.ts";
 
 export function ShadcnCheckbox({

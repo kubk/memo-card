@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from "preact/compat";
 import * as TabsPrimitive from "@radix-ui/react-tabs";
 
 import { cn } from "../cn.ts";

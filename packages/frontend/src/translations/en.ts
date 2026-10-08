@@ -25,9 +25,6 @@ export const en = {
   new_cards_count: ({ count }: { count: number }) => {
     return count === 1 ? `${count} new card` : `${count} new cards`;
   },
-  buy_plan: ({ title, price }: { title: string; price: string }) => {
-    return `Buy "${title}" for ${price}`;
-  },
   days_ago: ({ daysText }: { daysText: string }) => {
     return `${daysText} days ago`;
   },
@@ -196,8 +193,7 @@ export const en = {
   cards_new: "New cards",
   cards_total: ({ count }: { count: number }) => `Total cards: ${count}`,
   delete_item_title_deck: "Delete this deck?",
-  delete_item_description_deck: "Will be removed from your collection",
-  delete_item_remove_for_others_deck: "Remove this deck for other people too",
+  delete_item_remove_for_others_deck: "Delete for all users",
   delete_item_other_users_deck: "Other users having the same deck",
   delete_item_public_catalog_deck:
     "Remove this deck from the public catalog too",
@@ -268,7 +264,6 @@ export const en = {
   answer_text: "Answer text",
   review_correct_label: "Correct",
   review_wrong_label: "Incorrect",
-  advanced: "More",
   review_idk: "I don't know",
   card_answer_type: "Card type",
   yes_no: "Remember",
@@ -330,15 +325,13 @@ export const en = {
   freeze_for_or_manual: "or type manually",
   freeze_notified: "You'll get notified on",
   freeze_hint: "Postpone studying cards",
-  is_on: "On",
-  is_off: "Off",
   error_solving: "We're solving the issue",
   error: "Error",
   user_settings_updated: "Settings have been updated",
   confirm_cancel: "Cancel",
   confirm_ok: "Confirm",
 
-  upgrade_pro: "Upgrade to Pro",
+  upgrade_pro: "Buy Pro",
   upgrade: "Upgrade",
 
   // Global Search

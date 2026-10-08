@@ -1,4 +1,5 @@
-import { useRef, useState } from "react";
+import type * as React from "preact/compat";
+import { useRef, useState } from "preact/compat";
 
 export function useFileUpload({
   onFileUpload,
@@ -22,11 +23,12 @@ export function useFileUpload({
   const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
-    const file = event.target.files?.[0];
+    const input = event.currentTarget;
+    const file = input.files?.[0];
     if (file) {
       await handleUpload(file);
     }
-    event.target.value = "";
+    input.value = "";
   };
 
   return {

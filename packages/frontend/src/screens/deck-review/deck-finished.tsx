@@ -8,7 +8,7 @@ import { WantMoreCardsButton } from "./want-more-cards-button.tsx";
 import { deckListStore } from "../../store/deck-list-store.ts";
 import { Flex } from "../../ui/flex.tsx";
 import { ReviewedCardsList } from "./reviewed-cards-list.tsx";
-import { m } from "framer-motion";
+import * as m from "motion/react-m";
 import { weekHeatmapQuery } from "../deck-list/week-heatmap.tsx";
 
 type Props = {

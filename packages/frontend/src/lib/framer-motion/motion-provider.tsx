@@ -1,9 +1,9 @@
-import { domAnimation, LazyMotion } from "framer-motion";
-import { ReactNode } from "react";
+import { domMin, LazyMotion } from "motion/react";
+import { ReactNode } from "preact/compat";
 
 export function MotionProvider({ children }: { children: ReactNode }) {
   return (
-    <LazyMotion features={domAnimation} strict>
+    <LazyMotion features={domMin} strict>
       {children}
     </LazyMotion>
   );

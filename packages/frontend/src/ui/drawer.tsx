@@ -1,4 +1,4 @@
-import { type ComponentPropsWithoutRef, lazy, Suspense } from "react";
+import { type ComponentProps, lazy, Suspense } from "preact/compat";
 import { reportHandledError } from "../lib/rollbar/rollbar.tsx";
 import type * as DrawerComponents from "./drawer-impl.tsx";
 
@@ -12,9 +12,7 @@ drawerPromise.catch((error) => {
 
 const LazyDrawer = lazy(() => drawerPromise);
 
-export function Drawer(
-  props: ComponentPropsWithoutRef<typeof DrawerComponents.Drawer>,
-) {
+export function Drawer(props: ComponentProps<typeof DrawerComponents.Drawer>) {
   return (
     <Suspense fallback={null}>
       <LazyDrawer {...props} />

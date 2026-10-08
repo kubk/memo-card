@@ -5,7 +5,7 @@ import {
   useRef,
   useState,
   type ReactNode,
-} from "react";
+} from "preact/compat";
 import {
   House,
   Languages,
@@ -779,7 +779,7 @@ function SnackbarPlayground() {
               min="0"
               value={duration}
               onChange={(event) =>
-                setDuration(Math.max(0, Number(event.target.value)))
+                setDuration(Math.max(0, Number(event.currentTarget.value)))
               }
             />
           </div>
@@ -979,7 +979,7 @@ function ProgressBarPlayground() {
               min="0"
               max={max}
               value={value}
-              onChange={(event) => setValue(Number(event.target.value))}
+              onChange={(event) => setValue(Number(event.currentTarget.value))}
             />
           </div>
           <div className="flex flex-col gap-2">
@@ -989,7 +989,7 @@ function ProgressBarPlayground() {
               type="number"
               min="1"
               value={max}
-              onChange={(event) => updateMax(Number(event.target.value))}
+              onChange={(event) => updateMax(Number(event.currentTarget.value))}
             />
           </div>
         </PropGroup>

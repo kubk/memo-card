@@ -20,7 +20,7 @@ export function Select<T extends OptionType>({
     <select
       className="bg-transparent shadow-none outline-none text-base border-none appearance-none cursor-pointer text-link"
       value={value || ""}
-      onChange={(e) => onChange(e.target.value as T)}
+      onChange={(e) => onChange(e.currentTarget.value as T)}
     >
       {options.map((option) => (
         <option key={option.value} value={option.value || ""}>

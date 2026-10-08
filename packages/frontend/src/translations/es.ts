@@ -35,9 +35,6 @@ export const es = {
       other: `${count} nuevas tarjetas`,
     });
   },
-  buy_plan: ({ title, price }: { title: string; price: string }) => {
-    return `Comprar "${title}" por ${price}`;
-  },
   days_ago: ({ daysText }: { daysText: string }) => {
     return `hace ${daysText} días`;
   },
@@ -98,7 +95,7 @@ export const es = {
   deck_was_deleted: "Este mazo fue eliminado por su autor",
   think_error_contact_support:
     "Si crees que se trata de un error, contacta con soporte",
-  upgrade_pro: "Obtener Pro",
+  upgrade_pro: "Comprar Pro",
   upgrade: "Mejorar plan",
   login_google: "Iniciar sesión con Google",
   login_telegram: "Iniciar sesión con Telegram",
@@ -108,8 +105,6 @@ export const es = {
   confirm_ok: "Confirmar",
   confirm_cancel: "Cancelar",
   user_settings_updated: "Configuración actualizada",
-  is_off: "Apagado",
-  is_on: "Encendido",
   folder_form_no_decks: "No hay mazos en la carpeta",
   card_next: "Siguiente",
   card_previous: "Anterior",
@@ -167,7 +162,6 @@ export const es = {
     "Se debe seleccionar al menos una respuesta correcta",
   review_correct_label: "Correcto",
   review_wrong_label: "Incorrecto",
-  advanced: "Avanzado",
   answer_text: "Texto de la respuesta",
   add_answer: "Añadir respuesta",
   card_preview: "Vista previa",
@@ -266,9 +260,7 @@ export const es = {
   cards_new: "Nuevas tarjetas",
   cards_total: ({ count }: { count: number }) => `Total de tarjetas: ${count}`,
   delete_item_title_deck: "¿Eliminar este mazo?",
-  delete_item_description_deck: "Este mazo se eliminará de tu colección",
-  delete_item_remove_for_others_deck:
-    "Eliminar este mazo también para otros usuarios",
+  delete_item_remove_for_others_deck: "Eliminar para todos los usuarios",
   delete_item_other_users_deck: "Otros usuarios que tienen el mismo mazo",
   delete_item_public_catalog_deck:
     "Eliminar este mazo también del catálogo público",

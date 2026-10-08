@@ -32,9 +32,6 @@ export const ptBr = {
       other: `${count} novos cartões`,
     });
   },
-  buy_plan: ({ title, price }: { title: string; price: string }) => {
-    return `Comprar "${title}" por ${price}`;
-  },
   days_ago: ({ daysText }: { daysText: string }) => {
     return `há ${daysText} dias`;
   },
@@ -95,7 +92,7 @@ export const ptBr = {
   deck_was_deleted: "Este baralho foi excluído pelo autor",
   think_error_contact_support:
     "Se você acha que isso é um erro, entre em contato com o suporte",
-  upgrade_pro: "Obter Pro",
+  upgrade_pro: "Comprar Pro",
   upgrade: "Melhorar plano",
   login_google: "Entrar com Google",
   login_telegram: "Entrar com Telegram",
@@ -107,8 +104,6 @@ export const ptBr = {
   error: "Erro",
   user_settings_updated: "Configurações atualizadas",
   error_solving: "Estamos resolvendo o problema",
-  is_on: "Ligado",
-  is_off: "Desligado",
   folder_form_no_decks: "Não há baralhos na pasta",
   card_next: "Próxima",
   card_previous: "Anterior",
@@ -163,7 +158,6 @@ export const ptBr = {
     "Selecione pelo menos uma resposta correta",
   add_answer: "Adicionar resposta",
   answer_text: "Texto da resposta",
-  advanced: "Avançado",
   review_correct_label: "Correto",
   review_wrong_label: "Incorreto",
   validation_at_least_one_answer_required:
@@ -264,9 +258,7 @@ export const ptBr = {
   cards_new: "Novos cartões",
   cards_total: ({ count }: { count: number }) => `Total de cartões: ${count}`,
   delete_item_title_deck: "Excluir este baralho?",
-  delete_item_description_deck: "Este baralho será removido da sua coleção",
-  delete_item_remove_for_others_deck:
-    "Remover este baralho também para outros usuários",
+  delete_item_remove_for_others_deck: "Remover para todos os usuários",
   delete_item_other_users_deck: "Outros usuários que têm o mesmo baralho",
   delete_item_public_catalog_deck:
     "Remover este baralho também do catálogo público",

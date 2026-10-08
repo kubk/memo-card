@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useContext } from "react";
+import { createContext, ReactNode, useContext } from "preact/compat";
 import { ReviewStore } from "./review-store.ts";
 import { assert } from "api";
 import { useMount } from "../../../lib/react/use-mount.ts";

@@ -1,4 +1,4 @@
-import { type ButtonHTMLAttributes } from "react";
+import { type ButtonHTMLAttributes } from "preact/compat";
 import { cn } from "./cn.ts";
 import { reset } from "./reset.ts";
 

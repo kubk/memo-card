@@ -1,4 +1,4 @@
-import { type CSSProperties } from "react";
+import { type CSSProperties } from "preact/compat";
 import { cn } from "./cn.ts";
 import "./skeleton.css";
 

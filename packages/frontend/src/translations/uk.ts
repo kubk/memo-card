@@ -39,9 +39,6 @@ export const uk = {
   new_cards_count: ({ count }: { count: number }) => {
     return count === 1 ? `${count} new card` : `${count} new cards`;
   },
-  buy_plan: ({ title, price }: { title: string; price: string }) => {
-    return `Купити "${title}" за ${price}`;
-  },
   days_ago: ({ daysText }: { daysText: string }) => {
     return `${daysText} дн. тому`;
   },
@@ -103,7 +100,7 @@ export const uk = {
   browser_no_personal_decks_start: "У вас ще немає персональних колод",
   browser_no_personal_decks_end: ". Успішного навчання! 😊",
   browser_no_personal_decks_link: "Дізнайтеся, як користуватися MemoCard у ",
-  upgrade_pro: "Оновити до Pro",
+  upgrade_pro: "Купити Pro",
   upgrade: "Покращити тариф",
   login_google: "Увійти через Google",
   login_telegram: "Увійти через Telegram",
@@ -112,8 +109,6 @@ export const uk = {
   confirm_ok: "Підтвердити",
   confirm_cancel: "Скасувати",
   user_settings_updated: "Налаштування оновлено",
-  is_off: "Вимкнено",
-  is_on: "Увімкнено",
   folder_form_no_decks: "У папці немає колод",
   card_next: "Наступна",
   card_previous: "Попередня",
@@ -172,7 +167,6 @@ export const uk = {
   review_wrong_label: "Неправильно",
   validation_answer_at_least_one_correct:
     "Потрібно вибрати одну правильну відповідь",
-  advanced: "Розширені",
   answer_text: "Текст відповіді",
   add_answer: "Додати відповідь",
   card_preview: "Перегляд",
@@ -270,9 +264,7 @@ export const uk = {
   cards_new: "Нові картки",
   cards_total: ({ count }: { count: number }) => `Всього карток: ${count}`,
   delete_item_title_deck: "Видалити цю колоду?",
-  delete_item_description_deck: "Цю колоду буде видалено з вашої колекції",
-  delete_item_remove_for_others_deck:
-    "Видалити цю колоду й в інших користувачів",
+  delete_item_remove_for_others_deck: "Видалити для всіх користувачів",
   delete_item_other_users_deck: "Інші користувачі, у яких є ця колода",
   delete_item_public_catalog_deck:
     "Видалити цю колоду й із публічного каталогу",

@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useContext } from "react";
+import { createContext, ReactNode, useContext } from "preact/compat";
 import { FolderFormStore } from "./folder-form-store.ts";
 import { assert } from "api";
 

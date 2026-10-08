@@ -1,5 +1,5 @@
 import { Loader2Icon } from "lucide-react";
-import type { ReactNode } from "react";
+import type { ReactNode } from "preact/compat";
 import { cn } from "./cn";
 
 export function LoadingSwap({

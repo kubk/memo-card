@@ -42,9 +42,6 @@ export const ar = {
   new_cards_count: ({ count }: { count: number }) => {
     return count === 1 ? `${count} new card` : `${count} new cards`;
   },
-  buy_plan: ({ title, price }: { title: string; price: string }) => {
-    return `اشتري "${title}" مقابل ${price}`;
-  },
   days_ago: ({ daysText }: { daysText: string }) => {
     return `قبل ${daysText} أيام`;
   },
@@ -217,9 +214,7 @@ export const ar = {
   cards_new: "بطاقات جديدة",
   cards_total: ({ count }: { count: number }) => `إجمالي البطاقات: ${count}`,
   delete_item_title_deck: "حذف هذه المجموعة؟",
-  delete_item_description_deck: "ستتم إزالة هذه المجموعة من مجموعتك",
-  delete_item_remove_for_others_deck:
-    "إزالة هذه المجموعة لدى المستخدمين الآخرين أيضًا",
+  delete_item_remove_for_others_deck: "إزالة هذه المجموعة لدى الجميع",
   delete_item_other_users_deck: "مستخدمون آخرون لديهم المجموعة نفسها",
   delete_item_public_catalog_deck: "إزالة هذه المجموعة من الكتالوج العام أيضًا",
   delete_item_title_folder: "حذف هذا المجلد؟",
@@ -283,7 +278,6 @@ export const ar = {
   answer_text: "نص الإجابة",
   review_correct_label: "صحيح",
   review_wrong_label: "خطأ",
-  advanced: "متقدم",
   review_idk: "لا أعرف",
   card_answer_type: "نوع البطاقة",
   yes_no: "تذكر",
@@ -341,15 +335,13 @@ export const ar = {
   freeze_for_or_manual: "أو اكتب يدويًا",
   freeze_notified: "ستتلقى إشعارًا في",
   freeze_hint: "تأجيل دراسة البطاقات",
-  is_on: "تشغيل",
-  is_off: "إيقاف",
   error_solving: "نحن نحل المشكلة",
   error: "خطأ",
   user_settings_updated: "تم تحديث الإعدادات",
   confirm_cancel: "إلغاء",
   confirm_ok: "تأكيد",
 
-  upgrade_pro: "الترقية إلى Pro",
+  upgrade_pro: "اشترِ Pro",
   upgrade: "ترقية الخطة",
 
   // Global Search

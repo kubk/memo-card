@@ -1,4 +1,4 @@
-import { Fragment, type ReactNode } from "react";
+import { Fragment, type ReactNode } from "preact/compat";
 import { t, type StringTranslationKey } from "./t.ts";
 import type { Translation } from "./en.ts";
 

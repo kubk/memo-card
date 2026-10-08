@@ -1,4 +1,4 @@
-import { type ReactNode } from "react";
+import { type ReactNode } from "preact/compat";
 import leaderboardIcon from "../assets/bottom-navigation/leaderboard.webp?no-inline";
 import mainIcon from "../assets/bottom-navigation/main.webp?no-inline";
 import reviewIcon from "../assets/bottom-navigation/review.webp?no-inline";

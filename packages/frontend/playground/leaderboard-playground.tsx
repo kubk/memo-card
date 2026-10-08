@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from "preact/compat";
 import { type LeaderboardEntry, type LeaderboardResponse } from "api";
 import {
   LeaderboardView,

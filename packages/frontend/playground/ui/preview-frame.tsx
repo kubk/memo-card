@@ -1,4 +1,4 @@
-import { type ReactNode } from "react";
+import { type ReactNode } from "preact/compat";
 
 export function PreviewFrame({ children }: { children: ReactNode }) {
   return (

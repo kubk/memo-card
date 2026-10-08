@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useState } from "preact/compat";
 import { PublicDeck } from "./public-deck.tsx";
 import { DeckRowWithCardsToReview } from "../shared/deck-row-with-cards-to-review/deck-row-with-cards-to-review.tsx";
 import { deckListStore } from "../../store/deck-list-store.ts";
@@ -24,7 +24,6 @@ import { BooleanToggle } from "mobx-form-lite";
 import { RuEduVideoChoice } from "./ru-edu-video-choice.tsx";
 import { userStore } from "../../store/user-store.ts";
 import {
-  CogIcon,
   GraduationCapIcon,
   PlusIcon,
   SearchIcon,
@@ -234,46 +233,39 @@ export function MainScreen() {
               />
             </LabelGroup>
 
-            <LabelGroup title={t("profile_section")}>
-              <List
-                items={[
-                  {
-                    text: t("settings"),
-                    icon: (
-                      <FilledIcon
-                        className="bg-icon-violet"
-                        icon={<CogIcon size={18} />}
-                      />
-                    ),
-                    onClick: () => {
-                      screenStore.goToUserSettings();
-                    },
-                  },
-                  userStore.isTeacherPaid
-                    ? {
-                        text: getSharedPlanTitle("teacher"),
-                        icon: (
-                          <TeacherGradientIcon
-                            icon={<GraduationCapIcon size={18} />}
-                          />
-                        ),
-                        onClick: () => {
-                          screenStore.push({ type: "teacherStatistics" });
-                        },
-                      }
-                    : null,
-                  !userStore.isPaid
-                    ? {
-                        text: getSharedPlanTitle("pro"),
-                        icon: <ProIcon />,
-                        onClick: () => {
-                          screenStore.push({ type: "plans", planType: "pro" });
-                        },
-                      }
-                    : null,
-                ].filter(boolNarrow)}
-              />
-            </LabelGroup>
+            {userStore.isTeacherPaid || !userStore.isPaid ? (
+              <LabelGroup title={t("profile_section")}>
+                <List
+                  items={[
+                    userStore.isTeacherPaid
+                      ? {
+                          text: getSharedPlanTitle("teacher"),
+                          icon: (
+                            <TeacherGradientIcon
+                              icon={<GraduationCapIcon size={18} />}
+                            />
+                          ),
+                          onClick: () => {
+                            screenStore.push({ type: "teacherStatistics" });
+                          },
+                        }
+                      : null,
+                    !userStore.isPaid
+                      ? {
+                          text: getSharedPlanTitle("pro"),
+                          icon: <ProIcon />,
+                          onClick: () => {
+                            screenStore.push({
+                              type: "plans",
+                              planType: "pro",
+                            });
+                          },
+                        }
+                      : null,
+                  ].filter(boolNarrow)}
+                />
+              </LabelGroup>
+            ) : null}
           </>
         )}
       </Flex>

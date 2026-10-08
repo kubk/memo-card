@@ -1,5 +1,5 @@
 import { UseBackButtonType } from "../platform.ts";
-import { useEffect } from "react";
+import { useEffect } from "preact/compat";
 import { getWebAppOrNull } from "./telegram-web-app.ts";
 
 let registrationId = 0;

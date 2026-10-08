@@ -1,7 +1,7 @@
 import { platform } from "../../lib/platform/platform.ts";
 import { TelegramPlatform } from "../../lib/platform/telegram/telegram-platform.ts";
 import { t } from "../../translations/t.ts";
-import { useEffect, useState } from "react";
+import { useEffect, useState } from "preact/compat";
 
 function isTextEditingElement(target: EventTarget | null) {
   if (!(target instanceof HTMLElement)) {

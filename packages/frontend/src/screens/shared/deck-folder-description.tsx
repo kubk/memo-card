@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from "preact/compat";
 import { useIsOverflowing } from "../../lib/react/use-is-overflowing.ts";
 import { cn } from "../../ui/cn.ts";
 import { t } from "../../translations/t.ts";

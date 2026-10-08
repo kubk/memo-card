@@ -1,4 +1,4 @@
-import { m } from "framer-motion";
+import * as m from "motion/react-m";
 import { cn } from "./cn.ts";
 
 type Props = {
@@ -12,15 +12,12 @@ export function CircleCheckbox(props: Props) {
   const { checked, onChange, checkedClassName, checkClassName } = props;
 
   return (
-    <m.button
+    <button
       onClick={onChange}
       className={cn(
-        "rounded-full flex items-center justify-center w-6 h-6 cursor-pointer overflow-hidden",
+        "rounded-full flex items-center justify-center w-6 h-6 cursor-pointer overflow-hidden transition-[scale] duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] active:scale-95",
         checked ? checkedClassName : "bg-bg border border-[#d1d5db]",
       )}
-      initial={false}
-      whileTap={{ scale: 0.95 }}
-      transition={{ duration: 0.2, ease: [0.4, 0.0, 0.2, 1] }}
     >
       <m.svg
         className={checkClassName ?? "text-white"}
@@ -46,6 +43,6 @@ export function CircleCheckbox(props: Props) {
           clipRule="evenodd"
         />
       </m.svg>
-    </m.button>
+    </button>
   );
 }

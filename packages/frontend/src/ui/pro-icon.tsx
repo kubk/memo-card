@@ -1,4 +1,4 @@
-import { type ReactNode } from "react";
+import { type ReactNode } from "preact/compat";
 import { StarIcon } from "lucide-react";
 
 const proIconGradient = "linear-gradient(to right, #8b5cf6, #ec4899, #ef4444)";

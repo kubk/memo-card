@@ -4,7 +4,7 @@ import {
   Editor,
   EditorProvider,
   Toolbar,
-} from "react-simple-wysiwyg";
+} from "../../lib/react-simple-wysiwyg/index.ts";
 import { TextField } from "mobx-form-lite";
 import { ValidationError } from "../validation-error.tsx";
 import { t } from "../../translations/t.ts";
@@ -33,14 +33,11 @@ import {
 } from "../../lib/card-image/card-image.ts";
 import { useFileUpload } from "../../lib/use-file-upload.tsx";
 import { uploadImage } from "../../api/file-upload.ts";
-import { useEffect } from "react";
 
 const BtnBigHeader = createButton(
   t("wysiwyg_big_header"),
   <Heading1Icon size={18} className="text-text" />,
-  () => {
-    document.execCommand("formatBlock", false, "h1");
-  },
+  "h1",
 );
 
 const BtnBold = createButton(
@@ -111,7 +108,6 @@ export function WysiwygField({
     () => {
       wysiwygStore.openBottomSheet("help");
     },
-    // @ts-ignore
     false,
   );
 
@@ -122,10 +118,6 @@ export function WysiwygField({
       openFilePicker();
     },
   );
-
-  useEffect(() => {
-    console.log("isUploading changed:", isUploading);
-  }, [isUploading]);
 
   if (allowImage) {
     if (isUploading) {

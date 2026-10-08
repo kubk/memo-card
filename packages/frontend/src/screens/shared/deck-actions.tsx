@@ -1,17 +1,9 @@
 import { screenStore } from "../../store/screen-store.ts";
 import { type DeckListDeck } from "../../store/deck-types.ts";
 import { type ActionTileRowItem } from "../../ui/action-tile.tsx";
-import {
-  getItemTileActions,
-  LibraryItemActions,
-} from "./library-item-actions.tsx";
+import { getItemTileActions } from "./library-item-actions.tsx";
 
 type DeckActionTarget = Pick<DeckListDeck, "authorId" | "id" | "shareId">;
-
-type Props = {
-  deck: DeckActionTarget;
-  variant: "buttons" | "dropdown";
-};
 
 export function getDeckTileActions(
   deck: DeckActionTarget,
@@ -26,8 +18,4 @@ export function getDeckTileActions(
         }
       : undefined,
   });
-}
-
-export function DeckActions({ deck, variant }: Props) {
-  return <LibraryItemActions type="deck" target={deck} variant={variant} />;
 }

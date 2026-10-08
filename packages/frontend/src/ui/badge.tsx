@@ -1,3 +1,4 @@
+import type * as React from "preact/compat";
 import { cn } from "./cn.ts";
 
 type BadgeProps = {

@@ -1,6 +1,6 @@
 import LinesEllipsis from "react-lines-ellipsis";
 import { DeckCategoryLogo } from "./deck-category-logo.tsx";
-import { ReactNode } from "react";
+import { ReactNode } from "preact/compat";
 import { removeAllTags } from "../lib/sanitize-html/remove-all-tags.ts";
 
 type Props = {

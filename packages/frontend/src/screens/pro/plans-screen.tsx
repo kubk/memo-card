@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from "preact/compat";
 import {
   assert,
   calcPlanPriceForDuration,
@@ -43,7 +43,7 @@ export function PlansScreen() {
   });
 
   useMainButton(
-    () => (store.isPaymentOptionsOpen ? store.buyText : t("upgrade_pro")),
+    () => t("upgrade_pro"),
     store.handleMainButtonClick,
     () => store.isMainButtonVisible,
     [],

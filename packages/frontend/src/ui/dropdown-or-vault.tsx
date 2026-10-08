@@ -1,6 +1,7 @@
-import { type ReactNode, useEffect, useState } from "react";
-import { createPortal } from "react-dom";
-import { AnimatePresence, m } from "framer-motion";
+import { type ReactNode, useEffect, useState } from "preact/compat";
+import { createPortal } from "preact/compat";
+import * as m from "motion/react-m";
+import { AnimatePresence } from "motion/react";
 import { EllipsisIcon } from "lucide-react";
 import { platform } from "../lib/platform/platform.ts";
 import { t } from "../translations/t.ts";

@@ -1,7 +1,7 @@
 import { Screen } from "../shared/screen.tsx";
 import { useBackButton } from "../../lib/platform/use-back-button.ts";
 import { screenStore } from "../../store/screen-store.ts";
-import { useState } from "react";
+import { useState } from "preact/compat";
 import { Flex } from "../../ui/flex.tsx";
 import { useMainButton } from "../../lib/platform/use-main-button.ts";
 import { Input } from "../../ui/input.tsx";

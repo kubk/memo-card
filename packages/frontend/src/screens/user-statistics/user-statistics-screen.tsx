@@ -5,7 +5,7 @@ import { screenStore } from "../../store/screen-store.ts";
 import { t } from "../../translations/t.ts";
 import { CardRowLoading } from "../shared/card-row-loading.tsx";
 import { cn } from "../../ui/cn.ts";
-import { type ReactNode, useLayoutEffect, useRef } from "react";
+import { type ReactNode, useLayoutEffect, useRef } from "preact/compat";
 import { List } from "../../ui/list.tsx";
 import { FilledIcon } from "../../ui/filled-icon.tsx";
 import { FlameIcon, LoaderCircleIcon, TrophyIcon } from "lucide-react";

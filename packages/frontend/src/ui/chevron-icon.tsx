@@ -1,6 +1,7 @@
-import { m } from "framer-motion";
-import { SVGProps } from "react";
+import * as m from "motion/react-m";
+import { SVGProps } from "preact/compat";
 import { userStore } from "../store/user-store.ts";
+import { cn } from "./cn.ts";
 
 type Direction = "top" | "bottom" | "right";
 
@@ -24,7 +25,7 @@ type Props = Pick<SVGProps<SVGSVGElement>, "onClick" | "className"> & {
 };
 
 export function ChevronIcon(props: Props) {
-  const { direction, size = 16, ...restProps } = props;
+  const { direction, size = 16, className, ...restProps } = props;
   return (
     <m.svg
       tabIndex={-1}
@@ -33,10 +34,12 @@ export function ChevronIcon(props: Props) {
       viewBox="0 0 16 16"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      whileTap={{ scale: 0.9 }}
       animate={{ rotate: getRotation(direction) }}
       initial={false}
-      className="focus:outline-hidden"
+      className={cn(
+        "focus:outline-hidden transition-[scale] duration-200 ease-out active:scale-90",
+        className,
+      )}
       {...restProps}
     >
       <path

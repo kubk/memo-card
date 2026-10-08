@@ -1,5 +1,6 @@
 import { useReviewStore } from "./store/review-store-context.tsx";
-import { AnimatePresence, m } from "framer-motion";
+import * as m from "motion/react-m";
+import { AnimatePresence } from "motion/react";
 
 export function ReviewDeckName() {
   const reviewStore = useReviewStore();

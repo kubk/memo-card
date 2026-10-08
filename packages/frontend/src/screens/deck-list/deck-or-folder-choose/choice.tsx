@@ -1,6 +1,6 @@
 import { Flex } from "../../../ui/flex.tsx";
 import { ChevronIcon } from "../../../ui/chevron-icon.tsx";
-import { ReactNode } from "react";
+import { ReactNode } from "preact/compat";
 
 type Props = {
   icon?: string | ReactNode;

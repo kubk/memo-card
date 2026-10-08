@@ -1,6 +1,6 @@
 import { type RouterOutput } from "api";
 import { LibraryBigIcon, LoaderCircleIcon, UsersIcon } from "lucide-react";
-import { type ReactNode } from "react";
+import { type ReactNode } from "preact/compat";
 import { api } from "../../api/trpc-api.ts";
 import { platform } from "../../lib/platform/platform.ts";
 import { useBackButton } from "../../lib/platform/use-back-button.ts";

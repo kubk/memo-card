@@ -1,4 +1,4 @@
-import { ChangeEvent, ReactNode, useEffect, useRef } from "react";
+import { ChangeEvent, ReactNode, useEffect, useRef } from "preact/compat";
 import { TextField } from "mobx-form-lite";
 import autosize from "autosize";
 import { ValidationError } from "./validation-error.tsx";
@@ -43,7 +43,7 @@ export function Input(props: Props) {
   const handleInputChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
-    onChange(event.target.value);
+    onChange(event.currentTarget.value);
   };
 
   const Tag = type === "textarea" ? "textarea" : "input";

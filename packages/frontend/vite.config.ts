@@ -1,6 +1,6 @@
-import { defineConfig } from "vite";
+import { defineConfig } from "vitest/config";
 import tailwindcss from "@tailwindcss/vite";
-import react from "@vitejs/plugin-react";
+import preact from "@preact/preset-vite";
 import { execSync } from "node:child_process";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -29,9 +29,30 @@ const getLastCommit = () => {
 export default defineConfig({
   plugins: [
     tailwindcss(),
-    react(),
+    preact(),
     observerPlugin({ exclude: ["src/ui/shadcn/**"] }),
   ],
+  test: {
+    alias: {
+      "react-lines-ellipsis": resolve(
+        __dirname,
+        "../../node_modules/react-lines-ellipsis/lib/index.modern.mjs",
+      ),
+      "mobx-react-lite": resolve(
+        __dirname,
+        "../../node_modules/mobx-react-lite/dist/mobxreactlite.mjs",
+      ),
+    },
+    server: {
+      deps: {
+        inline: [
+          "mobx-react-observer",
+          /mobx-react-lite/,
+          /react-lines-ellipsis/,
+        ],
+      },
+    },
+  },
   define: {
     __LAST_COMMIT__: JSON.stringify(getLastCommit()),
   },
@@ -40,7 +61,6 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(__dirname, "index.html"),
-        admin: resolve(__dirname, "admin/index.html"),
         playground: resolve(__dirname, "playground/index.html"),
       },
     },

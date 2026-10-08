@@ -1,5 +1,5 @@
 import { createInitialFsrsReviewState, type DeckCardDbType } from "api";
-import { useState } from "react";
+import { useState } from "preact/compat";
 import { CardReviewWithControls } from "../src/screens/deck-review/card-review-with-controls.tsx";
 import type { LimitedCardUnderReviewStore } from "../src/screens/shared/card/card.tsx";
 import { Tabs, TabsList, TabsTrigger } from "../src/ui/shadcn/tabs.tsx";

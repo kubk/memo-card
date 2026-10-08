@@ -1,7 +1,7 @@
 import { useHotkeys } from "react-hotkeys-hook";
 import { autorun } from "mobx";
 import { platform, UseMainButtonType } from "../platform.ts";
-import { useEffect } from "react";
+import { useEffect } from "preact/compat";
 import { getWebApp } from "./telegram-web-app.ts";
 import { assert } from "api";
 import { TelegramPlatform } from "./telegram-platform.ts";

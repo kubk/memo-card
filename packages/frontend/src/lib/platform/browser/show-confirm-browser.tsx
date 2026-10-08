@@ -1,6 +1,6 @@
-import { useState } from "react";
-import ReactDOM from "react-dom";
-import { createRoot } from "react-dom/client";
+import { useState } from "preact/compat";
+import ReactDOM from "preact/compat";
+import { createRoot } from "preact/compat/client";
 import { Button } from "../../../ui/button.tsx";
 import { t } from "../../../translations/t.ts";
 import { ShowConfirmType } from "../platform.ts";

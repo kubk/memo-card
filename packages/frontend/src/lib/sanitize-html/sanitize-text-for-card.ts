@@ -9,6 +9,7 @@ const allowedTags = [
   "small", // Small text
   "big", // Big text
   "br", // Line break
+  "div", // Contenteditable paragraph
   "p", // Paragraph
   "i", // Italic
   "font", // Font for color

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from "preact/compat";
 import { screenStore } from "../../../store/screen-store.ts";
 import { useBackButton } from "../../../lib/platform/use-back-button.ts";
 import { Input } from "../../../ui/input.tsx";
@@ -16,7 +16,8 @@ import {
 } from "./store/card-list-store.ts";
 import { CircleCheckbox } from "../../../ui/circle-checkbox.tsx";
 import { cn } from "../../../ui/cn.ts";
-import { m, AnimatePresence } from "framer-motion";
+import * as m from "motion/react-m";
+import { AnimatePresence } from "motion/react";
 import { MoveToDeckSelector } from "./move-to-deck-selector.tsx";
 import { platform } from "../../../lib/platform/platform.ts";
 import { TelegramPlatform } from "../../../lib/platform/telegram/telegram-platform.ts";

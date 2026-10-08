@@ -33,10 +33,6 @@ vi.mock("../../../api/trpc-api.ts", () => {
   };
 });
 
-vi.mock("../translations.ts", () => ({
-  getBuyText: vi.fn(() => "Buy"),
-}));
-
 vi.mock("../../shared/snackbar/snackbar.tsx", () => ({
   notifyError: vi.fn(),
 }));

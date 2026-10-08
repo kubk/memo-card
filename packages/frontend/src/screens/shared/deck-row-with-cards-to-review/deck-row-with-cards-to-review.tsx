@@ -1,7 +1,7 @@
 import { type DeckCardDbTypeWithType } from "../../../store/deck-list-store.ts";
 import { CardsToReviewCount } from "./cards-to-review-count.tsx";
 import { Flex } from "../../../ui/flex.tsx";
-import { type ReactNode } from "react";
+import { type ReactNode } from "preact/compat";
 import { getCardsToReviewCounts } from "../../../ui/cards-to-review.tsx";
 
 type Props = {

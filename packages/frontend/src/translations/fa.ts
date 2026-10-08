@@ -29,9 +29,6 @@ export const fa = {
   new_cards_count: ({ count }: { count: number }) => {
     return count === 1 ? `${count} new card` : `${count} new cards`;
   },
-  buy_plan: ({ title, price }: { title: string; price: string }) => {
-    return `خرید "${title}" برای ${price}`;
-  },
   days_ago: ({ daysText }: { daysText: string }) => {
     return `${daysText} روز پیش`;
   },
@@ -92,7 +89,7 @@ export const fa = {
   browser_no_personal_decks_start: "شما هنوز هیچ دسته کارت شخصی ندارید",
   browser_no_personal_decks_end: ". یادگیری خوبی داشته باشید! 😊",
   browser_no_personal_decks_link: "نحوه استفاده از MemoCard را در ",
-  upgrade_pro: "ارتقا به نسخه حرفه‌ای",
+  upgrade_pro: "خرید Pro",
   upgrade: "ارتقای طرح",
   youtube_channel: "کانال یوتیوب",
   login_google: "ورود با گوگل",
@@ -212,8 +209,7 @@ export const fa = {
   cards_new: "کارت‌های جدید",
   cards_total: ({ count }: { count: number }) => `کل کارت‌ها: ${count}`,
   delete_item_title_deck: "این دسته حذف شود؟",
-  delete_item_description_deck: "این دسته از مجموعه شما حذف می‌شود",
-  delete_item_remove_for_others_deck: "این دسته برای کاربران دیگر هم حذف شود",
+  delete_item_remove_for_others_deck: "این دسته برای همه کاربران حذف شود",
   delete_item_other_users_deck: "کاربران دیگری که همین دسته را دارند",
   delete_item_public_catalog_deck: "این دسته از فهرست عمومی هم حذف شود",
   delete_item_title_folder: "این پوشه حذف شود؟",
@@ -275,7 +271,6 @@ export const fa = {
   answer_text: "متن پاسخ",
   review_correct_label: "درست",
   review_wrong_label: "نادرست",
-  advanced: "پیشرفته",
   review_idk: "نمی‌دانم",
   card_answer_type: "نوع کارت",
   yes_no: "به یاد آوردن",
@@ -338,8 +333,6 @@ export const fa = {
   freeze_for_or_manual: "یا به صورت دستی وارد کنید",
   freeze_notified: "به شما اطلاع داده خواهد شد در",
   freeze_hint: "به تعویق انداختن مطالعه کارت‌ها",
-  is_on: "روشن",
-  is_off: "خاموش",
   error_solving: "ما در حال حل مشکل هستیم",
   error: "خطا",
   user_settings_updated: "تنظیمات به‌روز شد",

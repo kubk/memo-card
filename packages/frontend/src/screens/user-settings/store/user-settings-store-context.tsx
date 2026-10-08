@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useContext } from "react";
+import { createContext, ReactNode, useContext } from "preact/compat";
 import { UserSettingsStore } from "./user-settings-store.tsx";
 import { assert } from "api";
 

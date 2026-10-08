@@ -1,5 +1,5 @@
 import { Flex } from "../flex.tsx";
-import { ReactNode } from "react";
+import { ReactNode } from "preact/compat";
 import { RadioBoxFilled } from "./radio-box-filled.tsx";
 import { RadioBoxEmpty } from "./radio-box-empty.tsx";
 import { cn } from "../cn.ts";

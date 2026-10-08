@@ -3,7 +3,7 @@ import {
   type CSSProperties,
   type ReactNode,
   type ComponentPropsWithoutRef,
-} from "react";
+} from "preact/compat";
 import { Drawer as DrawerPrimitive } from "vaul";
 import { cn } from "./cn.ts";
 import { overlayStore } from "../store/overlay-store.ts";

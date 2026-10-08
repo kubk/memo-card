@@ -58,29 +58,21 @@ test("translation calls infer named arguments from their keys", () => {
   expectTypeOf(t("navigation_main")).toEqualTypeOf<string>();
   expectTypeOf(t("navigation_main", "Main")).toEqualTypeOf<string>();
   expectTypeOf(t("encouraging_message")).toEqualTypeOf<string>();
-  expectTypeOf(
-    t("buy_plan", { title: "Pro", price: "$5" }),
-  ).toEqualTypeOf<string>();
+  expectTypeOf(t("upgrade_pro")).toEqualTypeOf<string>();
   expectTypeOf(t("new_cards_count", { count: 2 })).toEqualTypeOf<string>();
 
-  // @ts-expect-error Parameterized translations require their arguments
-  t("buy_plan");
-  // @ts-expect-error All named arguments are required
-  t("buy_plan", { title: "Pro" });
   // @ts-expect-error Arguments must have the correct types
   t("new_cards_count", { count: "2" });
-  // @ts-expect-error Positional arguments are not supported
-  t("buy_plan", "Pro", "$5");
-  // @ts-expect-error Unknown fields are rejected
-  t("buy_plan", { title: "Pro", price: "$5", plan: "Pro" });
+  // @ts-expect-error String translations only accept a fallback string
+  t("upgrade_pro", { title: "Pro" });
   // @ts-expect-error Zero-argument callbacks do not accept parameters
   t("encouraging_message", {});
   // @ts-expect-error String translations only accept a fallback string
   t("navigation_main", { count: 2 });
   // @ts-expect-error Translation keys must exist
   t("missing_translation");
-  // @ts-expect-error Rich translations require string entries
-  td("buy_plan", {});
+  // @ts-expect-error Tagged translations require a renderer for every tag
+  td("payment_until_date", {});
 });
 
 test("locales match the resource types and callback arguments", () => {

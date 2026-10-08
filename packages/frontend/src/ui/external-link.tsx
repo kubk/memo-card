@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { ReactNode } from "preact/compat";
 import { platform } from "../lib/platform/platform.ts";
 import { cn } from "./cn.ts";
 

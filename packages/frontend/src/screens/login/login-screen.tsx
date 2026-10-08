@@ -1,6 +1,6 @@
 import { LoginForm } from "./login-form.tsx";
 import { platform } from "../../lib/platform/platform.ts";
-import { useState } from "react";
+import { useState } from "preact/compat";
 import { assert } from "api";
 import { TelegramPlatform } from "../../lib/platform/telegram/telegram-platform.ts";
 import { ErrorScreen } from "../error-screen/error-screen.tsx";

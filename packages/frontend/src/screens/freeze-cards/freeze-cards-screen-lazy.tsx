@@ -1,4 +1,4 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense } from "preact/compat";
 import { FullScreenLoader } from "../../ui/full-screen-loader.tsx";
 
 const FreezeCardsScreen = lazy(() =>

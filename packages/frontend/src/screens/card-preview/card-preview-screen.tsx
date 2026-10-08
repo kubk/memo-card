@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from "preact/compat";
 import { assert, type DeckCardDbType } from "api";
 import { CardPreview } from "../deck-form/card-form/card-preview.tsx";
 import { createMockCardPreviewForm } from "../deck-form/card-form/create-mock-card-preview-form.ts";

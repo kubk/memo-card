@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode } from "preact/compat";
 import { cn } from "./cn.ts";
 
 type Props = {

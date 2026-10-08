@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from "preact/compat";
 import { LeaderboardStatisticsScreen } from "./leaderboard/leaderboard-statistics-screen.tsx";
 import { MainScreen } from "./deck-list/main-screen.tsx";
 import { SearchScreen } from "./global-search/search-screen.tsx";
@@ -11,10 +11,7 @@ import { VersionWarning } from "./shared/version-warning.tsx";
 import { deckListStore } from "../store/deck-list-store.ts";
 import { appLoaderStore } from "../store/app-loader-store.ts";
 import { FullScreenLoader } from "../ui/full-screen-loader.tsx";
-import {
-  PreventTelegramSwipeDownClosingIos,
-  useRestoreFullScreenExpand,
-} from "../lib/platform/telegram/prevent-telegram-swipe-down-closing.tsx";
+import { useRestoreFullScreenExpand } from "../lib/platform/telegram/use-restore-full-screen-expand.ts";
 import { RepeatAllScreen } from "./deck-review/repeat-all-screen.tsx";
 import { DeckCatalog } from "./catalog/deck-catalog.tsx";
 import { FolderForm } from "./folder-form/folder-form.tsx";
@@ -98,75 +95,55 @@ export function App() {
 
           {screenStore.screen.type === "browserLogin" && <LoginScreen />}
 
-          {screenStore.screen.type === "main" && (
-            <PreventTelegramSwipeDownClosingIos>
-              <MainScreen />
-            </PreventTelegramSwipeDownClosingIos>
-          )}
+          {screenStore.screen.type === "main" && <MainScreen />}
           {screenStore.screen.type === "leaderboardStatistics" && (
             <SignedIn>
-              <PreventTelegramSwipeDownClosingIos>
-                <LeaderboardStatisticsScreen />
-              </PreventTelegramSwipeDownClosingIos>
+              <LeaderboardStatisticsScreen />
             </SignedIn>
           )}
           {screenStore.screen.type === "leaderboard" && (
             <SignedIn>
-              <PreventTelegramSwipeDownClosingIos>
-                <LeaderboardScreen />
-              </PreventTelegramSwipeDownClosingIos>
+              <LeaderboardScreen />
             </SignedIn>
           )}
           {screenStore.screen.type === "globalSearch" && (
             <SignedIn>
-              <PreventTelegramSwipeDownClosingIos>
-                <SearchScreen />
-              </PreventTelegramSwipeDownClosingIos>
+              <SearchScreen />
             </SignedIn>
           )}
           {screenStore.screen.type === "deckPreview" && (
             <SignedIn>
-              <PreventTelegramSwipeDownClosingIos>
-                <ReviewStoreProvider>
-                  <DeckScreen />
-                </ReviewStoreProvider>
-              </PreventTelegramSwipeDownClosingIos>
+              <ReviewStoreProvider>
+                <DeckScreen />
+              </ReviewStoreProvider>
             </SignedIn>
           )}
           {screenStore.screen.type === "reviewAll" && (
             <SignedIn>
-              <PreventTelegramSwipeDownClosingIos>
-                <ReviewStoreProvider>
-                  <RepeatAllScreen />
-                </ReviewStoreProvider>
-              </PreventTelegramSwipeDownClosingIos>
+              <ReviewStoreProvider>
+                <RepeatAllScreen />
+              </ReviewStoreProvider>
             </SignedIn>
           )}
           {screenStore.screen.type === "reviewCustom" && (
             <SignedIn>
-              <PreventTelegramSwipeDownClosingIos>
-                <ReviewStoreProvider>
-                  <RepeatCustomScreen />
-                </ReviewStoreProvider>
-              </PreventTelegramSwipeDownClosingIos>
+              <ReviewStoreProvider>
+                <RepeatCustomScreen />
+              </ReviewStoreProvider>
             </SignedIn>
           )}
           {screenStore.screen.type === "folderForm" && (
             <SignedIn>
-              <PreventTelegramSwipeDownClosingIos>
-                <FolderFormStoreProvider>
-                  <FolderForm />
-                </FolderFormStoreProvider>
-              </PreventTelegramSwipeDownClosingIos>
+              <FolderFormStoreProvider>
+                <FolderForm />
+              </FolderFormStoreProvider>
             </SignedIn>
           )}
           {screenStore.screen.type === "folderPreview" && (
             <SignedIn>
-              <PreventTelegramSwipeDownClosingIos>
-                <ReviewStoreProvider>
-                  <FolderScreen />
-                </ReviewStoreProvider>
-              </PreventTelegramSwipeDownClosingIos>
+              <ReviewStoreProvider>
+                <FolderScreen />
+              </ReviewStoreProvider>
             </SignedIn>
           )}
           {screenStore.screen.type === "deckForm" && (
@@ -178,9 +155,7 @@ export function App() {
           )}
           {screenStore.screen.type === "ankiImport" && (
             <SignedIn>
-              <PreventTelegramSwipeDownClosingIos>
-                <AnkiImportScreen />
-              </PreventTelegramSwipeDownClosingIos>
+              <AnkiImportScreen />
             </SignedIn>
           )}
           {screenStore.screen.type === "cardList" && (
@@ -190,9 +165,7 @@ export function App() {
           )}
           {screenStore.screen.type === "cardListPreview" && (
             <SignedIn>
-              <PreventTelegramSwipeDownClosingIos>
-                <CardList />
-              </PreventTelegramSwipeDownClosingIos>
+              <CardList />
             </SignedIn>
           )}
           {screenStore.screen.type === "speakingCards" && (
@@ -204,53 +177,41 @@ export function App() {
           )}
           {screenStore.screen.type === "cardPreviewId" && (
             <SignedIn>
-              <PreventTelegramSwipeDownClosingIos>
-                <CardPreviewScreen />
-              </PreventTelegramSwipeDownClosingIos>
+              <CardPreviewScreen />
             </SignedIn>
           )}
           {screenStore.screen.type === "userSettings" && (
             <SignedIn>
-              <PreventTelegramSwipeDownClosingIos>
-                <UserSettingsStoreProvider>
-                  <UserSettingsScreen />
-                </UserSettingsStoreProvider>
-              </PreventTelegramSwipeDownClosingIos>
+              <UserSettingsStoreProvider>
+                <UserSettingsScreen />
+              </UserSettingsStoreProvider>
             </SignedIn>
           )}
           {screenStore.screen.type === "mcpSettings" && (
             <SignedIn>
-              <PreventTelegramSwipeDownClosingIos>
-                <McpSettingsWizardRoute />
-              </PreventTelegramSwipeDownClosingIos>
+              <McpSettingsWizardRoute />
             </SignedIn>
           )}
           {screenStore.screen.type === "deckCatalog" && (
             <SignedIn>
-              <PreventTelegramSwipeDownClosingIos>
-                <DeckCatalogStoreContextProvider>
-                  <DeckCatalog />
-                </DeckCatalogStoreContextProvider>
-              </PreventTelegramSwipeDownClosingIos>
+              <DeckCatalogStoreContextProvider>
+                <DeckCatalog />
+              </DeckCatalogStoreContextProvider>
             </SignedIn>
           )}
 
           {screenStore.screen.type === "plans" && (
             <SignedIn>
-              <PreventTelegramSwipeDownClosingIos>
-                {screenStore.screen.planType === "pro" && userStore.isPaid ? (
-                  <McpSettingsWizardRoute />
-                ) : (
-                  <PlansScreen />
-                )}
-              </PreventTelegramSwipeDownClosingIos>
+              {screenStore.screen.planType === "pro" && userStore.isPaid ? (
+                <McpSettingsWizardRoute />
+              ) : (
+                <PlansScreen />
+              )}
             </SignedIn>
           )}
           {screenStore.screen.type === "freezeCards" && (
             <SignedIn>
-              <PreventTelegramSwipeDownClosingIos>
-                <FreezeCardsScreenLazy />
-              </PreventTelegramSwipeDownClosingIos>
+              <FreezeCardsScreenLazy />
             </SignedIn>
           )}
           {(screenStore.screen.type === "userStatistics" ||
@@ -267,31 +228,23 @@ export function App() {
           )}
           {screenStore.screen.type === "teacherStatistics" && (
             <SignedIn>
-              <PreventTelegramSwipeDownClosingIos>
-                {userStore.isTeacherPaid ? (
-                  <TeacherStatisticsLazy />
-                ) : (
-                  <MainScreen />
-                )}
-              </PreventTelegramSwipeDownClosingIos>
+              {userStore.isTeacherPaid ? (
+                <TeacherStatisticsLazy />
+              ) : (
+                <MainScreen />
+              )}
             </SignedIn>
           )}
           {screenStore.screen.type === "teacherStatisticsList" && (
             <SignedIn>
-              <PreventTelegramSwipeDownClosingIos>
-                {userStore.isTeacherPaid ? (
-                  <TeacherStatisticsListLazy />
-                ) : (
-                  <MainScreen />
-                )}
-              </PreventTelegramSwipeDownClosingIos>
+              {userStore.isTeacherPaid ? (
+                <TeacherStatisticsListLazy />
+              ) : (
+                <MainScreen />
+              )}
             </SignedIn>
           )}
-          {screenStore.screen.type === "about" && (
-            <PreventTelegramSwipeDownClosingIos>
-              <AboutScreen />
-            </PreventTelegramSwipeDownClosingIos>
-          )}
+          {screenStore.screen.type === "about" && <AboutScreen />}
           {screenStore.screen.type === "sharedDeckNotFound" && (
             <SignedIn>
               <SharedDeckNotFoundScreen />

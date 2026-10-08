@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode } from "preact/compat";
 import { cn } from "../../ui/cn.ts";
 import { BrowserBackButton } from "./browser-platform/browser-back-button.tsx";
 import { platform } from "../../lib/platform/platform.ts";
@@ -15,60 +15,46 @@ type Props = {
 export function Screen(props: Props) {
   const { children, title, subtitle, headerRight } = props;
 
-  if (platform instanceof TelegramPlatform) {
-    if (platform.isMobile) {
-      return (
-        <div className="relative mb-4 flex flex-col gap-2 pb-[calc(var(--tg-content-safe-area-inset-bottom,0px)_+_4px)] pl-[calc(var(--tg-content-safe-area-inset-left,0px)_+_4px)] pr-[calc(var(--tg-content-safe-area-inset-right,0px)_+_4px)]">
-          {title && (
-            <h3 className="absolute inset-x-0 top-[calc(10px_-_var(--app-top-offset,12px))] text-center text-lg">
-              {title}
-            </h3>
-          )}
-          {headerRight ? (
-            <div className="absolute right-[calc(var(--tg-content-safe-area-inset-right,0px)_+_4px)] top-[calc(10px_-_var(--app-top-offset,12px))] z-20">
-              {headerRight}
-            </div>
-          ) : null}
-          {subtitle}
-          {children}
-        </div>
-      );
-    }
-
-    return (
-      <div className="mb-4 flex flex-col gap-2">
-        <div className="relative flex flex-col gap-2 pb-[calc(var(--tg-content-safe-area-inset-bottom,0px)_+_4px)] pl-[calc(var(--tg-content-safe-area-inset-left,0px)_+_4px)] pr-[calc(var(--tg-content-safe-area-inset-right,0px)_+_4px)]">
-          {title && <h3 className="text-center text-lg">{title}</h3>}
-          {headerRight ? (
-            <div className="absolute right-[calc(var(--tg-content-safe-area-inset-right,0px)_+_4px)] top-0 z-20">
-              {headerRight}
-            </div>
-          ) : null}
-          {subtitle}
-          {children}
-        </div>
-      </div>
-    );
-  }
+  const isTelegram = platform instanceof TelegramPlatform;
+  const isTelegramMobile = isTelegram && platform.isMobile;
 
   return (
     <div
       className={cn(
         "flex flex-col gap-2 relative",
         platform instanceof BrowserPlatform ? "mb-20" : "mb-4",
+        isTelegram &&
+          "pb-[calc(var(--tg-content-safe-area-inset-bottom,0px)_+_4px)] pl-[calc(var(--tg-content-safe-area-inset-left,0px)_+_4px)] pr-[calc(var(--tg-content-safe-area-inset-right,0px)_+_4px)]",
       )}
     >
-      <div>
-        <div className="absolute -top-1">
-          <BrowserBackButton className="ml-2" />
-        </div>
+      <div
+        className={cn(
+          "relative",
+          isTelegramMobile &&
+            "mt-[calc(10px_-_var(--app-top-offset,12px))] min-h-[calc(var(--app-top-offset,12px)_-_10px)]",
+        )}
+      >
+        {!isTelegram && (
+          <div className="absolute -top-1">
+            <BrowserBackButton className="ml-2" />
+          </div>
+        )}
         {title && <h3 className="text-center text-lg">{title}</h3>}
         {headerRight ? (
-          <div className="absolute right-1 -top-1 z-20">{headerRight}</div>
+          <div
+            className={cn(
+              "absolute z-20",
+              isTelegram ? "right-0 top-0" : "right-1 -top-1",
+            )}
+          >
+            {headerRight}
+          </div>
         ) : null}
         {subtitle}
       </div>
-      <div className="flex flex-col gap-2 p-1">{children}</div>
+      <div className={cn("flex flex-col gap-2", !isTelegram && "p-1")}>
+        {children}
+      </div>
     </div>
   );
 }

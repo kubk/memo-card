@@ -1,3 +1,4 @@
+import type * as React from "preact/compat";
 import { closeSnackbar, enqueueSnackbar, type SnackbarOrigin } from "notistack";
 import { reportHandledError } from "../../../lib/rollbar/rollbar.tsx";
 import { userStore } from "../../../store/user-store.ts";

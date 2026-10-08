@@ -6,10 +6,10 @@ import {
   useRef,
   useState,
   type ReactNode,
-} from "react";
+} from "preact/compat";
 import Autoplay from "embla-carousel-autoplay";
 import useEmblaCarousel from "embla-carousel-react";
-import { m } from "framer-motion";
+import * as m from "motion/react-m";
 import {
   AudioLines,
   Copy,

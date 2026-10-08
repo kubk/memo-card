@@ -1,4 +1,4 @@
-import { useLayoutEffect } from "react";
+import { useLayoutEffect } from "preact/compat";
 
 export const useMount = (cb: () => void) => {
   useLayoutEffect(() => {

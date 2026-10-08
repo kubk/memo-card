@@ -1,6 +1,6 @@
 import { assert } from "api";
 import { DeckCatalogStore } from "./deck-catalog-store.ts";
-import { createContext, ReactNode, useContext, useState } from "react";
+import { createContext, ReactNode, useContext, useState } from "preact/compat";
 
 const Context = createContext<DeckCatalogStore | null>(null);
 

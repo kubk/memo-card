@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from "preact/compat";
 import { getInitials } from "../../lib/get-initials.ts";
 
 const avatarBgColors = [

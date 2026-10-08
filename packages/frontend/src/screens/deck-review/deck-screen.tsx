@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from "preact/compat";
 import { Review } from "./review.tsx";
 import { DeckPreview } from "./deck-preview.tsx";
 import { useReviewStore } from "./store/review-store-context.tsx";

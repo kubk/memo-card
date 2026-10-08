@@ -1,4 +1,4 @@
-import { lazy, Suspense, useRef, useState } from "react";
+import { lazy, Suspense, useRef, useState } from "preact/compat";
 
 const TAP_COUNT = 10;
 const TAP_RESET_MS = 2000;

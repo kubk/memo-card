@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef } from "preact/compat";
 import { getRouteScrollElement } from "./route-scroll-container.ts";
 
 type Options = {

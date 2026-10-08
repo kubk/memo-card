@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from "preact/compat";
 import { type BottomNavigationTab } from "../src/store/bottom-navigation-store.ts";
 import { BottomNavigationView } from "../src/ui/bottom-navigation.tsx";
 

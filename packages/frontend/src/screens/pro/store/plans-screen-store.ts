@@ -1,5 +1,4 @@
 import { makeAutoObservable } from "mobx";
-import { getBuyText } from "../translations.ts";
 import { notifyError } from "../../shared/snackbar/snackbar.tsx";
 import { platform } from "../../../lib/platform/platform.ts";
 import { TextField } from "mobx-form-lite";
@@ -90,18 +89,6 @@ export class PlansScreenStore {
     }
 
     return this.method !== null && this.selectedPlanDuration.value !== null;
-  }
-
-  get buyText() {
-    const selectedPlan = this.selectedPlan;
-    if (!selectedPlan || !this.selectedPlanDuration.value || !this.method) {
-      return "";
-    }
-    return getBuyText(
-      selectedPlan,
-      this.selectedPlanDuration.value,
-      this.method,
-    );
   }
 
   get availablePlanDurations() {

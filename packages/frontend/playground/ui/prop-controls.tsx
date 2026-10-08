@@ -1,4 +1,4 @@
-import { type ReactNode } from "react";
+import { type ReactNode } from "preact/compat";
 import { ShadcnCheckbox } from "../../src/ui/shadcn/checkbox.tsx";
 import { ShadcnInput } from "../../src/ui/shadcn/input.tsx";
 import { ShadcnLabel } from "../../src/ui/shadcn/label.tsx";
@@ -62,7 +62,7 @@ export function TextProp({
       <ShadcnInput
         id={id}
         value={value}
-        onChange={(event) => onChange(event.target.value)}
+        onChange={(event) => onChange(event.currentTarget.value)}
       />
     </div>
   );

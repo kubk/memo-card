@@ -2,7 +2,7 @@ import { useReviewStore } from "../deck-review/store/review-store-context.tsx";
 import { DeckFinished } from "../deck-review/deck-finished.tsx";
 import { Review } from "../deck-review/review.tsx";
 import { FolderPreview } from "./folder-preview.tsx";
-import { useState } from "react";
+import { useState } from "preact/compat";
 import { screenStore } from "../../store/screen-store.ts";
 import { assert } from "api";
 import { FolderScreenStore } from "./store/folder-screen-store.ts";

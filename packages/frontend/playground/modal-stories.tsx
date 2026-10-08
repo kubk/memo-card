@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from "preact/compat";
 import { FolderOpen, LayersIcon } from "lucide-react";
 import { t } from "../src/translations/t.ts";
 import { BottomSheet } from "../src/ui/bottom-sheet/bottom-sheet.tsx";

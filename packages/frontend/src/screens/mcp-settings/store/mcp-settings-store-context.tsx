@@ -1,5 +1,5 @@
 import { assert } from "api";
-import { createContext, ReactNode, useContext, useState } from "react";
+import { createContext, ReactNode, useContext, useState } from "preact/compat";
 import { McpSettingsStore } from "./mcp-settings-store.ts";
 
 const Context = createContext<McpSettingsStore | null>(null);

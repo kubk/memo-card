@@ -1,5 +1,6 @@
-import { m } from "framer-motion";
-import { ReactNode, useLayoutEffect, useRef } from "react";
+import * as m from "motion/react-m";
+import type { Transition } from "motion/react";
+import { ReactNode, useLayoutEffect, useRef } from "preact/compat";
 import { screenStore } from "../../store/screen-store.ts";
 import { platform } from "../platform/platform.ts";
 import { TelegramPlatform } from "../platform/telegram/telegram-platform.ts";
@@ -17,7 +18,11 @@ type NavigationDirection = "forward" | "back" | "replace";
 function getRouteAnimation(
   screenType: Route["type"],
   navigationDirection: NavigationDirection,
-) {
+): {
+  initial: { opacity: number; x?: number; y?: number };
+  animate: { opacity: number; x?: number; y?: number };
+  transition: Transition;
+} {
   if (screenType === "globalSearch") {
     return {
       initial: { opacity: 0 },

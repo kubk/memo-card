@@ -1,5 +1,6 @@
-import { ReactNode, useEffect, useRef, useState } from "react";
-import { AnimatePresence, m } from "framer-motion";
+import { ReactNode, useEffect, useRef, useState } from "preact/compat";
+import * as m from "motion/react-m";
+import { AnimatePresence } from "motion/react";
 import { userStore } from "../store/user-store.ts";
 import { cn } from "./cn.ts";
 import { platform } from "../lib/platform/platform.ts";

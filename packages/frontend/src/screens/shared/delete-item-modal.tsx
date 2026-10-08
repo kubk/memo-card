@@ -16,7 +16,7 @@ type DeleteItemModalViewStore = Pick<
 
 const copyKeys = {
   deck: {
-    description: "delete_item_description_deck",
+    description: undefined,
     otherUsers: "delete_item_other_users_deck",
     publicCatalog: "delete_item_public_catalog_deck",
     removeForOthers: "delete_item_remove_for_others_deck",
@@ -102,7 +102,11 @@ export function DeleteItemModal({
         <h2 className="m-0 text-center text-xl font-semibold leading-snug">
           {t(keys.title)}
         </h2>
-        <p className="m-0 text-sm leading-5 text-hint">{t(keys.description)}</p>
+        {keys.description ? (
+          <p className="m-0 text-sm leading-5 text-hint">
+            {t(keys.description)}
+          </p>
+        ) : null}
 
         {hasDeleteOptions ? (
           <div className="flex flex-col gap-3">

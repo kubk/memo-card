@@ -1,6 +1,6 @@
 import { ReviewedCard } from "./store/review-store.ts";
 import { removeAllTags } from "../../lib/sanitize-html/remove-all-tags.ts";
-import { m } from "framer-motion";
+import * as m from "motion/react-m";
 import { LabelGroup } from "../../ui/label-group.tsx";
 import { t } from "../../translations/t.ts";
 import {

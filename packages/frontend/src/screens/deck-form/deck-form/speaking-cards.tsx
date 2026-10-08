@@ -130,7 +130,7 @@ function LanguageSelect({
         className="absolute inset-0 cursor-pointer appearance-none border-none bg-transparent opacity-0 outline-none"
         value={value}
         onChange={(event) => {
-          onChange(event.target.value as SpeakLanguage);
+          onChange(event.currentTarget.value as SpeakLanguage);
         }}
       >
         {languageOptions.map((option) => (

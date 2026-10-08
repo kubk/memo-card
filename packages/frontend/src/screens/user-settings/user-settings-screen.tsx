@@ -1,6 +1,6 @@
 import { useUserSettingsStore } from "./store/user-settings-store-context.tsx";
 import { deckListStore } from "../../store/deck-list-store.ts";
-import { useEffect } from "react";
+import { useEffect } from "preact/compat";
 import { generateTimeRange } from "./generate-time-range.tsx";
 import { useMainButton } from "../../lib/platform/use-main-button.ts";
 import { useProgress } from "../../lib/platform/use-progress.tsx";

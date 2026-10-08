@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from "preact/compat";
 import { type PaidPlanType } from "api";
 import { Drawer } from "../../ui/drawer.tsx";
 import { List } from "../../ui/list.tsx";

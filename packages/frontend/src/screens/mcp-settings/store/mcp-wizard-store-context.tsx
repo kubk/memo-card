@@ -1,5 +1,5 @@
 import { assert } from "api";
-import { createContext, ReactNode, useContext } from "react";
+import { createContext, ReactNode, useContext } from "preact/compat";
 import { McpWizardStore } from "./mcp-wizard-store.ts";
 
 const Context = createContext<McpWizardStore | null>(null);

@@ -1,5 +1,5 @@
 import { MotionProvider } from "./lib/framer-motion/motion-provider.tsx";
-import ReactDOM from "react-dom/client";
+import { render } from "preact";
 import "./index.css";
 import { platform } from "./lib/platform/platform.ts";
 import { reportHandledError } from "./lib/rollbar/rollbar.tsx";
@@ -19,10 +19,11 @@ platform.initialize();
 
 Promise.all([translationPromise, appPromise])
   .then(([, { App }]) => {
-    ReactDOM.createRoot(document.getElementById("root")!).render(
+    render(
       <MotionProvider>
         <App />
       </MotionProvider>,
+      document.getElementById("root")!,
     );
   })
   .catch((error) => {
