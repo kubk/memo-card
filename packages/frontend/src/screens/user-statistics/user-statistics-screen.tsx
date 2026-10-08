@@ -239,16 +239,18 @@ function UserStatisticsContent(props: {
       <Section
         title={t("user_stats_card_reviews")}
         rightSlot={
-          <button
-            type="button"
-            className="flex shrink-0 items-center gap-1 text-sm uppercase text-link"
-            onClick={() => {
-              screenStore.push({ type: "userStatisticsDaily" });
-            }}
-          >
-            {t("teacher_stats_see_all")}
-            <ChevronIcon direction="right" />
-          </button>
+          statistics && statistics.activity.bestStreak > 0 ? (
+            <button
+              type="button"
+              className="flex shrink-0 items-center gap-1 text-sm uppercase text-link"
+              onClick={() => {
+                screenStore.push({ type: "userStatisticsDaily" });
+              }}
+            >
+              {t("teacher_stats_see_all")}
+              <ChevronIcon direction="right" />
+            </button>
+          ) : undefined
         }
       >
         <div className="grid grid-cols-3 gap-2">
