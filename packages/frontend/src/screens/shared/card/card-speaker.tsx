@@ -1,6 +1,7 @@
 import { throttle } from "../../../lib/throttle/throttle.ts";
 import { LimitedCardUnderReviewStore } from "./card.tsx";
-import { PauseCircle, PlayCircle } from "lucide-react";
+import { PlayCircle } from "lucide-react";
+import "./card-speaker.css";
 
 type Props = {
   card: LimitedCardUnderReviewStore;
@@ -12,7 +13,10 @@ export function CardSpeaker(props: Props) {
   if (!card.isCardSpeakerVisible(type)) {
     return null;
   }
-  const Icon = card.voicePlayer?.isPlaying ? PauseCircle : PlayCircle;
+  const iconProps = {
+    onClick: throttle(card.speak, 500),
+    className: "cursor-pointer relative top-[3px] text-button",
+  };
 
   // Prevent rapid clicks from queueing overlapping speech.
   return (
@@ -20,11 +24,27 @@ export function CardSpeaker(props: Props) {
       tabIndex={0}
       className="transition-[scale] duration-200 ease-out active:scale-90"
     >
-      <Icon
-        onClick={throttle(card.speak, 500)}
-        size={24}
-        className="cursor-pointer relative top-[3px] text-button"
-      />
+      {card.voicePlayer?.isPlaying ? (
+        <svg
+          {...iconProps}
+          width={24}
+          height={24}
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={2}
+          strokeLinecap="round"
+        >
+          <circle cx={12} cy={12} r={10} />
+          <g className="card-speaker-wave">
+            <path d="M8 9v6" />
+            <path d="M12 7v10" />
+            <path d="M16 9v6" />
+          </g>
+        </svg>
+      ) : (
+        <PlayCircle {...iconProps} size={24} />
+      )}
     </div>
   );
 }
