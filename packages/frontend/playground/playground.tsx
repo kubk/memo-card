@@ -139,6 +139,7 @@ const PLAYGROUND_COMPONENTS = [
     id: "chip",
     label: "Chip",
     layout: "component",
+    propsPanel: false,
   },
   {
     id: "badge",
@@ -866,48 +867,23 @@ function ModalsPlayground() {
 }
 
 function ChipPlayground() {
-  const [label, setLabel] = useState("Difficult");
-  const [isSelected, setIsSelected] = useState(true);
-  const [fullWidth, setFullWidth] = useState(false);
+  const [selectedDays, setSelectedDays] = useState(1);
 
   return (
-    <>
-      <PreviewFrame>
-        <div className={cn("w-full", !fullWidth && "w-fit")}>
+    <PreviewFrame>
+      <div className="flex w-full gap-2">
+        {[1, 3].map((days) => (
           <Chip
-            isSelected={isSelected}
-            fullWidth={fullWidth}
-            onClick={() => setIsSelected((selected) => !selected)}
+            key={days}
+            fullWidth
+            isSelected={selectedDays === days}
+            onClick={() => setSelectedDays(days)}
           >
-            {label || "Chip"}
+            {days} {days === 1 ? "day" : "days"}
           </Chip>
-        </div>
-      </PreviewFrame>
-      <PropsPanel>
-        <PropGroup label="Content">
-          <TextProp
-            id="chip-label"
-            label="children"
-            value={label}
-            onChange={setLabel}
-          />
-        </PropGroup>
-        <PropGroup label="State">
-          <BooleanProp
-            id="chip-selected"
-            label="isSelected"
-            checked={isSelected}
-            onCheckedChange={setIsSelected}
-          />
-          <BooleanProp
-            id="chip-full-width"
-            label="fullWidth"
-            checked={fullWidth}
-            onCheckedChange={setFullWidth}
-          />
-        </PropGroup>
-      </PropsPanel>
-    </>
+        ))}
+      </div>
+    </PreviewFrame>
   );
 }
 
