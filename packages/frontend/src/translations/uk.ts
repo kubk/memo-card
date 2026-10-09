@@ -269,8 +269,7 @@ export const uk = {
     "Видалити цю колоду й із публічного каталогу",
   delete_item_title_folder: "Видалити цю папку?",
   delete_item_description_folder: "Цю папку буде видалено з вашої колекції",
-  delete_item_remove_for_others_folder:
-    "Видалити цю папку й в інших користувачів",
+  delete_item_remove_for_others_folder: "Видалити для всіх користувачів",
   delete_item_public_catalog_folder:
     "Видалити цю папку й із публічного каталогу",
   delete: "Видалити",

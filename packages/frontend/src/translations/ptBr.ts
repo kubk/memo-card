@@ -263,8 +263,7 @@ export const ptBr = {
     "Remover este baralho também do catálogo público",
   delete_item_title_folder: "Excluir esta pasta?",
   delete_item_description_folder: "Esta pasta será removida da sua coleção",
-  delete_item_remove_for_others_folder:
-    "Remover esta pasta também para outros usuários",
+  delete_item_remove_for_others_folder: "Remover para todos os usuários",
   delete_item_public_catalog_folder:
     "Remover esta pasta também do catálogo público",
   delete: "Deletar",
