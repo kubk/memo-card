@@ -210,12 +210,10 @@ export const fa = {
   cards_total: ({ count }: { count: number }) => `کل کارت‌ها: ${count}`,
   delete_item_title_deck: "این دسته حذف شود؟",
   delete_item_remove_for_others_deck: "این دسته برای همه کاربران حذف شود",
-  delete_item_other_users_deck: "کاربران دیگری که همین دسته را دارند",
   delete_item_public_catalog_deck: "این دسته از فهرست عمومی هم حذف شود",
   delete_item_title_folder: "این پوشه حذف شود؟",
   delete_item_description_folder: "این پوشه از مجموعه شما حذف می‌شود",
   delete_item_remove_for_others_folder: "این پوشه برای کاربران دیگر هم حذف شود",
-  delete_item_other_users_folder: "کاربران دیگری که همین پوشه را دارند",
   delete_item_public_catalog_folder: "این پوشه از فهرست عمومی هم حذف شود",
   deck_form_remove_card_confirm:
     "آیا مطمئن هستید که می‌خواهید کارت را حذف کنید؟",

@@ -261,16 +261,12 @@ export const ru = {
   cards_total: ({ count }: { count: number }) => `Всего ${count}`,
   delete_item_title_deck: "Удалить эту колоду?",
   delete_item_remove_for_others_deck: "Удалить у всех пользователей",
-  delete_item_other_users_deck:
-    "Другие пользователи, у которых есть эта колода",
   delete_item_public_catalog_deck:
     "Удалить эту колоду и из публичного каталога",
   delete_item_title_folder: "Удалить эту папку?",
   delete_item_description_folder: "Папка будет удалена из коллекции",
   delete_item_remove_for_others_folder:
     "Удалить эту папку и у других пользователей",
-  delete_item_other_users_folder:
-    "Другие пользователи, у которых есть эта папка",
   delete_item_public_catalog_folder:
     "Удалить эту папку и из публичного каталога",
   delete: "Удалить",

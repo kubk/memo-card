@@ -1,4 +1,3 @@
-import { InfoIcon } from "lucide-react";
 import { t } from "../../translations/t.ts";
 import { Button } from "../../ui/button.tsx";
 import { LoadingSwap } from "../../ui/loading-swap.tsx";
@@ -17,14 +16,12 @@ type DeleteItemModalViewStore = Pick<
 const copyKeys = {
   deck: {
     description: undefined,
-    otherUsers: "delete_item_other_users_deck",
     publicCatalog: "delete_item_public_catalog_deck",
     removeForOthers: "delete_item_remove_for_others_deck",
     title: "delete_item_title_deck",
   },
   folder: {
     description: "delete_item_description_folder",
-    otherUsers: "delete_item_other_users_folder",
     publicCatalog: "delete_item_public_catalog_folder",
     removeForOthers: "delete_item_remove_for_others_folder",
     title: "delete_item_title_folder",
@@ -34,38 +31,28 @@ const copyKeys = {
 function DeleteOption({
   checked,
   id,
-  info,
   label,
   onCheckedChange,
 }: {
   checked: boolean;
   id: string;
-  info?: string;
   label: string;
   onCheckedChange: (checked: boolean) => void;
 }) {
   return (
-    <div className="flex flex-col gap-1.5">
-      <label
-        className="flex cursor-pointer items-start gap-3 rounded-xl bg-secondary-bg px-4 py-3.5"
-        htmlFor={id}
-      >
-        <input
-          type="checkbox"
-          className="mt-0 size-5 shrink-0 cursor-pointer accent-button focus-visible:outline-2 focus-visible:outline-button"
-          checked={checked}
-          id={id}
-          onChange={(event) => onCheckedChange(event.currentTarget.checked)}
-        />
-        <span className="text-sm font-medium leading-5 text-text">{label}</span>
-      </label>
-      {info ? (
-        <span className="flex items-start gap-1.5 px-4 text-xs font-normal leading-4 text-hint">
-          <InfoIcon className="mt-px shrink-0" size={14} />
-          <span>{info}</span>
-        </span>
-      ) : null}
-    </div>
+    <label
+      className="flex cursor-pointer items-start gap-3 rounded-xl bg-secondary-bg px-4 py-3.5"
+      htmlFor={id}
+    >
+      <input
+        type="checkbox"
+        className="mt-0 size-5 shrink-0 cursor-pointer accent-button focus-visible:outline-2 focus-visible:outline-button"
+        checked={checked}
+        id={id}
+        onChange={(event) => onCheckedChange(event.currentTarget.checked)}
+      />
+      <span className="text-sm font-medium leading-5 text-text">{label}</span>
+    </label>
   );
 }
 
@@ -114,8 +101,7 @@ export function DeleteItemModal({
               <DeleteOption
                 checked={form.removeForOtherUsers.value}
                 id="delete-item-other-users"
-                info={`${t(keys.otherUsers)}: ${info.otherUserCount}`}
-                label={t(keys.removeForOthers)}
+                label={`${t(keys.removeForOthers)} (${info.otherUserCount})`}
                 onCheckedChange={form.removeForOtherUsers.setValue}
               />
             ) : null}

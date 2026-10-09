@@ -215,13 +215,11 @@ export const ar = {
   cards_total: ({ count }: { count: number }) => `إجمالي البطاقات: ${count}`,
   delete_item_title_deck: "حذف هذه المجموعة؟",
   delete_item_remove_for_others_deck: "إزالة هذه المجموعة لدى الجميع",
-  delete_item_other_users_deck: "مستخدمون آخرون لديهم المجموعة نفسها",
   delete_item_public_catalog_deck: "إزالة هذه المجموعة من الكتالوج العام أيضًا",
   delete_item_title_folder: "حذف هذا المجلد؟",
   delete_item_description_folder: "ستتم إزالة هذا المجلد من مجموعتك",
   delete_item_remove_for_others_folder:
     "إزالة هذا المجلد لدى المستخدمين الآخرين أيضًا",
-  delete_item_other_users_folder: "مستخدمون آخرون لديهم المجلد نفسه",
   delete_item_public_catalog_folder: "إزالة هذا المجلد من الكتالوج العام أيضًا",
   deck_form_remove_card_confirm: "هل أنت متأكد أنك تريد إزالة البطاقة؟",
   deck_form_remove_cards_confirm:

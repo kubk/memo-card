@@ -261,14 +261,12 @@ export const es = {
   cards_total: ({ count }: { count: number }) => `Total de tarjetas: ${count}`,
   delete_item_title_deck: "¿Eliminar este mazo?",
   delete_item_remove_for_others_deck: "Eliminar para todos los usuarios",
-  delete_item_other_users_deck: "Otros usuarios que tienen el mismo mazo",
   delete_item_public_catalog_deck:
     "Eliminar este mazo también del catálogo público",
   delete_item_title_folder: "¿Eliminar esta carpeta?",
   delete_item_description_folder: "Esta carpeta se eliminará de tu colección",
   delete_item_remove_for_others_folder:
     "Eliminar esta carpeta también para otros usuarios",
-  delete_item_other_users_folder: "Otros usuarios que tienen la misma carpeta",
   delete_item_public_catalog_folder:
     "Eliminar esta carpeta también del catálogo público",
   delete: "Eliminar",
