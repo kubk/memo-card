@@ -13,10 +13,12 @@ export type DropdownItem = {
   icon: ReactNode;
 };
 
+export type DropdownTrigger = ReactNode | ((onClick: () => void) => ReactNode);
+
 type Props = {
   items: DropdownItem[];
   className?: string;
-  trigger?: ReactNode;
+  trigger?: DropdownTrigger;
   triggerClassName?: string;
   placement?: "down" | "up";
 };
@@ -51,16 +53,22 @@ export function Dropdown({
 
   return (
     <div ref={dropdownRef} className={cn("inline-block", className)}>
-      <button
-        onClick={toggleDropdown}
-        className={cn(
-          "select-none cursor-pointer",
-          trigger ? "block w-full" : "dropdown-icon text-hint active:scale-90",
-          triggerClassName,
-        )}
-      >
-        {trigger ?? <EllipsisIcon size={24} />}
-      </button>
+      {typeof trigger === "function" ? (
+        trigger(toggleDropdown)
+      ) : (
+        <button
+          onClick={toggleDropdown}
+          className={cn(
+            "select-none cursor-pointer",
+            trigger
+              ? "block w-full"
+              : "dropdown-icon text-hint active:scale-90",
+            triggerClassName,
+          )}
+        >
+          {trigger ?? <EllipsisIcon size={24} />}
+        </button>
+      )}
       <AnimatePresence>
         {isOpen && (
           <m.div

@@ -52,6 +52,7 @@
   --color-button-outline-bg-dark: #2ea6ff33;
   --color-button-outline-fg-dark: #2ea6ff;
   --color-button-alpha-20: var(--memo-button-color-alpha-20);
+  --color-action-tile-active: var(--memo-action-tile-active);
   --color-button-darkened: var(--memo-button-color-darkened);
   --color-button-text: var(--tg-theme-button-text-color);
   --color-secondary-bg: var(--tg-theme-secondary-bg-color);

@@ -8,12 +8,16 @@ import { t } from "../translations/t.ts";
 import { cn } from "./cn.ts";
 import { overlayStore } from "../store/overlay-store.ts";
 import { useMount } from "../lib/react/use-mount.ts";
-import { Dropdown, type DropdownItem } from "./dropdown.tsx";
+import {
+  Dropdown,
+  type DropdownItem,
+  type DropdownTrigger,
+} from "./dropdown.tsx";
 
 type Props = {
   options: DropdownItem[];
   className?: string;
-  trigger?: ReactNode;
+  trigger?: DropdownTrigger;
   triggerClassName?: string;
   placement?: "down" | "up";
 };
@@ -101,16 +105,22 @@ function ActionMenu({
 
   return (
     <div className={cn("inline-block", className)}>
-      <button
-        onClick={open}
-        className={cn(
-          "select-none cursor-pointer",
-          trigger ? "block w-full" : "dropdown-icon text-hint active:scale-90",
-          triggerClassName,
-        )}
-      >
-        {trigger ?? <EllipsisIcon size={24} />}
-      </button>
+      {typeof trigger === "function" ? (
+        trigger(open)
+      ) : (
+        <button
+          onClick={open}
+          className={cn(
+            "select-none cursor-pointer",
+            trigger
+              ? "block w-full"
+              : "dropdown-icon text-hint active:scale-90",
+            triggerClassName,
+          )}
+        >
+          {trigger ?? <EllipsisIcon size={24} />}
+        </button>
+      )}
       {createPortal(
         <AnimatePresence>
           {isOpen && (

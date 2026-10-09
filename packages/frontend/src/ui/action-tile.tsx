@@ -1,11 +1,43 @@
-import { type ButtonHTMLAttributes, type ReactNode } from "preact/compat";
+import { type ReactNode } from "preact/compat";
 import { cn } from "./cn.ts";
 import { DropdownOrVault } from "./dropdown-or-vault.tsx";
 import { type DropdownItem } from "./dropdown.tsx";
 import { Skeleton } from "./skeleton.tsx";
 
-const actionTileClassName =
-  "flex h-[72px] w-full min-w-0 flex-1 flex-col items-center justify-center gap-1.5 bg-bg px-1 text-xs text-button select-none transition-colors duration-200 ease-in-out";
+function ActionTile({
+  children,
+  onClick,
+  disabled,
+  className,
+}: {
+  children: ReactNode;
+  onClick?: () => void;
+  disabled?: boolean;
+  className?: string;
+}) {
+  const tileClassName = cn(
+    "flex h-[72px] w-full min-w-0 flex-1 flex-col items-center justify-center gap-1.5 bg-bg px-1 text-xs text-button select-none transition-colors duration-200 ease-in-out",
+    onClick
+      ? "cursor-pointer active:bg-action-tile-active disabled:cursor-not-allowed disabled:text-disabled disabled:active:bg-bg"
+      : "pointer-events-none",
+    className,
+  );
+  const content = (
+    <div className="flex w-full min-w-0 flex-col items-center gap-1.5">
+      {children}
+    </div>
+  );
+
+  if (onClick) {
+    return (
+      <button onClick={onClick} disabled={disabled} className={tileClassName}>
+        {content}
+      </button>
+    );
+  }
+
+  return <div className={tileClassName}>{content}</div>;
+}
 
 function ActionTileContent({ icon, text }: { icon: ReactNode; text: string }) {
   return (
@@ -77,52 +109,28 @@ export function ActionTileRow({
             <DropdownOrVault
               key={i}
               className="relative min-w-0 flex-1"
-              triggerClassName={cn(
-                actionTileClassName,
-                "active:bg-button-alpha-20",
+              trigger={(onClick) => (
+                <ActionTile onClick={onClick}>
+                  <ActionTileContent icon={item.icon} text={item.text} />
+                </ActionTile>
               )}
-              trigger={<ActionTileContent icon={item.icon} text={item.text} />}
               options={item.options}
             />
           );
         }
 
         return (
-          <ActionTileIcon
+          <ActionTile
             key={i}
-            icon={item.icon}
-            text={item.text}
             onClick={item.onClick}
             disabled={item.disabled}
             className={item.className}
-          />
+          >
+            <ActionTileContent icon={item.icon} text={item.text} />
+          </ActionTile>
         );
       })}
     </div>
-  );
-}
-
-type Props = {
-  icon: ReactNode;
-  text: string;
-} & ButtonHTMLAttributes<HTMLButtonElement>;
-
-function ActionTileIcon({ icon, text, className, ...restProps }: Props) {
-  return (
-    <button
-      {...restProps}
-      className={cn(
-        actionTileClassName,
-        "active:bg-button-alpha-20",
-        "disabled:cursor-not-allowed disabled:text-disabled",
-        "disabled:active:bg-bg",
-        className,
-      )}
-    >
-      <div className="flex w-full min-w-0 flex-col items-center gap-1.5">
-        <ActionTileContent icon={icon} text={text} />
-      </div>
-    </button>
   );
 }
 
@@ -145,8 +153,8 @@ function ActionTileStat({
 }: StatProps) {
   const isDisabled = value === 0 && !isLoading;
 
-  const content = (
-    <div className="flex w-full min-w-0 flex-col items-center gap-1.5">
+  return (
+    <ActionTile onClick={onClick} disabled={isDisabled}>
       {isLoading ? (
         <Skeleton className="h-6 w-7 rounded" />
       ) : (
@@ -169,29 +177,6 @@ function ActionTileStat({
       >
         {text}
       </span>
-    </div>
-  );
-
-  if (onClick) {
-    return (
-      <button
-        onClick={onClick}
-        disabled={isDisabled}
-        className={cn(
-          actionTileClassName,
-          "active:bg-button-alpha-20",
-          "disabled:cursor-not-allowed disabled:text-disabled",
-          "disabled:active:bg-bg",
-        )}
-      >
-        {content}
-      </button>
-    );
-  }
-
-  return (
-    <div className={cn(actionTileClassName, "pointer-events-none")}>
-      {content}
-    </div>
+    </ActionTile>
   );
 }
