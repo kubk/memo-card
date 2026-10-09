@@ -1,4 +1,4 @@
-import { makeAutoObservable, reaction } from "mobx";
+import { makeAutoObservable, reaction, runInAction } from "mobx";
 import { BooleanToggle } from "mobx-form-lite";
 import { type PaidPlanType } from "api";
 import { api } from "../../api/trpc-api.ts";
@@ -11,6 +11,7 @@ import { notifyError, notifySuccess } from "../shared/snackbar/snackbar.tsx";
 export class DevMenuStore {
   isErudaEnabled = persistableField(new BooleanToggle(false), "isErudaEnabled");
   setDevPlanMutation = makeMutation(api.setDevPlan.mutate);
+  pendingPlan: "none" | PaidPlanType | null = null;
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
@@ -37,18 +38,30 @@ export class DevMenuStore {
   }
 
   async setDevPlan(planType: PaidPlanType | null) {
-    const result = await this.setDevPlanMutation.mutateResult({ planType });
-
-    if (!result.ok) {
-      notifyError({ e: result.error, info: "Failed to update paid status" });
+    if (this.pendingPlan !== null) {
       return;
     }
 
-    userStore.setActivePlan(result.data.plan);
+    this.pendingPlan = planType ?? "none";
 
-    notifySuccess(
-      planType ? `Plan set to ${planType}` : "Paid status disabled",
-    );
+    try {
+      const result = await this.setDevPlanMutation.mutateResult({ planType });
+
+      if (!result.ok) {
+        notifyError({ e: result.error, info: "Failed to update paid status" });
+        return;
+      }
+
+      userStore.setActivePlan(result.data.plan);
+
+      notifySuccess(
+        planType ? `Plan set to ${planType}` : "Paid status disabled",
+      );
+    } finally {
+      runInAction(() => {
+        this.pendingPlan = null;
+      });
+    }
   }
 
   private addErudaToDom() {

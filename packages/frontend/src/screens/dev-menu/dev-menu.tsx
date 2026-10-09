@@ -1,9 +1,10 @@
 import { useState } from "preact/compat";
 import { type PaidPlanType } from "api";
+import { Chip } from "../../ui/chip.tsx";
 import { Drawer } from "../../ui/drawer.tsx";
 import { List } from "../../ui/list.tsx";
 import { RadioSwitcher } from "../../ui/radio-switcher.tsx";
-import { Select } from "../../ui/select.tsx";
+import { LoadingSwap } from "../../ui/loading-swap.tsx";
 import { screenStore } from "../../store/screen-store.ts";
 import { userStore } from "../../store/user-store.ts";
 import { DevMenuStore } from "./dev-menu-store.ts";
@@ -22,11 +23,19 @@ export function DevMenu({
   onOpenChange: (open: boolean) => void;
 }) {
   const [store] = useState(() => new DevMenuStore());
+  const [isOpen, setIsOpen] = useState(true);
 
   return (
     <Drawer
-      defaultOpen
-      onOpenChange={onOpenChange}
+      open={isOpen}
+      onOpenChange={(open) => {
+        if (!open && store.pendingPlan !== null) {
+          return;
+        }
+
+        setIsOpen(open);
+        onOpenChange(open);
+      }}
       title="Developer tools"
       titleClassName="mb-4 text-center text-lg font-semibold"
     >
@@ -46,14 +55,20 @@ export function DevMenu({
           },
           {
             right: (
-              <div className="text-link">
-                <Select
-                  value={store.planValue}
-                  onChange={(value) => {
-                    store.setDevPlan(value === "none" ? null : value);
-                  }}
-                  options={devPlanOptions}
-                />
+              <div className="flex gap-1">
+                {devPlanOptions.map(({ value, label }) => (
+                  <Chip
+                    key={value}
+                    isSelected={store.planValue === value}
+                    onClick={() =>
+                      store.setDevPlan(value === "none" ? null : value)
+                    }
+                  >
+                    <LoadingSwap isLoading={store.pendingPlan === value}>
+                      {label}
+                    </LoadingSwap>
+                  </Chip>
+                ))}
               </div>
             ),
             text: "Plan",

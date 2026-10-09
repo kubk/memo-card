@@ -23,8 +23,7 @@ export function Screen(props: Props) {
       className={cn(
         "flex flex-col gap-2 relative",
         platform instanceof BrowserPlatform ? "mb-20" : "mb-4",
-        isTelegram &&
-          "pb-1 px-1",
+        isTelegram && "pb-1 px-1",
       )}
     >
       <div

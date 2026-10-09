@@ -145,6 +145,7 @@ const PLAYGROUND_COMPONENTS = [
     id: "badge",
     label: "Badge",
     layout: "component",
+    propsPanel: false,
   },
   {
     id: "progress-bar",
@@ -664,16 +665,7 @@ function DeviceFrame({
 }
 
 function ButtonPlayground() {
-  const [align, setAlign] = useState<"left" | "center">("left");
   const [disabled, setDisabled] = useState(false);
-
-  const handleAlignChange = (value: string) => {
-    if (value !== "left" && value !== "center") {
-      return;
-    }
-
-    setAlign(value);
-  };
 
   return (
     <>
@@ -688,30 +680,18 @@ function ButtonPlayground() {
           <Button disabled={disabled} variant="danger">
             Danger
           </Button>
-          <Button disabled={disabled} outline variant="danger">
-            Danger outline
-          </Button>
           <Button disabled={disabled} variant="secondary">
             Secondary
           </Button>
-          <Button align={align} disabled={disabled} icon={<Plus size={24} />}>
+          <Button align="left" disabled={disabled} icon={<Plus size={24} />}>
+            Add deck
+          </Button>
+          <Button align="center" disabled={disabled} icon={<Plus size={24} />}>
             Add deck
           </Button>
         </div>
       </PreviewFrame>
       <PropsPanel>
-        <PropGroup label="Side alignment">
-          <Tabs value={align} onValueChange={handleAlignChange}>
-            <TabsList className="w-full">
-              <TabsTrigger className="flex-1" value="left">
-                Left
-              </TabsTrigger>
-              <TabsTrigger className="flex-1" value="center">
-                Center
-              </TabsTrigger>
-            </TabsList>
-          </Tabs>
-        </PropGroup>
         <PropGroup>
           <BooleanProp
             id="button-disabled"
@@ -887,47 +867,15 @@ function ChipPlayground() {
   );
 }
 
-const BADGE_VARIANTS = ["default", "secondary", "disabled"] as const;
-type BadgeVariant = (typeof BADGE_VARIANTS)[number];
-
 function BadgePlayground() {
-  const [label, setLabel] = useState("12 new");
-  const [variant, setVariant] = useState<BadgeVariant>("default");
-
   return (
-    <>
-      <PreviewFrame>
-        <Badge variant={variant}>{label || "Badge"}</Badge>
-      </PreviewFrame>
-      <PropsPanel>
-        <PropGroup label="Content">
-          <TextProp
-            id="badge-label"
-            label="children"
-            value={label}
-            onChange={setLabel}
-          />
-        </PropGroup>
-        <PropGroup>
-          <div className="flex flex-col gap-2">
-            <ShadcnLabel>variant</ShadcnLabel>
-            <div className="flex flex-wrap gap-1.5">
-              {BADGE_VARIANTS.map((value) => (
-                <PlaygroundButton
-                  type="button"
-                  size="sm"
-                  variant={variant === value ? "default" : "outline"}
-                  key={value}
-                  onClick={() => setVariant(value)}
-                >
-                  {value}
-                </PlaygroundButton>
-              ))}
-            </div>
-          </div>
-        </PropGroup>
-      </PropsPanel>
-    </>
+    <PreviewFrame>
+      <div className="flex gap-3">
+        <Badge variant="default">12 new</Badge>
+        <Badge variant="secondary">12 new</Badge>
+        <Badge variant="disabled">12 new</Badge>
+      </div>
+    </PreviewFrame>
   );
 }
 
