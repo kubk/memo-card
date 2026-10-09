@@ -22,7 +22,7 @@ export function CardSpeaker(props: Props) {
     <button
       type="button"
       onClick={throttle(card.speak, 500)}
-      className="cursor-pointer touch-manipulation transition-[scale] duration-200 ease-out active:scale-90"
+      className="card-speaker cursor-pointer touch-manipulation transition-[scale] duration-200 ease-out active:scale-90"
     >
       {card.voicePlayer?.isPlaying ? (
         <svg
