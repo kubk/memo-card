@@ -6,6 +6,9 @@ import { reportHandledError } from "./lib/rollbar/rollbar.tsx";
 import { polyfillCountryFlagEmojis } from "country-flag-emoji-polyfill";
 import { translationResourceStore } from "./translations/t.ts";
 
+// iOS WebKit needs a touch listener to apply CSS :active while pressing.
+document.addEventListener("touchstart", () => {}, { passive: true });
+
 // https://vitejs.dev/guide/build#load-error-handling
 window.addEventListener("vite:preloadError", () => {
   window.location.reload();
