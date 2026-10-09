@@ -64,7 +64,7 @@ function DrawerContent({
       />
       <DrawerPrimitive.Content
         className={cn(
-          "fixed inset-x-0 bottom-0 z-bottom-sheet-fg flex h-auto flex-col rounded-t-[20px] bg-bg p-5 pb-[calc(var(--app-bottom-inset)_+_20px)] max-h-[calc(var(--app-viewport-height)_-_var(--app-safe-area-top)_-_var(--app-content-safe-area-top))] overflow-y-auto text-text focus:outline-hidden",
+          "fixed inset-x-0 bottom-0 z-bottom-sheet-fg flex h-auto flex-col rounded-t-[20px] bg-bg p-5 pb-[calc(var(--app-bottom-inset)_+_20px)] max-h-[calc(var(--app-viewport-height)_-_var(--app-safe-area-top)_-_var(--app-content-safe-area-top))] overflow-y-auto text-text after:!hidden focus:outline-hidden",
           className,
         )}
         {...props}
