@@ -66,7 +66,7 @@ export function DeckForm() {
   }
 
   const deck = screen.deckId
-    ? deckListStore.searchDeckById(screen.deckId)
+    ? deckListStore.searchDeckWithCardsById(screen.deckId)
     : null;
   const folderId = screen.folderId;
   const folderName = screen.folderName;

@@ -91,7 +91,7 @@ export class CardFormStore {
 
   private get deck() {
     if (!this.deckId) return undefined;
-    return deckListStore.searchDeckById(this.deckId);
+    return deckListStore.searchDeckWithCardsById(this.deckId);
   }
 
   get speakingCardsLocale(): SpeakLanguage | null {

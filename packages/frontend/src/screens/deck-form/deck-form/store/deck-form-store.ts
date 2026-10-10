@@ -235,8 +235,8 @@ export class DeckFormStore {
     if (deckId) {
       // Preserve existing form if same deck (for next/prev card navigation)
       if (!this.deckForm || this.deckForm.id !== deckId) {
-        const deck = deckListStore.searchDeckById(deckId);
-        assert(deck, "Deck not found in deckListStore");
+        const deck = deckListStore.searchDeckWithCardsById(deckId);
+        assert(deck, "Deck with cards not found");
         this.deckForm = createUpdateForm(deckId, deck);
       }
     } else {

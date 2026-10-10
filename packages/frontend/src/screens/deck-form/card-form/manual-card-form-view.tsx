@@ -70,7 +70,7 @@ export function ManualCardFormView() {
   const screen = screenStore.screen;
   const deck =
     screen.type === "deckForm" && screen.deckId
-      ? deckListStore.searchDeckById(screen.deckId)
+      ? deckListStore.searchDeckWithCardsById(screen.deckId)
       : undefined;
 
   const moreItems = [

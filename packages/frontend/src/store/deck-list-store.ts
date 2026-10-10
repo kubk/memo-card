@@ -85,6 +85,7 @@ class DeckListStore {
       this,
       {
         searchDeckById: false,
+        searchDeckWithCardsById: false,
         searchFolderById: false,
         isItemAdded: false,
       },
@@ -139,6 +140,11 @@ class DeckListStore {
     }
     const decksToSearch = this.myInfo.myDecks.concat(this.publicDecks);
     return decksToSearch.find((deck) => deck.id === deckId);
+  }
+
+  searchDeckWithCardsById(deckId: number) {
+    const myDeck = this.myInfo?.myDecks.find((deck) => deck.id === deckId);
+    return myDeck ?? deckDetailsStore.getQuery(deckId).data ?? null;
   }
 
   searchFolderById(folderId: number) {
