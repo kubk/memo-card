@@ -8,6 +8,7 @@ import { BrowserBackButton } from "../../shared/browser-platform/browser-back-bu
 import { RotateCcwIcon } from "lucide-react";
 import { CardPreviewFormData } from "./store/card-preview-types.ts";
 import { BackBottomButton } from "../../shared/back-bottom-button.tsx";
+import { ReviewScreenLayout } from "../../deck-review/review-screen-layout.tsx";
 
 type Props = {
   form: CardPreviewFormData;
@@ -21,24 +22,26 @@ export function CardPreview(props: Props) {
   useBackButton(onBack);
 
   return (
-    <div className="relative flex h-[calc(var(--app-viewport-height)_-_var(--app-safe-area-top)_-_var(--app-route-bottom-inset)_-_var(--app-top-offset,0px))] flex-col items-center justify-center overflow-x-hidden">
-      <div className="absolute top-3 left-3 flex items-center gap-3">
-        {platform instanceof BrowserPlatform && (
-          <BrowserBackButton className="ml-2" />
-        )}
-      </div>
-      {cardPreviewStore.isOpened && (
-        <div className="absolute top-3 right-3">
-          <RotateCcwIcon
-            className="cursor-pointer"
-            size={24}
-            onClick={() => {
-              cardPreviewStore.revert();
-            }}
-          />
+    <ReviewScreenLayout
+      header={
+        <div className="flex min-h-6 items-center justify-between px-3 pt-3">
+          <div className="flex items-center gap-3">
+            {platform instanceof BrowserPlatform && (
+              <BrowserBackButton className="ml-2" />
+            )}
+          </div>
+          {cardPreviewStore.isOpened && (
+            <RotateCcwIcon
+              className="cursor-pointer"
+              size={24}
+              onClick={() => {
+                cardPreviewStore.revert();
+              }}
+            />
+          )}
         </div>
-      )}
-
+      }
+    >
       <CardReviewWithControls
         onAgain={() => {}}
         onHard={() => {}}
@@ -51,6 +54,6 @@ export function CardPreview(props: Props) {
         card={cardPreviewStore}
         onReviewCardWithAnswers={() => {}}
       />
-    </div>
+    </ReviewScreenLayout>
   );
 }

@@ -40,156 +40,160 @@ export function CardReviewWithControls(props: Props) {
     cardOpenedRow,
     cardFooter,
   } = props;
-  const bottomControlsClassName = "absolute bottom-layout-control flex w-full";
+  const bottomControlsClassName = "flex w-full";
 
   return (
     <>
-      <div className="relative -mt-[72px] w-full">
+      <div className="flex w-full flex-1 flex-col justify-center py-2">
         {card && <Card card={card} />}
         {cardFooter ? <div className="mt-3">{cardFooter}</div> : null}
       </div>
-      {card && card.answerType === "remember" && (
-        <div className={cn(bottomControlsClassName, "gap-2 [&>button]:flex-1")}>
-          {card.isOpened ? (
-            cardOpenedRow ? (
-              cardOpenedRow
-            ) : (
-              <div className="bg-bg flex gap-2 w-full p-2 rounded-2xl">
-                <button
-                  key={"again"}
-                  onClick={() => onAgain()}
-                  className={reviewOutcomeButtonStyles.again}
-                >
-                  <Hotkey
-                    shortcut="1"
-                    className={reviewOutcomeHotkeyStyles.again}
-                  />
-                  <div className="flex flex-col items-center">
-                    <span className="whitespace-nowrap text-sm font-semibold">
-                      {reviewOutcomeLabels.again()}
-                    </span>
-                    <span className="text-xs opacity-70 font-semibold">
-                      {getTimeEstimate("again", card, userStore.language)}
-                    </span>
-                  </div>
-                </button>
-                <button
-                  key={"hard"}
-                  onClick={() => onHard()}
-                  className={reviewOutcomeButtonStyles.hard}
-                >
-                  <Hotkey
-                    shortcut="2"
-                    className={reviewOutcomeHotkeyStyles.hard}
-                  />
-                  <div className="flex flex-col items-center">
-                    <span className="whitespace-nowrap text-sm font-semibold">
-                      {reviewOutcomeLabels.hard()}
-                    </span>
-                    <span className="text-xs opacity-70 font-semibold">
-                      {getTimeEstimate("hard", card, userStore.language)}
-                    </span>
-                  </div>
-                </button>
-                <button
-                  key={"good"}
-                  onClick={() => onGood()}
-                  className={reviewOutcomeButtonStyles.good}
-                >
-                  <Hotkey
-                    shortcut="3"
-                    className={reviewOutcomeHotkeyStyles.good}
-                  />
-                  <div className="flex flex-col items-center">
-                    <span className="whitespace-nowrap text-sm font-semibold">
-                      {reviewOutcomeLabels.good()}
-                    </span>
-                    <span className="text-xs opacity-70 font-semibold">
-                      {getTimeEstimate("good", card, userStore.language)}
-                    </span>
-                  </div>
-                </button>
-                {!card.isAgain && (
+      <div className="sticky bottom-[var(--app-route-bottom-inset)] z-10 bg-secondary-bg pb-[var(--app-bottom-control-gap)] pt-2">
+        {card && card.answerType === "remember" && (
+          <div
+            className={cn(bottomControlsClassName, "gap-2 [&>button]:flex-1")}
+          >
+            {card.isOpened ? (
+              cardOpenedRow ? (
+                cardOpenedRow
+              ) : (
+                <div className="bg-bg flex gap-2 w-full p-2 rounded-2xl">
                   <button
-                    key={"easy"}
-                    onClick={() => onEasy()}
-                    className={reviewOutcomeButtonStyles.easy}
+                    key={"again"}
+                    onClick={() => onAgain()}
+                    className={reviewOutcomeButtonStyles.again}
                   >
                     <Hotkey
-                      shortcut="4"
-                      className={reviewOutcomeHotkeyStyles.easy}
+                      shortcut="1"
+                      className={reviewOutcomeHotkeyStyles.again}
                     />
                     <div className="flex flex-col items-center">
                       <span className="whitespace-nowrap text-sm font-semibold">
-                        {reviewOutcomeLabels.easy()}
+                        {reviewOutcomeLabels.again()}
                       </span>
                       <span className="text-xs opacity-70 font-semibold">
-                        {getTimeEstimate("easy", card, userStore.language)}
+                        {getTimeEstimate("again", card, userStore.language)}
                       </span>
                     </div>
                   </button>
-                )}
-              </div>
-            )
-          ) : (
-            <Button
-              key={"show"}
-              onClick={() => {
-                onShowAnswer();
-              }}
-            >
-              {t("review_show_answer")}
-            </Button>
-          )}
-        </div>
-      )}
+                  <button
+                    key={"hard"}
+                    onClick={() => onHard()}
+                    className={reviewOutcomeButtonStyles.hard}
+                  >
+                    <Hotkey
+                      shortcut="2"
+                      className={reviewOutcomeHotkeyStyles.hard}
+                    />
+                    <div className="flex flex-col items-center">
+                      <span className="whitespace-nowrap text-sm font-semibold">
+                        {reviewOutcomeLabels.hard()}
+                      </span>
+                      <span className="text-xs opacity-70 font-semibold">
+                        {getTimeEstimate("hard", card, userStore.language)}
+                      </span>
+                    </div>
+                  </button>
+                  <button
+                    key={"good"}
+                    onClick={() => onGood()}
+                    className={reviewOutcomeButtonStyles.good}
+                  >
+                    <Hotkey
+                      shortcut="3"
+                      className={reviewOutcomeHotkeyStyles.good}
+                    />
+                    <div className="flex flex-col items-center">
+                      <span className="whitespace-nowrap text-sm font-semibold">
+                        {reviewOutcomeLabels.good()}
+                      </span>
+                      <span className="text-xs opacity-70 font-semibold">
+                        {getTimeEstimate("good", card, userStore.language)}
+                      </span>
+                    </div>
+                  </button>
+                  {!card.isAgain && (
+                    <button
+                      key={"easy"}
+                      onClick={() => onEasy()}
+                      className={reviewOutcomeButtonStyles.easy}
+                    >
+                      <Hotkey
+                        shortcut="4"
+                        className={reviewOutcomeHotkeyStyles.easy}
+                      />
+                      <div className="flex flex-col items-center">
+                        <span className="whitespace-nowrap text-sm font-semibold">
+                          {reviewOutcomeLabels.easy()}
+                        </span>
+                        <span className="text-xs opacity-70 font-semibold">
+                          {getTimeEstimate("easy", card, userStore.language)}
+                        </span>
+                      </div>
+                    </button>
+                  )}
+                </div>
+              )
+            ) : (
+              <Button
+                key={"show"}
+                onClick={() => {
+                  onShowAnswer();
+                }}
+              >
+                {t("review_show_answer")}
+              </Button>
+            )}
+          </div>
+        )}
 
-      {card && card.answerType === "choice_single" && !card.isOpened && (
-        <div
-          className={cn(
-            bottomControlsClassName,
-            "flex-col items-center gap-1 [&>button]:flex-1",
-          )}
-        >
-          {card.answers.map((answer) => (
+        {card && card.answerType === "choice_single" && !card.isOpened && (
+          <div
+            className={cn(
+              bottomControlsClassName,
+              "flex-col items-center gap-1 [&>button]:flex-1",
+            )}
+          >
+            {card.answers.map((answer) => (
+              <Button
+                key={answer.id}
+                outline
+                onClick={() => {
+                  card.openWithAnswer(answer);
+                }}
+              >
+                {answer.text}
+              </Button>
+            ))}
             <Button
-              key={answer.id}
               outline
               onClick={() => {
-                card.openWithAnswer(answer);
+                card.openWithAnswer({ id: IDK_ID, text: "", isCorrect: false });
               }}
             >
-              {answer.text}
+              {t("review_idk")}
             </Button>
-          ))}
-          <Button
-            outline
-            onClick={() => {
-              card.openWithAnswer({ id: IDK_ID, text: "", isCorrect: false });
-            }}
+          </div>
+        )}
+        {card && card.answerType === "choice_single" && card.isOpened ? (
+          <div
+            className={cn(
+              bottomControlsClassName,
+              "items-center gap-4 [&>button]:flex-1",
+            )}
           >
-            {t("review_idk")}
-          </Button>
-        </div>
-      )}
-      {card && card.answerType === "choice_single" && card.isOpened ? (
-        <div
-          className={cn(
-            bottomControlsClassName,
-            "items-center gap-4 [&>button]:flex-1",
-          )}
-        >
-          {cardOpenedRow || (
-            <Button
-              onClick={() => {
-                onReviewCardWithAnswers();
-              }}
-            >
-              {t("next")}
-            </Button>
-          )}
-        </div>
-      ) : null}
+            {cardOpenedRow || (
+              <Button
+                onClick={() => {
+                  onReviewCardWithAnswers();
+                }}
+              >
+                {t("next")}
+              </Button>
+            )}
+          </div>
+        ) : null}
+      </div>
     </>
   );
 }

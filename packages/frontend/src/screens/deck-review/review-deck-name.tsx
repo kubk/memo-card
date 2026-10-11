@@ -8,16 +8,18 @@ export function ReviewDeckName() {
   const deckName = reviewStore.currentCard?.deckName;
 
   return (
-    <AnimatePresence initial={false}>
-      <m.div
-        key={deckName}
-        exit={{ y: 50, opacity: 0, position: "absolute" }}
-        animate={{ y: 0, opacity: 1 }}
-        initial={{ y: -50, opacity: 0 }}
-        className="absolute top-10 text-sm whitespace-nowrap text-hint"
-      >
-        {deckName}
-      </m.div>
-    </AnimatePresence>
+    <div className="relative flex h-5 justify-center">
+      <AnimatePresence initial={false}>
+        <m.div
+          key={deckName}
+          exit={{ y: 50, opacity: 0, position: "absolute" }}
+          animate={{ y: 0, opacity: 1 }}
+          initial={{ y: -50, opacity: 0 }}
+          className="text-sm whitespace-nowrap text-hint"
+        >
+          {deckName}
+        </m.div>
+      </AnimatePresence>
+    </div>
   );
 }

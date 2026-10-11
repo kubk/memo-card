@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "../src/ui/shadcn/theme.css";
+@import "../src/ui/safe-area.css";
 
 @layer base {
   .reset-button {

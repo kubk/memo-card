@@ -65,12 +65,8 @@ export class BrowserPlatform implements Platform {
     applyColorScheme(isDarkTheme() ? "dark" : "light");
 
     const cssVariables = this.getCssVariables();
-    for (const variable in cssVariables) {
-      document.documentElement.style.setProperty(
-        variable,
-        // @ts-ignore
-        cssVariables[variable],
-      );
+    for (const [variable, value] of Object.entries(cssVariables)) {
+      document.documentElement.style.setProperty(variable, value);
     }
   }
 

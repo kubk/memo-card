@@ -31,31 +31,36 @@ export function Review() {
   useHotkeys("enter", reviewStore.open);
 
   return (
-    <ReviewScreenLayout>
-      <div className="absolute left-0 top-2 flex w-full items-center gap-2">
-        <button
-          className="text-hint active:scale-90 cursor-pointer -ms-[3px]"
-          onClick={() => {
-            platform.haptic("medium");
-            screenStore.back();
-            onSubmitUnfinished();
-          }}
-        >
-          <XIcon size={24} />
-        </button>
-        {reviewStore.initialCardCount && (
-          <ProgressBar
-            value={reviewStore.reviewedCardsCount}
-            max={reviewStore.initialCardCount}
-          />
-        )}
+    <ReviewScreenLayout
+      header={
+        <div className="flex flex-col gap-2 pt-2">
+          <div className="flex w-full items-center gap-2">
+            <button
+              className="text-hint active:scale-90 cursor-pointer -ms-[3px]"
+              onClick={() => {
+                platform.haptic("medium");
+                screenStore.back();
+                onSubmitUnfinished();
+              }}
+            >
+              <XIcon size={24} />
+            </button>
+            {reviewStore.initialCardCount && (
+              <ProgressBar
+                value={reviewStore.reviewedCardsCount}
+                max={reviewStore.initialCardCount}
+              />
+            )}
 
-        <div className="mt-[4px] -ms-[4px]">
-          <CardContextMenu />
+            <div className="mt-[4px] -ms-[4px]">
+              <CardContextMenu />
+            </div>
+          </div>
+
+          <ReviewDeckName />
         </div>
-      </div>
-
-      <ReviewDeckName />
+      }
+    >
       <CardReviewWithControls
         card={reviewStore.currentCard}
         onAgain={reviewStore.onAgain}

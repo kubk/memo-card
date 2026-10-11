@@ -25,10 +25,6 @@
   bottom: var(--app-bottom-control-offset);
 }
 
-@utility bottom-layout-control {
-  bottom: var(--app-bottom-control-gap);
-}
-
 @utility safe-viewport-padding {
   padding-top: calc(
     var(--app-safe-area-top) + var(--app-content-safe-area-top) + 16px

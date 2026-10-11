@@ -615,7 +615,7 @@ function DeviceFrame({
 
     const updateViewportHeight = () => {
       portalContainer.style.setProperty(
-        "--tg-viewport-height",
+        "--app-viewport-height",
         `${portalContainer.clientHeight}px`,
       );
     };

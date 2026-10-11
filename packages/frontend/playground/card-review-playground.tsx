@@ -4,7 +4,7 @@ import { CardReviewWithControls } from "../src/screens/deck-review/card-review-w
 import type { LimitedCardUnderReviewStore } from "../src/screens/shared/card/card.tsx";
 import { Tabs, TabsList, TabsTrigger } from "../src/ui/shadcn/tabs.tsx";
 import { ReviewScreenLayout } from "../src/screens/deck-review/review-screen-layout.tsx";
-import { PropGroup } from "./ui/prop-controls.tsx";
+import { BooleanProp, PropGroup } from "./ui/prop-controls.tsx";
 import { PropsPanel } from "./ui/props-panel.tsx";
 
 type CardType = "regular" | "choices";
@@ -16,12 +16,19 @@ const choiceAnswers: CardAnswer[] = [
   { id: "cheerful", text: "Радостный", isCorrect: false },
 ];
 
+const longText = (sentences: number) =>
+  Array.from(
+    { length: sentences },
+    () => "The weather was dismal, with grey skies and constant rain",
+  ).join(". ");
+
 const reviewState = createInitialFsrsReviewState(new Date());
 
 export function CardReviewPlayground() {
   const [cardType, setCardType] = useState<CardType>("regular");
   const [isOpened, setIsOpened] = useState(true);
   const [answer, setAnswer] = useState<CardAnswer>();
+  const [isLongContent, setIsLongContent] = useState(false);
 
   const selectCardType = (value: string) => {
     if (value !== "regular" && value !== "choices") {
@@ -38,6 +45,13 @@ export function CardReviewPlayground() {
     setAnswer(undefined);
   };
 
+  const answers = isLongContent
+    ? choiceAnswers.map((choiceAnswer) => ({
+        ...choiceAnswer,
+        text: `${choiceAnswer.text}. ${longText(2)}`,
+      }))
+    : choiceAnswers;
+
   const card = {
     id: 1,
     cardReviewType: "new",
@@ -45,11 +59,13 @@ export function CardReviewPlayground() {
     isOpened,
     deckSpeakField: null,
     speak: () => {},
-    front: "dismal",
+    front: isLongContent ? longText(40) : "dismal",
     back: "унылый",
-    example: "The weather was dismal, with grey skies and constant rain",
+    example: isLongContent
+      ? longText(40)
+      : "The weather was dismal, with grey skies and constant rain",
     answerType: cardType === "regular" ? "remember" : "choice_single",
-    answers: cardType === "regular" ? [] : choiceAnswers,
+    answers: cardType === "regular" ? [] : answers,
     answer,
     openWithAnswer: (selectedAnswer: CardAnswer) => {
       setAnswer(selectedAnswer);
@@ -62,7 +78,7 @@ export function CardReviewPlayground() {
 
   return (
     <>
-      <ReviewScreenLayout>
+      <ReviewScreenLayout header={<div className="h-14" />}>
         <CardReviewWithControls
           card={card}
           onAgain={resetCard}
@@ -87,6 +103,12 @@ export function CardReviewPlayground() {
             </TabsList>
           </Tabs>
         </PropGroup>
+        <BooleanProp
+          id="card-review-long-content"
+          label="Long content"
+          checked={isLongContent}
+          onCheckedChange={setIsLongContent}
+        />
       </PropsPanel>
     </>
   );
