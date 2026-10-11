@@ -64,7 +64,7 @@ export function BottomNavigationView({
   onSelect: (tab: BottomNavigationTab) => void;
 }) {
   return (
-    <div className="grid h-[max(48px,calc(64px_-_var(--app-bottom-inset)))] grid-cols-4 bg-[#f2f2f2] px-1 pb-1 dark:bg-bg [[data-platform=telegram]_&]:h-[64px]">
+    <div className="grid h-[64px] grid-cols-4 bg-[#f2f2f2] px-1 pb-1 dark:bg-bg">
       {navigationItems.map((item) => {
         const isActive = item.id === activeTab;
 
@@ -114,7 +114,7 @@ export function BottomNavigation({ children }: { children: ReactNode }) {
         {children}
       </div>
       {isVisible ? (
-        <div className="pb-[var(--app-bottom-inset)] z-30 shrink-0 border-t border-black/[0.12] bg-[#f2f2f2] dark:border-white/[0.12] dark:bg-bg">
+        <div className="pb-[max(0px,calc(var(--app-bottom-inset)_-_16px))] z-30 shrink-0 border-t border-black/[0.12] bg-[#f2f2f2] dark:border-white/[0.12] dark:bg-bg [[data-platform=telegram]_&]:pb-[var(--app-bottom-inset)]">
           <BottomNavigationView activeTab={activeTab} onSelect={handleSelect} />
         </div>
       ) : null}
