@@ -64,7 +64,7 @@ export function BottomNavigationView({
   onSelect: (tab: BottomNavigationTab) => void;
 }) {
   return (
-    <div className="grid h-[64px] grid-cols-4 bg-[#f2f2f2] px-1 pb-1 dark:bg-bg">
+    <div className="grid h-[max(48px,calc(64px_-_var(--app-bottom-inset)))] grid-cols-4 bg-[#f2f2f2] px-1 pb-1 dark:bg-bg [[data-platform=telegram]_&]:h-[64px]">
       {navigationItems.map((item) => {
         const isActive = item.id === activeTab;
 
