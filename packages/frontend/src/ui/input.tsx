@@ -65,7 +65,9 @@ export function Input(props: Props) {
   return (
     <div className="flex flex-col gap-[4px] relative">
       <Tag
-        ref={inputRef as any}
+        ref={(element: HTMLInputElement | HTMLTextAreaElement | null) => {
+          inputRef.current = element;
+        }}
         className={cn(
           "flex py-3.5 px-2.5 text-base border-2 border-solid rounded-xl bg-bg transition-colors duration-300",
           mainIcon && (isRtl ? "pr-10" : "pl-10"),
