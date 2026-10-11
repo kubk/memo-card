@@ -176,8 +176,8 @@ importers:
         specifier: ^3.0.9
         version: 3.4.12
       easy-speech:
-        specifier: ^2.4.0
-        version: 2.4.0
+        specifier: 2.4.1-rc.1
+        version: 2.4.1-rc.1
       embla-carousel-autoplay:
         specifier: ^8.6.0
         version: 8.6.0(embla-carousel@8.6.0)
@@ -3816,8 +3816,8 @@ packages:
   eastasianwidth@0.2.0:
     resolution: {integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==}
 
-  easy-speech@2.4.0:
-    resolution: {integrity: sha512-wpMv29DEoeP/eyXr4aXpDqd9DvlXl7aQs7BgfKbjGVxqkmQPgNmpbF5YULaTH5bc/5qrteg5MDfCD2Zd0qr4rQ==}
+  easy-speech@2.4.1-rc.1:
+    resolution: {integrity: sha512-S44x410/6jhvOkcdsKoPsgF8ePwN/wsYQa2MsYyy+1JfRkLfUKpkF7C4452XcqMpkX9BQabtkOSrniLUM+hy1g==}
     engines: {node: '>= 14.x'}
 
   ee-first@1.1.1:
@@ -8565,7 +8565,7 @@ snapshots:
 
   eastasianwidth@0.2.0: {}
 
-  easy-speech@2.4.0: {}
+  easy-speech@2.4.1-rc.1: {}
 
   ee-first@1.1.1: {}
 
