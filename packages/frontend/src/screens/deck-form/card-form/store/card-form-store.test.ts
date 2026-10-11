@@ -114,7 +114,7 @@ vi.mock("../../../../store/deck-list-store.ts", () => {
     deckListStore: {
       replaceDeck: vi.fn(),
       updateCardsToReview: vi.fn(),
-      searchDeckById: (id: number) => {
+      searchDeckWithCardsById: (id: number) => {
         return myDecks.find((deck) => deck.id === id);
       },
       myDecks: myDecks,
@@ -179,7 +179,7 @@ describe("card form store", () => {
 
   it("inherits the deck speak side and saves an override without losing other options", async () => {
     mockScreenStore.reset({ type: "deckForm", deckId: 1, cardId: 3 });
-    const deck = deckListStore.searchDeckById(1)!;
+    const deck = deckListStore.searchDeckWithCardsById(1)!;
     const previousLocale = deck.speakLocale;
     const previousField = deck.speakField;
     try {

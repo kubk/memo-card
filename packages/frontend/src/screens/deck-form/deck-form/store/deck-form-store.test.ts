@@ -104,7 +104,7 @@ vi.mock("../../../../store/deck-list-store.ts", () => {
       replaceDeck: () => {},
       updateFolders: () => {},
       updateCardsToReview: () => {},
-      searchDeckById: (id: number) => {
+      searchDeckWithCardsById: (id: number) => {
         return myDecks.find((deck) => deck.id === id);
       },
       myDecks: myDecks,
