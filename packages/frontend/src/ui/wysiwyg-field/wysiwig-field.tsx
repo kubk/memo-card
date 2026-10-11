@@ -191,8 +191,6 @@ export function WysiwygField({
         containerProps={
           hasError
             ? {
-                // A hack to mark the field as invalid
-                // @ts-ignore
                 "data-invalid": "1",
               }
             : undefined

@@ -4,9 +4,8 @@ export const reportHandledError = (
   info?: any,
 ) => {
   console.error(e);
-  if (!("Rollbar" in window)) {
+  if (!window.Rollbar) {
     return;
   }
-  // @ts-ignore
-  Rollbar.error(description, e, info);
+  window.Rollbar.error(description, e, info);
 };

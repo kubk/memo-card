@@ -32,8 +32,7 @@ function copyToClipboardOld(textToCopy: string, options?: { html?: string }) {
   textarea.style.position = "absolute";
   textarea.style.left = "-99999999px";
 
-  // @ts-ignore
-  document.body.prepend(textarea);
+  document.body.insertBefore(textarea, document.body.firstChild);
 
   textarea.select();
 

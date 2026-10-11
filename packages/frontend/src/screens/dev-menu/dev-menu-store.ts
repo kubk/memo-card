@@ -73,18 +73,13 @@ export class DevMenuStore {
     script.src = "https://cdn.jsdelivr.net/npm/eruda";
     script.id = "eruda-script";
     script.onload = () => {
-      // @ts-ignore
-      window.eruda.init();
+      window.eruda?.init();
     };
     document.body.appendChild(script);
   }
 
   private removeErudaFromDom() {
-    // @ts-ignore
-    if (window.eruda) {
-      // @ts-ignore
-      window.eruda.destroy();
-    }
+    window.eruda?.destroy();
     document.getElementById("eruda-script")?.remove();
   }
 }

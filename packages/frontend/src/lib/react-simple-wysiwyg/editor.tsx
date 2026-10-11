@@ -10,7 +10,9 @@ export function Editor({
   onChange,
 }: {
   children?: ComponentChildren;
-  containerProps?: HTMLAttributes<HTMLDivElement>;
+  containerProps?: HTMLAttributes<HTMLDivElement> & {
+    "data-invalid"?: string;
+  };
   value: string;
   onChange: (event: { target: { value: string } }) => void;
 }) {

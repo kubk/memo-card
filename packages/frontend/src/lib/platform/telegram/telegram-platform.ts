@@ -234,7 +234,6 @@ export class TelegramPlatform implements Platform {
   hideKeyboard() {
     const webApp = getWebApp();
     if ("hideKeyboard" in webApp) {
-      // @ts-ignore
       webApp.hideKeyboard();
     }
   }
