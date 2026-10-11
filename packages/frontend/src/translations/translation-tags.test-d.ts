@@ -1,4 +1,4 @@
-import { t } from "./t.ts";
+import { t, type TranslationKey } from "./t.ts";
 import { td } from "./td.tsx";
 import type { Translation, TranslationResources } from "./en.ts";
 import type { ar } from "./ar.ts";
@@ -8,6 +8,7 @@ import type { ptBr } from "./ptBr.ts";
 import type { ru } from "./ru.ts";
 import type { uk } from "./uk.ts";
 import { expectTypeOf, test } from "vitest";
+import type { ReactNode } from "preact/compat";
 
 type TagsOf<S extends string> =
   S extends `${string}[${infer Tag}:${string}]${infer Rest}`
@@ -61,18 +62,24 @@ test("translation calls infer named arguments from their keys", () => {
   expectTypeOf(t("upgrade_pro")).toEqualTypeOf<string>();
   expectTypeOf(t("new_cards_count", { count: 2 })).toEqualTypeOf<string>();
 
-  // @ts-expect-error Arguments must have the correct types
-  t("new_cards_count", { count: "2" });
-  // @ts-expect-error String translations only accept a fallback string
-  t("upgrade_pro", { title: "Pro" });
-  // @ts-expect-error Zero-argument callbacks do not accept parameters
-  t("encouraging_message", {});
-  // @ts-expect-error String translations only accept a fallback string
-  t("navigation_main", { count: 2 });
-  // @ts-expect-error Translation keys must exist
-  t("missing_translation");
-  // @ts-expect-error Tagged translations require a renderer for every tag
-  td("payment_until_date", {});
+  expectTypeOf(t<"new_cards_count">)
+    .parameter(1)
+    .toEqualTypeOf<{ count: number }>();
+  expectTypeOf(t<"upgrade_pro">)
+    .parameter(1)
+    .toEqualTypeOf<string | undefined>();
+  expectTypeOf(t<"encouraging_message">).parameters.toEqualTypeOf<
+    ["encouraging_message"]
+  >();
+  expectTypeOf(t<"navigation_main">)
+    .parameter(1)
+    .toEqualTypeOf<string | undefined>();
+  expectTypeOf<"missing_translation">().not.toExtend<TranslationKey>();
+  expectTypeOf(td<"payment_until_date">)
+    .parameter(1)
+    .toEqualTypeOf<{
+      date: (text: string) => ReactNode;
+    }>();
 });
 
 test("locales match the resource types and callback arguments", () => {

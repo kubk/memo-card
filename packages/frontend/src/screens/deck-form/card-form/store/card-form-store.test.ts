@@ -5,6 +5,7 @@ import { DeckCardDbType } from "api";
 import { type DeckWithCardsWithReviewType } from "../../../../store/deck-list-store.ts";
 import { isFormValid } from "mobx-form-lite";
 import { assert } from "api";
+import type { api } from "../../../../api/trpc-api.ts";
 
 const mocks = vi.hoisted(() => {
   const createMockDeckResponse = () => ({
@@ -28,13 +29,15 @@ const mocks = vi.hoisted(() => {
   });
 
   return {
-    cardAdd: vi.fn(() =>
+    cardAdd: vi.fn((_input: Parameters<typeof api.card.add.mutate>[0]) =>
       Promise.resolve({
         createdCards: [{ id: 999, front: "test", back: "test" }],
         ...createMockDeckResponse(),
       }),
     ),
-    cardUpdate: vi.fn(() => Promise.resolve(createMockDeckResponse())),
+    cardUpdate: vi.fn((_input: Parameters<typeof api.card.update.mutate>[0]) =>
+      Promise.resolve(createMockDeckResponse()),
+    ),
     cardDelete: vi.fn(() => Promise.resolve(createMockDeckResponse())),
   };
 });
@@ -227,7 +230,6 @@ describe("card form store", () => {
     await store.onSaveCard();
 
     expect(mocks.cardAdd).toHaveBeenCalledTimes(1);
-    // @ts-expect-error - mock typing issue
     expect(mocks.cardAdd.mock.lastCall?.[0]).toMatchInlineSnapshot(`
       {
         "card": {
@@ -269,7 +271,6 @@ describe("card form store", () => {
     await store.onSaveCard();
 
     expect(mocks.cardUpdate).toHaveBeenCalledTimes(1);
-    // @ts-expect-error - mock typing issue
     expect(mocks.cardUpdate.mock.lastCall?.[0]).toMatchInlineSnapshot(`
       {
         "answerType": "remember",

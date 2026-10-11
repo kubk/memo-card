@@ -3,6 +3,7 @@ import { DeckFormStore } from "./deck-form-store.ts";
 import { DeckCardDbType } from "api";
 import { type DeckWithCardsWithReviewType } from "../../../../store/deck-list-store.ts";
 import { assert } from "api";
+import type { api } from "../../../../api/trpc-api.ts";
 
 const mocks = vi.hoisted(() => {
   const createMockDeckResponse = () => ({
@@ -26,7 +27,9 @@ const mocks = vi.hoisted(() => {
   });
 
   return {
-    deckUpdate: vi.fn(() => Promise.resolve(createMockDeckResponse())),
+    deckUpdate: vi.fn((_input: Parameters<typeof api.deck.update.mutate>[0]) =>
+      Promise.resolve(createMockDeckResponse()),
+    ),
   };
 });
 
@@ -182,7 +185,6 @@ describe("deck form store", () => {
     await store.onDeckSave();
 
     expect(mocks.deckUpdate).toHaveBeenCalledTimes(1);
-    // @ts-expect-error - mock typing issue
     expect(mocks.deckUpdate.mock.lastCall?.[0]).toMatchInlineSnapshot(`
       {
         "description": "Updated description",

@@ -28,8 +28,10 @@ export const translationResourceStore = new TranslationResourceStore(
 export type TranslationKey = keyof Translation;
 export type StringTranslationKey = TranslationKeyByValue<string>;
 
+type CategoryTranslationKey = Extract<StringTranslationKey, `category_${string}`>;
+
 export const translateCategory = (category: string) => {
-  return t(`category_${category}` as any, category);
+  return t(`category_${category}` as CategoryTranslationKey, category);
 };
 
 export function getActiveLanguage(): LanguageShared {

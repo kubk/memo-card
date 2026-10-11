@@ -20,7 +20,7 @@ function getStorage() {
 
 type StorageError = string | null;
 
-export const cloudStorageAdapter: StorageController = {
+export const cloudStorageAdapter = {
   getItem(key: string) {
     return new Promise<string | null>((resolve, reject) => {
       if (!isCloudStorageKeyValid(key)) {
@@ -61,4 +61,4 @@ export const cloudStorageAdapter: StorageController = {
       });
     });
   },
-};
+} satisfies StorageController;

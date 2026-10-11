@@ -33,15 +33,14 @@ export class TelegramPlatform implements Platform {
     }
 
     // We use cloud storage to cache language so we know it before we load user preferences
-    // TS error is because mobx-persist-store StorageController can return different types but we know it's a Promise
-    // @ts-expect-error
-    // prettier-ignore
-    cloudStorageAdapter.getItem<LanguageShared>(LANGUAGE_CACHE_KEY)?.then((languageCached) => {
-      if (!languageCached) {
-        return;
-      }
-      this.languageCached = normalizeLanguage(languageCached);
-    });
+    cloudStorageAdapter.getItem(LANGUAGE_CACHE_KEY).then(
+      action((languageCached) => {
+        if (!languageCached) {
+          return;
+        }
+        this.languageCached = normalizeLanguage(languageCached);
+      }),
+    );
   }
 
   get isMainButtonVisible() {

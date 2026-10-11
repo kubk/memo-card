@@ -23,8 +23,11 @@ export function AboutScreen() {
           <div
             onClick={() => {
               let link = links.landing;
-              // @ts-expect-error landing languages is a subset of all available app languages
-              if (landingLanguages.includes(userStore.language)) {
+              if (
+                landingLanguages.some(
+                  (language) => language === userStore.language,
+                )
+              ) {
                 link += `/${userStore.language}`;
               }
               platform.openExternalLink(link);
