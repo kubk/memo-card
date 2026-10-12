@@ -110,10 +110,12 @@ export class ReviewStore {
       (card) => card.cardReviewType === "new",
     );
     shuffleInPlace(repeatCards);
+    shuffleInPlace(newCards);
+    const queue = [...repeatCards, ...newCards];
     if (userStore.isPaid) {
-      separateReversePairs(repeatCards);
+      separateReversePairs(queue);
     }
-    this.setQueue([...repeatCards, ...newCards]);
+    this.setQueue(queue);
   }
 
   private setQueue(cards: CardUnderReviewStore[]) {

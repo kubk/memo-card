@@ -251,6 +251,22 @@ describe("card form store", () => {
     expect(reviewStore.cardsToReview.map((card) => card.id)).toEqual([1, 3, 2]);
   });
 
+  it("avoids consecutive reverse pairs in new cards", () => {
+    const reviewStore = new ReviewStore();
+    reviewStore.startDeckReview(
+      createDeckWithCards([
+        createMockCardWithReview(1, "cat", "кот", "new"),
+        createMockCardWithReview(2, "кот", "cat", "new"),
+        createMockCardWithReview(3, "dog", "собака", "new"),
+        createMockCardWithReview(4, "собака", "dog", "new"),
+      ]),
+    );
+
+    expect(reviewStore.cardsToReview.map((card) => card.id)).toEqual([
+      1, 3, 2, 4,
+    ]);
+  });
+
   it("test silent progress send", async () => {
     reviewCardsReviewMock.mockResolvedValueOnce(() => Promise.resolve());
     expect(reviewCardsReviewMock).toHaveBeenCalledTimes(0);
