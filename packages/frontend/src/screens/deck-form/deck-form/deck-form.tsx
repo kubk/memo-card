@@ -21,6 +21,7 @@ import { WysiwygField } from "../../../ui/wysiwyg-field/wysiwig-field.tsx";
 import {
   BotIcon,
   LayersIcon,
+  LinkIcon,
   MicIcon,
   PlusIcon,
   ShareIcon,
@@ -32,7 +33,11 @@ import { BackBottomButton } from "../../shared/back-bottom-button.tsx";
 import { createMcpSettingsEntryItem } from "../../mcp-settings/mcp-settings-entry.tsx";
 import { ChevronIcon } from "../../../ui/chevron-icon.tsx";
 import { deleteItemModalStore } from "../../shared/delete-item-modal-store.ts";
-import { shareMemoCardUrl } from "../../shared/share-memo-card-url.tsx";
+import {
+  canShareMessage,
+  shareMemoCardLink,
+  shareMemoCardUrl,
+} from "../../shared/share-memo-card-url.tsx";
 
 export function DeckForm() {
   const deckFormStore = useDeckFormStore();
@@ -77,8 +82,23 @@ export function DeckForm() {
             type: "action" as const,
             icon: <ShareIcon size={24} />,
             text: t("share"),
-            onClick: () => shareMemoCardUrl(deck.shareId),
+            onClick: () =>
+              shareMemoCardUrl({
+                type: "deck",
+                id: deck.id,
+                shareId: deck.shareId,
+              }),
           },
+          ...(canShareMessage()
+            ? [
+                {
+                  type: "action" as const,
+                  icon: <LinkIcon size={24} />,
+                  text: t("share_link"),
+                  onClick: () => shareMemoCardLink(deck.shareId),
+                },
+              ]
+            : []),
         ]
       : []),
     {

@@ -273,6 +273,8 @@ export const ru = {
   no_cards_to_review_all: `Отличная работа! 🌟 Вы повторили все карточки на сегодня`,
   review_show_answer: "Показать ответ",
   share: "Поделиться",
+  share_link: "Ссылка",
+  share_preparing: "Готовим сообщение",
   warning_telegram_outdated_title: "Ваш Телеграм устарел",
   warning_telegram_outdated_description:
     "Пожалуйста обновите Телеграм для стабильной работы приложения.",

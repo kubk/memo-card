@@ -214,6 +214,8 @@ export const en = {
   review_easy: "Easy",
   review_show_answer: "Show answer",
   share: "Share",
+  share_link: "Link",
+  share_preparing: "Preparing message",
   warning_telegram_outdated_title: "Your Telegram is outdated",
   warning_telegram_outdated_description:
     "Please update your Telegram to ensure stable functioning of this app.",

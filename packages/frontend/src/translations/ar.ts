@@ -229,6 +229,8 @@ export const ar = {
   no_cards_to_review_all: `عمل رائع! 🌟 لقد كررت جميع البطاقات لليوم. عد لاحقًا للمزيد.`,
   review_show_answer: "عرض الإجابة",
   share: "مشاركة",
+  share_link: "رابط",
+  share_preparing: "جارٍ تجهيز الرسالة",
   warning_telegram_outdated_title: "تيليجرام الخاص بك قديم",
   warning_telegram_outdated_description:
     "يرجى تحديث تيليجرام لضمان عمل هذا التطبيق بشكل مستقر.",

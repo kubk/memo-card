@@ -227,6 +227,8 @@ export const fa = {
     "کار عالی! 🌟 شما همه کارت‌ها را برای امروز تکرار کرده‌اید. بعداً برای موارد بیشتر برگردید.",
   review_show_answer: "نمایش پاسخ",
   share: "اشتراک‌گذاری",
+  share_link: "لینک",
+  share_preparing: "در حال آماده‌سازی پیام",
   warning_telegram_outdated_title: "تلگرام شما قدیمی است",
   warning_telegram_outdated_description:
     "لطفاً تلگرام خود را به‌روز کنید تا از عملکرد پایدار این برنامه اطمینان حاصل شود.",

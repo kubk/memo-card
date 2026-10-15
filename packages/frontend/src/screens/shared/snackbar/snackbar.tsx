@@ -51,6 +51,21 @@ export const notifySuccess = (
   };
 };
 
+export const notifyLoading = (message: string) => {
+  const id = enqueueSnackbar(message, {
+    variant: "info",
+    style: sharedStyles,
+    autoHideDuration: 10000,
+    anchorOrigin: { vertical: "top", horizontal: "center" },
+  });
+
+  return {
+    clear: () => {
+      closeSnackbar(id);
+    },
+  };
+};
+
 export const notifyError = (report?: any, options?: NotifyErrorOptions) => {
   const message = options?.message || t("error_solving");
   const duration = options?.duration || defaultDuration;

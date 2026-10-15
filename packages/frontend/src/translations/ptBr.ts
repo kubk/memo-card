@@ -271,6 +271,8 @@ export const ptBr = {
   no_cards_to_review_all: `Ótimo trabalho! 🌟 Você revisou todos os cartões para hoje. Volte posteriormente para mais.`,
   review_show_answer: "Mostrar resposta",
   share: "Compartilhar",
+  share_link: "Link",
+  share_preparing: "Preparando mensagem",
   warning_telegram_outdated_title: "Seu Telegram está desatualizado",
   warning_telegram_outdated_description:
     "Por favor, atualize seu Telegram para garantir o funcionamento estável deste aplicativo.",

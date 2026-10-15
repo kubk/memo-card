@@ -5,8 +5,9 @@ import { BrowserPlatform } from "../../lib/platform/browser/browser-platform.ts"
 import { links } from "api";
 import { copyToClipboard } from "../../lib/copy-to-clipboard/copy-to-clipboard.ts";
 import { t } from "../../translations/t.ts";
-import { notifySuccess } from "./snackbar/snackbar.tsx";
+import { notifyLoading, notifySuccess } from "./snackbar/snackbar.tsx";
 import { env } from "../../env.ts";
+import { api } from "../../api/trpc-api.ts";
 
 const getDeckOrFolderLink = (shareId: string) => {
   if (platform instanceof BrowserPlatform) {
@@ -16,7 +17,12 @@ const getDeckOrFolderLink = (shareId: string) => {
   return `${trimEnd(botUrl, "/")}?startapp=${shareId}`;
 };
 
-export const shareMemoCardUrl = (shareId: string) => {
+export const canShareMessage = () =>
+  platform instanceof TelegramPlatform &&
+  !platform.isWeb() &&
+  platform.isShareMessageAvailable();
+
+export const shareMemoCardLink = (shareId: string) => {
   const memoCardUrl = getDeckOrFolderLink(shareId);
 
   if (
@@ -35,4 +41,32 @@ export const shareMemoCardUrl = (shareId: string) => {
 
     platform.openInternalLink(shareUrl);
   }
+};
+
+export const shareMemoCardUrl = ({
+  type,
+  id,
+  shareId,
+}: {
+  type: "deck" | "folder";
+  id: number;
+  shareId: string;
+}) => {
+  const telegramPlatform = platform;
+  if (!(telegramPlatform instanceof TelegramPlatform) || !canShareMessage()) {
+    shareMemoCardLink(shareId);
+    return;
+  }
+
+  const loading = notifyLoading(t("share_preparing"));
+  api.sharePreparedMessage
+    .mutate({ type, id })
+    .then(({ id: preparedMessageId }) => {
+      telegramPlatform.shareMessage(preparedMessageId);
+    })
+    .catch((error) => {
+      console.error(error);
+      shareMemoCardLink(shareId);
+    })
+    .finally(loading.clear);
 };

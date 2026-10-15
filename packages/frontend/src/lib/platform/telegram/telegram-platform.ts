@@ -169,6 +169,14 @@ export class TelegramPlatform implements Platform {
     getWebApp().openTelegramLink(link);
   }
 
+  isShareMessageAvailable() {
+    return getWebApp().isVersionAtLeast("8.0");
+  }
+
+  shareMessage(preparedMessageId: string) {
+    getWebApp().shareMessage(preparedMessageId);
+  }
+
   isIos() {
     return getWebApp().platform === "ios";
   }

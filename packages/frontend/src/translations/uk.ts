@@ -279,6 +279,8 @@ export const uk = {
     "Чудова робота! 🌟 Ви повторили всі картки на сьогодні. Поверніться пізніше за більшим.",
   review_show_answer: "Показати відповідь",
   share: "Поділитися",
+  share_link: "Посилання",
+  share_preparing: "Готуємо повідомлення",
   warning_telegram_outdated_title: "Ваш Telegram застарів",
   warning_telegram_outdated_description:
     "Будь ласка, оновіть Telegram для стабільної роботи цього додатка.",

@@ -1,4 +1,10 @@
-import { EllipsisIcon, PencilIcon, ShareIcon, TrashIcon } from "lucide-react";
+import {
+  EllipsisIcon,
+  LinkIcon,
+  PencilIcon,
+  ShareIcon,
+  TrashIcon,
+} from "lucide-react";
 import { deckListStore } from "../../store/deck-list-store.ts";
 import { type DeckListDeck } from "../../store/deck-types.ts";
 import { t } from "../../translations/t.ts";
@@ -8,7 +14,11 @@ import { Button } from "../../ui/button.tsx";
 import { type DropdownItem } from "../../ui/dropdown.tsx";
 import { DropdownOrVault } from "../../ui/dropdown-or-vault.tsx";
 import { deleteItemModalStore } from "./delete-item-modal-store.ts";
-import { shareMemoCardUrl } from "./share-memo-card-url.tsx";
+import {
+  canShareMessage,
+  shareMemoCardLink,
+  shareMemoCardUrl,
+} from "./share-memo-card-url.tsx";
 
 type DeckActionTarget = Pick<DeckListDeck, "authorId" | "id" | "shareId">;
 
@@ -43,16 +53,36 @@ function getTargetActions(props: TargetProps) {
       ? [
           {
             type: "share" as const,
+            Icon: ShareIcon,
+            text: t("share"),
             onClick: () => {
-              shareMemoCardUrl(target.shareId);
+              shareMemoCardUrl({
+                type: props.type,
+                id: target.id,
+                shareId: target.shareId,
+              });
             },
           },
+          ...(canShareMessage()
+            ? [
+                {
+                  type: "link" as const,
+                  Icon: LinkIcon,
+                  text: t("share_link"),
+                  onClick: () => {
+                    shareMemoCardLink(target.shareId);
+                  },
+                },
+              ]
+            : []),
         ]
       : []),
     ...(canRemove
       ? [
           {
             type: "delete" as const,
+            Icon: TrashIcon,
+            text: t("delete"),
             onClick: () => {
               deleteItemModalStore.open(
                 props.type === "deck"
@@ -85,17 +115,17 @@ function getLibraryItemActions({
         ]
       : []),
     ...actions.map((action) => ({
-      icon:
-        action.type === "share" ? (
-          <ShareIcon size={20} className="text-hint" />
-        ) : (
-          <TrashIcon size={20} className="text-danger" />
-        ),
+      icon: (
+        <action.Icon
+          size={20}
+          className={action.type === "delete" ? "text-danger" : "text-hint"}
+        />
+      ),
       text:
-        action.type === "share" ? (
-          t("share")
+        action.type === "delete" ? (
+          <span className="text-danger">{action.text}</span>
         ) : (
-          <span className="text-danger">{t("delete")}</span>
+          action.text
         ),
       onClick: action.onClick,
     })),
@@ -145,16 +175,10 @@ export function LibraryItemActions(props: Props) {
         <Button
           align="left"
           key={action.type}
-          icon={
-            action.type === "share" ? (
-              <ShareIcon size={24} />
-            ) : (
-              <TrashIcon size={24} />
-            )
-          }
+          icon={<action.Icon size={24} />}
           onClick={action.onClick}
         >
-          {t(action.type === "share" ? "share" : "delete")}
+          {action.text}
         </Button>
       ))}
     </ButtonGrid>

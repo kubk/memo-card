@@ -273,6 +273,8 @@ export const es = {
   no_cards_to_review_all: `¡Increíble trabajo! 🌟 Has repasado todas las tarjetas por hoy. Vuelve más tarde para más.`,
   review_show_answer: "Mostrar respuesta",
   share: "Compartir",
+  share_link: "Enlace",
+  share_preparing: "Preparando mensaje",
   warning_telegram_outdated_title: "Tu Telegram está desactualizado",
   warning_telegram_outdated_description:
     "Por favor, actualiza tu Telegram para asegurar el funcionamiento estable de esta aplicación.",

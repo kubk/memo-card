@@ -7,6 +7,9 @@
     --app-route-bottom-inset: var(--app-bottom-inset);
     --app-bottom-control-gap: 16px;
     --app-bottom-control-offset: calc(var(--app-bottom-inset) + var(--app-bottom-control-gap));
+    --app-top-control-offset: calc(
+      var(--app-safe-area-top) + var(--app-content-safe-area-top) + var(--app-bottom-control-gap)
+    );
   }
 
   :root[data-platform="telegram"] {
