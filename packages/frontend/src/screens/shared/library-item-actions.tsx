@@ -16,7 +16,7 @@ import { DropdownOrVault } from "../../ui/dropdown-or-vault.tsx";
 import { deleteItemModalStore } from "./delete-item-modal-store.ts";
 import {
   canShareMessage,
-  shareMemoCardLink,
+  copyMemoCardLink,
   shareMemoCardUrl,
 } from "./share-memo-card-url.tsx";
 
@@ -70,7 +70,7 @@ function getTargetActions(props: TargetProps) {
                   Icon: LinkIcon,
                   text: t("share_link"),
                   onClick: () => {
-                    shareMemoCardLink(target.shareId);
+                    copyMemoCardLink(target.shareId);
                   },
                 },
               ]

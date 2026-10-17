@@ -35,7 +35,7 @@ import { ChevronIcon } from "../../../ui/chevron-icon.tsx";
 import { deleteItemModalStore } from "../../shared/delete-item-modal-store.ts";
 import {
   canShareMessage,
-  shareMemoCardLink,
+  copyMemoCardLink,
   shareMemoCardUrl,
 } from "../../shared/share-memo-card-url.tsx";
 
@@ -95,7 +95,7 @@ export function DeckForm() {
                   type: "action" as const,
                   icon: <LinkIcon size={24} />,
                   text: t("share_link"),
-                  onClick: () => shareMemoCardLink(deck.shareId),
+                  onClick: () => copyMemoCardLink(deck.shareId),
                 },
               ]
             : []),

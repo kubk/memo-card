@@ -22,6 +22,13 @@ export const canShareMessage = () =>
   !platform.isWeb() &&
   platform.isShareMessageAvailable();
 
+export const copyMemoCardLink = (shareId: string) => {
+  copyToClipboard(getDeckOrFolderLink(shareId));
+  notifySuccess(t("share_link_copied"), {
+    anchorOrigin: { vertical: "top", horizontal: "center" },
+  });
+};
+
 export const shareMemoCardLink = (shareId: string) => {
   const memoCardUrl = getDeckOrFolderLink(shareId);
 
