@@ -29,7 +29,7 @@ export const copyMemoCardLink = (shareId: string) => {
   });
 };
 
-export const shareMemoCardLink = (shareId: string) => {
+const shareMemoCardLink = (shareId: string) => {
   const memoCardUrl = getDeckOrFolderLink(shareId);
 
   if (
