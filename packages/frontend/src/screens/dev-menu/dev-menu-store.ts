@@ -12,6 +12,7 @@ export class DevMenuStore {
   isErudaEnabled = persistableField(new BooleanToggle(false), "isErudaEnabled");
   setDevPlanMutation = makeMutation(api.setDevPlan.mutate);
   pendingPlan: "none" | PaidPlanType | null = null;
+  extendUvarashaProMutation = makeMutation(api.extendUvarashaPro.mutate);
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
@@ -62,6 +63,21 @@ export class DevMenuStore {
         this.pendingPlan = null;
       });
     }
+  }
+
+  async extendUvarashaPro() {
+    const result = await this.extendUvarashaProMutation.mutateResult();
+
+    if (!result.ok) {
+      notifyError({ e: result.error, info: "Failed to extend Pro" });
+      return;
+    }
+
+    notifySuccess(
+      result.data.extended
+        ? `Extended: ${result.data.previousUntilDate} -> ${result.data.untilDate}`
+        : `Already extended, until ${result.data.untilDate}`,
+    );
   }
 
   private addErudaToDom() {
