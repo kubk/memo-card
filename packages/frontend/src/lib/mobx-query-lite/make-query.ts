@@ -42,7 +42,37 @@ export type QueryState<T> = {
   setData: (data: T | undefined) => void;
 };
 
-export const queryRegistry = new Map<string, QueryState<any>>();
+export const queryRegistry = new Map<string, StaticQuery<any>>();
+
+export async function refetchActiveQueries() {
+  await Promise.all(
+    Array.from(queryRegistry.values())
+      .filter((query) => query.isActive)
+      .map((query) => query.refetch()),
+  );
+}
+
+export function refetchActiveQueriesOnVisible(minInterval = 5000) {
+  let lastRefetchAt = -Infinity;
+
+  const onVisibilityChange = () => {
+    const now = Date.now();
+    if (
+      document.visibilityState !== "visible" ||
+      now - lastRefetchAt < minInterval
+    ) {
+      return;
+    }
+
+    lastRefetchAt = now;
+    refetchActiveQueries();
+  };
+
+  document.addEventListener("visibilitychange", onVisibilityChange);
+  return () => {
+    document.removeEventListener("visibilitychange", onVisibilityChange);
+  };
+}
 
 export function makeQuery<T>(
   fetcher: QueryConfig<T> | QueryConfigFactory<T>,
@@ -61,7 +91,7 @@ function makeStaticQuery<T>(
 ): QueryState<T> {
   const key = fetcher.key;
 
-  const existing = queryRegistry.get(key) as QueryState<T> | undefined;
+  const existing = queryRegistry.get(key) as StaticQuery<T> | undefined;
   if (existing) {
     return existing;
   }
@@ -82,7 +112,7 @@ class StaticQuery<T> implements QueryState<T> {
   private fetchId = 0;
   private gcTimeout: ReturnType<typeof setTimeout> | undefined;
   private gcTime: number;
-  private isActive = false;
+  isActive = false;
   private isInvalidated = false;
   private invalidationId = 0;
 

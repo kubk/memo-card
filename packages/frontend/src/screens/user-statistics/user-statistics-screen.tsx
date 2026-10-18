@@ -1,6 +1,7 @@
 import { Screen } from "../shared/screen.tsx";
 import { useUserStatisticsStore } from "./store/user-statistics-store-context.tsx";
 import { useBackButton } from "../../lib/platform/use-back-button.ts";
+import { usePullToRefresh } from "../../lib/react/use-pull-to-refresh.ts";
 import { screenStore } from "../../store/screen-store.ts";
 import { t } from "../../translations/t.ts";
 import { CardRowLoading } from "../shared/card-row-loading.tsx";
@@ -292,6 +293,7 @@ function UserStatisticsContent(props: {
 }
 
 export function UserStatisticsScreen() {
+  usePullToRefresh();
   const userStatisticsQuery = useUserStatisticsStore().userStatisticsQuery;
   const statistics = userStatisticsQuery.data;
 
@@ -317,6 +319,7 @@ export function UserStatisticsScreen() {
 }
 
 export function UserStatisticsDailyScreen() {
+  usePullToRefresh();
   const userStatisticsStore = useUserStatisticsStore();
 
   useBackButton(() => {

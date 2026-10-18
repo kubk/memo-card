@@ -2,7 +2,7 @@ import { observable, reaction } from "mobx";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { inMemoryCache } from "./cache.ts";
 import { makeInfiniteQuery } from "./make-infinite-query.ts";
-import { queryRegistry } from "./make-query.ts";
+import { queryRegistry, refetchActiveQueries } from "./make-query.ts";
 
 describe("makeInfiniteQuery", () => {
   beforeEach(() => {
@@ -129,6 +129,32 @@ describe("makeInfiniteQuery", () => {
     expect(state.items).toEqual([1]);
     expect(state.error).toBe(error);
     expect(state.isFetchingNextPage).toBe(false);
+  });
+
+  it("drops a next page error after the first page is refetched", async () => {
+    const query = vi
+      .fn()
+      .mockResolvedValueOnce({ items: [1], nextCursor: "next" })
+      .mockRejectedValueOnce(new Error("Failed"))
+      .mockResolvedValueOnce({ items: [2], nextCursor: "next" });
+    const state = makeInfiniteQuery({
+      key: "infinite-next-page-error-refetch",
+      query,
+    });
+    const dispose = reaction(
+      () => state.data,
+      () => {},
+    );
+
+    await state.prefetch();
+    await state.fetchNextPage();
+    expect(state.error).not.toBe(null);
+
+    await refetchActiveQueries();
+
+    expect(state.items).toEqual([2]);
+    expect(state.error).toBe(null);
+    dispose();
   });
 
   it("normalizes non-Error next page errors", async () => {

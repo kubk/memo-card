@@ -9,6 +9,7 @@ import { ErrorScreen } from "../error-screen/error-screen.tsx";
 import { type DeckWithCardsWithReviewType } from "../../store/deck-list-store.ts";
 import { DeckNotFoundScreen } from "../error-screen/deck-not-found-screen.tsx";
 import { isTrpcNotFoundError } from "../../api/is-trpc-not-found-error.ts";
+import { usePullToRefresh } from "../../lib/react/use-pull-to-refresh.ts";
 
 function LoadedCardPreview({
   card,
@@ -35,6 +36,7 @@ export function CardPreviewScreen() {
 
   const { cardId, deckId } = screen;
   const [store] = useState(() => new DeckScreenStore(deckId));
+  usePullToRefresh();
 
   useProgress(() => store.isInitialLoading);
 
@@ -53,5 +55,12 @@ export function CardPreviewScreen() {
     return <ErrorScreen />;
   }
 
-  return <LoadedCardPreview card={card} deck={deck} />;
+  // The preview copies the card into a form, so refreshed content remounts it
+  return (
+    <LoadedCardPreview
+      key={JSON.stringify([card, deck.speakLocale, deck.speakField])}
+      card={card}
+      deck={deck}
+    />
+  );
 }

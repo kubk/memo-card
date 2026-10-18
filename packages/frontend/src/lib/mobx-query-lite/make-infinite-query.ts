@@ -67,6 +67,9 @@ class InfiniteQuery<
   nextPageFetchKey: string | null = null;
   nextPageError: Error | null = null;
   nextPageErrorKey: string | null = null;
+  nextPageErrorPage:
+    | InfiniteQueryPage<InfiniteQueryItem<Page>, InfiniteQueryCursor<Page>>
+    | undefined = undefined;
 
   constructor(
     private getConfig: InfiniteQueryConfigFactory<Page>,
@@ -118,7 +121,10 @@ class InfiniteQuery<
       return query.error;
     }
 
-    if (this.nextPageErrorKey === this.getConfig().key) {
+    if (
+      this.nextPageErrorKey === this.getConfig().key &&
+      this.nextPageErrorPage === query.data
+    ) {
       return this.nextPageError;
     }
 
@@ -195,6 +201,7 @@ class InfiniteQuery<
         }
         this.nextPageError = toError(error);
         this.nextPageErrorKey = key;
+        this.nextPageErrorPage = currentPage;
       });
     }
   }

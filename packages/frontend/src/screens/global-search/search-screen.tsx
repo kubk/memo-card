@@ -11,10 +11,12 @@ import { userStore } from "../../store/user-store.ts";
 import { cn } from "../../ui/cn.ts";
 import { t } from "../../translations/t.ts";
 import { BackBottomButton } from "../shared/back-bottom-button.tsx";
+import { usePullToRefresh } from "../../lib/react/use-pull-to-refresh.ts";
 
 const searchInputId = "global-search-input";
 
 export function SearchScreen() {
+  usePullToRefresh();
   const handleBack = () => {
     screenStore.back();
     globalSearchStore.clearSearch();

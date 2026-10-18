@@ -1,6 +1,7 @@
 import { type RouterOutput } from "api";
 import { LoaderCircleIcon, TrophyIcon } from "lucide-react";
 import { useBackButton } from "../../lib/platform/use-back-button.ts";
+import { usePullToRefresh } from "../../lib/react/use-pull-to-refresh.ts";
 import { useBottomReached } from "../../lib/react/use-bottom-reached.ts";
 import { screenStore } from "../../store/screen-store.ts";
 import { t, getActiveLanguage } from "../../translations/t.ts";
@@ -87,6 +88,7 @@ function Podium({
 }
 
 export function LeaderboardStatisticsScreen() {
+  usePullToRefresh();
   const query = leaderboardStore.statisticsQuery;
   const data = query.data;
   useBackButton(() => screenStore.back());

@@ -14,6 +14,7 @@ import { Screen } from "../shared/screen.tsx";
 import { LeaderboardAvatar } from "./leaderboard-avatar.tsx";
 import { LeaderboardMedal } from "./leaderboard-medal.tsx";
 import { leaderboardStore } from "./leaderboard-store.ts";
+import { usePullToRefresh } from "../../lib/react/use-pull-to-refresh.ts";
 
 function getUserAvatarFallbackName() {
   const firstName = userStore.user?.firstName?.trim();
@@ -256,6 +257,7 @@ export function LeaderboardView({
 }
 
 export function LeaderboardScreen() {
+  usePullToRefresh();
   const query = leaderboardStore.leaderboardQuery;
 
   return (

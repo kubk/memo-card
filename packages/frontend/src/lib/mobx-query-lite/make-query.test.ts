@@ -1,7 +1,12 @@
 import { observable, reaction } from "mobx";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { inMemoryCache } from "./cache.ts";
-import { makeQuery, queryRegistry } from "./make-query.ts";
+import {
+  makeQuery,
+  queryRegistry,
+  refetchActiveQueries,
+  refetchActiveQueriesOnVisible,
+} from "./make-query.ts";
 
 describe("makeQuery", () => {
   beforeEach(() => {
@@ -187,6 +192,72 @@ describe("makeQuery", () => {
 
       expect(query).toHaveBeenCalledTimes(2);
       dispose();
+    });
+
+    it("refetches only active queries", async () => {
+      const activeQuery = vi.fn().mockResolvedValue("active");
+      const inactiveQuery = vi.fn().mockResolvedValue("inactive");
+      const activeState = makeQuery(
+        { query: activeQuery, key: "refetch-active" },
+        { staleTime: Infinity },
+      );
+      const inactiveState = makeQuery(
+        { query: inactiveQuery, key: "refetch-inactive" },
+        { staleTime: Infinity },
+      );
+
+      await activeState.prefetch();
+      await inactiveState.prefetch();
+      const dispose = reaction(
+        () => activeState.data,
+        () => {},
+      );
+
+      await refetchActiveQueries();
+
+      expect(activeQuery).toHaveBeenCalledTimes(2);
+      expect(inactiveQuery).toHaveBeenCalledTimes(1);
+
+      await inactiveState.prefetch();
+      expect(inactiveQuery).toHaveBeenCalledTimes(1);
+      dispose();
+    });
+
+    it("refetches active queries when the page becomes visible", async () => {
+      vi.useFakeTimers();
+      const query = vi.fn().mockResolvedValue("data");
+      const state = makeQuery(
+        { query, key: "refetch-on-visible" },
+        { staleTime: Infinity },
+      );
+      await state.prefetch();
+      const dispose = reaction(
+        () => state.data,
+        () => {},
+      );
+      const stopListening = refetchActiveQueriesOnVisible(1000);
+      const setVisibility = (visibility: DocumentVisibilityState) => {
+        vi.spyOn(document, "visibilityState", "get").mockReturnValue(
+          visibility,
+        );
+        document.dispatchEvent(new Event("visibilitychange"));
+      };
+
+      setVisibility("hidden");
+      setVisibility("visible");
+      setVisibility("visible");
+      await vi.runAllTimersAsync();
+      expect(query).toHaveBeenCalledTimes(2);
+
+      vi.advanceTimersByTime(1000);
+      setVisibility("visible");
+      await vi.runAllTimersAsync();
+      expect(query).toHaveBeenCalledTimes(3);
+
+      stopListening();
+      dispose();
+      vi.restoreAllMocks();
+      vi.useRealTimers();
     });
   });
 

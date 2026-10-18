@@ -33,9 +33,11 @@ import { getTelegramChannelLink } from "../shared/get-telegram-channel-link.ts";
 import { getYouTubeChannelLink } from "../shared/get-youtube-channel-link.ts";
 import { GlobalSearchTrigger } from "../global-search/global-search-trigger.tsx";
 import { WeekHeatmap } from "./week-heatmap.tsx";
+import { usePullToRefresh } from "../../lib/react/use-pull-to-refresh.ts";
 import { ProIcon, TeacherGradientIcon } from "../../ui/pro-icon.tsx";
 
 export function MainScreen() {
+  usePullToRefresh();
   const [deckFolderToggle] = useState(() => new BooleanToggle(false));
   const [ruEduVideoToggle] = useState(() => new BooleanToggle(false));
 

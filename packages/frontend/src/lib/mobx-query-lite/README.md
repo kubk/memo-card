@@ -7,6 +7,8 @@ Small MobX query helper for data that should survive store/component remounts du
 - `makeQuery(...)`: creates an observable query state.
 - `makeInfiniteQuery(...)`: creates an observable cursor-paginated query state.
 - `inMemoryCache`: shared session cache used by default.
+- `refetchActiveQueries()`: refetches every query whose data is currently observed, for user-triggered refreshes such as pull to refresh. Inactive queries are left untouched.
+- `refetchActiveQueriesOnVisible(minInterval?)`: calls `refetchActiveQueries()` when the page becomes visible again, at most once per `minInterval` (5 seconds by default), so changes made outside the app show up when the user returns. Returns a function that stops listening.
 
 There is no device-storage cache or pluggable cache contract. Query data is kept in memory for the current app session.
 

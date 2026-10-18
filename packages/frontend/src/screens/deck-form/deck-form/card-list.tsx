@@ -24,6 +24,7 @@ import { useProgress } from "../../../lib/platform/use-progress.tsx";
 import { ErrorScreen } from "../../error-screen/error-screen.tsx";
 import { DeckNotFoundScreen } from "../../error-screen/deck-not-found-screen.tsx";
 import { isTrpcNotFoundError } from "../../../api/is-trpc-not-found-error.ts";
+import { usePullToRefresh } from "../../../lib/react/use-pull-to-refresh.ts";
 
 const sortOptions: Array<{
   id: string;
@@ -71,6 +72,7 @@ const sortOptions: Array<{
 
 export function CardList() {
   const [cardListStore] = useState(() => new CardListStore());
+  usePullToRefresh(() => !cardListStore.isSelectionMode.value);
 
   useBackButton(() => {
     screenStore.back();

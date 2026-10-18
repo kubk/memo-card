@@ -12,6 +12,7 @@ import { cn } from "../../ui/cn.ts";
 import { t } from "../../translations/t.ts";
 import { platform } from "../../lib/platform/platform.ts";
 import { SelectAllToggle } from "./select-all-toggle.tsx";
+import { usePullToRefresh } from "../../lib/react/use-pull-to-refresh.ts";
 
 type Props = {
   onClick: () => void;
@@ -19,6 +20,7 @@ type Props = {
 };
 
 export function RepeatCustomSelector({ onClick, store }: Props) {
+  usePullToRefresh();
   useMainButton(
     () => t("review_cards_label", { count: store.customCardsToReviewCount }),
     () => {

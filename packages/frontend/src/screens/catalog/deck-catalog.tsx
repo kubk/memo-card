@@ -1,4 +1,5 @@
 import { useBackButton } from "../../lib/platform/use-back-button.ts";
+import { usePullToRefresh } from "../../lib/react/use-pull-to-refresh.ts";
 import { screenStore } from "../../store/screen-store.ts";
 import { useDeckCatalogStore } from "./store/deck-catalog-store-context.tsx";
 import { DeckListItemWithDescription } from "../../ui/deck-list-item-with-description.tsx";
@@ -17,6 +18,7 @@ import { RadioList } from "../../ui/radio-list/radio-list.tsx";
 import { Skeleton } from "../../ui/skeleton.tsx";
 
 export function DeckCatalog() {
+  usePullToRefresh();
   const store = useDeckCatalogStore();
   const catalogQuery = store.catalogQuery;
 

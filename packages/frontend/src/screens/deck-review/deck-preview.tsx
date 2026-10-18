@@ -2,6 +2,7 @@ import { useReviewStore } from "./store/review-store-context.tsx";
 import { screenStore } from "../../store/screen-store.ts";
 import { Hint } from "../../ui/hint.tsx";
 import { useBackButton } from "../../lib/platform/use-back-button.ts";
+import { usePullToRefresh } from "../../lib/react/use-pull-to-refresh.ts";
 import { useMainButton } from "../../lib/platform/use-main-button.ts";
 import { useProgress } from "../../lib/platform/use-progress.tsx";
 import { t } from "../../translations/t.ts";
@@ -31,6 +32,7 @@ type Props = {
 };
 
 export function DeckPreview(props: Props) {
+  usePullToRefresh();
   const reviewStore = useReviewStore();
   const { store } = props;
 

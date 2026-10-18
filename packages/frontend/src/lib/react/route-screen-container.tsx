@@ -8,6 +8,8 @@ import { routeScrollContainerProps } from "./route-scroll-container.ts";
 import { cn } from "../../ui/cn.ts";
 import { Route } from "../../store/routing/route-types.ts";
 import { routeScreenContainerClassName } from "./route-screen-container-class.ts";
+import { PullToRefresh } from "../pull-to-refresh/pull-to-refresh.tsx";
+import { pullToRefreshStore } from "../../store/pull-to-refresh-store.ts";
 
 type RouteScreenContainerProps = {
   children: ReactNode;
@@ -77,23 +79,25 @@ export function RouteScreenContainer(props: RouteScreenContainerProps) {
   }, [screenEntryId]);
 
   return (
-    <m.div
-      key={screenEntryId}
-      ref={scrollContainerRef}
-      {...routeScrollContainerProps}
-      className={cn(
-        routeScreenContainerClassName,
-        platform instanceof TelegramPlatform && platform.isWeb() && "mt-4",
-        screenType === "browserLogin" && "flex items-center justify-center",
-      )}
-      initial={shouldAnimate ? animation.initial : false}
-      animate={animation.animate}
-      transition={animation.transition}
-      onScroll={(event) => {
-        screenStore.setCurrentScrollTop(event.currentTarget.scrollTop);
-      }}
-    >
-      {children}
-    </m.div>
+    <PullToRefresh store={pullToRefreshStore}>
+      <m.div
+        key={screenEntryId}
+        ref={scrollContainerRef}
+        {...routeScrollContainerProps}
+        className={cn(
+          routeScreenContainerClassName,
+          platform instanceof TelegramPlatform && platform.isWeb() && "mt-4",
+          screenType === "browserLogin" && "flex items-center justify-center",
+        )}
+        initial={shouldAnimate ? animation.initial : false}
+        animate={animation.animate}
+        transition={animation.transition}
+        onScroll={(event) => {
+          screenStore.setCurrentScrollTop(event.currentTarget.scrollTop);
+        }}
+      >
+        {children}
+      </m.div>
+    </PullToRefresh>
   );
 }

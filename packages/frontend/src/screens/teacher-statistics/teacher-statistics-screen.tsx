@@ -4,6 +4,7 @@ import { type ReactNode } from "preact/compat";
 import { api } from "../../api/trpc-api.ts";
 import { platform } from "../../lib/platform/platform.ts";
 import { useBackButton } from "../../lib/platform/use-back-button.ts";
+import { usePullToRefresh } from "../../lib/react/use-pull-to-refresh.ts";
 import { useBottomReached } from "../../lib/react/use-bottom-reached.ts";
 import { makeInfiniteQuery } from "../../lib/mobx-query-lite/make-infinite-query.ts";
 import { makeQuery } from "../../lib/mobx-query-lite/make-query.ts";
@@ -430,6 +431,7 @@ function ListBottomLoader(props: { isLoading: boolean }) {
 }
 
 export function TeacherStatisticsScreen() {
+  usePullToRefresh();
   useBackButton(() => {
     screenStore.back();
   });
@@ -450,6 +452,7 @@ export function TeacherStatisticsScreen() {
 }
 
 export function TeacherStatisticsListScreen() {
+  usePullToRefresh();
   const screen = screenStore.screen;
   const listType =
     screen.type === "teacherStatisticsList" ? screen.listType : "students";
