@@ -3,11 +3,15 @@ import { lazy, Suspense, useRef, useState } from "preact/compat";
 const TAP_COUNT = 10;
 const TAP_RESET_MS = 2000;
 
-const DevMenu = lazy(() =>
-  import("./dev-menu.tsx").then((module) => ({
-    default: module.DevMenu,
-  })),
-);
+const DevMenu =
+  import.meta.env.VITE_STAGE === "local" ||
+  import.meta.env.VITE_STAGE === "staging"
+    ? lazy(() =>
+        import("./dev-menu.tsx").then((module) => ({
+          default: module.DevMenu,
+        })),
+      )
+    : null;
 
 export function useDevMenuReveal() {
   const tapCountRef = useRef(0);
@@ -15,6 +19,10 @@ export function useDevMenuReveal() {
   const [isOpen, setIsOpen] = useState(false);
 
   function handleMainTap() {
+    if (!DevMenu) {
+      return;
+    }
+
     if (tapResetTimerRef.current) {
       clearTimeout(tapResetTimerRef.current);
     }
@@ -32,11 +40,12 @@ export function useDevMenuReveal() {
     }, TAP_RESET_MS);
   }
 
-  const devMenu = isOpen ? (
-    <Suspense fallback={null}>
-      <DevMenu onOpenChange={setIsOpen} />
-    </Suspense>
-  ) : null;
+  const devMenu =
+    DevMenu && isOpen ? (
+      <Suspense fallback={null}>
+        <DevMenu onOpenChange={setIsOpen} />
+      </Suspense>
+    ) : null;
 
   return { handleMainTap, devMenu };
 }

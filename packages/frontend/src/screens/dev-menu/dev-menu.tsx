@@ -39,78 +39,60 @@ export function DevMenu({
       title="Developer tools"
       titleClassName="mb-4 text-center text-lg font-semibold"
     >
-      {import.meta.env.VITE_STAGE === "production" ? (
-        <List
-          animateTap={false}
-          items={[
-            {
-              text: store.extendUvarashaProMutation.isPending
-                ? "Extending..."
-                : "Extend @uvarasha Pro",
-              onClick: () => {
-                if (!store.extendUvarashaProMutation.isPending) {
-                  store.extendUvarashaPro();
-                }
-              },
+      <List
+        animateTap={false}
+        items={[
+          {
+            right: (
+              <span className="relative top-[3px]">
+                <RadioSwitcher
+                  isOn={userStore.isSkipReview.value}
+                  onToggle={userStore.isSkipReview.toggle}
+                />
+              </span>
+            ),
+            text: "Skip review",
+          },
+          {
+            right: (
+              <div className="flex gap-1">
+                {devPlanOptions.map(({ value, label }) => (
+                  <Chip
+                    key={value}
+                    isSelected={store.planValue === value}
+                    onClick={() =>
+                      store.setDevPlan(value === "none" ? null : value)
+                    }
+                  >
+                    <LoadingSwap isLoading={store.pendingPlan === value}>
+                      {label}
+                    </LoadingSwap>
+                  </Chip>
+                ))}
+              </div>
+            ),
+            text: "Plan",
+          },
+          {
+            right: (
+              <span className="relative top-[3px]">
+                <RadioSwitcher
+                  isOn={store.isErudaEnabled.value}
+                  onToggle={store.isErudaEnabled.toggle}
+                />
+              </span>
+            ),
+            text: "Eruda console",
+          },
+          {
+            text: "Open deck not found",
+            onClick: () => {
+              onOpenChange(false);
+              screenStore.push({ type: "sharedDeckNotFound" });
             },
-          ]}
-        />
-      ) : (
-        <List
-          animateTap={false}
-          items={[
-            {
-              right: (
-                <span className="relative top-[3px]">
-                  <RadioSwitcher
-                    isOn={userStore.isSkipReview.value}
-                    onToggle={userStore.isSkipReview.toggle}
-                  />
-                </span>
-              ),
-              text: "Skip review",
-            },
-            {
-              right: (
-                <div className="flex gap-1">
-                  {devPlanOptions.map(({ value, label }) => (
-                    <Chip
-                      key={value}
-                      isSelected={store.planValue === value}
-                      onClick={() =>
-                        store.setDevPlan(value === "none" ? null : value)
-                      }
-                    >
-                      <LoadingSwap isLoading={store.pendingPlan === value}>
-                        {label}
-                      </LoadingSwap>
-                    </Chip>
-                  ))}
-                </div>
-              ),
-              text: "Plan",
-            },
-            {
-              right: (
-                <span className="relative top-[3px]">
-                  <RadioSwitcher
-                    isOn={store.isErudaEnabled.value}
-                    onToggle={store.isErudaEnabled.toggle}
-                  />
-                </span>
-              ),
-              text: "Eruda console",
-            },
-            {
-              text: "Open deck not found",
-              onClick: () => {
-                onOpenChange(false);
-                screenStore.push({ type: "sharedDeckNotFound" });
-              },
-            },
-          ]}
-        />
-      )}
+          },
+        ]}
+      />
     </Drawer>
   );
 }
