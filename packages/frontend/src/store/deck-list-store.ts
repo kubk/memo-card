@@ -15,9 +15,9 @@ import { BooleanToggle } from "mobx-form-lite";
 import { userStore } from "./user-store.ts";
 import { platform } from "../lib/platform/platform.ts";
 import { type FolderWithDeckIdDbType } from "api";
+import { isAppStartParam } from "api";
 import { api } from "../api/trpc-api.ts";
 import { BrowserPlatform } from "../lib/platform/browser/browser-platform.ts";
-import { StartParamType } from "./routing/route-types.ts";
 import { makeQuery } from "../lib/mobx-query-lite/make-query.ts";
 import { type DeckListDeck } from "./deck-types.ts";
 import { deckDetailsStore } from "./deck-details-store.ts";
@@ -367,22 +367,21 @@ class DeckListStore {
       return;
     }
 
-    if (startParam === StartParamType.RepeatAll) {
+    const appStartParam = isAppStartParam(startParam) ? startParam : null;
+    if (appStartParam === "repeat_all") {
       appLoaderStore.enable();
       when(() => !!this.myInfo)
         .then(() => {
           screenStore.push({ type: "reviewAll" });
         })
         .finally(appLoaderStore.disable);
-    } else if (startParam === StartParamType.DeckCatalog) {
+    } else if (appStartParam === "catalog") {
       screenStore.push({ type: "deckCatalog" });
-    } else if (startParam === StartParamType.Components) {
+    } else if (appStartParam === "ui_kit") {
       window.location.replace("/playground/");
-    } else if (startParam === StartParamType.Settings) {
+    } else if (appStartParam === "settings") {
       screenStore.goToUserSettings();
-    } else if (startParam === StartParamType.Break) {
-      throw new Error("Test exception for debugging");
-    } else if (startParam === StartParamType.Pro) {
+    } else if (appStartParam === "pro") {
       screenStore.push({ type: "plans", planType: "pro" });
     } else {
       appLoaderStore.enable();

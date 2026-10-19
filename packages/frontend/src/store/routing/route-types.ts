@@ -1,15 +1,6 @@
 import * as v from "valibot";
 import { type CatalogFolderDbType } from "api";
 
-export enum StartParamType {
-  RepeatAll = "repeat_all",
-  DeckCatalog = "catalog",
-  Pro = "pro",
-  Settings = "settings",
-  Components = "ui_kit",
-  Break = "break",
-}
-
 const stringToNumber = v.pipe(v.string(), v.transform(Number), v.number());
 const optionalStringToNumber = v.optional(stringToNumber);
 

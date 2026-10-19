@@ -1,9 +1,5 @@
-import {
-  Route,
-  routeSchema,
-  StartParamType,
-  withoutRouteState,
-} from "./route-types.ts";
+import { isAppStartParam } from "api";
+import { Route, routeSchema, withoutRouteState } from "./route-types.ts";
 import * as v from "valibot";
 
 export function routeToUrl(route: Route): string {
@@ -35,10 +31,7 @@ export function urlToRoute(url: string): Route | null {
 
   // Known Telegram start params are handled by the platform launch flow.
   const start = urlObj.searchParams.get("start");
-  if (
-    start &&
-    Object.values(StartParamType).includes(start as StartParamType)
-  ) {
+  if (start && isAppStartParam(start)) {
     return null;
   }
 
