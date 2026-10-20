@@ -33,15 +33,15 @@ importers:
       oxfmt:
         specifier: ^0.55.0
         version: 0.55.0
+      slop-police:
+        specifier: workspace:*
+        version: link:tools/slop-police
       slop-scan:
         specifier: ^0.3.0
         version: 0.3.0
       typescript:
         specifier: ^7.0.2
         version: 7.0.2
-      typescript-api6:
-        specifier: workspace:*
-        version: link:tools/typescript-api6
 
   packages/api:
     dependencies:
@@ -355,20 +355,11 @@ importers:
         specifier: ^6.0.3
         version: 6.0.3
 
-  tools/detect-unused-methods:
-    dependencies:
+  tools/slop-police:
+    devDependencies:
       typescript:
         specifier: 7.0.2
         version: 7.0.2
-      typescript-api6:
-        specifier: workspace:*
-        version: link:../typescript-api6
-
-  tools/typescript-api6:
-    dependencies:
-      typescript:
-        specifier: ^6.0.3
-        version: 6.0.3
 
 packages:
 

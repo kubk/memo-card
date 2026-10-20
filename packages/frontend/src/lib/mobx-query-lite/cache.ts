@@ -21,8 +21,4 @@ export const inMemoryCache = {
   delete(key: string) {
     storage.delete(key);
   },
-
-  entries() {
-    return Array.from(storage.entries());
-  },
 };

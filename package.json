@@ -15,15 +15,12 @@
     "lint:slop-api": "slop-scan scan packages/api --lint | tee /dev/stderr | grep -q '^0 findings$'",
     "lint:slop-frontend": "slop-scan scan packages/frontend --lint | tee /dev/stderr | grep -q '^0 findings$'",
     "lint:translations": "node packages/frontend/check-missing-translations.js",
-    "lint:methods-api": "node tools/detect-unused-methods/index.mjs packages/api",
-    "lint:methods-frontend": "node tools/detect-unused-methods/index.mjs packages/frontend",
+    "lint:slop-police": "slop-police",
     "typecheck": "pnpm --recursive --parallel --filter='./packages/*' run typecheck",
     "test": "pnpm run -F='./packages/*' test",
     "filter-public-code": "git-filter git-filter.config.json",
     "export-public-code": "./export-public-code.sh",
-    "postinstall": "patch-package",
-    "dead-code": "pnpm run \"/^lint:(knip|slop-.*)$/\"",
-    "detect-unused-methods": "pnpm run \"/^lint:methods-.*/\""
+    "postinstall": "patch-package"
   },
   "packageManager": "pnpm@9.15.0",
   "pnpm": {
@@ -46,8 +43,8 @@
     "jscpd": "^5.1.2",
     "knip": "^6.9.0",
     "oxfmt": "^0.55.0",
+    "slop-police": "workspace:*",
     "slop-scan": "^0.3.0",
-    "typescript": "^7.0.2",
-    "typescript-api6": "workspace:*"
+    "typescript": "^7.0.2"
   }
 }
