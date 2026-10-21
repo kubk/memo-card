@@ -57,7 +57,7 @@ export function CardReviewWithControls(props: Props) {
               cardOpenedRow ? (
                 cardOpenedRow
               ) : (
-                <div className="bg-bg flex gap-2 w-full p-2 rounded-2xl">
+                <div className="bg-bg flex gap-2 w-full h-[69px] p-2 rounded-2xl">
                   <button
                     key={"again"}
                     onClick={() => onAgain()}
@@ -135,14 +135,17 @@ export function CardReviewWithControls(props: Props) {
                 </div>
               )
             ) : (
-              <Button
-                key={"show"}
-                onClick={() => {
-                  onShowAnswer();
-                }}
-              >
-                {t("review_show_answer")}
-              </Button>
+              <div className="flex w-full h-[69px] p-2">
+                <Button
+                  key={"show"}
+                  className="h-full"
+                  onClick={() => {
+                    onShowAnswer();
+                  }}
+                >
+                  {t("review_show_answer")}
+                </Button>
+              </div>
             )}
           </div>
         )}
