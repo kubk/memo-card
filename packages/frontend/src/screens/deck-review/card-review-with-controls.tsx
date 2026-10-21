@@ -135,7 +135,7 @@ export function CardReviewWithControls(props: Props) {
                 </div>
               )
             ) : (
-              <div className="flex w-full h-[69px] p-2">
+              <div className="flex w-full h-[69px] py-2">
                 <Button
                   key={"show"}
                   className="h-full"
