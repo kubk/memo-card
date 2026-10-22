@@ -34,8 +34,8 @@ importers:
         specifier: ^0.55.0
         version: 0.55.0
       slop-police:
-        specifier: workspace:*
-        version: link:tools/slop-police
+        specifier: ^0.1.0
+        version: 0.1.0
       slop-scan:
         specifier: ^0.3.0
         version: 0.3.0
@@ -354,12 +354,6 @@ importers:
       typescript:
         specifier: ^6.0.3
         version: 6.0.3
-
-  tools/slop-police:
-    devDependencies:
-      typescript:
-        specifier: 7.0.2
-        version: 7.0.2
 
 packages:
 
@@ -5195,6 +5189,31 @@ packages:
   slash@5.1.0:
     resolution: {integrity: sha512-ZA6oR3T/pEyuqwMgAKT0/hAv8oAXckzbkmR0UkUosQ+Mc4RxGoJkRmwHgHufaenlyAgE1Mxgpdcrf75y6XcnDg==}
     engines: {node: '>=14.16'}
+
+  slop-police-darwin-arm64@0.1.0:
+    resolution: {integrity: sha512-EMFPAQNzsi/g+ABGQl+rPeQ389FQ8+E6j3CZQx6zu4YXJBZePkXeOyqXNPJB6W7UwX7NP/oMgtb1gsDV8zSrng==}
+    cpu: [arm64]
+    os: [darwin]
+
+  slop-police-darwin-x64@0.1.0:
+    resolution: {integrity: sha512-VxkVGs7BFHFmfDD9xJVEK94vn91CnxP4oIE2j35qiKv1fChtT1NvVuhOh0um0uzV93q1xrDL6hRuLGe8P1mCAQ==}
+    cpu: [x64]
+    os: [darwin]
+
+  slop-police-linux-arm64@0.1.0:
+    resolution: {integrity: sha512-tTBaPnP2k2j5qb8A8Zf83c9ofowGA/fBEtEUGjs2+m16r869KCTqTSPXr5znOUoe9yVSSj/wBQoXviUOtz6BLA==}
+    cpu: [arm64]
+    os: [linux]
+
+  slop-police-linux-x64@0.1.0:
+    resolution: {integrity: sha512-kUwgggvzVj3Qk0FfaG8BSLQc9RWIHDRBAX3q2ZQ2t0/zUQNnQySBPlsW+148wn9y4Ajxsa/BjKdtrjnN2wFHcQ==}
+    cpu: [x64]
+    os: [linux]
+
+  slop-police@0.1.0:
+    resolution: {integrity: sha512-pOO6I6FwhgpZIsQA/4GTymRp9cQ52YTDIxJYEeMRbxm6qeGwHbjDnQOuQxyXUbexDBZ0zrivNZ3O4Dc63vxrDw==}
+    engines: {node: '>=18'}
+    hasBin: true
 
   slop-scan@0.3.0:
     resolution: {integrity: sha512-uviaHdntkRX5+4RZhzk/N3wYzoW9FMe9XrA4uCuNUslTt8GxbXc8B99YE9map78hJ9/FbXDpmn3phG/EsD7TZQ==}
@@ -10122,6 +10141,25 @@ snapshots:
   slash@2.0.0: {}
 
   slash@5.1.0: {}
+
+  slop-police-darwin-arm64@0.1.0:
+    optional: true
+
+  slop-police-darwin-x64@0.1.0:
+    optional: true
+
+  slop-police-linux-arm64@0.1.0:
+    optional: true
+
+  slop-police-linux-x64@0.1.0:
+    optional: true
+
+  slop-police@0.1.0:
+    optionalDependencies:
+      slop-police-darwin-arm64: 0.1.0
+      slop-police-darwin-x64: 0.1.0
+      slop-police-linux-arm64: 0.1.0
+      slop-police-linux-x64: 0.1.0
 
   slop-scan@0.3.0:
     dependencies:

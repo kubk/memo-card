@@ -43,7 +43,7 @@
     "jscpd": "^5.1.2",
     "knip": "^6.9.0",
     "oxfmt": "^0.55.0",
-    "slop-police": "workspace:*",
+    "slop-police": "^0.1.0",
     "slop-scan": "^0.3.0",
     "typescript": "^7.0.2"
   }
