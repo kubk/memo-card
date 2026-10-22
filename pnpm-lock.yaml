@@ -22,8 +22,8 @@ importers:
         specifier: ^9.2.1
         version: 9.2.4
       git-filter:
-        specifier: 2.4.1
-        version: 2.4.1
+        specifier: 2.5.0
+        version: 2.5.0
       jscpd:
         specifier: ^5.1.2
         version: 5.1.2
@@ -4093,8 +4093,9 @@ packages:
   get-tsconfig@4.14.0:
     resolution: {integrity: sha512-yTb+8DXzDREzgvYmh6s9vHsSVCHeC0G3PI5bEXNBHtmshPnO+S5O7qgLEOn0I5QvMy6kpZN8K1NKGyilLb93wA==}
 
-  git-filter@2.4.1:
-    resolution: {integrity: sha512-rHeRPmlCXpN/07haqKiHxa5L8NMk5nIVadnXIUbOIWbr2tfUuQ7TLd3JmMRSsQ2QrZkhqmh8uVfD7z9es5w8Jg==}
+  git-filter@2.5.0:
+    resolution: {integrity: sha512-J2nLMpin6JW92O8tHoE08vu/8DQoO1QNXcyBVra9DMHurExG2uzd1TC4wWzdMzJw/Q0dZ/5mmB4ZaqxFNiQGcQ==}
+    engines: {node: '>=24'}
     hasBin: true
 
   github-from-package@0.0.0:
@@ -4176,6 +4177,10 @@ packages:
 
   ignore@5.3.2:
     resolution: {integrity: sha512-hsBTNUqQTDwkWtcdYI2i06Y/nUBEsNEDJKjWdigLvegy8kDuJAS8uRlpkkcQpyEXL0Z/pjDy5HBmMjRCJ2gq+g==}
+    engines: {node: '>= 4'}
+
+  ignore@7.0.13:
+    resolution: {integrity: sha512-2E8Q6rh+1RRSq/YdaGsNfXsEZy9FVqv6BSSrkmZJP7BnaoPnRfKL+YaofPvP+5rzdk144qSm6i4+hvPgUcbV4Q==}
     engines: {node: '>= 4'}
 
   imurmurhash@0.1.4:
@@ -8921,10 +8926,10 @@ snapshots:
     dependencies:
       resolve-pkg-maps: 1.0.0
 
-  git-filter@2.4.1:
+  git-filter@2.5.0:
     dependencies:
       commander: 8.3.0
-      ignore: 5.3.2
+      ignore: 7.0.13
       write-file-atomic: 3.0.3
 
   github-from-package@0.0.0:
@@ -9007,6 +9012,8 @@ snapshots:
   ieee754@1.2.1: {}
 
   ignore@5.3.2: {}
+
+  ignore@7.0.13: {}
 
   imurmurhash@0.1.4: {}
 
