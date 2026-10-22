@@ -12,8 +12,6 @@
     "lint:packages": "pnpm --recursive --parallel --filter='./packages/*' run lint",
     "lint:jscpd": "jscpd packages/api/src packages/frontend/src --min-lines 10 --min-tokens 50 --cross-formats js-ts --ignore \"**/*.test.*\" --skip-isolated \"packages/api|packages/frontend\" --exit-code 1 --no-colors --no-tips --reporters ai",
     "lint:knip": "knip --reporter compact",
-    "lint:slop-api": "slop-scan scan packages/api --lint | tee /dev/stderr | grep -q '^0 findings$'",
-    "lint:slop-frontend": "slop-scan scan packages/frontend --lint | tee /dev/stderr | grep -q '^0 findings$'",
     "lint:translations": "node packages/frontend/check-missing-translations.js",
     "lint:slop-police": "slop-police",
     "typecheck": "pnpm --recursive --parallel --filter='./packages/*' run typecheck",
@@ -43,8 +41,7 @@
     "jscpd": "^5.1.2",
     "knip": "^6.9.0",
     "oxfmt": "^0.55.0",
-    "slop-police": "^0.1.0",
-    "slop-scan": "^0.3.0",
+    "slop-police": "^0.2.0",
     "typescript": "^7.0.2"
   }
 }
