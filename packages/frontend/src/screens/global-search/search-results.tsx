@@ -9,7 +9,6 @@ import { List } from "../../ui/list.tsx";
 import { DeckCardDbType } from "api";
 import { removeAllTags } from "../../lib/sanitize-html/remove-all-tags.ts";
 import { sanitizeTextForCard } from "../../lib/sanitize-html/sanitize-text-for-card.ts";
-import { userStore } from "../../store/user-store.ts";
 import { ChevronIcon } from "../../ui/chevron-icon.tsx";
 import { t } from "../../translations/t.ts";
 
@@ -69,7 +68,7 @@ export function SearchResults() {
         return null;
       }
 
-      if (deck.authorId === userStore.myId) {
+      if (deckListStore.isDeckOwner(deck)) {
         screenStore.push({
           type: "deckForm",
           deckId: deck.id,

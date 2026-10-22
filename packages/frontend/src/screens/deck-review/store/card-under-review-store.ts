@@ -11,6 +11,7 @@ import {
   DeckCardDbTypeWithType,
 } from "../../../store/deck-list-store.ts";
 import { CardReviewType } from "api";
+import { type DeckListDeck } from "../../../store/deck-types.ts";
 import { LimitedCardUnderReviewStore } from "../../shared/card/card.tsx";
 import {
   createVoicePlayer,
@@ -25,6 +26,7 @@ type CardAnswer = NonNullable<DeckCardDbType["answers"]>[number];
 
 export class CardUnderReviewStore implements LimitedCardUnderReviewStore {
   id: number;
+  deckId: number;
   cardReviewType: CardReviewType;
   due: string;
   stability: number;
@@ -54,6 +56,7 @@ export class CardUnderReviewStore implements LimitedCardUnderReviewStore {
 
   constructor(card: DeckCardDbTypeWithType, deck: DeckWithCardsWithReviewType) {
     this.id = card.id;
+    this.deckId = card.deckId;
     this.cardReviewType = card.type;
     this.due = card.due;
     this.stability = card.stability;
@@ -74,29 +77,23 @@ export class CardUnderReviewStore implements LimitedCardUnderReviewStore {
     this.deckSpeakField = card.options?.speakField || deck.speakField;
 
     preloadCardImage(card);
-
-    const voicePlayer = createVoicePlayer(
-      {
-        voice: card.options?.voice,
-        speakField: card.options?.speakField,
-        back: card.back,
-        front: card.front,
-      },
-      {
-        speakingCardsField: deck.speakField,
-        speakingCardsLocale: deck.speakLocale,
-      },
-    );
-
-    if (voicePlayer) {
-      this.voicePlayer = voicePlayer;
-    }
+    this.voicePlayer = createCardVoicePlayer(card, deck);
 
     makeAutoObservable(
       this,
       { isCardSpeakerVisible: false },
       { autoBind: true },
     );
+  }
+
+  updateContent(card: DeckCardDbType, deck: DeckListDeck) {
+    this.front = card.front;
+    this.back = card.back;
+    this.example = card.example;
+    this.answerType = card.answerType;
+    this.answers = card.answers || [];
+    this.deckSpeakField = card.options?.speakField || deck.speakField;
+    this.voicePlayer = createCardVoicePlayer(card, deck);
   }
 
   open() {
@@ -146,4 +143,24 @@ export class CardUnderReviewStore implements LimitedCardUnderReviewStore {
       this.isAgain = true;
     }
   }
+}
+
+function createCardVoicePlayer(
+  card: DeckCardDbType,
+  deck: Pick<DeckListDeck, "speakField" | "speakLocale">,
+) {
+  return (
+    createVoicePlayer(
+      {
+        voice: card.options?.voice,
+        speakField: card.options?.speakField,
+        back: card.back,
+        front: card.front,
+      },
+      {
+        speakingCardsField: deck.speakField,
+        speakingCardsLocale: deck.speakLocale,
+      },
+    ) ?? undefined
+  );
 }

@@ -1,4 +1,10 @@
-import { EyeOffIcon, MicIcon, MicOffIcon, SkipForwardIcon } from "lucide-react";
+import {
+  EyeOffIcon,
+  MicIcon,
+  MicOffIcon,
+  PencilIcon,
+  SkipForwardIcon,
+} from "lucide-react";
 import { platform } from "../../lib/platform/platform.ts";
 import { boolNarrow } from "../../lib/typescript/bool-narrow";
 import { userStore } from "../../store/user-store";
@@ -22,6 +28,15 @@ export function CardContextMenu() {
             reviewStore.onSkipCard();
           },
         },
+        reviewStore.canEditCurrentCard
+          ? {
+              icon: <PencilIcon className="h-5 w-5 text-hint" />,
+              text: t("edit_card"),
+              onClick: () => {
+                reviewStore.editCurrentCard();
+              },
+            }
+          : undefined,
         {
           icon: <EyeOffIcon className="h-5 w-5 text-hint" />,
           text: t("hide_card_forever"),

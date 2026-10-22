@@ -5,6 +5,7 @@ import { screenStore } from "../../../store/screen-store.ts";
 import {
   DeckCardDbTypeWithType,
   type DeckWithCardsWithReviewType,
+  deckListStore,
 } from "../../../store/deck-list-store.ts";
 import { platform } from "../../../lib/platform/platform.ts";
 import { showConfirm } from "../../../lib/platform/show-confirm.ts";
@@ -43,6 +44,19 @@ type SilentSendResult = Pick<
   ReviewResult,
   "hardIds" | "goodIds" | "easyIds" | "neverIds"
 >;
+
+let pausedReview: { screenEntryId: number; store: ReviewStore } | null = null;
+
+export function resumeOrCreateReviewStore() {
+  if (pausedReview?.screenEntryId !== screenStore.screenEntryId) {
+    return new ReviewStore();
+  }
+
+  const { store } = pausedReview;
+  pausedReview = null;
+  store.refreshCurrentCard();
+  return store;
+}
 
 export class ReviewStore {
   private queue: CardUnderReviewStore[] = [];
@@ -210,7 +224,7 @@ export class ReviewStore {
   }
 
   startAllRepeatReview(myDecks: DeckWithCardsWithReviewType[]) {
-    if (!myDecks.length) {
+    if (!myDecks.length || this.currentCardId) {
       return;
     }
 
@@ -328,6 +342,37 @@ export class ReviewStore {
     if (this.queueSize !== 0) {
       this.currentCardId = this.currentCardAtHead?.id;
     }
+  }
+
+  editCurrentCard() {
+    const currentCard = this.currentCard;
+    assert(currentCard, "currentCard should not be null while editing");
+
+    pausedReview = { screenEntryId: screenStore.screenEntryId, store: this };
+    screenStore.push({
+      type: "deckForm",
+      deckId: currentCard.deckId,
+      cardId: currentCard.id,
+    });
+  }
+
+  refreshCurrentCard() {
+    const card = this.currentCard;
+    if (!card) {
+      return;
+    }
+
+    const deck = deckListStore.searchDeckWithCardsById(card.deckId);
+    const editedCard = deck?.deckCards.find(({ id }) => id === card.id);
+    if (deck && editedCard) {
+      card.updateContent(editedCard, deck);
+    }
+  }
+
+  get canEditCurrentCard() {
+    const card = this.currentCard;
+    const deck = card && deckListStore.searchDeckById(card.deckId);
+    return !!deck && deckListStore.isDeckOwner(deck);
   }
 
   changeState(cardState: ReviewOutcome) {

@@ -1,5 +1,5 @@
-import { createContext, ReactNode, useContext } from "preact/compat";
-import { ReviewStore } from "./review-store.ts";
+import { createContext, ReactNode, useContext, useState } from "preact/compat";
+import { ReviewStore, resumeOrCreateReviewStore } from "./review-store.ts";
 import { assert } from "api";
 import { useMount } from "../../../lib/react/use-mount.ts";
 import { loadHighQualityVoices } from "../../../lib/voice-playback/speak.ts";
@@ -7,15 +7,13 @@ import { loadHighQualityVoices } from "../../../lib/voice-playback/speak.ts";
 const Context = createContext<ReviewStore | null>(null);
 
 export const ReviewStoreProvider = (props: { children: ReactNode }) => {
+  const [store] = useState(resumeOrCreateReviewStore);
+
   useMount(() => {
     loadHighQualityVoices();
   });
 
-  return (
-    <Context.Provider value={new ReviewStore()}>
-      {props.children}
-    </Context.Provider>
-  );
+  return <Context.Provider value={store}>{props.children}</Context.Provider>;
 };
 
 export const useReviewStore = () => {
