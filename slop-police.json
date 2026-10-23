@@ -21,7 +21,6 @@
     "no-placeholder-comment": "error",
     "no-pass-through-wrapper": "error",
     "no-duplicate-function": "error",
-    "no-promise-default-fallback": "error",
     "no-stringified-unknown-error": "error"
   }
 }
