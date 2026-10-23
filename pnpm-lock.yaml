@@ -318,8 +318,8 @@ importers:
         specifier: ^19.3.1
         version: 19.3.1(react@19.3.1)
       tailwind-merge:
-        specifier: ^2.3.0
-        version: 2.6.1
+        specifier: ^3.6.0
+        version: 3.6.0
     devDependencies:
       '@tailwindcss/vite':
         specifier: ^4.3.3
@@ -343,8 +343,8 @@ importers:
         specifier: ^1.70.0
         version: 1.73.0
       tailwindcss:
-        specifier: ^4.1.11
-        version: 4.3.2
+        specifier: ^4.3.3
+        version: 4.3.3
       typescript:
         specifier: ^6.0.3
         version: 6.0.3
@@ -5251,14 +5251,8 @@ packages:
     os: [darwin, linux, win32, freebsd, openbsd, netbsd, sunos, android]
     hasBin: true
 
-  tailwind-merge@2.6.1:
-    resolution: {integrity: sha512-Oo6tHdpZsGpkKG88HJ8RR1rg/RdnEkQEfMoEk2x1XRI3F1AxeU+ijRXpiVUF4UbLfcxxRGw6TbUINKYdWVsQTQ==}
-
   tailwind-merge@3.6.0:
     resolution: {integrity: sha512-uxL7qAVQriqRQPAyK3pj66VqskWqoZ37PW94jwOTwNfq/z9oyu1V+eqrZqtR2+fCiXdYOZe/Modt8GtvqNzu+w==}
-
-  tailwindcss@4.3.2:
-    resolution: {integrity: sha512-WtctNNSH8A9jlMIqxzuYumOHU5uGZyRv0Q5svQl+oEPy5w84YpBxdb7MdqyiSPQge5jTJ6zFQLq0PFygdccSBA==}
 
   tailwindcss@4.3.3:
     resolution: {integrity: sha512-gOhV3P7ufE62QDGg1zVaTgCR+EtPv92k2nIhVcVKcLmxT1sUBsQGhnZj175j+MqRt4zLF7ic+sCYjfhxMxj7YQ==}
@@ -10186,11 +10180,7 @@ snapshots:
 
   systeminformation@5.31.16: {}
 
-  tailwind-merge@2.6.1: {}
-
   tailwind-merge@3.6.0: {}
-
-  tailwindcss@4.3.2: {}
 
   tailwindcss@4.3.3: {}
 
