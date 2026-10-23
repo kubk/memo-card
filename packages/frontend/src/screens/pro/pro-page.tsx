@@ -58,25 +58,25 @@ const splitGraphemes = (text: string) =>
 const BENEFITS = [
   {
     icon: <LibraryBig size={17} />,
-    iconClassName: "bg-icon-violet",
+    iconClassName: "bg-tile-violet",
     titleKey: "benefitCreateTitle",
     descriptionKey: "benefitCreateDescription",
   },
   {
     icon: <PencilLine size={17} />,
-    iconClassName: "bg-icon-blue",
+    iconClassName: "bg-tile-blue",
     titleKey: "benefitImproveTitle",
     descriptionKey: "benefitImproveDescription",
   },
   {
     icon: <FolderTree size={17} />,
-    iconClassName: "bg-icon-turquoise",
+    iconClassName: "bg-tile-turquoise",
     titleKey: "benefitManageTitle",
     descriptionKey: "benefitManageDescription",
   },
   {
     icon: <AudioLines size={17} />,
-    iconClassName: "bg-icon-sea",
+    iconClassName: "bg-tile-sea",
     titleKey: "benefitTranscriptionTitle",
     descriptionKey: "benefitTranscriptionDescription",
   },

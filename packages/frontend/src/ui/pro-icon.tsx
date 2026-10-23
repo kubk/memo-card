@@ -1,7 +1,7 @@
 import { type ReactNode } from "preact/compat";
 import { StarIcon } from "lucide-react";
 
-const proIconGradient = "linear-gradient(to right, #8b5cf6, #ec4899, #ef4444)";
+const proIconGradient = "linear-gradient(135deg, #af52de, #ff2d55)";
 const teacherIconGradient =
   "linear-gradient(135deg, #5c5fc8, #a64994, #c45363)";
 
@@ -15,7 +15,7 @@ function GradientIcon({ icon, gradient }: GradientIconProps) {
     <div
       className="rounded-lg w-[30px] h-[30px] flex flex-col justify-center items-center text-white"
       style={{
-        backgroundImage: gradient,
+        backgroundImage: `linear-gradient(rgba(255,255,255,0.16), rgba(255,255,255,0) 60%), ${gradient}`,
       }}
     >
       {icon}

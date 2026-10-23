@@ -77,6 +77,11 @@
   --color-icon-turquoise: #16a6c3;
   --color-icon-sea: #1abe8a;
   --color-icon-green: #1edb59;
+  --color-tile-pink: #af52de;
+  --color-tile-violet: #5e5ce6;
+  --color-tile-blue: #0079ff;
+  --color-tile-turquoise: #32ade6;
+  --color-tile-sea: #34c759;
 
   --color-border: var(--border);
   --color-input: var(--input);

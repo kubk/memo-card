@@ -167,7 +167,7 @@ export function ManualCardFormView() {
               {
                 icon: (
                   <FilledIcon
-                    className="bg-icon-violet"
+                    className="bg-tile-violet"
                     icon={<BookOpenCheckIcon size={18} />}
                   />
                 ),
@@ -180,7 +180,7 @@ export function ManualCardFormView() {
               {
                 icon: (
                   <FilledIcon
-                    className="bg-icon-blue"
+                    className="bg-tile-blue"
                     icon={<LayersIcon size={18} />}
                   />
                 ),
@@ -195,7 +195,7 @@ export function ManualCardFormView() {
                   cardFormStore.cardTypeModal.setTrue();
                 },
               },
-              createMcpSettingsEntryItem("bg-icon-turquoise"),
+              createMcpSettingsEntryItem("bg-tile-turquoise"),
             ]}
           />
         </div>

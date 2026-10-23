@@ -103,7 +103,7 @@ export function UserSettingsScreen() {
               {
                 icon: (
                   <FilledIcon
-                    className="bg-icon-turquoise"
+                    className="bg-tile-turquoise"
                     icon={<SnowflakeIcon size={18} />}
                   />
                 ),
@@ -124,7 +124,7 @@ export function UserSettingsScreen() {
               {
                 icon: (
                   <FilledIcon
-                    className="bg-icon-sea"
+                    className="bg-tile-sea"
                     icon={<BellIcon size={18} />}
                   />
                 ),
@@ -142,7 +142,7 @@ export function UserSettingsScreen() {
                 ? {
                     icon: (
                       <FilledIcon
-                        className="bg-icon-green"
+                        className="bg-orange"
                         icon={<ClockIcon size={18} />}
                       />
                     ),
@@ -174,7 +174,7 @@ export function UserSettingsScreen() {
               {
                 icon: (
                   <FilledIcon
-                    className="bg-icon-pink"
+                    className="bg-tile-pink"
                     icon={<MicIcon size={18} />}
                   />
                 ),
@@ -200,7 +200,7 @@ export function UserSettingsScreen() {
               {
                 icon: (
                   <FilledIcon
-                    className="bg-icon-violet"
+                    className="bg-tile-violet"
                     icon={<LanguagesIcon size={18} />}
                   />
                 ),
@@ -230,7 +230,7 @@ export function UserSettingsScreen() {
               {
                 icon: (
                   <FilledIcon
-                    className="bg-icon-blue"
+                    className="bg-tile-blue"
                     icon={<HeadsetIcon size={18} />}
                   />
                 ),
@@ -244,7 +244,7 @@ export function UserSettingsScreen() {
               {
                 icon: (
                   <FilledIcon
-                    className="bg-icon-turquoise"
+                    className="bg-tile-turquoise"
                     icon={<ShieldIcon size={18} />}
                   />
                 ),
@@ -257,7 +257,7 @@ export function UserSettingsScreen() {
               {
                 icon: (
                   <FilledIcon
-                    className="bg-icon-sea"
+                    className="bg-tile-sea"
                     icon={<MailIcon size={18} />}
                   />
                 ),
@@ -285,7 +285,7 @@ export function UserSettingsScreen() {
               {
                 icon: (
                   <FilledIcon
-                    className="bg-icon-green"
+                    className="bg-orange"
                     icon={<InfoIcon size={18} />}
                   />
                 ),
@@ -307,7 +307,7 @@ export function UserSettingsScreen() {
               {
                 icon: (
                   <FilledIcon
-                    className="bg-icon-sea"
+                    className="bg-tile-sea"
                     icon={<LogOutIcon size={18} />}
                   />
                 ),

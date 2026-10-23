@@ -265,13 +265,13 @@ function TeacherStatisticsContent(props: { statistics: TeacherStatistics }) {
           label={t("teacher_stats_students")}
           value={formatNumber(overview.studentCount)}
           icon={<UsersIcon size={17} />}
-          iconClassName="bg-icon-blue"
+          iconClassName="bg-tile-blue"
         />
         <SummaryTile
           label={t("teacher_stats_decks_shared")}
           value={formatNumber(overview.sharedDeckCount)}
           icon={<LibraryBigIcon size={17} />}
-          iconClassName="bg-icon-turquoise"
+          iconClassName="bg-tile-turquoise"
         />
       </div>
 

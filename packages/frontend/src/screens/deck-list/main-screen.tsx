@@ -198,7 +198,7 @@ export function MainScreen() {
                     icon: (
                       <FilledIcon
                         icon={<TelegramIcon />}
-                        className="bg-icon-blue"
+                        className="bg-tile-blue"
                       />
                     ),
                     onClick: () => {
@@ -215,7 +215,7 @@ export function MainScreen() {
                         icon: (
                           <FilledIcon
                             icon={<VideoIcon size={18} />}
-                            className="bg-icon-turquoise"
+                            className="bg-tile-turquoise"
                           />
                         ),
                       }

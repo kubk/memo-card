@@ -48,7 +48,7 @@ export function FreezeCardsScreen() {
             text: t("how"),
             icon: (
               <FilledIcon
-                className="bg-icon-turquoise"
+                className="bg-tile-turquoise"
                 icon={<SnowflakeIcon size={18} />}
               />
             ),

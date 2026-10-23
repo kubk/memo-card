@@ -10,7 +10,7 @@ export function FilledIcon({ className, icon }: Props) {
   return (
     <div
       className={cn(
-        "rounded-lg w-[30px] h-[30px] flex justify-center text-white items-center",
+        "rounded-lg w-[30px] h-[30px] flex justify-center text-white items-center bg-[linear-gradient(rgba(255,255,255,0.16),rgba(255,255,255,0)_60%)]",
         className,
       )}
     >

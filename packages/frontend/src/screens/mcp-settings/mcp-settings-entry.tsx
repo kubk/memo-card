@@ -6,7 +6,7 @@ import { userStore } from "../../store/user-store.ts";
 import { ChevronIcon } from "../../ui/chevron-icon.tsx";
 
 export function createMcpSettingsEntryItem(
-  iconBgClassName = "bg-icon-violet",
+  iconBgClassName = "bg-tile-violet",
 ): ListItemType {
   return {
     icon: (

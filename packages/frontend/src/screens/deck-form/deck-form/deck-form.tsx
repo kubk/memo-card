@@ -185,7 +185,7 @@ export function DeckForm() {
                 {
                   icon: (
                     <FilledIcon
-                      className="bg-icon-blue"
+                      className="bg-tile-blue"
                       icon={<UploadIcon size={18} />}
                     />
                   ),
@@ -209,7 +209,7 @@ export function DeckForm() {
                 {
                   icon: (
                     <FilledIcon
-                      className="bg-icon-violet"
+                      className="bg-tile-violet"
                       icon={<LayersIcon size={18} className="text-white" />}
                     />
                   ),
