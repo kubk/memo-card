@@ -16,8 +16,7 @@
     "lint:slop-police": "slop-police",
     "typecheck": "pnpm --recursive --parallel --filter='./packages/*' run typecheck",
     "test": "pnpm run -F='./packages/*' test",
-    "filter-public-code": "git-filter git-filter.config.json",
-    "export-public-code": "./export-public-code.sh",
+    "export-public-code": "git-filter git-filter.config.json",
     "postinstall": "patch-package"
   },
   "packageManager": "pnpm@9.15.0",
@@ -37,11 +36,11 @@
   "devDependencies": {
     "@types/node": "^25.0.3",
     "concurrently": "^9.2.1",
-    "git-filter": "2.5.0",
+    "git-filter": "2.6.0",
     "jscpd": "^5.1.2",
     "knip": "^6.9.0",
     "oxfmt": "^0.55.0",
-    "slop-police": "^0.3.1",
+    "slop-police": "^0.3.2",
     "typescript": "^7.0.2"
   }
 }
