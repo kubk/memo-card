@@ -41,7 +41,7 @@
     "jscpd": "^5.1.2",
     "knip": "^6.9.0",
     "oxfmt": "^0.55.0",
-    "slop-police": "^0.2.0",
+    "slop-police": "^0.3.1",
     "typescript": "^7.0.2"
   }
 }

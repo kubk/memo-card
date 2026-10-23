@@ -34,8 +34,8 @@ importers:
         specifier: ^0.55.0
         version: 0.55.0
       slop-police:
-        specifier: ^0.2.0
-        version: 0.2.0
+        specifier: ^0.3.1
+        version: 0.3.1
       typescript:
         specifier: ^7.0.2
         version: 7.0.2
@@ -5107,29 +5107,29 @@ packages:
     resolution: {integrity: sha512-ZYKh3Wh2z1PpEXWr0MpSBZ0V6mZHAQfYevttO11c51CaWjGTaadiKZ+wVt1PbMlDV5qhMFslpZCemhwOK7C89A==}
     engines: {node: '>=6'}
 
-  slop-police-darwin-arm64@0.2.0:
-    resolution: {integrity: sha512-QCkp5xj8/KXSA9kcZ0b2Ycn57V/rTFrCVoi5AXGJAmP4UcOFbX/jdMI9ef48MQYxUvzKNghIphW6TojzX840FA==}
+  slop-police-darwin-arm64@0.3.1:
+    resolution: {integrity: sha512-E7yQe39jCypQj1Yft7J4hXFBo1Y87RlreAGtxI+zF0eSSgTYADuij4XhnqYQVaLlcJJkOVh5KkyW23rPLzZbFA==}
     cpu: [arm64]
     os: [darwin]
 
-  slop-police-darwin-x64@0.2.0:
-    resolution: {integrity: sha512-UB4raoBMsmSkCOVA8om0PfoPGdwSmhB35YwLgJ4upk0dRRaSE8EOtEXU0FP2ZizHhocTvpYrOQYPu00WeSYbFg==}
+  slop-police-darwin-x64@0.3.1:
+    resolution: {integrity: sha512-ZMa8WuWT5RhFLqxSilpgCylmUq18jZd9nRa8J2f3UQM5Xk2fxENFQsQaY7c3xnEmJ5UY8xVoQ5c2adk89qUPgw==}
     cpu: [x64]
     os: [darwin]
 
-  slop-police-linux-arm64@0.2.0:
-    resolution: {integrity: sha512-2zik8KSN6Sa2arNAh8E20aFy97qV9Rq3xVM0qBNB0NQkbMhvJGtI+m0y6M4/d+0X1EVSWB60EEKGG5YROYCUnw==}
+  slop-police-linux-arm64@0.3.1:
+    resolution: {integrity: sha512-GPqyvtYt+pbe/zeOHSZORwQUa4TDFUJjMzqEjXFeWVSxaBCTKeeLAkgn14kRk4TmM9Y7NpVCJ4wdRT1UQFgvFg==}
     cpu: [arm64]
     os: [linux]
 
-  slop-police-linux-x64@0.2.0:
-    resolution: {integrity: sha512-3ivOoIe4QLdQAEOFJb0rj3srkaKgSjHRgoygM4eXyajxwWOSMSb80a+tkHucmU0TytBR+rlZlDnTQfR9SDnyMw==}
+  slop-police-linux-x64@0.3.1:
+    resolution: {integrity: sha512-a7D8car5yKufiHtA4A/gVk8UHknJPRtp3EE9IWT/Jj1LLIq8D85+leZA3Nhyd0WdiLHlO2qYEveyau8LICbJPQ==}
     cpu: [x64]
     os: [linux]
 
-  slop-police@0.2.0:
-    resolution: {integrity: sha512-Na3kE1iBxM7x8+ztLYRHhYgQF9Soj0n8PQAqnC/+OfuGU5kIczUzfWDIe2E1GoAQRcWehyl7NufC/tCFyF3mHA==}
-    engines: {node: '>=18'}
+  slop-police@0.3.1:
+    resolution: {integrity: sha512-bKQZTKIc0aNxaC5/ltkGu6ubBC8vZh0qh54ybsSauyaUPInCdLB1Z5QEwef0xdJZK8cMI5BRkMECaPhsn2N20w==}
+    engines: {node: '>=22.18'}
     hasBin: true
 
   smol-toml@1.7.0:
@@ -10072,24 +10072,24 @@ snapshots:
 
   slash@2.0.0: {}
 
-  slop-police-darwin-arm64@0.2.0:
+  slop-police-darwin-arm64@0.3.1:
     optional: true
 
-  slop-police-darwin-x64@0.2.0:
+  slop-police-darwin-x64@0.3.1:
     optional: true
 
-  slop-police-linux-arm64@0.2.0:
+  slop-police-linux-arm64@0.3.1:
     optional: true
 
-  slop-police-linux-x64@0.2.0:
+  slop-police-linux-x64@0.3.1:
     optional: true
 
-  slop-police@0.2.0:
+  slop-police@0.3.1:
     optionalDependencies:
-      slop-police-darwin-arm64: 0.2.0
-      slop-police-darwin-x64: 0.2.0
-      slop-police-linux-arm64: 0.2.0
-      slop-police-linux-x64: 0.2.0
+      slop-police-darwin-arm64: 0.3.1
+      slop-police-darwin-x64: 0.3.1
+      slop-police-linux-arm64: 0.3.1
+      slop-police-linux-x64: 0.3.1
 
   smol-toml@1.7.0: {}
 
