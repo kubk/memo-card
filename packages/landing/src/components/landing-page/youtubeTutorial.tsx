@@ -1,5 +1,3 @@
-"use client";
-
 export function YoutubeTutorial(props: { videoId: string }) {
   const { videoId } = props;
   return (

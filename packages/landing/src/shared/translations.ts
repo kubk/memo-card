@@ -2,6 +2,16 @@ import { Bell, BookOpen, Folder, Headphones, PenTool } from "lucide-react";
 import { LandingLanguage } from "api";
 
 const en = {
+  meta: {
+    keywords: [
+      "memocard",
+      "anki alternative",
+      "flashcard app",
+      "spaced repetition",
+    ],
+    description:
+      "Improve your memory with spaced repetition. Learn languages, history or other subjects with the proven flashcard method.",
+  },
   footer: {
     links: {
       tgSupport: "Telegram Support",
@@ -112,6 +122,16 @@ const en = {
 export type Translation = typeof en;
 
 const ru: Translation = {
+  meta: {
+    keywords: [
+      "memocard",
+      "anki альтернатива",
+      "flashcard приложение",
+      "интервальное повторение",
+    ],
+    description:
+      "Улучшите свою память с помощью интервального повторения. Изучайте языки, историю или другие предметы с помощью проверенного метода карточек.",
+  },
   what: {
     title: "Что такое MemoCard?",
     description: "A flashcard app and a website to improve your memory",
@@ -219,6 +239,16 @@ const ru: Translation = {
 };
 
 const es: Translation = {
+  meta: {
+    keywords: [
+      "memocard",
+      "alternativa a anki",
+      "aplicación de tarjetas",
+      "repetición espaciada",
+    ],
+    description:
+      "Mejora tu memoria con la repetición espaciada. Aprende idiomas, historia u otras materias con el método de tarjetas flash probado.",
+  },
   what: {
     title: "¿Qué es MemoCard?",
     description:
@@ -328,6 +358,16 @@ const es: Translation = {
 };
 
 const ptBr: Translation = {
+  meta: {
+    keywords: [
+      "memocard",
+      "alternativa ao anki",
+      "aplicativo de cartões",
+      "repetição espaçada",
+    ],
+    description:
+      "Melhore sua memória com a repetição espaçada. Aprenda idiomas, história ou outras matérias com o método de cartões flash comprovado.",
+  },
   what: {
     title: "O que é MemoCard?",
     description:
@@ -437,6 +477,16 @@ const ptBr: Translation = {
 };
 
 const uk: Translation = {
+  meta: {
+    keywords: [
+      "memocard",
+      "альтернатива anki",
+      "додаток для карток",
+      "інтервальне повторення",
+    ],
+    description:
+      "Покращуйте свою пам'ять за допомогою інтервального повторення. Вивчайте мови, історію або інші предмети за допомогою перевіреного методу карток.",
+  },
   what: {
     title: "Що таке MemoCard?",
     description:

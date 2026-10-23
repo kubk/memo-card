@@ -1,7 +1,8 @@
 {
     "compatibility_date": "2025-06-12",
     "assets": {
-        "directory": "./out"
+        "directory": "./dist/client",
+        "not_found_handling": "404-page"
     },
     "env": {
         "production": {
