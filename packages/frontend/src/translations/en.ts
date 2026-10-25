@@ -397,13 +397,6 @@ export const en = {
   review_skipped: "Skipped",
 
   // MCP / ChatGPT
-  telegramSetup: "Sign in with Telegram once to connect your library",
-  pluginComingSoon: "Memo Card is coming to the ChatGPT directory soon",
-  openPlugin: "Open Memo Card in ChatGPT",
-  connectedApps: "Connected apps",
-  stayConnected: "Stay connected until you disconnect",
-  disconnect: "Disconnect",
-  disconnectError: "Could not disconnect, please try again",
   benefitCreateTitle: "Create complete decks",
   benefitCreateDescription: "Folders, decks, and cards in 1 request",
   benefitImproveTitle: "Improve existing cards",

@@ -31,7 +31,7 @@ type DeckCardOptions = DeckCardDbType["options"];
 type DeckSpeakField = NonNullable<DeckWithCardsDbType["speakField"]>;
 type MyDeck = RouterOutput["me"]["info"]["myDecks"][number];
 
-export type CardAnswerFormType = {
+type CardAnswerFormType = {
   id: string;
   text: TextField<string>;
   isCorrect: BooleanField;

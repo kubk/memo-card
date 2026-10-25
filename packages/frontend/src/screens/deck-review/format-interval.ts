@@ -1,13 +1,7 @@
 import type { LanguageShared } from "api";
 import { translationResourceStore } from "../../translations/t.ts";
 
-type ReviewIntervalUnit =
-  | "minute"
-  | "hour"
-  | "day"
-  | "week"
-  | "month"
-  | "year";
+type ReviewIntervalUnit = "minute" | "hour" | "day" | "week" | "month" | "year";
 
 export type ReviewInterval = { value: number; unit: ReviewIntervalUnit };
 

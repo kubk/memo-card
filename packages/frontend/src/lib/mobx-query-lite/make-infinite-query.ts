@@ -35,7 +35,7 @@ type InfiniteQueryConfig<Page extends AnyInfiniteQueryPage> = {
 type InfiniteQueryConfigFactory<Page extends AnyInfiniteQueryPage> =
   () => InfiniteQueryConfig<Page>;
 
-export type InfiniteQueryState<Item, Cursor> = {
+type InfiniteQueryState<Item, Cursor> = {
   data: InfiniteQueryPage<Item, Cursor> | undefined;
   items: Item[];
   nextCursor: Cursor | null;

@@ -404,13 +404,6 @@ export const fa = {
   review_skipped: "رد شده",
 
   // MCP / ChatGPT
-  telegramSetup: "یک بار با Telegram وارد شوید تا کتابخانه‌تان متصل شود",
-  pluginComingSoon: "Memo Card به‌زودی در فهرست ChatGPT قرار می‌گیرد",
-  openPlugin: "باز کردن Memo Card در ChatGPT",
-  connectedApps: "برنامه‌های متصل",
-  stayConnected: "تا وقتی اتصال را قطع نکنید، متصل می‌مانید",
-  disconnect: "قطع اتصال",
-  disconnectError: "قطع اتصال انجام نشد، دوباره تلاش کنید",
   benefitCreateTitle: "دسته‌های کامل بسازید",
   benefitCreateDescription: "پوشه‌ها، دسته‌ها و کارت‌ها با ۱ درخواست",
   benefitImproveTitle: "کارت‌هایتان را بهتر کنید",

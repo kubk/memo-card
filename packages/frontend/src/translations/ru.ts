@@ -417,13 +417,6 @@ export const ru = {
   review_skipped: "Пропущено",
 
   // MCP / ChatGPT
-  telegramSetup: "Войдите через Telegram один раз, чтобы подключить библиотеку",
-  pluginComingSoon: "Memo Card скоро появится в каталоге ChatGPT",
-  openPlugin: "Открыть Memo Card в ChatGPT",
-  connectedApps: "Подключённые приложения",
-  stayConnected: "Подключение действует, пока вы его не отключите",
-  disconnect: "Отключить",
-  disconnectError: "Не удалось отключить, попробуйте ещё раз",
   benefitCreateTitle: "Создавайте готовые колоды",
   benefitCreateDescription: "Папки, колоды и карточки — за 1 запрос",
   benefitImproveTitle: "Улучшайте карточки",

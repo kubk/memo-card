@@ -413,14 +413,6 @@ export const es = {
   review_skipped: "Saltada",
 
   // MCP / ChatGPT
-  telegramSetup:
-    "Inicia sesión con Telegram una vez para conectar tu biblioteca",
-  pluginComingSoon: "Memo Card llegará pronto al directorio de ChatGPT",
-  openPlugin: "Abrir Memo Card en ChatGPT",
-  connectedApps: "Apps conectadas",
-  stayConnected: "La conexión se mantiene hasta que la desconectes",
-  disconnect: "Desconectar",
-  disconnectError: "No se pudo desconectar, inténtalo de nuevo",
   benefitCreateTitle: "Crea mazos completos",
   benefitCreateDescription: "Carpetas, mazos y tarjetas con 1 sola petición",
   benefitImproveTitle: "Mejora tus tarjetas",

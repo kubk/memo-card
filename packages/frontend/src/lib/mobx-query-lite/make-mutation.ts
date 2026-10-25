@@ -4,7 +4,7 @@ type MutationResult<TData> =
   | { ok: true; data: TData }
   | { ok: false; error: unknown };
 
-export type MutationState<TArgs extends unknown[], TData> = {
+type MutationState<TArgs extends unknown[], TData> = {
   data: TData | undefined;
   error: unknown | null;
   isPending: boolean;

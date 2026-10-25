@@ -10,7 +10,6 @@
     "format": "oxfmt --write \"./packages/**/*.{ts,tsx,mts,json}\"",
     "lint": "pnpm run \"/^lint:.*/\"",
     "lint:packages": "pnpm --recursive --parallel --filter='./packages/*' run lint",
-    "lint:knip": "knip --reporter compact",
     "lint:translations": "node packages/frontend/check-missing-translations.js",
     "lint:slop-police": "slop-police",
     "typecheck": "pnpm --recursive --parallel --filter='./packages/*' run typecheck",
@@ -36,9 +35,8 @@
     "@types/node": "^25.0.3",
     "concurrently": "^9.2.1",
     "git-filter": "2.6.0",
-    "knip": "^6.9.0",
     "oxfmt": "^0.55.0",
-    "slop-police": "^0.3.6",
+    "slop-police": "^0.3.8",
     "typescript": "^7.0.2"
   }
 }

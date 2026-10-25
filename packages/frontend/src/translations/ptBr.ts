@@ -409,13 +409,6 @@ export const ptBr = {
   review_skipped: "Pulado",
 
   // MCP / ChatGPT
-  telegramSetup: "Entre com o Telegram uma vez para conectar sua biblioteca",
-  pluginComingSoon: "O Memo Card estará no diretório do ChatGPT em breve",
-  openPlugin: "Abrir Memo Card no ChatGPT",
-  connectedApps: "Apps conectados",
-  stayConnected: "A conexão continua até você desconectar",
-  disconnect: "Desconectar",
-  disconnectError: "Não foi possível desconectar, tente novamente",
   benefitCreateTitle: "Crie baralhos completos",
   benefitCreateDescription: "Pastas, baralhos e cartões em 1 solicitação",
   benefitImproveTitle: "Melhore seus cartões",

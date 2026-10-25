@@ -406,13 +406,6 @@ export const ar = {
   review_skipped: "تم التخطي",
 
   // MCP / ChatGPT
-  telegramSetup: "سجّل الدخول باستخدام Telegram مرة واحدة لربط مكتبتك",
-  pluginComingSoon: "سيتوفر Memo Card قريبًا في دليل ChatGPT",
-  openPlugin: "افتح Memo Card في ChatGPT",
-  connectedApps: "التطبيقات المتصلة",
-  stayConnected: "يبقى الاتصال حتى تقطع الاتصال بنفسك",
-  disconnect: "قطع الاتصال",
-  disconnectError: "تعذر قطع الاتصال، حاول مرة أخرى",
   benefitCreateTitle: "أنشئ مجموعات متكاملة",
   benefitCreateDescription: "مجلدات ومجموعات وبطاقات في طلب واحد",
   benefitImproveTitle: "حسّن بطاقاتك",
