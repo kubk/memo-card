@@ -36,7 +36,7 @@
     "concurrently": "^9.2.1",
     "git-filter": "2.6.0",
     "oxfmt": "^0.55.0",
-    "slop-police": "^0.3.8",
+    "slop-police": "^0.3.9",
     "typescript": "^7.0.2"
   }
 }
