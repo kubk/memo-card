@@ -286,66 +286,54 @@ class StaticQuery<T> implements QueryState<T> {
 }
 
 class DynamicQuery<T> implements QueryState<T> {
-  constructor(
-    private getConfig: QueryConfigFactory<T>,
-    private options?: QueryOptions,
-  ) {
-    makeAutoObservable<this, "getConfig" | "options" | "currentQuery">(
-      this,
-      {
-        getConfig: false,
-        options: false,
-        currentQuery: false,
-      },
-      { autoBind: true },
-    );
-  }
+  readonly #currentQuery: () => QueryState<T>;
 
-  private currentQuery() {
-    return makeStaticQuery(this.getConfig(), this.options);
+  constructor(getConfig: QueryConfigFactory<T>, options?: QueryOptions) {
+    this.#currentQuery = () => makeStaticQuery(getConfig(), options);
+    makeAutoObservable(this, {}, { autoBind: true });
   }
 
   get data() {
-    return this.currentQuery().data;
+    return this.#currentQuery().data;
   }
 
   get error() {
-    return this.currentQuery().error;
+    return this.#currentQuery().error;
   }
 
   get isPending() {
-    return this.currentQuery().isPending;
+    return this.#currentQuery().isPending;
   }
 
   get isFetching() {
-    return this.currentQuery().isFetching;
+    return this.#currentQuery().isFetching;
   }
 
   get lastFetched() {
-    return this.currentQuery().lastFetched;
+    return this.#currentQuery().lastFetched;
   }
 
   get staleTime() {
-    return this.currentQuery().staleTime;
+    return this.#currentQuery().staleTime;
   }
 
   // Alias for the underlying query
   invalidate(options?: InvalidateOptions) {
-    return this.currentQuery().invalidate(options);
+    return this.#currentQuery().invalidate(options);
   }
 
   // Alias for the underlying query
   prefetch() {
-    return this.currentQuery().prefetch();
+    return this.#currentQuery().prefetch();
   }
 
   // Alias for the underlying query
   refetch() {
-    return this.currentQuery().refetch();
+    return this.#currentQuery().refetch();
   }
 
   // Alias for the underlying query
   setData(data: T | undefined) {
-    return this.currentQuery().setData(data);
+    return this.#currentQuery().setData(data);
   }
 }

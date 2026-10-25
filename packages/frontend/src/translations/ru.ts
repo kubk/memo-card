@@ -1,6 +1,6 @@
 import { selectPluralForm, type PlanDuration } from "api";
 import { random } from "../lib/array/random.ts";
-import type { ReviewIntervalUnit } from "../screens/deck-review/format-interval.ts";
+import type { ReviewInterval } from "../screens/deck-review/format-interval.ts";
 import { encouragingMessages } from "./encouraging-messages/ru.ts";
 
 export const ru = {
@@ -48,13 +48,7 @@ export const ru = {
     return `${daysText} дн. назад`;
   },
   review_again_interval: "<10 мин",
-  review_interval: ({
-    value,
-    unit,
-  }: {
-    value: number;
-    unit: ReviewIntervalUnit;
-  }) => {
+  review_interval: ({ value, unit }: ReviewInterval) => {
     const units = {
       minute: "мин",
       hour: "ч",

@@ -3,10 +3,7 @@ import { FolderOpen, LayersIcon } from "lucide-react";
 import { t } from "../src/translations/t.ts";
 import { BottomSheet } from "../src/ui/bottom-sheet/bottom-sheet.tsx";
 import { RadioList } from "../src/ui/radio-list/radio-list.tsx";
-import {
-  formatCardType,
-  formatCardTypeDescription,
-} from "../src/screens/deck-form/card-form/format-card-type.ts";
+import { CardTypeBottomSheet } from "../src/screens/deck-form/card-form/card-type-modal.tsx";
 import { Choice } from "../src/screens/deck-list/deck-or-folder-choose/choice.tsx";
 import { WysiwygHelp } from "../src/ui/wysiwyg-field/wysiwyg-help.tsx";
 import { ColorPicker } from "../src/ui/wysiwyg-field/color-picker.tsx";
@@ -108,38 +105,17 @@ function CardTypeModalStory({
   isOpen: boolean;
   onClose: () => void;
 }) {
-  const [selectedId, setSelectedId] = useState<"remember" | "choice_single">(
-    "remember",
-  );
+  const [selectedType, setSelectedType] = useState<
+    "remember" | "choice_single"
+  >("remember");
 
   return (
-    <BottomSheet
-      title={t("review_card_type")}
+    <CardTypeBottomSheet
       isOpen={isOpen}
       onClose={onClose}
-    >
-      <div className="pb-10">
-        <RadioList
-          selectedId={selectedId}
-          onChange={(value) => {
-            setSelectedId(value);
-            onClose();
-          }}
-          options={[
-            {
-              id: "remember",
-              title: formatCardType("remember"),
-              description: formatCardTypeDescription("remember"),
-            },
-            {
-              id: "choice_single",
-              title: formatCardType("choice_single"),
-              description: formatCardTypeDescription("choice_single"),
-            },
-          ]}
-        />
-      </div>
-    </BottomSheet>
+      selectedType={selectedType}
+      onSelect={setSelectedType}
+    />
   );
 }
 

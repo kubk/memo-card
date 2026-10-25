@@ -3,6 +3,7 @@ import {
   makeQuery,
   type InvalidateOptions,
   type QueryOptions,
+  type QueryState,
 } from "./make-query.ts";
 import { toError } from "./to-error.ts";
 
@@ -71,36 +72,33 @@ class InfiniteQuery<
     | InfiniteQueryPage<InfiniteQueryItem<Page>, InfiniteQueryCursor<Page>>
     | undefined = undefined;
 
-  constructor(
-    private getConfig: InfiniteQueryConfigFactory<Page>,
-    private options?: QueryOptions,
-  ) {
-    makeAutoObservable<this, "getConfig" | "options" | "currentQuery">(
-      this,
-      {
-        getConfig: false,
-        options: false,
-        currentQuery: false,
-      },
-      { autoBind: true },
-    );
-  }
+  readonly #getConfig: InfiniteQueryConfigFactory<Page>;
+  readonly #currentQuery: () => QueryState<
+    InfiniteQueryPage<InfiniteQueryItem<Page>, InfiniteQueryCursor<Page>>
+  >;
 
-  private currentQuery() {
-    const config = this.getConfig();
-    return makeQuery<
-      InfiniteQueryPage<InfiniteQueryItem<Page>, InfiniteQueryCursor<Page>>
-    >(
-      {
-        key: config.key,
-        query: () => config.query({}),
-      },
-      this.options,
-    );
+  constructor(
+    getConfig: InfiniteQueryConfigFactory<Page>,
+    options?: QueryOptions,
+  ) {
+    this.#getConfig = getConfig;
+    this.#currentQuery = () => {
+      const config = getConfig();
+      return makeQuery<
+        InfiniteQueryPage<InfiniteQueryItem<Page>, InfiniteQueryCursor<Page>>
+      >(
+        {
+          key: config.key,
+          query: () => config.query({}),
+        },
+        options,
+      );
+    };
+    makeAutoObservable(this, {}, { autoBind: true });
   }
 
   get data() {
-    return this.currentQuery().data;
+    return this.#currentQuery().data;
   }
 
   get items() {
@@ -116,13 +114,13 @@ class InfiniteQuery<
   }
 
   get error() {
-    const query = this.currentQuery();
+    const query = this.#currentQuery();
     if (query.error) {
       return query.error;
     }
 
     if (
-      this.nextPageErrorKey === this.getConfig().key &&
+      this.nextPageErrorKey === this.#getConfig().key &&
       this.nextPageErrorPage === query.data
     ) {
       return this.nextPageError;
@@ -132,37 +130,37 @@ class InfiniteQuery<
   }
 
   get isPending() {
-    return this.currentQuery().isPending;
+    return this.#currentQuery().isPending;
   }
 
   get isFetching() {
-    return this.currentQuery().isFetching || this.isFetchingNextPage;
+    return this.#currentQuery().isFetching || this.isFetchingNextPage;
   }
 
   get isFetchingNextPage() {
-    return this.nextPageFetchKey === this.getConfig().key;
+    return this.nextPageFetchKey === this.#getConfig().key;
   }
 
   invalidate(options?: InvalidateOptions) {
     this.nextPageError = null;
     this.nextPageErrorKey = null;
-    return this.currentQuery().invalidate(options);
+    return this.#currentQuery().invalidate(options);
   }
 
   // Alias for the underlying query
   prefetch() {
-    return this.currentQuery().prefetch();
+    return this.#currentQuery().prefetch();
   }
 
   refetch() {
     this.nextPageError = null;
     this.nextPageErrorKey = null;
-    return this.currentQuery().refetch();
+    return this.#currentQuery().refetch();
   }
 
   async fetchNextPage() {
-    const config = this.getConfig();
-    const query = this.currentQuery();
+    const config = this.#getConfig();
+    const query = this.#currentQuery();
     const currentPage = query.data;
     const key = config.key;
 

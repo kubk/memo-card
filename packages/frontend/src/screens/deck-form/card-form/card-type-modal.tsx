@@ -1,3 +1,4 @@
+import type { DeckCardDbType } from "api";
 import { BottomSheet } from "../../../ui/bottom-sheet/bottom-sheet.tsx";
 import { t } from "../../../translations/t.ts";
 import { RadioList } from "../../../ui/radio-list/radio-list.tsx";
@@ -16,17 +17,38 @@ export function CardTypeModal() {
   }
 
   return (
-    <BottomSheet
-      title={t("review_card_type")}
+    <CardTypeBottomSheet
       isOpen={cardTypeModal.value}
       onClose={cardTypeModal.setFalse}
+      selectedType={cardForm.answerType.value}
+      onSelect={(type) => cardForm.answerType.onChange(type)}
+    />
+  );
+}
+
+export function CardTypeBottomSheet({
+  isOpen,
+  onClose,
+  selectedType,
+  onSelect,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  selectedType: DeckCardDbType["answerType"];
+  onSelect: (type: DeckCardDbType["answerType"]) => void;
+}) {
+  return (
+    <BottomSheet
+      title={t("review_card_type")}
+      isOpen={isOpen}
+      onClose={onClose}
     >
       <div className="pb-10">
         <RadioList
-          selectedId={cardForm.answerType.value}
+          selectedId={selectedType}
           onChange={(value) => {
-            cardForm.answerType.onChange(value);
-            cardTypeModal.setFalse();
+            onSelect(value);
+            onClose();
           }}
           options={[
             {

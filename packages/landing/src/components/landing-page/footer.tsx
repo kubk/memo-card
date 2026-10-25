@@ -18,142 +18,102 @@ export function Footer({
       ? links.appBrowser + links.tosRuPath
       : links.termsOfService;
 
-  const memoCardFooterLinks = {
-    support: [
-      {
-        icon: Mail,
-        text: links.supportEmail,
-        href: "mailto:" + links.supportEmail,
-      },
-      {
-        icon: ExternalLink,
-        text: translation.footer.links.tgSupport,
-        href: links.supportChat,
-      },
-    ],
-    run: [
-      {
-        icon: ExternalLink,
-        text: translation.footer.links.runInBrowser,
-        href: links.appBrowser,
-      },
-      {
-        icon: ExternalLink,
-        text: translation.footer.links.runInTelegram,
-        href: links.appTelegram,
-      },
-    ],
-    youtube: [
-      {
-        icon: Youtube,
-        text: translation.footer.links.youtubeChannelEn,
-        href: links.youtubeChannelEn,
-      },
-      {
-        icon: Youtube,
-        text: translation.footer.links.youtubeChannelRu,
-        href: links.youtubeChannelRu,
-      },
-    ],
-    other: [
-      {
-        icon: ExternalLink,
-        text: translation.footer.links.telegramChannel,
-        href: links.botChannel,
-      },
-      {
-        icon: Github,
-        text: "GitHub",
-        href: links.github,
-      },
-      {
-        icon: ExternalLink,
-        text: translation.footer.links.privacyPolicy,
-        href: privacyPolicyHref,
-      },
-      {
-        icon: ExternalLink,
-        text: translation.footer.links.termsOfService,
-        href: termsOfServiceHref,
-      },
-    ],
-  };
+  const footerLinkGroups = [
+    {
+      title: translation.footer.groupTitles.support,
+      links: [
+        {
+          icon: Mail,
+          text: links.supportEmail,
+          href: "mailto:" + links.supportEmail,
+        },
+        {
+          icon: ExternalLink,
+          text: translation.footer.links.tgSupport,
+          href: links.supportChat,
+        },
+      ],
+    },
+    {
+      title: translation.footer.groupTitles.run,
+      links: [
+        {
+          icon: ExternalLink,
+          text: translation.footer.links.runInBrowser,
+          href: links.appBrowser,
+        },
+        {
+          icon: ExternalLink,
+          text: translation.footer.links.runInTelegram,
+          href: links.appTelegram,
+        },
+      ],
+    },
+    {
+      title: "YouTube",
+      links: [
+        {
+          icon: Youtube,
+          text: translation.footer.links.youtubeChannelEn,
+          href: links.youtubeChannelEn,
+        },
+        {
+          icon: Youtube,
+          text: translation.footer.links.youtubeChannelRu,
+          href: links.youtubeChannelRu,
+        },
+      ],
+    },
+    {
+      title: translation.footer.groupTitles.other,
+      links: [
+        {
+          icon: ExternalLink,
+          text: translation.footer.links.telegramChannel,
+          href: links.botChannel,
+        },
+        {
+          icon: Github,
+          text: "GitHub",
+          href: links.github,
+        },
+        {
+          icon: ExternalLink,
+          text: translation.footer.links.privacyPolicy,
+          href: privacyPolicyHref,
+        },
+        {
+          icon: ExternalLink,
+          text: translation.footer.links.termsOfService,
+          href: termsOfServiceHref,
+        },
+      ],
+    },
+  ];
 
   return (
     <footer className="bg-gray-50 py-12">
       <div className="container mx-auto px-4 max-w-(--breakpoint-lg) lg:max-w-5xl xl:max-w-6xl">
         <div>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div>
-              <h4 className="font-semibold mb-2">
-                {translation.footer.groupTitles.support}
-              </h4>
-              <ul className="space-y-2">
-                {memoCardFooterLinks.support.map((link, index) => (
-                  <li key={index}>
-                    <a
-                      href={link.href}
-                      className="flex items-center hover:text-blue-600"
-                    >
-                      {link.icon && <link.icon className="mr-2" size={16} />}
-                      {link.text}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-2">
-                {translation.footer.groupTitles.run}
-              </h4>
-              <ul className="space-y-2">
-                {memoCardFooterLinks.run.map((link, index) => (
-                  <li key={index}>
-                    <a
-                      href={link.href}
-                      className="flex items-center hover:text-blue-600"
-                    >
-                      {link.icon && <link.icon className="mr-2" size={16} />}
-                      {link.text}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-2">YouTube</h4>
-              <ul className="space-y-2">
-                {memoCardFooterLinks.youtube.map((link, index) => (
-                  <li key={index}>
-                    <a
-                      href={link.href}
-                      className="flex items-center hover:text-blue-600"
-                    >
-                      {link.icon && <link.icon className="mr-2" size={16} />}
-                      {link.text}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-2">
-                {translation.footer.groupTitles.other}
-              </h4>
-              <ul className="space-y-2">
-                {memoCardFooterLinks.other.map((link, index) => (
-                  <li key={index}>
-                    <a
-                      href={link.href}
-                      className="flex items-center hover:text-blue-600"
-                    >
-                      {link.icon && <link.icon className="mr-2" size={16} />}
-                      {link.text}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            {footerLinkGroups.map((group) => (
+              <div key={group.title}>
+                <h4 className="font-semibold mb-2">{group.title}</h4>
+                <ul className="space-y-2">
+                  {group.links.map((link, index) => (
+                    <li key={index}>
+                      <a
+                        href={link.href}
+                        className="flex items-center hover:text-blue-600"
+                      >
+                        {link.icon && <link.icon className="mr-2" size={16} />}
+                        {link.text}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
         </div>
 
