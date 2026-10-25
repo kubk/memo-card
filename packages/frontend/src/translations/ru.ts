@@ -407,7 +407,6 @@ export const ru = {
   anki_import_screenshot_export_dialog_alt:
     "Диалог экспорта Anki с настройками экспорта пакета",
   anki_import_invalid_file: "Выберите файл .apkg",
-  anki_import_error: "Не удалось импортировать колоду Anki",
   anki_import_success: "Колода Anki импортирована",
 
   // Skip card

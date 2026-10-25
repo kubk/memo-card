@@ -397,7 +397,6 @@ export const ar = {
   anki_import_screenshot_export_dialog_alt:
     "مربع حوار التصدير في Anki مع خيارات تصدير الحزمة",
   anki_import_invalid_file: "يرجى اختيار ملف .apkg",
-  anki_import_error: "تعذر استيراد مجموعة Anki",
   anki_import_success: "تم استيراد مجموعة Anki",
 
   // Skip card

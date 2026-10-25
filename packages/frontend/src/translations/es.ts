@@ -403,7 +403,6 @@ export const es = {
   anki_import_screenshot_export_dialog_alt:
     "Diálogo de exportación de Anki con opciones de exportación del paquete",
   anki_import_invalid_file: "Elige un archivo .apkg",
-  anki_import_error: "No se pudo importar el mazo de Anki",
   anki_import_success: "Mazo de Anki importado",
 
   // Skip card

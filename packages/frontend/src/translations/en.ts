@@ -388,7 +388,6 @@ export const en = {
   anki_import_screenshot_export_dialog_alt:
     "Anki export dialog with package export options",
   anki_import_invalid_file: "Please choose an .apkg file",
-  anki_import_error: "Unable to import Anki deck",
   anki_import_success: "Anki deck imported",
 
   // Skip card

@@ -48,6 +48,7 @@ import {
 } from "./catalog-stories.tsx";
 import { CatalogModals, type ModalStoryId } from "./modal-stories.tsx";
 import { ProPagePlayground } from "./pro-page-playground.tsx";
+import { AnkiImportPlayground } from "./anki-import-playground.tsx";
 import { DeleteItemModalPlayground } from "./delete-item-modal-playground.tsx";
 import { BottomNavigationPlayground } from "./bottom-navigation-playground.tsx";
 import { LeaderboardPlayground } from "./leaderboard-playground.tsx";
@@ -96,6 +97,11 @@ const PLAYGROUND_COMPONENTS = [
   {
     id: "pro-page",
     label: "Pro page",
+    layout: "screen",
+  },
+  {
+    id: "anki-import",
+    label: "Anki import",
     layout: "screen",
   },
   {
@@ -166,6 +172,7 @@ const PLAYGROUND_HOME_SECTIONS = [
       "bottom-navigation",
       "deleted-deck",
       "pro-page",
+      "anki-import",
     ],
   },
   {
@@ -571,6 +578,8 @@ function ComponentPreview({
       return <SharedDeckNotFoundPlayground />;
     case "pro-page":
       return <ProPagePlayground />;
+    case "anki-import":
+      return <AnkiImportPlayground />;
     case "button":
       return <ButtonPlayground />;
     case "select":
@@ -882,6 +891,8 @@ function BadgePlayground() {
 function ProgressBarPlayground() {
   const [value, setValue] = useState(6);
   const [max, setMax] = useState(10);
+  const [color, setColor] = useState<"success" | "button">("success");
+  const [label, setLabel] = useState("");
 
   const updateMax = (nextMax: number) => {
     const safeMax = Math.max(1, nextMax);
@@ -893,7 +904,12 @@ function ProgressBarPlayground() {
     <>
       <PreviewFrame>
         <div className="w-full">
-          <ProgressBar value={value} max={max} />
+          <ProgressBar
+            value={value}
+            max={max}
+            color={color}
+            label={label || undefined}
+          />
         </div>
       </PreviewFrame>
       <PropsPanel>
@@ -925,6 +941,31 @@ function ProgressBarPlayground() {
               onChange={(event) => updateMax(Number(event.currentTarget.value))}
             />
           </div>
+        </PropGroup>
+        <PropGroup label="Appearance">
+          <Tabs
+            value={color}
+            onValueChange={(nextColor) => {
+              if (nextColor === "success" || nextColor === "button") {
+                setColor(nextColor);
+              }
+            }}
+          >
+            <TabsList className="w-full">
+              <TabsTrigger className="flex-1" value="success">
+                success
+              </TabsTrigger>
+              <TabsTrigger className="flex-1" value="button">
+                button
+              </TabsTrigger>
+            </TabsList>
+          </Tabs>
+          <TextProp
+            id="progress-label"
+            label="label"
+            value={label}
+            onChange={setLabel}
+          />
         </PropGroup>
       </PropsPanel>
     </>

@@ -395,7 +395,6 @@ export const fa = {
   anki_import_screenshot_export_dialog_alt:
     "پنجره خروجی گرفتن در Anki با گزینه‌های خروجی بسته",
   anki_import_invalid_file: "لطفاً یک فایل .apkg انتخاب کنید",
-  anki_import_error: "وارد کردن دسته Anki ممکن نشد",
   anki_import_success: "دسته Anki وارد شد",
 
   // Skip card

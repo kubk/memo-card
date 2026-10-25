@@ -1,10 +1,13 @@
 import { type ReactNode, useEffect, useRef } from "preact/compat";
 import { range } from "../array/range.ts";
+import {
+  ActivityIndicatorTick,
+  activityIndicatorTickCount as tickCount,
+} from "../../ui/activity-indicator.tsx";
 import { cn } from "../../ui/cn.ts";
 import { type PullToRefreshStore } from "./pull-to-refresh-store.ts";
 
 const spinnerSize = 28;
-const tickCount = 12;
 const releaseTransition =
   "transition-[transform,opacity] duration-300 ease-[cubic-bezier(0.2,0.9,0.3,1)]";
 
@@ -165,15 +168,9 @@ function Spinner({ store }: { store: PullToRefreshStore }) {
         style={{ animationTimingFunction: `steps(${tickCount}, end)` }}
       >
         {range(tickCount).map((index) => (
-          <rect
+          <ActivityIndicatorTick
             key={index}
-            x={12.75}
-            y={2.5}
-            width={2.5}
-            height={7}
-            rx={1.25}
-            fill="currentColor"
-            transform={`rotate(${(index * 360) / tickCount} 14 14)`}
+            index={index}
             className={cn(
               !store.isPulling && "transition-opacity duration-300 ease-out",
             )}

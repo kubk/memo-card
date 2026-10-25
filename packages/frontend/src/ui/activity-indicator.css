@@ -1,0 +1,9 @@
+@keyframes activity-indicator-fade {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0.25;
+  }
+}

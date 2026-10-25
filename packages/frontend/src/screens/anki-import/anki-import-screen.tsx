@@ -1,9 +1,11 @@
 import { useRef, useState } from "preact/compat";
 import { FileIcon } from "lucide-react";
+import { ActivityIndicator } from "../../ui/activity-indicator.tsx";
 import { ButtonLink } from "../../ui/button-link.tsx";
+import { cn } from "../../ui/cn.ts";
+import { ProgressBar } from "../../ui/progress-bar.tsx";
 import { useBackButton } from "../../lib/platform/use-back-button.ts";
 import { useMainButton } from "../../lib/platform/use-main-button.ts";
-import { useProgress } from "../../lib/platform/use-progress.tsx";
 import { screenStore } from "../../store/screen-store.ts";
 import { t } from "../../translations/t.ts";
 import { td } from "../../translations/td.tsx";
@@ -33,6 +35,15 @@ const steps = [
 
 export function AnkiImportScreen() {
   const [store] = useState(() => new AnkiImportScreenStore());
+
+  return <AnkiImportScreenView store={store} />;
+}
+
+export function AnkiImportScreenView({
+  store,
+}: {
+  store: AnkiImportScreenStore;
+}) {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useBackButton(() => {
@@ -47,7 +58,6 @@ export function AnkiImportScreen() {
     () => store.isMainButtonVisible,
     [store],
   );
-  useProgress(() => store.importDeckMutation.isPending);
 
   return (
     <Screen>
@@ -74,41 +84,59 @@ export function AnkiImportScreen() {
           {t("anki_import_heading")}
         </h2>
 
-        <div className="mt-8 flex w-full flex-col gap-8">
-          {steps.map((step) => (
-            <div
-              className="grid grid-cols-[72px_minmax(0,1fr)] items-start gap-5"
-              key={step.number}
-            >
-              <div className="flex h-[72px] w-[72px] items-center justify-center rounded-[20px] bg-button-outline-bg-light text-[34px] font-bold leading-none text-link dark:bg-button-outline-bg-dark dark:text-button-outline-fg-dark">
-                {step.number}
-              </div>
-              <div>
-                <div className="text-[17px] font-bold leading-6">
-                  {t(step.titleKey)}
-                </div>
-                <div className="mt-1 text-[17px] leading-6 text-hint">
-                  {td(step.textKey, {
-                    link: (text) => (
-                      <ButtonLink
-                        variant="dotted"
-                        onClick={() =>
-                          store.openScreenshot(step.screenshotStep)
-                        }
-                      >
-                        {text}
-                      </ButtonLink>
-                    ),
-                  })}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+        {store.importProgress ? (
+          <div className="mt-8 flex w-full flex-col items-center gap-8">
+            <ProgressBar
+              value={store.importProgress.uploadedBytes}
+              max={store.importProgress.totalBytes}
+              label={`${store.uploadPercent}%`}
+              color="button"
+            />
+            <ActivityIndicator
+              className={cn(!store.isUploaded && "invisible")}
+            />
+          </div>
+        ) : (
+          <AnkiImportSteps store={store} />
+        )}
       </div>
 
       <AnkiImportScreenshotLightbox store={store} />
     </Screen>
+  );
+}
+
+function AnkiImportSteps({ store }: { store: AnkiImportScreenStore }) {
+  return (
+    <div className="mt-8 flex w-full flex-col gap-8">
+      {steps.map((step) => (
+        <div
+          className="grid grid-cols-[72px_minmax(0,1fr)] items-start gap-5"
+          key={step.number}
+        >
+          <div className="flex h-[72px] w-[72px] items-center justify-center rounded-[20px] bg-button-outline-bg-light text-[34px] font-bold leading-none text-link dark:bg-button-outline-bg-dark dark:text-button-outline-fg-dark">
+            {step.number}
+          </div>
+          <div>
+            <div className="text-[17px] font-bold leading-6">
+              {t(step.titleKey)}
+            </div>
+            <div className="mt-1 text-[17px] leading-6 text-hint">
+              {td(step.textKey, {
+                link: (text) => (
+                  <ButtonLink
+                    variant="dotted"
+                    onClick={() => store.openScreenshot(step.screenshotStep)}
+                  >
+                    {text}
+                  </ButtonLink>
+                ),
+              })}
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
   );
 }
 

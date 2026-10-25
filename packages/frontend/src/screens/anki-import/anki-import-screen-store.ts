@@ -1,7 +1,9 @@
 import { makeAutoObservable, runInAction } from "mobx";
+import { uploadWithProgress } from "../../api/file-upload.ts";
+import { getUserErrorMessage } from "../../api/get-user-error-message.ts";
 import { api } from "../../api/trpc-api.ts";
-import { makeMutation } from "../../lib/mobx-query-lite/make-mutation.ts";
 import { showAlert } from "../../lib/platform/show-alert.ts";
+import { reportHandledError } from "../../lib/rollbar/rollbar.tsx";
 import { deckListStore } from "../../store/deck-list-store.ts";
 import { screenStore } from "../../store/screen-store.ts";
 import { t } from "../../translations/t.ts";
@@ -24,17 +26,33 @@ const screenshots = {
 
 type ScreenshotStep = keyof typeof screenshots;
 
+type ImportProgress = { uploadedBytes: number; totalBytes: number };
+
+const uploadAnkiPackage = async (
+  file: File,
+  onProgress: (uploadedBytes: number, totalBytes: number) => void,
+) => {
+  const { uploadId, url } = await api.anki.uploadUrl.mutate({
+    size: file.size,
+  });
+  await uploadWithProgress(url, file, onProgress);
+
+  return uploadId;
+};
+
 export class AnkiImportScreenStore {
   openStep: ScreenshotStep | null = null;
-  importDeckMutation = makeMutation((file: File) => {
-    const formData = new FormData();
-    formData.set("file", file);
+  importProgress: ImportProgress | null = null;
 
-    return api.anki.import.mutate(formData);
-  });
-
-  constructor() {
-    makeAutoObservable(this, {}, { autoBind: true });
+  constructor(
+    private uploadPackage = uploadAnkiPackage,
+    private importPackage = api.anki.import.mutate,
+  ) {
+    makeAutoObservable<this, "uploadPackage" | "importPackage">(
+      this,
+      { uploadPackage: false, importPackage: false },
+      { autoBind: true },
+    );
   }
 
   openScreenshot(step: ScreenshotStep) {
@@ -59,7 +77,31 @@ export class AnkiImportScreenStore {
   }
 
   get isMainButtonVisible() {
-    return this.openStep === null;
+    return this.openStep === null && this.importProgress === null;
+  }
+
+  get uploadPercent() {
+    if (!this.importProgress) {
+      return 0;
+    }
+
+    const { uploadedBytes, totalBytes } = this.importProgress;
+    return Math.round((uploadedBytes / totalBytes) * 100);
+  }
+
+  get isUploaded() {
+    return (
+      this.importProgress !== null &&
+      this.importProgress.uploadedBytes >= this.importProgress.totalBytes
+    );
+  }
+
+  setUploadProgress(uploadedBytes: number, totalBytes: number) {
+    this.importProgress = { uploadedBytes, totalBytes };
+  }
+
+  finishImport() {
+    this.importProgress = null;
   }
 
   async uploadFile(file: File | null | undefined) {
@@ -72,14 +114,21 @@ export class AnkiImportScreenStore {
       return;
     }
 
+    this.setUploadProgress(0, file.size);
     let result: Awaited<ReturnType<typeof api.anki.import.mutate>>;
     try {
-      result = await this.importDeckMutation.mutate(file);
+      const uploadId = await this.uploadPackage(file, this.setUploadProgress);
+      this.setUploadProgress(file.size, file.size);
+      result = await this.importPackage({ uploadId });
     } catch (error) {
-      showAlert(
-        error instanceof Error ? error.message : t("anki_import_error"),
-      );
+      const userMessage = getUserErrorMessage(error);
+      if (!userMessage) {
+        reportHandledError("Anki import failed", error);
+      }
+      showAlert(userMessage ?? t("error_contact_support"));
       return;
+    } finally {
+      this.finishImport();
     }
 
     runInAction(() => {

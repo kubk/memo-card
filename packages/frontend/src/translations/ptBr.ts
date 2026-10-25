@@ -399,7 +399,6 @@ export const ptBr = {
   anki_import_screenshot_export_dialog_alt:
     "Diálogo de exportação do Anki com opções de exportação do pacote",
   anki_import_invalid_file: "Escolha um arquivo .apkg",
-  anki_import_error: "Não foi possível importar o baralho do Anki",
   anki_import_success: "Baralho do Anki importado",
 
   // Skip card
