@@ -121,6 +121,7 @@ export function ManualCardFormView() {
             <div className="text-center text-sm mb-2">
               <ButtonLink
                 variant="plain"
+                className="block max-w-full mx-auto truncate"
                 onClick={() => {
                   screenStore.backToDeck(deck.id);
                 }}
