@@ -55,7 +55,7 @@ export function Card(props: Props) {
       )}
     >
       <span className="text-center font-semibold text-text">
-        <div className="break-words mt-1">
+        <div className="card-field-with-speaker break-words mt-1">
           <CardFieldView text={card.front} />
           <CardSpeaker
             card={card}
@@ -65,7 +65,7 @@ export function Card(props: Props) {
         </div>
         {card.isOpened ? <HorizontalDivider /> : null}
         {card.isOpened ? (
-          <div className="mt-1">
+          <div className="card-field-with-speaker mt-1">
             <CardFieldView text={card.back} />
             <CardSpeaker card={card} type={"back"} />
           </div>

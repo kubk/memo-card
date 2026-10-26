@@ -25,15 +25,39 @@ type AudioSide = (typeof audioOptions)[number]["id"];
 
 const audioUrl =
   "https://media.memocard.org/415318291.f69cc200-c506-4fec-8e22-b553e4765970-french-in-action-0001.mp3";
-const audioImage =
-  '<img src="https://media.memocard.org/415318291.ecfab41b-e96a-46f5-b566-6b6326f1e044-french-in-action-0001.jpg"><br>Bonjour, Madame Rosa.';
-const audioCardText = {
-  front: { front: audioImage, back: "Hello, Mrs. Rosa." },
-  back: { front: "Hello, Mrs. Rosa.", back: audioImage },
-  listening: {
-    front: "",
-    back: "Bonjour, Madame Rosa.<br><br>Hello, Mrs. Rosa.",
+const audioContentOptions = [
+  { id: "image", label: "Image and text" },
+  { id: "word", label: "Word" },
+  { id: "heading", label: "Heading" },
+  { id: "block", label: "Text block" },
+] as const;
+type AudioContent = (typeof audioContentOptions)[number]["id"];
+
+const audioContents = {
+  image: {
+    text: '<img src="https://media.memocard.org/415318291.ecfab41b-e96a-46f5-b566-6b6326f1e044-french-in-action-0001.jpg"><br>Bonjour, Madame Rosa.',
+    translation: "Hello, Mrs. Rosa.",
   },
+  word: { text: "สาธารณะ", translation: "public" },
+  heading: { text: "<h1>สาธารณะ</h1>", translation: "public" },
+  block: { text: "<div>สาธารณะ</div>", translation: "public" },
+};
+
+const getAudioCardText = (side: AudioSide, content: AudioContent) => {
+  const { text, translation } = audioContents[content];
+  switch (side) {
+    case "none":
+      return null;
+    case "front":
+      return { front: text, back: translation };
+    case "back":
+      return { front: translation, back: text };
+    case "listening":
+      return {
+        front: "",
+        back: "Bonjour, Madame Rosa.<br><br>Hello, Mrs. Rosa.",
+      };
+  }
 };
 type CardAnswer = NonNullable<DeckCardDbType["answers"]>[number];
 
@@ -57,6 +81,7 @@ export function CardReviewPlayground() {
   const [answer, setAnswer] = useState<CardAnswer>();
   const [isLongContent, setIsLongContent] = useState(false);
   const [audioSide, setAudioSide] = useState<AudioSide>("none");
+  const [audioContent, setAudioContent] = useState<AudioContent>("image");
   const [voicePlayer] = useState(() => new UrlRecordVoicePlayer(audioUrl));
 
   const getSpeakingCard = (side: AudioSide, opened: boolean) => ({
@@ -103,6 +128,15 @@ export function CardReviewPlayground() {
     speakCardOnShow(getSpeakingCard(audioSide, false), true);
   };
 
+  const selectAudioContent = (value: string) => {
+    const option = audioContentOptions.find((option) => option.id === value);
+    if (option) {
+      setAudioContent(option.id);
+    }
+  };
+
+  const audioCardText = getAudioCardText(audioSide, audioContent);
+
   const answers = isLongContent
     ? choiceAnswers.map((choiceAnswer) => ({
         ...choiceAnswer,
@@ -116,19 +150,17 @@ export function CardReviewPlayground() {
     ...reviewState,
     ...getSpeakingCard(audioSide, isOpened),
     speak: () => speakCard(voicePlayer, true),
-    front:
-      audioSide !== "none"
-        ? audioCardText[audioSide].front
-        : isLongContent
-          ? longText(40)
-          : "dismal",
-    back: audioSide !== "none" ? audioCardText[audioSide].back : "унылый",
-    example:
-      audioSide !== "none"
-        ? null
-        : isLongContent
-          ? longText(40)
-          : "The weather was dismal, with grey skies and constant rain",
+    front: audioCardText
+      ? audioCardText.front
+      : isLongContent
+        ? longText(40)
+        : "dismal",
+    back: audioCardText ? audioCardText.back : "унылый",
+    example: audioCardText
+      ? null
+      : isLongContent
+        ? longText(40)
+        : "The weather was dismal, with grey skies and constant rain",
     answerType: cardType === "regular" ? "remember" : "choice_single",
     answers: cardType === "regular" ? [] : answers,
     answer,
@@ -177,6 +209,16 @@ export function CardReviewPlayground() {
             onValueChange={selectAudioSide}
           />
         </PropGroup>
+        {audioSide === "front" || audioSide === "back" ? (
+          <PropGroup label="Audio side content">
+            <RadioProp
+              id="card-review-audio-content"
+              options={audioContentOptions}
+              value={audioContent}
+              onValueChange={selectAudioContent}
+            />
+          </PropGroup>
+        ) : null}
         <BooleanProp
           id="card-review-long-content"
           label="Long content"

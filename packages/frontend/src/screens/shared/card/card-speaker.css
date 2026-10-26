@@ -38,3 +38,10 @@
     animation: none;
   }
 }
+
+.card-field-with-speaker
+  > span
+  > :is(div, p, h1, h2, h3, h4, h5, h6):last-child {
+  display: inline;
+  vertical-align: middle;
+}
