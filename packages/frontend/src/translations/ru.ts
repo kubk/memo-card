@@ -235,6 +235,7 @@ export const ru = {
   speaking_cards: "Озвучка карточек",
   voice_language: "Язык озвучки",
   speaking_card: "Озвучка",
+  card_voice_recording: "Аудиозапись",
   card_voiceover_deck_hint: "Настройте язык озвучки в [link:настройках колоды]",
   card_speak_side: "Сторона карточки",
   card_speak_side_hint: "Выбранная сторона будет озвучиваться автоматически",

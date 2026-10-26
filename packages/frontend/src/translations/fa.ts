@@ -187,6 +187,7 @@ export const fa = {
   speaking_cards: "کارت‌های گفتاری",
   voice_language: "زبان صدا",
   speaking_card: "صدا",
+  card_voice_recording: "فایل صوتی",
   card_voiceover_deck_hint: "زبان صدا را در [link:تنظیمات دسته] تنظیم کنید",
   card_speak_side: "طرف کارت",
   card_speak_side_hint: "سمت انتخاب‌شده به‌صورت خودکار خوانده می‌شود",

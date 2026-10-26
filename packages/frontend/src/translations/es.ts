@@ -237,6 +237,7 @@ export const es = {
   speaking_cards: "Tarjetas habladas",
   voice_language: "Idioma de voz",
   speaking_card: "Voz",
+  card_voice_recording: "Grabación de audio",
   card_voiceover_deck_hint:
     "Configura el idioma de voz en [link:ajustes del mazo]",
   card_speak_side: "Lado de la tarjeta",

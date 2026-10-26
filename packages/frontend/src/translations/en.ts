@@ -170,6 +170,7 @@ export const en = {
   speaking_cards: "Speaking cards",
   voice_language: "Voice language",
   speaking_card: "Voice",
+  card_voice_recording: "Audio recording",
   card_voiceover_deck_hint: "Configure voice language in [link:deck settings]",
   card_speak_side: "Speak side",
   card_speak_side_hint: "The selected side is voiced automatically",

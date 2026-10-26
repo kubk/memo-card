@@ -241,6 +241,7 @@ export const uk = {
   speaking_cards: "Картки з озвучкою",
   voice_language: "Мова озвучки",
   speaking_card: "Озвучення",
+  card_voice_recording: "Аудіозапис",
   card_voiceover_deck_hint:
     "Налаштуйте мову озвучки в [link:налаштуваннях колоди]",
   card_speak_side: "Сторона картки",

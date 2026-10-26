@@ -235,6 +235,7 @@ export const ptBr = {
   speaking_cards: "Cartões com voz",
   voice_language: "Idioma da voz",
   speaking_card: "Voz",
+  card_voice_recording: "Gravação de áudio",
   card_voiceover_deck_hint:
     "Configure o idioma da voz em [link:configurações do baralho]",
   card_speak_side: "Lado do cartão",

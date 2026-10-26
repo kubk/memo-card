@@ -191,6 +191,7 @@ export const ar = {
   speaking_cards: "بطاقات ناطقة",
   voice_language: "لغة الصوت",
   speaking_card: "الصوت",
+  card_voice_recording: "تسجيل صوتي",
   card_voiceover_deck_hint: "اضبط لغة الصوت في [link:إعدادات المجموعة]",
   card_speak_side: "جانب البطاقة",
   card_speak_side_hint: "سيتم نطق الجانب المحدد تلقائيًا",

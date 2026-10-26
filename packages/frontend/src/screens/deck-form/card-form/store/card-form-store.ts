@@ -106,6 +106,10 @@ export class CardFormStore {
     return Boolean(this.speakingCardsLocale && this.speakingCardsField);
   }
 
+  get voiceRecordingUrl() {
+    return this.cardForm?.options.value?.voice ?? null;
+  }
+
   get effectiveSpeakField() {
     return this.cardForm?.options.value?.speakField ?? this.speakingCardsField;
   }
