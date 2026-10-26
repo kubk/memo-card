@@ -115,7 +115,7 @@ export function FolderForm() {
         />
       </LabelGroup>
 
-      <LabelGroup title={t("add_deck_to_folder")}>
+      <LabelGroup className="mt-2.5" title={t("add_deck_to_folder")}>
         {folderStore.decksMineQuery.isPending && <Loader />}
         {folderStore.decksMineQuery.data !== undefined &&
         folderStore.decksAvailableFiltered.length === 0 ? (
@@ -146,7 +146,7 @@ export function FolderForm() {
       </LabelGroup>
 
       {folderStore.decksNotAvailable.length > 0 && (
-        <LabelGroup title={t("decks_in_other_folders")}>
+        <LabelGroup className="mt-2.5" title={t("decks_in_other_folders")}>
           <List
             items={folderStore.decksNotAvailable.map((deck) => {
               return {
