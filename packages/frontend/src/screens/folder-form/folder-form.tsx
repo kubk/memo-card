@@ -70,16 +70,14 @@ export function FolderForm() {
       </LabelGroup>
 
       {folder && (
-        <div className="mt-0.5 mb-2.5">
-          <FolderActions
-            folder={{
-              id: folder.folder_id,
-              authorId: folder.folder_author_id,
-              shareId: folder.folder_share_id,
-            }}
-            variant="buttons"
-          />
-        </div>
+        <FolderActions
+          className="mt-0.5 mb-2.5"
+          folder={{
+            id: folder.folder_id,
+            authorId: folder.folder_author_id,
+            shareId: folder.folder_share_id,
+          }}
+        />
       )}
 
       <LabelGroup

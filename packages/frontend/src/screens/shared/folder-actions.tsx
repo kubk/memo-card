@@ -11,11 +11,6 @@ type FolderActionTarget = {
   shareId: string;
 };
 
-type Props = {
-  folder: FolderActionTarget;
-  variant: "buttons" | "dropdown";
-};
-
 export function getFolderTileActions(
   folder: FolderActionTarget,
   canEdit: boolean,
@@ -31,6 +26,14 @@ export function getFolderTileActions(
   });
 }
 
-export function FolderActions({ folder, variant }: Props) {
-  return <LibraryItemActions type="folder" target={folder} variant={variant} />;
+export function FolderActions({
+  folder,
+  className,
+}: {
+  folder: FolderActionTarget;
+  className?: string;
+}) {
+  return (
+    <LibraryItemActions type="folder" target={folder} className={className} />
+  );
 }

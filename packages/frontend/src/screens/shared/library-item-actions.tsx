@@ -8,11 +8,11 @@ import {
 import { deckListStore } from "../../store/deck-list-store.ts";
 import { type DeckListDeck } from "../../store/deck-types.ts";
 import { t } from "../../translations/t.ts";
-import { type ActionTileRowItem } from "../../ui/action-tile.tsx";
-import { ButtonGrid } from "../../ui/button-grid.tsx";
-import { Button } from "../../ui/button.tsx";
+import {
+  ActionTileRow,
+  type ActionTileRowItem,
+} from "../../ui/action-tile.tsx";
 import { type DropdownItem } from "../../ui/dropdown.tsx";
-import { DropdownOrVault } from "../../ui/dropdown-or-vault.tsx";
 import { deleteItemModalStore } from "./delete-item-modal-store.ts";
 import {
   canShareMessage,
@@ -31,11 +31,6 @@ type FolderActionTarget = {
 type TargetProps =
   | { type: "deck"; target: DeckActionTarget }
   | { type: "folder"; target: FolderActionTarget };
-
-type Props = TargetProps & {
-  variant: "buttons" | "dropdown";
-  onEdit?: () => void;
-};
 
 function getTargetActions(props: TargetProps) {
   const { target } = props;
@@ -95,7 +90,7 @@ function getTargetActions(props: TargetProps) {
       : []),
   ];
 
-  return { canShare, canRemove, actions };
+  return { actions };
 }
 
 function getLibraryItemActions({
@@ -149,38 +144,25 @@ export function getItemTileActions(
   };
 }
 
-export function LibraryItemActions(props: Props) {
-  const { variant } = props;
-  const { canShare, canRemove, actions } = getTargetActions(props);
+export function LibraryItemActions({
+  className,
+  ...props
+}: TargetProps & { className?: string }) {
+  const { actions } = getTargetActions(props);
 
-  if (
-    (props.type === "deck" && !canShare && !canRemove) ||
-    (props.type === "folder" && !canRemove)
-  ) {
+  if (actions.length === 0) {
     return null;
   }
 
-  if (variant === "dropdown") {
-    return (
-      <DropdownOrVault
-        className="relative mt-3 shrink-0"
-        options={getLibraryItemActions(props)}
-      />
-    );
-  }
-
   return (
-    <ButtonGrid>
-      {actions.map((action) => (
-        <Button
-          align="left"
-          key={action.type}
-          icon={<action.Icon size={24} />}
-          onClick={action.onClick}
-        >
-          {action.text}
-        </Button>
-      ))}
-    </ButtonGrid>
+    <ActionTileRow
+      className={className}
+      items={actions.map((action) => ({
+        type: "action",
+        icon: <action.Icon size={24} />,
+        text: action.text,
+        onClick: action.onClick,
+      }))}
+    />
   );
 }

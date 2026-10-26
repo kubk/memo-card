@@ -14,12 +14,14 @@ import {
   ActionTileRow,
   type ActionTileRowItem,
 } from "../../../ui/action-tile.tsx";
+import { type DropdownItem } from "../../../ui/dropdown.tsx";
 import { userStore } from "../../../store/user-store.ts";
 import { assert } from "api";
 import { FormattingSwitcher } from "../card-form/formatting-switcher.tsx";
 import { WysiwygField } from "../../../ui/wysiwyg-field/wysiwig-field.tsx";
 import {
   BotIcon,
+  EllipsisIcon,
   LayersIcon,
   LinkIcon,
   MicIcon,
@@ -75,8 +77,40 @@ export function DeckForm() {
     : null;
   const folderId = screen.folderId;
   const folderName = screen.folderName;
+  const isDeckOwner = deck ? deckListStore.isDeckOwner(deck) : false;
+  const deleteAction = {
+    icon: <TrashIcon size={24} />,
+    text: t("delete"),
+    onClick: () => {
+      assert(deck);
+      deleteItemModalStore.open({ type: "deck", deckId: deck.id });
+    },
+  };
+  const canDelete = deck ? deckListStore.canRemoveDeck(deck) : false;
+  const moreOptions: DropdownItem[] = deck
+    ? [
+        ...(canShareMessage()
+          ? [
+              {
+                icon: <LinkIcon size={20} className="text-hint" />,
+                text: t("share_link"),
+                onClick: () => copyMemoCardLink(deck.shareId),
+              },
+            ]
+          : []),
+        ...(canDelete
+          ? [
+              {
+                icon: <TrashIcon size={20} className="text-danger" />,
+                text: <span className="text-danger">{t("delete")}</span>,
+                onClick: deleteAction.onClick,
+              },
+            ]
+          : []),
+      ]
+    : [];
   const deckActionItems: ActionTileRowItem[] = [
-    ...(deck && deckListStore.isDeckOwner(deck)
+    ...(deck && isDeckOwner
       ? [
           {
             type: "action" as const,
@@ -89,16 +123,6 @@ export function DeckForm() {
                 shareId: deck.shareId,
               }),
           },
-          ...(canShareMessage()
-            ? [
-                {
-                  type: "action" as const,
-                  icon: <LinkIcon size={24} />,
-                  text: t("share_link"),
-                  onClick: () => copyMemoCardLink(deck.shareId),
-                },
-              ]
-            : []),
         ]
       : []),
     {
@@ -119,17 +143,18 @@ export function DeckForm() {
       text: t("speaking_card"),
       onClick: () => deckFormStore.goToSpeakingCards(),
     },
-    ...(deck && deckListStore.canRemoveDeck(deck)
+    ...(isDeckOwner && moreOptions.length > 0
       ? [
           {
-            type: "action" as const,
-            icon: <TrashIcon size={24} />,
-            text: t("delete"),
-            onClick: () => {
-              deleteItemModalStore.open({ type: "deck", deckId: deck.id });
-            },
+            type: "dropdown" as const,
+            icon: <EllipsisIcon size={24} />,
+            text: t("more"),
+            options: moreOptions,
           },
         ]
+      : []),
+    ...(!isDeckOwner && canDelete
+      ? [{ type: "action" as const, ...deleteAction }]
       : []),
   ];
 
