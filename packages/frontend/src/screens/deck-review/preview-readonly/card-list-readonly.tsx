@@ -1,6 +1,6 @@
 import { DeckCardDbType } from "api";
+import { CardSideText } from "../../shared/card/card-side-text.tsx";
 import { CardNumber } from "../../../ui/card-number.tsx";
-import { removeAllTags } from "../../../lib/sanitize-html/remove-all-tags.ts";
 import { List, type ListItemType } from "../../../ui/list.tsx";
 import { userStore } from "../../../store/user-store.ts";
 import { cn } from "../../../ui/cn.ts";
@@ -59,11 +59,11 @@ export function CardListRowsReadonly(props: CardListRowsReadonlyProps) {
               <div>
                 <CardNumber number={i + 1} />
                 <span className="text-md">
-                  {removeAllTags({ text: card.front })}
+                  <CardSideText text={card.front} />
                 </span>
               </div>
               <div className="text-hint">
-                {removeAllTags({ text: card.back })}
+                <CardSideText text={card.back} />
               </div>
             </div>
           ),

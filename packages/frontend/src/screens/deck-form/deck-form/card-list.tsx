@@ -1,4 +1,5 @@
 import { useState } from "preact/compat";
+import { CardSideText } from "../../shared/card/card-side-text.tsx";
 import { screenStore } from "../../../store/screen-store.ts";
 import { useBackButton } from "../../../lib/platform/use-back-button.ts";
 import { Input } from "../../../ui/input.tsx";
@@ -19,7 +20,6 @@ import { cn } from "../../../ui/cn.ts";
 import * as m from "motion/react-m";
 import { AnimatePresence } from "motion/react";
 import { MoveToDeckSelector } from "./move-to-deck-selector.tsx";
-import { removeAllTags } from "../../../lib/sanitize-html/remove-all-tags.ts";
 import { useProgress } from "../../../lib/platform/use-progress.tsx";
 import { ErrorScreen } from "../../error-screen/error-screen.tsx";
 import { DeckNotFoundScreen } from "../../error-screen/deck-not-found-screen.tsx";
@@ -197,10 +197,10 @@ export function CardList() {
             )}
             <div>
               <CardNumber number={i + 1} />
-              {removeAllTags({ text: card.front })}
+              <CardSideText text={card.front} />
             </div>
             <div className="text-hint">
-              {removeAllTags({ text: card.back })}
+              <CardSideText text={card.back} />
             </div>
           </div>
         );

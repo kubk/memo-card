@@ -1,5 +1,5 @@
 import { ReviewedCard } from "./store/review-store.ts";
-import { removeAllTags } from "../../lib/sanitize-html/remove-all-tags.ts";
+import { CardSideText } from "../shared/card/card-side-text.tsx";
 import * as m from "motion/react-m";
 import { LabelGroup } from "../../ui/label-group.tsx";
 import { t } from "../../translations/t.ts";
@@ -45,10 +45,10 @@ export function ReviewedCardsList(props: Props) {
               >
                 <div className="flex-1 min-w-0">
                   <div className="text-sm font-medium text-text">
-                    {removeAllTags({ text: card.front })}
+                    <CardSideText text={card.front} />
                   </div>
                   <div className="text-hint text-sm mt-1">
-                    {removeAllTags({ text: card.back })}
+                    <CardSideText text={card.back} />
                   </div>
                 </div>
                 <div
