@@ -1,0 +1,21 @@
+{
+  "name": "memo-card",
+  "displayName": "Memo Card",
+  "version": "1.0.0",
+  "description": "Turn notes, documents and conversations into Memo Card flashcards, then improve and organize your decks for spaced repetition study",
+  "author": {
+    "name": "MemoCard LLC",
+    "email": "support@memocard.org",
+    "url": "https://memocard.org"
+  },
+  "homepage": "https://memocard.org",
+  "repository": "https://github.com/kubk/memo-card",
+  "license": "MIT",
+  "keywords": [
+    "flashcards",
+    "language learning",
+    "memorization",
+    "spaced repetition"
+  ],
+  "privacyPolicyUrl": "https://app.memocard.org/privacy-policy"
+}
