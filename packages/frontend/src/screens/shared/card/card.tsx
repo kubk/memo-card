@@ -5,6 +5,7 @@ import { CardFieldView } from "./card-field-view.tsx";
 import { t } from "../../../translations/t.ts";
 import { assert } from "api";
 import { cn } from "../../../ui/cn.ts";
+import { removeAllTags } from "../../../lib/sanitize-html/remove-all-tags.ts";
 
 export const IDK_ID = "idk";
 
@@ -56,7 +57,11 @@ export function Card(props: Props) {
       <span className="text-center font-semibold text-text">
         <div className="break-words mt-1">
           <CardFieldView text={card.front} />
-          <CardSpeaker card={card} type={"front"} />
+          <CardSpeaker
+            card={card}
+            type={"front"}
+            isLarge={!removeAllTags({ text: card.front, fallback: false })}
+          />
         </div>
         {card.isOpened ? <HorizontalDivider /> : null}
         {card.isOpened ? (

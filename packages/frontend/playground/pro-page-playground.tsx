@@ -7,14 +7,8 @@ import { McpSettingsWizard } from "../src/screens/mcp-settings/mcp-settings-wiza
 import { McpWizardStore } from "../src/screens/mcp-settings/store/mcp-wizard-store.ts";
 import { ProPage } from "../src/screens/pro/pro-page.tsx";
 import { BrowserMainButton } from "../src/screens/shared/browser-platform/browser-main-button.tsx";
-import { cn } from "../src/ui/cn.ts";
-import { ShadcnLabel } from "../src/ui/shadcn/label.tsx";
-import {
-  ShadcnRadioGroup,
-  ShadcnRadioGroupItem,
-} from "../src/ui/shadcn/radio-group.tsx";
 import { Tabs, TabsList, TabsTrigger } from "../src/ui/shadcn/tabs.tsx";
-import { PropGroup } from "./ui/prop-controls.tsx";
+import { PropGroup, RadioProp } from "./ui/prop-controls.tsx";
 import { PropsPanel } from "./ui/props-panel.tsx";
 
 const MCP_TOKEN =
@@ -154,35 +148,12 @@ export function ProPagePlayground() {
       <BrowserMainButton />
       <PropsPanel>
         <PropGroup label="State">
-          <ShadcnRadioGroup
-            className="w-full gap-1 rounded-lg bg-muted p-1"
-            orientation="vertical"
+          <RadioProp
+            id="pro-page-state"
+            options={PRO_PAGE_STATES}
             value={preview.state}
             onValueChange={changeState}
-          >
-            {PRO_PAGE_STATES.map((option) => {
-              const id = `pro-page-state-${option.id}`;
-              return (
-                <div
-                  className={cn(
-                    "flex min-h-9 items-center gap-3 rounded-md px-3 py-2",
-                    preview.state === option.id
-                      ? "bg-background text-link"
-                      : "text-foreground",
-                  )}
-                  key={option.id}
-                >
-                  <ShadcnRadioGroupItem id={id} value={option.id} />
-                  <ShadcnLabel
-                    className="min-w-0 flex-1 cursor-pointer whitespace-normal"
-                    htmlFor={id}
-                  >
-                    {option.label}
-                  </ShadcnLabel>
-                </div>
-              );
-            })}
-          </ShadcnRadioGroup>
+          />
         </PropGroup>
         {preview.state === "paid-connected" ? (
           <>

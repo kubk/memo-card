@@ -2,6 +2,11 @@ import { type ReactNode } from "preact/compat";
 import { ShadcnCheckbox } from "../../src/ui/shadcn/checkbox.tsx";
 import { ShadcnInput } from "../../src/ui/shadcn/input.tsx";
 import { ShadcnLabel } from "../../src/ui/shadcn/label.tsx";
+import {
+  ShadcnRadioGroup,
+  ShadcnRadioGroupItem,
+} from "../../src/ui/shadcn/radio-group.tsx";
+import { cn } from "../../src/ui/cn.ts";
 
 export function PropGroup({
   children,
@@ -19,6 +24,50 @@ export function PropGroup({
       )}
       <div className="space-y-3.5">{children}</div>
     </section>
+  );
+}
+
+export function RadioProp({
+  id,
+  options,
+  value,
+  onValueChange,
+}: {
+  id: string;
+  options: ReadonlyArray<{ id: string; label: string }>;
+  value: string;
+  onValueChange: (value: string) => void;
+}) {
+  return (
+    <ShadcnRadioGroup
+      className="w-full gap-1 rounded-lg bg-muted p-1"
+      orientation="vertical"
+      value={value}
+      onValueChange={onValueChange}
+    >
+      {options.map((option) => {
+        const optionId = `${id}-${option.id}`;
+        return (
+          <div
+            className={cn(
+              "flex min-h-9 items-center gap-3 rounded-md px-3 py-2",
+              value === option.id
+                ? "bg-background text-link"
+                : "text-foreground",
+            )}
+            key={option.id}
+          >
+            <ShadcnRadioGroupItem id={optionId} value={option.id} />
+            <ShadcnLabel
+              className="min-w-0 flex-1 cursor-pointer whitespace-normal"
+              htmlFor={optionId}
+            >
+              {option.label}
+            </ShadcnLabel>
+          </div>
+        );
+      })}
+    </ShadcnRadioGroup>
   );
 }
 

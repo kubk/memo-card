@@ -2,19 +2,23 @@ import { throttle } from "../../../lib/throttle/throttle.ts";
 import { LimitedCardUnderReviewStore } from "./card.tsx";
 import { PlayCircle } from "lucide-react";
 import "./card-speaker.css";
+import { cn } from "../../../ui/cn.ts";
 
 type Props = {
   card: LimitedCardUnderReviewStore;
   type: "front" | "back";
+  isLarge?: boolean;
 };
 
 export function CardSpeaker(props: Props) {
-  const { card, type } = props;
+  const { card, type, isLarge } = props;
   if (!card.isCardSpeakerVisible(type)) {
     return null;
   }
+  const size = isLarge ? 72 : 24;
   const iconProps = {
     className: "text-button",
+    strokeWidth: isLarge ? 1.5 : 2,
   };
 
   // Prevent rapid clicks from queueing overlapping speech.
@@ -22,17 +26,19 @@ export function CardSpeaker(props: Props) {
     <button
       type="button"
       onClick={throttle(card.speak, 500)}
-      className="card-speaker ms-2 inline-flex align-middle cursor-pointer touch-manipulation transition-[scale] duration-200 ease-out active:scale-90"
+      className={cn(
+        "card-speaker cursor-pointer touch-manipulation transition-[scale] duration-200 ease-out active:scale-90",
+        isLarge ? "mx-auto mt-4 flex" : "ms-2 inline-flex align-middle",
+      )}
     >
       {card.voicePlayer?.isPlaying ? (
         <svg
           {...iconProps}
-          width={24}
-          height={24}
+          width={size}
+          height={size}
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
-          strokeWidth={2}
           strokeLinecap="round"
         >
           <circle cx={12} cy={12} r={10} />
@@ -43,7 +49,7 @@ export function CardSpeaker(props: Props) {
           </g>
         </svg>
       ) : (
-        <PlayCircle {...iconProps} size={24} />
+        <PlayCircle {...iconProps} size={size} />
       )}
     </button>
   );

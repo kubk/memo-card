@@ -4,7 +4,7 @@ import { CardReviewWithControls } from "../src/screens/deck-review/card-review-w
 import type { LimitedCardUnderReviewStore } from "../src/screens/shared/card/card.tsx";
 import { Tabs, TabsList, TabsTrigger } from "../src/ui/shadcn/tabs.tsx";
 import { ReviewScreenLayout } from "../src/screens/deck-review/review-screen-layout.tsx";
-import { BooleanProp, PropGroup } from "./ui/prop-controls.tsx";
+import { BooleanProp, PropGroup, RadioProp } from "./ui/prop-controls.tsx";
 import { PropsPanel } from "./ui/props-panel.tsx";
 import { UrlRecordVoicePlayer } from "../src/screens/deck-review/voice-player/url-record-voice-player.ts";
 import {
@@ -15,7 +15,13 @@ import {
 } from "../src/screens/deck-review/store/card-speaking.ts";
 
 type CardType = "regular" | "choices";
-type AudioSide = "none" | "front" | "back";
+const audioOptions = [
+  { id: "none", label: "None" },
+  { id: "front", label: "Question" },
+  { id: "back", label: "Answer" },
+  { id: "listening", label: "Listening: audio only on the question" },
+] as const;
+type AudioSide = (typeof audioOptions)[number]["id"];
 
 const audioUrl =
   "https://media.memocard.org/415318291.f69cc200-c506-4fec-8e22-b553e4765970-french-in-action-0001.mp3";
@@ -24,6 +30,10 @@ const audioImage =
 const audioCardText = {
   front: { front: audioImage, back: "Hello, Mrs. Rosa." },
   back: { front: "Hello, Mrs. Rosa.", back: audioImage },
+  listening: {
+    front: "",
+    back: "Bonjour, Madame Rosa.<br><br>Hello, Mrs. Rosa.",
+  },
 };
 type CardAnswer = NonNullable<DeckCardDbType["answers"]>[number];
 
@@ -52,11 +62,17 @@ export function CardReviewPlayground() {
   const getSpeakingCard = (side: AudioSide, opened: boolean) => ({
     voicePlayer: side === "none" ? undefined : voicePlayer,
     isOpened: opened,
-    deckSpeakField: side === "none" ? null : side,
+    deckSpeakField:
+      side === "none" ? null : side === "listening" ? "front" : side,
   });
 
   const selectAudioSide = (value: string) => {
-    if (value !== "none" && value !== "front" && value !== "back") {
+    if (
+      value !== "none" &&
+      value !== "front" &&
+      value !== "back" &&
+      value !== "listening"
+    ) {
       return;
     }
 
@@ -154,19 +170,12 @@ export function CardReviewPlayground() {
           </Tabs>
         </PropGroup>
         <PropGroup label="Audio">
-          <Tabs value={audioSide} onValueChange={selectAudioSide}>
-            <TabsList className="w-full">
-              <TabsTrigger className="flex-1" value="none">
-                None
-              </TabsTrigger>
-              <TabsTrigger className="flex-1" value="front">
-                Question
-              </TabsTrigger>
-              <TabsTrigger className="flex-1" value="back">
-                Answer
-              </TabsTrigger>
-            </TabsList>
-          </Tabs>
+          <RadioProp
+            id="card-review-audio"
+            options={audioOptions}
+            value={audioSide}
+            onValueChange={selectAudioSide}
+          />
         </PropGroup>
         <BooleanProp
           id="card-review-long-content"
