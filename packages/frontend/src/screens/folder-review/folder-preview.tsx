@@ -1,10 +1,7 @@
-import { deckListStore } from "../../store/deck-list-store.ts";
+import { usePullToRefresh } from "../../lib/react/use-pull-to-refresh.ts";
+import { usePreviewPlatformButtons } from "../shared/use-preview-platform-buttons.ts";
 import { screenStore } from "../../store/screen-store.ts";
 import { Hint } from "../../ui/hint.tsx";
-import { useBackButton } from "../../lib/platform/use-back-button.ts";
-import { usePullToRefresh } from "../../lib/react/use-pull-to-refresh.ts";
-import { useMainButton } from "../../lib/platform/use-main-button.ts";
-import { useProgress } from "../../lib/platform/use-progress.tsx";
 import { t } from "../../translations/t.ts";
 import { useReviewStore } from "../deck-review/store/review-store-context.tsx";
 import { LabelGroup } from "../../ui/label-group.tsx";
@@ -31,20 +28,7 @@ export function FolderPreview(props: Props) {
   usePullToRefresh();
   const reviewStore = useReviewStore();
   const { store } = props;
-
-  useBackButton(() => {
-    screenStore.back();
-  });
-
-  useProgress(() => store.isInitialLoading);
-
-  useMainButton(
-    t("review_folder"),
-    () => {
-      store.startReview(reviewStore);
-    },
-    () => store.isReviewVisible,
-  );
+  usePreviewPlatformButtons(store);
 
   if (store.detailsQuery.error) {
     return <ErrorScreen />;
@@ -79,9 +63,15 @@ export function FolderPreview(props: Props) {
           },
         ]
       : []),
-    ...getCardsToReviewTileItems(folder, store.isInitialLoading, (cardType) => {
-      store.startFilteredReview(reviewStore, (card) => card.type === cardType);
-    }),
+    ...getCardsToReviewTileItems(
+      folder,
+      store.isInitialLoading,
+      store.isInCollection
+        ? (cardType) => {
+            store.startReview(reviewStore, (card) => card.type === cardType);
+          }
+        : undefined,
+    ),
     ...(folderTileActions ? [folderTileActions] : []),
   ];
 
@@ -125,7 +115,7 @@ export function FolderPreview(props: Props) {
       )}
 
       {cardsTotal > 0 &&
-      deckListStore.isItemAdded({ id: folder.id, type: "folder" }) &&
+      store.isInCollection &&
       folder.cardsToReview.length === 0 &&
       !store.isInitialLoading ? (
         <div className="mt-2">

@@ -199,6 +199,7 @@ export const fa = {
   review_finished_want_more: "بیشتر می‌خواهید؟ شما دارید",
   review_finished_to_review: "برای مطالعه",
   review_deck: "مرور دسته کارت",
+  add_to_collection: "افزودن به مجموعه",
   review_folder: "مرور پوشه",
   cards_to_repeat: "برای تکرار",
   cards_new: "کارت‌های جدید",

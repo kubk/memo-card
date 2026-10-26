@@ -1,4 +1,4 @@
-import { makeAutoObservable, when } from "mobx";
+import { action, makeAutoObservable, runInAction, when } from "mobx";
 import { appLoaderStore } from "./app-loader-store.ts";
 import { type RouterOutput } from "api";
 import { type DeckCardDbType, type DeckWithCardsDbType } from "api";
@@ -22,6 +22,8 @@ import { makeQuery } from "../lib/mobx-query-lite/make-query.ts";
 import { type DeckListDeck } from "./deck-types.ts";
 import { deckDetailsStore } from "./deck-details-store.ts";
 import { isTrpcNotFoundError } from "../api/is-trpc-not-found-error.ts";
+import { showAlert } from "../lib/platform/show-alert.ts";
+import { t } from "../translations/t.ts";
 
 export type DeckCardDbTypeWithType = DeckCardDbType & {
   type: CardReviewType;
@@ -51,6 +53,12 @@ export type DeckListItem = {
     }
 );
 
+type LibraryItemRef = { type: "deck" | "folder"; id: number };
+
+const getLibraryItemKey = (item: LibraryItemRef) => `${item.type}:${item.id}`;
+
+const addProgressMaxMs = 300;
+
 export type DeckListFolder = Extract<DeckListItem, { type: "folder" }>;
 
 class DeckListStore {
@@ -75,6 +83,10 @@ class DeckListStore {
   });
 
   isStartParamHandled = false;
+
+  itemsBeingAdded = new Set<string>();
+
+  itemsWithAddProgress = new Set<string>();
 
   skeletonLoaderData = { publicCount: 3, myDecksCount: 3 };
 
@@ -109,27 +121,43 @@ class DeckListStore {
     return authOptionalScreenTypes.includes(screenStore.screen.type);
   }
 
-  async addDeckToMine(deckId: number, silent = false) {
+  isAddProgressVisible(item: LibraryItemRef) {
+    return this.itemsWithAddProgress.has(getLibraryItemKey(item));
+  }
+
+  isItemInCollection(item: LibraryItemRef) {
+    return this.isItemAdded(item) && !this.isAddProgressVisible(item);
+  }
+
+  async addToCollection(item: LibraryItemRef) {
+    if (this.isItemAdded(item)) {
+      return;
+    }
+
+    const key = getLibraryItemKey(item);
+    this.itemsBeingAdded.add(key);
+    this.itemsWithAddProgress.add(key);
+    setTimeout(
+      action(() => {
+        this.itemsWithAddProgress.delete(key);
+      }),
+      addProgressMaxMs,
+    );
+
     try {
-      await api.deck.addToMine.mutate({ deckId });
-      if (silent) {
-        return;
+      if (item.type === "deck") {
+        await api.deck.addToMine.mutate({ deckId: item.id });
+      } else {
+        await api.folder.addToMine.mutate({ folderId: item.id });
       }
       await this.myInfoQuery.invalidate();
     } catch (error) {
-      reportHandledError("Error while adding deck to mine", error, {
-        deckId,
-      });
-    }
-  }
-
-  async addFolderToMine(folderId: number) {
-    try {
-      await api.folder.addToMine.mutate({ folderId });
-      await this.myInfoQuery.invalidate();
-    } catch (error) {
-      reportHandledError("Error while adding folder to mine", error, {
-        folderId,
+      reportHandledError("Error while adding item to collection", error, item);
+      showAlert(t("error_contact_support"));
+    } finally {
+      runInAction(() => {
+        this.itemsBeingAdded.delete(key);
+        this.itemsWithAddProgress.delete(key);
       });
     }
   }
@@ -389,9 +417,7 @@ class DeckListStore {
 
       api.getByShareId
         .query({ shareId: startParam })
-        .then(async (sharedDeckResponse) => {
-          await this.myInfoQuery.invalidate({ refetchInactive: true });
-
+        .then((sharedDeckResponse) => {
           if ("deck" in sharedDeckResponse) {
             const deck = sharedDeckResponse.deck;
             deckDetailsStore.setDeck(deck);
@@ -422,10 +448,12 @@ class DeckListStore {
     }
   }
 
-  isItemAdded = (item: { type: "folder" | "deck"; id: number }) => {
-    return item.type === "folder"
-      ? this.myFoldersIds.includes(item.id)
-      : this.myDeckIds.includes(item.id);
+  isItemAdded = (item: LibraryItemRef) => {
+    const isInLibrary =
+      item.type === "folder"
+        ? this.myFoldersIds.includes(item.id)
+        : this.myDeckIds.includes(item.id);
+    return isInLibrary || this.itemsBeingAdded.has(getLibraryItemKey(item));
   };
 
   get myFoldersIds() {

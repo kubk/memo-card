@@ -151,7 +151,7 @@ function ActionTileStat({
   valueClassName,
   onClick,
 }: StatProps) {
-  const isDisabled = value === 0 && !isLoading;
+  const isDisabled = !isLoading && (!onClick || value === 0);
 
   return (
     <ActionTile onClick={onClick} disabled={isDisabled}>

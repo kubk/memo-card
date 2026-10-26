@@ -204,6 +204,7 @@ export const ar = {
   review_finished_want_more: "تريد المزيد؟ لديك",
   review_finished_to_review: "للدراسة",
   review_deck: "مراجعة المجموعة",
+  add_to_collection: "إضافة إلى مجموعتك",
   review_folder: "مراجعة المجلد",
   cards_to_repeat: "للتكرار",
   cards_new: "بطاقات جديدة",

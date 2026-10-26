@@ -11,6 +11,7 @@ import {
 import { type DeckListDeck } from "../../../store/deck-types.ts";
 import { screenStore } from "../../../store/screen-store.ts";
 import { type ReviewStore } from "../../deck-review/store/review-store.ts";
+import { t } from "../../../translations/t.ts";
 
 const getDeckWithNewCards = (
   deck: DeckListDeck,
@@ -96,29 +97,46 @@ export class FolderScreenStore {
     return !!this.ownedFolder && deckListStore.isFolderOwner(this.ownedFolder);
   }
 
-  get isReviewVisible() {
-    return (this.folder?.cardsToReview.length ?? 0) > 0;
+  get isInCollection() {
+    return deckListStore.isItemInCollection({
+      type: "folder",
+      id: this.folderId,
+    });
   }
 
-  startReview(reviewStore: ReviewStore) {
-    const folder = this.folder;
-    if (!folder) {
-      return;
-    }
-
-    if (!this.ownedFolder) {
-      deckListStore.addFolderToMine(folder.id);
-    }
-
-    reviewStore.startFolderReview(folder.decks);
+  get isMainButtonLoading() {
+    return (
+      this.isInitialLoading ||
+      deckListStore.isAddProgressVisible({ type: "folder", id: this.folderId })
+    );
   }
 
-  startFilteredReview(
+  get mainButtonText() {
+    return this.isInCollection ? t("review_folder") : t("add_to_collection");
+  }
+
+  get isMainButtonVisible() {
+    return this.isInCollection ? this.canReview : !!this.folder;
+  }
+
+  onMainButtonClick(reviewStore: ReviewStore) {
+    if (this.isInCollection) {
+      this.startReview(reviewStore);
+    } else {
+      deckListStore.addToCollection({ type: "folder", id: this.folderId });
+    }
+  }
+
+  get canReview() {
+    return this.isInCollection && (this.folder?.cardsToReview.length ?? 0) > 0;
+  }
+
+  startReview(
     reviewStore: ReviewStore,
-    filter: (card: DeckCardDbTypeWithType) => boolean,
+    filter?: (card: DeckCardDbTypeWithType) => boolean,
   ) {
     const folder = this.folder;
-    if (!folder) {
+    if (!folder || !this.canReview) {
       return;
     }
 

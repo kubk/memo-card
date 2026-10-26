@@ -183,6 +183,7 @@ export const en = {
   review_finished_want_more: "Want more? You have",
   review_finished_to_review: "to study",
   review_deck: "Review deck",
+  add_to_collection: "Add to collection",
   review_folder: "Review folder",
   cards_to_repeat: "To repeat",
   cards_new: "New cards",

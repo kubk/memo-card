@@ -25,6 +25,10 @@ vi.mock("../../api/trpc-api.ts", () => ({
   },
 }));
 
+vi.mock("../../store/user-store.ts", () => ({
+  userStore: { myId: 1 },
+}));
+
 vi.mock("../../store/deck-list-store.ts", () => ({
   deckListStore: {
     get myDecks() {

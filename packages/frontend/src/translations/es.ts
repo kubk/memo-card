@@ -251,6 +251,7 @@ export const es = {
   review_finished_want_more: "¿Quieres más? Tienes",
   review_finished_to_review: "para estudiar",
   review_deck: "Repasar mazo",
+  add_to_collection: "Añadir a tu colección",
   cards_to_repeat: "Para repetir",
   cards_new: "Nuevas tarjetas",
   cards_total: ({ count }: { count: number }) => `Total de tarjetas: ${count}`,

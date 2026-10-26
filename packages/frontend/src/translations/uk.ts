@@ -255,6 +255,7 @@ export const uk = {
   review_finished_want_more: "Хочете більше? У вас є",
   review_finished_to_review: "для вивчення",
   review_deck: "Повторити колоду",
+  add_to_collection: "Додати до колекції",
   cards_to_repeat: "Повторити",
   cards_new: "Нові картки",
   cards_total: ({ count }: { count: number }) => `Всього карток: ${count}`,

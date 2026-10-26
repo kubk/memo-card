@@ -249,6 +249,7 @@ export const ptBr = {
   review_finished_want_more: "Quer mais? Você tem",
   review_finished_to_review: "para estudar",
   review_deck: "Revisar baralho",
+  add_to_collection: "Adicionar à sua coleção",
   cards_to_repeat: "Para repetir",
   cards_new: "Novos cartões",
   cards_total: ({ count }: { count: number }) => `Total de cartões: ${count}`,

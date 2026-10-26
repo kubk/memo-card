@@ -9,6 +9,7 @@ import { type DeckListDeck } from "../../../store/deck-types.ts";
 import { screenStore } from "../../../store/screen-store.ts";
 import { type ReviewStore } from "./review-store.ts";
 import { deckDetailsStore } from "../../../store/deck-details-store.ts";
+import { t } from "../../../translations/t.ts";
 
 const getNewCardsToReview = (deck: DeckListDeck): DeckCardDbTypeWithType[] =>
   deck.deckCards.map((card) => ({
@@ -61,9 +62,36 @@ export class DeckScreenStore {
     return this.detailsQuery.isPending;
   }
 
+  get isInCollection() {
+    return deckListStore.isItemInCollection({ type: "deck", id: this.deckId });
+  }
+
+  get isMainButtonLoading() {
+    return (
+      this.isInitialLoading ||
+      deckListStore.isAddProgressVisible({ type: "deck", id: this.deckId })
+    );
+  }
+
+  get mainButtonText() {
+    return this.isInCollection ? t("review_deck") : t("add_to_collection");
+  }
+
+  get isMainButtonVisible() {
+    return this.isInCollection ? this.canReview : !!this.deck;
+  }
+
+  onMainButtonClick(reviewStore: ReviewStore) {
+    if (this.isInCollection) {
+      this.startReview(reviewStore);
+    } else {
+      deckListStore.addToCollection({ type: "deck", id: this.deckId });
+    }
+  }
+
   get canReview() {
     const deck = this.deck;
-    return !!deck && (deck.cardsToReview.length > 0 || !this.libraryDeck);
+    return !!deck && this.isInCollection && deck.cardsToReview.length > 0;
   }
 
   get canEdit() {
@@ -113,16 +141,15 @@ export class DeckScreenStore {
     });
   }
 
-  startReview(reviewStore: ReviewStore) {
+  startReview(
+    reviewStore: ReviewStore,
+    filter?: (card: DeckCardDbTypeWithType) => boolean,
+  ) {
     const deck = this.deck;
     if (!deck || !this.canReview) {
       return;
     }
 
-    if (!this.libraryDeck) {
-      deckListStore.addDeckToMine(deck.id);
-    }
-
-    reviewStore.startDeckReview(deck);
+    reviewStore.startDeckReview(deck, filter);
   }
 }

@@ -1,10 +1,8 @@
+import { usePullToRefresh } from "../../lib/react/use-pull-to-refresh.ts";
+import { usePreviewPlatformButtons } from "../shared/use-preview-platform-buttons.ts";
 import { useReviewStore } from "./store/review-store-context.tsx";
 import { screenStore } from "../../store/screen-store.ts";
 import { Hint } from "../../ui/hint.tsx";
-import { useBackButton } from "../../lib/platform/use-back-button.ts";
-import { usePullToRefresh } from "../../lib/react/use-pull-to-refresh.ts";
-import { useMainButton } from "../../lib/platform/use-main-button.ts";
-import { useProgress } from "../../lib/platform/use-progress.tsx";
 import { t } from "../../translations/t.ts";
 import { Button } from "../../ui/button.tsx";
 import { DeckFolderDescription } from "../shared/deck-folder-description.tsx";
@@ -35,20 +33,7 @@ export function DeckPreview(props: Props) {
   usePullToRefresh();
   const reviewStore = useReviewStore();
   const { store } = props;
-
-  useBackButton(() => {
-    screenStore.back();
-  });
-
-  useProgress(() => store.isInitialLoading);
-
-  const onStart = () => {
-    if (store.canReview) {
-      store.startReview(reviewStore);
-    }
-  };
-
-  useMainButton(t("review_deck"), onStart, () => store.canReview);
+  usePreviewPlatformButtons(store);
 
   if (isTrpcNotFoundError(store.detailsQuery.error)) {
     return <DeckNotFoundScreen />;
@@ -83,9 +68,15 @@ export function DeckPreview(props: Props) {
           },
         ]
       : []),
-    ...getCardsToReviewTileItems(deck, store.isInitialLoading, (cardType) => {
-      reviewStore.startDeckReview(deck, (card) => card.type === cardType);
-    }),
+    ...getCardsToReviewTileItems(
+      deck,
+      store.isInitialLoading,
+      store.isInCollection
+        ? (cardType) => {
+            store.startReview(reviewStore, (card) => card.type === cardType);
+          }
+        : undefined,
+    ),
     ...(deckTileActions ? [deckTileActions] : []),
   ];
 
