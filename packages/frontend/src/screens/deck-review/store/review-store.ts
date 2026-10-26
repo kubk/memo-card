@@ -116,19 +116,19 @@ export class ReviewStore {
     return this.queue[this.head];
   }
 
-  private shuffleRepeatCards(cardsToReview: CardUnderReviewStore[]) {
+  // Repeat cards are shuffled, new cards keep the deck order and the order they were added in
+  private orderReviewQueue(cardsToReview: CardUnderReviewStore[]) {
     const repeatCards = cardsToReview.filter(
       (card) => card.cardReviewType === "repeat",
     );
-    const newCards = cardsToReview.filter(
-      (card) => card.cardReviewType === "new",
-    );
     shuffleInPlace(repeatCards);
-    shuffleInPlace(newCards);
-    const queue = [...repeatCards, ...newCards];
-    if (userStore.isPaid) {
-      separateReversePairs(queue);
-    }
+    const queue = [
+      ...repeatCards,
+      ...orderNewCards(
+        cardsToReview.filter((card) => card.cardReviewType === "new"),
+      ),
+    ];
+    separateReversePairs(queue);
     this.setQueue(queue);
   }
 
@@ -166,7 +166,7 @@ export class ReviewStore {
       cardsUnderReview.push(new CardUnderReviewStore(card, deck));
     });
 
-    this.shuffleRepeatCards(cardsUnderReview);
+    this.orderReviewQueue(cardsUnderReview);
     this.initializeInitialCurrentNextCards();
   }
 
@@ -193,9 +193,7 @@ export class ReviewStore {
       this.isStudyAnyway = true;
     }
     shuffleInPlace(cardsToReview);
-    if (userStore.isPaid) {
-      separateReversePairs(cardsToReview);
-    }
+    separateReversePairs(cardsToReview);
     this.setQueue(cardsToReview);
     this.initializeInitialCurrentNextCards();
   }
@@ -219,7 +217,7 @@ export class ReviewStore {
       });
     });
 
-    this.shuffleRepeatCards(cardsToReview);
+    this.orderReviewQueue(cardsToReview);
     this.initializeInitialCurrentNextCards();
   }
 
@@ -239,9 +237,7 @@ export class ReviewStore {
     });
 
     shuffleInPlace(cardsToReview);
-    if (userStore.isPaid) {
-      separateReversePairs(cardsToReview);
-    }
+    separateReversePairs(cardsToReview);
     this.setQueue(cardsToReview);
     this.initializeInitialCurrentNextCards();
   }
@@ -259,7 +255,7 @@ export class ReviewStore {
       cardsToReview.push(new CardUnderReviewStore(card, deck));
     });
 
-    this.shuffleRepeatCards(cardsToReview);
+    this.orderReviewQueue(cardsToReview);
     this.initializeInitialCurrentNextCards();
   }
 
@@ -637,4 +633,19 @@ export class ReviewStore {
       .slice()
       .sort((a, b) => outcomeOrder[a.outcome] - outcomeOrder[b.outcome]);
   }
+}
+
+function orderNewCards(cards: CardUnderReviewStore[]) {
+  const deckIndexes = new Map<number, number>();
+  cards.forEach((card) => {
+    if (!deckIndexes.has(card.deckId)) {
+      deckIndexes.set(card.deckId, deckIndexes.size);
+    }
+  });
+
+  return cards.sort(
+    (left, right) =>
+      deckIndexes.get(left.deckId)! - deckIndexes.get(right.deckId)! ||
+      left.id - right.id,
+  );
 }

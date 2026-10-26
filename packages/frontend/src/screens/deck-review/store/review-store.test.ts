@@ -119,7 +119,6 @@ vi.mock(import("../../../lib/voice-playback/speak.ts"), () =>
 vi.mock("../../../store/user-store.ts", () => {
   return {
     userStore: {
-      isPaid: true,
       isSkipReview: { value: false },
     },
   };
@@ -264,6 +263,29 @@ describe("card form store", () => {
 
     expect(reviewStore.cardsToReview.map((card) => card.id)).toEqual([
       1, 3, 2, 4,
+    ]);
+  });
+
+  it("keeps new cards in folder deck order and card order", () => {
+    const reviewStore = new ReviewStore();
+    const firstLesson = {
+      ...createDeckWithCards(
+        [
+          createMockCardWithReview(12, "bonsoir", "good evening", "new"),
+          createMockCardWithReview(11, "bonjour", "hello", "new"),
+        ].map((card) => ({ ...card, deckId: 2 })),
+      ),
+      id: 2,
+    };
+    const secondLesson = createDeckWithCards([
+      createMockCardWithReview(3, "merci", "thanks", "new"),
+      createMockCardWithReview(4, "time", "Время", "repeat"),
+    ]);
+
+    reviewStore.startFolderReview([firstLesson, secondLesson]);
+
+    expect(reviewStore.cardsToReview.map((card) => card.id)).toEqual([
+      4, 11, 12, 3,
     ]);
   });
 
