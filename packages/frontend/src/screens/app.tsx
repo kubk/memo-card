@@ -51,6 +51,7 @@ import { AnkiImportScreen } from "./anki-import/anki-import-screen.tsx";
 import { userStore } from "../store/user-store.ts";
 import { RouteScreenContainer } from "../lib/react/route-screen-container.tsx";
 import { DeleteItemModalContainer } from "./shared/delete-item-modal.tsx";
+import { CopyItemModalContainer } from "./shared/copy-item-modal.tsx";
 import { BottomNavigation } from "../ui/bottom-navigation.tsx";
 import { LeaderboardScreen } from "./leaderboard/leaderboard-screen.tsx";
 import { SharedDeckNotFoundScreen } from "./error-screen/shared-deck-not-found-screen.tsx";
@@ -255,6 +256,7 @@ export function App() {
       <BrowserMainButton />
 
       <DeleteItemModalContainer />
+      <CopyItemModalContainer />
     </div>
   );
 }

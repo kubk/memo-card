@@ -1,9 +1,14 @@
 import { screenStore } from "../../store/screen-store.ts";
 import { type DeckListDeck } from "../../store/deck-types.ts";
 import { type ActionTileRowItem } from "../../ui/action-tile.tsx";
+import { deckListStore } from "../../store/deck-list-store.ts";
+import { copyItemModalStore } from "./copy-item-modal-store.ts";
 import { getItemTileActions } from "./library-item-actions.tsx";
 
-type DeckActionTarget = Pick<DeckListDeck, "authorId" | "id" | "shareId">;
+type DeckActionTarget = Pick<
+  DeckListDeck,
+  "authorId" | "id" | "shareId" | "isPublic"
+>;
 
 export function getDeckTileActions(
   deck: DeckActionTarget,
@@ -16,6 +21,10 @@ export function getDeckTileActions(
       ? () => {
           screenStore.push({ type: "deckForm", deckId: deck.id });
         }
-      : undefined,
+      : deck.isPublic && deckListStore.canRemoveDeck(deck)
+        ? () => {
+            copyItemModalStore.open({ type: "deck", deckId: deck.id });
+          }
+        : undefined,
   });
 }

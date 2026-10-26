@@ -184,6 +184,12 @@ export const en = {
   review_finished_to_review: "to study",
   review_deck: "Review deck",
   add_to_collection: "Add to collection",
+  make_copy: "Make a copy",
+  copy_item_title: "Make a copy?",
+  copy_item_public:
+    "This is a public deck that others use. We'll make a copy for you",
+  copy_item_original:
+    "The original will be removed from your collection, your review progress will be kept",
   review_folder: "Review folder",
   cards_to_repeat: "To repeat",
   cards_new: "New cards",

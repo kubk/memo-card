@@ -200,6 +200,12 @@ export const fa = {
   review_finished_to_review: "برای مطالعه",
   review_deck: "مرور دسته کارت",
   add_to_collection: "افزودن به مجموعه",
+  make_copy: "ساخت کپی",
+  copy_item_title: "کپی ساخته شود؟",
+  copy_item_public:
+    "این یک دسته کارت عمومی است که دیگران از آن استفاده می‌کنند. یک کپی برای شما می‌سازیم",
+  copy_item_original:
+    "نسخه اصلی از مجموعه شما حذف می‌شود و پیشرفت مرورتان حفظ می‌شود",
   review_folder: "مرور پوشه",
   cards_to_repeat: "برای تکرار",
   cards_new: "کارت‌های جدید",

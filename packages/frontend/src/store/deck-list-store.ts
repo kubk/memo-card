@@ -57,7 +57,7 @@ type LibraryItemRef = { type: "deck" | "folder"; id: number };
 
 const getLibraryItemKey = (item: LibraryItemRef) => `${item.type}:${item.id}`;
 
-const addProgressMaxMs = 300;
+const addProgressMs = 1000;
 
 export type DeckListFolder = Extract<DeckListItem, { type: "folder" }>;
 
@@ -139,9 +139,11 @@ class DeckListStore {
     this.itemsWithAddProgress.add(key);
     setTimeout(
       action(() => {
-        this.itemsWithAddProgress.delete(key);
+        if (this.itemsWithAddProgress.delete(key)) {
+          platform.haptic("medium");
+        }
       }),
-      addProgressMaxMs,
+      addProgressMs,
     );
 
     try {
@@ -154,10 +156,12 @@ class DeckListStore {
     } catch (error) {
       reportHandledError("Error while adding item to collection", error, item);
       showAlert(t("error_contact_support"));
+      runInAction(() => {
+        this.itemsWithAddProgress.delete(key);
+      });
     } finally {
       runInAction(() => {
         this.itemsBeingAdded.delete(key);
-        this.itemsWithAddProgress.delete(key);
       });
     }
   }

@@ -1,4 +1,6 @@
+import { deckListStore } from "../../store/deck-list-store.ts";
 import { screenStore } from "../../store/screen-store.ts";
+import { copyItemModalStore } from "./copy-item-modal-store.ts";
 import { type ActionTileRowItem } from "../../ui/action-tile.tsx";
 import {
   getItemTileActions,
@@ -12,7 +14,7 @@ type FolderActionTarget = {
 };
 
 export function getFolderTileActions(
-  folder: FolderActionTarget,
+  folder: FolderActionTarget & { isPublic: boolean },
   canEdit: boolean,
 ): ActionTileRowItem | null {
   return getItemTileActions({
@@ -22,7 +24,11 @@ export function getFolderTileActions(
       ? () => {
           screenStore.push({ type: "folderForm", folderId: folder.id });
         }
-      : undefined,
+      : folder.isPublic && deckListStore.canRemoveFolder(folder)
+        ? () => {
+            copyItemModalStore.open({ type: "folder", folderId: folder.id });
+          }
+        : undefined,
   });
 }
 

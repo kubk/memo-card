@@ -65,7 +65,7 @@ export function FolderPreview(props: Props) {
       : []),
     ...getCardsToReviewTileItems(
       folder,
-      store.isInitialLoading,
+      store.isLoadingOrAdding,
       store.isInCollection
         ? (cardType) => {
             store.startReview(reviewStore, (card) => card.type === cardType);

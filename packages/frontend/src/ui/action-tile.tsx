@@ -156,27 +156,32 @@ function ActionTileStat({
   return (
     <ActionTile onClick={onClick} disabled={isDisabled}>
       {isLoading ? (
-        <Skeleton className="h-6 w-7 rounded" />
+        <>
+          <Skeleton className="h-6 w-7 rounded text-hint" />
+          <Skeleton className="h-4 w-16 rounded text-hint" />
+        </>
       ) : (
-        <span
-          className={cn(
-            "text-2xl font-bold leading-none",
-            valueClassName,
-            isDisabled && "text-disabled",
-          )}
-        >
-          {value}
-        </span>
+        <>
+          <span
+            className={cn(
+              "text-2xl font-bold leading-none",
+              valueClassName,
+              isDisabled && "text-disabled",
+            )}
+          >
+            {value}
+          </span>
+          <span
+            className={cn(
+              "max-w-full truncate",
+              textClassName,
+              isDisabled && "text-disabled",
+            )}
+          >
+            {text}
+          </span>
+        </>
       )}
-      <span
-        className={cn(
-          "max-w-full truncate",
-          textClassName,
-          isDisabled && "text-disabled",
-        )}
-      >
-        {text}
-      </span>
     </ActionTile>
   );
 }

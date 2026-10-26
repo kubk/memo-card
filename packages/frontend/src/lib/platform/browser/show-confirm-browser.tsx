@@ -2,6 +2,7 @@ import { useState } from "preact/compat";
 import ReactDOM from "preact/compat";
 import { createRoot } from "preact/compat/client";
 import { Button } from "../../../ui/button.tsx";
+import { Modal } from "../../../ui/modal.tsx";
 import { t } from "../../../translations/t.ts";
 import { ShowConfirmType } from "../platform.ts";
 
@@ -25,17 +26,14 @@ export const showConfirmBrowser: ShowConfirmType = (text) => {
       }
 
       return ReactDOM.createPortal(
-        <div className="fixed inset-0 z-confirm-alert bg-black/50 flex justify-center items-center safe-viewport-padding">
-          <div className="w-full max-w-[425px] rounded-2xl bg-bg px-5 py-7 text-center">
-            <p className="text-xl font-semibold leading-snug">{text}</p>
-            <div className="mt-6 flex gap-2">
-              <Button outline onClick={handleCancel}>
-                {t("confirm_cancel")}
-              </Button>
-              <Button onClick={handleConfirm}>{t("confirm_ok")}</Button>
-            </div>
+        <Modal title={text} onClose={handleCancel}>
+          <div className="flex gap-2 pb-1">
+            <Button outline onClick={handleCancel}>
+              {t("confirm_cancel")}
+            </Button>
+            <Button onClick={handleConfirm}>{t("confirm_ok")}</Button>
           </div>
-        </div>,
+        </Modal>,
         document.body,
       );
     };

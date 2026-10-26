@@ -15,7 +15,7 @@ export function usePreviewPlatformButtons(
     screenStore.back();
   });
 
-  useProgress(() => store.isMainButtonLoading);
+  useProgress(() => store.isLoadingOrAdding);
 
   useMainButton(
     () => store.mainButtonText,

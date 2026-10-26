@@ -66,7 +66,7 @@ export class DeckScreenStore {
     return deckListStore.isItemInCollection({ type: "deck", id: this.deckId });
   }
 
-  get isMainButtonLoading() {
+  get isLoadingOrAdding() {
     return (
       this.isInitialLoading ||
       deckListStore.isAddProgressVisible({ type: "deck", id: this.deckId })

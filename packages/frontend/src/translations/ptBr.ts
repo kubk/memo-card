@@ -250,6 +250,12 @@ export const ptBr = {
   review_finished_to_review: "para estudar",
   review_deck: "Revisar baralho",
   add_to_collection: "Adicionar à sua coleção",
+  make_copy: "Fazer uma cópia",
+  copy_item_title: "Fazer uma cópia?",
+  copy_item_public:
+    "Este é um baralho público que outras pessoas usam. Faremos uma cópia para você",
+  copy_item_original:
+    "O original será removido da sua coleção, seu progresso de revisão será mantido",
   cards_to_repeat: "Para repetir",
   cards_new: "Novos cartões",
   cards_total: ({ count }: { count: number }) => `Total de cartões: ${count}`,

@@ -70,7 +70,7 @@ export function DeckPreview(props: Props) {
       : []),
     ...getCardsToReviewTileItems(
       deck,
-      store.isInitialLoading,
+      store.isLoadingOrAdding,
       store.isInCollection
         ? (cardType) => {
             store.startReview(reviewStore, (card) => card.type === cardType);

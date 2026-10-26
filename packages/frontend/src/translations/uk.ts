@@ -256,6 +256,12 @@ export const uk = {
   review_finished_to_review: "для вивчення",
   review_deck: "Повторити колоду",
   add_to_collection: "Додати до колекції",
+  make_copy: "Зробити копію",
+  copy_item_title: "Зробити копію?",
+  copy_item_public:
+    "Це публічна колода, нею користуються інші. Ми зробимо копію для вас",
+  copy_item_original:
+    "Оригінал приберемо з вашої колекції, прогрес повторень збережеться",
   cards_to_repeat: "Повторити",
   cards_new: "Нові картки",
   cards_total: ({ count }: { count: number }) => `Всього карток: ${count}`,

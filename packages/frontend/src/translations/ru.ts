@@ -252,6 +252,12 @@ export const ru = {
   review_finished_to_review: "для изучения",
   review_deck: "Пройти колоду",
   add_to_collection: "Добавить в коллекцию",
+  make_copy: "Сделать копию",
+  copy_item_title: "Сделать копию?",
+  copy_item_public:
+    "Это публичная колода, ей пользуются другие. Мы сделаем копию для вас",
+  copy_item_original:
+    "Оригинал уберём из вашей коллекции, прогресс повторений сохранится",
   cards_to_repeat: "Повторить",
   cards_new: "Новые",
   cards_total: ({ count }: { count: number }) => `Всего ${count}`,

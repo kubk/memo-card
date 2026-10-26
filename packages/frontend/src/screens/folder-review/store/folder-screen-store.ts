@@ -104,7 +104,7 @@ export class FolderScreenStore {
     });
   }
 
-  get isMainButtonLoading() {
+  get isLoadingOrAdding() {
     return (
       this.isInitialLoading ||
       deckListStore.isAddProgressVisible({ type: "folder", id: this.folderId })

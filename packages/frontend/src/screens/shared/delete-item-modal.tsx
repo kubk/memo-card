@@ -1,6 +1,7 @@
 import { t } from "../../translations/t.ts";
 import { Button } from "../../ui/button.tsx";
 import { LoadingSwap } from "../../ui/loading-swap.tsx";
+import { Modal } from "../../ui/modal.tsx";
 import {
   type DeleteItemModalStore,
   deleteItemModalStore,
@@ -78,66 +79,51 @@ export function DeleteItemModal({
   };
 
   return (
-    <div
-      className="fixed inset-0 z-confirm-alert grid place-items-center bg-black/50 safe-viewport-padding"
-      onClick={close}
-    >
-      <div
-        className="flex w-full max-w-[425px] flex-col gap-5 rounded-2xl bg-bg p-5 text-text shadow"
-        onClick={(event) => event.stopPropagation()}
-      >
-        <h2 className="m-0 text-center text-xl font-semibold leading-snug">
-          {t(keys.title)}
-        </h2>
-        {keys.description ? (
-          <p className="m-0 text-sm leading-5 text-hint">
-            {t(keys.description)}
-          </p>
-        ) : null}
+    <Modal title={t(keys.title)} onClose={close}>
+      {keys.description ? (
+        <p className="m-0 text-sm leading-5 text-hint">{t(keys.description)}</p>
+      ) : null}
 
-        {hasDeleteOptions ? (
-          <div className="flex flex-col gap-3">
-            {info.canRemoveForOtherUsers ? (
-              <DeleteOption
-                checked={form.removeForOtherUsers.value}
-                id="delete-item-other-users"
-                label={`${t(keys.removeForOthers)} (${info.otherUserCount})`}
-                onCheckedChange={form.removeForOtherUsers.setValue}
-              />
-            ) : null}
-            {info.canRemoveFromPublicCatalog ? (
-              <DeleteOption
-                checked={form.removeFromPublicCatalog.value}
-                id="delete-item-public-catalog"
-                label={t(keys.publicCatalog)}
-                onCheckedChange={form.removeFromPublicCatalog.setValue}
-              />
-            ) : null}
-          </div>
-        ) : null}
-
-        <div className="flex gap-2 pb-1">
-          <Button
-            type="button"
-            disabled={store.isDeleting}
-            outline
-            onClick={close}
-          >
-            {t("confirm_cancel")}
-          </Button>
-          <Button
-            type="button"
-            disabled={store.infoQuery.isPending || store.isDeleting}
-            variant="danger"
-            onClick={store.submit}
-          >
-            <LoadingSwap isLoading={store.isDeleting}>
-              {t("delete")}
-            </LoadingSwap>
-          </Button>
+      {hasDeleteOptions ? (
+        <div className="flex flex-col gap-3">
+          {info.canRemoveForOtherUsers ? (
+            <DeleteOption
+              checked={form.removeForOtherUsers.value}
+              id="delete-item-other-users"
+              label={`${t(keys.removeForOthers)} (${info.otherUserCount})`}
+              onCheckedChange={form.removeForOtherUsers.setValue}
+            />
+          ) : null}
+          {info.canRemoveFromPublicCatalog ? (
+            <DeleteOption
+              checked={form.removeFromPublicCatalog.value}
+              id="delete-item-public-catalog"
+              label={t(keys.publicCatalog)}
+              onCheckedChange={form.removeFromPublicCatalog.setValue}
+            />
+          ) : null}
         </div>
+      ) : null}
+
+      <div className="flex gap-2 pb-1">
+        <Button
+          type="button"
+          disabled={store.isDeleting}
+          outline
+          onClick={close}
+        >
+          {t("confirm_cancel")}
+        </Button>
+        <Button
+          type="button"
+          disabled={store.infoQuery.isPending || store.isDeleting}
+          variant="danger"
+          onClick={store.submit}
+        >
+          <LoadingSwap isLoading={store.isDeleting}>{t("delete")}</LoadingSwap>
+        </Button>
       </div>
-    </div>
+    </Modal>
   );
 }
 

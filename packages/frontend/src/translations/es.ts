@@ -252,6 +252,12 @@ export const es = {
   review_finished_to_review: "para estudiar",
   review_deck: "Repasar mazo",
   add_to_collection: "Añadir a tu colección",
+  make_copy: "Hacer una copia",
+  copy_item_title: "¿Hacer una copia?",
+  copy_item_public:
+    "Es un mazo público que usan otros. Haremos una copia para ti",
+  copy_item_original:
+    "Quitaremos el original de tu colección, tu progreso de repaso se conservará",
   cards_to_repeat: "Para repetir",
   cards_new: "Nuevas tarjetas",
   cards_total: ({ count }: { count: number }) => `Total de tarjetas: ${count}`,
