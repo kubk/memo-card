@@ -193,6 +193,6 @@ export const highQualityVoices: Partial<Record<SpeakLanguageEnum, string[]>> = {
 };
 
 export const arrayIntersection = (left: string[], right: string[]) => {
-  const set = new Set(left);
-  return right.filter((item) => set.has(item));
+  const set = new Set(right);
+  return left.filter((item) => set.has(item));
 };

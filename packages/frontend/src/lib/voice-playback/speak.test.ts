@@ -1,6 +1,6 @@
 import { SpeakLanguage } from "api";
 import { describe, expect, it } from "vitest";
-import { highQualityVoices } from "./highQualityVoices.ts";
+import { arrayIntersection, highQualityVoices } from "./highQualityVoices.ts";
 import { languageKeyToHuman, SpeakLanguageEnum } from "./speak.ts";
 
 describe("Mexican Spanish speech", () => {
@@ -11,5 +11,13 @@ describe("Mexican Spanish speech", () => {
     expect(highQualityVoices[SpeakLanguageEnum.MexicanSpanish]).toContain(
       "Microsoft Dalia Online (Natural) - Spanish (Mexico)",
     );
+  });
+});
+
+describe("arrayIntersection", () => {
+  it("keeps the preferred voice order instead of the installed order", () => {
+    expect(
+      arrayIntersection(["Audrey", "Thomas"], ["Jacques", "Thomas", "Audrey"]),
+    ).toEqual(["Audrey", "Thomas"]);
   });
 });
