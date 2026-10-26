@@ -136,7 +136,7 @@ export const fa = {
   edit_deck: "ویرایش کنید",
   edit: "ویرایش",
   view: "مشاهده",
-  view_more: "مشاهده بیشتر",
+  view_more: ({ count }: { count: number }) => `مشاهده بیشتر (${count})`,
   all_decks_reviewed:
     "کار عالی! 🌟 شما همه دسته کارت‌ها را مرور کرده‌اید. بعداً برای موارد بیشتر برگردید.",
   public_decks: "دسته کارت‌های عمومی",

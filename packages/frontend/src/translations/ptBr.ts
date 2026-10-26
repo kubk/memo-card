@@ -190,7 +190,7 @@ export const ptBr = {
   edit_card: "Editar",
   edit: "Editar",
   view: "Visualizar",
-  view_more: "Ver mais",
+  view_more: ({ count }: { count: number }) => `Ver mais (${count})`,
   all_decks_reviewed: `Ótimo trabalho! 🌟 Você já revisou todos os baralhos por enquanto. Volte posteriormente para mais.`,
   public_decks: "Baralhos públicos",
   explore_public_decks: "Mais baralhos",

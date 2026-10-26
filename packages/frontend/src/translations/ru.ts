@@ -186,7 +186,7 @@ export const ru = {
   edit_deck: "Редактировать",
   edit: "Изменить",
   view: "Просмотр",
-  view_more: "Показать ещё",
+  view_more: ({ count }: { count: number }) => `Показать ещё (${count})`,
   all_decks_reviewed: `Отличная работа! 🌟 Все колоды пройдены. Возвращайтесь позже за новыми.`,
   public_decks: "Публичные колоды",
   explore_public_decks: "Больше колод",

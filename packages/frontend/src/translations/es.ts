@@ -192,7 +192,7 @@ export const es = {
   add: "Añadir",
   edit: "Editar",
   view: "Ver",
-  view_more: "Ver más",
+  view_more: ({ count }: { count: number }) => `Ver más (${count})`,
   all_decks_reviewed: `¡Increíble trabajo! 🌟 Has repasado todos los mazos por ahora. Vuelve más tarde para más.`,
   public_decks: "Mazos públicos",
   explore_public_decks: "Más mazos",

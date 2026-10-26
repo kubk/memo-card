@@ -140,7 +140,7 @@ export const ar = {
   edit_deck: "عدّل",
   edit: "تحرير",
   view: "عرض",
-  view_more: "عرض المزيد",
+  view_more: ({ count }: { count: number }) => `عرض المزيد (${count})`,
   all_decks_reviewed: `عمل رائع! 🌟 لقد قمت بمراجعة جميع المجموعات حتى الآن. عد لاحقًا للمزيد.`,
   public_decks: "مجموعات عامة",
   explore_public_decks: "المزيد من المجموعات",

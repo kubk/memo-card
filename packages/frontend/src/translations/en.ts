@@ -120,7 +120,7 @@ export const en = {
   edit_deck: "Edit",
   edit: "Edit",
   view: "View",
-  view_more: "View more",
+  view_more: ({ count }: { count: number }) => `View more (${count})`,
   all_decks_reviewed: `Amazing work! 🌟 You've reviewed all the decks for now. Come back later for more.`,
   public_decks: "Public decks",
   explore_public_decks: "More decks",

@@ -122,7 +122,9 @@ export function DeckPreview(props: Props) {
                   deck.deckCards.length > previewCards.length
                     ? [
                         {
-                          text: t("view_more"),
+                          text: t("view_more", {
+                            count: deck.deckCards.length,
+                          }),
                           isLinkColor: true,
                           alignCenter: true,
                           onClick: store.openCardList,
