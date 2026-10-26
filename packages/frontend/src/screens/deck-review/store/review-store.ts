@@ -22,7 +22,6 @@ import { leaderboardStore } from "../../leaderboard/leaderboard-store.ts";
 
 // Don't wait until the user has finished reviewing all the cards to send the progress
 const cardProgressSend = 3;
-// Enough for fast reviewing without loading media for the whole session
 const preloadCardsAhead = 5;
 const dayMs = 24 * 60 * 60 * 1000;
 
@@ -118,7 +117,6 @@ export class ReviewStore {
     return this.queue[this.head];
   }
 
-  // Repeat cards are shuffled, new cards keep the deck order and the order they were added in
   private orderReviewQueue(cardsToReview: CardUnderReviewStore[]) {
     const repeatCards = cardsToReview.filter(
       (card) => card.cardReviewType === "repeat",

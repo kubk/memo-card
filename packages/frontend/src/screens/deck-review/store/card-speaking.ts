@@ -19,7 +19,6 @@ export function speakCard(
   voicePlayer?.play();
 }
 
-// Question audio plays when the card is shown, answer audio when it is opened
 export function speakCardOnShow(
   card: SpeakingCard,
   isEnabled = userStore.isSpeakingCardsEnabled,
