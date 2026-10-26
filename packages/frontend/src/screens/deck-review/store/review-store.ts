@@ -22,6 +22,8 @@ import { leaderboardStore } from "../../leaderboard/leaderboard-store.ts";
 
 // Don't wait until the user has finished reviewing all the cards to send the progress
 const cardProgressSend = 3;
+// Enough for fast reviewing without loading media for the whole session
+const preloadCardsAhead = 5;
 const dayMs = 24 * 60 * 60 * 1000;
 
 type ReviewResult = {
@@ -272,6 +274,9 @@ export class ReviewStore {
 
   private showCardAtHead() {
     this.currentCardId = this.currentCardAtHead?.id;
+    this.queue
+      .slice(this.head, this.head + preloadCardsAhead + 1)
+      .forEach((card) => card.preload());
     this.currentCardAtHead?.speakOnShow();
   }
 

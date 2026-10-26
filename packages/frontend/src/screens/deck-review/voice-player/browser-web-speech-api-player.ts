@@ -13,6 +13,8 @@ export class BrowserWebSpeechApiPlayer implements VoicePlayer {
     makeAutoObservable(this, {}, { autoBind: true });
   }
 
+  preload() {}
+
   async play() {
     const version = ++this.playbackVersion;
     try {

@@ -22,6 +22,7 @@ const buildGoogleTtsUrl = (language: string, text: string) => {
 };
 
 const audioCache = new Map<string, HTMLAudioElement>();
+const preloadedAudios = new WeakSet<HTMLAudioElement>();
 
 export class GoogleTtsVoicePlayer implements VoicePlayer {
   private audio: HTMLAudioElement;
@@ -35,7 +36,6 @@ export class GoogleTtsVoicePlayer implements VoicePlayer {
     } else {
       this.audio = new Audio(buildGoogleTtsUrl(language, text));
       this.audio.preload = "none";
-      voicePlayerCallbackQueue.add(() => this.audio.load());
       audioCache.set(cacheKey, this.audio);
     }
     makeAutoObservable(this, {}, { autoBind: true });
@@ -48,6 +48,15 @@ export class GoogleTtsVoicePlayer implements VoicePlayer {
         }),
       );
     }
+  }
+
+  preload() {
+    if (preloadedAudios.has(this.audio)) {
+      return;
+    }
+    preloadedAudios.add(this.audio);
+    const audio = this.audio;
+    voicePlayerCallbackQueue.add(() => audio.load());
   }
 
   play() {

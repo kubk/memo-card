@@ -40,6 +40,20 @@ describe("recorded audio playback", () => {
     }
   });
 
+  it("loads the recording only when preloaded", () => {
+    const queue = vi
+      .spyOn(voicePlayerCallbackQueue, "add")
+      .mockImplementation((load) => load());
+    const player = new UrlRecordVoicePlayer("recording.mp3");
+    expect(queue).not.toHaveBeenCalled();
+
+    player.preload();
+    player.preload();
+
+    expect(queue).toHaveBeenCalledOnce();
+    expect(HTMLMediaElement.prototype.load).toHaveBeenCalledOnce();
+  });
+
   it("handles rejected playback", async () => {
     const audio = new Audio();
     vi.spyOn(audio, "play").mockRejectedValue(new Error("Playback blocked"));
@@ -97,7 +111,7 @@ describe("speech synthesis playback", () => {
 });
 
 describe("Google TTS playback", () => {
-  it("preserves audio caching and queued preloading", () => {
+  it("caches audio and queues its preloading once", () => {
     const audio = new Audio();
     const createAudio = vi.fn(function () {
       return audio;
@@ -110,6 +124,9 @@ describe("Google TTS playback", () => {
 
     const first = new GoogleTtsVoicePlayer("en-US", "Fierce");
     const cached = new GoogleTtsVoicePlayer("en-US", "Fierce");
+    expect(queue).not.toHaveBeenCalled();
+    first.preload();
+    cached.preload();
 
     expect(createAudio).toHaveBeenCalledExactlyOnceWith(
       "https://translate.google.com/translate_tts?ie=UTF-8&tl=en-US&client=tw-ob&q=Fierce",

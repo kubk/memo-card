@@ -6,6 +6,7 @@ import {
   DeckWithCardsWithReviewType,
 } from "../../../store/deck-list-store.ts";
 import { autorun, when } from "mobx";
+import { voicePlayerCallbackQueue } from "../voice-player/voice-player-callback-queue.ts";
 import { createInitialFsrsReviewState, reviewCard } from "api";
 
 vi.mock(import("../../../lib/array/shuffle-in-place.ts"), () =>
@@ -287,6 +288,34 @@ describe("card form store", () => {
     expect(reviewStore.cardsToReview.map((card) => card.id)).toEqual([
       4, 11, 12, 3,
     ]);
+  });
+
+  it("preloads recordings only for the next few cards", () => {
+    const queue = vi
+      .spyOn(voicePlayerCallbackQueue, "add")
+      .mockImplementation(() => {});
+    const reviewStore = new ReviewStore();
+    reviewStore.startDeckReview(
+      createDeckWithCards(
+        Array.from({ length: 20 }, (_, index) => ({
+          ...createMockCardWithReview(
+            index + 1,
+            `front ${index}`,
+            "back",
+            "new",
+          ),
+          options: {
+            voice: `https://media.test/${index}.mp3`,
+            speakField: "back",
+          },
+        })),
+      ),
+    );
+    expect(queue).toHaveBeenCalledTimes(6);
+
+    reviewStore.open();
+    reviewStore.changeState("good");
+    expect(queue).toHaveBeenCalledTimes(7);
   });
 
   it("test silent progress send", async () => {

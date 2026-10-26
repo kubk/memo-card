@@ -4,6 +4,7 @@ import { action, makeAutoObservable } from "mobx";
 
 export class UrlRecordVoicePlayer implements VoicePlayer {
   private audio: HTMLAudioElement;
+  private isPreloadQueued = false;
   isPlaying = false;
 
   constructor(url: string) {
@@ -18,6 +19,13 @@ export class UrlRecordVoicePlayer implements VoicePlayer {
       );
     }
     this.audio.preload = "none";
+  }
+
+  preload() {
+    if (this.isPreloadQueued) {
+      return;
+    }
+    this.isPreloadQueued = true;
     voicePlayerCallbackQueue.add(() => this.audio.load());
   }
 

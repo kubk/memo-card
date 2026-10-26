@@ -12,6 +12,7 @@ import { GoogleTtsVoicePlayer } from "./google-tts-voice-player.ts";
 export interface VoicePlayer {
   isPlaying: boolean;
   play(): void;
+  preload(): void;
 }
 
 export const createVoicePlayer = (

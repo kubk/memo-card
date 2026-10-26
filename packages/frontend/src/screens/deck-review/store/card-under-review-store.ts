@@ -81,7 +81,6 @@ export class CardUnderReviewStore implements LimitedCardUnderReviewStore {
     this.deckName = deck.name;
     this.deckSpeakField = card.options?.speakField || deck.speakField;
 
-    preloadCardImage(card);
     this.voicePlayer = createCardVoicePlayer(card, deck);
 
     makeAutoObservable(
@@ -126,6 +125,11 @@ export class CardUnderReviewStore implements LimitedCardUnderReviewStore {
 
   speak() {
     speakCard(this.voicePlayer);
+  }
+
+  preload() {
+    preloadCardImage(this);
+    this.voicePlayer?.preload();
   }
 
   speakOnShow() {
