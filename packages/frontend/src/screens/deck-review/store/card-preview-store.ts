@@ -13,7 +13,11 @@ import {
 } from "../voice-player/create-voice-player.ts";
 import { assert } from "api";
 import { platform } from "../../../lib/platform/platform.ts";
-import { isCardSpeakerVisible, speakCard } from "./card-speaking.ts";
+import {
+  isCardSpeakerVisible,
+  speakCard,
+  speakCardOnOpen,
+} from "./card-speaking.ts";
 
 type CardAnswer = NonNullable<DeckCardDbType["answers"]>[number];
 
@@ -115,7 +119,7 @@ export class CardPreviewStore implements LimitedCardUnderReviewStore {
     this.isOpened = true;
 
     if (this.answerType === "remember") {
-      this.speak();
+      speakCardOnOpen(this);
     }
   }
 

@@ -2,25 +2,50 @@ import { userStore } from "../../../store/user-store.ts";
 import { type DeckWithCardsDbType } from "api";
 import { type VoicePlayer } from "../voice-player/create-voice-player.ts";
 
-export function speakCard(voicePlayer?: VoicePlayer) {
-  if (!userStore.isSpeakingCardsEnabled) {
+type SpeakingCard = {
+  voicePlayer?: VoicePlayer;
+  isOpened: boolean;
+  deckSpeakField: DeckWithCardsDbType["speakField"];
+};
+
+export function speakCard(
+  voicePlayer?: VoicePlayer,
+  isEnabled = userStore.isSpeakingCardsEnabled,
+) {
+  if (!isEnabled) {
     return;
   }
 
   voicePlayer?.play();
 }
 
-export function isCardSpeakerVisible(
-  card: {
-    voicePlayer?: VoicePlayer;
-    isOpened: boolean;
-    deckSpeakField: DeckWithCardsDbType["speakField"];
-  },
-  side: "front" | "back",
+// Question audio plays when the card is shown, answer audio when it is opened
+export function speakCardOnShow(
+  card: SpeakingCard,
+  isEnabled = userStore.isSpeakingCardsEnabled,
 ) {
-  if (!userStore.isSpeakingCardsEnabled || !card.voicePlayer) {
+  if (card.deckSpeakField === "front") {
+    speakCard(card.voicePlayer, isEnabled);
+  }
+}
+
+export function speakCardOnOpen(
+  card: SpeakingCard,
+  isEnabled = userStore.isSpeakingCardsEnabled,
+) {
+  if (card.deckSpeakField !== "front") {
+    speakCard(card.voicePlayer, isEnabled);
+  }
+}
+
+export function isCardSpeakerVisible(
+  card: SpeakingCard,
+  side: "front" | "back",
+  isEnabled = userStore.isSpeakingCardsEnabled,
+) {
+  if (!isEnabled || !card.voicePlayer) {
     return false;
   }
 
-  return card.isOpened && side === card.deckSpeakField;
+  return side === card.deckSpeakField && (card.isOpened || side === "front");
 }

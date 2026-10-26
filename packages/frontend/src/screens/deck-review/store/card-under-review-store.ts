@@ -20,7 +20,12 @@ import {
 import { assert } from "api";
 import { preloadCardImage } from "../../../lib/card-image/image-preloader.ts";
 import { platform } from "../../../lib/platform/platform.ts";
-import { isCardSpeakerVisible, speakCard } from "./card-speaking.ts";
+import {
+  isCardSpeakerVisible,
+  speakCard,
+  speakCardOnOpen,
+  speakCardOnShow,
+} from "./card-speaking.ts";
 
 type CardAnswer = NonNullable<DeckCardDbType["answers"]>[number];
 
@@ -105,7 +110,7 @@ export class CardUnderReviewStore implements LimitedCardUnderReviewStore {
     platform.haptic(answer.isCorrect ? "light" : "medium");
     this.open();
     this.answer = answer;
-    this.speak();
+    this.speakOnOpen();
   }
 
   close() {
@@ -121,6 +126,14 @@ export class CardUnderReviewStore implements LimitedCardUnderReviewStore {
 
   speak() {
     speakCard(this.voicePlayer);
+  }
+
+  speakOnShow() {
+    speakCardOnShow(this);
+  }
+
+  speakOnOpen() {
+    speakCardOnOpen(this);
   }
 
   isCardSpeakerVisible(side: "front" | "back") {

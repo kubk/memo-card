@@ -271,7 +271,12 @@ export class ReviewStore {
     platform.haptic("light");
 
     this.initialCardCount = this.queueSize;
+    this.showCardAtHead();
+  }
+
+  private showCardAtHead() {
     this.currentCardId = this.currentCardAtHead?.id;
+    this.currentCardAtHead?.speakOnShow();
   }
 
   get currentCard() {
@@ -289,7 +294,7 @@ export class ReviewStore {
     if (currentCard.answerType === "remember") {
       const wasOpened = currentCard.isOpened;
       currentCard.open();
-      currentCard.speak();
+      currentCard.speakOnOpen();
       if (!wasOpened) {
         platform.haptic("selection");
       }
@@ -340,7 +345,7 @@ export class ReviewStore {
     this.removeCurrent();
 
     if (this.queueSize !== 0) {
-      this.currentCardId = this.currentCardAtHead?.id;
+      this.showCardAtHead();
     }
   }
 
@@ -446,7 +451,7 @@ export class ReviewStore {
     }
 
     if (this.queueSize !== 0) {
-      this.currentCardId = this.currentCardAtHead?.id;
+      this.showCardAtHead();
     }
 
     this.sendProgress();

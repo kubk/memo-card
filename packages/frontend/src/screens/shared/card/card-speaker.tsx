@@ -14,7 +14,7 @@ export function CardSpeaker(props: Props) {
     return null;
   }
   const iconProps = {
-    className: "relative top-[3px] text-button",
+    className: "text-button",
   };
 
   // Prevent rapid clicks from queueing overlapping speech.
@@ -22,7 +22,7 @@ export function CardSpeaker(props: Props) {
     <button
       type="button"
       onClick={throttle(card.speak, 500)}
-      className="card-speaker cursor-pointer touch-manipulation transition-[scale] duration-200 ease-out active:scale-90"
+      className="card-speaker ms-2 inline-flex align-middle cursor-pointer touch-manipulation transition-[scale] duration-200 ease-out active:scale-90"
     >
       {card.voicePlayer?.isPlaying ? (
         <svg

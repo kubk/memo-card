@@ -54,18 +54,14 @@ export function Card(props: Props) {
       )}
     >
       <span className="text-center font-semibold text-text">
-        <div className="break-words flex gap-2 justify-center items-center">
-          <div className="mt-1">
-            <CardFieldView text={card.front} />
-          </div>
+        <div className="break-words mt-1">
+          <CardFieldView text={card.front} />
           <CardSpeaker card={card} type={"front"} />
         </div>
         {card.isOpened ? <HorizontalDivider /> : null}
         {card.isOpened ? (
-          <div className="flex gap-2 justify-center items-center">
-            <div className="mt-1">
-              <CardFieldView text={card.back} />
-            </div>
+          <div className="mt-1">
+            <CardFieldView text={card.back} />
             <CardSpeaker card={card} type={"back"} />
           </div>
         ) : null}
