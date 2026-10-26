@@ -3,7 +3,7 @@ import { copyToClipboard } from "../../lib/copy-to-clipboard/copy-to-clipboard.t
 import { notifySuccess } from "../../screens/shared/snackbar/snackbar.tsx";
 import { t } from "../../translations/t.ts";
 import { wysiwygTableStyle } from "../wysiwyg-table-style.ts";
-import { ButtonGrid } from "../button-grid.tsx";
+import { ActionTileRow } from "../action-tile.tsx";
 import { Button } from "../button.tsx";
 import { CopyIcon, MinusIcon, PlusIcon } from "lucide-react";
 import { cn } from "../cn.ts";
@@ -103,24 +103,38 @@ export function HtmlTableEditor() {
     <div
       className={cn("html-table-editor flex flex-col gap-2", wysiwygTableStyle)}
     >
-      <ButtonGrid>
-        <Button align="left" icon={<PlusIcon size={18} />} onClick={addColumn}>
-          {t("html_column")}
-        </Button>
-        <Button align="left" icon={<PlusIcon size={18} />} onClick={addRow}>
-          {t("html_row")}
-        </Button>
-        <Button
-          align="left"
-          icon={<MinusIcon size={18} />}
-          onClick={removeColumn}
-        >
-          {t("html_column")}
-        </Button>
-        <Button align="left" icon={<MinusIcon size={18} />} onClick={removeRow}>
-          {t("html_row")}
-        </Button>
-      </ButtonGrid>
+      <ActionTileRow
+        items={[
+          {
+            type: "action",
+            className: "bg-secondary-bg",
+            icon: <PlusIcon size={24} />,
+            text: t("html_column"),
+            onClick: addColumn,
+          },
+          {
+            type: "action",
+            className: "bg-secondary-bg",
+            icon: <MinusIcon size={24} />,
+            text: t("html_column"),
+            onClick: removeColumn,
+          },
+          {
+            type: "action",
+            className: "bg-secondary-bg",
+            icon: <PlusIcon size={24} />,
+            text: t("html_row"),
+            onClick: addRow,
+          },
+          {
+            type: "action",
+            className: "bg-secondary-bg",
+            icon: <MinusIcon size={24} />,
+            text: t("html_row"),
+            onClick: removeRow,
+          },
+        ]}
+      />
       <table>
         <thead>
           <tr>
