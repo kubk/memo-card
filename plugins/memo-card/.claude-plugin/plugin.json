@@ -17,5 +17,8 @@
     "memorization",
     "spaced repetition"
   ],
-  "privacyPolicyUrl": "https://app.memocard.org/privacy-policy"
+  "privacyPolicyUrl": "https://app.memocard.org/privacy-policy",
+  "termsOfServiceUrl": "https://app.memocard.org/terms-of-service",
+  "supportUrl": "https://t.me/memocard_support",
+  "documentationUrl": "https://github.com/kubk/memo-card/tree/main/plugins/memo-card#readme"
 }
