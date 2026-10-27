@@ -1,15 +1,5 @@
 import { Footer } from "./footer";
 import { YoutubeTutorial } from "./youtubeTutorial";
-import {
-  BookText,
-  Calculator,
-  Code2,
-  FlaskConical,
-  Globe2,
-  Languages,
-  Music2,
-  Stethoscope,
-} from "lucide-react";
 import { getTranslation } from "@/shared/translations";
 import { Header } from "./header";
 import { FeatureCard } from "./featureCard";
@@ -47,37 +37,6 @@ export function MemoCardPage(props: { language: LandingLanguage }) {
       </section>
 
       <section className="md:mt-2 flex justify-center flex-col md:flex-row gap-12 px-4 md:p-0">
-        <div className="md:w-[465px] hidden md:flex flex-col md:items-end">
-          <div>
-            <h2 className="text-2xl font-bold mb-4">
-              {translation.useCases.title}
-            </h2>
-            <div className="grid grid-cols-2 gap-4">
-              {Object.entries(translation.useCases.listEnum).map(
-                ([key, value]) => {
-                  const Icon = {
-                    languages: Languages,
-                    medicine: Stethoscope,
-                    geography: Globe2,
-                    music: Music2,
-                    programming: Code2,
-                    history: BookText,
-                    mathematics: Calculator,
-                    chemistry: FlaskConical,
-                  }[key];
-                  return (
-                    <div key={key} className="flex items-start">
-                      <span className="shrink-0 w-5 h-5 flex items-center justify-center mr-3 mt-1 text-blue-500">
-                        {Icon && <Icon className="w-5 h-5" />}
-                      </span>
-                      <span className="text-lg">{value}</span>
-                    </div>
-                  );
-                },
-              )}
-            </div>
-          </div>
-        </div>
         <div>
           <YoutubeTutorial videoId={videoId} />
         </div>
