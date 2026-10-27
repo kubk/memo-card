@@ -6,17 +6,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Globe } from "lucide-react";
 import { Link } from "@tanstack/react-router";
-import { formatLandingLanguage, LandingLanguage, landingLanguages } from "api";
+import { formatLandingLanguage, landingLanguages } from "api";
+import { getLandingPath, type LandingPage } from "@/shared/landingPaths";
 
-const languagePaths = {
-  [LandingLanguage.en]: "/",
-  [LandingLanguage.ru]: "/ru",
-  [LandingLanguage.es]: "/es",
-  [LandingLanguage.ptBr]: "/pt-br",
-  [LandingLanguage.uk]: "/uk",
-} as const satisfies Record<LandingLanguage, string>;
-
-export function LanguageSwitcher() {
+export function LanguageSwitcher({ page }: { page: LandingPage }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
@@ -25,7 +18,7 @@ export function LanguageSwitcher() {
       <DropdownMenuContent>
         {landingLanguages.map((language, i) => (
           <DropdownMenuItem className={"py-4 px-6 text-lg"} asChild key={i}>
-            <Link to={languagePaths[language]}>
+            <Link to={getLandingPath(language, page)}>
               {formatLandingLanguage(language)}
             </Link>
           </DropdownMenuItem>

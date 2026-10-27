@@ -35,7 +35,22 @@ export default defineConfig({
           path: `/${language}`,
           sitemap: { exclude: true },
         })),
-        { path: "/connect-to-claude" },
+        {
+          path: "/connect-to-claude",
+          sitemap: {
+            alternateRefs: [
+              { href: `${siteUrl}/connect-to-claude`, hreflang: "x-default" },
+              ...alternativeLanguages.map((language) => ({
+                href: `${siteUrl}/${language}/connect-to-claude`,
+                hreflang: language,
+              })),
+            ],
+          },
+        },
+        ...alternativeLanguages.map((language) => ({
+          path: `/${language}/connect-to-claude`,
+          sitemap: { exclude: true },
+        })),
         { path: "/404", sitemap: { exclude: true } },
       ],
       sitemap: {

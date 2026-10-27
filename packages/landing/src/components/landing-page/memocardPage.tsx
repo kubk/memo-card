@@ -1,4 +1,3 @@
-import { links } from "api";
 import { Footer } from "./footer";
 import { YoutubeTutorial } from "./youtubeTutorial";
 import {
@@ -12,7 +11,7 @@ import {
   Stethoscope,
 } from "lucide-react";
 import { getTranslation } from "@/shared/translations";
-import { LanguageSwitcher } from "./languageSwitcher";
+import { Header } from "./header";
 import { FeatureCard } from "./featureCard";
 import { ProPlanSection } from "./proPlanSection";
 import { TryActionButton } from "./tryActionButton";
@@ -23,46 +22,11 @@ import { LandingLanguage } from "api";
 export function MemoCardPage(props: { language: LandingLanguage }) {
   const { language } = props;
   const translation = getTranslation(language);
-  const youtubeChannelLink =
-    language === "ru" ? links.youtubeChannelRu : links.youtubeChannelEn;
   const videoId = language === "ru" ? "GPkoonk1LwI" : "nU1QG5KCh44";
 
   return (
     <div className="flex flex-col min-h-screen bg-white text-black">
-      <header
-        className="fixed top-0 left-0 right-0 z-50 border-b border-gray-200 md:border-none"
-        style={{
-          backgroundColor: "hsla(0, 0%, 100%, .86)",
-          backdropFilter: "saturate(180%) blur(20px)",
-          WebkitBackdropFilter: "saturate(180%) blur(20px)",
-        }}
-      >
-        <div className="container relative mx-auto flex max-w-(--breakpoint-lg) items-center justify-between px-4 py-4 lg:max-w-5xl xl:max-w-6xl">
-          <div className="flex items-center">
-            <div className="flex items-center font-semibold gap-2">
-              <img src={"/logoI.png"} alt="MemoCard Logo" className="h-6" />
-              <span>MemoCard</span>
-            </div>
-          </div>
-          <nav className="absolute left-1/2 hidden -translate-x-1/2 space-x-6 md:flex">
-            <a href={links.botChannel} className="text font-semibold">
-              Telegram
-            </a>
-            <a href={youtubeChannelLink} className="text font-semibold">
-              YouTube
-            </a>
-            <a href="#pricing" className="text font-semibold">
-              Pro
-            </a>
-            <a href={links.github} className="text font-semibold">
-              GitHub
-            </a>
-          </nav>
-          <div className="flex items-center">
-            <LanguageSwitcher />
-          </div>
-        </div>
-      </header>
+      <Header language={language} page="home" />
 
       <section className="pt-16 md:pt-24 text-center">
         <div className="container mx-auto px-4 max-w-(--breakpoint-lg) lg:max-w-5xl xl:max-w-6xl">

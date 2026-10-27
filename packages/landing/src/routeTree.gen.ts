@@ -16,6 +16,10 @@ import { Route as EsRouteImport } from './routes/es'
 import { Route as PtBrRouteImport } from './routes/pt-br'
 import { Route as RuRouteImport } from './routes/ru'
 import { Route as UkRouteImport } from './routes/uk'
+import { Route as EsConnectToClaudeRouteImport } from './routes/es_.connect-to-claude'
+import { Route as PtBrConnectToClaudeRouteImport } from './routes/pt-br_.connect-to-claude'
+import { Route as RuConnectToClaudeRouteImport } from './routes/ru_.connect-to-claude'
+import { Route as UkConnectToClaudeRouteImport } from './routes/uk_.connect-to-claude'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -52,6 +56,26 @@ const UkRoute = UkRouteImport.update({
   path: '/uk',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EsConnectToClaudeRoute = EsConnectToClaudeRouteImport.update({
+  id: '/es_/connect-to-claude',
+  path: '/es/connect-to-claude',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PtBrConnectToClaudeRoute = PtBrConnectToClaudeRouteImport.update({
+  id: '/pt-br_/connect-to-claude',
+  path: '/pt-br/connect-to-claude',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RuConnectToClaudeRoute = RuConnectToClaudeRouteImport.update({
+  id: '/ru_/connect-to-claude',
+  path: '/ru/connect-to-claude',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UkConnectToClaudeRoute = UkConnectToClaudeRouteImport.update({
+  id: '/uk_/connect-to-claude',
+  path: '/uk/connect-to-claude',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -61,6 +85,10 @@ export interface FileRoutesByFullPath {
   '/pt-br': typeof PtBrRoute
   '/ru': typeof RuRoute
   '/uk': typeof UkRoute
+  '/es/connect-to-claude': typeof EsConnectToClaudeRoute
+  '/pt-br/connect-to-claude': typeof PtBrConnectToClaudeRoute
+  '/ru/connect-to-claude': typeof RuConnectToClaudeRoute
+  '/uk/connect-to-claude': typeof UkConnectToClaudeRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -70,6 +98,10 @@ export interface FileRoutesByTo {
   '/pt-br': typeof PtBrRoute
   '/ru': typeof RuRoute
   '/uk': typeof UkRoute
+  '/es/connect-to-claude': typeof EsConnectToClaudeRoute
+  '/pt-br/connect-to-claude': typeof PtBrConnectToClaudeRoute
+  '/ru/connect-to-claude': typeof RuConnectToClaudeRoute
+  '/uk/connect-to-claude': typeof UkConnectToClaudeRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -80,13 +112,38 @@ export interface FileRoutesById {
   '/pt-br': typeof PtBrRoute
   '/ru': typeof RuRoute
   '/uk': typeof UkRoute
+  '/es_/connect-to-claude': typeof EsConnectToClaudeRoute
+  '/pt-br_/connect-to-claude': typeof PtBrConnectToClaudeRoute
+  '/ru_/connect-to-claude': typeof RuConnectToClaudeRoute
+  '/uk_/connect-to-claude': typeof UkConnectToClaudeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/404' | '/connect-to-claude' | '/es' | '/pt-br' | '/ru' | '/uk'
+    | '/'
+    | '/404'
+    | '/connect-to-claude'
+    | '/es'
+    | '/pt-br'
+    | '/ru'
+    | '/uk'
+    | '/es/connect-to-claude'
+    | '/pt-br/connect-to-claude'
+    | '/ru/connect-to-claude'
+    | '/uk/connect-to-claude'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/404' | '/connect-to-claude' | '/es' | '/pt-br' | '/ru' | '/uk'
+  to:
+    | '/'
+    | '/404'
+    | '/connect-to-claude'
+    | '/es'
+    | '/pt-br'
+    | '/ru'
+    | '/uk'
+    | '/es/connect-to-claude'
+    | '/pt-br/connect-to-claude'
+    | '/ru/connect-to-claude'
+    | '/uk/connect-to-claude'
   id:
     | '__root__'
     | '/'
@@ -96,6 +153,10 @@ export interface FileRouteTypes {
     | '/pt-br'
     | '/ru'
     | '/uk'
+    | '/es_/connect-to-claude'
+    | '/pt-br_/connect-to-claude'
+    | '/ru_/connect-to-claude'
+    | '/uk_/connect-to-claude'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -106,6 +167,10 @@ export interface RootRouteChildren {
   PtBrRoute: typeof PtBrRoute
   RuRoute: typeof RuRoute
   UkRoute: typeof UkRoute
+  EsConnectToClaudeRoute: typeof EsConnectToClaudeRoute
+  PtBrConnectToClaudeRoute: typeof PtBrConnectToClaudeRoute
+  RuConnectToClaudeRoute: typeof RuConnectToClaudeRoute
+  UkConnectToClaudeRoute: typeof UkConnectToClaudeRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -159,6 +224,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UkRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/es_/connect-to-claude': {
+      id: '/es_/connect-to-claude'
+      path: '/es/connect-to-claude'
+      fullPath: '/es/connect-to-claude'
+      preLoaderRoute: typeof EsConnectToClaudeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pt-br_/connect-to-claude': {
+      id: '/pt-br_/connect-to-claude'
+      path: '/pt-br/connect-to-claude'
+      fullPath: '/pt-br/connect-to-claude'
+      preLoaderRoute: typeof PtBrConnectToClaudeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ru_/connect-to-claude': {
+      id: '/ru_/connect-to-claude'
+      path: '/ru/connect-to-claude'
+      fullPath: '/ru/connect-to-claude'
+      preLoaderRoute: typeof RuConnectToClaudeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/uk_/connect-to-claude': {
+      id: '/uk_/connect-to-claude'
+      path: '/uk/connect-to-claude'
+      fullPath: '/uk/connect-to-claude'
+      preLoaderRoute: typeof UkConnectToClaudeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -170,6 +263,10 @@ const rootRouteChildren: RootRouteChildren = {
   PtBrRoute: PtBrRoute,
   RuRoute: RuRoute,
   UkRoute: UkRoute,
+  EsConnectToClaudeRoute: EsConnectToClaudeRoute,
+  PtBrConnectToClaudeRoute: PtBrConnectToClaudeRoute,
+  RuConnectToClaudeRoute: RuConnectToClaudeRoute,
+  UkConnectToClaudeRoute: UkConnectToClaudeRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
