@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { LandingLanguage, links } from "api";
+import { LandingLanguage } from "api";
 import { getTranslation } from "@/shared/translations";
 import { Footer } from "./footer";
 import { Header } from "./header";
@@ -241,14 +241,6 @@ function Section({ title, children }: { title: string; children: ReactNode }) {
   );
 }
 
-function TextLink({ href, children }: { href: string; children: ReactNode }) {
-  return (
-    <a href={href} className="text-blue-600 hover:underline">
-      {children}
-    </a>
-  );
-}
-
 export function ConnectToClaudePage({
   language,
 }: {
@@ -256,14 +248,6 @@ export function ConnectToClaudePage({
 }) {
   const translation = translations[language];
   const landingTranslation = getTranslation(language);
-  const privacyPolicyHref =
-    language === LandingLanguage.ru
-      ? links.appBrowser + links.privacyPolicyRuPath
-      : links.privacyPolicy;
-  const termsOfServiceHref =
-    language === LandingLanguage.ru
-      ? links.appBrowser + links.tosRuPath
-      : links.termsOfService;
 
   return (
     <div className="flex flex-col min-h-screen bg-white text-black">
@@ -311,14 +295,6 @@ export function ConnectToClaudePage({
 
         <Section title={translation.privacyTitle}>
           <p>{translation.privacy}</p>
-          <p className="mt-3 flex flex-wrap gap-x-6 gap-y-2">
-            <TextLink href={privacyPolicyHref}>
-              {landingTranslation.footer.links.privacyPolicy}
-            </TextLink>
-            <TextLink href={termsOfServiceHref}>
-              {landingTranslation.footer.links.termsOfService}
-            </TextLink>
-          </p>
         </Section>
       </main>
 
