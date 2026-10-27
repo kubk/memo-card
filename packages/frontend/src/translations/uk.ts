@@ -69,6 +69,7 @@ export const uk = {
   navigation_review: "Повторення",
   leaderboard: "Рейтинг",
   leaderboard_this_week: "Цього тижня",
+  leaderboard_top_ten: "Топ 10",
   leaderboard_your_position: "Ваша позиція",
   leaderboard_rank_label: "місце",
   leaderboard_statistics: "Статистика",

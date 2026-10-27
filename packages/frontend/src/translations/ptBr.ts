@@ -62,6 +62,7 @@ export const ptBr = {
   navigation_review: "Revisar",
   leaderboard: "Classificação",
   leaderboard_this_week: "Esta semana",
+  leaderboard_top_ten: "Top 10",
   leaderboard_your_position: "Sua posição",
   leaderboard_rank_label: "posição",
   leaderboard_statistics: "Estatísticas",

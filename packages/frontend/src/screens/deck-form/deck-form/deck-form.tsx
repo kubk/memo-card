@@ -187,7 +187,11 @@ export function DeckForm() {
           <Input field={deckFormStore.deckForm.title} />
         </LabelGroup>
 
-        <LabelGroup title={t("description")} slotRight={<FormattingSwitcher />}>
+        <LabelGroup
+          className="mt-2"
+          title={t("description")}
+          slotRight={<FormattingSwitcher />}
+        >
           {userStore.isCardFormattingOn.value ? (
             <WysiwygField
               field={deckFormStore.deckForm.description}

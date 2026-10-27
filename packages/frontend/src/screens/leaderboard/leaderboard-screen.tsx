@@ -182,7 +182,7 @@ function LeaderboardContent({
       </LabelGroup>
 
       <div className="mt-2">
-        <LabelGroup title={t("leaderboard")}>
+        <LabelGroup title={t("leaderboard_top_ten")}>
           {!topEntries || topEntries.length > 0 ? (
             <div className="overflow-hidden rounded-xl bg-bg">
               {topEntries
@@ -262,7 +262,7 @@ export function LeaderboardScreen() {
 
   return (
     <Screen title={t("leaderboard")}>
-      <div className="flex flex-col gap-0">
+      <div className="flex flex-col gap-2">
         <LeaderboardView
           query={query}
           avatarPeerId={userStore.myId}

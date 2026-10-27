@@ -55,6 +55,7 @@ export const en = {
   navigation_review: "Review",
   leaderboard: "Leaderboard",
   leaderboard_this_week: "This week",
+  leaderboard_top_ten: "Top 10",
   leaderboard_your_position: "Your position",
   leaderboard_rank_label: "place",
   leaderboard_statistics: "Statistics",

@@ -72,6 +72,7 @@ export const ar = {
   navigation_review: "مراجعة",
   leaderboard: "لوحة المتصدرين",
   leaderboard_this_week: "هذا الأسبوع",
+  leaderboard_top_ten: "أفضل 10",
   leaderboard_your_position: "ترتيبك",
   leaderboard_rank_label: "المركز",
   leaderboard_statistics: "الإحصاءات",

@@ -74,6 +74,7 @@ export const ru = {
   navigation_review: "Повторение",
   leaderboard: "Рейтинг",
   leaderboard_this_week: "На этой неделе",
+  leaderboard_top_ten: "Топ 10",
   leaderboard_your_position: "Ваша позиция",
   leaderboard_rank_label: "место",
   leaderboard_statistics: "История",

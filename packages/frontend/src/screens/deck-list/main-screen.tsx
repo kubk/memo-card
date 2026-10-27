@@ -50,7 +50,7 @@ export function MainScreen() {
         <GlobalSearchTrigger />
       </Flex>
 
-      <Flex direction={"column"} gap={16}>
+      <Flex direction={"column"} gap={16} mt={4}>
         <LabelGroup
           title={t("my_decks")}
           slotRight={
@@ -169,7 +169,7 @@ export function MainScreen() {
                   <PublicDeck key={deck.id} deck={deck} />
                 ))}
                 <div
-                  className="pt-2 text-link flex items-center gap-1 cursor-pointer justify-center"
+                  className="pt-3 text-link flex items-center gap-1 cursor-pointer justify-center"
                   onClick={() => {
                     platform.haptic("light");
                     screenStore.push({ type: "deckCatalog" });

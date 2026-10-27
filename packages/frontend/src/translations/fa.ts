@@ -59,6 +59,7 @@ export const fa = {
   navigation_review: "مرور",
   leaderboard: "جدول رتبه بندی",
   leaderboard_this_week: "این هفته",
+  leaderboard_top_ten: "۱۰ نفر برتر",
   leaderboard_your_position: "جایگاه شما",
   leaderboard_rank_label: "رتبه",
   leaderboard_statistics: "آمار",

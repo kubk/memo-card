@@ -61,7 +61,11 @@ export function FolderForm() {
         <Input field={folderForm.title} />
       </LabelGroup>
 
-      <LabelGroup title={t("description")} slotRight={<FormattingSwitcher />}>
+      <LabelGroup
+        className="mt-2"
+        title={t("description")}
+        slotRight={<FormattingSwitcher />}
+      >
         {userStore.isCardFormattingOn.value ? (
           <WysiwygField field={folderForm.description} allowImage={false} />
         ) : (

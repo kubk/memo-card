@@ -65,6 +65,7 @@ export const es = {
   navigation_review: "Repasar",
   leaderboard: "Clasificación",
   leaderboard_this_week: "Esta semana",
+  leaderboard_top_ten: "Top 10",
   leaderboard_your_position: "Tu posición",
   leaderboard_rank_label: "puesto",
   leaderboard_statistics: "Estadísticas",
