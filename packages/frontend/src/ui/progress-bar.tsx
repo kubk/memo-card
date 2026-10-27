@@ -13,23 +13,28 @@ const fillClassNames = {
   button: "bg-button",
 };
 
+const labelClassName =
+  "absolute inset-0 flex items-center justify-center text-sm font-semibold";
+
 export function ProgressBar(props: Props) {
   const { value, max, label, color = "success" } = props;
+  const percent = (value / max) * 100;
+  const text = label ?? `${value}/${max}`;
   return (
     <div className="w-full bg-bg rounded-xl relative overflow-hidden">
       <m.div
         initial={false}
-        animate={{ width: `${(value / max) * 100}%` }}
+        animate={{ width: `${percent}%` }}
         className={cn(fillClassNames[color], "h-[30px]")}
       />
-      <div
-        style={{
-          transform: "translateX(-50%)",
-        }}
-        className="absolute left-1/2 top-1 text-center text-sm font-semibold text-text"
+      <div className={cn(labelClassName, "text-text")}>{text}</div>
+      <m.div
+        initial={false}
+        animate={{ clipPath: `inset(0 ${100 - percent}% 0 0)` }}
+        className={cn(labelClassName, "text-white")}
       >
-        {label ?? `${value}/${max}`}
-      </div>
+        {text}
+      </m.div>
     </div>
   );
 }
