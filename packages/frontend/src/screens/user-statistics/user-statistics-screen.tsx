@@ -254,7 +254,7 @@ function UserStatisticsContent(props: {
           ) : undefined
         }
       >
-        <div className="grid grid-cols-3 gap-2">
+        <div className="grid grid-cols-3 gap-2.5">
           <StatTile
             label={t("user_stats_today")}
             value={statistics?.activity.todayReviews}
@@ -273,7 +273,7 @@ function UserStatisticsContent(props: {
       </Section>
 
       <Section title={t("user_stats_memory")}>
-        <div className="grid grid-cols-3 gap-2">
+        <div className="grid grid-cols-3 gap-2.5">
           <StatTile
             label={t("user_stats_to_review")}
             value={statistics?.overview.dueNow}
