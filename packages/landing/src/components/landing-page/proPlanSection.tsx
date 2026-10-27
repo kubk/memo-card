@@ -316,7 +316,7 @@ export function ProPlanSection({ language }: { language: LandingLanguage }) {
                       key={benefit.titleKey}
                     >
                       <div
-                        className="flex h-[30px] w-[30px] shrink-0 items-center justify-center rounded-lg text-white"
+                        className="flex h-[30px] w-[30px] shrink-0 items-center justify-center rounded-lg bg-[linear-gradient(rgba(255,255,255,0.16),rgba(255,255,255,0)_60%)] text-white"
                         style={{ backgroundColor: benefit.iconColor }}
                       >
                         <Icon size={17} />
