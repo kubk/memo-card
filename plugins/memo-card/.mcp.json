@@ -2,7 +2,7 @@
   "mcpServers": {
     "memo-card": {
       "type": "http",
-      "url": "https://api.memocard.org/mcp/claude"
+      "url": "https://api.memocard.org/mcp/chatgpt"
     }
   }
 }
