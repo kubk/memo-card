@@ -35,6 +35,7 @@ export default defineConfig({
           path: `/${language}`,
           sitemap: { exclude: true },
         })),
+        { path: "/connect-to-claude" },
         { path: "/404", sitemap: { exclude: true } },
       ],
       sitemap: {
