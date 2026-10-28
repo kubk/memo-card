@@ -109,7 +109,7 @@ export function DeleteItemModal({
         <Button
           type="button"
           disabled={store.isDeleting}
-          outline
+          variant="outline"
           onClick={close}
         >
           {t("confirm_cancel")}

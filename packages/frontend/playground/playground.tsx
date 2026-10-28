@@ -675,27 +675,27 @@ function DeviceFrame({
 
 function ButtonPlayground() {
   const [disabled, setDisabled] = useState(false);
+  const [large, setLarge] = useState(false);
 
   return (
     <>
       <PreviewFrame>
         <div className="flex w-full flex-col gap-3">
-          <Button disabled={disabled} variant="main">
+          <Button disabled={disabled} large={large} variant="main">
             Main
           </Button>
-          <Button disabled={disabled} outline variant="main">
-            Main outline
+          <Button disabled={disabled} large={large} variant="outline">
+            Outline
           </Button>
-          <Button disabled={disabled} variant="danger">
+          <Button disabled={disabled} large={large} variant="danger">
             Danger
           </Button>
-          <Button disabled={disabled} variant="secondary">
-            Secondary
-          </Button>
-          <Button align="left" disabled={disabled} icon={<Plus size={24} />}>
-            Add deck
-          </Button>
-          <Button align="center" disabled={disabled} icon={<Plus size={24} />}>
+          <Button
+            disabled={disabled}
+            large={large}
+            variant="outline"
+            icon={<Plus size={24} />}
+          >
             Add deck
           </Button>
         </div>
@@ -707,6 +707,12 @@ function ButtonPlayground() {
             label="disabled"
             checked={disabled}
             onCheckedChange={setDisabled}
+          />
+          <BooleanProp
+            id="button-large"
+            label="large"
+            checked={large}
+            onCheckedChange={setLarge}
           />
         </PropGroup>
       </PropsPanel>

@@ -21,7 +21,7 @@ export function CopyItemModalContainer() {
         <Button
           type="button"
           disabled={copyItemModalStore.isCopying}
-          outline
+          variant="outline"
           onClick={copyItemModalStore.close}
         >
           {t("confirm_cancel")}

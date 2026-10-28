@@ -25,7 +25,7 @@ export function LoginForm({
       <div className="flex w-full flex-col gap-5">
         <Button
           type="button"
-          outline
+          variant="outline"
           disabled={store.isGoogleLoading}
           onClick={store.signInWithGoogle}
         >
@@ -45,7 +45,7 @@ export function LoginForm({
         </Button>
         <Button
           type="button"
-          outline
+          variant="outline"
           disabled={store.isTelegramLoading}
           onClick={store.signInWithTelegram}
         >

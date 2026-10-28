@@ -137,7 +137,7 @@ export function DeckPreview(props: Props) {
             <Flex direction={"column"} gap={10} mb={4}>
               <div>{t("no_cards_to_review_in_deck")}</div>
               <Button
-                outline
+                variant="outline"
                 icon={<RefreshCwIcon size={24} />}
                 onClick={() => {
                   reviewStore.startDeckReviewAnyway(store.deck);

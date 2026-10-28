@@ -174,7 +174,7 @@ export function HtmlTableEditor() {
 
       <div>
         <Button
-          align="left"
+          variant="outline"
           onClick={() => {
             const tableHtml = tableDataToHtml(tableData);
             copyToClipboard(tableHtml, { html: tableHtml });

@@ -28,7 +28,7 @@ export const showConfirmBrowser: ShowConfirmType = (text) => {
       return ReactDOM.createPortal(
         <Modal title={text} onClose={handleCancel}>
           <div className="flex gap-2 pb-1">
-            <Button outline onClick={handleCancel}>
+            <Button variant="outline" onClick={handleCancel}>
               {t("confirm_cancel")}
             </Button>
             <Button onClick={handleConfirm}>{t("confirm_ok")}</Button>

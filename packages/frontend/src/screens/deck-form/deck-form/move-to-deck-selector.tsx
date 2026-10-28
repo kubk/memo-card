@@ -91,7 +91,7 @@ export function MoveToDeckSelector({
       </div>
 
       <Flex gap={8} mt={16}>
-        <Button outline onClick={store.close}>
+        <Button variant="outline" onClick={store.close}>
           {t("confirm_cancel")}
         </Button>
         <Button disabled={!store.canConfirm} onClick={store.submit}>

@@ -135,10 +135,10 @@ export function CardReviewWithControls(props: Props) {
                 </div>
               )
             ) : (
-              <div className="flex w-full h-[69px] py-2">
+              <div className="flex w-full py-2">
                 <Button
                   key={"show"}
-                  className="h-full"
+                  large
                   onClick={() => {
                     onShowAnswer();
                   }}
@@ -160,7 +160,7 @@ export function CardReviewWithControls(props: Props) {
             {card.answers.map((answer) => (
               <Button
                 key={answer.id}
-                outline
+                variant="outline"
                 onClick={() => {
                   card.openWithAnswer(answer);
                 }}
@@ -169,7 +169,7 @@ export function CardReviewWithControls(props: Props) {
               </Button>
             ))}
             <Button
-              outline
+              variant="outline"
               onClick={() => {
                 card.openWithAnswer({ id: IDK_ID, text: "", isCorrect: false });
               }}

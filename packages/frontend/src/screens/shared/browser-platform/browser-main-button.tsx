@@ -31,6 +31,7 @@ export function BrowserMainButton() {
       )}
     >
       <Button
+        large
         className="shadow-lg"
         disabled={platform.isMainButtonLoading.value}
         onClick={mainButtonInfo.onClick}

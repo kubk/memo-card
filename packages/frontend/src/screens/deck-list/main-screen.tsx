@@ -140,7 +140,7 @@ export function MainScreen() {
 
             {deckListStore.myInfo ? (
               <Button
-                align="center"
+                variant="outline"
                 icon={<PlusIcon size={24} />}
                 onClick={() => {
                   platform.haptic("light");
