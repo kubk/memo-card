@@ -34,6 +34,25 @@ importers:
         specifier: ^7.0.2
         version: 7.0.2
 
+  packages/anki-bot:
+    dependencies:
+      api:
+        specifier: workspace:^
+        version: link:../api
+      grammy:
+        specifier: ^1.24.1
+        version: 1.44.0
+    devDependencies:
+      oxlint:
+        specifier: ^1.70.0
+        version: 1.73.0
+      typescript:
+        specifier: ^7.0.2
+        version: 7.0.2
+      wrangler:
+        specifier: ^4.110.0
+        version: 4.110.0(@cloudflare/workers-types@4.20260702.1)
+
   packages/api:
     dependencies:
       '@cloudflare/workers-oauth-provider':

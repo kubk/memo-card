@@ -1,0 +1,23 @@
+{
+  "name": "anki-bot",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "deploy": "wrangler deploy",
+    "db:migrate": "wrangler d1 migrations apply anki-bot-db --remote",
+    "typecheck": "pnpm exec tsc --noEmit",
+    "lint": "oxlint --format=agent .",
+    "test": "echo 1",
+    "cf-typegen": "wrangler types"
+  },
+  "dependencies": {
+    "api": "workspace:*",
+    "grammy": "^1.24.1"
+  },
+  "devDependencies": {
+    "oxlint": "^1.70.0",
+    "typescript": "^7.0.2",
+    "wrangler": "^4.110.0"
+  }
+}
