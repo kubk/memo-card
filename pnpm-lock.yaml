@@ -37,7 +37,7 @@ importers:
   packages/anki-bot:
     dependencies:
       api:
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../api
       grammy:
         specifier: ^1.24.1
