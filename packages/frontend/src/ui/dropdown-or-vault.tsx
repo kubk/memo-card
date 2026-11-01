@@ -6,8 +6,7 @@ import { EllipsisIcon } from "lucide-react";
 import { platform } from "../lib/platform/platform.ts";
 import { t } from "../translations/t.ts";
 import { cn } from "./cn.ts";
-import { overlayStore } from "../store/overlay-store.ts";
-import { useMount } from "../lib/react/use-mount.ts";
+import { useOverlay } from "../lib/react/use-overlay.ts";
 import {
   Dropdown,
   type DropdownItem,
@@ -29,10 +28,7 @@ function ActionMenuOverlay({
   children: ReactNode;
   onClose: () => void;
 }) {
-  useMount(() => {
-    overlayStore.add();
-    return () => overlayStore.remove();
-  });
+  useOverlay();
 
   return (
     <>

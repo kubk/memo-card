@@ -1,6 +1,6 @@
-import { useHotkeys } from "react-hotkeys-hook";
 import { autorun } from "mobx";
 import { platform, UseMainButtonType } from "../platform.ts";
+import { useMainButtonHotkey } from "../use-main-button-hotkey.ts";
 import { useEffect } from "preact/compat";
 import { getWebApp } from "./telegram-web-app.ts";
 import { assert } from "api";
@@ -27,10 +27,10 @@ export const useMainButtonTelegram: UseMainButtonType = (
     telegramPlatform.registerMainButton(condition);
 
     const stopAutoRun = autorun(() => {
-      const isHiddenByOverlay =
-        overlayStore.isOpen && !options?.isAboveBottomSheet;
-
-      if (isHiddenByOverlay || (condition !== undefined && !condition())) {
+      if (
+        overlayStore.isHidingMainButton(options?.isAboveBottomSheet) ||
+        (condition !== undefined && !condition())
+      ) {
         hideMainButton();
         return;
       }
@@ -51,13 +51,5 @@ export const useMainButtonTelegram: UseMainButtonType = (
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps);
 
-  useHotkeys("enter", () => {
-    if (condition !== undefined) {
-      if (!condition()) {
-        return;
-      }
-    }
-
-    onClick();
-  });
+  useMainButtonHotkey(onClick, condition, options?.isAboveBottomSheet);
 };

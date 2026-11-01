@@ -6,6 +6,7 @@ import { cn } from "../../ui/cn.ts";
 import { ProgressBar } from "../../ui/progress-bar.tsx";
 import { useBackButton } from "../../lib/platform/use-back-button.ts";
 import { useMainButton } from "../../lib/platform/use-main-button.ts";
+import { useOverlay } from "../../lib/react/use-overlay.ts";
 import { screenStore } from "../../store/screen-store.ts";
 import { t } from "../../translations/t.ts";
 import { td } from "../../translations/td.tsx";
@@ -143,6 +144,8 @@ function AnkiImportSteps({ store }: { store: AnkiImportScreenStore }) {
 function AnkiImportScreenshotLightbox(props: { store: AnkiImportScreenStore }) {
   const { store } = props;
   const openScreenshot = store.openScreenshotInfo;
+
+  useOverlay(openScreenshot !== null);
 
   if (!openScreenshot) {
     return null;

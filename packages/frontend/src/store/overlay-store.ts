@@ -11,6 +11,10 @@ class OverlayStore {
     return this.openCount > 0;
   }
 
+  isHidingMainButton(isAboveBottomSheet?: boolean) {
+    return this.isOpen && !isAboveBottomSheet;
+  }
+
   add() {
     this.openCount += 1;
   }

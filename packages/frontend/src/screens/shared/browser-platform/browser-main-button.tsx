@@ -15,7 +15,7 @@ export function BrowserMainButton() {
     return null;
   }
 
-  if (overlayStore.isOpen && !mainButtonInfo.isAboveBottomSheet) {
+  if (overlayStore.isHidingMainButton(mainButtonInfo.isAboveBottomSheet)) {
     return null;
   }
 

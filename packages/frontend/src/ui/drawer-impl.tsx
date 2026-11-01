@@ -6,8 +6,7 @@ import {
 } from "preact/compat";
 import { Drawer as DrawerPrimitive } from "vaul";
 import { cn } from "./cn.ts";
-import { overlayStore } from "../store/overlay-store.ts";
-import { useMount } from "../lib/react/use-mount.ts";
+import { useOverlay } from "../lib/react/use-overlay.ts";
 
 export function Drawer({
   shouldScaleBackground = false,
@@ -38,10 +37,7 @@ export function Drawer({
 }
 
 function DrawerOverlayFlag() {
-  useMount(() => {
-    overlayStore.add();
-    return () => overlayStore.remove();
-  });
+  useOverlay();
 
   return null;
 }

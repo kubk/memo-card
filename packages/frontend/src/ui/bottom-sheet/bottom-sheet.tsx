@@ -12,6 +12,7 @@ import { userStore } from "../../store/user-store.ts";
 import { cn } from "../cn.ts";
 import { TelegramPlatform } from "../../lib/platform/telegram/telegram-platform.ts";
 import { Drawer } from "../drawer.tsx";
+import { useOverlay } from "../../lib/react/use-overlay.ts";
 
 const overlayVariants = {
   open: { opacity: 1 },
@@ -83,6 +84,8 @@ export function BottomSheet(props: Props) {
     "relative w-full self-center pt-2 text-center text-xl",
     headerSpacing === "compact" ? "pb-2" : "pb-6",
   );
+
+  useOverlay(isDesktop && isOpen);
 
   useEffect(() => {
     if (!isDesktop) {
