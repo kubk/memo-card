@@ -68,6 +68,8 @@ export function DeleteItemModal({
   const info = store.infoQuery.data;
   const keys = copyKeys[form.target.type];
 
+  const isSubmitLoading = store.infoQuery.isPending || store.isDeleting;
+
   const close = () => {
     if (!store.isDeleting) {
       store.close();
@@ -100,11 +102,11 @@ export function DeleteItemModal({
         </Button>
         <Button
           type="button"
-          disabled={store.infoQuery.isPending || store.isDeleting}
+          disabled={isSubmitLoading}
           variant="danger"
           onClick={store.submit}
         >
-          <LoadingSwap isLoading={store.isDeleting}>{t("delete")}</LoadingSwap>
+          <LoadingSwap isLoading={isSubmitLoading}>{t("delete")}</LoadingSwap>
         </Button>
       </div>
     </Modal>
