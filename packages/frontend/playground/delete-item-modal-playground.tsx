@@ -26,7 +26,6 @@ function makeDeleteItemModalForm(itemName: "deck" | "folder") {
   return {
     target: getDeleteModalTarget(itemName),
     removeForOtherUsers: new BooleanField(false),
-    removeFromPublicCatalog: new BooleanField(false),
   };
 }
 
@@ -34,7 +33,6 @@ class DeleteItemModalPlaygroundStore {
   itemName: "deck" | "folder" = "deck";
   isOwner = new BooleanToggle(true);
   isUsedByOthers = new BooleanToggle(true);
-  isPublic = new BooleanToggle(false);
   isDeletingToggle = new BooleanToggle(false);
   form: ReturnType<typeof makeDeleteItemModalForm> | null =
     makeDeleteItemModalForm("deck");
@@ -57,7 +55,6 @@ class DeleteItemModalPlaygroundStore {
       data: {
         ...getDeleteModalTarget(this.itemName),
         canRemoveForOtherUsers: this.isOwner.value && this.isUsedByOthers.value,
-        canRemoveFromPublicCatalog: this.isOwner.value && this.isPublic.value,
         otherUserCount: this.isUsedByOthers.value ? 3 : 0,
       } satisfies LibraryItemDeletionInfo,
       isPending: false,
@@ -135,12 +132,6 @@ export function DeleteItemModalPlayground() {
             label="Used by other people"
             checked={store.isUsedByOthers.value}
             onCheckedChange={store.isUsedByOthers.setValue}
-          />
-          <BooleanProp
-            id="delete-modal-public"
-            label="Public catalog"
-            checked={store.isPublic.value}
-            onCheckedChange={store.isPublic.setValue}
           />
         </PropGroup>
         <PropGroup label="State">

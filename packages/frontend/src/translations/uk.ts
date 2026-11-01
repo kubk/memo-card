@@ -268,13 +268,9 @@ export const uk = {
   cards_total: ({ count }: { count: number }) => `Всього карток: ${count}`,
   delete_item_title_deck: "Видалити цю колоду?",
   delete_item_remove_for_others_deck: "Видалити для всіх користувачів",
-  delete_item_public_catalog_deck:
-    "Видалити цю колоду й із публічного каталогу",
   delete_item_title_folder: "Видалити цю папку?",
   delete_item_description_folder: "Цю папку буде видалено з вашої колекції",
   delete_item_remove_for_others_folder: "Видалити для всіх користувачів",
-  delete_item_public_catalog_folder:
-    "Видалити цю папку й із публічного каталогу",
   delete: "Видалити",
   no_cards_to_review_in_deck:
     "Чудова робота! 🌟 Ви переглянули всі картки в цій колоді. Поверніться пізніше за більшим.",

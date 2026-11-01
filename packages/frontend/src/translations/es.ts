@@ -264,13 +264,9 @@ export const es = {
   cards_total: ({ count }: { count: number }) => `Total de tarjetas: ${count}`,
   delete_item_title_deck: "¿Eliminar este mazo?",
   delete_item_remove_for_others_deck: "Eliminar para todos los usuarios",
-  delete_item_public_catalog_deck:
-    "Eliminar este mazo también del catálogo público",
   delete_item_title_folder: "¿Eliminar esta carpeta?",
   delete_item_description_folder: "Esta carpeta se eliminará de tu colección",
   delete_item_remove_for_others_folder: "Eliminar para todos los usuarios",
-  delete_item_public_catalog_folder:
-    "Eliminar esta carpeta también del catálogo público",
   delete: "Eliminar",
   no_cards_to_review_in_deck: `¡Increíble trabajo! 🌟 Has repasado todas las tarjetas en este mazo por ahora. Vuelve más tarde para más.`,
   no_cards_to_review_all: `¡Increíble trabajo! 🌟 Has repasado todas las tarjetas por hoy. Vuelve más tarde para más.`,

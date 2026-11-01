@@ -26,7 +26,6 @@ export class DeleteItemModalStore {
   form: {
     target: LibraryItemDeleteTarget;
     removeForOtherUsers: BooleanField;
-    removeFromPublicCatalog: BooleanField;
   } | null = null;
   infoQuery = makeQuery(
     () => {
@@ -60,7 +59,6 @@ export class DeleteItemModalStore {
     this.form = {
       target,
       removeForOtherUsers: new BooleanField(false),
-      removeFromPublicCatalog: new BooleanField(false),
     };
   }
 
@@ -83,7 +81,6 @@ export class DeleteItemModalStore {
     const result = await this.deleteMutation.mutateResult({
       ...target,
       removeForOtherUsers: form.removeForOtherUsers.value,
-      removeFromPublicCatalog: form.removeFromPublicCatalog.value,
     });
     if (!result.ok) {
       const targetId = getLibraryItemId(target);

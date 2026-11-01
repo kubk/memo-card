@@ -63,7 +63,6 @@ describe("DeleteItemModalStore", () => {
       type: "deck",
       deckId: 42,
       removeForOtherUsers: false,
-      removeFromPublicCatalog: false,
     });
   });
 });

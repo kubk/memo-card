@@ -262,13 +262,9 @@ export const ptBr = {
   cards_total: ({ count }: { count: number }) => `Total de cartões: ${count}`,
   delete_item_title_deck: "Excluir este baralho?",
   delete_item_remove_for_others_deck: "Remover para todos os usuários",
-  delete_item_public_catalog_deck:
-    "Remover este baralho também do catálogo público",
   delete_item_title_folder: "Excluir esta pasta?",
   delete_item_description_folder: "Esta pasta será removida da sua coleção",
   delete_item_remove_for_others_folder: "Remover para todos os usuários",
-  delete_item_public_catalog_folder:
-    "Remover esta pasta também do catálogo público",
   delete: "Deletar",
   no_cards_to_review_in_deck: `Ótimo trabalho! 🌟 Você já revisou todos os cartões neste baralho por enquanto. Volte posteriormente para mais.`,
   no_cards_to_review_all: `Ótimo trabalho! 🌟 Você revisou todos os cartões para hoje. Volte posteriormente para mais.`,

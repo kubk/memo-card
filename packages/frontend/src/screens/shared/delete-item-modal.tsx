@@ -17,13 +17,11 @@ type DeleteItemModalViewStore = Pick<
 const copyKeys = {
   deck: {
     description: undefined,
-    publicCatalog: "delete_item_public_catalog_deck",
     removeForOthers: "delete_item_remove_for_others_deck",
     title: "delete_item_title_deck",
   },
   folder: {
     description: "delete_item_description_folder",
-    publicCatalog: "delete_item_public_catalog_folder",
     removeForOthers: "delete_item_remove_for_others_folder",
     title: "delete_item_title_folder",
   },
@@ -69,8 +67,6 @@ export function DeleteItemModal({
 
   const info = store.infoQuery.data;
   const keys = copyKeys[form.target.type];
-  const hasDeleteOptions =
-    info && (info.canRemoveForOtherUsers || info.canRemoveFromPublicCatalog);
 
   const close = () => {
     if (!store.isDeleting) {
@@ -84,25 +80,13 @@ export function DeleteItemModal({
         <p className="m-0 text-sm leading-5 text-hint">{t(keys.description)}</p>
       ) : null}
 
-      {hasDeleteOptions ? (
-        <div className="flex flex-col gap-3">
-          {info.canRemoveForOtherUsers ? (
-            <DeleteOption
-              checked={form.removeForOtherUsers.value}
-              id="delete-item-other-users"
-              label={`${t(keys.removeForOthers)} (${info.otherUserCount})`}
-              onCheckedChange={form.removeForOtherUsers.setValue}
-            />
-          ) : null}
-          {info.canRemoveFromPublicCatalog ? (
-            <DeleteOption
-              checked={form.removeFromPublicCatalog.value}
-              id="delete-item-public-catalog"
-              label={t(keys.publicCatalog)}
-              onCheckedChange={form.removeFromPublicCatalog.setValue}
-            />
-          ) : null}
-        </div>
+      {info?.canRemoveForOtherUsers ? (
+        <DeleteOption
+          checked={form.removeForOtherUsers.value}
+          id="delete-item-other-users"
+          label={`${t(keys.removeForOthers)} (${info.otherUserCount})`}
+          onCheckedChange={form.removeForOtherUsers.setValue}
+        />
       ) : null}
 
       <div className="flex gap-2 pb-1">

@@ -197,13 +197,9 @@ export const en = {
   cards_total: ({ count }: { count: number }) => `Total cards: ${count}`,
   delete_item_title_deck: "Delete this deck?",
   delete_item_remove_for_others_deck: "Delete for all users",
-  delete_item_public_catalog_deck:
-    "Remove this deck from the public catalog too",
   delete_item_title_folder: "Delete this folder?",
   delete_item_description_folder: "Will be removed from your collection",
   delete_item_remove_for_others_folder: "Delete for all users",
-  delete_item_public_catalog_folder:
-    "Remove this folder from the public catalog too",
   deck_form_remove_card_confirm: "Are you sure you want to remove the card?",
   deck_form_remove_cards_confirm:
     "Are you sure you want to remove all of the selected cards?",

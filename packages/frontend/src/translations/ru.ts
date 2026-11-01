@@ -264,13 +264,9 @@ export const ru = {
   cards_total: ({ count }: { count: number }) => `Всего ${count}`,
   delete_item_title_deck: "Удалить эту колоду?",
   delete_item_remove_for_others_deck: "Удалить у всех пользователей",
-  delete_item_public_catalog_deck:
-    "Удалить эту колоду и из публичного каталога",
   delete_item_title_folder: "Удалить эту папку?",
   delete_item_description_folder: "Папка будет удалена из коллекции",
   delete_item_remove_for_others_folder: "Удалить у всех пользователей",
-  delete_item_public_catalog_folder:
-    "Удалить эту папку и из публичного каталога",
   delete: "Удалить",
   no_cards_to_review_in_deck: `Отличная работа! 🌟 Вы прошли все карточки в этой колоде. Возвращайтесь позже за новыми.`,
   no_cards_to_review_all: `Отличная работа! 🌟 Вы повторили все карточки на сегодня`,
