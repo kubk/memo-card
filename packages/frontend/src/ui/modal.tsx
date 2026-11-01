@@ -1,4 +1,6 @@
 import { type ReactNode } from "preact/compat";
+import { overlayStore } from "../store/overlay-store.ts";
+import { useMount } from "../lib/react/use-mount.ts";
 
 export function Modal({
   title,
@@ -9,6 +11,11 @@ export function Modal({
   onClose: () => void;
   children: ReactNode;
 }) {
+  useMount(() => {
+    overlayStore.add();
+    return () => overlayStore.remove();
+  });
+
   return (
     <div
       className="fixed inset-0 z-confirm-alert grid place-items-center bg-black/50 safe-viewport-padding"
