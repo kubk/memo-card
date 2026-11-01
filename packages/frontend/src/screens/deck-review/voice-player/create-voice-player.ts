@@ -9,11 +9,11 @@ import { BrowserWebSpeechApiPlayer } from "./browser-web-speech-api-player.ts";
 import { UrlRecordVoicePlayer } from "./url-record-voice-player.ts";
 import { GoogleTtsVoicePlayer } from "./google-tts-voice-player.ts";
 
-export interface VoicePlayer {
+export type VoicePlayer = {
   isPlaying: boolean;
   play(): void;
   preload(): void;
-}
+};
 
 export const createVoicePlayer = (
   card: {

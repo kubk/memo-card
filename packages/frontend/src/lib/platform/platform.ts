@@ -13,7 +13,7 @@ export type HapticType =
   | "heavy"
   | "selection";
 
-export interface Platform {
+export type Platform = {
   readonly isMobile: boolean;
   readonly isMainButtonVisible: boolean;
   initialize(): void;
@@ -27,7 +27,7 @@ export interface Platform {
   getStartParam(): string | undefined;
   openInvoiceLink(link: string): void;
   haptic(type: HapticType): void;
-}
+};
 
 export type UseMainButtonType = (
   text: string | (() => string),
