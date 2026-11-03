@@ -3,7 +3,7 @@ import { TextField } from "mobx-form-lite";
 import { deckListStore } from "../../store/deck-list-store.ts";
 import { removeAllTags } from "../../lib/sanitize-html/remove-all-tags.ts";
 import { DeckListItem } from "../../store/deck-list-store.ts";
-import { DeckCardDbType } from "api";
+import { applyDeckVariables, DeckCardDbType } from "api";
 import { t } from "../../translations/t.ts";
 import { calculateRelevanceScore } from "./search-relevance-score.ts";
 
@@ -283,10 +283,20 @@ class GlobalSearchStore {
   private searchCard(card: DeckCardDbType, query: string): SearchMatch[] {
     const matches: SearchMatch[] = [];
 
-    const frontText = removeAllTags({ text: card.front, fallback: false });
-    const backText = removeAllTags({ text: card.back, fallback: false });
+    const { deckVariables } = deckListStore;
+    const frontText = removeAllTags({
+      text: applyDeckVariables(card.front, deckVariables),
+      fallback: false,
+    });
+    const backText = removeAllTags({
+      text: applyDeckVariables(card.back, deckVariables),
+      fallback: false,
+    });
     const exampleText = card.example
-      ? removeAllTags({ text: card.example, fallback: false })
+      ? removeAllTags({
+          text: applyDeckVariables(card.example, deckVariables),
+          fallback: false,
+        })
       : null;
 
     const frontMatches = frontText.toLowerCase().includes(query);

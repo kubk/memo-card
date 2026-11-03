@@ -226,6 +226,10 @@ class DeckListStore {
     }
   }
 
+  get deckVariables() {
+    return this.myInfo?.myDecks.flatMap((deck) => deck.variables ?? []) ?? [];
+  }
+
   get publicDecks() {
     if (!this.myInfo) {
       return [];

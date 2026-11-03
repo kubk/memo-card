@@ -6,7 +6,7 @@ import {
 import { DeckListItem, deckListStore } from "../../store/deck-list-store.ts";
 import { screenStore } from "../../store/screen-store.ts";
 import { List } from "../../ui/list.tsx";
-import { DeckCardDbType } from "api";
+import { applyDeckVariables, DeckCardDbType } from "api";
 import { removeAllTags } from "../../lib/sanitize-html/remove-all-tags.ts";
 import { sanitizeTextForCard } from "../../lib/sanitize-html/sanitize-text-for-card.ts";
 import { ChevronIcon } from "../../ui/chevron-icon.tsx";
@@ -101,7 +101,10 @@ export function SearchResults() {
   const getResultTitle = (result: SearchResultItem): string => {
     if (result.type === "card") {
       const card = result.item as DeckCardDbType;
-      return removeAllTags({ text: card.front, fallback: false });
+      return removeAllTags({
+        text: applyDeckVariables(card.front, deckListStore.deckVariables),
+        fallback: false,
+      });
     } else {
       const item = result.item as DeckListItem;
       return item.name;

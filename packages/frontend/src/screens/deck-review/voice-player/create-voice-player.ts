@@ -1,4 +1,5 @@
-import type { DeckWithCardsDbType } from "api";
+import { applyDeckVariables, type DeckWithCardsDbType } from "api";
+import { deckListStore } from "../../../store/deck-list-store.ts";
 import { removeAllTags } from "../../../lib/sanitize-html/remove-all-tags.ts";
 import {
   isSpeechSynthesisSupported,
@@ -39,7 +40,10 @@ export const createVoicePlayer = (
   }
 
   const text = removeAllTags({
-    text: card[effectiveSpeakField],
+    text: applyDeckVariables(
+      card[effectiveSpeakField],
+      deckListStore.deckVariables,
+    ),
     fallback: false,
   });
 

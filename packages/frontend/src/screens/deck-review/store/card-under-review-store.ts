@@ -17,7 +17,7 @@ import {
   createVoicePlayer,
   VoicePlayer,
 } from "../voice-player/create-voice-player.ts";
-import { applyDeckVariables, assert } from "api";
+import { assert } from "api";
 import { preloadCardImage } from "../../../lib/card-image/image-preloader.ts";
 import { platform } from "../../../lib/platform/platform.ts";
 import {
@@ -84,20 +84,13 @@ export class CardUnderReviewStore implements LimitedCardUnderReviewStore {
   }
 
   updateContent(card: DeckCardDbType, deck: DeckListDeck) {
-    const variables = deck.variables ?? null;
     this.answerType = card.answerType;
-    this.front = applyDeckVariables(card.front, variables);
-    this.back = applyDeckVariables(card.back, variables);
-    this.example =
-      card.example === null
-        ? null
-        : applyDeckVariables(card.example, variables);
-    this.answers = (card.answers || []).map((answer) => ({
-      ...answer,
-      text: applyDeckVariables(answer.text, variables),
-    }));
+    this.front = card.front;
+    this.back = card.back;
+    this.example = card.example;
+    this.answers = card.answers || [];
     this.deckSpeakField = card.options?.speakField || deck.speakField;
-    this.voicePlayer = createCardVoicePlayer(card, this, deck);
+    this.voicePlayer = createCardVoicePlayer(card, deck);
   }
 
   open() {
@@ -164,7 +157,6 @@ export class CardUnderReviewStore implements LimitedCardUnderReviewStore {
 
 function createCardVoicePlayer(
   card: DeckCardDbType,
-  { front, back }: { front: string; back: string },
   deck: Pick<DeckListDeck, "speakField" | "speakLocale">,
 ) {
   return (
@@ -172,8 +164,8 @@ function createCardVoicePlayer(
       {
         voice: card.options?.voice,
         speakField: card.options?.speakField,
-        back,
-        front,
+        back: card.back,
+        front: card.front,
       },
       {
         speakingCardsField: deck.speakField,
