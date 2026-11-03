@@ -417,10 +417,19 @@ class DeckListStore {
       screenStore.push({ type: "plans", planType: "pro" });
     } else {
       appLoaderStore.enable();
-      await when(() => !!this.myInfo);
+      const sharedItemPromise = api.getByShareId.query({ shareId: startParam });
+      const [sharedItem] = await Promise.allSettled([
+        sharedItemPromise,
+        when(() => !!this.myInfo),
+      ]);
+      const shouldRefetch =
+        sharedItem.status === "rejected" &&
+        !isTrpcNotFoundError(sharedItem.reason);
 
-      api.getByShareId
-        .query({ shareId: startParam })
+      (shouldRefetch
+        ? api.getByShareId.query({ shareId: startParam })
+        : sharedItemPromise
+      )
         .then((sharedDeckResponse) => {
           if ("deck" in sharedDeckResponse) {
             const deck = sharedDeckResponse.deck;
