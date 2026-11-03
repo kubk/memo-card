@@ -28,6 +28,8 @@
           "packages/api/migrate.ts",
           "packages/api/drizzle.config.ts",
           "packages/api/vitest.config.mts",
+          "packages/api/src/lib/testing/global-setup.ts",
+          "packages/api/src/lib/testing/setup-worker-db.ts",
           "packages/frontend/src/main.tsx",
           "packages/frontend/playground/main.tsx",
           "packages/landing/src/routes/**/*.tsx",
