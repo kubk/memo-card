@@ -1,4 +1,0 @@
-/* Fix notistack clear button vertical alignment */
-#notistack-snackbar {
-  width: calc(100% - 50px);
-}

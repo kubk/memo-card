@@ -1,88 +1,51 @@
 import type * as React from "preact/compat";
-import { closeSnackbar, enqueueSnackbar, type SnackbarOrigin } from "notistack";
 import { reportHandledError } from "../../../lib/rollbar/rollbar.tsx";
 import { userStore } from "../../../store/user-store.ts";
 import { platform } from "../../../lib/platform/platform.ts";
 import { t } from "../../../translations/t.ts";
-import { ClearSnackbar } from "./clear-snackbar.tsx";
-import "./notistack.css";
-
-export function SnackbarWrapper({ children }: { children: React.ReactNode }) {
-  return <div className="mb-4">{children}</div>;
-}
-
-const sharedStyles = {
-  borderRadius: 12,
-  backgroundColor: "rgba(56, 56, 56, 0.85)",
-  boxShadow: "0 12px 24px 0 rgba(0, 0, 0, .05)",
-};
+import { toastStore } from "./toast-store.ts";
 
 const defaultDuration = 3000;
+const loadingDuration = 10000;
 
-type NotifyErrorOptions = {
-  message?: string;
-  duration?: number;
-  anchorOrigin?: SnackbarOrigin;
-};
-
-type NotifySuccessOptions = {
-  duration?: number;
-  anchorOrigin?: SnackbarOrigin;
-};
-
-export const notifySuccess = (
-  message: string | React.ReactNode,
-  options?: NotifySuccessOptions,
-) => {
-  const duration = options?.duration || defaultDuration;
-  const id = enqueueSnackbar(message, {
+export const notifySuccess = (message: string | React.ReactNode) => {
+  const id = toastStore.show({
     variant: "success",
-    action: (snackbarKey) => <ClearSnackbar snackbarId={snackbarKey} />,
-    style: sharedStyles,
-    autoHideDuration: duration,
-    anchorOrigin: options?.anchorOrigin,
+    message,
+    duration: defaultDuration,
   });
   platform.haptic("success");
 
   return {
     clear: () => {
-      closeSnackbar(id);
+      toastStore.close(id);
     },
   };
 };
 
 export const notifyLoading = (message: string) => {
-  const id = enqueueSnackbar(message, {
-    variant: "info",
-    style: sharedStyles,
-    autoHideDuration: 10000,
-    anchorOrigin: { vertical: "top", horizontal: "center" },
+  const id = toastStore.show({
+    variant: "loading",
+    message,
+    duration: loadingDuration,
   });
 
   return {
     clear: () => {
-      closeSnackbar(id);
+      toastStore.close(id);
     },
   };
 };
 
-export const notifyError = (report?: any, options?: NotifyErrorOptions) => {
-  const message = options?.message || t("error_solving");
-  const duration = options?.duration || defaultDuration;
+export const notifyError = (report?: any) => {
+  const message = t("error_solving");
 
-  enqueueSnackbar(
-    <div>
-      <div className="font-medium">{t("error")}</div>
-      <div>{message}</div>
-    </div>,
-    {
-      variant: "error",
-      action: (snackbarId) => <ClearSnackbar snackbarId={snackbarId} />,
-      style: sharedStyles,
-      anchorOrigin: options?.anchorOrigin,
-      autoHideDuration: duration,
-    },
-  );
+  toastStore.show({
+    variant: "error",
+    title: t("error"),
+    message,
+    duration: defaultDuration,
+  });
 
   platform.haptic("error");
 

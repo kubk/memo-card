@@ -33,7 +33,7 @@ import {
 } from "./teacher-statistics/teacher-statistics-lazy.tsx";
 import { PlansScreen } from "./pro/plans-screen.tsx";
 import { FreezeCardsScreenLazy } from "./freeze-cards/freeze-cards-screen-lazy.tsx";
-import { SnackbarProviderWrapper } from "./shared/snackbar/snackbar-provider-wrapper.tsx";
+import { Toasts } from "./shared/snackbar/toasts.tsx";
 import { BrowserMainButton } from "./shared/browser-platform/browser-main-button.tsx";
 import { platform } from "../lib/platform/platform.ts";
 import { BrowserPlatform } from "../lib/platform/browser/browser-platform.ts";
@@ -89,7 +89,7 @@ export function App() {
         isDesktopWidth && "mx-auto max-w-2xl",
       )}
     >
-      <SnackbarProviderWrapper />
+      <Toasts />
       <BottomNavigation>
         <RouteScreenContainer>
           <VersionWarning />

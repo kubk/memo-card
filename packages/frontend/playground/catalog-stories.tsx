@@ -1,11 +1,5 @@
 import { useState } from "preact/compat";
 import { EyeIcon, TrashIcon } from "lucide-react";
-import {
-  notifyError,
-  notifySuccess,
-} from "../src/screens/shared/snackbar/snackbar.tsx";
-import { SnackbarProviderWrapper } from "../src/screens/shared/snackbar/snackbar-provider-wrapper.tsx";
-import { Button } from "../src/ui/button.tsx";
 import { CardNumber } from "../src/ui/card-number.tsx";
 import { cn } from "../src/ui/cn.ts";
 import { Flex } from "../src/ui/flex.tsx";
@@ -49,32 +43,6 @@ export function CatalogSelect({
         onClick: () => onChange(country.value),
       }))}
     />
-  );
-}
-
-export function CatalogSnackbar({
-  duration,
-  message,
-  variant,
-}: {
-  duration: number;
-  message: string;
-  variant: "error" | "success";
-}) {
-  const showSnackbar = () => {
-    if (variant === "success") {
-      notifySuccess(message);
-      return;
-    }
-
-    notifyError(false, { duration, message });
-  };
-
-  return (
-    <>
-      <SnackbarProviderWrapper />
-      <Button onClick={showSnackbar}>Show snackbar</Button>
-    </>
   );
 }
 

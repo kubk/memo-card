@@ -22,8 +22,6 @@ type MoveToDeckForm = {
 
 type OnMoveSuccessCallback = () => void;
 
-const notifyPosition = { vertical: "top", horizontal: "center" } as const;
-
 export class MoveToDeckSelectorStore {
   form: MoveToDeckForm | null = null;
   private onMoveSuccess: OnMoveSuccessCallback | null = null;
@@ -96,13 +94,11 @@ export class MoveToDeckSelectorStore {
             </ButtonLink>
           </div>
         </div>,
-        { anchorOrigin: notifyPosition },
       );
     } catch (e: unknown) {
       notifyError(
         // DO not translate - debug string
         { e, info: "Error moving cards" },
-        { anchorOrigin: notifyPosition },
       );
     } finally {
       this.isMoving.setFalse();

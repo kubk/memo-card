@@ -44,7 +44,6 @@ import {
   CatalogList,
   CatalogRadioList,
   CatalogSelect,
-  CatalogSnackbar,
 } from "./catalog-stories.tsx";
 import { CatalogModals, type ModalStoryId } from "./modal-stories.tsx";
 import { ProPagePlayground } from "./pro-page-playground.tsx";
@@ -55,6 +54,7 @@ import { LeaderboardPlayground } from "./leaderboard-playground.tsx";
 import { SharedDeckNotFoundPlayground } from "./shared-deck-not-found-playground.tsx";
 import { CardReviewPlayground } from "./card-review-playground.tsx";
 import { CardAudioPlayground } from "./card-audio-playground.tsx";
+import { ToastPlayground } from "./toast-playground.tsx";
 import { routeScreenContainerClassName } from "../src/lib/react/route-screen-container-class.ts";
 import { BooleanProp, PropGroup, TextProp } from "./ui/prop-controls.tsx";
 import { PreviewFrame } from "./ui/preview-frame.tsx";
@@ -585,7 +585,7 @@ function ComponentPreview({
     case "select":
       return <SelectPlayground />;
     case "snackbar":
-      return <SnackbarPlayground />;
+      return <ToastPlayground />;
     case "list":
       return <ListPlayground />;
     case "radio-list":
@@ -730,66 +730,6 @@ function SelectPlayground() {
           <CatalogSelect value={value} onChange={setValue} />
         </div>
       </PreviewFrame>
-    </>
-  );
-}
-
-function SnackbarPlayground() {
-  const [message, setMessage] = useState("This is a success message");
-  const [variant, setVariant] = useState<"error" | "success">("success");
-  const [duration, setDuration] = useState(10000);
-
-  return (
-    <>
-      <PreviewFrame>
-        <div className="w-full">
-          <CatalogSnackbar
-            duration={duration}
-            message={message}
-            variant={variant}
-          />
-        </div>
-      </PreviewFrame>
-      <PropsPanel>
-        <PropGroup label="Content">
-          <TextProp
-            id="snackbar-message"
-            label="message"
-            value={message}
-            onChange={setMessage}
-          />
-        </PropGroup>
-        <PropGroup label="Behavior">
-          <div className="flex flex-col gap-2">
-            <ShadcnLabel>variant</ShadcnLabel>
-            <div className="flex gap-1.5">
-              {(["success", "error"] as const).map((value) => (
-                <PlaygroundButton
-                  type="button"
-                  size="sm"
-                  variant={variant === value ? "default" : "outline"}
-                  key={value}
-                  onClick={() => setVariant(value)}
-                >
-                  {value}
-                </PlaygroundButton>
-              ))}
-            </div>
-          </div>
-          <div className="flex flex-col gap-2">
-            <ShadcnLabel htmlFor="snackbar-duration">duration</ShadcnLabel>
-            <ShadcnInput
-              id="snackbar-duration"
-              type="number"
-              min="0"
-              value={duration}
-              onChange={(event) =>
-                setDuration(Math.max(0, Number(event.currentTarget.value)))
-              }
-            />
-          </div>
-        </PropGroup>
-      </PropsPanel>
     </>
   );
 }
