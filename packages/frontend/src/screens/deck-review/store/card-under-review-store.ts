@@ -17,7 +17,7 @@ import {
   createVoicePlayer,
   VoicePlayer,
 } from "../voice-player/create-voice-player.ts";
-import { assert } from "api";
+import { applyDeckVariables, assert } from "api";
 import { preloadCardImage } from "../../../lib/card-image/image-preloader.ts";
 import { platform } from "../../../lib/platform/platform.ts";
 import {
@@ -43,13 +43,13 @@ export class CardUnderReviewStore implements LimitedCardUnderReviewStore {
   lapses: number;
   fsrsState: FsrsState;
   lastReviewDate: string | null;
-  front: string;
-  back: string;
+  front!: string;
+  back!: string;
   example: string | null = null;
   deckName?: string;
   voicePlayer?: VoicePlayer;
   deckSpeakField: DeckWithCardsDbType["speakField"] = null;
-  answerType: DeckCardDbType["answerType"];
+  answerType!: DeckCardDbType["answerType"];
   answers: CardAnswer[] = [];
   answer?: CardAnswer;
 
@@ -73,15 +73,8 @@ export class CardUnderReviewStore implements LimitedCardUnderReviewStore {
     this.lapses = card.lapses;
     this.fsrsState = card.fsrsState;
     this.lastReviewDate = card.lastReviewDate;
-    this.front = card.front;
-    this.back = card.back;
-    this.example = card.example;
-    this.answerType = card.answerType;
-    this.answers = card.answers || [];
     this.deckName = deck.name;
-    this.deckSpeakField = card.options?.speakField || deck.speakField;
-
-    this.voicePlayer = createCardVoicePlayer(card, deck);
+    this.updateContent(card, deck);
 
     makeAutoObservable(
       this,
@@ -91,13 +84,20 @@ export class CardUnderReviewStore implements LimitedCardUnderReviewStore {
   }
 
   updateContent(card: DeckCardDbType, deck: DeckListDeck) {
-    this.front = card.front;
-    this.back = card.back;
-    this.example = card.example;
+    const variables = deck.variables ?? null;
     this.answerType = card.answerType;
-    this.answers = card.answers || [];
+    this.front = applyDeckVariables(card.front, variables);
+    this.back = applyDeckVariables(card.back, variables);
+    this.example =
+      card.example === null
+        ? null
+        : applyDeckVariables(card.example, variables);
+    this.answers = (card.answers || []).map((answer) => ({
+      ...answer,
+      text: applyDeckVariables(answer.text, variables),
+    }));
     this.deckSpeakField = card.options?.speakField || deck.speakField;
-    this.voicePlayer = createCardVoicePlayer(card, deck);
+    this.voicePlayer = createCardVoicePlayer(card, this, deck);
   }
 
   open() {
@@ -164,6 +164,7 @@ export class CardUnderReviewStore implements LimitedCardUnderReviewStore {
 
 function createCardVoicePlayer(
   card: DeckCardDbType,
+  { front, back }: { front: string; back: string },
   deck: Pick<DeckListDeck, "speakField" | "speakLocale">,
 ) {
   return (
@@ -171,8 +172,8 @@ function createCardVoicePlayer(
       {
         voice: card.options?.voice,
         speakField: card.options?.speakField,
-        back: card.back,
-        front: card.front,
+        back,
+        front,
       },
       {
         speakingCardsField: deck.speakField,

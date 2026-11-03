@@ -6,6 +6,8 @@
   "ignorePatterns": [
     "functions/db/databaseTypes.ts",
     "packages/api/drizzle/meta",
-    "**/components/ui/**"
+    "**/components/ui/**",
+    "**/worker-configuration.d.ts",
+    "**/routeTree.gen.ts"
   ]
 }

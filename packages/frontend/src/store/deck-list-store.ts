@@ -197,7 +197,10 @@ class DeckListStore {
       (myDeck) => myDeck.id === deck.id,
     );
     if (ownedDeckIndex !== -1) {
-      this.myInfo.myDecks[ownedDeckIndex] = deck;
+      this.myInfo.myDecks[ownedDeckIndex] = {
+        ...this.myInfo.myDecks[ownedDeckIndex],
+        ...deck,
+      };
       this.myInfoQuery.setData(this.myInfo);
       return;
     }
