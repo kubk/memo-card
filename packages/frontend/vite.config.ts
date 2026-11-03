@@ -2,6 +2,7 @@ import { defineConfig } from "vitest/config";
 import tailwindcss from "@tailwindcss/vite";
 import preact from "@preact/preset-vite";
 import { execSync } from "node:child_process";
+import { availableParallelism } from "node:os";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import observerPlugin from "mobx-react-observer/vite-plugin";
@@ -33,6 +34,8 @@ export default defineConfig({
     observerPlugin({ exclude: ["src/ui/shadcn/**"] }),
   ],
   test: {
+    // The default of one fewer worker than CPUs leaves 2-CPU CI runners with a single worker
+    maxWorkers: availableParallelism(),
     alias: {
       "react-lines-ellipsis": resolve(
         __dirname,
