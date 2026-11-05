@@ -33,7 +33,7 @@ export type DeckWithCardsWithReviewType = DeckListDeck & {
   cardsToReview: DeckCardDbTypeWithType[];
 };
 
-const authOptionalScreenTypes = ["about"];
+const authOptionalScreenTypes = ["about", "browserLogin"];
 
 export type DeckListItem = {
   id: string;

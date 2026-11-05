@@ -4,6 +4,7 @@ import { api } from "../../api/trpc-api.ts";
 import { BrowserPlatform } from "../../lib/platform/browser/browser-platform.ts";
 import { platform } from "../../lib/platform/platform.ts";
 import { userStore } from "../../store/user-store.ts";
+import { deckListStore } from "../../store/deck-list-store.ts";
 
 type TelegramAuthLib = {
   auth: (
@@ -54,7 +55,14 @@ export class LoginFormStore {
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
+    this.restoreSession();
     this.initializeTelegram();
+  }
+
+  private restoreSession() {
+    if (platform instanceof BrowserPlatform && platform.getInitData()) {
+      deckListStore.myInfoQuery.refetch();
+    }
   }
 
   get isTelegramLoading() {
