@@ -32,10 +32,10 @@ const uploadAnkiPackage = async (
   file: File,
   onProgress: (uploadedBytes: number, totalBytes: number) => void,
 ) => {
-  const { uploadId, url } = await api.anki.uploadUrl.mutate({
+  const { uploadId, url, contentType } = await api.anki.uploadUrl.mutate({
     size: file.size,
   });
-  await uploadWithProgress(url, file, onProgress);
+  await uploadWithProgress({ url, file, contentType, onProgress });
 
   return uploadId;
 };
