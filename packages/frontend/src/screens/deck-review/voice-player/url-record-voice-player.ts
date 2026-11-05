@@ -1,6 +1,7 @@
 import { VoicePlayer } from "./create-voice-player.ts";
 import { voicePlayerCallbackQueue } from "./voice-player-callback-queue.ts";
 import { action, makeAutoObservable } from "mobx";
+import { toViewerMediaUrls } from "../../../lib/urls/proxy-urls.ts";
 
 export class UrlRecordVoicePlayer implements VoicePlayer {
   private audio: HTMLAudioElement;
@@ -8,7 +9,7 @@ export class UrlRecordVoicePlayer implements VoicePlayer {
   isPlaying = false;
 
   constructor(url: string) {
-    this.audio = new Audio(url);
+    this.audio = new Audio(toViewerMediaUrls(url));
     makeAutoObservable(this, {}, { autoBind: true });
     for (const event of ["playing", "pause", "ended", "error", "emptied"]) {
       this.audio.addEventListener(

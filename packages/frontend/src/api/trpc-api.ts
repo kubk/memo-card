@@ -9,6 +9,7 @@ import { trimEnd } from "../lib/string/trim";
 import { getAuthHeaders } from "./get-auth-headers";
 import { env } from "../env";
 import { createApiProxy } from "./create-api-proxy.ts";
+import { apiUrl } from "../lib/urls/proxy-urls.ts";
 
 const allowedToReFetch = [
   "cardsReview",
@@ -57,7 +58,7 @@ export const api = createTRPCClient<ApiRouter>({
         !("path" in opts && opts.path === "telegramSignin"),
     }),
     httpLink({
-      url: `${trimEnd(env.VITE_API_URL, "/")}/`,
+      url: `${trimEnd(apiUrl, "/")}/`,
       headers: getAuthHeaders,
     }),
   ],

@@ -1,5 +1,6 @@
 import { CallbackQueue } from "../callback-queue/callback-queue.ts";
 import { extractImageUrl, hasCardImage } from "./card-image.ts";
+import { toViewerMediaUrls } from "../urls/proxy-urls.ts";
 
 const imageCache = new Set<string>();
 const preloadQueue = new CallbackQueue();
@@ -30,6 +31,6 @@ function preloadCardSideImage(side: string | null) {
   imageCache.add(url);
   preloadQueue.add(() => {
     const img = new Image();
-    img.src = url;
+    img.src = toViewerMediaUrls(url);
   });
 }

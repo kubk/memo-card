@@ -9,6 +9,7 @@ import { List } from "../../ui/list.tsx";
 import { applyDeckVariables, DeckCardDbType } from "api";
 import { removeAllTags } from "../../lib/sanitize-html/remove-all-tags.ts";
 import { sanitizeTextForCard } from "../../lib/sanitize-html/sanitize-text-for-card.ts";
+import { toViewerMediaUrls } from "../../lib/urls/proxy-urls.ts";
 import { ChevronIcon } from "../../ui/chevron-icon.tsx";
 import { t } from "../../translations/t.ts";
 
@@ -89,7 +90,7 @@ export function SearchResults() {
       return (
         <span
           dangerouslySetInnerHTML={{
-            __html: sanitizeTextForCard(highlightedValue),
+            __html: toViewerMediaUrls(sanitizeTextForCard(highlightedValue)),
           }}
           className="break-words"
         />

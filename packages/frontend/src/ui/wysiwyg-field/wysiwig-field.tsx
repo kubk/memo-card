@@ -9,6 +9,7 @@ import { TextField } from "mobx-form-lite";
 import { ValidationError } from "../validation-error.tsx";
 import { t } from "../../translations/t.ts";
 import { sanitizeTextForCard } from "../../lib/sanitize-html/sanitize-text-for-card.ts";
+import { toViewerMediaUrls } from "../../lib/urls/proxy-urls.ts";
 import { BottomSheet } from "../bottom-sheet/bottom-sheet.tsx";
 import { HtmlTableEditor } from "./html-table-editor.tsx";
 import { ColorPickerIcon } from "./color-picker-icon.tsx";
@@ -135,7 +136,7 @@ export function WysiwygField({
       return (
         <div className="relative inline-block bg-bg rounded-xl p-2">
           <img
-            src={imageUrl}
+            src={toViewerMediaUrls(imageUrl)}
             className="max-w-[300px] max-h-[300px] rounded-lg block"
           />
           <button

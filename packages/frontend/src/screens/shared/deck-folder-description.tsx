@@ -3,6 +3,7 @@ import { useIsOverflowing } from "../../lib/react/use-is-overflowing.ts";
 import { cn } from "../../ui/cn.ts";
 import { t } from "../../translations/t.ts";
 import { sanitizeTextForCard } from "../../lib/sanitize-html/sanitize-text-for-card.ts";
+import { toViewerMediaUrls } from "../../lib/urls/proxy-urls.ts";
 import { wysiwygTableStyle } from "../../ui/wysiwyg-table-style.ts";
 
 type Props = {
@@ -26,7 +27,9 @@ export function DeckFolderDescription(props: Props) {
           wysiwygTableStyle,
         )}
         dangerouslySetInnerHTML={{
-          __html: sanitizeTextForCard(deck.description || ""),
+          __html: toViewerMediaUrls(
+            sanitizeTextForCard(deck.description || ""),
+          ),
         }}
       />
       {isOverflowing && !isExpanded ? (
