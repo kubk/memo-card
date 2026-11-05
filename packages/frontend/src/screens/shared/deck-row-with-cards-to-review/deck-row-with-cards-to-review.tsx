@@ -6,7 +6,7 @@ import { getCardsToReviewCounts } from "../../../ui/cards-to-review.tsx";
 
 type Props = {
   item: {
-    id: number;
+    id: string;
     cardsToReview: DeckCardDbTypeWithType[];
     name: string;
   };

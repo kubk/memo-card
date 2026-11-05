@@ -1,6 +1,7 @@
-import { useCallback, useLayoutEffect, useRef } from "preact/hooks";
+import { useCallback, useLayoutEffect, useRef, useState } from "preact/hooks";
 import type { TargetedInputEvent } from "preact";
 import { normalizeInlineFormatting } from "./normalize-inline-formatting.ts";
+import { sanitizeEditorHtml } from "../sanitize-html/sanitize-editor-html.ts";
 
 function normalizeHtml(value: string) {
   return value.replace(/&nbsp;|\u202F|\u00A0/g, " ");
@@ -18,7 +19,7 @@ export function ContentEditable({
   refresh: () => void;
 }) {
   const elementRef = useRef<HTMLDivElement | null>(null);
-  const initialHtml = useRef(value);
+  const [initialHtml] = useState(() => sanitizeEditorHtml(value));
   const htmlRef = useRef(value);
   const onSetRef = useCallback(
     (element: HTMLDivElement | null) => {
@@ -33,7 +34,7 @@ export function ContentEditable({
     if (!element) return;
 
     if (normalizeHtml(element.innerHTML) !== normalizeHtml(value)) {
-      element.innerHTML = value;
+      element.innerHTML = sanitizeEditorHtml(value);
       if (document.activeElement === element) {
         const range = document.createRange();
         range.selectNodeContents(element);
@@ -81,7 +82,7 @@ export function ContentEditable({
     <div
       className="rsw-ce"
       contentEditable
-      dangerouslySetInnerHTML={{ __html: initialHtml.current }}
+      dangerouslySetInnerHTML={{ __html: initialHtml }}
       ref={onSetRef}
       onInput={onInput}
       onBlur={emitChange}

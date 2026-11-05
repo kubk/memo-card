@@ -20,12 +20,11 @@ import {
   shareMemoCardUrl,
 } from "./share-memo-card-url.tsx";
 
-type DeckActionTarget = Pick<DeckListDeck, "authorId" | "id" | "shareId">;
+type DeckActionTarget = Pick<DeckListDeck, "authorId" | "id">;
 
 type FolderActionTarget = {
   authorId: number;
-  id: number;
-  shareId: string;
+  id: string;
 };
 
 type TargetProps =
@@ -54,7 +53,6 @@ function getTargetActions(props: TargetProps) {
               shareMemoCardUrl({
                 type: props.type,
                 id: target.id,
-                shareId: target.shareId,
               });
             },
           },
@@ -65,7 +63,7 @@ function getTargetActions(props: TargetProps) {
                   Icon: LinkIcon,
                   text: t("share_link"),
                   onClick: () => {
-                    copyMemoCardLink(target.shareId);
+                    copyMemoCardLink(target.id);
                   },
                 },
               ]

@@ -37,13 +37,13 @@ describe("screen store", () => {
   it("preserves the deck route for card editor shortcuts", () => {
     const store = new ScreenStore({ enableUrlSync: false });
 
-    store.push({ type: "deckForm", deckId: 1 });
-    store.push({ type: "cardList", deckId: 1 });
-    store.push({ type: "deckForm", deckId: 1, cardId: 2 });
+    store.push({ type: "deckForm", deckId: "1" });
+    store.push({ type: "cardList", deckId: "1" });
+    store.push({ type: "deckForm", deckId: "1", cardId: 2 });
 
-    store.backToDeck(1);
+    store.backToDeck("1");
 
-    expect(store.screen).toEqual({ type: "deckForm", deckId: 1 });
+    expect(store.screen).toEqual({ type: "deckForm", deckId: "1" });
   });
 
   it("supports instant transitions without changing later navigation", () => {

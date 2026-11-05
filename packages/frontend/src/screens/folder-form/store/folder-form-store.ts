@@ -25,8 +25,8 @@ const createFolderTitleField = (title: string) => {
   });
 };
 
-const createDecksField = (decks: Array<{ id: number; name: string }>) => {
-  return new ListField<{ id: number; name: string }>(decks, {
+const createDecksField = (decks: Array<{ id: string; name: string }>) => {
+  return new ListField<{ id: string; name: string }>(decks, {
     validate: (value) => {
       if (value.length === 0) {
         return t("validation_at_least_one_deck");
@@ -38,7 +38,7 @@ const createDecksField = (decks: Array<{ id: number; name: string }>) => {
 type FolderForm = {
   title: TextField<string>;
   description: TextField<string>;
-  decks: ListField<{ id: number; name: string }>;
+  decks: ListField<{ id: string; name: string }>;
 };
 
 export class FolderFormStore {
@@ -100,7 +100,7 @@ export class FolderFormStore {
     });
   }
 
-  onSelectDeck(deckId: number) {
+  onSelectDeck(deckId: string) {
     this.onQuit(() => {
       screenStore.push({ type: "deckPreview", deckId });
     });

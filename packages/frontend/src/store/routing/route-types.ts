@@ -2,7 +2,6 @@ import * as v from "valibot";
 import { type CatalogFolderDbType } from "api";
 
 const stringToNumber = v.pipe(v.string(), v.transform(Number), v.number());
-const optionalStringToNumber = v.optional(stringToNumber);
 
 const cardFilterSortBySchema = v.optional(
   v.picklist(["createdAt", "frontAlpha", "backAlpha"]),
@@ -19,13 +18,13 @@ const leaderboardRouteSchema = v.object({
 
 const deckPreviewRouteSchema = v.object({
   type: v.literal("deckPreview"),
-  deckId: stringToNumber,
+  deckId: v.string(),
 });
 
 const deckFormRouteSchema = v.object({
   type: v.literal("deckForm"),
-  deckId: optionalStringToNumber,
-  folderId: optionalStringToNumber,
+  deckId: v.optional(v.string()),
+  folderId: v.optional(v.string()),
   folderName: v.optional(v.string()),
   cardId: v.optional(v.union([stringToNumber, v.literal("new")])),
   sortBy: cardFilterSortBySchema,
@@ -39,7 +38,7 @@ const ankiImportRouteSchema = v.object({
 
 const cardListRouteSchema = v.object({
   type: v.literal("cardList"),
-  deckId: stringToNumber,
+  deckId: v.string(),
   sortBy: cardFilterSortBySchema,
   sortDirection: cardFilterDirectionSchema,
   searchText: v.optional(v.string()),
@@ -47,7 +46,7 @@ const cardListRouteSchema = v.object({
 
 const cardListPreviewRouteSchema = v.object({
   type: v.literal("cardListPreview"),
-  deckId: stringToNumber,
+  deckId: v.string(),
   sortBy: cardFilterSortBySchema,
   sortDirection: cardFilterDirectionSchema,
   searchText: v.optional(v.string()),
@@ -55,23 +54,23 @@ const cardListPreviewRouteSchema = v.object({
 
 const speakingCardsRouteSchema = v.object({
   type: v.literal("speakingCards"),
-  deckId: stringToNumber,
+  deckId: v.string(),
 });
 
 const cardPreviewRouteSchema = v.object({
   type: v.literal("cardPreviewId"),
   cardId: stringToNumber,
-  deckId: stringToNumber,
+  deckId: v.string(),
 });
 
 const folderFormRouteSchema = v.object({
   type: v.literal("folderForm"),
-  folderId: optionalStringToNumber,
+  folderId: v.optional(v.string()),
 });
 
 const folderPreviewRouteSchema = v.object({
   type: v.literal("folderPreview"),
-  folderId: stringToNumber,
+  folderId: v.string(),
 });
 
 const reviewAllRouteSchema = v.object({

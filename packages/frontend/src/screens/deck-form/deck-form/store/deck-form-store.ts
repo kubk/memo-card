@@ -48,13 +48,13 @@ export type CardFormType = {
 };
 
 type DeckFormType = {
-  id?: number;
+  id?: string;
   title: TextField<string>;
   description: TextField<string>;
   cards: CardFormType[];
   speakingCardsLocale: TextField<SpeakLanguage | null>;
   speakingCardsField: TextField<DeckSpeakField | null>;
-  folderId?: number;
+  folderId?: string;
 };
 
 const createDeckTitleField = (value: string) => {
@@ -153,7 +153,7 @@ export const createCardForm = (
   };
 };
 
-const createUpdateForm = (id: number, deck: MyDeck): DeckFormType => {
+const createUpdateForm = (id: string, deck: MyDeck): DeckFormType => {
   return {
     id: id,
     title: createDeckTitleField(deck.name),
@@ -252,7 +252,7 @@ export class DeckFormStore {
     }
   }
 
-  private getDeckIdFromScreen(screen: Route): number | undefined {
+  private getDeckIdFromScreen(screen: Route): string | undefined {
     switch (screen.type) {
       case "deckForm":
         return screen.deckId;

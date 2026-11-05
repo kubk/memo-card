@@ -31,7 +31,7 @@ class InMemoryScreenStore {
     }
   }
 
-  backToDeck(_deckId: number) {
+  backToDeck(_deckId: string) {
     this.back();
   }
 
@@ -50,7 +50,7 @@ class InMemoryScreenStore {
 
 const defaultRoute = {
   type: "deckForm" as const,
-  deckId: 1,
+  deckId: "1",
   sortBy: "createdAt" as const,
   sortDirection: "desc" as const,
 };

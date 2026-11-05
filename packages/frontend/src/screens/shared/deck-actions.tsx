@@ -5,10 +5,7 @@ import { deckListStore } from "../../store/deck-list-store.ts";
 import { copyItemModalStore } from "./copy-item-modal-store.ts";
 import { getItemTileActions } from "./library-item-actions.tsx";
 
-type DeckActionTarget = Pick<
-  DeckListDeck,
-  "authorId" | "id" | "shareId" | "isPublic"
->;
+type DeckActionTarget = Pick<DeckListDeck, "authorId" | "id" | "isPublic">;
 
 export function getDeckTileActions(
   deck: DeckActionTarget,

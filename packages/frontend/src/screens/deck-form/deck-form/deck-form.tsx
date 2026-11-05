@@ -94,7 +94,7 @@ export function DeckForm() {
               {
                 icon: <LinkIcon size={20} className="text-hint" />,
                 text: t("share_link"),
-                onClick: () => copyMemoCardLink(deck.shareId),
+                onClick: () => copyMemoCardLink(deck.id),
               },
             ]
           : []),
@@ -120,7 +120,6 @@ export function DeckForm() {
               shareMemoCardUrl({
                 type: "deck",
                 id: deck.id,
-                shareId: deck.shareId,
               }),
           },
         ]

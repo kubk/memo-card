@@ -10,10 +10,10 @@ const mocks = vi.hoisted(() => ({
   replace: vi.fn(),
   screen: {
     type: "cardList",
-    deckId: 42,
+    deckId: "travel",
   } as {
     type: "cardList" | "cardListPreview";
-    deckId: number;
+    deckId: string;
     sortBy?: "createdAt" | "frontAlpha" | "backAlpha";
     sortDirection?: "asc" | "desc";
     searchText?: string;
@@ -81,18 +81,17 @@ vi.mock("../../../../translations/t.ts", () => ({
 }));
 
 const createDeck = (cards: Array<{ id: number; front: string }>) => ({
-  id: 42,
+  id: "travel",
   name: "Travel English",
   authorId: 1,
   description: null,
-  shareId: "travel",
   isPublic: true,
   speakLocale: null,
   speakField: null,
   deckCards: cards.map(({ id, front }, index) => ({
     id,
     createdAt: `2026-01-0${index + 1}T00:00:00.000Z`,
-    deckId: 42,
+    deckId: "travel",
     front,
     back: `${front} back`,
     example: null,
@@ -110,7 +109,7 @@ describe("CardListStore", () => {
     inMemoryCache.clear();
     mocks.screen = {
       type: "cardList",
-      deckId: 42,
+      deckId: "travel",
     };
   });
 
@@ -164,7 +163,7 @@ describe("CardListStore", () => {
 
     expect(mocks.push).toHaveBeenCalledWith({
       type: "deckForm",
-      deckId: 42,
+      deckId: "travel",
       cardId: 1,
       sortBy: "createdAt",
       sortDirection: "desc",
@@ -176,7 +175,7 @@ describe("CardListStore", () => {
 
     expect(mocks.push).toHaveBeenLastCalledWith({
       type: "cardPreviewId",
-      deckId: 42,
+      deckId: "travel",
       cardId: 1,
     });
   });

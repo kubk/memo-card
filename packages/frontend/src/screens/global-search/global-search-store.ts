@@ -264,7 +264,7 @@ class GlobalSearchStore {
     return addedCount;
   }
 
-  private getDeckFolderInfo(deckId: number): DeckListItem | null {
+  private getDeckFolderInfo(deckId: string): DeckListItem | null {
     if (!deckListStore.myInfo) return null;
 
     const folderRelation = deckListStore.myInfo.folders.find(

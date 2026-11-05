@@ -15,8 +15,8 @@ import { screenStore } from "../../../../store/screen-store.ts";
 import { t } from "../../../../translations/t.ts";
 
 type MoveToDeckForm = {
-  sourceDeckId: number;
-  targetDeckId: number | null;
+  sourceDeckId: string;
+  targetDeckId: string | null;
   selectedCardIds: number[];
 };
 
@@ -32,7 +32,7 @@ export class MoveToDeckSelectorStore {
   }
 
   open(
-    sourceDeckId: number,
+    sourceDeckId: string,
     selectedCardIds: number[],
     onMoveSuccess: OnMoveSuccessCallback,
   ) {
@@ -49,7 +49,7 @@ export class MoveToDeckSelectorStore {
     this.onMoveSuccess = null;
   }
 
-  selectDeck(deckId: number) {
+  selectDeck(deckId: string) {
     if (this.form && deckId !== this.form.sourceDeckId) {
       this.form.targetDeckId = deckId;
     }
@@ -145,7 +145,7 @@ export class MoveToDeckSelectorStore {
     return result;
   }
 
-  isDeckSelected(deckId: number) {
+  isDeckSelected(deckId: string) {
     return this.form?.targetDeckId === deckId;
   }
 }

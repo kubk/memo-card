@@ -36,7 +36,7 @@ export type DeckWithCardsWithReviewType = DeckListDeck & {
 const authOptionalScreenTypes = ["about"];
 
 export type DeckListItem = {
-  id: number;
+  id: string;
   cardsToReview: DeckCardDbTypeWithType[];
   name: string;
   description: string | null;
@@ -49,11 +49,10 @@ export type DeckListItem = {
       type: "folder";
       decks: DeckWithCardsWithReviewType[];
       authorId: number;
-      shareId: string;
     }
 );
 
-type LibraryItemRef = { type: "deck" | "folder"; id: number };
+type LibraryItemRef = { type: "deck" | "folder"; id: string };
 
 const getLibraryItemKey = (item: LibraryItemRef) => `${item.type}:${item.id}`;
 
@@ -166,7 +165,7 @@ class DeckListStore {
     }
   }
 
-  searchDeckById(deckId: number) {
+  searchDeckById(deckId: string) {
     if (!this.myInfo) {
       return null;
     }
@@ -174,12 +173,12 @@ class DeckListStore {
     return decksToSearch.find((deck) => deck.id === deckId);
   }
 
-  searchDeckWithCardsById(deckId: number) {
+  searchDeckWithCardsById(deckId: string) {
     const myDeck = this.myInfo?.myDecks.find((deck) => deck.id === deckId);
     return myDeck ?? deckDetailsStore.getQuery(deckId).data ?? null;
   }
 
-  searchFolderById(folderId: number) {
+  searchFolderById(folderId: string) {
     if (!this.myInfo) {
       return null;
     }
@@ -273,12 +272,11 @@ class DeckListStore {
     const myDecks: DeckWithCardsWithReviewType[] = this.myDecks;
 
     const map = new Map<
-      number,
+      string,
       {
         folderName: string;
         folderDescription: string | null;
         folderAuthorId: number;
-        folderShareId: string;
         folderIsPublic: boolean;
         decks: DeckWithCardsWithReviewType[];
       }
@@ -289,7 +287,6 @@ class DeckListStore {
         folderName: folder.folder_title,
         folderDescription: folder.folder_description,
         folderAuthorId: folder.folder_author_id,
-        folderShareId: folder.folder_share_id,
         folderIsPublic: folder.folder_is_public,
         decks: [],
       };
@@ -310,7 +307,6 @@ class DeckListStore {
       type: "folder",
       name: mapItem.folderName,
       isPublic: mapItem.folderIsPublic,
-      shareId: mapItem.folderShareId,
       description: mapItem.folderDescription,
       authorId: mapItem.folderAuthorId,
     }));
@@ -488,7 +484,7 @@ class DeckListStore {
     return folder.authorId === userStore.myId;
   }
 
-  canRemoveFolder(folder: { id: number }) {
+  canRemoveFolder(folder: { id: string }) {
     return this.myFoldersIds.includes(folder.id);
   }
 

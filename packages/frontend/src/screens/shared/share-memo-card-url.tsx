@@ -9,12 +9,12 @@ import { notifyLoading, notifySuccess } from "./snackbar/snackbar.tsx";
 import { env } from "../../env.ts";
 import { api } from "../../api/trpc-api.ts";
 
-const getDeckOrFolderLink = (shareId: string) => {
+const getDeckOrFolderLink = (id: string) => {
   if (platform instanceof BrowserPlatform) {
-    return `${trimEnd(links.appBrowser, "/")}/?start=${shareId}`;
+    return `${trimEnd(links.appBrowser, "/")}/?start=${id}`;
   }
   const botUrl = env.VITE_BOT_APP_URL;
-  return `${trimEnd(botUrl, "/")}?startapp=${shareId}`;
+  return `${trimEnd(botUrl, "/")}?startapp=${id}`;
 };
 
 export const canShareMessage = () =>
@@ -22,13 +22,13 @@ export const canShareMessage = () =>
   !platform.isWeb() &&
   platform.isShareMessageAvailable();
 
-export const copyMemoCardLink = (shareId: string) => {
-  copyToClipboard(getDeckOrFolderLink(shareId));
+export const copyMemoCardLink = (id: string) => {
+  copyToClipboard(getDeckOrFolderLink(id));
   notifySuccess(t("share_link_copied"));
 };
 
-const shareMemoCardLink = (shareId: string) => {
-  const memoCardUrl = getDeckOrFolderLink(shareId);
+const shareMemoCardLink = (id: string) => {
+  const memoCardUrl = getDeckOrFolderLink(id);
 
   if (
     platform instanceof BrowserPlatform ||
@@ -51,15 +51,13 @@ const shareMemoCardLink = (shareId: string) => {
 export const shareMemoCardUrl = ({
   type,
   id,
-  shareId,
 }: {
   type: "deck" | "folder";
-  id: number;
-  shareId: string;
+  id: string;
 }) => {
   const telegramPlatform = platform;
   if (!(telegramPlatform instanceof TelegramPlatform) || !canShareMessage()) {
-    shareMemoCardLink(shareId);
+    shareMemoCardLink(id);
     return;
   }
 
@@ -71,7 +69,7 @@ export const shareMemoCardUrl = ({
     })
     .catch((error) => {
       console.error(error);
-      shareMemoCardLink(shareId);
+      shareMemoCardLink(id);
     })
     .finally(loading.clear);
 };

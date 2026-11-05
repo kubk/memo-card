@@ -27,7 +27,7 @@ const getDeckWithNewCards = (
 export class FolderScreenStore {
   detailsQuery;
 
-  constructor(private folderId: number) {
+  constructor(private folderId: string) {
     this.detailsQuery = makeQuery({
       key: `folder.details:${folderId}`,
       query: async () => {
@@ -75,7 +75,6 @@ export class FolderScreenStore {
       name: folder.title,
       description: folder.description,
       authorId: folder.authorId,
-      shareId: folder.shareId,
       isPublic: folder.isPublic,
       decks,
       cardsToReview: decks.reduce<DeckCardDbTypeWithType[]>(

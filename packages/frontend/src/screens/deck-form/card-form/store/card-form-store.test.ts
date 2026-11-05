@@ -16,7 +16,6 @@ const mocks = vi.hoisted(() => {
       createdAt: new Date().toISOString(),
       name: "Test",
       authorId: 9999,
-      shareId: "share_id_mock",
       isPublic: false,
       speakLocale: null,
       speakField: null,
@@ -53,7 +52,7 @@ vi.mock("../../../../store/deck-list-store.ts", () => {
   const deckCardsMock: DeckCardDbType[] = [
     {
       id: 3,
-      deckId: 1,
+      deckId: "1",
       createdAt: "2023-10-06T02:13:20.985Z",
       example: null,
       front: "time",
@@ -66,7 +65,7 @@ vi.mock("../../../../store/deck-list-store.ts", () => {
     },
     {
       id: 4,
-      deckId: 1,
+      deckId: "1",
       createdAt: "2023-10-06T02:14:20.985Z",
       example: null,
       front: "year",
@@ -77,7 +76,7 @@ vi.mock("../../../../store/deck-list-store.ts", () => {
     },
     {
       id: 5,
-      deckId: 1,
+      deckId: "1",
       createdAt: "2023-10-06T02:15:20.985Z",
       example: null,
       front: "way",
@@ -105,9 +104,8 @@ vi.mock("../../../../store/deck-list-store.ts", () => {
 
   const myDecks = [
     {
-      id: 1,
+      id: "1",
       cardsToReview: cardsToReview,
-      shareId: "share_id_mock",
       deckCards: deckCardsMock,
       name: "Test",
     },
@@ -117,7 +115,7 @@ vi.mock("../../../../store/deck-list-store.ts", () => {
     deckListStore: {
       replaceDeck: vi.fn(),
       updateCardsToReview: vi.fn(),
-      searchDeckWithCardsById: (id: number) => {
+      searchDeckWithCardsById: (id: string) => {
         return myDecks.find((deck) => deck.id === id);
       },
       myDecks: myDecks,
@@ -169,7 +167,7 @@ describe("card form store", () => {
   beforeEach(() => {
     mockScreenStore.reset({
       type: "deckForm",
-      deckId: 1,
+      deckId: "1",
       cardId: "new",
       sortBy: "createdAt",
       sortDirection: "desc",
@@ -181,8 +179,8 @@ describe("card form store", () => {
   });
 
   it("inherits the deck speak side and saves an override without losing other options", async () => {
-    mockScreenStore.reset({ type: "deckForm", deckId: 1, cardId: 3 });
-    const deck = deckListStore.searchDeckWithCardsById(1)!;
+    mockScreenStore.reset({ type: "deckForm", deckId: "1", cardId: 3 });
+    const deck = deckListStore.searchDeckWithCardsById("1")!;
     const previousLocale = deck.speakLocale;
     const previousField = deck.speakField;
     try {
@@ -239,7 +237,7 @@ describe("card form store", () => {
           "example": null,
           "front": "new front",
         },
-        "deckId": 1,
+        "deckId": "1",
       }
     `);
   });
@@ -247,7 +245,7 @@ describe("card form store", () => {
   it("edits existing card", async () => {
     mockScreenStore.reset({
       type: "deckForm",
-      deckId: 1,
+      deckId: "1",
       cardId: 3,
       sortBy: "createdAt",
       sortDirection: "desc",
@@ -289,7 +287,7 @@ describe("card form store", () => {
   it("navigates between cards", () => {
     mockScreenStore.reset({
       type: "deckForm",
-      deckId: 1,
+      deckId: "1",
       cardId: 5,
       sortBy: "createdAt",
       sortDirection: "desc",
@@ -326,7 +324,7 @@ describe("card form store", () => {
   it("editing card form doesn't affect the source array", () => {
     mockScreenStore.reset({
       type: "deckForm",
-      deckId: 1,
+      deckId: "1",
       cardId: 3,
       sortBy: "createdAt",
       sortDirection: "desc",

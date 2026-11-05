@@ -57,11 +57,10 @@ describe("DeckListStore", () => {
       cardsToReview: [],
       publicDecks: [
         {
-          id: 42,
+          id: "travel",
           name: "Travel English",
           authorId: 2,
           description: "Airport and hotel phrases",
-          shareId: "travel",
           isPublic: true,
           speakLocale: null,
           speakField: null,
@@ -74,12 +73,11 @@ describe("DeckListStore", () => {
 
   it("preserves list-only category data when replacing public deck cards", () => {
     deckListStore.replaceDeck({
-      id: 42,
+      id: "travel",
       createdAt: "2026-01-01T00:00:00.000Z",
       name: "Travel English",
       authorId: 1,
       description: "Updated description",
-      shareId: "travel",
       isPublic: true,
       speakLocale: null,
       speakField: null,
@@ -92,13 +90,13 @@ describe("DeckListStore", () => {
       description: "Updated description",
       deckCategory: { name: "Travel", logo: "🇬🇧" },
     });
-    expect(deckDetailsStore.getQuery(42).data?.description).toBe(
+    expect(deckDetailsStore.getQuery("travel").data?.description).toBe(
       "Updated description",
     );
   });
 
   it("does not allow removing a public deck that has not been added", () => {
-    expect(deckListStore.canRemoveDeck({ id: 42 })).toBe(false);
+    expect(deckListStore.canRemoveDeck({ id: "travel" })).toBe(false);
   });
 
   it("allows removing a non-owned deck after it has been added", () => {
@@ -108,23 +106,22 @@ describe("DeckListStore", () => {
       publicDeck as MyInfoResponse["myDecks"][number],
     );
 
-    expect(deckListStore.canRemoveDeck({ id: 42 })).toBe(true);
+    expect(deckListStore.canRemoveDeck({ id: "travel" })).toBe(true);
   });
 
   it("allows folder removal only after it has been added", () => {
-    expect(deckListStore.canRemoveFolder({ id: 7 })).toBe(false);
+    expect(deckListStore.canRemoveFolder({ id: "travel-folder" })).toBe(false);
 
     deckListStore.myInfo?.folders.push({
-      folder_id: 7,
+      folder_id: "travel-folder",
       folder_title: "Travel",
       folder_description: null,
       folder_author_id: 2,
-      folder_share_id: "travel-folder",
       folder_is_public: false,
       deck_id: null,
     });
 
-    expect(deckListStore.canRemoveFolder({ id: 7 })).toBe(true);
+    expect(deckListStore.canRemoveFolder({ id: "travel-folder" })).toBe(true);
   });
 
   it("shows the deleted deck screen for a missing share link", async () => {

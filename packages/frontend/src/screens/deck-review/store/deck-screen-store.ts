@@ -21,7 +21,7 @@ const getNewCardsToReview = (deck: DeckListDeck): DeckCardDbTypeWithType[] =>
 export class DeckScreenStore {
   detailsQuery;
 
-  constructor(private deckId: number) {
+  constructor(private deckId: string) {
     this.detailsQuery = deckDetailsStore.getQuery(deckId);
     makeAutoObservable<this, "deckId">(
       this,

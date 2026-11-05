@@ -1,16 +1,12 @@
 import { env } from "../env";
 import { trimEnd } from "../lib/string/trim";
-import { userStore } from "../store/user-store";
 import { api } from "./trpc-api";
 
 export async function uploadImage(file: File): Promise<{
   publicUrl: string;
 }> {
-  const imageId = crypto.randomUUID();
-  const fileName = `${userStore.myId}.${imageId}-${file.name}`;
-
-  const { url: uploadUrl } = await api.signedUrl.generate.mutate({
-    fileName,
+  const { url: uploadUrl, fileName } = await api.signedUrl.generate.mutate({
+    fileName: file.name,
   });
 
   await fetch(uploadUrl, {

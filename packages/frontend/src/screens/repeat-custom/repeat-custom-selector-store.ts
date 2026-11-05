@@ -12,7 +12,7 @@ import { shuffleInPlace } from "../../lib/array/shuffle-in-place.ts";
 
 type RepeatCustomForm = {
   reviewTypes: CardReviewType[];
-  selectedDecksIds: number[];
+  selectedDecksIds: string[];
 };
 
 export class RepeatCustomSelectorStore {
@@ -72,7 +72,7 @@ export class RepeatCustomSelectorStore {
     }
   }
 
-  toggleDeckId(deckId: number) {
+  toggleDeckId(deckId: string) {
     if (this.form.selectedDecksIds.includes(deckId)) {
       const index = this.form.selectedDecksIds.indexOf(deckId);
       if (index !== -1) {
@@ -123,7 +123,7 @@ export class RepeatCustomSelectorStore {
   }
 
   private getAllDeckIds() {
-    const deckIds: number[] = [];
+    const deckIds: string[] = [];
 
     deckListStore.myDeckItems.forEach((item) => {
       if (item.type === "deck") {

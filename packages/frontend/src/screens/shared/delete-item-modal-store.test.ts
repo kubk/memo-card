@@ -49,7 +49,7 @@ describe("DeleteItemModalStore", () => {
 
   it("deletes without optional removals when deletion info fails", async () => {
     const store = new DeleteItemModalStore();
-    store.open({ type: "deck", deckId: 42 });
+    store.open({ type: "deck", deckId: "42" });
 
     mocks.deletionInfo.mockRejectedValue(new Error("Unable to load"));
     await store.infoQuery.refetch();
@@ -61,7 +61,7 @@ describe("DeleteItemModalStore", () => {
 
     expect(mocks.deleteItem).toHaveBeenCalledWith({
       type: "deck",
-      deckId: 42,
+      deckId: "42",
       removeForOtherUsers: false,
     });
   });

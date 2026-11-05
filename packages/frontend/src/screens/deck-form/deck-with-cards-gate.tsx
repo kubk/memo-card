@@ -10,7 +10,7 @@ export function DeckWithCardsGate({
   deckId,
   children,
 }: {
-  deckId?: number;
+  deckId?: string;
   children: ReactNode;
 }) {
   const deck = deckId ? deckListStore.searchDeckWithCardsById(deckId) : null;

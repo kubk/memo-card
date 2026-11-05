@@ -79,7 +79,6 @@ export function FolderForm() {
           folder={{
             id: folder.folder_id,
             authorId: folder.folder_author_id,
-            shareId: folder.folder_share_id,
           }}
         />
       )}

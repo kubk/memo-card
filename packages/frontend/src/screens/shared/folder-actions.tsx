@@ -9,8 +9,7 @@ import {
 
 type FolderActionTarget = {
   authorId: number;
-  id: number;
-  shareId: string;
+  id: string;
 };
 
 export function getFolderTileActions(

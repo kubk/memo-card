@@ -164,7 +164,7 @@ export class ScreenStore {
     }
   }
 
-  backToDeck(deckId: number) {
+  backToDeck(deckId: string) {
     this.screenNavigationDirection = "back";
     this.screenTransition = "animated";
 

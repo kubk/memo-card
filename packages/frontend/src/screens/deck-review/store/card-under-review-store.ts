@@ -31,7 +31,7 @@ type CardAnswer = NonNullable<DeckCardDbType["answers"]>[number];
 
 export class CardUnderReviewStore implements LimitedCardUnderReviewStore {
   id: number;
-  deckId: number;
+  deckId: string;
   cardReviewType: CardReviewType;
   due: string;
   stability: number;

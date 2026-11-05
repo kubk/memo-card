@@ -64,7 +64,7 @@ export class CardFormStore {
     );
   }
 
-  get deckId(): number | undefined {
+  get deckId(): string | undefined {
     const screen = screenStore.screen;
     return screen.type === "deckForm" ? screen.deckId : undefined;
   }

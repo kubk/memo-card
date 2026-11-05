@@ -5,7 +5,7 @@ import { removeAllTags } from "../lib/sanitize-html/remove-all-tags.ts";
 
 type Props = {
   catalogItem: {
-    id: number;
+    id: string;
     name: string;
     description: string | null;
     deckCategory?: { name: string; logo: string | null } | null;

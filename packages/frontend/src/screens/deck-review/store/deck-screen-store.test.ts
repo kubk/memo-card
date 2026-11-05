@@ -52,11 +52,10 @@ vi.mock("../../../store/screen-store.ts", () => ({
 }));
 
 const publicDeck = {
-  id: 42,
+  id: "travel",
   name: "Travel English",
   authorId: 2,
   description: "Airport and hotel phrases",
-  shareId: "travel",
   isPublic: true,
   speakLocale: null,
   speakField: null,
@@ -74,7 +73,7 @@ const completeDeck = {
     {
       id: 1,
       createdAt: "2026-01-01T00:00:00.000Z",
-      deckId: 42,
+      deckId: "travel",
       front: "Airport",
       back: "Аэропорт",
       example: null,
@@ -204,11 +203,11 @@ describe("DeckScreenStore", () => {
   it.each([
     {
       authorId: 1,
-      expectedRoute: { type: "deckForm", deckId: 42, cardId: 1 },
+      expectedRoute: { type: "deckForm", deckId: "travel", cardId: 1 },
     },
     {
       authorId: 2,
-      expectedRoute: { type: "cardPreviewId", cardId: 1, deckId: 42 },
+      expectedRoute: { type: "cardPreviewId", cardId: 1, deckId: "travel" },
     },
   ] as const)(
     "opens an editable or read-only card for author $authorId",

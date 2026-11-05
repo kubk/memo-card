@@ -14,7 +14,6 @@ const mocks = vi.hoisted(() => {
       createdAt: new Date().toISOString(),
       name: "Test",
       authorId: 9999,
-      shareId: "share_id_mock",
       isPublic: false,
       speakLocale: null,
       speakField: null,
@@ -44,7 +43,7 @@ vi.mock("../../../../store/deck-list-store.ts", () => {
   const deckCardsMock: DeckCardDbType[] = [
     {
       id: 3,
-      deckId: 1,
+      deckId: "1",
       createdAt: "2023-10-06T02:13:20.985Z",
       example: null,
       front: "time",
@@ -55,7 +54,7 @@ vi.mock("../../../../store/deck-list-store.ts", () => {
     },
     {
       id: 4,
-      deckId: 1,
+      deckId: "1",
       createdAt: "2023-10-06T02:14:20.985Z",
       example: null,
       front: "year",
@@ -66,7 +65,7 @@ vi.mock("../../../../store/deck-list-store.ts", () => {
     },
     {
       id: 5,
-      deckId: 1,
+      deckId: "1",
       createdAt: "2023-10-06T02:15:20.985Z",
       example: null,
       front: "way",
@@ -94,9 +93,8 @@ vi.mock("../../../../store/deck-list-store.ts", () => {
 
   const myDecks = [
     {
-      id: 1,
+      id: "1",
       cardsToReview: cardsToReview,
-      shareId: "share_id_mock",
       deckCards: deckCardsMock,
       name: "Test",
     },
@@ -107,7 +105,7 @@ vi.mock("../../../../store/deck-list-store.ts", () => {
       replaceDeck: () => {},
       updateFolders: () => {},
       updateCardsToReview: () => {},
-      searchDeckWithCardsById: (id: number) => {
+      searchDeckWithCardsById: (id: string) => {
         return myDecks.find((deck) => deck.id === id);
       },
       myDecks: myDecks,
@@ -167,7 +165,7 @@ describe("deck form store", () => {
     vi.clearAllMocks();
     mockScreenStore.reset({
       type: "deckForm",
-      deckId: 1,
+      deckId: "1",
       sortBy: "createdAt",
       sortDirection: "desc",
     });
@@ -189,7 +187,7 @@ describe("deck form store", () => {
       {
         "description": "Updated description",
         "folderId": undefined,
-        "id": 1,
+        "id": "1",
         "speakField": undefined,
         "speakLocale": undefined,
         "title": "Updated Title",

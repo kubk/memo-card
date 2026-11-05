@@ -42,20 +42,18 @@ vi.mock("../../../store/screen-store.ts", () => ({
 }));
 
 const folder = {
-  id: 7,
+  id: "travel-folder",
   title: "Travel",
   authorId: 2,
   description: "Travel decks",
-  shareId: "travel-folder",
   isPublic: true,
   decks: [
     {
-      id: 42,
+      id: "travel",
       createdAt: "2026-01-01T00:00:00.000Z",
       name: "Travel English",
       authorId: 2,
       description: "Airport phrases",
-      shareId: "travel",
       isPublic: true,
       speakLocale: null,
       speakField: null,
@@ -116,7 +114,6 @@ describe("FolderScreenStore", () => {
       name: folder.title,
       description: folder.description,
       authorId: 1,
-      shareId: folder.shareId,
       isPublic: false,
       decks: [],
       cardsToReview: [],

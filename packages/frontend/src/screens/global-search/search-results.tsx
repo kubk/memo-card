@@ -52,12 +52,12 @@ export function SearchResults() {
   }
 
   const handleResultClick = (result: SearchResultItem) => {
-    if (result.type === "deck") {
+    if (result.type === "deck" && "cardsToReview" in result.item) {
       screenStore.push({
         type: "deckPreview",
         deckId: result.item.id,
       });
-    } else if (result.type === "folder") {
+    } else if (result.type === "folder" && "cardsToReview" in result.item) {
       screenStore.push({
         type: "folderPreview",
         folderId: result.item.id,

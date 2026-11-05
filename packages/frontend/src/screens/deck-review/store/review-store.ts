@@ -639,7 +639,7 @@ export class ReviewStore {
 }
 
 function orderNewCards(cards: CardUnderReviewStore[]) {
-  const deckIndexes = new Map<number, number>();
+  const deckIndexes = new Map<string, number>();
   cards.forEach((card) => {
     if (!deckIndexes.has(card.deckId)) {
       deckIndexes.set(card.deckId, deckIndexes.size);

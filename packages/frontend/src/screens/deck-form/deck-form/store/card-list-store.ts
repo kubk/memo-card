@@ -21,7 +21,7 @@ export class CardListStore {
   selectedCardIds = new Set<number>();
   moveToDeckStore = new MoveToDeckSelectorStore();
   detailsQuery;
-  private deckId: number;
+  private deckId: string;
 
   constructor() {
     const route = screenStore.screen;

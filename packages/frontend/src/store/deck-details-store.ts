@@ -3,7 +3,7 @@ import { makeQuery } from "../lib/mobx-query-lite/make-query.ts";
 import { type DeckListDeck } from "./deck-types.ts";
 
 class DeckDetailsStore {
-  getQuery(deckId: number) {
+  getQuery(deckId: string) {
     return makeQuery<DeckListDeck>({
       key: `deck.details:${deckId}`,
       query: () => api.deck.deckWithCards.query({ deckId }),

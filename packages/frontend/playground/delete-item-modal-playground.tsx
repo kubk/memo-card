@@ -14,9 +14,9 @@ type LibraryItemDeletionInfo = RouterOutput["libraryItem"]["deletionInfo"];
 function getDeleteModalTarget(itemName: "deck" | "folder") {
   switch (itemName) {
     case "deck":
-      return { type: "deck", deckId: 1 } as const;
+      return { type: "deck", deckId: "1" } as const;
     case "folder":
-      return { type: "folder", folderId: 1 } as const;
+      return { type: "folder", folderId: "1" } as const;
     default:
       return itemName satisfies never;
   }

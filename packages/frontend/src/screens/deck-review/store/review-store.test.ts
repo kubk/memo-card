@@ -26,7 +26,7 @@ function createMockCardWithReview(
 
   return {
     id,
-    deckId: 1,
+    deckId: "1",
     createdAt: "2023-10-06T02:13:20.985Z",
     example: null,
     front,
@@ -55,7 +55,7 @@ vi.mock(import("../../../translations/t.ts"), () =>
 
 const createDeckWithCards = (cards: DeckCardDbTypeWithType[]) => {
   const deckMock: DeckWithCardsWithReviewType = {
-    id: 1,
+    id: "1",
     name: "English",
     description: "English words",
     deckCards: cards,
@@ -63,7 +63,6 @@ const createDeckWithCards = (cards: DeckCardDbTypeWithType[]) => {
     speakField: null,
     speakLocale: null,
     authorId: 1,
-    shareId: "share_id_mock2",
     isPublic: false,
   };
   return deckMock;
@@ -274,9 +273,9 @@ describe("card form store", () => {
         [
           createMockCardWithReview(12, "bonsoir", "good evening", "new"),
           createMockCardWithReview(11, "bonjour", "hello", "new"),
-        ].map((card) => ({ ...card, deckId: 2 })),
+        ].map((card) => ({ ...card, deckId: "2" })),
       ),
-      id: 2,
+      id: "2",
     };
     const secondLesson = createDeckWithCards([
       createMockCardWithReview(3, "merci", "thanks", "new"),
