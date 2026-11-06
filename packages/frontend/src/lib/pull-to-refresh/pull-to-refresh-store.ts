@@ -1,4 +1,4 @@
-import { makeAutoObservable, observableShallow, runInAction } from "mobx";
+import { makeAutoObservable, observableShallow } from "mobx";
 
 export const pullToRefreshThreshold = 60;
 const refreshingOffset = 52;
@@ -112,11 +112,9 @@ export class PullToRefreshStore {
     try {
       await Promise.all([this.options.refresh(), wait(minRefreshDuration)]);
     } finally {
-      runInAction(() => {
-        if (this.refreshingScreenKey === screenKey) {
-          this.refreshingScreenKey = null;
-        }
-      });
+      if (this.refreshingScreenKey === screenKey) {
+        this.refreshingScreenKey = null;
+      }
     }
   }
 }

@@ -202,31 +202,25 @@ class StaticQuery<T> implements QueryState<T> {
     try {
       data = await this.fetcher.query();
     } catch (error) {
-      runInAction(() => {
-        if (this.fetchId !== currentFetchId) {
-          return;
-        }
-
+      if (this.fetchId === currentFetchId) {
         this.error = toError(error);
         this.isFetching = false;
-      });
+      }
+      return;
+    }
+
+    if (this.fetchId !== currentFetchId) {
       return;
     }
 
     const lastFetched = Date.now();
-    runInAction(() => {
-      if (this.fetchId !== currentFetchId) {
-        return;
-      }
-
-      this.data = data;
-      this.lastFetched = lastFetched;
-      this.isFetching = false;
-      if (this.invalidationId === currentInvalidationId) {
-        this.isInvalidated = false;
-      }
-      inMemoryCache.set(this.fetcher.key, { data, lastFetched });
-    });
+    this.data = data;
+    this.lastFetched = lastFetched;
+    this.isFetching = false;
+    if (this.invalidationId === currentInvalidationId) {
+      this.isInvalidated = false;
+    }
+    inMemoryCache.set(this.fetcher.key, { data, lastFetched });
   }
 
   setData(data: T | undefined) {

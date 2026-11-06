@@ -5,7 +5,7 @@ import { execSync } from "node:child_process";
 import { availableParallelism } from "node:os";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import observerPlugin from "mobx-react-observer/vite-plugin";
+import mobxReactPlugin from "mobx-react-plugin/vite";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -31,7 +31,11 @@ export default defineConfig({
   plugins: [
     tailwindcss(),
     preact(),
-    observerPlugin({ exclude: ["src/ui/shadcn/**"] }),
+    mobxReactPlugin({
+      exclude: ["src/ui/shadcn/**"],
+      // No React Compiler here, so the "use no memo" directives are not needed
+      observer: { useNoMemo: false },
+    }),
   ],
   test: {
     // The default of one fewer worker than CPUs leaves 2-CPU CI runners with a single worker
@@ -48,11 +52,7 @@ export default defineConfig({
     },
     server: {
       deps: {
-        inline: [
-          "mobx-react-observer",
-          /mobx-react-lite/,
-          /react-lines-ellipsis/,
-        ],
+        inline: [/mobx-react-lite/, /react-lines-ellipsis/],
       },
     },
   },

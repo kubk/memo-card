@@ -1,6 +1,6 @@
 import { speak, SpeakLanguageEnum } from "../../../lib/voice-playback/speak.ts";
 import { VoicePlayer } from "./create-voice-player.ts";
-import { action, makeAutoObservable, runInAction } from "mobx";
+import { action, makeAutoObservable } from "mobx";
 
 export class BrowserWebSpeechApiPlayer implements VoicePlayer {
   isPlaying = false;
@@ -28,11 +28,9 @@ export class BrowserWebSpeechApiPlayer implements VoicePlayer {
         }),
       );
     } finally {
-      runInAction(() => {
-        if (version === this.playbackVersion) {
-          this.isPlaying = false;
-        }
-      });
+      if (version === this.playbackVersion) {
+        this.isPlaying = false;
+      }
     }
   }
 }

@@ -1,5 +1,5 @@
 import { assert, type RouterInput } from "api";
-import { makeAutoObservable, runInAction } from "mobx";
+import { makeAutoObservable } from "mobx";
 import { BooleanField } from "mobx-form-lite";
 import { api } from "../../api/trpc-api.ts";
 import { makeMutation } from "../../lib/mobx-query-lite/make-mutation.ts";
@@ -92,10 +92,8 @@ export class DeleteItemModalStore {
     }
 
     await deckListStore.myInfoQuery.invalidate({ refetchInactive: true });
-    runInAction(() => {
-      this.form = null;
-      screenStore.push({ type: "main" });
-    });
+    this.form = null;
+    screenStore.push({ type: "main" });
   }
 }
 

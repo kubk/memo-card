@@ -1,4 +1,4 @@
-import { makeAutoObservable, reaction, runInAction } from "mobx";
+import { makeAutoObservable, reaction } from "mobx";
 import { BooleanToggle } from "mobx-form-lite";
 import { type PaidPlanType } from "api";
 import { api } from "../../api/trpc-api.ts";
@@ -58,9 +58,7 @@ export class DevMenuStore {
         planType ? `Plan set to ${planType}` : "Paid status disabled",
       );
     } finally {
-      runInAction(() => {
-        this.pendingPlan = null;
-      });
+      this.pendingPlan = null;
     }
   }
 

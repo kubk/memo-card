@@ -1,4 +1,4 @@
-import { action, makeAutoObservable, when } from "mobx";
+import { makeAutoObservable, when } from "mobx";
 import {
   BooleanField,
   formUnTouchAll,
@@ -40,29 +40,26 @@ export class UserSettingsStore {
     return this.form ? isFormDirty(this.form) : false;
   }
 
-  load() {
-    when(() => !!userStore.userInfo).then(
-      action(() => {
-        assert(userStore.userInfo);
-        const userInfo = userStore.userInfo;
-        const remindDate = userInfo.lastRemindedDate
-          ? parseDate(userInfo.lastRemindedDate)
-          : null;
+  async load() {
+    await when(() => !!userStore.userInfo);
+    assert(userStore.userInfo);
+    const userInfo = userStore.userInfo;
+    const remindDate = userInfo.lastRemindedDate
+      ? parseDate(userInfo.lastRemindedDate)
+      : null;
 
-        this.form = {
-          isRemindNotifyEnabled: new BooleanField(userInfo.isRemindEnabled),
-          language: new TextField(getUserLanguage(userInfo)),
-          isSpeakingCardsEnabled: new BooleanField(
-            !!userInfo.isSpeakingCardEnabled,
-          ),
-          time: new TextField(
-            remindDate
-              ? formatTime(remindDate.getHours(), remindDate.getMinutes())
-              : DEFAULT_TIME,
-          ),
-        };
-      }),
-    );
+    this.form = {
+      isRemindNotifyEnabled: new BooleanField(userInfo.isRemindEnabled),
+      language: new TextField(getUserLanguage(userInfo)),
+      isSpeakingCardsEnabled: new BooleanField(
+        !!userInfo.isSpeakingCardEnabled,
+      ),
+      time: new TextField(
+        remindDate
+          ? formatTime(remindDate.getHours(), remindDate.getMinutes())
+          : DEFAULT_TIME,
+      ),
+    };
   }
 
   async submit() {

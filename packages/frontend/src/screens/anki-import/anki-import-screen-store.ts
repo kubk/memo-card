@@ -1,4 +1,4 @@
-import { makeAutoObservable, runInAction } from "mobx";
+import { makeAutoObservable } from "mobx";
 import { uploadWithProgress } from "../../api/file-upload.ts";
 import { getUserErrorMessage } from "../../api/get-user-error-message.ts";
 import { api } from "../../api/trpc-api.ts";
@@ -131,14 +131,12 @@ export class AnkiImportScreenStore {
       this.finishImport();
     }
 
-    runInAction(() => {
-      for (const deck of result.importedDecks) {
-        deckListStore.replaceDeck(deck, true);
-      }
-      deckListStore.updateFolders(result.folders);
-      deckListStore.updateCardsToReview(result.cardsToReview);
-      screenStore.replace({ type: "deckPreview", deckId: result.deck.id });
-    });
+    for (const deck of result.importedDecks) {
+      deckListStore.replaceDeck(deck, true);
+    }
+    deckListStore.updateFolders(result.folders);
+    deckListStore.updateCardsToReview(result.cardsToReview);
+    screenStore.replace({ type: "deckPreview", deckId: result.deck.id });
 
     notifySuccess(t("anki_import_success"));
   }

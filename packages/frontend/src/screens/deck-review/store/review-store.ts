@@ -1,5 +1,5 @@
 import { CardUnderReviewStore } from "./card-under-review-store.ts";
-import { makeAutoObservable, runInAction } from "mobx";
+import { makeAutoObservable } from "mobx";
 import { ReviewOutcome, reviewCard } from "api";
 import { screenStore } from "../../../store/screen-store.ts";
 import {
@@ -494,27 +494,25 @@ export class ReviewStore {
       return;
     }
 
-    runInAction(() => {
-      const cardCount = cardsToSendInProgress.length;
-      const { hardIds, goodIds, easyIds, neverIds } = this.sentResult;
+    const cardCount = cardsToSendInProgress.length;
+    const { hardIds, goodIds, easyIds, neverIds } = this.sentResult;
 
-      for (let index = 0; index < cardCount; index += 1) {
-        const card = cardsToSendInProgress[index];
-        const outcome = card.outcome;
+    for (let index = 0; index < cardCount; index += 1) {
+      const card = cardsToSendInProgress[index];
+      const outcome = card.outcome;
 
-        if (outcome === "hard") {
-          hardIds.push(card.id);
-        } else if (outcome === "good") {
-          goodIds.push(card.id);
-        } else if (outcome === "easy") {
-          easyIds.push(card.id);
-        } else if (outcome === "never") {
-          neverIds.push(card.id);
-        }
+      if (outcome === "hard") {
+        hardIds.push(card.id);
+      } else if (outcome === "good") {
+        goodIds.push(card.id);
+      } else if (outcome === "easy") {
+        easyIds.push(card.id);
+      } else if (outcome === "never") {
+        neverIds.push(card.id);
       }
+    }
 
-      this.sentReviewEventCount += cardCount;
-    });
+    this.sentReviewEventCount += cardCount;
     leaderboardStore.leaderboardQuery.invalidate();
   }
 

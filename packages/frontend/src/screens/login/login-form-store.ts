@@ -1,4 +1,4 @@
-import { action, makeAutoObservable, runInAction } from "mobx";
+import { makeAutoObservable } from "mobx";
 import { assert } from "api";
 import { api } from "../../api/trpc-api.ts";
 import { BrowserPlatform } from "../../lib/platform/browser/browser-platform.ts";
@@ -90,17 +90,13 @@ export class LoginFormStore {
         loadTelegramLogin(),
       ]);
       if (!config.clientId) throw new Error("Telegram Login unavailable");
-      runInAction(() => {
-        this.telegramState = {
-          type: "ready",
-          clientId: Number(config.clientId),
-          login,
-        };
-      });
+      this.telegramState = {
+        type: "ready",
+        clientId: Number(config.clientId),
+        login,
+      };
     } catch {
-      runInAction(() => {
-        this.telegramState = { type: "initializationError" };
-      });
+      this.telegramState = { type: "initializationError" };
     }
   }
 
@@ -124,19 +120,24 @@ export class LoginFormStore {
         nonce,
         lang: userStore.language,
       },
-      action((result) => {
-        if (!result.id_token) {
-          this.telegramState.type =
-            result.error === "popup_closed" ? "ready" : "signInError";
-          return;
-        }
-        assert(platform instanceof BrowserPlatform);
-        platform.handleTelegramOidcLogin(result.id_token, nonce).catch(
-          action(() => {
-            this.telegramState.type = "signInError";
-          }),
-        );
-      }),
+      (result) => this.handleTelegramAuthResult(result, nonce),
     );
+  }
+
+  private async handleTelegramAuthResult(
+    result: { id_token?: string; error?: string },
+    nonce: string,
+  ) {
+    if (!result.id_token) {
+      this.telegramState.type =
+        result.error === "popup_closed" ? "ready" : "signInError";
+      return;
+    }
+    assert(platform instanceof BrowserPlatform);
+    try {
+      await platform.handleTelegramOidcLogin(result.id_token, nonce);
+    } catch {
+      this.telegramState.type = "signInError";
+    }
   }
 }

@@ -30,11 +30,11 @@ export class UrlRecordVoicePlayer implements VoicePlayer {
     voicePlayerCallbackQueue.add(() => this.audio.load());
   }
 
-  play() {
-    this.audio.play().catch(
-      action(() => {
-        this.isPlaying = false;
-      }),
-    );
+  async play() {
+    try {
+      await this.audio.play();
+    } catch {
+      this.isPlaying = false;
+    }
   }
 }

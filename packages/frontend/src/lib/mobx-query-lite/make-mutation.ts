@@ -1,4 +1,4 @@
-import { makeAutoObservable, runInAction } from "mobx";
+import { makeAutoObservable } from "mobx";
 
 type MutationResult<TData> =
   | { ok: true; data: TData }
@@ -40,24 +40,16 @@ class Mutation<TArgs extends unknown[], TData> implements MutationState<
 
     try {
       const data = await this.mutationFn(...args);
-      runInAction(() => {
-        if (this.mutationId !== currentMutationId) {
-          return;
-        }
-
+      if (this.mutationId === currentMutationId) {
         this.data = data;
         this.isPending = false;
-      });
+      }
       return data;
     } catch (error) {
-      runInAction(() => {
-        if (this.mutationId !== currentMutationId) {
-          return;
-        }
-
+      if (this.mutationId === currentMutationId) {
         this.error = error;
         this.isPending = false;
-      });
+      }
       throw error;
     }
   }

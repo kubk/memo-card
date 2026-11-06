@@ -8,7 +8,7 @@ import {
   isFormValid,
   TextField,
 } from "mobx-form-lite";
-import { makeAutoObservable, reaction, runInAction } from "mobx";
+import { makeAutoObservable, reaction } from "mobx";
 import { screenStore } from "../../../../store/screen-store.ts";
 import { DeckFormRoute } from "../../../../store/routing/route-types.ts";
 import { deckListStore } from "../../../../store/deck-list-store.ts";
@@ -348,15 +348,13 @@ export class CardFormStore {
 
     const { deck, cardsToReview } = result.data;
 
-    runInAction(() => {
-      deckListStore.replaceDeck(deck, true);
-      deckListStore.updateCardsToReview(cardsToReview);
-      this.editCardFormById(result.data.createdCards[0].id, true);
-      if (this.cardForm) {
-        formUnTouchAll(this.cardForm);
-      }
-      notifyNewCards(result.data.createdCards);
-    });
+    deckListStore.replaceDeck(deck, true);
+    deckListStore.updateCardsToReview(cardsToReview);
+    this.editCardFormById(result.data.createdCards[0].id, true);
+    if (this.cardForm) {
+      formUnTouchAll(this.cardForm);
+    }
+    notifyNewCards(result.data.createdCards);
   }
 
   private async updateCard() {
@@ -389,13 +387,11 @@ export class CardFormStore {
 
     const { deck, cardsToReview } = result.data;
 
-    runInAction(() => {
-      deckListStore.replaceDeck(deck, true);
-      deckListStore.updateCardsToReview(cardsToReview);
-      if (this.cardForm) {
-        formUnTouchAll(this.cardForm);
-      }
-    });
+    deckListStore.replaceDeck(deck, true);
+    deckListStore.updateCardsToReview(cardsToReview);
+    if (this.cardForm) {
+      formUnTouchAll(this.cardForm);
+    }
   }
 
   get isPreviousCardVisible() {
@@ -503,11 +499,9 @@ export class CardFormStore {
 
       const { deck, cardsToReview } = result.data;
 
-      runInAction(() => {
-        deckListStore.replaceDeck(deck, true);
-        deckListStore.updateCardsToReview(cardsToReview);
-        screenStore.back();
-      });
+      deckListStore.replaceDeck(deck, true);
+      deckListStore.updateCardsToReview(cardsToReview);
+      screenStore.back();
     } finally {
       appLoaderStore.disable();
     }

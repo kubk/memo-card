@@ -1,4 +1,4 @@
-import { makeAutoObservable, runInAction } from "mobx";
+import { makeAutoObservable } from "mobx";
 import {
   makeQuery,
   type InvalidateOptions,
@@ -187,20 +187,16 @@ class InfiniteQuery<
         nextCursor: result.nextCursor,
       });
 
-      runInAction(() => {
-        if (this.nextPageFetchKey === key) {
-          this.nextPageFetchKey = null;
-        }
-      });
+      if (this.nextPageFetchKey === key) {
+        this.nextPageFetchKey = null;
+      }
     } catch (error) {
-      runInAction(() => {
-        if (this.nextPageFetchKey === key) {
-          this.nextPageFetchKey = null;
-        }
-        this.nextPageError = toError(error);
-        this.nextPageErrorKey = key;
-        this.nextPageErrorPage = currentPage;
-      });
+      if (this.nextPageFetchKey === key) {
+        this.nextPageFetchKey = null;
+      }
+      this.nextPageError = toError(error);
+      this.nextPageErrorKey = key;
+      this.nextPageErrorPage = currentPage;
     }
   }
 }

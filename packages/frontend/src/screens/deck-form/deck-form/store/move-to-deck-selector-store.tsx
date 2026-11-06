@@ -1,4 +1,4 @@
-import { makeAutoObservable, runInAction } from "mobx";
+import { makeAutoObservable } from "mobx";
 import {
   DeckListItem,
   deckListStore,
@@ -67,14 +67,12 @@ export class MoveToDeckSelectorStore {
         targetDeckId,
       });
 
-      runInAction(() => {
-        deckListStore.replaceDeck(result.sourceDeck, true);
-        deckListStore.replaceDeck(result.targetDeck, true);
-        deckListStore.updateCardsToReview(result.cardsToReview);
+      deckListStore.replaceDeck(result.sourceDeck, true);
+      deckListStore.replaceDeck(result.targetDeck, true);
+      deckListStore.updateCardsToReview(result.cardsToReview);
 
-        this.onMoveSuccess?.();
-        this.close();
-      });
+      this.onMoveSuccess?.();
+      this.close();
 
       const { clear } = notifySuccess(
         <div className="flex flex-col gap-1">

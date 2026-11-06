@@ -1,4 +1,4 @@
-import { action, makeAutoObservable, runInAction, when } from "mobx";
+import { action, makeAutoObservable, when } from "mobx";
 import { appLoaderStore } from "./app-loader-store.ts";
 import { type RouterOutput } from "api";
 import { type DeckCardDbType, type DeckWithCardsDbType } from "api";
@@ -155,13 +155,9 @@ class DeckListStore {
     } catch (error) {
       reportHandledError("Error while adding item to collection", error, item);
       showAlert(t("error_contact_support"));
-      runInAction(() => {
-        this.itemsWithAddProgress.delete(key);
-      });
+      this.itemsWithAddProgress.delete(key);
     } finally {
-      runInAction(() => {
-        this.itemsBeingAdded.delete(key);
-      });
+      this.itemsBeingAdded.delete(key);
     }
   }
 

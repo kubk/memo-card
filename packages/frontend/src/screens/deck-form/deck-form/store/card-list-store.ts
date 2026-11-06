@@ -1,5 +1,5 @@
 import { BooleanToggle } from "mobx-form-lite";
-import { makeAutoObservable, reaction, runInAction } from "mobx";
+import { makeAutoObservable, reaction } from "mobx";
 import { platform } from "../../../../lib/platform/platform.ts";
 import { showConfirm } from "../../../../lib/platform/show-confirm";
 import { deckListStore } from "../../../../store/deck-list-store";
@@ -232,10 +232,8 @@ export class CardListStore {
       const result = await api.card.deleteMany.mutate({ ids: cardIds });
 
       const { deck, cardsToReview } = result;
-      runInAction(() => {
-        deckListStore.replaceDeck(deck, true);
-        deckListStore.updateCardsToReview(cardsToReview);
-      });
+      deckListStore.replaceDeck(deck, true);
+      deckListStore.updateCardsToReview(cardsToReview);
 
       this.clearSelection();
     } catch (e) {

@@ -1,7 +1,7 @@
 import { Platform, HapticType } from "../platform.ts";
 import { cssVariablesDark, cssVariablesLight } from "../../../ui/theme.tsx";
 import { PlatformSchemaType } from "api";
-import { makeObservable, observable, action, computed } from "mobx";
+import { makeObservable, observable, action, computed, flow } from "mobx";
 import { LanguageShared } from "api";
 import { getWebApp } from "./telegram-web-app.ts";
 import { cloudStorageAdapter } from "./cloud-storage.ts";
@@ -19,28 +19,31 @@ export class TelegramPlatform implements Platform {
   mainButtonCondition?: () => boolean;
 
   constructor() {
-    makeObservable(this, {
+    makeObservable<this, "loadCachedLanguage">(this, {
       isFullScreen: observable,
       languageCached: observable,
       isMainButtonRegistered: observable,
       isMainButtonVisible: computed,
       registerMainButton: action,
       unregisterMainButton: action,
+      loadCachedLanguage: flow,
     });
 
     if (!this.isCloudStorageAvailable()) {
       return;
     }
 
-    // We use cloud storage to cache language so we know it before we load user preferences
-    cloudStorageAdapter.getItem(LANGUAGE_CACHE_KEY).then(
-      action((languageCached) => {
-        if (!languageCached) {
-          return;
-        }
-        this.languageCached = normalizeLanguage(languageCached);
-      }),
-    );
+    this.loadCachedLanguage();
+  }
+
+  // We use cloud storage to cache language so we know it before we load user preferences
+  private async loadCachedLanguage() {
+    const languageCached =
+      await cloudStorageAdapter.getItem(LANGUAGE_CACHE_KEY);
+    if (!languageCached) {
+      return;
+    }
+    this.languageCached = normalizeLanguage(languageCached);
   }
 
   get isMainButtonVisible() {

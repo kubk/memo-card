@@ -4,9 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-overrides:
-  mobx-react-observer>mobx-react-lite: ^5.1.0
-
 importers:
 
   .:
@@ -209,9 +206,9 @@ importers:
       mobx-persist-store:
         specifier: ^1.1.8
         version: 1.1.8(mobx@7.0.4)
-      mobx-react-observer:
-        specifier: ^2.0.0
-        version: 2.0.0(mobx@7.0.4)(react@19.3.1)(vite@8.1.4(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.23.1)(yaml@2.9.0))
+      mobx-react-lite:
+        specifier: ^5.1.2
+        version: 5.1.2(mobx@7.0.4)(react@19.3.1)
       motion:
         specifier: ^14.0.0
         version: 14.0.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
@@ -261,6 +258,9 @@ importers:
       jsdom:
         specifier: ^26.1.0
         version: 26.1.0
+      mobx-react-plugin:
+        specifier: ^1.0.0
+        version: 1.0.0(mobx-react-lite@5.1.2(mobx@7.0.4)(react@19.3.1))(mobx@7.0.4)(react@19.3.1)
       oxlint:
         specifier: ^1.70.0
         version: 1.73.0
@@ -3145,9 +3145,6 @@ packages:
   babel-dead-code-elimination@1.0.12:
     resolution: {integrity: sha512-GERT7L2TiYcYDtYk1IpD+ASAYXjKbLTDPhBtYj7X1NuRMDTMtAx9kyBenub1Ev41lo91OHCKdmP+egTDmfQ7Ig==}
 
-  babel-plugin-observing-components@0.2.0:
-    resolution: {integrity: sha512-nlOYLXHgZtTM7ejr6x6CpUE/a7W3xa58ItvHL7EMaTpYa9Jv0mQUnrmlIwpP7djadM32Bqx/RMJRro6ZLlYzGw==}
-
   babel-plugin-transform-hook-names@1.0.2:
     resolution: {integrity: sha512-5gafyjyyBTTdX/tQQ0hRgu4AhNHG/hqWi0ZZmg2xvs2FgRkJXzDNKBZCyoYqgFkovfDrgM8OoKg8karoUvWeCw==}
     peerDependencies:
@@ -4296,14 +4293,18 @@ packages:
     peerDependencies:
       mobx: '*'
 
-  mobx-react-lite@5.1.0:
-    resolution: {integrity: sha512-++LQTCRr4FJCWuaEvYl5gCtGBwOpOwrnWjm9uhCUDI5nmkzLR8eT1jgMeYfJ8wc88YOYyC/ygjw2KpYPBYGsww==}
+  mobx-react-lite@5.1.2:
+    resolution: {integrity: sha512-40ZukD+RmKT1up5J1rHcPU8wJSB++Wf37lkV6wIHdQtRTt9wCYf9swfYUbfcW+Mz94xImQBwQ7jAr0aP0KeATA==}
     peerDependencies:
       mobx: ^7.0.0
       react: ^18 || ^19
 
-  mobx-react-observer@2.0.0:
-    resolution: {integrity: sha512-2YCZ8uYznA0dz9v2wB/8lJ9SjhCPuQMZr9QSim6ujVWq7YeJM1Aoi/sIP6KYUcpZtxe4OuGN7NYEBE/3uSD/3w==}
+  mobx-react-plugin@1.0.0:
+    resolution: {integrity: sha512-vnOHJVPV3ZsvkVvBaarsLofFklVBXZWXqUYVIQx5jH8UvT1mr6X5Oyzz0sOlw0E7DddalQruslombysbKM5H1w==}
+    peerDependencies:
+      mobx: ^7.0.0
+      mobx-react-lite: ^5.0.0
+      react: ^18 || ^19
 
   mobx@7.0.4:
     resolution: {integrity: sha512-n4kgcKqbcyDj4s2aUcRuWFPiQ9ar3KAqT2d6poxdhsXaxqlsfjXUfTnkm5+nkbTPYfuTM4LnY+673oAeNqBkqA==}
@@ -5193,11 +5194,6 @@ packages:
   vite-bundle-analyzer@1.3.9:
     resolution: {integrity: sha512-hhy975B+ToseJaSJp3mURHriZUrMgaM2qx0BkP62kN6Yp46rw7EE3dl8ExFWYdn00OIwe7GbsA5PknvstNWG4Q==}
     hasBin: true
-
-  vite-plugin-observing-components@0.1.0:
-    resolution: {integrity: sha512-KKEVnaMx7RzVbX9YlEpKyA9/xMbPoKlAtQZW5/tOld2GLtIaXRo4liyYnxRmpolZNmeUD+NcaMfylW5CM7MY3Q==}
-    peerDependencies:
-      vite: '>=3.0.0'
 
   vite-prerender-plugin@0.5.14:
     resolution: {integrity: sha512-X2w9AS1OhwEUec9HSryGAmEnEQJGhW6eFoiCVJv8BfOTVpM8SOjk75cEw/IC28APDHZudeIRbP8Sp7wfABq+Aw==}
@@ -7830,14 +7826,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  babel-plugin-observing-components@0.2.0:
-    dependencies:
-      '@babel/core': 7.29.7
-      '@babel/traverse': 7.29.7
-      minimatch: 10.2.5
-    transitivePeerDependencies:
-      - supports-color
-
   babel-plugin-transform-hook-names@1.0.2(@babel/core@7.29.7):
     dependencies:
       '@babel/core': 7.29.7
@@ -8920,20 +8908,20 @@ snapshots:
     dependencies:
       mobx: 7.0.4
 
-  mobx-react-lite@5.1.0(mobx@7.0.4)(react@19.3.1):
+  mobx-react-lite@5.1.2(mobx@7.0.4)(react@19.3.1):
     dependencies:
       mobx: 7.0.4
       react: 19.3.1
 
-  mobx-react-observer@2.0.0(mobx@7.0.4)(react@19.3.1)(vite@8.1.4(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.23.1)(yaml@2.9.0)):
+  mobx-react-plugin@1.0.0(mobx-react-lite@5.1.2(mobx@7.0.4)(react@19.3.1))(mobx@7.0.4)(react@19.3.1):
     dependencies:
-      mobx-react-lite: 5.1.0(mobx@7.0.4)(react@19.3.1)
-      vite-plugin-observing-components: 0.1.0(vite@8.1.4(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.23.1)(yaml@2.9.0))
+      '@babel/core': 7.29.7
+      mobx: 7.0.4
+      mobx-react-lite: 5.1.2(mobx@7.0.4)(react@19.3.1)
+      picomatch: 4.0.7
+      react: 19.3.1
     transitivePeerDependencies:
-      - mobx
-      - react
       - supports-color
-      - vite
 
   mobx@7.0.4: {}
 
@@ -9809,14 +9797,6 @@ snapshots:
       - '@types/react-dom'
 
   vite-bundle-analyzer@1.3.9: {}
-
-  vite-plugin-observing-components@0.1.0(vite@8.1.4(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.23.1)(yaml@2.9.0)):
-    dependencies:
-      '@babel/core': 7.29.7
-      babel-plugin-observing-components: 0.2.0
-      vite: 8.1.4(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.23.1)(yaml@2.9.0)
-    transitivePeerDependencies:
-      - supports-color
 
   vite-prerender-plugin@0.5.14(vite@8.1.4(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.23.1)(yaml@2.9.0)):
     dependencies:

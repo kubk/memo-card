@@ -1,5 +1,5 @@
 import type { LanguageShared } from "api";
-import { makeAutoObservable, reaction, runInAction } from "mobx";
+import { makeAutoObservable, reaction } from "mobx";
 import { userStore } from "../store/user-store.ts";
 import type {
   Translation,
@@ -92,12 +92,10 @@ export class TranslationResourceStore {
     try {
       const translation = await loadingTranslation;
 
-      runInAction(() => {
-        this.loadedTranslations[language] = translation;
-        if (!this.fallbackTranslation || language === this.languageNormalized) {
-          this.fallbackTranslation = translation;
-        }
-      });
+      this.loadedTranslations[language] = translation;
+      if (!this.fallbackTranslation || language === this.languageNormalized) {
+        this.fallbackTranslation = translation;
+      }
     } finally {
       this.loadingTranslations.delete(language);
     }
