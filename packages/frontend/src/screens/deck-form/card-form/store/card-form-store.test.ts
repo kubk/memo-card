@@ -113,8 +113,7 @@ vi.mock("../../../../store/deck-list-store.ts", () => {
 
   return {
     deckListStore: {
-      replaceDeck: vi.fn(),
-      updateCardsToReview: vi.fn(),
+      applyLibraryPatch: vi.fn(),
       searchDeckWithCardsById: (id: string) => {
         return myDecks.find((deck) => deck.id === id);
       },

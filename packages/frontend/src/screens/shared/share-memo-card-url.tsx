@@ -1,21 +1,17 @@
-import { trimEnd } from "../../lib/string/trim.ts";
 import { platform } from "../../lib/platform/platform.ts";
 import { TelegramPlatform } from "../../lib/platform/telegram/telegram-platform.ts";
 import { BrowserPlatform } from "../../lib/platform/browser/browser-platform.ts";
-import { links } from "api";
+import { getTelegramAppLink, getWebAppLink, links } from "api";
 import { copyToClipboard } from "../../lib/copy-to-clipboard/copy-to-clipboard.ts";
 import { t } from "../../translations/t.ts";
 import { notifyLoading, notifySuccess } from "./snackbar/snackbar.tsx";
 import { env } from "../../env.ts";
 import { api } from "../../api/trpc-api.ts";
 
-const getDeckOrFolderLink = (id: string) => {
-  if (platform instanceof BrowserPlatform) {
-    return `${trimEnd(links.appBrowser, "/")}/?start=${id}`;
-  }
-  const botUrl = env.VITE_BOT_APP_URL;
-  return `${trimEnd(botUrl, "/")}?startapp=${id}`;
-};
+const getDeckOrFolderLink = (id: string) =>
+  platform instanceof BrowserPlatform
+    ? getWebAppLink(links.appBrowser, id)
+    : getTelegramAppLink(env.VITE_BOT_APP_URL, id);
 
 export const canShareMessage = () =>
   platform instanceof TelegramPlatform &&

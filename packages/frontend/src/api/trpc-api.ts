@@ -11,13 +11,9 @@ import { env } from "../env";
 import { createApiProxy } from "./create-api-proxy.ts";
 import { apiUrl } from "../lib/urls/proxy-urls.ts";
 
-const allowedToReFetch = [
+const idempotentMutations = [
   "cardsReview",
-  "card.add",
   "card.update",
-  "card.delete",
-  "card.deleteMany",
-  "deck.create",
   "deck.update",
   "userSettings",
 ];
@@ -42,7 +38,8 @@ export const api = createTRPCClient<ApiRouter>({
         }
 
         const shouldRetry =
-          opts.op.type === "query" || allowedToReFetch.includes(opts.op.path);
+          opts.op.type === "query" ||
+          idempotentMutations.includes(opts.op.path);
 
         if (!shouldRetry) {
           return false;

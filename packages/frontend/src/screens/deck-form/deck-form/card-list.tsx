@@ -10,11 +10,11 @@ import { CardNumber } from "../../../ui/card-number.tsx";
 import { SearchIcon, XIcon, TrashIcon, FolderInputIcon } from "lucide-react";
 import { BottomSheet } from "../../../ui/bottom-sheet/bottom-sheet.tsx";
 import { RadioList } from "../../../ui/radio-list/radio-list.tsx";
+import { CardListStore } from "./store/card-list-store.ts";
 import {
-  type CardFilterDirection,
-  type CardFilterSortBy,
-  CardListStore,
-} from "./store/card-list-store.ts";
+  type CardSortBy,
+  type CardSortDirection,
+} from "../../../store/routing/card-query.ts";
 import { CircleCheckbox } from "../../../ui/circle-checkbox.tsx";
 import { cn } from "../../../ui/cn.ts";
 import * as m from "motion/react-m";
@@ -28,8 +28,8 @@ import { usePullToRefresh } from "../../../lib/react/use-pull-to-refresh.ts";
 
 const sortOptions: Array<{
   id: string;
-  sortBy: CardFilterSortBy;
-  direction: CardFilterDirection;
+  sortBy: CardSortBy;
+  direction: CardSortDirection;
   label: () => string;
 }> = [
   {
@@ -131,7 +131,7 @@ export function CardList() {
         <Input
           field={
             {
-              value: cardListStore.cardFilterText,
+              value: cardListStore.cardQuery.searchText,
               onChange: cardListStore.updateSearchText,
               onBlur: () => {},
               isTouched: false,

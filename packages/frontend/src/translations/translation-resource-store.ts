@@ -6,7 +6,7 @@ import type {
   TranslationArguments,
   TranslationResources,
 } from "./en.ts";
-import { normalizeLanguage } from "./normalize-language.ts";
+import { normalizeLanguage } from "api";
 
 type TranslationLoader = () => Promise<TranslationResources>;
 export type TranslationLoaders = Record<LanguageShared, TranslationLoader>;

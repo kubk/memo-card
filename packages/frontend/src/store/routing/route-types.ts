@@ -1,12 +1,13 @@
 import * as v from "valibot";
 import { type CatalogFolderDbType } from "api";
+import { cardSortByValues, cardSortDirectionValues } from "./card-query.ts";
 
 const stringToNumber = v.pipe(v.string(), v.transform(Number), v.number());
 
-const cardFilterSortBySchema = v.optional(
-  v.picklist(["createdAt", "frontAlpha", "backAlpha"]),
+const cardFilterSortBySchema = v.optional(v.picklist(cardSortByValues));
+const cardFilterDirectionSchema = v.optional(
+  v.picklist(cardSortDirectionValues),
 );
-const cardFilterDirectionSchema = v.optional(v.picklist(["asc", "desc"]));
 
 const mainRouteSchema = v.object({
   type: v.literal("main"),

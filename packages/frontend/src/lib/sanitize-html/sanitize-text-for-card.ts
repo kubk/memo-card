@@ -1,6 +1,6 @@
 import DOMPurify from "dompurify";
 import { mathmlTagNames } from "mathml-tag-names";
-import { env } from "../../env";
+import { links } from "api";
 
 const allowedTags = [
   // Text Formatting Tags
@@ -53,7 +53,7 @@ const allowedTags = [
 DOMPurify.addHook("uponSanitizeAttribute", (node, data) => {
   if (data.attrName === "src" && node.tagName === "IMG") {
     const src = data.attrValue;
-    if (!src.startsWith(env.VITE_R2_PUBLIC_URL)) {
+    if (!src.startsWith(`${links.media}/`)) {
       data.keepAttr = false;
     }
   }

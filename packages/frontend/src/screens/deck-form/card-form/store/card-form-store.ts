@@ -21,11 +21,14 @@ import { notifyError } from "../../../shared/snackbar/snackbar.tsx";
 import { assert } from "api";
 import { t } from "../../../../translations/t.ts";
 import { api } from "../../../../api/trpc-api.ts";
+import {
+  getCardQuery,
+  queryCards,
+  toCardQueryParams,
+} from "../../../../store/routing/card-query.ts";
 import { MoveToDeckSelectorStore } from "../../deck-form/store/move-to-deck-selector-store.tsx";
 import {
   CardFormType,
-  CardFilterSortBy,
-  CardFilterDirection,
   createFrontCardField,
   createBackCardField,
   createAnswerTypeField,
@@ -48,20 +51,26 @@ export class CardFormStore {
   cardInnerScreen = new TextField<CardInnerScreenType>(null);
   moveToDeckStore = new MoveToDeckSelectorStore();
   cardTypeModal = new BooleanToggle(false);
+  private disposeCardIdReaction: () => void;
 
   constructor() {
-    makeAutoObservable(
+    makeAutoObservable<this, "disposeCardIdReaction">(
       this,
       {
         onQuitCard: false,
+        disposeCardIdReaction: false,
       },
       { autoBind: true },
     );
 
-    reaction(
+    this.disposeCardIdReaction = reaction(
       () => this.cardId,
       () => this.loadForm(),
     );
+  }
+
+  dispose() {
+    this.disposeCardIdReaction();
   }
 
   get deckId(): string | undefined {
@@ -138,95 +147,22 @@ export class CardFormStore {
     );
   }
 
-  get cardFilterSortBy(): CardFilterSortBy {
-    const screen = screenStore.screen;
-    if (screen.type === "deckForm" || screen.type === "cardList") {
-      return screen.sortBy ?? "createdAt";
-    }
-    return "createdAt";
-  }
-
-  get cardFilterSortDirection(): CardFilterDirection {
-    const screen = screenStore.screen;
-    if (screen.type === "deckForm" || screen.type === "cardList") {
-      return screen.sortDirection ?? "desc";
-    }
-    return "desc";
-  }
-
-  get cardFilterText(): string {
-    const screen = screenStore.screen;
-    if (screen.type === "deckForm" || screen.type === "cardList") {
-      return screen.searchText ?? "";
-    }
-    return "";
-  }
-
   get filteredCards() {
     const deck = this.deck;
     if (!deck) return [];
 
-    const cardCreationDates = new Map<number, string>();
-    deck.deckCards.forEach((card) => {
-      cardCreationDates.set(card.id, card.createdAt);
-    });
-
-    return this.deckCards
-      .filter((card) => {
-        if (this.cardFilterText) {
-          const textFilter = this.cardFilterText.toLowerCase();
-          return (
-            card.front.value.toLowerCase().includes(textFilter) ||
-            card.back.value.toLowerCase().includes(textFilter)
-          );
-        }
-        return true;
-      })
-      .sort((a, b) => {
-        const aFront = a.front.value.toLowerCase();
-        const bFront = b.front.value.toLowerCase();
-        const aBack = a.back.value.toLowerCase();
-        const bBack = b.back.value.toLowerCase();
-
-        if (this.cardFilterSortBy === "frontAlpha") {
-          return this.cardFilterSortDirection === "desc"
-            ? bFront.localeCompare(aFront)
-            : aFront.localeCompare(bFront);
-        }
-        if (this.cardFilterSortBy === "backAlpha") {
-          return this.cardFilterSortDirection === "desc"
-            ? bBack.localeCompare(aBack)
-            : aBack.localeCompare(bBack);
-        }
-        if (this.cardFilterSortBy === "createdAt") {
-          if (!a.id && !b.id) return 0;
-          if (!a.id) return this.cardFilterSortDirection === "desc" ? 1 : -1;
-          if (!b.id) return this.cardFilterSortDirection === "desc" ? -1 : 1;
-
-          const aDate = cardCreationDates.get(a.id);
-          const bDate = cardCreationDates.get(b.id);
-
-          if (aDate && bDate) {
-            return this.cardFilterSortDirection === "desc"
-              ? bDate > aDate
-                ? 1
-                : bDate < aDate
-                  ? -1
-                  : 0
-              : aDate > bDate
-                ? 1
-                : aDate < bDate
-                  ? -1
-                  : 0;
-          }
-
-          return this.cardFilterSortDirection === "desc"
-            ? b.id - a.id
-            : a.id - b.id;
-        }
-
-        return this.cardFilterSortBy satisfies never;
-      });
+    const createdAtById = new Map(
+      deck.deckCards.map((card) => [card.id, card.createdAt]),
+    );
+    return queryCards(
+      this.deckCards,
+      getCardQuery(screenStore.screen),
+      (card) => ({
+        front: card.front.value,
+        back: card.back.value,
+        createdAt: card.id ? (createdAtById.get(card.id) ?? null) : null,
+      }),
+    );
   }
 
   loadForm() {
@@ -275,11 +211,7 @@ export class CardFormStore {
   }
 
   private getFilterParams() {
-    return {
-      sortBy: this.cardFilterSortBy,
-      sortDirection: this.cardFilterSortDirection,
-      searchText: this.cardFilterText || undefined,
-    };
+    return toCardQueryParams(getCardQuery(screenStore.screen));
   }
 
   navigateToNewCard() {
@@ -346,10 +278,7 @@ export class CardFormStore {
       return;
     }
 
-    const { deck, cardsToReview } = result.data;
-
-    deckListStore.replaceDeck(deck, true);
-    deckListStore.updateCardsToReview(cardsToReview);
+    deckListStore.applyLibraryPatch(result.data.library);
     this.editCardFormById(result.data.createdCards[0].id, true);
     if (this.cardForm) {
       formUnTouchAll(this.cardForm);
@@ -385,10 +314,7 @@ export class CardFormStore {
       return;
     }
 
-    const { deck, cardsToReview } = result.data;
-
-    deckListStore.replaceDeck(deck, true);
-    deckListStore.updateCardsToReview(cardsToReview);
+    deckListStore.applyLibraryPatch(result.data.library);
     if (this.cardForm) {
       formUnTouchAll(this.cardForm);
     }
@@ -489,7 +415,7 @@ export class CardFormStore {
 
     try {
       const result = await this.cardDeleteMutation.mutateResult({
-        id: selectedCard.id,
+        ids: [selectedCard.id],
       });
 
       if (!result.ok) {
@@ -497,10 +423,7 @@ export class CardFormStore {
         return;
       }
 
-      const { deck, cardsToReview } = result.data;
-
-      deckListStore.replaceDeck(deck, true);
-      deckListStore.updateCardsToReview(cardsToReview);
+      deckListStore.applyLibraryPatch(result.data.library);
       screenStore.back();
     } finally {
       appLoaderStore.disable();

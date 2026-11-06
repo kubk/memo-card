@@ -1,15 +1,12 @@
-import { createContext, ReactNode, useContext } from "preact/compat";
+import { createContext, ReactNode, useContext, useState } from "preact/compat";
 import { UserSettingsStore } from "./user-settings-store.tsx";
 import { assert } from "api";
 
 const Context = createContext<UserSettingsStore | null>(null);
 
 export const UserSettingsStoreProvider = (props: { children: ReactNode }) => {
-  return (
-    <Context.Provider value={new UserSettingsStore()}>
-      {props.children}
-    </Context.Provider>
-  );
+  const [store] = useState(() => new UserSettingsStore());
+  return <Context.Provider value={store}>{props.children}</Context.Provider>;
 };
 
 export const useUserSettingsStore = () => {

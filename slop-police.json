@@ -3,7 +3,8 @@
     "packages/api/tsconfig.json",
     "packages/frontend/tsconfig.app.json",
     "packages/frontend/tsconfig.node.json",
-    "packages/landing/tsconfig.json"
+    "packages/landing/tsconfig.json",
+    "packages/anki-bot/tsconfig.json"
   ],
   "ignore": [
     "**/routeTree.gen.ts",
@@ -24,6 +25,7 @@
         "entry": [
           "packages/*/vite.config.ts",
           "packages/api/src/index.ts",
+          "packages/anki-bot/src/index.ts",
           "packages/api/bin/*.ts",
           "packages/api/migrate.ts",
           "packages/api/drizzle.config.ts",

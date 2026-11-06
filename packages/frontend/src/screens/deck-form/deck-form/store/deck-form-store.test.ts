@@ -7,22 +7,27 @@ import type { api } from "../../../../api/trpc-api.ts";
 
 const mocks = vi.hoisted(() => {
   const createMockDeckResponse = () => ({
-    deck: {
-      id: 1,
-      availableIn: null,
-      description: null,
-      createdAt: new Date().toISOString(),
-      name: "Test",
-      authorId: 9999,
-      isPublic: false,
-      speakLocale: null,
-      speakField: null,
-      deckCategory: null,
-      categoryId: null,
-      deckCards: [],
+    deckId: "1",
+    library: {
+      decks: [
+        {
+          id: "1",
+          availableIn: null,
+          description: null,
+          createdAt: new Date().toISOString(),
+          name: "Test",
+          authorId: 9999,
+          isPublic: false,
+          speakLocale: null,
+          speakField: null,
+          deckCategory: null,
+          categoryId: null,
+          deckCards: [],
+        },
+      ],
+      cardsToReview: [],
+      folders: [],
     },
-    cardsToReview: [],
-    folders: [],
   });
 
   return {
@@ -102,9 +107,7 @@ vi.mock("../../../../store/deck-list-store.ts", () => {
 
   return {
     deckListStore: {
-      replaceDeck: () => {},
-      updateFolders: () => {},
-      updateCardsToReview: () => {},
+      applyLibraryPatch: () => {},
       searchDeckWithCardsById: (id: string) => {
         return myDecks.find((deck) => deck.id === id);
       },
@@ -142,7 +145,6 @@ vi.mock("../../../../api/trpc-api.ts", () => {
         add: { mutate: vi.fn() },
         update: { mutate: vi.fn() },
         delete: { mutate: vi.fn() },
-        deleteMany: { mutate: vi.fn() },
       },
       deck: {
         create: { mutate: vi.fn() },

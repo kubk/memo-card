@@ -1,14 +1,14 @@
-import { isAppStartParam } from "api";
+import { isAppStartParam, webAppStartParamKey } from "api";
 import { Route, routeSchema, withoutRouteState } from "./route-types.ts";
 import * as v from "valibot";
 
 export function routeToUrl(route: Route): string {
   const currentParams = new URLSearchParams(window.location.search);
-  const startParam = currentParams.get("start");
+  const startParam = currentParams.get(webAppStartParamKey);
   const params = new URLSearchParams();
 
   if (startParam) {
-    params.set("start", startParam);
+    params.set(webAppStartParamKey, startParam);
   }
 
   if (route.type !== "main") {
@@ -30,7 +30,7 @@ export function urlToRoute(url: string): Route | null {
   }
 
   // Known Telegram start params are handled by the platform launch flow.
-  const start = urlObj.searchParams.get("start");
+  const start = urlObj.searchParams.get(webAppStartParamKey);
   if (start && isAppStartParam(start)) {
     return null;
   }

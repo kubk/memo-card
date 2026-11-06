@@ -11,9 +11,13 @@ import { notifyError } from "../../../shared/snackbar/snackbar";
 import { screenStore } from "../../../../store/screen-store.ts";
 import { assert, type DeckCardDbType } from "api";
 import { deckDetailsStore } from "../../../../store/deck-details-store.ts";
-
-export type CardFilterSortBy = "createdAt" | "frontAlpha" | "backAlpha";
-export type CardFilterDirection = "desc" | "asc";
+import {
+  type CardSortBy,
+  type CardSortDirection,
+  getCardQuery,
+  queryCards,
+  toCardQueryParams,
+} from "../../../../store/routing/card-query.ts";
 
 export class CardListStore {
   isSortSheetOpen = new BooleanToggle(false);
@@ -60,80 +64,42 @@ export class CardListStore {
     return route;
   }
 
-  get cardFilterSortBy(): CardFilterSortBy {
-    return this.route.sortBy ?? "createdAt";
-  }
-
-  get cardFilterSortDirection(): CardFilterDirection {
-    return this.route.sortDirection ?? "desc";
-  }
-
-  get cardFilterText() {
-    return this.route.searchText ?? "";
+  get cardQuery() {
+    return getCardQuery(this.route);
   }
 
   get filteredCards(): DeckCardDbType[] {
-    const cards = this.deck?.deckCards ?? [];
-    const textFilter = this.cardFilterText.trim().toLowerCase();
-
-    return cards
-      .filter((card) => {
-        if (!textFilter) {
-          return true;
-        }
-        return (
-          card.front.toLowerCase().includes(textFilter) ||
-          card.back.toLowerCase().includes(textFilter)
-        );
-      })
-      .slice()
-      .sort((a, b) => {
-        if (this.cardFilterSortBy === "frontAlpha") {
-          return this.cardFilterSortDirection === "desc"
-            ? b.front.toLowerCase().localeCompare(a.front.toLowerCase())
-            : a.front.toLowerCase().localeCompare(b.front.toLowerCase());
-        }
-        if (this.cardFilterSortBy === "backAlpha") {
-          return this.cardFilterSortDirection === "desc"
-            ? b.back.toLowerCase().localeCompare(a.back.toLowerCase())
-            : a.back.toLowerCase().localeCompare(b.back.toLowerCase());
-        }
-        if (this.cardFilterSortBy === "createdAt") {
-          return this.cardFilterSortDirection === "desc"
-            ? b.createdAt.localeCompare(a.createdAt)
-            : a.createdAt.localeCompare(b.createdAt);
-        }
-
-        return this.cardFilterSortBy satisfies never;
-      });
+    return queryCards(
+      this.deck?.deckCards ?? [],
+      this.cardQuery,
+      (card) => card,
+    );
   }
 
   get currentSortId() {
-    return `${this.cardFilterSortBy}-${this.cardFilterSortDirection}`;
+    return `${this.cardQuery.sortBy}-${this.cardQuery.sortDirection}`;
   }
 
   get isEmptySearchResults() {
-    return this.filteredCards.length === 0 && !!this.cardFilterText.trim();
+    return (
+      this.filteredCards.length === 0 && !!this.cardQuery.searchText.trim()
+    );
   }
 
   setSortByIdAndDirection(
-    sortBy: CardFilterSortBy,
-    sortDirection: CardFilterDirection,
+    sortBy: CardSortBy,
+    sortDirection: CardSortDirection,
   ) {
     screenStore.replace({
       ...this.route,
-      sortBy,
-      sortDirection,
-      searchText: this.cardFilterText || undefined,
+      ...toCardQueryParams({ ...this.cardQuery, sortBy, sortDirection }),
     });
   }
 
   updateSearchText(searchText: string) {
     screenStore.replace({
       ...this.route,
-      sortBy: this.cardFilterSortBy,
-      sortDirection: this.cardFilterSortDirection,
-      searchText: searchText || undefined,
+      ...toCardQueryParams({ ...this.cardQuery, searchText }),
     });
   }
 
@@ -175,11 +141,7 @@ export class CardListStore {
   }
 
   private getFilterParams() {
-    return {
-      sortBy: this.cardFilterSortBy,
-      sortDirection: this.cardFilterSortDirection,
-      searchText: this.cardFilterText || undefined,
-    };
+    return toCardQueryParams(this.cardQuery);
   }
 
   openMoveSheet() {
@@ -229,11 +191,8 @@ export class CardListStore {
 
     try {
       const cardIds = Array.from(this.selectedCardIds);
-      const result = await api.card.deleteMany.mutate({ ids: cardIds });
-
-      const { deck, cardsToReview } = result;
-      deckListStore.replaceDeck(deck, true);
-      deckListStore.updateCardsToReview(cardsToReview);
+      const result = await api.card.delete.mutate({ ids: cardIds });
+      deckListStore.applyLibraryPatch(result.library);
 
       this.clearSelection();
     } catch (e) {

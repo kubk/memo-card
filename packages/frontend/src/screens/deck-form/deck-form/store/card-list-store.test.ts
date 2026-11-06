@@ -23,7 +23,7 @@ const mocks = vi.hoisted(() => ({
 vi.mock("../../../../api/trpc-api.ts", () => ({
   api: {
     card: {
-      deleteMany: { mutate: vi.fn() },
+      delete: { mutate: vi.fn() },
       moveToOtherDeck: { mutate: vi.fn() },
     },
     deck: {
@@ -37,8 +37,7 @@ vi.mock("../../../../store/deck-list-store.ts", () => ({
     isDeckOwner: mocks.isDeckOwner,
     deckIdsOwnedByMe: () => [],
     myDeckItems: [],
-    replaceDeck: vi.fn(),
-    updateCardsToReview: vi.fn(),
+    applyLibraryPatch: vi.fn(),
   },
 }));
 

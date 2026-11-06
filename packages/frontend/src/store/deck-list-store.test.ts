@@ -72,18 +72,24 @@ describe("DeckListStore", () => {
   });
 
   it("preserves list-only category data when replacing public deck cards", () => {
-    deckListStore.replaceDeck({
-      id: "travel",
-      createdAt: "2026-01-01T00:00:00.000Z",
-      name: "Travel English",
-      authorId: 1,
-      description: "Updated description",
-      isPublic: true,
-      speakLocale: null,
-      speakField: null,
-      availableIn: "en",
-      categoryId: null,
-      deckCards: [],
+    deckListStore.applyLibraryPatch({
+      decks: [
+        {
+          id: "travel",
+          createdAt: "2026-01-01T00:00:00.000Z",
+          name: "Travel English",
+          authorId: 1,
+          description: "Updated description",
+          isPublic: true,
+          speakLocale: null,
+          speakField: null,
+          availableIn: "en",
+          categoryId: null,
+          deckCards: [],
+        },
+      ],
+      folders: [],
+      cardsToReview: [],
     });
 
     expect(deckListStore.myInfo?.publicDecks[0]).toMatchObject({

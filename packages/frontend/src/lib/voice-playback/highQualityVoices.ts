@@ -1,6 +1,6 @@
-import type { SpeakLanguageEnum } from "./speak";
+import type { SpeakLanguage } from "api";
 
-export const highQualityVoices: Partial<Record<SpeakLanguageEnum, string[]>> = {
+export const highQualityVoices: Partial<Record<SpeakLanguage, string[]>> = {
   ["en-US"]: [
     "Microsoft EmmaMultilingual Online (Natural) - English (United States)",
     "Microsoft AvaMultilingual Online (Natural) - English (United States)",

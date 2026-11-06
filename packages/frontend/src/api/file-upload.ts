@@ -1,5 +1,3 @@
-import { env } from "../env";
-import { trimEnd } from "../lib/string/trim";
 import { api } from "./trpc-api";
 
 export async function uploadImage(file: File): Promise<{
@@ -7,7 +5,7 @@ export async function uploadImage(file: File): Promise<{
 }> {
   const {
     url: uploadUrl,
-    fileName,
+    publicUrl,
     contentType,
   } = await api.signedUrl.generate.mutate({
     fileName: file.name,
@@ -23,7 +21,6 @@ export async function uploadImage(file: File): Promise<{
     throw new Error(`Image upload failed with ${response.status}`);
   }
 
-  const publicUrl = `${trimEnd(env.VITE_R2_PUBLIC_URL, "/")}/${fileName}`;
   return { publicUrl };
 }
 

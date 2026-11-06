@@ -1,45 +1,9 @@
 import EasySpeech from "easy-speech";
+import { type SpeakLanguage } from "api";
 
 export async function loadHighQualityVoices() {
   console.log("Loading high quality voices");
   return import("./highQualityVoices.ts");
-}
-
-export enum SpeakLanguageEnum {
-  USEnglish = "en-US",
-  Italian = "it-IT",
-  Swedish = "sv-SE",
-  Malay = "ms-MY",
-  German = "de-DE",
-  UKEnglish = "en-GB",
-  Hebrew = "he-IL",
-  Indonesian = "id-ID",
-  French = "fr-FR",
-  Bulgarian = "bg-BG",
-  Spanish = "es-ES",
-  MexicanSpanish = "es-MX",
-  Finnish = "fi-FI",
-  Japanese = "ja-JP",
-  Romanian = "ro-RO",
-  Portuguese = "pt-PT",
-  BrazilianPortuguese = "pt-BR",
-  Thai = "th-TH",
-  Croatian = "hr-HR",
-  Slovak = "sk-SK",
-  Hindi = "hi-IN",
-  Ukrainian = "uk-UA",
-  Chinese = "zh-CN",
-  Vietnamese = "vi-VN",
-  Arabic = "ar-001",
-  Greek = "el-GR",
-  Russian = "ru-RU",
-  Danish = "da-DK",
-  Hungarian = "hu-HU",
-  Dutch = "nl-NL",
-  Turkish = "tr-TR",
-  Korean = "ko-KR",
-  Polish = "pl-PL",
-  Czech = "cs-CZ",
 }
 
 export const languageKeyToHuman = (str: string): string => {
@@ -71,11 +35,11 @@ export const getVoicesByLanguage = (
   });
 };
 
-const voiceCache = new Map<SpeakLanguageEnum, SpeechSynthesisVoice | null>();
+const voiceCache = new Map<SpeakLanguage, SpeechSynthesisVoice | null>();
 
 export const speak = async (
   text: string,
-  language: SpeakLanguageEnum,
+  language: SpeakLanguage,
   onStart?: () => void,
 ) => {
   if (!isSpeechSynthesisSupported) {

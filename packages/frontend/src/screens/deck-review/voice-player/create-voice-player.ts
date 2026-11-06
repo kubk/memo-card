@@ -1,11 +1,11 @@
-import { applyDeckVariables, type DeckWithCardsDbType } from "api";
+import {
+  applyDeckVariables,
+  isSpeakLanguage,
+  type DeckWithCardsDbType,
+} from "api";
 import { deckListStore } from "../../../store/deck-list-store.ts";
 import { removeAllTags } from "../../../lib/sanitize-html/remove-all-tags.ts";
-import {
-  isSpeechSynthesisSupported,
-  SpeakLanguageEnum,
-} from "../../../lib/voice-playback/speak.ts";
-import { isEnumValid } from "../../../lib/typescript/is-enum-valid.ts";
+import { isSpeechSynthesisSupported } from "../../../lib/voice-playback/speak.ts";
 import { BrowserWebSpeechApiPlayer } from "./browser-web-speech-api-player.ts";
 import { UrlRecordVoicePlayer } from "./url-record-voice-player.ts";
 import { GoogleTtsVoicePlayer } from "./google-tts-voice-player.ts";
@@ -48,7 +48,7 @@ export const createVoicePlayer = (
   });
 
   if (isSpeechSynthesisSupported) {
-    if (!isEnumValid(deckForm.speakingCardsLocale, SpeakLanguageEnum)) {
+    if (!isSpeakLanguage(deckForm.speakingCardsLocale)) {
       return null;
     }
     return new BrowserWebSpeechApiPlayer(text, deckForm.speakingCardsLocale);

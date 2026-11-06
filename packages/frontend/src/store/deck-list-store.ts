@@ -1,7 +1,11 @@
 import { action, makeAutoObservable, when } from "mobx";
 import { appLoaderStore } from "./app-loader-store.ts";
 import { type RouterOutput } from "api";
-import { type DeckCardDbType, type DeckWithCardsDbType } from "api";
+import {
+  type DeckCardDbType,
+  type DeckWithCardsDbType,
+  type LibraryPatch,
+} from "api";
 
 type MyInfoResponse = RouterOutput["me"]["info"];
 import { screenStore } from "./screen-store.ts";
@@ -14,7 +18,6 @@ import { reportHandledError } from "../lib/rollbar/rollbar.tsx";
 import { BooleanToggle } from "mobx-form-lite";
 import { userStore } from "./user-store.ts";
 import { platform } from "../lib/platform/platform.ts";
-import { type FolderWithDeckIdDbType } from "api";
 import { isAppStartParam } from "api";
 import { api } from "../api/trpc-api.ts";
 import { BrowserPlatform } from "../lib/platform/browser/browser-platform.ts";
@@ -182,43 +185,17 @@ class DeckListStore {
     return foldersToSearch.find((folder) => folder.folder_id === folderId);
   }
 
-  replaceDeck(deck: DeckWithCardsDbType, addToMine = false) {
-    deckDetailsStore.setDeck(deck);
+  applyLibraryPatch({ decks, folders, cardsToReview }: LibraryPatch) {
+    decks.forEach((deck) => deckDetailsStore.setDeck(deck));
 
-    if (!this.myInfo) {
+    const myInfo = this.myInfo;
+    if (!myInfo) {
       return;
     }
-    const ownedDeckIndex = this.myInfo.myDecks.findIndex(
-      (myDeck) => myDeck.id === deck.id,
-    );
-    if (ownedDeckIndex !== -1) {
-      this.myInfo.myDecks[ownedDeckIndex] = {
-        ...this.myInfo.myDecks[ownedDeckIndex],
-        ...deck,
-      };
-      this.myInfoQuery.setData(this.myInfo);
-      return;
-    }
-
-    const publicDeckIndex = this.myInfo.publicDecks.findIndex(
-      (publicDeck) => publicDeck.id === deck.id,
-    );
-    if (publicDeckIndex !== -1) {
-      const publicDeck = this.myInfo.publicDecks[publicDeckIndex];
-      this.myInfo.publicDecks[publicDeckIndex] = {
-        ...publicDeck,
-        ...deck,
-        authorId: publicDeck.authorId,
-        deckCategory: publicDeck.deckCategory,
-      };
-      this.myInfoQuery.setData(this.myInfo);
-      return;
-    }
-
-    if (addToMine) {
-      this.myInfo.myDecks.push(deck);
-      this.myInfoQuery.setData(this.myInfo);
-    }
+    decks.forEach((deck) => upsertDeck(myInfo, deck));
+    myInfo.folders = folders;
+    myInfo.cardsToReview = cardsToReview;
+    this.myInfoQuery.setData(myInfo);
   }
 
   get deckVariables() {
@@ -373,22 +350,6 @@ class DeckListStore {
     }, 0);
   }
 
-  updateFolders(body: FolderWithDeckIdDbType[]) {
-    if (!this.myInfo) {
-      return;
-    }
-    this.myInfo.folders = body;
-    this.myInfoQuery.setData(this.myInfo);
-  }
-
-  updateCardsToReview(body: CardToReviewDbType[]) {
-    if (!this.myInfo) {
-      return;
-    }
-    this.myInfo.cardsToReview = body;
-    this.myInfoQuery.setData(this.myInfo);
-  }
-
   async handleStartParam(startParam?: string) {
     if (this.isStartParamHandled) {
       return;
@@ -496,6 +457,30 @@ class DeckListStore {
     return this.myDecks.filter(this.isDeckOwner).map((deck) => deck.id);
   }
 }
+
+const upsertDeck = (myInfo: MyInfoResponse, deck: DeckWithCardsDbType) => {
+  const myDeckIndex = myInfo.myDecks.findIndex(({ id }) => id === deck.id);
+  if (myDeckIndex !== -1) {
+    myInfo.myDecks[myDeckIndex] = { ...myInfo.myDecks[myDeckIndex], ...deck };
+    return;
+  }
+
+  const publicDeckIndex = myInfo.publicDecks.findIndex(
+    ({ id }) => id === deck.id,
+  );
+  if (publicDeckIndex !== -1) {
+    const publicDeck = myInfo.publicDecks[publicDeckIndex];
+    myInfo.publicDecks[publicDeckIndex] = {
+      ...publicDeck,
+      ...deck,
+      authorId: publicDeck.authorId,
+      deckCategory: publicDeck.deckCategory,
+    };
+    return;
+  }
+
+  myInfo.myDecks.push(deck);
+};
 
 const getCardsToReview = (
   deck: DeckListDeck,

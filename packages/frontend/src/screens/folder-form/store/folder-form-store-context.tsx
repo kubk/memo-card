@@ -1,15 +1,12 @@
-import { createContext, ReactNode, useContext } from "preact/compat";
+import { createContext, ReactNode, useContext, useState } from "preact/compat";
 import { FolderFormStore } from "./folder-form-store.ts";
 import { assert } from "api";
 
 const Context = createContext<FolderFormStore | null>(null);
 
 export function FolderFormStoreProvider(props: { children: ReactNode }) {
-  return (
-    <Context.Provider value={new FolderFormStore()}>
-      {props.children}
-    </Context.Provider>
-  );
+  const [store] = useState(() => new FolderFormStore());
+  return <Context.Provider value={store}>{props.children}</Context.Provider>;
 }
 
 export function useFolderFormStore() {

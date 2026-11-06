@@ -10,6 +10,7 @@ export function CardFormStoreProvider({ children }: { children: ReactNode }) {
 
   useMount(() => {
     store.loadForm();
+    return () => store.dispose();
   });
 
   return <Context.Provider value={store}>{children}</Context.Provider>;

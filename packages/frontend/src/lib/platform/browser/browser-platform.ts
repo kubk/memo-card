@@ -1,3 +1,4 @@
+import { webAppStartParamKey } from "api";
 import { Platform, HapticType } from "../platform.ts";
 import type { WebHaptics, defaultPatterns } from "web-haptics";
 import { action, makeAutoObservable } from "mobx";
@@ -17,7 +18,7 @@ import { LanguageShared } from "api";
 import { api } from "../../../api/trpc-api.ts";
 import { applyColorScheme } from "../../color-scheme/apply-color-scheme.ts";
 import { env } from "../../../env.ts";
-import { normalizeLanguage } from "../../../translations/normalize-language.ts";
+import { normalizeLanguage } from "api";
 
 export class BrowserPlatform implements Platform {
   isMobile = false;
@@ -72,7 +73,7 @@ export class BrowserPlatform implements Platform {
 
   getStartParam(): string | undefined {
     const urlParams = new URLSearchParams(window.location.search);
-    const start = urlParams.get("start");
+    const start = urlParams.get(webAppStartParamKey);
     if (typeof start === "string") {
       return start;
     }

@@ -1,3 +1,4 @@
+import { webAppStartParamKey } from "api";
 import { Platform, HapticType } from "../platform.ts";
 import { cssVariablesDark, cssVariablesLight } from "../../../ui/theme.tsx";
 import { PlatformSchemaType } from "api";
@@ -7,7 +8,7 @@ import { getWebApp } from "./telegram-web-app.ts";
 import { cloudStorageAdapter } from "./cloud-storage.ts";
 import { lockOrientationWhenPortrait } from "./lock-orientation-when-portrait.ts";
 import { applyColorScheme } from "../../color-scheme/apply-color-scheme.ts";
-import { normalizeLanguage } from "../../../translations/normalize-language.ts";
+import { normalizeLanguage } from "api";
 
 const LANGUAGE_CACHE_KEY = "languageCached";
 const appBackgroundColorVariable = "--tg-theme-secondary-bg-color";
@@ -101,7 +102,7 @@ export class TelegramPlatform implements Platform {
     if (startParam) return startParam;
 
     const urlParams = new URLSearchParams(window.location.search);
-    const start = urlParams.get("start");
+    const start = urlParams.get(webAppStartParamKey);
     return typeof start === "string" ? start : undefined;
   }
 

@@ -148,11 +148,11 @@ export class FolderFormStore {
       return;
     }
 
-    const { folders, folder } = result.data;
-    deckListStore.updateFolders(folders);
+    const { folderId, library } = result.data;
+    deckListStore.applyLibraryPatch(library);
     assert(this.folderForm);
     formUnTouchAll(this.folderForm);
-    screenStore.push({ type: "folderPreview", folderId: folder.id });
+    screenStore.push({ type: "folderPreview", folderId });
     platform.haptic("success");
   }
 }

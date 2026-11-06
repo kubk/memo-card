@@ -11,6 +11,10 @@ import {
 import { makeAutoObservable } from "mobx";
 import { screenStore } from "../../../../store/screen-store.ts";
 import { Route } from "../../../../store/routing/route-types.ts";
+import {
+  getCardQuery,
+  toCardQueryParams,
+} from "../../../../store/routing/card-query.ts";
 import { deckListStore } from "../../../../store/deck-list-store.ts";
 import { showConfirm } from "../../../../lib/platform/show-confirm.ts";
 import {
@@ -164,9 +168,6 @@ const createUpdateForm = (id: string, deck: MyDeck): DeckFormType => {
   };
 };
 
-export type CardFilterSortBy = "createdAt" | "frontAlpha" | "backAlpha";
-export type CardFilterDirection = "desc" | "asc";
-
 export class DeckFormStore {
   deckForm?: DeckFormType;
   deckCreateMutation = makeMutation(api.deck.create.mutate);
@@ -174,43 +175,6 @@ export class DeckFormStore {
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
-  }
-
-  // Read filter values directly from the route (source of truth)
-  get cardFilterSortBy(): CardFilterSortBy {
-    const screen = screenStore.screen;
-    if (
-      screen.type === "deckForm" ||
-      screen.type === "cardList" ||
-      screen.type === "cardListPreview"
-    ) {
-      return screen.sortBy ?? "createdAt";
-    }
-    return "createdAt";
-  }
-
-  get cardFilterSortDirection(): CardFilterDirection {
-    const screen = screenStore.screen;
-    if (
-      screen.type === "deckForm" ||
-      screen.type === "cardList" ||
-      screen.type === "cardListPreview"
-    ) {
-      return screen.sortDirection ?? "desc";
-    }
-    return "desc";
-  }
-
-  get cardFilterText(): string {
-    const screen = screenStore.screen;
-    if (
-      screen.type === "deckForm" ||
-      screen.type === "cardList" ||
-      screen.type === "cardListPreview"
-    ) {
-      return screen.searchText ?? "";
-    }
-    return "";
   }
 
   get isSending() {
@@ -340,11 +304,7 @@ export class DeckFormStore {
   }
 
   private getFilterParams() {
-    return {
-      sortBy: this.cardFilterSortBy,
-      sortDirection: this.cardFilterSortDirection,
-      searchText: this.cardFilterText || undefined,
-    };
+    return toCardQueryParams(getCardQuery(screenStore.screen));
   }
 
   navigateToNewCard() {
@@ -386,13 +346,13 @@ export class DeckFormStore {
   }
 
   private applyDeckMutationResult(
-    { deck, folders, cardsToReview }: RouterOutput["deck"]["create"],
+    { deckId, library }: RouterOutput["deck"]["create"],
     onSuccess?: (deck: DeckWithCardsDbType) => void,
   ) {
+    deckListStore.applyLibraryPatch(library);
+    const deck = library.decks.find(({ id }) => id === deckId);
+    assert(deck, "applyDeckMutationResult: deck is missing from the patch");
     this.deckForm = createUpdateForm(deck.id, deck);
-    deckListStore.replaceDeck(deck, true);
-    deckListStore.updateFolders(folders);
-    deckListStore.updateCardsToReview(cardsToReview);
     onSuccess?.(deck);
   }
 

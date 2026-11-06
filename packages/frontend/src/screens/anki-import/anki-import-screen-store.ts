@@ -131,12 +131,8 @@ export class AnkiImportScreenStore {
       this.finishImport();
     }
 
-    for (const deck of result.importedDecks) {
-      deckListStore.replaceDeck(deck, true);
-    }
-    deckListStore.updateFolders(result.folders);
-    deckListStore.updateCardsToReview(result.cardsToReview);
-    screenStore.replace({ type: "deckPreview", deckId: result.deck.id });
+    deckListStore.applyLibraryPatch(result.library);
+    screenStore.replace({ type: "deckPreview", deckId: result.deckId });
 
     notifySuccess(t("anki_import_success"));
   }

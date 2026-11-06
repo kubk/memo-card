@@ -1,4 +1,4 @@
-import { EnumLike } from "./is-enum-valid.ts";
+type EnumLike = Record<string, string | number>;
 
 export function enumValues<E extends EnumLike>(enumObject: E): E[keyof E][] {
   return Object.keys(enumObject)

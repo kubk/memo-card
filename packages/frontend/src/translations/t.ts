@@ -5,7 +5,7 @@ import type {
   TranslationArguments,
   TranslationKeyByValue,
 } from "./en.ts";
-import { normalizeLanguage } from "./normalize-language.ts";
+import { normalizeLanguage } from "api";
 import {
   TranslationResourceStore,
   type TranslationLoaders,

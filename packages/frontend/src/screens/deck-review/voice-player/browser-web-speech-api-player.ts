@@ -1,4 +1,5 @@
-import { speak, SpeakLanguageEnum } from "../../../lib/voice-playback/speak.ts";
+import { type SpeakLanguage } from "api";
+import { speak } from "../../../lib/voice-playback/speak.ts";
 import { VoicePlayer } from "./create-voice-player.ts";
 import { action, makeAutoObservable } from "mobx";
 
@@ -8,7 +9,7 @@ export class BrowserWebSpeechApiPlayer implements VoicePlayer {
 
   constructor(
     private text: string,
-    private language: SpeakLanguageEnum,
+    private language: SpeakLanguage,
   ) {
     makeAutoObservable(this, {}, { autoBind: true });
   }

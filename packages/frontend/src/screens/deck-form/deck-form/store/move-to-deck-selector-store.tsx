@@ -67,9 +67,7 @@ export class MoveToDeckSelectorStore {
         targetDeckId,
       });
 
-      deckListStore.replaceDeck(result.sourceDeck, true);
-      deckListStore.replaceDeck(result.targetDeck, true);
-      deckListStore.updateCardsToReview(result.cardsToReview);
+      deckListStore.applyLibraryPatch(result.library);
 
       this.onMoveSuccess?.();
       this.close();
@@ -88,7 +86,7 @@ export class MoveToDeckSelectorStore {
                 clear();
               }}
             >
-              {result.targetDeck.name}
+              {result.library.decks.find(({ id }) => id === targetDeckId)?.name}
             </ButtonLink>
           </div>
         </div>,
