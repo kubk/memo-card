@@ -53,7 +53,7 @@
     "@types/telegram-web-app": "^9.6.0",
     "eruda": "3.4.3",
     "jsdom": "^26.1.0",
-    "mobx-react-plugin": "^1.0.0",
+    "mobx-react-plugin": "^1.0.1",
     "oxlint": "^1.70.0",
     "rollbar": "2.26.0",
     "tailwindcss": "^4.3.3",
