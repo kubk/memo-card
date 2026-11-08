@@ -15,11 +15,10 @@ export function BrowserBackButton({ className }: { className?: string }) {
       {platform.isBackButtonVisible ? (
         <ArrowLeftCircle
           className={cn(
-            "text-hint cursor-pointer mt-1.5 active:scale-95 transition-transform",
+            "size-6 text-hint cursor-pointer mt-1.5 active:scale-95 transition-transform",
             userStore.isRtl && "rotate-180",
             className,
           )}
-          size={24}
           onClick={() => {
             assert(platform instanceof BrowserPlatform);
             platform.backButtonInfo?.onClick();

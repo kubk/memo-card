@@ -110,7 +110,7 @@ export function FolderForm() {
                     return folderForm.decks.removeByIndex(i);
                   }}
                 >
-                  <TrashIcon className="text-danger" size={24} />
+                  <TrashIcon className="size-6 text-danger" />
                 </button>
               ),
             };
@@ -140,7 +140,7 @@ export function FolderForm() {
                     });
                   }}
                 >
-                  <PlusIcon size={24} className="text-button" />
+                  <PlusIcon className="size-6 text-button" />
                 </button>
               ),
             };

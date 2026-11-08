@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "typecheck": "pnpm exec tsc -b --noEmit",
-    "lint": "oxlint --format=agent .",
+    "lint": "oxlint --format=agent . && stylelint \"src/**/*.css\"",
     "test": "pnpm exec vitest run --environment jsdom --typecheck",
     "build": "cp index.build.html index.html && vite build",
     "bundle-analyze": "analyze --mode=server --open=false --port=8888 --summary=false"
@@ -56,6 +56,7 @@
     "mobx-react-plugin": "^1.0.1",
     "oxlint": "^1.70.0",
     "rollbar": "2.26.0",
+    "stylelint": "^18.0.0",
     "tailwindcss": "^4.3.3",
     "typescript": "^7.0.2",
     "vite": "^8.0.16",

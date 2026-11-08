@@ -15,10 +15,10 @@ export function McpConfigured() {
 
   return (
     <>
-      <div className="flex size-[150px] items-center justify-center rounded-full bg-button-outline-bg-light text-link dark:bg-button-outline-bg-dark">
-        <CheckIcon size={70} strokeWidth={1.8} />
+      <div className="flex size-37.5 items-center justify-center rounded-full bg-button-outline-bg-light text-link dark:bg-button-outline-bg-dark">
+        <CheckIcon className="size-17.5" strokeWidth={1.8} />
       </div>
-      <h2 className="mt-6 text-center text-[28px] font-bold leading-tight">
+      <h2 className="mt-6 text-center text-[1.75rem] font-bold leading-tight">
         {t("configuredTitle")}
       </h2>
       {plan && paidUntil ? (
@@ -47,7 +47,7 @@ export function McpConfigured() {
                     {
                       icon: (
                         <div className="pl-2 pr-1.5">
-                          <TrashIcon className="text-danger" size={16} />
+                          <TrashIcon className="size-4 text-danger" />
                         </div>
                       ),
                       text: (
@@ -75,7 +75,7 @@ export function McpConfigured() {
         </div>
       ) : null}
       <ButtonLink
-        className="mt-4 text-[17px] font-medium"
+        className="mt-4 text-[1.0625rem] font-medium"
         onClick={store.openGuide}
         type="button"
       >

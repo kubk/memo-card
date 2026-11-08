@@ -141,7 +141,7 @@ export function MainScreen() {
             {deckListStore.myInfo ? (
               <Button
                 variant="outline"
-                icon={<PlusIcon size={24} />}
+                icon={<PlusIcon className="size-6" />}
                 onClick={() => {
                   platform.haptic("light");
                   if (deckListStore.myDecks.length > 0) {
@@ -175,7 +175,7 @@ export function MainScreen() {
                     screenStore.push({ type: "deckCatalog" });
                   }}
                 >
-                  <SearchIcon size={18} />
+                  <SearchIcon className="size-4.5" />
                   {t("explore_public_decks")}
                 </div>
               </>
@@ -214,7 +214,7 @@ export function MainScreen() {
                         },
                         icon: (
                           <FilledIcon
-                            icon={<VideoIcon size={18} />}
+                            icon={<VideoIcon className="size-4.5" />}
                             className="bg-tile-turquoise"
                           />
                         ),
@@ -244,7 +244,7 @@ export function MainScreen() {
                           text: getSharedPlanTitle("teacher"),
                           icon: (
                             <TeacherGradientIcon
-                              icon={<GraduationCapIcon size={18} />}
+                              icon={<GraduationCapIcon className="size-4.5" />}
                             />
                           ),
                           onClick: () => {

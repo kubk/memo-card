@@ -20,10 +20,10 @@ export function McpConnectChatGptStep() {
 
   return (
     <>
-      <h2 className="mt-6 text-center text-[28px] font-bold leading-tight">
+      <h2 className="mt-6 text-center text-[1.75rem] font-bold leading-tight">
         {store.title}
       </h2>
-      <div className="mt-3 text-pretty text-center text-[17px] leading-6 text-hint">
+      <div className="mt-3 text-pretty text-center text-[1.0625rem] leading-6 text-hint">
         {td("instruction", {
           link: (text) => (
             <ButtonLink
@@ -31,7 +31,7 @@ export function McpConnectChatGptStep() {
               onClick={() => platform.openExternalLink(CHATGPT_APPS_URL)}
             >
               {text}
-              <ExternalLinkIcon className="ms-1 inline-block" size={15} />
+              <ExternalLinkIcon className="size-3.75 ms-1 inline-block" />
             </ButtonLink>
           ),
         })}

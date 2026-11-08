@@ -20,7 +20,7 @@ export function ProgressBar(props: Props) {
       <m.div
         initial={false}
         animate={{ width: `${(value / max) * 100}%` }}
-        className={cn(fillClassNames[color], "h-[30px]")}
+        className={cn(fillClassNames[color], "h-7.5")}
       />
       <div className="absolute inset-0 flex items-center justify-center text-sm font-semibold text-text">
         {label ?? `${value}/${max}`}

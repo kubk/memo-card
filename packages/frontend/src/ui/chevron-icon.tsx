@@ -21,23 +21,20 @@ const getRotation = (direction: Direction) => {
 
 type Props = Pick<SVGProps<SVGSVGElement>, "onClick" | "className"> & {
   direction: Direction;
-  size?: 16 | 20 | 24;
 };
 
 export function ChevronIcon(props: Props) {
-  const { direction, size = 16, className, ...restProps } = props;
+  const { direction, className, ...restProps } = props;
   return (
     <m.svg
       tabIndex={-1}
-      width={size}
-      height={size}
       viewBox="0 0 16 16"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       animate={{ rotate: getRotation(direction) }}
       initial={false}
       className={cn(
-        "focus:outline-hidden transition-[scale] duration-200 ease-out active:scale-90",
+        "size-4 focus:outline-hidden transition-[scale] duration-200 ease-out active:scale-90",
         className,
       )}
       {...restProps}

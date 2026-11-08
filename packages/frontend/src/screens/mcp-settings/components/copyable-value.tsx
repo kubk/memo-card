@@ -46,7 +46,7 @@ export function CopyableValue({
           transform: `translateY(-50%) scale(${copied ? 1 : 0.75})`,
         }}
       >
-        <CheckIcon size={18} strokeWidth={2.5} />
+        <CheckIcon className="size-4.5" strokeWidth={2.5} />
       </span>
     </button>
   );

@@ -141,7 +141,7 @@ export function DeckCatalog() {
 
               {catalogQuery.isFetchingNextPage ? (
                 <div className="flex justify-center py-3">
-                  <LoaderCircle size={24} className="animate-spin text-hint" />
+                  <LoaderCircle className="size-6 animate-spin text-hint" />
                 </div>
               ) : null}
             </>

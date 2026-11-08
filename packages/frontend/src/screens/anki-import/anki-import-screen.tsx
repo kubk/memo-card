@@ -78,10 +78,10 @@ export function AnkiImportScreenView({
         }}
       />
 
-      <div className="mx-auto flex min-h-[calc(var(--app-viewport-height)_-_150px)] w-full max-w-[300px] flex-col items-center justify-center pb-28 pt-8">
+      <div className="mx-auto flex min-h-[calc(var(--app-viewport-height)_-_9.375rem)] w-full max-w-75 flex-col items-center justify-center pb-28 pt-8">
         <AnkiImportIllustration />
 
-        <h2 className="mt-5 text-center text-[28px] font-bold leading-tight">
+        <h2 className="mt-5 text-center text-[1.75rem] font-bold leading-tight">
           {t("anki_import_heading")}
         </h2>
 
@@ -112,17 +112,17 @@ function AnkiImportSteps({ store }: { store: AnkiImportScreenStore }) {
     <div className="mt-8 flex w-full flex-col gap-8">
       {steps.map((step) => (
         <div
-          className="grid grid-cols-[72px_minmax(0,1fr)] items-start gap-5"
+          className="grid grid-cols-[4.5rem_minmax(0,1fr)] items-start gap-5"
           key={step.number}
         >
-          <div className="flex h-[72px] w-[72px] items-center justify-center rounded-[20px] bg-button-outline-bg-light text-[34px] font-bold leading-none text-link dark:bg-button-outline-bg-dark dark:text-button-outline-fg-dark">
+          <div className="flex h-18 w-18 items-center justify-center rounded-[1.25rem] bg-button-outline-bg-light text-[2.125rem] font-bold leading-none text-link dark:bg-button-outline-bg-dark dark:text-button-outline-fg-dark">
             {step.number}
           </div>
           <div>
-            <div className="text-[17px] font-bold leading-6">
+            <div className="text-[1.0625rem] font-bold leading-6">
               {t(step.titleKey)}
             </div>
-            <div className="mt-1 text-[17px] leading-6 text-hint">
+            <div className="mt-1 text-[1.0625rem] leading-6 text-hint">
               {td(step.textKey, {
                 link: (text) => (
                   <ButtonLink
@@ -157,7 +157,7 @@ function AnkiImportScreenshotLightbox(props: { store: AnkiImportScreenStore }) {
       onClick={store.closeScreenshot}
     >
       <img
-        className="block max-h-[calc(var(--app-viewport-height)_-_var(--app-safe-area-top)_-_var(--app-bottom-inset)_-_80px)] max-w-[calc(100vw_-_32px)] object-contain"
+        className="block max-h-[calc(var(--app-viewport-height)_-_var(--app-safe-area-top)_-_var(--app-bottom-inset)_-_5rem)] max-w-[calc(100vw_-_2rem)] object-contain"
         src={openScreenshot.src}
         alt={openScreenshot.alt}
         onClick={(event) => event.stopPropagation()}
@@ -168,18 +168,18 @@ function AnkiImportScreenshotLightbox(props: { store: AnkiImportScreenStore }) {
 
 function AnkiImportIllustration() {
   return (
-    <div className="relative flex h-[190px] w-[230px] items-center justify-center">
-      <div className="h-[146px] w-[146px] rounded-full bg-button-outline-bg-light dark:bg-button-outline-bg-dark" />
+    <div className="relative flex h-47.5 w-57.5 items-center justify-center">
+      <div className="h-36.5 w-36.5 rounded-full bg-button-outline-bg-light dark:bg-button-outline-bg-dark" />
 
-      <div className="absolute top-[31px] flex h-[128px] w-[112px] flex-col items-center overflow-visible">
+      <div className="absolute top-7.75 flex h-32 w-28 flex-col items-center overflow-visible">
         <FileIcon
           className="absolute inset-0 h-full w-full text-button-outline-bg-light dark:text-button-outline-bg-dark"
           fill="var(--tg-theme-bg-color)"
           strokeWidth={1}
         />
 
-        <div className="h-[52px]" />
-        <div className="relative w-[112px] rounded-md bg-button py-1.5 text-center text-lg font-bold leading-none text-button-text shadow-xs">
+        <div className="h-13" />
+        <div className="relative w-28 rounded-md bg-button py-1.5 text-center text-lg font-bold leading-none text-button-text shadow-xs">
           .apkg
         </div>
       </div>

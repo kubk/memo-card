@@ -27,7 +27,7 @@ export function CardSpeaker(props: Props) {
     >
       <SpeakerIcon
         isPlaying={!!card.voicePlayer?.isPlaying}
-        size={isLarge ? 72 : 24}
+        isLarge={isLarge}
       />
     </button>
   );
@@ -35,21 +35,19 @@ export function CardSpeaker(props: Props) {
 
 export function SpeakerIcon({
   isPlaying,
-  size,
+  isLarge = false,
 }: {
   isPlaying: boolean;
-  size: number;
+  isLarge?: boolean;
 }) {
   const iconProps = {
-    className: "text-button",
-    strokeWidth: size > 24 ? 1.5 : 2,
+    className: cn("text-button", isLarge ? "size-18" : "size-6"),
+    strokeWidth: isLarge ? 1.5 : 2,
   };
 
   return isPlaying ? (
     <svg
       {...iconProps}
-      width={size}
-      height={size}
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -63,6 +61,6 @@ export function SpeakerIcon({
       </g>
     </svg>
   ) : (
-    <PlayCircle {...iconProps} size={size} />
+    <PlayCircle {...iconProps} />
   );
 }

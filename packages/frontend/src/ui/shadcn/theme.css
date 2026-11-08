@@ -82,6 +82,7 @@
   --color-tile-blue: #0079ff;
   --color-tile-turquoise: #32ade6;
   --color-tile-sea: #34c759;
+  --color-tile-coral: #ff6b5a;
 
   --color-border: var(--border);
   --color-input: var(--input);
@@ -99,7 +100,7 @@
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
 
-  --shadow: 0 12px 24px 0 rgba(0, 0, 0, 0.05);
+  --shadow: 0 0.75rem 1.5rem 0 rgba(0, 0, 0, 0.05);
   --shadow-button-focus: 0 0 0 0.2rem var(--memo-button-color-alpha-40);
   --shadow-danger-focus: 0 0 0 0.2rem #fc202566;
   --shadow-hint-focus: 0 0 0 0.2rem var(--tg-theme-hint-color);

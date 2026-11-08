@@ -7,7 +7,7 @@ export function CardFieldView(props: { text: string }) {
   const { text } = props;
   return (
     <span
-      className="whitespace-pre-wrap [&_img]:max-w-[300px] [&_img]:max-h-[300px] [&_img]:rounded-lg"
+      className="whitespace-pre-wrap [&_img]:max-w-75 [&_img]:max-h-75 [&_img]:rounded-lg"
       dangerouslySetInnerHTML={{
         __html: toViewerMediaUrls(
           sanitizeTextForCard(

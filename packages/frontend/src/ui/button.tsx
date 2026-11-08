@@ -29,7 +29,7 @@ export function Button({
       className={cn(
         reset.button,
         "flex w-full items-center justify-center gap-2 rounded-xl px-3 py-3 text-sm font-semibold leading-[1.5] select-none transition-[background-color,border,box-shadow,color] duration-200 ease-in-out active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-40 disabled:active:scale-100",
-        large ? "h-[53px]" : "h-[45px]",
+        large ? "h-13.25" : "h-11.25",
         variantClassNames[variant],
         className,
       )}

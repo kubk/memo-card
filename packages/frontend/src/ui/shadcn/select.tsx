@@ -22,7 +22,7 @@ export function ShadcnSelectTrigger({
     >
       {children}
       <SelectPrimitive.Icon asChild>
-        <ChevronDown className="shrink-0 opacity-60" size={14} />
+        <ChevronDown className="size-3.5 shrink-0 opacity-60" />
       </SelectPrimitive.Icon>
     </SelectPrimitive.Trigger>
   );
@@ -76,7 +76,7 @@ export function ShadcnSelectItem({
       <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
       <span className="absolute right-2 flex size-4 items-center justify-center">
         <SelectPrimitive.ItemIndicator>
-          <Check size={14} />
+          <Check className="size-3.5" />
         </SelectPrimitive.ItemIndicator>
       </span>
     </SelectPrimitive.Item>

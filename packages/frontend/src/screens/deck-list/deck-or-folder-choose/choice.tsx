@@ -15,7 +15,7 @@ export function Choice(props: Props) {
   return (
     <div
       onClick={onClick}
-      className="p-[14px_16px] flex flex-col gap-1 bg-secondary-bg rounded-[12px] shadow cursor-pointer"
+      className="p-[0.875rem_1rem] flex flex-col gap-1 bg-secondary-bg rounded-xl shadow cursor-pointer"
     >
       <Flex
         justifyContent={"space-between"}
@@ -35,7 +35,7 @@ export function Choice(props: Props) {
           </Flex>
         </Flex>
         <div className="text-hint">
-          <ChevronIcon size={20} direction={"right"} />
+          <ChevronIcon className="size-5" direction={"right"} />
         </div>
       </Flex>
     </div>

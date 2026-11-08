@@ -32,12 +32,7 @@ export function ActivityIndicatorTick({
 // Only the ticks fade, a rotating svg jitters in Safari
 export function ActivityIndicator({ className }: { className?: string }) {
   return (
-    <svg
-      width={48}
-      height={48}
-      viewBox="0 0 28 28"
-      className={cn("text-hint", className)}
-    >
+    <svg viewBox="0 0 28 28" className={cn("size-12 text-hint", className)}>
       {range(activityIndicatorTickCount).map((index) => (
         <ActivityIndicatorTick
           key={index}

@@ -77,7 +77,7 @@ export function ManualCardFormView() {
     ...(cardForm.id
       ? [
           {
-            icon: <PlusIcon size={20} className="text-hint" />,
+            icon: <PlusIcon className="size-5 text-hint" />,
             text: t("add_card_short"),
             onClick: () => {
               cardFormStore.onOpenNewFromCard();
@@ -88,7 +88,7 @@ export function ManualCardFormView() {
     ...(cardFormStore.isMoveCardVisible
       ? [
           {
-            icon: <FolderInputIcon size={20} className="text-hint" />,
+            icon: <FolderInputIcon className="size-5 text-hint" />,
             text: t("move_card_to_deck_title"),
             onClick: () => {
               cardFormStore.openMoveCardSheet();
@@ -97,14 +97,14 @@ export function ManualCardFormView() {
         ]
       : []),
     {
-      icon: <Volume2Icon size={20} className="text-hint" />,
+      icon: <Volume2Icon className="size-5 text-hint" />,
       text: t("speaking_card"),
       onClick: () => cardFormStore.cardInnerScreen.onChange("speakingCard"),
     },
     ...(cardForm.id
       ? [
           {
-            icon: <TrashIcon size={20} className="text-danger" />,
+            icon: <TrashIcon className="size-5 text-danger" />,
             text: <span className="text-danger">{t("delete")}</span>,
             onClick: markCardAsRemoved,
           },
@@ -169,7 +169,7 @@ export function ManualCardFormView() {
                 icon: (
                   <FilledIcon
                     className="bg-tile-violet"
-                    icon={<BookOpenCheckIcon size={18} />}
+                    icon={<BookOpenCheckIcon className="size-4.5" />}
                   />
                 ),
                 text: t("card_field_example_title"),
@@ -182,7 +182,7 @@ export function ManualCardFormView() {
                 icon: (
                   <FilledIcon
                     className="bg-tile-blue"
-                    icon={<LayersIcon size={18} />}
+                    icon={<LayersIcon className="size-4.5" />}
                   />
                 ),
                 text: t("card_answer_type"),
@@ -219,8 +219,8 @@ export function ManualCardFormView() {
                     className={cn("flex items-start gap-2 relative", {})}
                   >
                     <div
-                      className={cn("mt-[16px]", {
-                        "mt-[5px]": isQuizzCardFormattingOn,
+                      className={cn("mt-4", {
+                        "mt-1.25": isQuizzCardFormattingOn,
                       })}
                       onClick={() =>
                         cardFormStore.toggleAnswerCorrect(answerForm.id)
@@ -244,24 +244,24 @@ export function ManualCardFormView() {
                     </div>
                     <button
                       type="button"
-                      className={cn("mt-[19px]", {
-                        "mt-[7px]": isQuizzCardFormattingOn,
+                      className={cn("mt-4.75", {
+                        "mt-1.75": isQuizzCardFormattingOn,
                       })}
                       onClick={() => cardFormStore.deleteAnswer(answerForm.id)}
                     >
-                      <TrashIcon size={18} />
+                      <TrashIcon className="size-4.5" />
                     </button>
                   </div>
                 ))}
 
                 <CardRow
                   className={cn({
-                    "mt-[3px]": cardForm.answers.value.length > 0,
+                    "mt-0.75": cardForm.answers.value.length > 0,
                   })}
                   onClick={cardFormStore.addAnswer}
                 >
                   <span className="flex items-center gap-2 text-link">
-                    <PlusIcon size={18} className="text-inherit" />{" "}
+                    <PlusIcon className="size-4.5 text-inherit" />{" "}
                     {t("add_answer")}
                   </span>
                 </CardRow>
@@ -278,14 +278,14 @@ export function ManualCardFormView() {
             items={[
               {
                 type: "action",
-                icon: <ArrowLeftIcon size={24} />,
+                icon: <ArrowLeftIcon className="size-6" />,
                 text: t("card_previous"),
                 onClick: cardFormStore.onPreviousCard,
                 disabled: !cardFormStore.isPreviousCardVisible,
               },
               {
                 type: "action",
-                icon: <EyeIcon size={24} />,
+                icon: <EyeIcon className="size-6" />,
                 text: t("card_preview"),
                 disabled: !cardFormStore.isCardPreviewVisible,
                 onClick: () => {
@@ -294,13 +294,13 @@ export function ManualCardFormView() {
               },
               {
                 type: "dropdown",
-                icon: <EllipsisIcon size={24} />,
+                icon: <EllipsisIcon className="size-6" />,
                 text: t("more"),
                 options: moreItems,
               },
               {
                 type: "action",
-                icon: <ArrowRightIcon size={24} />,
+                icon: <ArrowRightIcon className="size-6" />,
                 text: t("card_next"),
                 onClick: cardFormStore.onNextCard,
                 disabled: !cardFormStore.isNextCardVisible,

@@ -37,30 +37,30 @@ import { uploadImage } from "../../api/file-upload.ts";
 
 const BtnBigHeader = createButton(
   t("wysiwyg_big_header"),
-  <Heading1Icon size={18} className="text-text" />,
+  <Heading1Icon className="size-4.5 text-text" />,
   "h1",
 );
 
 const BtnBold = createButton(
   t("wysiwyg_bold"),
-  <BoldIcon size={18} className="text-text" />,
+  <BoldIcon className="size-4.5 text-text" />,
   "bold",
 );
 const BtnItalic = createButton(
   t("wysiwyg_italic"),
-  <ItalicIcon size={18} className="text-text" />,
+  <ItalicIcon className="size-4.5 text-text" />,
   "italic",
 );
 
 const BtnUndo = createButton(
   t("wysiwyg_undo"),
-  <UndoIcon size={18} className="text-text" />,
+  <UndoIcon className="size-4.5 text-text" />,
   "undo",
 );
 
 const BtnClearFormatting = createButton(
   t("wysiwyg_clear_formatting"),
-  <RemoveFormattingIcon size={18} className="text-text" />,
+  <RemoveFormattingIcon className="size-4.5 text-text" />,
   () => {
     document.execCommand("removeFormat", false);
     // A hack is used since removeFormat doesn't support clearing H1-H6  tags
@@ -97,7 +97,7 @@ export function WysiwygField({
 
   const BtnTable = createButton(
     "Table",
-    <TableIcon size={18} className="text-text" />,
+    <TableIcon className="size-4.5 text-text" />,
     () => {
       wysiwygStore.openBottomSheet("table");
     },
@@ -105,7 +105,7 @@ export function WysiwygField({
 
   const BtnHelp = createButton(
     "Help",
-    <HelpCircleIcon size={18} className="text-text" />,
+    <HelpCircleIcon className="size-4.5 text-text" />,
     () => {
       wysiwygStore.openBottomSheet("help");
     },
@@ -114,7 +114,7 @@ export function WysiwygField({
 
   const BtnImage = createButton(
     t("image"),
-    <ImageIcon size={18} className="text-text" />,
+    <ImageIcon className="size-4.5 text-text" />,
     () => {
       openFilePicker();
     },
@@ -124,8 +124,8 @@ export function WysiwygField({
     if (isUploading) {
       return (
         <div className="relative inline-block bg-bg rounded-xl p-2">
-          <div className="w-[300px] h-[200px] flex items-center justify-center text-hint">
-            <Loader2Icon className="animate-spin" size={32} />
+          <div className="w-75 h-50 flex items-center justify-center text-hint">
+            <Loader2Icon className="size-8 animate-spin" />
           </div>
           {hasError ? <ValidationError error={error} /> : null}
         </div>
@@ -137,7 +137,7 @@ export function WysiwygField({
         <div className="relative inline-block bg-bg rounded-xl p-2">
           <img
             src={toViewerMediaUrls(imageUrl)}
-            className="max-w-[300px] max-h-[300px] rounded-lg block"
+            className="max-w-75 max-h-75 rounded-lg block"
           />
           <button
             type="button"
@@ -146,7 +146,7 @@ export function WysiwygField({
               onChange("");
             }}
           >
-            <XIcon size={16} />
+            <XIcon className="size-4" />
           </button>
           {hasError ? <ValidationError error={error} /> : null}
         </div>

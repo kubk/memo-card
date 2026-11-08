@@ -44,7 +44,7 @@ function ActionMenuOverlay({
       />
       <m.div
         role="dialog"
-        className="fixed inset-x-3 bottom-0 z-[1002] max-h-[calc(var(--app-viewport-height)_-_var(--app-safe-area-top)_-_var(--app-content-safe-area-top))] overflow-y-auto overscroll-contain pb-[calc(var(--app-bottom-inset)_+_12px)] text-text will-change-transform"
+        className="fixed inset-x-3 bottom-0 z-[1002] max-h-[calc(var(--app-viewport-height)_-_var(--app-safe-area-top)_-_var(--app-content-safe-area-top))] overflow-y-auto overscroll-contain pb-[calc(var(--app-bottom-inset)_+_0.75rem)] text-text will-change-transform"
         initial={{ y: "100%" }}
         animate={{
           y: 0,
@@ -114,14 +114,14 @@ function ActionMenu({
             triggerClassName,
           )}
         >
-          {trigger ?? <EllipsisIcon size={24} />}
+          {trigger ?? <EllipsisIcon className="size-6" />}
         </button>
       )}
       {createPortal(
         <AnimatePresence>
           {isOpen && (
             <ActionMenuOverlay onClose={close}>
-              <div className="overflow-hidden rounded-[22px] bg-bg">
+              <div className="overflow-hidden rounded-[1.375rem] bg-bg">
                 {options.map((option, index) => (
                   <button
                     key={index}
@@ -131,7 +131,7 @@ function ActionMenu({
                       platform.haptic("selection");
                     }}
                     className={cn(
-                      "flex w-full items-center gap-4 bg-bg px-5 py-4 text-left text-[17px] text-text active:bg-secondary-bg",
+                      "flex w-full items-center gap-4 bg-bg px-5 py-4 text-left text-[1.0625rem] text-text active:bg-secondary-bg",
                       index !== options.length - 1 &&
                         "border-b border-secondary-bg",
                     )}
@@ -145,7 +145,7 @@ function ActionMenu({
               </div>
               <button
                 onClick={close}
-                className="mt-2 w-full rounded-[22px] bg-bg py-4 text-[17px] font-semibold text-link active:bg-secondary-bg"
+                className="mt-2 w-full rounded-[1.375rem] bg-bg py-4 text-[1.0625rem] font-semibold text-link active:bg-secondary-bg"
               >
                 {t("confirm_cancel")}
               </button>

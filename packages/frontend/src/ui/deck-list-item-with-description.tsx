@@ -19,7 +19,7 @@ export function DeckListItemWithDescription(props: Props) {
 
   return (
     <div
-      className="flex flex-col gap-1 rounded-[12px] p-3 cursor-pointer bg-bg"
+      className="flex flex-col gap-1 rounded-xl p-3 cursor-pointer bg-bg"
       onClick={onClick}
     >
       <div key={catalogItem.id} className="text-text font-medium relative">
@@ -32,7 +32,7 @@ export function DeckListItemWithDescription(props: Props) {
         {catalogItem.name}
         {titleRightSlot}
       </div>
-      <div className="text-hint text-[14px]">
+      <div className="text-hint text-[0.875rem]">
         <LinesEllipsis
           text={
             catalogItem.description

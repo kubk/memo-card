@@ -4,5 +4,5 @@ type Props = {
 
 export function ValidationError(props: Props) {
   const { error } = props;
-  return <div className="text-[14px] text-danger ml-3">{error}</div>;
+  return <div className="text-[0.875rem] text-danger ml-3">{error}</div>;
 }

@@ -6,6 +6,7 @@ import { refetchActiveQueriesOnVisible } from "./lib/mobx-query-lite/make-query.
 import { reportHandledError } from "./lib/rollbar/rollbar.tsx";
 import { polyfillCountryFlagEmojis } from "country-flag-emoji-polyfill";
 import { translationResourceStore } from "./translations/t.ts";
+import { fontSizeStore } from "./lib/font-size/font-size-store.ts";
 
 // iOS WebKit needs a touch listener to apply CSS :active while pressing.
 document.addEventListener("touchstart", () => {}, { passive: true });
@@ -20,6 +21,7 @@ const appPromise = import("./screens/app.tsx");
 
 polyfillCountryFlagEmojis();
 initializePlatform();
+fontSizeStore.initialize();
 
 refetchActiveQueriesOnVisible();
 

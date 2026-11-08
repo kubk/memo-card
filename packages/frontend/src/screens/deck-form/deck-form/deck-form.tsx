@@ -79,7 +79,7 @@ export function DeckForm() {
   const folderName = screen.folderName;
   const isDeckOwner = deck ? deckListStore.isDeckOwner(deck) : false;
   const deleteAction = {
-    icon: <TrashIcon size={24} />,
+    icon: <TrashIcon className="size-6" />,
     text: t("delete"),
     onClick: () => {
       assert(deck);
@@ -92,7 +92,7 @@ export function DeckForm() {
         ...(canShareMessage()
           ? [
               {
-                icon: <LinkIcon size={20} className="text-hint" />,
+                icon: <LinkIcon className="size-5 text-hint" />,
                 text: t("share_link"),
                 onClick: () => copyMemoCardLink(deck.id),
               },
@@ -101,7 +101,7 @@ export function DeckForm() {
         ...(canDelete
           ? [
               {
-                icon: <TrashIcon size={20} className="text-danger" />,
+                icon: <TrashIcon className="size-5 text-danger" />,
                 text: <span className="text-danger">{t("delete")}</span>,
                 onClick: deleteAction.onClick,
               },
@@ -114,7 +114,7 @@ export function DeckForm() {
       ? [
           {
             type: "action" as const,
-            icon: <ShareIcon size={24} />,
+            icon: <ShareIcon className="size-6" />,
             text: t("share"),
             onClick: () =>
               shareMemoCardUrl({
@@ -126,7 +126,7 @@ export function DeckForm() {
       : []),
     {
       type: "action" as const,
-      icon: <BotIcon size={24} />,
+      icon: <BotIcon className="size-6" />,
       text: "ChatGPT",
       onClick: () => {
         screenStore.push(
@@ -138,7 +138,7 @@ export function DeckForm() {
     },
     {
       type: "action" as const,
-      icon: <MicIcon size={24} />,
+      icon: <MicIcon className="size-6" />,
       text: t("speaking_card"),
       onClick: () => deckFormStore.goToSpeakingCards(),
     },
@@ -146,7 +146,7 @@ export function DeckForm() {
       ? [
           {
             type: "dropdown" as const,
-            icon: <EllipsisIcon size={24} />,
+            icon: <EllipsisIcon className="size-6" />,
             text: t("more"),
             options: moreOptions,
           },
@@ -214,7 +214,7 @@ export function DeckForm() {
                   icon: (
                     <FilledIcon
                       className="bg-tile-blue"
-                      icon={<UploadIcon size={18} />}
+                      icon={<UploadIcon className="size-4.5" />}
                     />
                   ),
                   text: t("anki_import_entry_button"),
@@ -238,7 +238,7 @@ export function DeckForm() {
                   icon: (
                     <FilledIcon
                       className="bg-tile-violet"
-                      icon={<LayersIcon size={18} className="text-white" />}
+                      icon={<LayersIcon className="size-4.5 text-white" />}
                     />
                   ),
                   text: t("cards"),
@@ -254,7 +254,7 @@ export function DeckForm() {
                 {
                   icon: (
                     <TransparentIcon
-                      icon={<PlusIcon size={24} className="text-link" />}
+                      icon={<PlusIcon className="size-6 text-link" />}
                     />
                   ),
                   text: t("add_card"),
@@ -272,7 +272,7 @@ export function DeckForm() {
           <ActionTileRow className="mt-2" items={deckActionItems} />
         )}
 
-        <div className="mt-[18px]" />
+        <div className="mt-4.5" />
       </Screen>
 
       <BackBottomButton

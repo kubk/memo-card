@@ -15,7 +15,7 @@ export function RadioSwitcher(props: Props) {
         event.stopPropagation();
       }}
       className={cn(
-        "inline-flex items-center rounded-[38px] px-2 h-[26px] w-[40px] cursor-pointer relative whitespace-nowrap transition-colors duration-200 mb-0",
+        "inline-flex items-center rounded-[2.375rem] px-2 h-6.5 w-10 cursor-pointer relative whitespace-nowrap transition-colors duration-200 mb-0",
         "bg-[#767680]/30",
         isOn && "bg-success",
       )}
@@ -31,8 +31,8 @@ export function RadioSwitcher(props: Props) {
       />
       <div
         className={cn(
-          "flex justify-center items-center absolute bg-white shadow w-[19px] h-[19px] rounded-full transition-[left,background-color] duration-200 ease-in-out left-1",
-          isOn && "left-[calc(100%_-_23px)]",
+          "flex justify-center items-center absolute bg-white shadow w-4.75 h-4.75 rounded-full transition-[left,background-color] duration-200 ease-in-out left-1",
+          isOn && "left-[calc(100%_-_1.4375rem)]",
         )}
       />
     </label>

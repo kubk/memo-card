@@ -32,8 +32,7 @@ export function CardPreview(props: Props) {
           </div>
           {cardPreviewStore.isOpened && (
             <RotateCcwIcon
-              className="cursor-pointer"
-              size={24}
+              className="size-6 cursor-pointer"
               onClick={() => {
                 cardPreviewStore.revert();
               }}

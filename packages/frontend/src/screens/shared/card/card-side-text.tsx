@@ -7,6 +7,6 @@ export function CardSideText({ text }: { text: string }) {
   return (
     removeAllTags({
       text: applyDeckVariables(text, deckListStore.deckVariables),
-    }) || <Volume2 className="inline align-[-3px]" size={16} />
+    }) || <Volume2 className="inline align-[-0.1875rem]" />
   );
 }

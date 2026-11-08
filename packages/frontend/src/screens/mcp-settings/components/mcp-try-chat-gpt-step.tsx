@@ -7,7 +7,7 @@ export function McpTryChatGptStep() {
 
   return (
     <>
-      <h2 className="mt-6 text-center text-[28px] font-bold leading-tight">
+      <h2 className="mt-6 text-center text-[1.75rem] font-bold leading-tight">
         {store.title}
       </h2>
       <div className="mt-6 flex w-full flex-col gap-3">

@@ -51,7 +51,7 @@ export function FolderPreview(props: Props) {
       ? [
           {
             type: "action" as const,
-            icon: <PlusIcon size={24} />,
+            icon: <PlusIcon className="size-6" />,
             text: t("add_deck_short"),
             onClick: () => {
               screenStore.push({
@@ -78,7 +78,7 @@ export function FolderPreview(props: Props) {
   return (
     <Flex direction={"column"} pb={82}>
       <LabelGroup title={t("folder")}>
-        <div className="flex flex-col gap-4 rounded-[12px] px-4 pb-4 pt-0 bg-bg">
+        <div className="flex flex-col gap-4 rounded-xl px-4 pb-4 pt-0 bg-bg">
           <div className="flex items-start gap-1.5">
             <BrowserBackButton className="mt-3" />
             <h3 className="min-w-0 flex-1 pt-3">{folder.name}</h3>

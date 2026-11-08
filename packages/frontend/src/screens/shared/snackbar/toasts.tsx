@@ -83,7 +83,7 @@ function ToastItem({
 
 function ToastIcon({ variant }: { variant: ToastVariant }) {
   if (variant === "loading") {
-    return <Loader2Icon size={28} className="me-3 shrink-0 animate-spin" />;
+    return <Loader2Icon className="size-7 me-3 shrink-0 animate-spin" />;
   }
 
   return (

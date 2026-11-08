@@ -40,7 +40,7 @@ export function DeckFinished(props: Props) {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0, duration: 0.4 }}
-        className="w-full flex flex-col p-6 bg-bg rounded-[12px]"
+        className="w-full flex flex-col p-6 bg-bg rounded-xl"
       >
         <span className="mb-2">
           {type === "deck" ? t("review_deck_finished") : t("review_all_cards")}
@@ -53,7 +53,7 @@ export function DeckFinished(props: Props) {
           <p>{t("encouraging_message")}</p>
         )}
       </m.div>
-      <div className="mb-[100px]">
+      <div className="mb-25">
         <ReviewedCardsList reviewedCards={reviewStore.sortedReviewedCards} />
       </div>
     </Flex>

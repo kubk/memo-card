@@ -3,7 +3,7 @@
   border-radius: 0.375rem;
   display: flex;
   flex-direction: column;
-  min-height: 100px;
+  min-height: 6.25rem;
   overflow: hidden;
 }
 
@@ -11,8 +11,8 @@
   align-items: center;
   display: flex;
   border-bottom: 1px solid var(--tg-theme-secondary-bg-color);
-  border-top-left-radius: 12px;
-  border-top-right-radius: 12px;
+  border-top-left-radius: 0.75rem;
+  border-top-right-radius: 0.75rem;
   color: var(--tg-theme-text-color);
   background-color: var(--tg-theme-bg-color);
 }
@@ -20,7 +20,7 @@
 /* The final toolbar button is Help */
 .rsw-toolbar button:last-child {
   margin-inline-start: auto;
-  padding-inline-end: 2px;
+  padding-inline-end: 0.125rem;
 }
 
 .rsw-editor[data-invalid] .rsw-ce {
@@ -31,8 +31,8 @@
   flex: 1 0 auto;
   outline: none;
   padding: 0.5rem;
-  border-bottom-left-radius: 12px;
-  border-bottom-right-radius: 12px;
+  border-bottom-left-radius: 0.75rem;
+  border-bottom-right-radius: 0.75rem;
   background: var(--tg-theme-bg-color);
 }
 

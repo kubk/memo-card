@@ -18,7 +18,7 @@ export function FullScreenLoader({
       )}
       style={{ height }}
     >
-      <Loader2 size={48} className="animate-spin" />
+      <Loader2 className="size-12 animate-spin" />
     </div>
   );
 }

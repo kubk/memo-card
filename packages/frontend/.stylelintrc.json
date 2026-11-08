@@ -1,0 +1,12 @@
+{
+  "rules": {
+    "unit-disallowed-list": [
+      ["px"],
+      {
+        "ignoreProperties": { "px": ["/^border/", "/^outline/"] },
+        "ignoreMediaFeatureNames": { "px": ["/width$/", "/height$/"] },
+        "message": "Use rem instead of px so the UI scales with the text size setting. px is only for borders, outlines and media queries"
+      }
+    ]
+  }
+}

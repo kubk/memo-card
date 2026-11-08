@@ -16,7 +16,7 @@ function ActionTile({
   className?: string;
 }) {
   const tileClassName = cn(
-    "flex h-[72px] w-full min-w-0 flex-1 flex-col items-center justify-center gap-1.5 bg-bg px-1 text-xs text-button select-none transition-colors duration-200 ease-in-out",
+    "flex h-18 w-full min-w-0 flex-1 flex-col items-center justify-center gap-1.5 bg-bg px-1 text-xs text-button select-none transition-colors duration-200 ease-in-out",
     onClick
       ? "cursor-pointer active:bg-action-tile-active disabled:cursor-not-allowed disabled:text-disabled disabled:active:bg-bg"
       : "pointer-events-none",

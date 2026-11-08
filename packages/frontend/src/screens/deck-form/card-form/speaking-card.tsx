@@ -117,10 +117,7 @@ export function SpeakingCard() {
                     onClick={recordingPlayer.play}
                     className="flex cursor-pointer touch-manipulation transition-[scale] duration-200 ease-out active:scale-90"
                   >
-                    <SpeakerIcon
-                      isPlaying={recordingPlayer.isPlaying}
-                      size={24}
-                    />
+                    <SpeakerIcon isPlaying={recordingPlayer.isPlaying} />
                   </button>
                 ),
               },

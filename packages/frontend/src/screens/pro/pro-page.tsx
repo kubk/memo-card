@@ -57,25 +57,25 @@ const splitGraphemes = (text: string) =>
 
 const BENEFITS = [
   {
-    icon: <LibraryBig size={17} />,
+    icon: <LibraryBig className="size-4.25" />,
     iconClassName: "bg-tile-violet",
     titleKey: "benefitCreateTitle",
     descriptionKey: "benefitCreateDescription",
   },
   {
-    icon: <PencilLine size={17} />,
+    icon: <PencilLine className="size-4.25" />,
     iconClassName: "bg-tile-blue",
     titleKey: "benefitImproveTitle",
     descriptionKey: "benefitImproveDescription",
   },
   {
-    icon: <FolderTree size={17} />,
+    icon: <FolderTree className="size-4.25" />,
     iconClassName: "bg-tile-turquoise",
     titleKey: "benefitManageTitle",
     descriptionKey: "benefitManageDescription",
   },
   {
-    icon: <AudioLines size={17} />,
+    icon: <AudioLines className="size-4.25" />,
     iconClassName: "bg-tile-sea",
     titleKey: "benefitTranscriptionTitle",
     descriptionKey: "benefitTranscriptionDescription",
@@ -98,25 +98,25 @@ export function ProPage({
     >
       <main
         className={cn(
-          "mx-auto w-full max-w-[430px] pb-20 pt-1",
+          "mx-auto w-full max-w-107.5 pb-20 pt-1",
           !flush && "px-3",
         )}
       >
         {notice ? <div className="mb-3">{notice}</div> : null}
 
-        <section className="overflow-hidden rounded-[28px] bg-bg px-4 pb-5 pt-7 shadow">
-          <h1 className="mx-auto max-w-[320px] text-center text-[30px] font-bold leading-[1.05] tracking-[-0.035em]">
+        <section className="overflow-hidden rounded-[1.75rem] bg-bg px-4 pb-5 pt-7 shadow">
+          <h1 className="mx-auto max-w-80 text-center text-[1.875rem] font-bold leading-[1.05] tracking-[-0.035em]">
             {t("proTitle")}
           </h1>
-          <p className="mx-auto mt-4 max-w-[315px] text-center text-[16px] leading-[1.45] text-hint">
+          <p className="mx-auto mt-4 max-w-78.75 text-center text-[1rem] leading-[1.45] text-hint">
             {t("proDescription")}
           </p>
 
           <ChatConversation />
         </section>
 
-        <section className="mt-3 rounded-[24px] bg-bg pb-[5.33px] pt-5 shadow">
-          <div className="px-[18px]">
+        <section className="mt-3 rounded-3xl bg-bg pb-[0.33313rem] pt-5 shadow">
+          <div className="px-4.5">
             <AutoFitHeading text={t("proBenefitsTitle")} />
           </div>
 
@@ -132,10 +132,10 @@ export function ProPage({
                 ),
                 text: (
                   <div className="py-0.5">
-                    <div className="text-[15px] font-semibold leading-5">
+                    <div className="text-[0.9375rem] font-semibold leading-5">
                       {t(benefit.titleKey)}
                     </div>
-                    <div className="mt-0.5 pe-2 text-[13px] leading-[1.35] text-hint">
+                    <div className="mt-0.5 pe-2 text-[0.8125rem] leading-[1.35] text-hint">
                       {t(benefit.descriptionKey)}
                     </div>
                   </div>
@@ -161,19 +161,19 @@ function AutoFitHeading({ text }: { text: string }) {
     }
 
     const fitText = () => {
-      const maxFontSize = 22;
-      heading.style.fontSize = `${maxFontSize}px`;
+      const maxFontSize = 1.375;
+      heading.style.fontSize = `${maxFontSize}rem`;
 
       if (heading.scrollWidth <= heading.clientWidth) {
         return;
       }
 
-      let largestFit = 1;
+      let largestFit = 0.0625;
       let smallestOverflow = maxFontSize;
 
       for (let index = 0; index < 10; index += 1) {
         const candidate = (largestFit + smallestOverflow) / 2;
-        heading.style.fontSize = `${candidate}px`;
+        heading.style.fontSize = `${candidate}rem`;
 
         if (heading.scrollWidth <= heading.clientWidth) {
           largestFit = candidate;
@@ -182,7 +182,7 @@ function AutoFitHeading({ text }: { text: string }) {
         }
       }
 
-      heading.style.fontSize = `${Math.floor(largestFit * 10) / 10}px`;
+      heading.style.fontSize = `${Math.floor(largestFit * 100) / 100}rem`;
     };
 
     fitText();
@@ -195,7 +195,7 @@ function AutoFitHeading({ text }: { text: string }) {
 
   return (
     <h2
-      className="w-full whitespace-nowrap text-[22px] font-bold leading-tight tracking-[-0.02em]"
+      className="w-full whitespace-nowrap text-[1.375rem] font-bold leading-tight tracking-[-0.02em]"
       ref={headingRef}
     >
       {text}
@@ -368,58 +368,60 @@ function PhoneFrame({
   const isRtl = userStore.isRtl;
 
   return (
-    <div className="h-[442px] rounded-[37px] bg-[#0c0c0c] p-[7px]">
+    <div className="h-110.5 rounded-[2.3125rem] bg-[#0c0c0c] p-1.75">
       <div
-        className="relative h-full overflow-hidden rounded-[31px] bg-[#fdfdfd] text-[#111]"
+        className="relative h-full overflow-hidden rounded-[1.9375rem] bg-[#fdfdfd] text-[#111]"
         dir={isRtl ? "rtl" : "ltr"}
       >
-        <div className="relative z-20 flex h-9 items-center justify-between px-[18px] pt-1 text-[12px] font-bold tracking-[-0.02em]">
+        <div className="relative z-20 flex h-9 items-center justify-between px-4.5 pt-1 text-[0.75rem] font-bold tracking-[-0.02em]">
           <span>13:21</span>
-          <div className="flex items-center gap-[5px]">
+          <div className="flex items-center gap-1.25">
             <div className="flex h-3 items-end gap-[2px]">
-              {[4, 6, 8, 11].map((height) => (
+              {["h-1", "h-1.5", "h-2", "h-2.75"].map((heightClassName) => (
                 <span
-                  className="w-[3px] rounded-[1px] bg-[#111]"
-                  key={height}
-                  style={{ height }}
+                  className={cn(
+                    "w-0.75 rounded-[1px] bg-[#111]",
+                    heightClassName,
+                  )}
+                  key={heightClassName}
                 />
               ))}
             </div>
-            <Wifi size={14} strokeWidth={3} />
-            <span className="relative h-[11px] w-[22px] rounded-[4px] border-[1.5px] border-[#767676]">
+            <Wifi className="size-3.5" strokeWidth={3} />
+            <span className="relative h-2.75 w-5.5 rounded-sm border-[1.5px] border-[#767676]">
               <span className="absolute inset-[1.5px] rounded-[2px] bg-[#111]" />
-              <span className="absolute -right-[3px] top-[3px] h-[4px] w-[2px] rounded-r bg-[#767676]" />
+              <span className="absolute -right-0.75 top-0.75 h-1 w-[2px] rounded-r bg-[#767676]" />
             </span>
           </div>
         </div>
 
-        <div className="relative z-20 flex h-[58px] items-start justify-between px-3 pt-1.5">
+        <div className="relative z-20 flex h-14.5 items-start justify-between px-3 pt-1.5">
           <button
-            className="flex size-11 items-center justify-center rounded-full bg-white shadow-[0_10px_28px_rgba(0,0,0,0.12)]"
+            className="flex size-11 items-center justify-center rounded-full bg-white shadow-[0_0.625rem_1.75rem_rgba(0,0,0,0.12)]"
             title="ChatGPT"
             type="button"
           >
             <ChatGptIcon className="size-9 brightness-0" />
           </button>
-          <div className="flex h-11 items-center gap-1 rounded-full bg-white px-2 shadow-[0_10px_28px_rgba(0,0,0,0.12)]">
+          <div className="flex h-11 items-center gap-1 rounded-full bg-white px-2 shadow-[0_0.625rem_1.75rem_rgba(0,0,0,0.12)]">
             <button
               className="flex size-8 items-center justify-center rounded-full"
               title={t("proNewChatTitle")}
               type="button"
             >
-              <SquarePen size={20} strokeWidth={2.4} />
+              <SquarePen className="size-5" strokeWidth={2.4} />
             </button>
             <button
               className="flex size-8 items-center justify-center rounded-full"
               title={t("proMoreTitle")}
               type="button"
             >
-              <Ellipsis size={22} strokeWidth={2.8} />
+              <Ellipsis className="size-5.5" strokeWidth={2.8} />
             </button>
           </div>
         </div>
 
-        <div className="absolute inset-x-4 bottom-[62px] top-[88px] overflow-hidden">
+        <div className="absolute inset-x-4 bottom-15.5 top-22 overflow-hidden">
           <m.div
             animate={
               hasStarted
@@ -427,8 +429,8 @@ function PhoneFrame({
                 : { opacity: 0, scale: 0.97, y: 34 }
             }
             className={cn(
-              "ms-auto mt-2 max-w-[82%] rounded-[22px] bg-[#f1f1f1] px-4 py-3 text-start text-[13px] font-medium leading-[1.35]",
-              isRtl ? "rounded-bl-[7px]" : "rounded-br-[7px]",
+              "ms-auto mt-2 max-w-[82%] rounded-[1.375rem] bg-[#f1f1f1] px-4 py-3 text-start text-[0.8125rem] font-medium leading-[1.35]",
+              isRtl ? "rounded-bl-[0.4375rem]" : "rounded-br-[0.4375rem]",
             )}
             initial={{ opacity: 0, scale: 0.97, y: 34 }}
             transition={{
@@ -442,7 +444,7 @@ function PhoneFrame({
           {replyStarted && (
             <m.div
               animate={{ opacity: 1, y: 0 }}
-              className="mt-6 text-[13px] leading-[1.48]"
+              className="mt-6 text-[0.8125rem] leading-[1.48]"
               initial={{ opacity: 0, y: 7 }}
               transition={{ duration: 0.22 }}
             >
@@ -456,7 +458,7 @@ function PhoneFrame({
         </div>
 
         <div className="absolute inset-x-0 bottom-0 z-30 bg-linear-to-t from-white via-white to-white/0 px-3 pb-2.5 pt-5">
-          <div className="flex h-[50px] items-center gap-2 rounded-full bg-white px-2.5 shadow-[0_8px_30px_rgba(0,0,0,0.12)] ring-1 ring-black/[0.03]">
+          <div className="flex h-12.5 items-center gap-2 rounded-full bg-white px-2.5 shadow-[0_0.5rem_1.875rem_rgba(0,0,0,0.12)] ring-1 ring-black/[0.03]">
             <button
               className="flex size-8 shrink-0 items-center justify-center rounded-full"
               title={t("proAddTitle")}
@@ -464,7 +466,7 @@ function PhoneFrame({
             >
               <ProperPlusIcon />
             </button>
-            <span className="min-w-0 flex-1 truncate text-[14px] text-[#9b9b9b]">
+            <span className="min-w-0 flex-1 truncate text-[0.875rem] text-[#9b9b9b]">
               {t("proInputPlaceholder")}
             </span>
             <button
@@ -472,14 +474,14 @@ function PhoneFrame({
               title={t("proVoiceInputTitle")}
               type="button"
             >
-              <Mic size={21} strokeWidth={2.2} />
+              <Mic className="size-5.25" strokeWidth={2.2} />
             </button>
             <button
               className="flex size-9 shrink-0 items-center justify-center rounded-full bg-[#111] text-white"
               title={t("proVoiceModeTitle")}
               type="button"
             >
-              <AudioLines size={19} strokeWidth={2.4} />
+              <AudioLines className="size-4.75" strokeWidth={2.4} />
             </button>
           </div>
         </div>
@@ -496,10 +498,10 @@ function ChatGptActions() {
       initial={{ opacity: 0 }}
       transition={{ delay: 0.55, duration: 0.25 }}
     >
-      <Copy size={15} strokeWidth={2.1} />
-      <Volume2 size={15} strokeWidth={2.1} />
-      <Share size={15} strokeWidth={2.1} />
-      <Ellipsis size={17} strokeWidth={2.6} />
+      <Copy className="size-3.75" strokeWidth={2.1} />
+      <Volume2 className="size-3.75" strokeWidth={2.1} />
+      <Share className="size-3.75" strokeWidth={2.1} />
+      <Ellipsis className="size-4.25" strokeWidth={2.6} />
     </m.div>
   );
 }
@@ -513,7 +515,7 @@ function ChatGptIcon({ className }: { className: string }) {
 function ProperPlusIcon() {
   return (
     <svg
-      className="size-[23px]"
+      className="size-5.75"
       fill="none"
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"

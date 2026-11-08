@@ -138,7 +138,7 @@ export function CardList() {
               error: undefined,
             } as Parameters<typeof Input>[0]["field"]
           }
-          mainIcon={<SearchIcon size={18} />}
+          mainIcon={<SearchIcon className="size-4.5" />}
           placeholder={t("search_card")}
         />
       )}
@@ -184,7 +184,7 @@ export function CardList() {
               cardListStore.openCard(card.id);
             }}
             key={card.id}
-            className="cursor-pointer bg-bg rounded-[12px] p-3 max-h-[120px] overflow-hidden relative"
+            className="cursor-pointer bg-bg rounded-xl p-3 max-h-30 overflow-hidden relative"
           >
             {!readOnly && cardListStore.isSelectionMode.value && (
               <div className="absolute top-3 end-3">
@@ -268,7 +268,7 @@ export function CardList() {
                 onClick={() => cardListStore.clearSelection()}
                 className="p-1.5 rounded-lg active:scale-95"
               >
-                <XIcon size={18} />
+                <XIcon className="size-4.5" />
               </button>
             </div>
             <div className="flex flex-col pb-1">
@@ -278,7 +278,7 @@ export function CardList() {
                   onClick={action.onClick}
                   className="flex items-center gap-3 px-4 py-3 text-start"
                 >
-                  <action.icon size={20} className={action.colorClass} />
+                  <action.icon className={cn("size-5", action.colorClass)} />
                   <span
                     className={cn(
                       "text-sm flex-1",

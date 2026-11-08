@@ -56,7 +56,7 @@ export function DeckPreview(props: Props) {
       ? [
           {
             type: "action" as const,
-            icon: <PlusIcon size={24} />,
+            icon: <PlusIcon className="size-6" />,
             text: t("add_card_short"),
             onClick: () => {
               screenStore.push({
@@ -84,7 +84,7 @@ export function DeckPreview(props: Props) {
     <Flex direction={"column"} gap={16} pb={82}>
       <div>
         <LabelGroup title={t("deck")}>
-          <div className="flex flex-col gap-4 rounded-[12px] px-4 pb-4 pt-0 bg-bg">
+          <div className="flex flex-col gap-4 rounded-xl px-4 pb-4 pt-0 bg-bg">
             <div className="flex items-start gap-1.5">
               <BrowserBackButton className="mt-3" />
               <h3 className="min-w-0 flex-1 pt-3">{deck.name}</h3>
@@ -138,7 +138,7 @@ export function DeckPreview(props: Props) {
               <div>{t("no_cards_to_review_in_deck")}</div>
               <Button
                 variant="outline"
-                icon={<RefreshCwIcon size={24} />}
+                icon={<RefreshCwIcon className="size-6" />}
                 onClick={() => {
                   reviewStore.startDeckReviewAnyway(store.deck);
                 }}

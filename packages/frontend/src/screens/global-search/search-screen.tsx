@@ -32,7 +32,7 @@ export function SearchScreen() {
             <Input
               id={searchInputId}
               field={globalSearchStore.searchQuery}
-              mainIcon={<SearchIcon size={18} />}
+              mainIcon={<SearchIcon className="size-4.5" />}
               autoFocus
               secondaryIcon={
                 globalSearchStore.isSearchActive ? (
@@ -42,7 +42,7 @@ export function SearchScreen() {
                       document.getElementById(searchInputId)?.focus();
                     }}
                   >
-                    <CircleXIcon size={18} className="text-hint" />
+                    <CircleXIcon className="size-4.5 text-hint" />
                   </button>
                 ) : null
               }

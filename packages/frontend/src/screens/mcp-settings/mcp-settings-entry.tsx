@@ -10,7 +10,10 @@ export function createMcpSettingsEntryItem(
 ): ListItemType {
   return {
     icon: (
-      <FilledIcon className={iconBgClassName} icon={<BotIcon size={18} />} />
+      <FilledIcon
+        className={iconBgClassName}
+        icon={<BotIcon className="size-4.5" />}
+      />
     ),
     text: "ChatGPT",
     right: <ChevronIcon direction="right" className="text-hint" />,

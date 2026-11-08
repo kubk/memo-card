@@ -36,7 +36,7 @@ export function LeaderboardAvatar({
 
   return (
     <div
-      className="relative flex size-[53px] shrink-0 items-center justify-center overflow-hidden rounded-full text-[18px] font-medium leading-none text-white"
+      className="relative flex size-13.25 shrink-0 items-center justify-center overflow-hidden rounded-full text-[1.125rem] font-medium leading-none text-white"
       style={avatarColor}
     >
       {getInitials(fallbackName)}

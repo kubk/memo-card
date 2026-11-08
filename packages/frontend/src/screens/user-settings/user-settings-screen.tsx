@@ -38,9 +38,26 @@ import {
   LogOutIcon,
   LanguagesIcon,
   InfoIcon,
+  TypeIcon,
 } from "lucide-react";
+import {
+  type FontSize,
+  fontSizes,
+  fontSizeStore,
+} from "../../lib/font-size/font-size-store.ts";
 
 const timeRanges = generateTimeRange();
+
+function getFontSizeLabel(fontSize: FontSize) {
+  switch (fontSize) {
+    case "normal":
+      return t("font_size_normal");
+    case "medium":
+      return t("font_size_medium");
+    case "large":
+      return t("font_size_large");
+  }
+}
 
 export function UserSettingsScreen() {
   const userSettingsStore = useUserSettingsStore();
@@ -104,7 +121,7 @@ export function UserSettingsScreen() {
                 icon: (
                   <FilledIcon
                     className="bg-tile-turquoise"
-                    icon={<SnowflakeIcon size={18} />}
+                    icon={<SnowflakeIcon className="size-4.5" />}
                   />
                 ),
                 text: t("freeze_title"),
@@ -125,11 +142,11 @@ export function UserSettingsScreen() {
                 icon: (
                   <FilledIcon
                     className="bg-tile-sea"
-                    icon={<BellIcon size={18} />}
+                    icon={<BellIcon className="size-4.5" />}
                   />
                 ),
                 right: (
-                  <span className="relative top-[3px]">
+                  <span className="relative top-0.75">
                     <RadioSwitcher
                       isOn={isRemindNotifyEnabled.value}
                       onToggle={isRemindNotifyEnabled.toggle}
@@ -143,7 +160,7 @@ export function UserSettingsScreen() {
                     icon: (
                       <FilledIcon
                         className="bg-orange"
-                        icon={<ClockIcon size={18} />}
+                        icon={<ClockIcon className="size-4.5" />}
                       />
                     ),
                     text: t("settings_time"),
@@ -175,11 +192,11 @@ export function UserSettingsScreen() {
                 icon: (
                   <FilledIcon
                     className="bg-tile-pink"
-                    icon={<MicIcon size={18} />}
+                    icon={<MicIcon className="size-4.5" />}
                   />
                 ),
                 right: (
-                  <span className="relative top-[3px]">
+                  <span className="relative top-0.75">
                     <RadioSwitcher
                       isOn={isSpeakingCardsEnabled.value}
                       onToggle={isSpeakingCardsEnabled.toggle}
@@ -201,7 +218,7 @@ export function UserSettingsScreen() {
                 icon: (
                   <FilledIcon
                     className="bg-tile-violet"
-                    icon={<LanguagesIcon size={18} />}
+                    icon={<LanguagesIcon className="size-4.5" />}
                   />
                 ),
                 text: t("settings_lang"),
@@ -230,8 +247,38 @@ export function UserSettingsScreen() {
               {
                 icon: (
                   <FilledIcon
+                    className="bg-tile-coral"
+                    icon={<TypeIcon className="size-4.5" />}
+                  />
+                ),
+                text: t("font_size"),
+                right: (
+                  <div className="text-link">
+                    <DropdownOrVault
+                      trigger={
+                        <span>{getFontSizeLabel(fontSizeStore.fontSize)}</span>
+                      }
+                      triggerClassName="text-left text-base text-link"
+                      options={fontSizes.map((fontSize) => ({
+                        icon:
+                          fontSizeStore.fontSize === fontSize ? (
+                            <RadioBoxFilled />
+                          ) : (
+                            <RadioBoxEmpty />
+                          ),
+                        text: getFontSizeLabel(fontSize),
+                        onClick: () => fontSizeStore.setFontSize(fontSize),
+                      }))}
+                    />
+                  </div>
+                ),
+              },
+
+              {
+                icon: (
+                  <FilledIcon
                     className="bg-tile-blue"
-                    icon={<HeadsetIcon size={18} />}
+                    icon={<HeadsetIcon className="size-4.5" />}
                   />
                 ),
                 text: t("settings_contact_support"),
@@ -245,7 +292,7 @@ export function UserSettingsScreen() {
                 icon: (
                   <FilledIcon
                     className="bg-tile-turquoise"
-                    icon={<ShieldIcon size={18} />}
+                    icon={<ShieldIcon className="size-4.5" />}
                   />
                 ),
                 text: t("privacy_policy"),
@@ -258,7 +305,7 @@ export function UserSettingsScreen() {
                 icon: (
                   <FilledIcon
                     className="bg-tile-sea"
-                    icon={<MailIcon size={18} />}
+                    icon={<MailIcon className="size-4.5" />}
                   />
                 ),
                 text:
@@ -286,7 +333,7 @@ export function UserSettingsScreen() {
                 icon: (
                   <FilledIcon
                     className="bg-orange"
-                    icon={<InfoIcon size={18} />}
+                    icon={<InfoIcon className="size-4.5" />}
                   />
                 ),
                 text: t("about_title"),
@@ -308,7 +355,7 @@ export function UserSettingsScreen() {
                 icon: (
                   <FilledIcon
                     className="bg-tile-sea"
-                    icon={<LogOutIcon size={18} />}
+                    icon={<LogOutIcon className="size-4.5" />}
                   />
                 ),
                 text: t("logout"),

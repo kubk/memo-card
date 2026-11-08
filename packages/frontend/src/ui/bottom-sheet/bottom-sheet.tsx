@@ -53,7 +53,7 @@ function BottomSheetTitleContent(props: {
       {props.title}
       <span
         className={cn(
-          "absolute top-[4px] cursor-pointer bg-secondary-bg rounded-full w-[35px] h-[35px] flex justify-center items-center",
+          "absolute top-1 cursor-pointer bg-secondary-bg rounded-full w-8.75 h-8.75 flex justify-center items-center",
           {
             "left-2": userStore.isRtl,
             "right-2": !userStore.isRtl,
@@ -61,7 +61,7 @@ function BottomSheetTitleContent(props: {
         )}
         onClick={props.onClose}
       >
-        <XIcon size={18} />
+        <XIcon className="size-4.5" />
       </span>
     </>
   );
@@ -120,7 +120,7 @@ export function BottomSheet(props: Props) {
         titleClassName={titleClassName}
         contentProps={{
           className: backgroundClassName,
-          style: { boxShadow: "0 -2px 10px rgba(0, 0, 0, 0.1)" },
+          style: { boxShadow: "0 -2px 0.625rem rgba(0, 0, 0, 0.1)" },
         }}
       >
         {children}
@@ -148,7 +148,7 @@ export function BottomSheet(props: Props) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
             className={cn(
-              "pointer-events-auto shadow bg-bg p-5 rounded-[20px] h-fit max-w-2xl w-full",
+              "pointer-events-auto shadow bg-bg p-5 rounded-[1.25rem] h-fit max-w-2xl w-full",
               backgroundClassName,
             )}
           >

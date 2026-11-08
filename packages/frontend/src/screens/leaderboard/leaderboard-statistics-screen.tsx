@@ -72,9 +72,9 @@ function Podium({
                   <div
                     className={cn(
                       "w-full rounded-t-md bg-secondary-bg dark:bg-[#263746]",
-                      rank === 1 && "h-[39px]",
-                      rank === 2 && "h-[26px]",
-                      rank === 3 && "h-[17px]",
+                      rank === 1 && "h-9.75",
+                      rank === 2 && "h-6.5",
+                      rank === 3 && "h-4.25",
                     )}
                   />
                 </>
@@ -106,7 +106,7 @@ export function LeaderboardStatisticsScreen() {
             ))}
         {data?.items.length === 0 && (
           <div className="rounded-xl bg-bg px-4 py-8 text-center text-sm text-hint">
-            <TrophyIcon size={28} className="mx-auto mb-2" />
+            <TrophyIcon className="size-7 mx-auto mb-2" />
             {t("leaderboard_statistics_empty")}
           </div>
         )}
@@ -117,7 +117,7 @@ export function LeaderboardStatisticsScreen() {
         )}
         {query.isFetchingNextPage && (
           <div className="flex justify-center py-3">
-            <LoaderCircleIcon size={24} className="animate-spin text-hint" />
+            <LoaderCircleIcon className="size-6 animate-spin text-hint" />
           </div>
         )}
       </div>

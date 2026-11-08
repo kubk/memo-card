@@ -27,24 +27,33 @@ function parseIsoDate(date: string) {
   return new Date(year, month - 1, day);
 }
 
+// Bigger text sizes or narrow screens don't fit the full label,
+// so the streak shows just the number and the week cells tighten up
+const rowClassName =
+  "flex items-center justify-between gap-3 @max-[19.5rem]:gap-2";
+const trailingClassName =
+  "flex items-center gap-2 shrink-0 @max-[19.5rem]:min-w-0 @max-[19.5rem]:flex-1 @max-[19.5rem]:justify-end";
+const daysClassName =
+  "grid grid-cols-7 gap-2 @max-[19.5rem]:flex @max-[19.5rem]:w-full @max-[19.5rem]:max-w-40 @max-[19.5rem]:justify-between @max-[19.5rem]:gap-1";
+
 function WeekHeatmapLoading() {
   return (
-    <div className="bg-bg rounded-xl px-3 py-3 animate-pulse">
-      <div className="flex items-center justify-between gap-3">
+    <div className="@container bg-bg rounded-xl px-3 py-3 animate-pulse">
+      <div className={rowClassName}>
         <div className="flex items-center gap-2 min-w-0">
           <div className="h-7 w-7 rounded-lg bg-secondary-bg" />
-          <div className="h-5 w-28 rounded bg-secondary-bg" />
+          <div className="h-5 w-28 rounded bg-secondary-bg @max-[19.5rem]:w-6" />
         </div>
-        <div className="flex items-center gap-2 shrink-0">
-          <div className="grid grid-cols-7 gap-2">
+        <div className={trailingClassName}>
+          <div className={daysClassName}>
             {Array.from({ length: 7 }).map((_, index) => (
               <div key={index} className="flex flex-col items-center gap-1">
                 <div className="h-3 w-3 rounded bg-secondary-bg" />
-                <div className="h-4 w-4 rounded-[3px] bg-secondary-bg" />
+                <div className="h-4 w-4 rounded-[0.1875rem] bg-secondary-bg" />
               </div>
             ))}
           </div>
-          <div className="h-[22px] w-[22px] shrink-0" />
+          <div className="h-5.5 w-5.5 shrink-0" />
         </div>
       </div>
     </div>
@@ -74,7 +83,7 @@ function WeekHeatmapContent(props: {
     <button
       type="button"
       className={cn(
-        "w-full border-0 bg-bg rounded-xl px-3 py-3 cursor-pointer text-text",
+        "@container w-full border-0 bg-bg rounded-xl px-3 py-3 cursor-pointer text-text",
         "active:scale-[0.98] active:transition-transform active:duration-300 active:origin-center",
       )}
       onClick={() => {
@@ -82,22 +91,24 @@ function WeekHeatmapContent(props: {
         screenStore.push({ type: "userStatistics" });
       }}
     >
-      <div className="flex items-center justify-between gap-3">
+      <div className={rowClassName}>
         <div className="flex items-center gap-2 min-w-0">
           <FlameIcon
-            size={28}
-            className="shrink-0 text-orange"
+            className="size-7 shrink-0 text-orange"
             fill="currentColor"
           />
-          <div className="min-w-0 text-start text-[15px] font-semibold leading-5">
-            <span className="tabular-nums">
+          <div className="min-w-0 text-start text-[0.9375rem] font-semibold leading-5">
+            <span className="tabular-nums @max-[19.5rem]:hidden">
               {t("days_count", { days: weekHeatmap.currentStreak })}
+            </span>
+            <span className="hidden tabular-nums @max-[19.5rem]:inline">
+              {weekHeatmap.currentStreak}
             </span>
           </div>
         </div>
 
-        <div className="flex items-center gap-2 shrink-0">
-          <div className="grid grid-cols-7 gap-2">
+        <div className={trailingClassName}>
+          <div className={daysClassName}>
             {weekHeatmap.days.map((day) => {
               const weekday = new Intl.DateTimeFormat(getActiveLanguage(), {
                 weekday: "narrow",
@@ -110,12 +121,12 @@ function WeekHeatmapContent(props: {
                   key={day.date}
                   className="flex flex-col items-center gap-1"
                 >
-                  <div className="text-[11px] font-medium leading-3 text-hint">
+                  <div className="text-[0.6875rem] font-medium leading-3 text-hint">
                     {weekday}
                   </div>
                   <div
                     className={cn(
-                      "h-4 w-4 rounded-[3px]",
+                      "h-4 w-4 rounded-[0.1875rem]",
                       weekCellColors[day.intensity],
                     )}
                   />
@@ -124,9 +135,8 @@ function WeekHeatmapContent(props: {
             })}
           </div>
           <ChevronRightIcon
-            size={22}
             className={cn(
-              "text-hint shrink-0",
+              "size-5.5 text-hint shrink-0",
               userStore.isRtl && "rotate-180",
             )}
           />

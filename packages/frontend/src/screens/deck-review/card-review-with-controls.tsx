@@ -57,7 +57,7 @@ export function CardReviewWithControls(props: Props) {
               cardOpenedRow ? (
                 cardOpenedRow
               ) : (
-                <div className="bg-bg flex gap-2 w-full h-[69px] p-2 rounded-2xl">
+                <div className="bg-bg flex gap-2 w-full h-17.25 p-2 rounded-2xl">
                   <button
                     key={"again"}
                     onClick={() => onAgain()}

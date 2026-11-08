@@ -73,11 +73,11 @@ export function BackBottomButton({
   return (
     <>
       {platform instanceof TelegramPlatform ? (
-        <div className="h-[60px] shrink-0" />
+        <div className="h-15 shrink-0" />
       ) : null}
       <button
         type="button"
-        className="z-main-button fixed inset-x-0 bottom-safe-control mx-auto flex h-[42px] w-[140px] items-center justify-center rounded-[79px] border-2 border-secondary-bg bg-bg text-[14px] leading-none font-medium text-text outline-none transition-transform duration-150 active:scale-[0.98] [-webkit-tap-highlight-color:transparent]"
+        className="z-main-button fixed inset-x-0 bottom-safe-control mx-auto flex h-10.5 w-35 items-center justify-center rounded-[4.9375rem] border-2 border-secondary-bg bg-bg text-[0.875rem] leading-none font-medium text-text outline-none transition-transform duration-150 active:scale-[0.98] [-webkit-tap-highlight-color:transparent]"
         onClick={onClick}
       >
         {t("go_back")}

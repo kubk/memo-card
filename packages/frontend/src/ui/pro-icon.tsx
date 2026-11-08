@@ -13,7 +13,7 @@ type GradientIconProps = {
 function GradientIcon({ icon, gradient }: GradientIconProps) {
   return (
     <div
-      className="rounded-lg w-[30px] h-[30px] flex flex-col justify-center items-center text-white"
+      className="rounded-lg w-7.5 h-7.5 flex flex-col justify-center items-center text-white"
       style={{
         backgroundImage: `linear-gradient(rgba(255,255,255,0.16), rgba(255,255,255,0) 60%), ${gradient}`,
       }}
@@ -36,5 +36,9 @@ export function TeacherGradientIcon({ icon }: PlanGradientIconProps) {
 }
 
 export function ProIcon() {
-  return <ProGradientIcon icon={<StarIcon size={18} fill="currentColor" />} />;
+  return (
+    <ProGradientIcon
+      icon={<StarIcon className="size-4.5" fill="currentColor" />}
+    />
+  );
 }

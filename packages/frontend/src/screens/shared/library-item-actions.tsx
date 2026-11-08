@@ -12,6 +12,7 @@ import {
   ActionTileRow,
   type ActionTileRowItem,
 } from "../../ui/action-tile.tsx";
+import { cn } from "../../ui/cn.ts";
 import { type DropdownItem } from "../../ui/dropdown.tsx";
 import { deleteItemModalStore } from "./delete-item-modal-store.ts";
 import {
@@ -101,7 +102,7 @@ function getLibraryItemActions({
     ...(onEdit
       ? [
           {
-            icon: <PencilIcon size={20} className="text-hint" />,
+            icon: <PencilIcon className="size-5 text-hint" />,
             text: t("edit"),
             onClick: onEdit,
           },
@@ -110,8 +111,10 @@ function getLibraryItemActions({
     ...actions.map((action) => ({
       icon: (
         <action.Icon
-          size={20}
-          className={action.type === "delete" ? "text-danger" : "text-hint"}
+          className={cn(
+            "size-5",
+            action.type === "delete" ? "text-danger" : "text-hint",
+          )}
         />
       ),
       text:
@@ -136,7 +139,7 @@ export function getItemTileActions(
 
   return {
     type: "dropdown",
-    icon: <EllipsisIcon size={24} />,
+    icon: <EllipsisIcon className="size-6" />,
     text: t("more"),
     options,
   };
@@ -157,7 +160,7 @@ export function LibraryItemActions({
       className={className}
       items={actions.map((action) => ({
         type: "action",
-        icon: <action.Icon size={24} />,
+        icon: <action.Icon className="size-6" />,
         text: action.text,
         onClick: action.onClick,
       }))}

@@ -66,14 +66,14 @@ export function Dropdown({
             triggerClassName,
           )}
         >
-          {trigger ?? <EllipsisIcon size={24} />}
+          {trigger ?? <EllipsisIcon className="size-6" />}
         </button>
       )}
       <AnimatePresence>
         {isOpen && (
           <m.div
             className={cn(
-              "dropdown-content border border-secondary-bg block absolute bg-bg min-w-[160px] rounded-xl shadow z-10 text-text",
+              "dropdown-content border border-secondary-bg block absolute bg-bg min-w-40 rounded-xl shadow z-10 text-text",
               userStore.isRtl ? "left-0" : "right-0",
               placement === "up" && "bottom-full mb-1.5",
             )}

@@ -61,7 +61,7 @@ function StatisticsLoading() {
 
 function StatisticsLoadError() {
   return (
-    <div className="rounded-xl bg-bg px-4 py-5 text-center text-[14px] leading-5 text-hint">
+    <div className="rounded-xl bg-bg px-4 py-5 text-center text-[0.875rem] leading-5 text-hint">
       {t("error_contact_support")}
     </div>
   );
@@ -69,9 +69,9 @@ function StatisticsLoadError() {
 
 function StreakValue(props: { days: number | undefined }) {
   return (
-    <span className="inline-flex min-w-[72px] justify-end font-medium tabular-nums">
+    <span className="inline-flex min-w-18 justify-end font-medium tabular-nums">
       {props.days === undefined ? (
-        <NumberSkeleton className="h-[18px] w-16" />
+        <NumberSkeleton className="h-4.5 w-16" />
       ) : (
         t("days_count", { days: props.days })
       )}
@@ -85,10 +85,10 @@ function StatTile(props: {
 }) {
   return (
     <div className="bg-bg rounded-lg px-3 py-2 min-w-0">
-      <div className="text-[12px] text-hint leading-4 truncate">
+      <div className="text-[0.75rem] text-hint leading-4 truncate">
         {props.label}
       </div>
-      <div className="min-h-7 text-[24px] font-semibold leading-7 tabular-nums">
+      <div className="min-h-7 text-[1.5rem] font-semibold leading-7 tabular-nums">
         {props.value === undefined ? (
           <NumberSkeleton className="h-6" />
         ) : (
@@ -148,18 +148,18 @@ function Heatmap() {
             }
           }}
         >
-          <div className="flex min-w-full gap-[3px]">
+          <div className="flex min-w-full gap-0.75">
             {userStatisticsStore.heatmapWeeks.map((week, weekIndex) => (
               <div
                 key={weekIndex}
-                className="flex w-[calc((100%_-_39px)_/_14)] shrink-0 flex-col gap-[3px]"
+                className="flex w-[calc((100%_-_2.4375rem)_/_14)] shrink-0 flex-col gap-0.75"
               >
                 {week.map((day) => (
                   <div
                     key={day.date}
                     title={`${day.date}: ${day.reviews}`}
                     className={cn(
-                      "aspect-square rounded-[3px]",
+                      "aspect-square rounded-[0.1875rem]",
                       heatmapColors[
                         userStatisticsStore.getHeatmapIntensity(day.reviews)
                       ],
@@ -174,16 +174,15 @@ function Heatmap() {
         {userStatisticsStore.reviewDaysQuery.isFetchingNextPage ? (
           <div className="pointer-events-none absolute inset-y-0 left-0 z-10 flex w-11 items-center justify-center">
             <LoaderCircleIcon
-              size={32}
               strokeWidth={2.5}
-              className="animate-spin text-link"
+              className="size-8 animate-spin text-link"
             />
           </div>
         ) : null}
       </div>
 
       {userStatisticsStore.shouldShowHeatmapEmptyText ? (
-        <div className="mt-3 text-center text-[13px] leading-5 text-hint">
+        <div className="mt-3 text-center text-[0.8125rem] leading-5 text-hint">
           {t("user_stats_empty_text")}
         </div>
       ) : null}
@@ -197,7 +196,7 @@ function DailyStatsMarker(props: { reviews: number }) {
   return (
     <div
       className={cn(
-        "h-[30px] w-[30px] shrink-0 rounded-lg",
+        "h-7.5 w-7.5 shrink-0 rounded-lg",
         heatmapColors[userStatisticsStore.getHeatmapIntensity(props.reviews)],
       )}
     />
@@ -218,7 +217,7 @@ function UserStatisticsContent(props: {
               icon: (
                 <FilledIcon
                   className="bg-[#f4b400]"
-                  icon={<TrophyIcon size={18} className="text-white" />}
+                  icon={<TrophyIcon className="size-4.5 text-white" />}
                 />
               ),
               right: <StreakValue days={statistics?.activity.bestStreak} />,
@@ -228,7 +227,7 @@ function UserStatisticsContent(props: {
               icon: (
                 <FilledIcon
                   className="bg-[#ff8a00]"
-                  icon={<FlameIcon size={18} className="text-white" />}
+                  icon={<FlameIcon className="size-4.5 text-white" />}
                 />
               ),
               right: <StreakValue days={statistics?.activity.currentStreak} />,
@@ -356,7 +355,7 @@ export function UserStatisticsDailyScreen() {
           />
           {userStatisticsStore.reviewDaysQuery.isFetchingNextPage && (
             <div className="flex justify-center py-3">
-              <LoaderCircleIcon size={24} className="animate-spin text-hint" />
+              <LoaderCircleIcon className="size-6 animate-spin text-hint" />
             </div>
           )}
         </>

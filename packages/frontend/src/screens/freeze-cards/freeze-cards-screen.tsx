@@ -49,7 +49,7 @@ export function FreezeCardsScreen() {
             icon: (
               <FilledIcon
                 className="bg-tile-turquoise"
-                icon={<SnowflakeIcon size={18} />}
+                icon={<SnowflakeIcon className="size-4.5" />}
               />
             ),
             onClick: () => {

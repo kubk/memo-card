@@ -63,7 +63,7 @@ export function Input(props: Props) {
   const isRtl = userStore.isRtl;
 
   return (
-    <div className="flex flex-col gap-[4px] relative">
+    <div className="flex flex-col gap-1 relative">
       <Tag
         ref={(element: HTMLInputElement | HTMLTextAreaElement | null) => {
           inputRef.current = element;
@@ -91,8 +91,8 @@ export function Input(props: Props) {
       {mainIcon ? (
         <span
           className={cn(
-            "absolute top-[18px] text-hint",
-            isRtl ? "right-[12px]" : "left-[12px]",
+            "absolute top-4.5 text-hint",
+            isRtl ? "right-3" : "left-3",
           )}
         >
           {mainIcon}
@@ -101,8 +101,8 @@ export function Input(props: Props) {
       {secondaryIcon ? (
         <span
           className={cn(
-            "absolute top-[18px] text-hint",
-            isRtl ? "left-[12px]" : "right-[12px]",
+            "absolute top-4.5 text-hint",
+            isRtl ? "left-3" : "right-3",
           )}
         >
           {secondaryIcon}

@@ -2,7 +2,7 @@ export function YouTubeIcon() {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      style={{ width: 24, height: 24 }}
+      className="size-6"
       fill={"#fff"}
       viewBox="0 0 24 24"
     >

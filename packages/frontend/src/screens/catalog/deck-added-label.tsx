@@ -5,9 +5,9 @@ export function DeckAddedLabel() {
   return (
     <div
       title={t("deck_has_been_added")}
-      className="absolute right-0 top-0 rounded-[12px] bg-bg"
+      className="absolute right-0 top-0 rounded-xl bg-bg"
     >
-      <CheckCircleIcon size={18} className="text-link" />
+      <CheckCircleIcon className="size-4.5 text-link" />
     </div>
   );
 }

@@ -52,7 +52,7 @@ export function CardListRowsReadonly(props: CardListRowsReadonlyProps) {
           text: (
             <div
               className={cn(
-                "cursor-pointer bg-bg rounded-[12px] max-h-[120px] overflow-hidden",
+                "cursor-pointer bg-bg rounded-xl max-h-30 overflow-hidden",
                 userStore.isRtl && "text-right",
               )}
             >

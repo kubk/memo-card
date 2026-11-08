@@ -56,12 +56,12 @@ function PositionCard({
                 <Skeleton className="h-9 w-24 rounded" />
               ) : (
                 <>
-                  <span className="text-[34px] font-bold leading-9 tabular-nums">
+                  <span className="text-[2.125rem] font-bold leading-9 tabular-nums">
                     {currentUser?.rank ?? "\u00a0-"}
                   </span>
                   {currentUser && participantCount !== undefined && (
-                    <span className="text-[13px] font-medium leading-4 text-hint">
-                      <span className="relative -top-0.5 inline-block text-[10px] leading-[10px]">
+                    <span className="text-[0.8125rem] font-medium leading-4 text-hint">
+                      <span className="relative -top-0.5 inline-block text-[0.625rem] leading-2.5">
                         /
                       </span>{" "}
                       {participantCount}
@@ -70,7 +70,7 @@ function PositionCard({
                 </>
               )}
             </div>
-            <div className="mt-1 pl-[2px] text-[13px] leading-4 text-hint">
+            <div className="mt-1 pl-[2px] text-[0.8125rem] leading-4 text-hint">
               {t("leaderboard_rank_label")}
             </div>
           </div>
@@ -79,11 +79,11 @@ function PositionCard({
           {isLoading ? (
             <Skeleton className="ml-auto h-9 w-12 rounded" />
           ) : (
-            <div className="text-[34px] font-bold leading-9 tabular-nums">
+            <div className="text-[2.125rem] font-bold leading-9 tabular-nums">
               {formatNumber(reviewCount)}
             </div>
           )}
-          <div className="mt-1 text-[13px] leading-4 text-hint">
+          <div className="mt-1 text-[0.8125rem] leading-4 text-hint">
             {t("leaderboard_review_label", { count: reviewCount })}
           </div>
         </div>
@@ -96,7 +96,7 @@ function LeaderboardRow({ entry }: { entry?: LeaderboardEntry }) {
   return (
     <div
       className={cn(
-        "flex min-h-[52px] items-center gap-3 border-b border-secondary-bg px-3 last:border-b-0",
+        "flex min-h-13 items-center gap-3 border-b border-secondary-bg px-3 last:border-b-0",
         entry?.isCurrentUser &&
           entry.rank === 1 &&
           "bg-[#fff5d6] text-[#6b4200] dark:bg-[#4a350f] dark:text-[#ffd76a]",
@@ -118,10 +118,10 @@ function LeaderboardRow({ entry }: { entry?: LeaderboardEntry }) {
             rank={entry.rank}
             isCurrentUser={entry.isCurrentUser}
           />
-          <div className="min-w-0 flex-1 truncate text-[14px] font-medium">
+          <div className="min-w-0 flex-1 truncate text-[0.875rem] font-medium">
             {entry.displayName}
           </div>
-          <div className="shrink-0 text-[14px] font-semibold tabular-nums">
+          <div className="shrink-0 text-[0.875rem] font-semibold tabular-nums">
             {formatNumber(entry.reviews)}
           </div>
         </>
@@ -193,8 +193,8 @@ function LeaderboardContent({
             </div>
           ) : (
             <div className="rounded-xl bg-bg px-4 py-8 text-center">
-              <TrophyIcon className="mx-auto text-hint" size={28} />
-              <div className="mt-2 text-[14px] text-hint">
+              <TrophyIcon className="size-7 mx-auto text-hint" />
+              <div className="mt-2 text-[0.875rem] text-hint">
                 {t("leaderboard_empty")}
               </div>
             </div>
@@ -250,7 +250,7 @@ export function LeaderboardView({
   }
 
   return (
-    <div className="rounded-xl bg-bg px-4 py-5 text-center text-[14px] text-hint">
+    <div className="rounded-xl bg-bg px-4 py-5 text-center text-[0.875rem] text-hint">
       {t("error_contact_support")}
     </div>
   );

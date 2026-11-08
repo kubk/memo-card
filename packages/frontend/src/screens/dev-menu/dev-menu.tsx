@@ -44,7 +44,7 @@ export function DevMenu({
         items={[
           {
             right: (
-              <span className="relative top-[3px]">
+              <span className="relative top-0.75">
                 <RadioSwitcher
                   isOn={userStore.isSkipReview.value}
                   onToggle={userStore.isSkipReview.toggle}
@@ -75,7 +75,7 @@ export function DevMenu({
           },
           {
             right: (
-              <span className="relative top-[3px]">
+              <span className="relative top-0.75">
                 <RadioSwitcher
                   isOn={store.isErudaEnabled.value}
                   onToggle={store.isErudaEnabled.toggle}

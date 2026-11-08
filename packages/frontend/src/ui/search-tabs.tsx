@@ -34,7 +34,7 @@ export function SearchTabs<T extends string>({
     <div className={className}>
       <div
         className={cn(
-          "flex h-9 w-full items-center justify-center rounded-lg bg-bg p-[3px] text-hint",
+          "flex h-9 w-full items-center justify-center rounded-lg bg-bg p-0.75 text-hint",
           isRtl && "flex-row-reverse",
         )}
       >

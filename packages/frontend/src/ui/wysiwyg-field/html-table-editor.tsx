@@ -108,28 +108,28 @@ export function HtmlTableEditor() {
           {
             type: "action",
             className: "bg-secondary-bg",
-            icon: <PlusIcon size={24} />,
+            icon: <PlusIcon className="size-6" />,
             text: t("html_column"),
             onClick: addColumn,
           },
           {
             type: "action",
             className: "bg-secondary-bg",
-            icon: <MinusIcon size={24} />,
+            icon: <MinusIcon className="size-6" />,
             text: t("html_column"),
             onClick: removeColumn,
           },
           {
             type: "action",
             className: "bg-secondary-bg",
-            icon: <PlusIcon size={24} />,
+            icon: <PlusIcon className="size-6" />,
             text: t("html_row"),
             onClick: addRow,
           },
           {
             type: "action",
             className: "bg-secondary-bg",
-            icon: <MinusIcon size={24} />,
+            icon: <MinusIcon className="size-6" />,
             text: t("html_row"),
             onClick: removeRow,
           },
@@ -180,7 +180,7 @@ export function HtmlTableEditor() {
             copyToClipboard(tableHtml, { html: tableHtml });
             notifySuccess(t("copied"));
           }}
-          icon={<CopyIcon size={18} />}
+          icon={<CopyIcon className="size-4.5" />}
         >
           {t("copy_code")}
         </Button>

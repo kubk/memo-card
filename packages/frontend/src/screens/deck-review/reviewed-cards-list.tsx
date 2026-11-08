@@ -41,7 +41,7 @@ export function ReviewedCardsList(props: Props) {
                   delay: staggerDelay,
                   duration: 0.3,
                 }}
-                className="bg-bg rounded-[12px] p-3 flex justify-between items-start"
+                className="bg-bg rounded-xl p-3 flex justify-between items-start"
               >
                 <div className="flex-1 min-w-0">
                   <div className="text-sm font-medium text-text">

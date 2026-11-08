@@ -50,7 +50,7 @@ export function LabelGroup({
           {slotRight && (
             <span
               className={cn(
-                "flex items-center",
+                "flex shrink-0 items-center",
                 userStore.isRtl ? "mr-auto ml-3" : "ml-auto mr-3",
               )}
             >

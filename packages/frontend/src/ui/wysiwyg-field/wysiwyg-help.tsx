@@ -19,16 +19,16 @@ export function WysiwygHelp() {
         </ol>
       </div>
 
-      <div className="space-y-3 max-h-[220px] overflow-y-auto md:max-h-none md:overflow-visible">
+      <div className="space-y-3 max-h-55 overflow-y-auto md:max-h-none md:overflow-visible">
         <div className="flex items-center gap-3 p-3 bg-secondary-bg rounded-lg">
-          <BoldIcon size={18} className="text-text" />
+          <BoldIcon className="size-4.5 text-text" />
           <span>
             <strong>{t("wysiwyg_help_bold")}</strong>
           </span>
         </div>
 
         <div className="flex items-center gap-3 p-3 bg-secondary-bg rounded-lg">
-          <ItalicIcon size={18} className="text-text" />
+          <ItalicIcon className="size-4.5 text-text" />
           <span>
             <em>{t("wysiwyg_help_italic")}</em>
           </span>
@@ -40,22 +40,22 @@ export function WysiwygHelp() {
         </div>
 
         <div className="flex items-center gap-3 p-3 bg-secondary-bg rounded-lg">
-          <Heading1Icon size={18} className="text-text" />
+          <Heading1Icon className="size-4.5 text-text" />
           <span>{t("wysiwyg_help_heading")}</span>
         </div>
 
         <div className="flex items-center gap-3 p-3 bg-secondary-bg rounded-lg">
-          <TableIcon size={18} className="text-text" />
+          <TableIcon className="size-4.5 text-text" />
           <span>{t("wysiwyg_help_table")}</span>
         </div>
 
         <div className="flex items-center gap-3 p-3 bg-secondary-bg rounded-lg">
-          <RemoveFormattingIcon size={18} className="text-text" />
+          <RemoveFormattingIcon className="size-4.5 text-text" />
           <span>{t("wysiwyg_help_clear")}</span>
         </div>
 
         <div className="flex items-center gap-3 p-3 bg-secondary-bg rounded-lg">
-          <UndoIcon size={18} className="text-text" />
+          <UndoIcon className="size-4.5 text-text" />
           <span>{t("wysiwyg_help_undo")}</span>
         </div>
       </div>

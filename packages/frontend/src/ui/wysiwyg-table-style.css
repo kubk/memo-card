@@ -12,7 +12,7 @@
   border-collapse: separate;
   border-spacing: 0;
   width: 100%;
-  border-radius: 12px;
+  border-radius: 0.75rem;
   border: 1px solid var(--wysiwyg-table-border-color);
 }
 
@@ -22,7 +22,7 @@
 
 .wysiwyg-table-style th,
 .wysiwyg-table-style td {
-  padding: 12px 15px;
+  padding: 0.75rem 0.9375rem;
   text-align: left;
   border-bottom: 1px solid var(--wysiwyg-table-border-color);
   border-right: 1px solid var(--wysiwyg-table-border-color);
@@ -31,12 +31,12 @@
 .wysiwyg-table-style th {
   font-weight: bold;
   text-transform: uppercase;
-  font-size: 14px;
+  font-size: 0.875rem;
   color: var(--wysiwyg-table-header-color);
 }
 
 .wysiwyg-table-style td {
-  font-size: 14px;
+  font-size: 0.875rem;
   color: var(--tg-theme-text-color);
 }
 

@@ -82,12 +82,12 @@ function SummaryTile(props: {
   return (
     <div className="min-w-0 rounded-xl bg-bg p-4">
       <div className="mb-4 flex items-center justify-between gap-2">
-        <div className="text-[12px] font-medium uppercase leading-4 text-hint">
+        <div className="text-[0.75rem] font-medium uppercase leading-4 text-hint">
           {props.label}
         </div>
         <FilledIcon className={props.iconClassName} icon={props.icon} />
       </div>
-      <div className="truncate text-[32px] font-semibold leading-9 tabular-nums text-text">
+      <div className="truncate text-[2rem] font-semibold leading-9 tabular-nums text-text">
         {props.value}
       </div>
     </div>
@@ -122,7 +122,7 @@ function SectionTitle(props: {
 
 function EmptyBlock(props: { children: ReactNode }) {
   return (
-    <div className="rounded-xl bg-bg px-4 py-5 text-center text-[14px] leading-5 text-hint">
+    <div className="rounded-xl bg-bg px-4 py-5 text-center text-[0.875rem] leading-5 text-hint">
       {props.children}
     </div>
   );
@@ -141,13 +141,13 @@ function ShortStat(props: {
     <div className="min-w-0">
       <div
         className={cn(
-          "truncate text-[13px] font-semibold leading-4 tabular-nums text-text",
+          "truncate text-[0.8125rem] font-semibold leading-4 tabular-nums text-text",
           props.tone === "warning" && "text-orange",
         )}
       >
         {props.value}
       </div>
-      <div className="truncate text-[11px] uppercase leading-3 text-hint">
+      <div className="truncate text-[0.6875rem] uppercase leading-3 text-hint">
         {props.label}
       </div>
     </div>
@@ -165,17 +165,17 @@ function StudentRow(props: { student: TeacherStudent }) {
       <div className="flex min-w-0 items-start justify-between gap-3">
         <div className="min-w-0">
           <div className="flex min-w-0 items-baseline gap-1.5">
-            <div className="min-w-0 truncate text-[15px] font-semibold leading-5 text-text">
+            <div className="min-w-0 truncate text-[0.9375rem] font-semibold leading-5 text-text">
               {student.studentName}
             </div>
             {telegramUrl ? (
               <>
-                <span className="shrink-0 text-[12px] leading-4 text-hint">
+                <span className="shrink-0 text-[0.75rem] leading-4 text-hint">
                   ·
                 </span>
                 <button
                   type="button"
-                  className="min-w-0 truncate text-[12px] font-medium leading-4 text-link"
+                  className="min-w-0 truncate text-[0.75rem] font-medium leading-4 text-link"
                   onClick={() => {
                     platform.openInternalLink(telegramUrl);
                   }}
@@ -185,14 +185,14 @@ function StudentRow(props: { student: TeacherStudent }) {
               </>
             ) : null}
           </div>
-          <div className="truncate text-[12px] leading-4 text-hint">
+          <div className="truncate text-[0.75rem] leading-4 text-hint">
             {t("teacher_stats_last_repeat")}:{" "}
             {formatDateDistance(student.lastReviewedAt)}
           </div>
         </div>
       </div>
 
-      <div className="mt-3 grid grid-cols-4 gap-2 text-[12px] leading-4">
+      <div className="mt-3 grid grid-cols-4 gap-2 text-[0.75rem] leading-4">
         <ShortStat label={t("teacher_stats_decks")} value={student.deckCount} />
         <ShortStat
           label={t("teacher_stats_seen")}
@@ -220,12 +220,12 @@ function DeckRow(props: { deck: TeacherDeck }) {
   return (
     <div className="rounded-xl bg-bg p-3">
       <div className="min-w-0">
-        <div className="truncate text-[15px] font-semibold leading-5 text-text">
+        <div className="truncate text-[0.9375rem] font-semibold leading-5 text-text">
           {deck.deckName}
         </div>
       </div>
 
-      <div className="mt-3 grid grid-cols-2 gap-2 text-[12px] leading-4">
+      <div className="mt-3 grid grid-cols-2 gap-2 text-[0.75rem] leading-4">
         <ShortStat
           label={t("teacher_stats_users")}
           value={formatNumber(deck.studentCount)}
@@ -264,13 +264,13 @@ function TeacherStatisticsContent(props: { statistics: TeacherStatistics }) {
         <SummaryTile
           label={t("teacher_stats_students")}
           value={formatNumber(overview.studentCount)}
-          icon={<UsersIcon size={17} />}
+          icon={<UsersIcon className="size-4.25" />}
           iconClassName="bg-tile-blue"
         />
         <SummaryTile
           label={t("teacher_stats_decks_shared")}
           value={formatNumber(overview.sharedDeckCount)}
-          icon={<LibraryBigIcon size={17} />}
+          icon={<LibraryBigIcon className="size-4.25" />}
           iconClassName="bg-tile-turquoise"
         />
       </div>
@@ -425,7 +425,7 @@ function ListBottomLoader(props: { isLoading: boolean }) {
 
   return (
     <div className="flex justify-center py-3">
-      <LoaderCircleIcon size={24} className="animate-spin text-hint" />
+      <LoaderCircleIcon className="size-6 animate-spin text-hint" />
     </div>
   );
 }

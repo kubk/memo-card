@@ -15,7 +15,7 @@ export function Badge({
   return (
     <span
       className={cn(
-        "inline-flex items-center justify-center rounded-full text-xs mt-0.5 font-bold min-w-[6px]",
+        "inline-flex items-center justify-center rounded-full text-xs mt-0.5 font-bold min-w-1.5",
         {
           "text-button-outline-fg-light dark:text-button-outline-fg-dark":
             variant === "default",

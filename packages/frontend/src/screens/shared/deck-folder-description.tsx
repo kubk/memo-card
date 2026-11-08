@@ -22,7 +22,7 @@ export function DeckFolderDescription(props: Props) {
       <div
         ref={ref}
         className={cn(
-          "whitespace-pre-wrap max-h-[294px] overflow-y-hidden",
+          "whitespace-pre-wrap max-h-73.5 overflow-y-hidden",
           isExpanded && "max-h-none",
           wysiwygTableStyle,
         )}

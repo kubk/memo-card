@@ -21,7 +21,7 @@ export function DeckRowWithCardsToReview(props: Props) {
   return (
     <div
       onClick={onClick}
-      className="flex justify-between items-center cursor-pointer gap-1 rounded-[12px] p-3 bg-bg"
+      className="flex justify-between items-center cursor-pointer gap-1 rounded-xl p-3 bg-bg"
     >
       <div className={"flex"} key={item.id}>
         {slotLeft}

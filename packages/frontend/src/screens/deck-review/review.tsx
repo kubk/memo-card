@@ -36,14 +36,14 @@ export function Review() {
         <div className="flex flex-col gap-2 pt-2">
           <div className="flex w-full items-center gap-2">
             <button
-              className="text-hint active:scale-90 cursor-pointer -ms-[3px]"
+              className="text-hint active:scale-90 cursor-pointer -ms-0.75"
               onClick={() => {
                 platform.haptic("medium");
                 screenStore.back();
                 onSubmitUnfinished();
               }}
             >
-              <XIcon size={24} />
+              <XIcon className="size-6" />
             </button>
             {reviewStore.initialCardCount && (
               <ProgressBar
@@ -52,7 +52,7 @@ export function Review() {
               />
             )}
 
-            <div className="mt-[4px] -ms-[4px]">
+            <div className="mt-1 -ms-1">
               <CardContextMenu />
             </div>
           </div>

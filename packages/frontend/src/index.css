@@ -42,8 +42,24 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     -webkit-text-size-adjust: 100%;
-    --card-size: 310px;
+    --card-size: 19.375rem;
+    /* stylelint-disable-next-line unit-disallowed-list -- page gutters stay fixed, only content scales with the text size setting */
     --app-horizontal-padding: 16px;
+  }
+
+  /* Sizes are authored in rem, so the text size setting scales the whole UI */
+  :root[data-font-size="medium"] {
+    font-size: 112.5%;
+  }
+
+  :root[data-font-size="large"] {
+    font-size: 125%;
+  }
+
+  /* Lucide's default size, set in rem so it scales too. size-* classes override it */
+  svg.lucide {
+    width: 1.5rem;
+    height: 1.5rem;
   }
 
   body {
@@ -88,7 +104,7 @@
 
   /* for wysiwyg */
   h1 {
-    font-size: 64px;
+    font-size: 4rem;
   }
 
   /* prevent buttons from being colored in blue on click on android */
