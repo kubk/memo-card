@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { LandingLanguage } from "api";
+import { getShareMeta } from "@/shared/landingHead";
 import { getTranslation } from "@/shared/translations";
 import { Footer } from "./footer";
 import { Header } from "./header";
@@ -228,6 +229,12 @@ export function getConnectToClaudeHead(language: LandingLanguage) {
     meta: [
       { title: translation.title },
       { name: "description", content: translation.metaDescription },
+      ...getShareMeta({
+        language,
+        page: "connectToClaude",
+        title: translation.title,
+        description: translation.metaDescription,
+      }),
     ],
   };
 }
