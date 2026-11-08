@@ -22,6 +22,11 @@ const navigationItems: ReadonlyArray<{
     labelKey: "navigation_main",
   },
   {
+    id: "review",
+    icon: reviewIcon,
+    labelKey: "navigation_review",
+  },
+  {
     id: "leaderboard",
     icon: leaderboardIcon,
     labelKey: "leaderboard",
@@ -30,11 +35,6 @@ const navigationItems: ReadonlyArray<{
     id: "settings",
     icon: settingsIcon,
     labelKey: "settings",
-  },
-  {
-    id: "review",
-    icon: reviewIcon,
-    labelKey: "navigation_review",
   },
 ];
 
