@@ -196,7 +196,9 @@ export function ManualCardFormView() {
                   cardFormStore.cardTypeModal.setTrue();
                 },
               },
-              createMcpSettingsEntryItem("bg-tile-turquoise"),
+              ...(userStore.isPaid
+                ? []
+                : [createMcpSettingsEntryItem("bg-tile-turquoise")]),
             ]}
           />
         </div>
