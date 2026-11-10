@@ -350,7 +350,7 @@ export const en = {
   about_paragraph_1:
     "MemoCard was created to make reviewing flashcards simple and convenient.",
   about_paragraph_2:
-    "During the Telegram Mini App Contest, I decided to create the flashcard app I had always dreamed of. No configuration, smart reminders, and a clean interface.",
+    "During the Telegram Mini App Contest, I decided to create the flashcard app I had always dreamed of. Minimal setup, smart reminders, and a clean interface.",
   about_paragraph_3:
     "The app uses a scientifically grounded spaced repetition algorithm based on Ebbinghaus's forgetting curve. It helps you effectively memorize languages, facts, or any information by showing flashcards exactly when you need to review them.",
   about_paragraph_4:

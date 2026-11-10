@@ -364,7 +364,7 @@ export const es = {
   about_paragraph_1:
     "MemoCard se creó para que repasar tarjetas fuera sencillo y cómodo.",
   about_paragraph_2:
-    "Durante el concurso de miniaplicaciones de Telegram, decidí crear la aplicación de tarjetas con la que siempre había soñado. Sin configuraciones, con recordatorios inteligentes y una interfaz limpia.",
+    "Durante el concurso de miniaplicaciones de Telegram, decidí crear la aplicación de tarjetas con la que siempre había soñado. Con los ajustes mínimos, recordatorios inteligentes y una interfaz limpia.",
   about_paragraph_3:
     "La aplicación utiliza un algoritmo de repetición espaciada con fundamento científico, basado en la curva del olvido de Ebbinghaus. Esto ayuda a memorizar idiomas, datos o cualquier información de forma eficaz, mostrando las tarjetas justo cuando es necesario repasarlas.",
   about_paragraph_4:

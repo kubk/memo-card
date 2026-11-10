@@ -360,7 +360,7 @@ export const ptBr = {
   about_paragraph_1:
     "O MemoCard foi criado para tornar a revisão de cartões simples e prática.",
   about_paragraph_2:
-    "Durante o concurso de miniapps do Telegram, decidi criar o aplicativo de cartões com o qual sempre sonhei. Sem configurações, com lembretes inteligentes e uma interface limpa.",
+    "Durante o concurso de miniapps do Telegram, decidi criar o aplicativo de cartões com o qual sempre sonhei. Com o mínimo de configurações, lembretes inteligentes e uma interface limpa.",
   about_paragraph_3:
     "O aplicativo usa um algoritmo de repetição espaçada com base científica, fundamentado na curva do esquecimento de Ebbinghaus. Isso ajuda a memorizar idiomas, fatos ou qualquer informação de forma eficaz, mostrando os cartões exatamente quando é preciso revisá-los.",
   about_paragraph_4:
