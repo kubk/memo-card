@@ -7,7 +7,7 @@ import { userStore } from "../../store/user-store.ts";
 import { cn } from "../../ui/cn.ts";
 import { t, getActiveLanguage } from "../../translations/t.ts";
 import { getTz } from "../../lib/platform/get-tz.ts";
-import { makeQuery } from "../../lib/mobx-query-lite/make-query.ts";
+import { makeQuery } from "mobx-query-lite";
 
 const weekCellColors = [
   "bg-[rgba(120,120,120,0.12)]",

@@ -3,7 +3,7 @@ import { BooleanToggle } from "mobx-form-lite";
 import { type PaidPlanType } from "api";
 import { api } from "../../api/trpc-api.ts";
 import { persistableField } from "../../lib/mobx-form-lite-persistable/persistable-field.ts";
-import { makeMutation } from "../../lib/mobx-query-lite/make-mutation.ts";
+import { makeMutation } from "mobx-query-lite";
 import { isRunningWithinTelegram } from "../../lib/platform/is-running-within-telegram.ts";
 import { userStore } from "../../store/user-store.ts";
 import { notifyError, notifySuccess } from "../shared/snackbar/snackbar.tsx";

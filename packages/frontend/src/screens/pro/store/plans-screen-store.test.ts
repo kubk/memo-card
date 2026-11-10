@@ -2,8 +2,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { PaymentMethodType, plans } from "api";
 import { PlansScreenStore } from "./plans-screen-store.ts";
 import { when } from "mobx";
-import { queryRegistry } from "../../../lib/mobx-query-lite/make-query.ts";
-import { inMemoryCache } from "../../../lib/mobx-query-lite/cache.ts";
+import { queryRegistry, inMemoryCache } from "mobx-query-lite";
 
 const mocks = vi.hoisted(() => ({
   plansQuery: vi.fn(),

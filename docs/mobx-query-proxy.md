@@ -16,7 +16,7 @@ Pass a query without input directly to `makeQuery`:
 
 ```ts
 import { apiProxy } from "../api/trpc-api.ts";
-import { makeQuery } from "../lib/mobx-query-lite/make-query.ts";
+import { makeQuery } from "mobx-query-lite";
 
 class UserStore {
   activePlanQuery = makeQuery(apiProxy.activePlan.query);

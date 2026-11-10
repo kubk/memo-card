@@ -1,8 +1,7 @@
 import { makeAutoObservable } from "mobx";
 import { api, apiProxy } from "../../../api/trpc-api.ts";
 import { type RouterOutput } from "api";
-import { makeInfiniteQuery } from "../../../lib/mobx-query-lite/make-infinite-query.ts";
-import { makeQuery } from "../../../lib/mobx-query-lite/make-query.ts";
+import { makeInfiniteQuery, makeQuery } from "mobx-query-lite";
 import { getTz } from "../../../lib/platform/get-tz.ts";
 import {
   addDays,

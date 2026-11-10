@@ -1,4 +1,4 @@
-import { refetchActiveQueries } from "../lib/mobx-query-lite/make-query.ts";
+import { refetchActiveQueries } from "mobx-query-lite";
 import { platform } from "../lib/platform/platform.ts";
 import { TelegramPlatform } from "../lib/platform/telegram/telegram-platform.ts";
 import { PullToRefreshStore } from "../lib/pull-to-refresh/pull-to-refresh-store.ts";

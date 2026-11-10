@@ -16,7 +16,7 @@ import { appLoaderStore } from "../../../../store/app-loader-store.ts";
 import { showConfirm } from "../../../../lib/platform/show-confirm.ts";
 import { DeckCardDbType, DeckWithCardsDbType, SpeakLanguage } from "api";
 import { CardInnerScreenType } from "./card-preview-types.ts";
-import { makeMutation } from "../../../../lib/mobx-query-lite/make-mutation.ts";
+import { makeMutation } from "mobx-query-lite";
 import { notifyError } from "../../../shared/snackbar/snackbar.tsx";
 import { assert } from "api";
 import { t } from "../../../../translations/t.ts";

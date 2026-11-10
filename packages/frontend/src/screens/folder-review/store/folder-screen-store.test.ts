@@ -1,7 +1,6 @@
 import { when } from "mobx";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { inMemoryCache } from "../../../lib/mobx-query-lite/cache.ts";
-import { queryRegistry } from "../../../lib/mobx-query-lite/make-query.ts";
+import { inMemoryCache, queryRegistry } from "mobx-query-lite";
 import { FolderScreenStore } from "./folder-screen-store.ts";
 
 const mocks = vi.hoisted(() => ({

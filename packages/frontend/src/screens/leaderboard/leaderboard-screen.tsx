@@ -1,7 +1,7 @@
 import { screenStore } from "../../store/screen-store.ts";
 import { type LeaderboardEntry, type LeaderboardResponse } from "api";
 import { TrophyIcon } from "lucide-react";
-import { type QueryState } from "../../lib/mobx-query-lite/make-query.ts";
+import { type QueryState } from "mobx-query-lite";
 import { platform } from "../../lib/platform/platform.ts";
 import { userStore } from "../../store/user-store.ts";
 import { ChevronIcon } from "../../ui/chevron-icon.tsx";

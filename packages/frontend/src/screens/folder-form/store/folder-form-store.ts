@@ -16,8 +16,7 @@ import { notifyError } from "../../shared/snackbar/snackbar.tsx";
 import { platform } from "../../../lib/platform/platform.ts";
 import { assert } from "api";
 import { api, apiProxy } from "../../../api/trpc-api.ts";
-import { makeMutation } from "../../../lib/mobx-query-lite/make-mutation.ts";
-import { makeQuery } from "../../../lib/mobx-query-lite/make-query.ts";
+import { makeMutation, makeQuery } from "mobx-query-lite";
 
 const createFolderTitleField = (title: string) => {
   return new TextField(title, {

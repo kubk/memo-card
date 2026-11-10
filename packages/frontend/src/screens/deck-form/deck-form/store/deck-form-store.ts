@@ -23,7 +23,7 @@ import {
   RouterOutput,
   SpeakLanguage,
 } from "api";
-import { makeMutation } from "../../../../lib/mobx-query-lite/make-mutation.ts";
+import { makeMutation } from "mobx-query-lite";
 import { notifyError } from "../../../shared/snackbar/snackbar.tsx";
 import { assert } from "api";
 import { t } from "../../../../translations/t.ts";

@@ -2,7 +2,7 @@ import { MotionProvider } from "./lib/framer-motion/motion-provider.tsx";
 import { render } from "preact";
 import "./index.css";
 import { initializePlatform } from "./lib/platform/platform.ts";
-import { refetchActiveQueriesOnVisible } from "./lib/mobx-query-lite/make-query.ts";
+import { refetchActiveQueriesOnVisible } from "mobx-query-lite";
 import { reportHandledError } from "./lib/rollbar/rollbar.tsx";
 import { polyfillCountryFlagEmojis } from "country-flag-emoji-polyfill";
 import { translationResourceStore } from "./translations/t.ts";

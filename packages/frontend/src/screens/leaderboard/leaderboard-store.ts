@@ -1,7 +1,6 @@
-import { makeInfiniteQuery } from "../../lib/mobx-query-lite/make-infinite-query.ts";
+import { makeInfiniteQuery, makeQuery } from "mobx-query-lite";
 import { makeAutoObservable } from "mobx";
 import { api, apiProxy } from "../../api/trpc-api.ts";
-import { makeQuery } from "../../lib/mobx-query-lite/make-query.ts";
 
 class LeaderboardStore {
   statisticsQuery = makeInfiniteQuery({

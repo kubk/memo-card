@@ -8,7 +8,7 @@ import { makeAutoObservable } from "mobx";
 import { screenStore } from "../../../store/screen-store.ts";
 import { showConfirm } from "../../../lib/platform/show-confirm.ts";
 import { t } from "../../../translations/t.ts";
-import { makeMutation } from "../../../lib/mobx-query-lite/make-mutation.ts";
+import { makeMutation } from "mobx-query-lite";
 import { notifyError, notifySuccess } from "../../shared/snackbar/snackbar.tsx";
 import { assert } from "api";
 import { api } from "../../../api/trpc-api.ts";

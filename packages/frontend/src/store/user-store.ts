@@ -12,7 +12,7 @@ import { getUserLanguage } from "api";
 import { isRtlLanguage, LanguageShared } from "api";
 import { platform } from "../lib/platform/platform.ts";
 import { apiProxy } from "../api/trpc-api.ts";
-import { makeQuery } from "../lib/mobx-query-lite/make-query.ts";
+import { makeQuery } from "mobx-query-lite";
 
 class UserStore {
   userInfo?: UserDbType;

@@ -1,8 +1,7 @@
 import { beforeEach, describe, expect, expectTypeOf, it, vi } from "vitest";
 import { observable } from "mobx";
 import { createApiProxy } from "./create-api-proxy.ts";
-import { inMemoryCache } from "../lib/mobx-query-lite/cache.ts";
-import { makeQuery, queryRegistry } from "../lib/mobx-query-lite/make-query.ts";
+import { inMemoryCache, makeQuery, queryRegistry } from "mobx-query-lite";
 
 type Deck = {
   id: number;

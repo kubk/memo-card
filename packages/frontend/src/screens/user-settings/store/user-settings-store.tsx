@@ -10,7 +10,7 @@ import {
 import { formatTime } from "../generate-time-range.tsx";
 import { RouterInput, UserDbType } from "api";
 import { userStore } from "../../../store/user-store.ts";
-import { makeMutation } from "../../../lib/mobx-query-lite/make-mutation.ts";
+import { makeMutation } from "mobx-query-lite";
 import { notifyError, notifySuccess } from "../../shared/snackbar/snackbar.tsx";
 import { t } from "../../../translations/t.ts";
 import { assert } from "api";

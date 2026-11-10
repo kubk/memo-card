@@ -1,5 +1,5 @@
 import { api } from "../api/trpc-api.ts";
-import { makeQuery } from "../lib/mobx-query-lite/make-query.ts";
+import { makeQuery } from "mobx-query-lite";
 import { type DeckListDeck } from "./deck-types.ts";
 
 class DeckDetailsStore {

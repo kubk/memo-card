@@ -1,7 +1,6 @@
 import { useState } from "preact/compat";
 import { type RouterOutput } from "api";
-import { makeMutation } from "../src/lib/mobx-query-lite/make-mutation.ts";
-import { makeQuery } from "../src/lib/mobx-query-lite/make-query.ts";
+import { makeMutation, makeQuery } from "mobx-query-lite";
 import { formatPaidUntil } from "../src/screens/pro/format-paid-until.tsx";
 import { McpSettingsWizard } from "../src/screens/mcp-settings/mcp-settings-wizard.tsx";
 import { McpWizardStore } from "../src/screens/mcp-settings/store/mcp-wizard-store.ts";

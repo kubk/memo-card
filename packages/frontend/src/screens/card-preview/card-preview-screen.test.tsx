@@ -1,8 +1,7 @@
 import { act } from "preact/test-utils";
 import { createRoot } from "preact/compat/client";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { inMemoryCache } from "../../lib/mobx-query-lite/cache.ts";
-import { queryRegistry } from "../../lib/mobx-query-lite/make-query.ts";
+import { inMemoryCache, queryRegistry } from "mobx-query-lite";
 import { CardPreviewScreen } from "./card-preview-screen.tsx";
 
 const mocks = vi.hoisted(() => ({

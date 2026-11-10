@@ -34,6 +34,7 @@
     "mobx": "^7.0.4",
     "mobx-form-lite": "^0.9.7",
     "mobx-persist-store": "^1.1.8",
+    "mobx-query-lite": "^0.1.0",
     "mobx-react-lite": "^5.1.2",
     "motion": "^14.0.0",
     "preact": "^11.0.0",

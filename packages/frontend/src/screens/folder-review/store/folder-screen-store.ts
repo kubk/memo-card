@@ -1,7 +1,7 @@
 import { createInitialFsrsReviewState } from "api";
 import { makeAutoObservable } from "mobx";
 import { api } from "../../../api/trpc-api.ts";
-import { makeQuery } from "../../../lib/mobx-query-lite/make-query.ts";
+import { makeQuery } from "mobx-query-lite";
 import {
   type DeckCardDbTypeWithType,
   type DeckListFolder,

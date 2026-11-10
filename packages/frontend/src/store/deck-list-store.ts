@@ -21,7 +21,7 @@ import { platform } from "../lib/platform/platform.ts";
 import { isAppStartParam } from "api";
 import { api } from "../api/trpc-api.ts";
 import { BrowserPlatform } from "../lib/platform/browser/browser-platform.ts";
-import { makeQuery } from "../lib/mobx-query-lite/make-query.ts";
+import { makeQuery } from "mobx-query-lite";
 import { type DeckListDeck } from "./deck-types.ts";
 import { deckDetailsStore } from "./deck-details-store.ts";
 import { isTrpcNotFoundError } from "../api/is-trpc-not-found-error.ts";

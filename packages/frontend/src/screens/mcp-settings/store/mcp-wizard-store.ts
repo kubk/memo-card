@@ -1,8 +1,7 @@
 import { makeAutoObservable } from "mobx";
 import { api, apiProxy } from "../../../api/trpc-api.ts";
 import { env } from "../../../env.ts";
-import { makeMutation } from "../../../lib/mobx-query-lite/make-mutation.ts";
-import { makeQuery } from "../../../lib/mobx-query-lite/make-query.ts";
+import { makeMutation, makeQuery } from "mobx-query-lite";
 import { showConfirm } from "../../../lib/platform/show-confirm.ts";
 import { screenStore } from "../../../store/screen-store.ts";
 import { userStore } from "../../../store/user-store.ts";

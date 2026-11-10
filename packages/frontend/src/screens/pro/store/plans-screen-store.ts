@@ -11,8 +11,7 @@ import {
 import { assert } from "api";
 import { PaymentMethodType } from "api";
 import { api, apiProxy } from "../../../api/trpc-api.ts";
-import { makeQuery } from "../../../lib/mobx-query-lite/make-query.ts";
-import { makeMutation } from "../../../lib/mobx-query-lite/make-mutation.ts";
+import { makeQuery, makeMutation } from "mobx-query-lite";
 
 export class PlansScreenStore {
   plansQuery = makeQuery(apiProxy.plans.query);

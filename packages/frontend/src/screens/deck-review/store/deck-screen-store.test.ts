@@ -1,7 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { when } from "mobx";
-import { inMemoryCache } from "../../../lib/mobx-query-lite/cache.ts";
-import { queryRegistry } from "../../../lib/mobx-query-lite/make-query.ts";
+import { inMemoryCache, queryRegistry } from "mobx-query-lite";
 import { deckDetailsStore } from "../../../store/deck-details-store.ts";
 import { DeckScreenStore } from "./deck-screen-store.ts";
 

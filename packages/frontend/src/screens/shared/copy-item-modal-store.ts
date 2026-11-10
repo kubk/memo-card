@@ -1,7 +1,7 @@
 import { type RouterInput } from "api";
 import { makeAutoObservable } from "mobx";
 import { api } from "../../api/trpc-api.ts";
-import { makeMutation } from "../../lib/mobx-query-lite/make-mutation.ts";
+import { makeMutation } from "mobx-query-lite";
 import { showAlert } from "../../lib/platform/show-alert.ts";
 import { reportHandledError } from "../../lib/rollbar/rollbar.tsx";
 import { deckListStore } from "../../store/deck-list-store.ts";
