@@ -18,26 +18,19 @@
     "**/*.mock.{ts,tsx}",
     "**/*.test-d.ts"
   ],
-  "rules": {
-    "unused-exports": [
-      "error",
-      {
-        "entry": [
-          "packages/*/vite.config.ts",
-          "packages/api/src/index.ts",
-          "packages/anki-bot/src/index.ts",
-          "packages/api/bin/*.ts",
-          "packages/api/migrate.ts",
-          "packages/api/drizzle.config.ts",
-          "packages/api/vitest.config.mts",
-          "packages/api/src/lib/testing/global-setup.ts",
-          "packages/api/src/lib/testing/setup-worker-db.ts",
-          "packages/frontend/src/main.tsx",
-          "packages/frontend/playground/main.tsx",
-          "packages/landing/src/routes/**/*.tsx",
-          "packages/landing/src/router.tsx"
-        ]
-      }
-    ]
-  }
+  "entry": [
+    "packages/*/vite.config.ts",
+    "packages/api/src/index.ts",
+    "packages/anki-bot/src/index.ts",
+    "packages/api/bin/*.ts",
+    "packages/api/migrate.ts",
+    "packages/api/drizzle.config.ts",
+    "packages/api/vitest.config.mts",
+    "packages/api/src/lib/testing/global-setup.ts",
+    "packages/api/src/lib/testing/setup-worker-db.ts",
+    "packages/frontend/src/main.tsx",
+    "packages/frontend/playground/main.tsx",
+    "packages/landing/src/routes/**/*.tsx",
+    "packages/landing/src/router.tsx"
+  ]
 }
