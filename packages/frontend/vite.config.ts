@@ -70,5 +70,12 @@ export default defineConfig({
   },
   server: {
     port: 5180,
+    // Orb portals block cross-origin API calls, so the local API is also served from /api
+    proxy: {
+      "/api": {
+        target: "http://localhost:8780",
+        rewrite: (path) => path.replace(/^\/api/, ""),
+      },
+    },
   },
 });
