@@ -1,16 +1,50 @@
 {
+  "id": "/",
   "name": "MemoCard",
   "short_name": "MemoCard",
   "description": "Improve your memory with spaced repetition. Learn languages, history or other subjects with the proven flashcard method.",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#efeff3",
   "theme_color": "#efeff3",
   "orientation": "portrait",
   "icons": [
     {
-      "src": "/img/logo.png",
-      "sizes": "any",
-      "type": "image/png"
+      "src": "/img/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/img/icons/icon-384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/img/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/img/icons/maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/img/icons/maskable-384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/img/icons/maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }
