@@ -13,7 +13,7 @@ export function AboutScreen() {
 
   return (
     <Screen title={t("about_title")}>
-      <div className="space-y-4 text-sm leading-relaxed">
+      <div className="space-y-4 text-base leading-relaxed">
         <p>{t("about_paragraph_1")}</p>
         <p>{t("about_paragraph_2")}</p>
         <p>{t("about_paragraph_3")}</p>
