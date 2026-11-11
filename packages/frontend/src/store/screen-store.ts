@@ -2,7 +2,11 @@ import { makeAutoObservable } from "mobx";
 import { routeToUrl, urlToRoute } from "./routing/url-sync.ts";
 import { platform } from "../lib/platform/platform.ts";
 import { BrowserPlatform } from "../lib/platform/browser/browser-platform.ts";
-import { Route, withoutRouteState } from "./routing/route-types.ts";
+import {
+  authOptionalScreenTypes,
+  Route,
+  withoutRouteState,
+} from "./routing/route-types.ts";
 
 let routeIndex = 0;
 let historyEntryIndex = 0;
@@ -88,6 +92,17 @@ export class ScreenStore {
     }
 
     window.addEventListener("popstate", this.handlePopstate);
+  }
+
+  // Without a token me.info always fails, so skip rendering the main screen until it does
+  showLoginWhenSignedOut() {
+    if (
+      platform instanceof BrowserPlatform &&
+      !platform.getInitData() &&
+      !authOptionalScreenTypes.includes(this.screen.type)
+    ) {
+      this.replace({ type: "browserLogin" });
+    }
   }
 
   private handlePopstate = () => {

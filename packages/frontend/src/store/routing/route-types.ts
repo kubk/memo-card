@@ -178,6 +178,11 @@ export type Route = RouteWithoutState & {
 };
 export type DeckFormRoute = Extract<Route, { type: "deckForm" }>;
 
+export const authOptionalScreenTypes: Route["type"][] = [
+  "about",
+  "browserLogin",
+];
+
 export const withoutRouteState = (route: Route): RouteWithoutState => {
   const { state: _state, ...routeWithoutState } = route;
   return routeWithoutState as RouteWithoutState;

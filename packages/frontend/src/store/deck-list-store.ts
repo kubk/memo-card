@@ -27,6 +27,7 @@ import { deckDetailsStore } from "./deck-details-store.ts";
 import { isTrpcNotFoundError } from "../api/is-trpc-not-found-error.ts";
 import { showAlert } from "../lib/platform/show-alert.ts";
 import { t } from "../translations/t.ts";
+import { authOptionalScreenTypes } from "./routing/route-types.ts";
 
 export type DeckCardDbTypeWithType = DeckCardDbType & {
   type: CardReviewType;
@@ -35,8 +36,6 @@ export type DeckCardDbTypeWithType = DeckCardDbType & {
 export type DeckWithCardsWithReviewType = DeckListDeck & {
   cardsToReview: DeckCardDbTypeWithType[];
 };
-
-const authOptionalScreenTypes = ["about", "browserLogin"];
 
 export type DeckListItem = {
   id: string;
@@ -116,6 +115,9 @@ class DeckListStore {
   }
 
   loadFirstTime(startParam?: string) {
+    if (screenStore.screen.type === "browserLogin") {
+      return;
+    }
     this.handleStartParam(startParam);
   }
 
