@@ -1,8 +1,7 @@
 import { isDarkTheme } from "../../color-scheme/is-dark-theme.tsx";
 import { cssVariablesDark, cssVariablesLight } from "../../../ui/theme.tsx";
 
-// logo.png has transparent padding, so the visible artwork is about 160pt tall
-const logoSize = 212;
+const logoHeight = 128;
 
 // iOS takes the launch screen from these links when the app is added to the Home Screen
 export function addIosStartupImages() {
@@ -17,7 +16,7 @@ export function addIosStartupImages() {
     appendStartupImage(logo, width, height, "portrait");
     appendStartupImage(logo, height, width, "landscape");
   };
-  logo.src = "/img/logo.png";
+  logo.src = "/img/splash-logo.png";
 }
 
 function appendStartupImage(
@@ -40,12 +39,14 @@ function appendStartupImage(
     "--tg-theme-secondary-bg-color"
   ];
   context.fillRect(0, 0, width, height);
+  const logoWidth = (logoHeight * logo.naturalWidth) / logo.naturalHeight;
+  context.imageSmoothingQuality = "high";
   context.drawImage(
     logo,
-    (width - logoSize) / 2,
-    (height - logoSize) / 2,
-    logoSize,
-    logoSize,
+    (width - logoWidth) / 2,
+    (height - logoHeight) / 2,
+    logoWidth,
+    logoHeight,
   );
 
   const link = document.createElement("link");
