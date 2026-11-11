@@ -41,7 +41,6 @@ export function LoginForm({
         <Button
           type="button"
           variant="outline"
-          disabled={store.isTelegramLoading}
           onClick={store.signInWithTelegram}
         >
           <LoadingSwap isLoading={store.isTelegramLoading}>
