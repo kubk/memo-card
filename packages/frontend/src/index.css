@@ -62,6 +62,17 @@
     height: 1.5rem;
   }
 
+  /* Paints the theme background before JS sets the variables, so the PWA launch screen fades into the same color */
+  html {
+    background: var(--tg-theme-secondary-bg-color, #efeff3);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    html {
+      background: var(--tg-theme-secondary-bg-color, #131415);
+    }
+  }
+
   body {
     margin: 0;
     display: flex;
