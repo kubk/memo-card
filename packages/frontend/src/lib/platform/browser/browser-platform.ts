@@ -19,7 +19,6 @@ import { api } from "../../../api/trpc-api.ts";
 import { applyColorScheme } from "../../color-scheme/apply-color-scheme.ts";
 import { env } from "../../../env.ts";
 import { normalizeLanguage } from "api";
-import { addIosStartupImages } from "./ios-startup-image.ts";
 
 export class BrowserPlatform implements Platform {
   isMobile = false;
@@ -163,7 +162,6 @@ export class BrowserPlatform implements Platform {
   initialize() {
     this.applyTheme();
     listenDarkThemeChange(() => this.applyTheme());
-    addIosStartupImages();
   }
 
   openInternalLink(link: string) {
