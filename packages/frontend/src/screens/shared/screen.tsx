@@ -30,7 +30,7 @@ export function Screen(props: Props) {
         className={cn(
           "relative",
           isTelegramMobile &&
-            // oxlint-disable-next-line memo-card-px/no-px-lengths -- aligns the title with Telegram's header, which doesn't scale
+            // slop-police-ignore no-px-lengths -- aligns the title with Telegram's header, which doesn't scale
             "mt-[calc(10px_-_var(--app-top-offset))] min-h-[calc(var(--app-top-offset)_-_10px)]",
         )}
       >

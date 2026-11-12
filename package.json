@@ -34,6 +34,7 @@
     "git-filter": "2.6.0",
     "oxfmt": "^0.55.0",
     "slop-police": "^0.3.19",
+    "slop-police-kubk-pet-projects": "^0.1.1",
     "typescript": "^7.0.2"
   }
 }

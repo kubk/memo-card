@@ -32,5 +32,12 @@
     "packages/frontend/playground/main.tsx",
     "packages/landing/src/routes/**/*.tsx",
     "packages/landing/src/router.tsx"
-  ]
+  ],
+  "plugins": ["slop-police-kubk-pet-projects"],
+  "rules": {
+    "no-any-assertion": "error",
+    "no-aria-attributes": "error",
+    "no-redundant-cn": "error",
+    "no-px-lengths": ["error", { "onlyIn": "packages/frontend/src/" }]
+  }
 }

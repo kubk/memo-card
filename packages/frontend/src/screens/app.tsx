@@ -83,10 +83,10 @@ export function App() {
   return (
     <div
       className={cn(
-        // oxlint-disable-next-line memo-card-px/no-px-lengths -- page offsets stay fixed, only content scales with the text size setting
+        // slop-police-ignore no-px-lengths -- page offsets stay fixed, only content scales with the text size setting
         "relative h-[var(--app-viewport-height)] overflow-hidden [--app-top-offset:12px]",
         isTelegramMobile &&
-          // oxlint-disable-next-line memo-card-px/no-px-lengths -- aligns with Telegram's header, which doesn't scale
+          // slop-police-ignore no-px-lengths -- aligns with Telegram's header, which doesn't scale
           "[--app-top-offset:calc(var(--app-content-safe-area-top)_+_4px)]",
         isDesktopWidth && "mx-auto max-w-2xl",
       )}

@@ -27,6 +27,9 @@ importers:
       slop-police:
         specifier: ^0.3.19
         version: 0.3.19
+      slop-police-kubk-pet-projects:
+        specifier: ^0.1.1
+        version: 0.1.1(slop-police@0.3.19)
       typescript:
         specifier: ^7.0.2
         version: 7.0.2
@@ -4931,6 +4934,11 @@ packages:
     cpu: [x64]
     os: [darwin]
 
+  slop-police-kubk-pet-projects@0.1.1:
+    resolution: {integrity: sha512-H4ixWWuJMZU0KAOwLSi26hlXFysHi3MfiO+Y44wamh3cLWjhSVMtdHOf3/ZMBTi+2eVbiWnhlNObb0wNi8X0Jg==}
+    peerDependencies:
+      slop-police: '>=0.3.19'
+
   slop-police-linux-arm64@0.3.19:
     resolution: {integrity: sha512-KDtHLbDTqU4cSUFLl9OYSe+3N18LkZC6uAYfa/vGA6ZGxP/57Jn3O82dvtNvNJBiVL2MCjvZLGDcBcBvVkdcqg==}
     cpu: [arm64]
@@ -9664,6 +9672,10 @@ snapshots:
 
   slop-police-darwin-x64@0.3.19:
     optional: true
+
+  slop-police-kubk-pet-projects@0.1.1(slop-police@0.3.19):
+    dependencies:
+      slop-police: 0.3.19
 
   slop-police-linux-arm64@0.3.19:
     optional: true
