@@ -1,5 +1,6 @@
 import EasySpeech from "easy-speech";
 import { type SpeakLanguage } from "api";
+import { isSpeechSynthesisSupported } from "./speech-synthesis.ts";
 
 export async function loadHighQualityVoices() {
   console.log("Loading high quality voices");
@@ -15,10 +16,6 @@ export const languageKeyToHuman = (str: string): string => {
   }
   return str.replace(/([A-Z])/g, " $1").trimStart();
 };
-
-export const isSpeechSynthesisSupported =
-  "speechSynthesis" in window &&
-  typeof SpeechSynthesisUtterance !== "undefined";
 
 export const getVoicesByLanguage = (
   language: string,

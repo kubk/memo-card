@@ -8,6 +8,7 @@ import { polyfillCountryFlagEmojis } from "country-flag-emoji-polyfill";
 import { translationResourceStore } from "./translations/t.ts";
 import { fontSizeStore } from "./lib/font-size/font-size-store.ts";
 import { screenStore } from "./store/screen-store.ts";
+import { unlockPlaybackOnFirstTap } from "./lib/voice-playback/shared-audio.ts";
 
 // iOS WebKit needs a touch listener to apply CSS :active while pressing.
 document.addEventListener("touchstart", () => {}, { passive: true });
@@ -24,6 +25,7 @@ polyfillCountryFlagEmojis();
 initializePlatform();
 screenStore.showLoginWhenSignedOut();
 fontSizeStore.initialize();
+unlockPlaybackOnFirstTap();
 
 refetchActiveQueriesOnVisible();
 

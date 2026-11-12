@@ -1,12 +1,12 @@
 import { createInitialFsrsReviewState, SpeakLanguage } from "api";
 import { useState } from "preact/compat";
 import { BrowserWebSpeechApiPlayer } from "../src/screens/deck-review/voice-player/browser-web-speech-api-player.ts";
-import { GoogleTtsVoicePlayer } from "../src/screens/deck-review/voice-player/google-tts-voice-player.ts";
+import { createGoogleTtsVoicePlayer } from "../src/screens/deck-review/voice-player/google-tts-voice-player.ts";
 import {
   Card,
   type LimitedCardUnderReviewStore,
 } from "../src/screens/shared/card/card.tsx";
-import { isSpeechSynthesisSupported } from "../src/lib/voice-playback/speak.ts";
+import { isSpeechSynthesisSupported } from "../src/lib/voice-playback/speech-synthesis.ts";
 import { PreviewFrame } from "./ui/preview-frame.tsx";
 
 const cardExample = {
@@ -30,7 +30,7 @@ export function CardAudioPlayground() {
   const [players] = useState(() => [
     {
       label: "Google TTS",
-      player: new GoogleTtsVoicePlayer("en-US", cardExample.front),
+      player: createGoogleTtsVoicePlayer("en-US", cardExample.front),
     },
     {
       label: "Browser TTS",

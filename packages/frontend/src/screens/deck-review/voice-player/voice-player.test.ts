@@ -3,11 +3,17 @@ import { SpeakLanguage } from "api";
 import { speak } from "../../../lib/voice-playback/speak.ts";
 import { BrowserWebSpeechApiPlayer } from "./browser-web-speech-api-player.ts";
 import { UrlRecordVoicePlayer } from "./url-record-voice-player.ts";
-import { GoogleTtsVoicePlayer } from "./google-tts-voice-player.ts";
+import { createGoogleTtsVoicePlayer } from "./google-tts-voice-player.ts";
 import { voicePlayerCallbackQueue } from "./voice-player-callback-queue.ts";
+import { unlockPlaybackOnFirstTap } from "../../../lib/voice-playback/shared-audio.ts";
+import { unlockSpeechSynthesis } from "../../../lib/voice-playback/speech-synthesis.ts";
 
 vi.mock("../../../lib/voice-playback/speak.ts", () => ({
   speak: vi.fn(),
+}));
+
+vi.mock("../../../lib/voice-playback/speech-synthesis.ts", () => ({
+  unlockSpeechSynthesis: vi.fn(),
 }));
 
 beforeEach(() => {
@@ -19,25 +25,39 @@ afterEach(() => {
   vi.unstubAllGlobals();
 });
 
-describe("recorded audio playback", () => {
-  it("tracks playing, pause, completion, and failure events", () => {
-    const audio = new Audio();
-    vi.stubGlobal(
-      "Audio",
-      class {
-        constructor() {
-          return audio;
-        }
-      },
-    );
-    const player = new UrlRecordVoicePlayer("recording.mp3");
+function capturePlayedElements(play: () => Promise<void>) {
+  const elements: HTMLMediaElement[] = [];
+  vi.spyOn(HTMLMediaElement.prototype, "play").mockImplementation(
+    function (this: HTMLMediaElement) {
+      elements.push(this);
+      return play();
+    },
+  );
+  return elements;
+}
 
+describe("recorded audio playback", () => {
+  it("plays every recording through one element and tracks its events", () => {
+    const played = capturePlayedElements(() => Promise.resolve());
+    const first = new UrlRecordVoicePlayer("https://media.test/first.mp3");
+    const second = new UrlRecordVoicePlayer("https://media.test/second.mp3");
+
+    first.play();
+    const audio = played[0];
     for (const event of ["pause", "ended", "error", "emptied"]) {
       audio.dispatchEvent(new Event("playing"));
-      expect(player.isPlaying).toBe(true);
+      expect(first.isPlaying).toBe(true);
+      expect(second.isPlaying).toBe(false);
       audio.dispatchEvent(new Event(event));
-      expect(player.isPlaying).toBe(false);
+      expect(first.isPlaying).toBe(false);
     }
+
+    second.play();
+    expect(played).toEqual([audio, audio]);
+    expect(audio.src).toBe("https://media.test/second.mp3");
+    audio.dispatchEvent(new Event("playing"));
+    expect(first.isPlaying).toBe(false);
+    expect(second.isPlaying).toBe(true);
   });
 
   it("loads the recording only when preloaded", () => {
@@ -55,22 +75,35 @@ describe("recorded audio playback", () => {
   });
 
   it("handles rejected playback", async () => {
-    const audio = new Audio();
-    vi.spyOn(audio, "play").mockRejectedValue(new Error("Playback blocked"));
-    vi.stubGlobal(
-      "Audio",
-      class {
-        constructor() {
-          return audio;
-        }
-      },
+    capturePlayedElements(() =>
+      Promise.reject(new DOMException("Blocked", "NotAllowedError")),
     );
-    const player = new UrlRecordVoicePlayer("recording.mp3");
-    audio.dispatchEvent(new Event("playing"));
+    const player = new UrlRecordVoicePlayer("https://media.test/blocked.mp3");
 
-    player.play();
-    await Promise.resolve();
+    await player.play();
     expect(player.isPlaying).toBe(false);
+  });
+});
+
+describe("audio unlock", () => {
+  it("unlocks audio and speech on the first tap that allows playback", async () => {
+    const errors = ["NotAllowedError", "AbortError"];
+    const played = capturePlayedElements(() =>
+      Promise.reject(new DOMException("Rejected", errors.shift())),
+    );
+    unlockPlaybackOnFirstTap();
+
+    const tap = async (type: string) => {
+      document.dispatchEvent(new Event(type));
+      await new Promise((resolve) => setTimeout(resolve));
+    };
+    await tap("keydown");
+    await tap("touchend");
+    await tap("click");
+
+    expect(played).toHaveLength(2);
+    expect(played[1].src).toMatch(/^data:audio\/wav;base64,/);
+    expect(unlockSpeechSynthesis).toHaveBeenCalledOnce();
   });
 });
 
@@ -105,36 +138,24 @@ describe("speech synthesis playback", () => {
 });
 
 describe("Google TTS playback", () => {
-  it("caches audio and queues its preloading once", () => {
-    const audio = new Audio();
-    const createAudio = vi.fn(function () {
-      return audio;
-    });
-    vi.stubGlobal("Audio", createAudio);
-    const queue = vi
-      .spyOn(voicePlayerCallbackQueue, "add")
-      .mockImplementation((load) => load());
-    const play = vi.spyOn(audio, "play").mockResolvedValue(undefined);
+  it("plays through the shared element without preloading", () => {
+    const queue = vi.spyOn(voicePlayerCallbackQueue, "add");
+    const played = capturePlayedElements(() => Promise.resolve());
+    const first = createGoogleTtsVoicePlayer("en-US", "Fierce");
+    const second = createGoogleTtsVoicePlayer("en-US", "Fierce");
 
-    const first = new GoogleTtsVoicePlayer("en-US", "Fierce");
-    const cached = new GoogleTtsVoicePlayer("en-US", "Fierce");
-    expect(queue).not.toHaveBeenCalled();
     first.preload();
-    cached.preload();
+    second.play();
 
-    expect(createAudio).toHaveBeenCalledExactlyOnceWith(
+    expect(queue).not.toHaveBeenCalled();
+    expect(played).toHaveLength(1);
+    expect(played[0].src).toBe(
       "https://translate.google.com/translate_tts?ie=UTF-8&tl=en-US&client=tw-ob&q=Fierce",
     );
-    expect(audio.preload).toBe("none");
-    expect(queue).toHaveBeenCalledOnce();
-    expect(audio.load).toHaveBeenCalledOnce();
-    cached.play();
-    expect(play).toHaveBeenCalledOnce();
-    audio.dispatchEvent(new Event("playing"));
+    played[0].dispatchEvent(new Event("playing"));
     expect(first.isPlaying).toBe(true);
-    expect(cached.isPlaying).toBe(true);
-    audio.dispatchEvent(new Event("ended"));
+    expect(second.isPlaying).toBe(true);
+    played[0].dispatchEvent(new Event("ended"));
     expect(first.isPlaying).toBe(false);
-    expect(cached.isPlaying).toBe(false);
   });
 });

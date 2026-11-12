@@ -1,40 +1,35 @@
 import { VoicePlayer } from "./create-voice-player.ts";
 import { voicePlayerCallbackQueue } from "./voice-player-callback-queue.ts";
-import { action, makeAutoObservable } from "mobx";
+import { makeAutoObservable } from "mobx";
 import { toViewerMediaUrls } from "../../../lib/urls/proxy-urls.ts";
+import { sharedAudio } from "../../../lib/voice-playback/shared-audio.ts";
 
 export class UrlRecordVoicePlayer implements VoicePlayer {
-  private audio: HTMLAudioElement;
-  private isPreloadQueued = false;
-  isPlaying = false;
+  private url: string;
+  private canPreload: boolean;
+  private preloadAudio?: HTMLAudioElement;
 
-  constructor(url: string) {
-    this.audio = new Audio(toViewerMediaUrls(url));
+  constructor(url: string, { canPreload = true } = {}) {
+    this.url = toViewerMediaUrls(url);
+    this.canPreload = canPreload;
     makeAutoObservable(this, {}, { autoBind: true });
-    for (const event of ["playing", "pause", "ended", "error", "emptied"]) {
-      this.audio.addEventListener(
-        event,
-        action(() => {
-          this.isPlaying = event === "playing";
-        }),
-      );
-    }
-    this.audio.preload = "none";
+  }
+
+  get isPlaying() {
+    return sharedAudio.playingUrl === this.url;
   }
 
   preload() {
-    if (this.isPreloadQueued) {
+    if (!this.canPreload || this.preloadAudio) {
       return;
     }
-    this.isPreloadQueued = true;
-    voicePlayerCallbackQueue.add(() => this.audio.load());
+    const audio = new Audio(this.url);
+    audio.preload = "none";
+    this.preloadAudio = audio;
+    voicePlayerCallbackQueue.add(() => audio.load());
   }
 
-  async play() {
-    try {
-      await this.audio.play();
-    } catch {
-      this.isPlaying = false;
-    }
+  play() {
+    return sharedAudio.play(this.url);
   }
 }

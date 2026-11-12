@@ -5,10 +5,10 @@ import {
 } from "api";
 import { deckListStore } from "../../../store/deck-list-store.ts";
 import { removeAllTags } from "../../../lib/sanitize-html/remove-all-tags.ts";
-import { isSpeechSynthesisSupported } from "../../../lib/voice-playback/speak.ts";
+import { isSpeechSynthesisSupported } from "../../../lib/voice-playback/speech-synthesis.ts";
 import { BrowserWebSpeechApiPlayer } from "./browser-web-speech-api-player.ts";
 import { UrlRecordVoicePlayer } from "./url-record-voice-player.ts";
-import { GoogleTtsVoicePlayer } from "./google-tts-voice-player.ts";
+import { createGoogleTtsVoicePlayer } from "./google-tts-voice-player.ts";
 
 export type VoicePlayer = {
   isPlaying: boolean;
@@ -54,5 +54,5 @@ export const createVoicePlayer = (
     return new BrowserWebSpeechApiPlayer(text, deckForm.speakingCardsLocale);
   }
 
-  return new GoogleTtsVoicePlayer(deckForm.speakingCardsLocale, text);
+  return createGoogleTtsVoicePlayer(deckForm.speakingCardsLocale, text);
 };

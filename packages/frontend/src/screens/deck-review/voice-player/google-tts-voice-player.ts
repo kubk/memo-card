@@ -1,6 +1,4 @@
-import { VoicePlayer } from "./create-voice-player.ts";
-import { voicePlayerCallbackQueue } from "./voice-player-callback-queue.ts";
-import { action, makeAutoObservable } from "mobx";
+import { UrlRecordVoicePlayer } from "./url-record-voice-player.ts";
 
 // Circumvent Google CORS
 let isMetaTagInserted = false;
@@ -21,49 +19,11 @@ const buildGoogleTtsUrl = (language: string, text: string) => {
   return `https://translate.google.com/translate_tts?ie=UTF-8&tl=${encodedLanguage}&client=tw-ob&q=${encodedText}`;
 };
 
-const audioCache = new Map<string, HTMLAudioElement>();
-const preloadedAudios = new WeakSet<HTMLAudioElement>();
-
-export class GoogleTtsVoicePlayer implements VoicePlayer {
-  private audio: HTMLAudioElement;
-  isPlaying = false;
-
-  constructor(language: string, text: string) {
-    insertMetaNoReferrerToDom();
-    const cacheKey = `${language} ${text}`;
-    if (audioCache.has(cacheKey)) {
-      this.audio = audioCache.get(cacheKey)!;
-    } else {
-      this.audio = new Audio(buildGoogleTtsUrl(language, text));
-      this.audio.preload = "none";
-      audioCache.set(cacheKey, this.audio);
-    }
-    makeAutoObservable(this, {}, { autoBind: true });
-    this.isPlaying = !this.audio.paused && !this.audio.ended;
-    for (const event of ["playing", "pause", "ended", "error", "emptied"]) {
-      this.audio.addEventListener(
-        event,
-        action(() => {
-          this.isPlaying = event === "playing";
-        }),
-      );
-    }
-  }
-
-  preload() {
-    if (preloadedAudios.has(this.audio)) {
-      return;
-    }
-    preloadedAudios.add(this.audio);
-    const audio = this.audio;
-    voicePlayerCallbackQueue.add(() => audio.load());
-  }
-
-  async play() {
-    try {
-      await this.audio.play();
-    } catch {
-      this.isPlaying = false;
-    }
-  }
+// translate_tts responses are no-store, so a preload would only download the
+// clip a second time before the shared element plays it
+export function createGoogleTtsVoicePlayer(language: string, text: string) {
+  insertMetaNoReferrerToDom();
+  return new UrlRecordVoicePlayer(buildGoogleTtsUrl(language, text), {
+    canPreload: false,
+  });
 }
