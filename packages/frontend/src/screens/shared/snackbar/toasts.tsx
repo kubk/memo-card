@@ -1,8 +1,11 @@
-import { useEffect, useRef } from "preact/compat";
+import { useEffect, useRef, useState } from "preact/compat";
 import { AnimatePresence } from "motion/react";
 import * as m from "motion/react-m";
 import { Loader2Icon } from "lucide-react";
+import { cn } from "../../../ui/cn.ts";
 import { type Toast, type ToastVariant, toastStore } from "./toast-store.ts";
+
+const swipeDistance = 10;
 
 const enterTransition = { duration: 0.225, ease: [0, 0, 0.2, 1] } as const;
 
@@ -37,6 +40,8 @@ function ToastItem({
   enterOffset: number;
 }) {
   const timerRef = useRef<number | undefined>(undefined);
+  const swipeStartY = useRef(0);
+  const [swiped, setSwiped] = useState(false);
 
   const clearTimer = () => {
     window.clearTimeout(timerRef.current);
@@ -65,10 +70,23 @@ function ToastItem({
     >
       <div className="pb-1">
         <div
-          className="pointer-events-auto mx-2 flex items-center rounded-2xl bg-[#202020cc] p-[0.9375rem] text-white backdrop-blur-[0.5rem] dark:bg-[#000000cc]"
+          className={cn(
+            "pointer-events-auto mx-2 flex touch-none items-center rounded-2xl bg-[#202020cc] p-[0.9375rem] text-white backdrop-blur-[0.5rem] transition-transform duration-200 ease-out select-none dark:bg-[#000000cc]",
+            swiped && "-translate-y-full",
+          )}
           onClick={() => toastStore.close(toast.id)}
           onMouseEnter={clearTimer}
           onMouseLeave={startTimer}
+          onPointerDown={(event) => {
+            event.currentTarget.setPointerCapture(event.pointerId);
+            swipeStartY.current = event.clientY;
+          }}
+          onPointerUp={(event) => {
+            if (event.clientY - swipeStartY.current < -swipeDistance) {
+              setSwiped(true);
+              toastStore.close(toast.id);
+            }
+          }}
         >
           <ToastIcon variant={toast.variant} />
           <div className="grow text-[0.9375rem] leading-[1.25] [overflow-wrap:anywhere]">
