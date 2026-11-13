@@ -10,6 +10,7 @@
     "test": "pnpm exec vitest run --environment jsdom --typecheck",
     "build": "vite build",
     "build:playground": "BUILD_PLAYGROUND=1 vite build",
+    "size": "vite build && size-limit",
     "bundle-analyze": "analyze --mode=server --open=false --port=8888 --summary=false"
   },
   "dependencies": {
@@ -44,6 +45,7 @@
   },
   "devDependencies": {
     "@preact/preset-vite": "^2.10.6",
+    "@size-limit/file": "^14.3.0",
     "@tailwindcss/vite": "^4.3.3",
     "@types/autosize": "^4.0.3",
     "@types/node": "^25.9.1",
@@ -53,6 +55,7 @@
     "mobx-react-plugin": "^1.0.1",
     "oxlint": "^1.70.0",
     "rollbar": "2.26.0",
+    "size-limit": "^14.3.0",
     "stylelint": "^18.0.0",
     "tailwindcss": "^4.3.3",
     "typescript": "^7.0.2",

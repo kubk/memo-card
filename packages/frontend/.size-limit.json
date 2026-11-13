@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Vendor",
+    "path": "dist/assets/vendor-*.js",
+    "gzip": true,
+    "limit": "120 kB"
+  },
+  {
+    "name": "Main",
+    "path": "dist/assets/main-*.js",
+    "gzip": true,
+    "limit": "12 kB"
+  },
+  {
+    "name": "App",
+    "path": "dist/assets/app-*.js",
+    "gzip": true,
+    "limit": "67 kB"
+  },
+  {
+    "name": "All JS",
+    "path": "dist/assets/*.js",
+    "gzip": true,
+    "limit": "256 kB"
+  }
+]
