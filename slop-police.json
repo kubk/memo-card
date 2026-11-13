@@ -35,6 +35,7 @@
   ],
   "plugins": ["slop-police-kubk-pet-projects"],
   "rules": {
+    "unused-class-members": "error",
     "no-any-assertion": "error",
     "no-aria-attributes": "error",
     "no-redundant-cn": "error",
