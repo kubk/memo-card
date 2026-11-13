@@ -1,7 +1,8 @@
+import { useEffect } from "preact/compat";
 import { ProgressBar } from "../../ui/progress-bar.tsx";
 import { useReviewStore } from "./store/review-store-context.tsx";
 import { useBackButton } from "../../lib/platform/use-back-button.ts";
-import { useHotkeys } from "react-hotkeys-hook";
+import { BrowserPlatform } from "../../lib/platform/browser/browser-platform.ts";
 import { ReviewDeckName } from "./review-deck-name.tsx";
 import { CardReviewWithControls } from "./card-review-with-controls.tsx";
 import { XIcon } from "lucide-react";
@@ -24,11 +25,19 @@ export function Review() {
     onSubmitUnfinished();
   });
 
-  useHotkeys("1", reviewStore.onAgain);
-  useHotkeys("2", reviewStore.onHard);
-  useHotkeys("3", reviewStore.onGood);
-  useHotkeys("4", reviewStore.onEasy);
-  useHotkeys("enter", reviewStore.open);
+  useEffect(() => {
+    if (!(platform instanceof BrowserPlatform)) {
+      return;
+    }
+
+    return platform.listenHotkeys({
+      "1": reviewStore.onAgain,
+      "2": reviewStore.onHard,
+      "3": reviewStore.onGood,
+      "4": reviewStore.onEasy,
+      enter: reviewStore.open,
+    });
+  }, [reviewStore]);
 
   return (
     <ReviewScreenLayout

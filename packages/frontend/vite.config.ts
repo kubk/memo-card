@@ -9,6 +9,10 @@ import mobxReactPlugin from "mobx-react-plugin/vite";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
+// The playground is built on its own, because the modules it shares with the app would split the app into more,
+// smaller chunks, which compress worse
+const isPlaygroundBuild = process.env.BUILD_PLAYGROUND === "1";
+
 const getLastCommit = () => {
   try {
     const [hash, name] = execSync("git log -1 --format=%H%n%s", {
@@ -41,10 +45,6 @@ export default defineConfig({
     // The default of one fewer worker than CPUs leaves 2-CPU CI runners with a single worker
     maxWorkers: availableParallelism(),
     alias: {
-      "react-lines-ellipsis": resolve(
-        __dirname,
-        "../../node_modules/react-lines-ellipsis/lib/index.modern.mjs",
-      ),
       "mobx-react-lite": resolve(
         __dirname,
         "../../node_modules/mobx-react-lite/dist/mobxreactlite.mjs",
@@ -52,7 +52,7 @@ export default defineConfig({
     },
     server: {
       deps: {
-        inline: [/mobx-react-lite/, /react-lines-ellipsis/],
+        inline: [/mobx-react-lite/],
       },
     },
   },
@@ -61,10 +61,22 @@ export default defineConfig({
   },
   build: {
     sourcemap: true,
+    emptyOutDir: !isPlaygroundBuild,
     rollupOptions: {
-      input: {
-        main: resolve(__dirname, "index.html"),
-        playground: resolve(__dirname, "playground/index.html"),
+      input: isPlaygroundBuild
+        ? { playground: resolve(__dirname, "playground/index.html") }
+        : { main: resolve(__dirname, "index.html") },
+      output: {
+        // Libraries, main.tsx with what it imports, and app.tsx with what it imports each get one chunk. Large
+        // chunks compress better than the small shared chunks automatic splitting makes. The priorities keep
+        // code main.tsx imports out of the app chunk, which main.tsx still loads with import()
+        codeSplitting: {
+          groups: [
+            { name: "vendor", test: /[\\/]node_modules[\\/]/, priority: 2 },
+            { name: "main", tags: ["$initial"], priority: 1 },
+            { name: "app", test: /[\\/]src[\\/]screens[\\/]app\.tsx$/ },
+          ],
+        },
       },
     },
   },

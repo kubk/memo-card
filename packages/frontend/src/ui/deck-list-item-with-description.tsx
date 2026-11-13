@@ -1,4 +1,3 @@
-import LinesEllipsis from "react-lines-ellipsis";
 import { DeckCategoryLogo } from "./deck-category-logo.tsx";
 import { ReactNode } from "preact/compat";
 import { removeAllTags } from "../lib/sanitize-html/remove-all-tags.ts";
@@ -32,18 +31,10 @@ export function DeckListItemWithDescription(props: Props) {
         {catalogItem.name}
         {titleRightSlot}
       </div>
-      <div className="text-hint text-[0.875rem]">
-        <LinesEllipsis
-          text={
-            catalogItem.description
-              ? removeAllTags({ text: catalogItem.description })
-              : ""
-          }
-          maxLine="2"
-          ellipsis="..."
-          trimRight
-          basedOn="words"
-        />
+      <div className="text-hint text-[0.875rem] line-clamp-2">
+        {catalogItem.description
+          ? removeAllTags({ text: catalogItem.description })
+          : ""}
       </div>
     </div>
   );

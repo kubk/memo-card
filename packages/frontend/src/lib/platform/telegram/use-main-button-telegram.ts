@@ -1,6 +1,5 @@
 import { autorun } from "mobx";
 import { platform, UseMainButtonType } from "../platform.ts";
-import { useMainButtonHotkey } from "../use-main-button-hotkey.ts";
 import { useEffect } from "preact/compat";
 import { getWebApp } from "./telegram-web-app.ts";
 import { assert } from "api";
@@ -50,6 +49,4 @@ export const useMainButtonTelegram: UseMainButtonType = (
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps);
-
-  useMainButtonHotkey(onClick, condition, options?.isAboveBottomSheet);
 };

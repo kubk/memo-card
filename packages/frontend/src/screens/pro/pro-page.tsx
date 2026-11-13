@@ -1,5 +1,4 @@
 import {
-  useCallback,
   useEffect,
   useLayoutEffect,
   useMemo,
@@ -7,8 +6,6 @@ import {
   useState,
   type ReactNode,
 } from "preact/compat";
-import Autoplay from "embla-carousel-autoplay";
-import useEmblaCarousel from "embla-carousel-react";
 import * as m from "motion/react-m";
 import {
   AudioLines,
@@ -203,72 +200,70 @@ function AutoFitHeading({ text }: { text: string }) {
   );
 }
 
+// Measured from the first slide because scroll offsets are negative in right-to-left layouts
+const scrollToSlide = (track: HTMLElement, index: number) => {
+  const first = track.children[0] as HTMLElement;
+  const slide = track.children[index] as HTMLElement;
+  track.scrollTo({
+    left: slide.offsetLeft - first.offsetLeft,
+    behavior: "smooth",
+  });
+};
+
 function ChatConversation() {
   const isRtl = userStore.isRtl;
+  const trackRef = useRef<HTMLDivElement>(null);
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [autoplay] = useState(() =>
-    Autoplay({
-      delay: AUTO_ADVANCE_MS,
-      stopOnInteraction: false,
-      stopOnMouseEnter: true,
-    }),
-  );
-  const [emblaRef, emblaApi] = useEmblaCarousel(
-    {
-      align: "center",
-      duration: 28,
-      direction: isRtl ? "rtl" : "ltr",
-      loop: true,
-    },
-    [autoplay],
-  );
-
-  const syncSelectedIndex = useCallback(() => {
-    if (emblaApi) {
-      setSelectedIndex(emblaApi.selectedScrollSnap());
-    }
-  }, [emblaApi]);
+  const [isPaused, setIsPaused] = useState(false);
 
   useEffect(() => {
-    if (!emblaApi) {
+    if (isPaused) {
       return;
     }
 
-    syncSelectedIndex();
-    emblaApi.on("reInit", syncSelectedIndex);
-    emblaApi.on("select", syncSelectedIndex);
+    const timeout = setTimeout(() => {
+      if (trackRef.current) {
+        scrollToSlide(
+          trackRef.current,
+          (selectedIndex + 1) % CHAT_EXAMPLES.length,
+        );
+      }
+    }, AUTO_ADVANCE_MS);
 
-    return () => {
-      emblaApi.off("reInit", syncSelectedIndex);
-      emblaApi.off("select", syncSelectedIndex);
-    };
-  }, [emblaApi, syncSelectedIndex]);
+    return () => clearTimeout(timeout);
+  }, [selectedIndex, isPaused]);
 
   const selectSlide = (index: number) => {
-    emblaApi?.scrollTo(index);
-    autoplay.reset();
+    if (trackRef.current) {
+      scrollToSlide(trackRef.current, index);
+    }
   };
 
   return (
     <div className="mt-6">
       <div
-        className="cursor-grab touch-pan-y select-none overflow-hidden bg-bg active:cursor-grabbing"
+        className="flex snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain bg-bg [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         dir={isRtl ? "rtl" : "ltr"}
-        ref={emblaRef}
+        ref={trackRef}
+        onScroll={(event) => {
+          const track = event.currentTarget;
+          setSelectedIndex(
+            Math.round(Math.abs(track.scrollLeft) / track.clientWidth),
+          );
+        }}
+        onPointerEnter={(event) => setIsPaused(event.pointerType === "mouse")}
+        onPointerLeave={() => setIsPaused(false)}
+        onTouchStart={() => setIsPaused(true)}
+        onTouchEnd={() => setIsPaused(false)}
       >
-        <div className="flex gap-3">
-          {CHAT_EXAMPLES.map((example, index) => (
-            <div
-              className="min-w-0 flex-[0_0_100%]"
-              key={`${example.promptKey}-${userStore.language}`}
-            >
-              <PhoneFrame
-                example={example}
-                isActive={selectedIndex === index}
-              />
-            </div>
-          ))}
-        </div>
+        {CHAT_EXAMPLES.map((example, index) => (
+          <div
+            className="min-w-0 flex-[0_0_100%] snap-center"
+            key={`${example.promptKey}-${userStore.language}`}
+          >
+            <PhoneFrame example={example} isActive={selectedIndex === index} />
+          </div>
+        ))}
       </div>
 
       <div className="mt-3 flex justify-center gap-1.5">

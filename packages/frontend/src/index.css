@@ -2,6 +2,9 @@
 @import "./ui/shadcn/theme.css";
 @import "./ui/safe-area.css";
 
+/* The playground has its own stylesheet, so its classes stay out of the app's */
+@source not "../playground";
+
 @layer base {
   .reset-button,
   button {

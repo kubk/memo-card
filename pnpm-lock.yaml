@@ -188,12 +188,6 @@ importers:
       easy-speech:
         specifier: 2.4.1-rc.1
         version: 2.4.1-rc.1
-      embla-carousel-autoplay:
-        specifier: ^8.6.0
-        version: 8.6.0(embla-carousel@8.6.0)
-      embla-carousel-react:
-        specifier: ^8.6.0
-        version: 8.6.0(react@19.3.1)
       lucide-react:
         specifier: ^0.479.0
         version: 0.479.0(react@19.3.1)
@@ -224,12 +218,6 @@ importers:
       react-google-one-tap-login:
         specifier: ^0.1.1
         version: 0.1.1(react@19.3.1)
-      react-hotkeys-hook:
-        specifier: ^4.4.1
-        version: 4.6.2(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
-      react-lines-ellipsis:
-        specifier: ^0.15.3
-        version: 0.15.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       tailwind-merge:
         specifier: ^3.0.1
         version: 3.6.0
@@ -239,9 +227,6 @@ importers:
       vaul:
         specifier: ^1.1.2
         version: 1.1.2(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
-      web-haptics:
-        specifier: ^0.0.6
-        version: 0.0.6(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
     devDependencies:
       '@preact/preset-vite':
         specifier: ^2.10.6
@@ -4732,18 +4717,6 @@ packages:
     peerDependencies:
       react: '>= 16.8.0'
 
-  react-hotkeys-hook@4.6.2:
-    resolution: {integrity: sha512-FmP+ZriY3EG59Ug/lxNfrObCnW9xQShgk7Nb83+CkpfkcCpfS95ydv+E9JuXA5cp8KtskU7LGlIARpkc92X22Q==}
-    peerDependencies:
-      react: '>=16.8.1'
-      react-dom: '>=16.8.1'
-
-  react-lines-ellipsis@0.15.4:
-    resolution: {integrity: sha512-bIcoVRulN6RdBb9QByRPan7vDjxJv4jhII9eMs5ZkCK4QYEbPiY+8g+IM7/B0kb8UbRRRgR7KwpPWI9j8d2FYg==}
-    peerDependencies:
-      react: '*'
-      react-dom: '*'
-
   react-remove-scroll-bar@2.3.8:
     resolution: {integrity: sha512-9r+yi9+mgU33AKcj6IbT9oRCO78WriSj6t/cF8DWBZJ9aOGPOTEDvdUDz1FwKim7QXWwmHqtdHnRJfhAxEG46Q==}
     engines: {node: '>=10'}
@@ -5411,23 +5384,6 @@ packages:
 
   web-auth-library@1.0.3:
     resolution: {integrity: sha512-fBmEjJSrbmbD9EREwVlewyfSVkb3IzgTXEF0fzXo3miDywsxES1vwG4aJGNpuSSUorZAGBJNyyz5VFq2VFgudw==}
-
-  web-haptics@0.0.6:
-    resolution: {integrity: sha512-eCzcf1LDi20+Fr0x9V3OkX92k0gxEQXaHajmhXHitsnk6SxPeshv8TBtBRqxyst8HI1uf2FyFVE7QS3jo1gkrw==}
-    peerDependencies:
-      react: '>=18'
-      react-dom: '>=18'
-      svelte: '>=4'
-      vue: '>=3'
-    peerDependenciesMeta:
-      react:
-        optional: true
-      react-dom:
-        optional: true
-      svelte:
-        optional: true
-      vue:
-        optional: true
 
   webidl-conversions@3.0.1:
     resolution: {integrity: sha512-2JAn3z8AR6rjK8Sm8orRC0h/bcl/DqL7tRPdGZ4I1CjdF+EaMLmYxBHyXuKL849eucPFhvBoxMsflfOb8kxaeQ==}
@@ -9410,16 +9366,6 @@ snapshots:
     dependencies:
       react: 19.3.1
 
-  react-hotkeys-hook@4.6.2(react-dom@19.3.1(react@19.3.1))(react@19.3.1):
-    dependencies:
-      react: 19.3.1
-      react-dom: 19.3.1(react@19.3.1)
-
-  react-lines-ellipsis@0.15.4(react-dom@19.3.1(react@19.3.1))(react@19.3.1):
-    dependencies:
-      react: 19.3.1
-      react-dom: 19.3.1(react@19.3.1)
-
   react-remove-scroll-bar@2.3.8(@types/react@19.3.0)(react@19.3.1):
     dependencies:
       react: 19.3.1
@@ -10109,11 +10055,6 @@ snapshots:
     dependencies:
       jose: 4.15.9
       rfc4648: 1.5.4
-
-  web-haptics@0.0.6(react-dom@19.3.1(react@19.3.1))(react@19.3.1):
-    optionalDependencies:
-      react: 19.3.1
-      react-dom: 19.3.1(react@19.3.1)
 
   webidl-conversions@3.0.1: {}
 

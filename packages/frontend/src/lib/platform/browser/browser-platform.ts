@@ -1,6 +1,5 @@
 import { webAppStartParamKey } from "api";
-import { Platform, HapticType } from "../platform.ts";
-import type { WebHaptics, defaultPatterns } from "web-haptics";
+import { Platform } from "../platform.ts";
 import { action, makeAutoObservable } from "mobx";
 import { BooleanToggle } from "mobx-form-lite";
 import { localUserIdPrefix, PlatformSchemaType } from "api";
@@ -19,6 +18,9 @@ import { api } from "../../../api/trpc-api.ts";
 import { applyColorScheme } from "../../color-scheme/apply-color-scheme.ts";
 import { env } from "../../../env.ts";
 import { normalizeLanguage } from "api";
+import { overlayStore } from "../../../store/overlay-store.ts";
+
+const formFieldTags = ["INPUT", "TEXTAREA", "SELECT"];
 
 export class BrowserPlatform implements Platform {
   isMobile = false;
@@ -39,7 +41,7 @@ export class BrowserPlatform implements Platform {
   );
 
   constructor() {
-    makeAutoObservable<this, "webHaptics">(
+    makeAutoObservable(
       this,
       {
         getInitData: false,
@@ -47,7 +49,6 @@ export class BrowserPlatform implements Platform {
         openInternalLink: false,
         getStartParam: false,
         openExternalLink: false,
-        webHaptics: false,
       },
       {
         autoBind: true,
@@ -55,7 +56,6 @@ export class BrowserPlatform implements Platform {
     );
 
     this.listenIsMobile();
-    this.loadWebHaptics();
   }
 
   private getCssVariables() {
@@ -162,6 +162,49 @@ export class BrowserPlatform implements Platform {
   initialize() {
     this.applyTheme();
     listenDarkThemeChange(() => this.applyTheme());
+    this.listenHotkeys({ enter: this.pressMainButton });
+  }
+
+  // Keys match by position too, so digits work on layouts like AZERTY
+  listenHotkeys(hotkeys: Partial<Record<string, () => void>>) {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      const target = event.target as HTMLElement;
+      if (
+        // Chrome autofill dispatches keydown events without a key
+        !event.key ||
+        event.altKey ||
+        event.ctrlKey ||
+        event.metaKey ||
+        event.shiftKey ||
+        target.isContentEditable ||
+        formFieldTags.includes(target.tagName)
+      ) {
+        return;
+      }
+
+      const position = event.code
+        .toLowerCase()
+        .replace(/^(key|digit|numpad)/, "");
+      const onPress = hotkeys[position] ?? hotkeys[event.key.toLowerCase()];
+      onPress?.();
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }
+
+  private pressMainButton() {
+    const info = this.mainButtonInfo;
+    if (
+      !info ||
+      this.isMainButtonLoading.value ||
+      overlayStore.isHidingMainButton(info.isAboveBottomSheet) ||
+      (info.condition && !info.condition())
+    ) {
+      return;
+    }
+
+    info.onClick();
   }
 
   openInternalLink(link: string) {
@@ -204,49 +247,6 @@ export class BrowserPlatform implements Platform {
     localStorage.setItem(browserPlatformLangKey, language);
   }
 
-  private webHaptics?: {
-    instance: WebHaptics;
-    patterns: typeof defaultPatterns;
-  };
-
-  private loadWebHaptics() {
-    import("web-haptics").then(({ WebHaptics, defaultPatterns }) => {
-      this.webHaptics = {
-        instance: new WebHaptics(),
-        patterns: defaultPatterns,
-      };
-    });
-  }
-
-  haptic(type: HapticType) {
-    if (!this.isMobile || !this.webHaptics) return;
-
-    const { instance, patterns } = this.webHaptics;
-
-    switch (type) {
-      case "success":
-        instance.trigger(patterns.success);
-        break;
-      case "warning":
-        instance.trigger(patterns.warning);
-        break;
-      case "error":
-        instance.trigger(patterns.error);
-        break;
-      case "light":
-        instance.trigger(patterns.light);
-        break;
-      case "medium":
-        instance.trigger(patterns.medium);
-        break;
-      case "heavy":
-        instance.trigger(patterns.heavy);
-        break;
-      case "selection":
-        instance.trigger(patterns.selection);
-        break;
-      default:
-        return type satisfies never;
-    }
-  }
+  // Only the Telegram Mini App has haptic feedback
+  haptic() {}
 }

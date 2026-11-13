@@ -1,5 +1,4 @@
 import { platform, UseMainButtonType } from "../platform.ts";
-import { useMainButtonHotkey } from "../use-main-button-hotkey.ts";
 import { BrowserPlatform } from "./browser-platform.ts";
 import { action, autorun, runInAction } from "mobx";
 import { assert } from "api";
@@ -43,6 +42,4 @@ export const useMainButtonBrowser: UseMainButtonType = (
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps);
-
-  useMainButtonHotkey(onClick, condition, options?.isAboveBottomSheet);
 };
