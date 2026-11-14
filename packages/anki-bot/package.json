@@ -6,7 +6,7 @@
   "scripts": {
     "deploy": "wrangler deploy",
     "db:migrate": "wrangler d1 migrations apply anki-bot-db --remote",
-    "typecheck": "pnpm exec tsc --noEmit",
+    "typecheck": "pnpm exec tsrs --noEmit",
     "lint": "oxlint --format=agent .",
     "test": "echo 1",
     "cf-typegen": "wrangler types"
@@ -17,7 +17,6 @@
   },
   "devDependencies": {
     "oxlint": "^1.70.0",
-    "typescript": "^7.0.2",
     "wrangler": "^4.110.0"
   }
 }

@@ -9,7 +9,7 @@
     "preview": "vite preview",
     "test": "echo 1",
     "format": "oxfmt --write \"**/*.{ts,tsx}\"",
-    "typecheck": "pnpm exec tsc --noEmit",
+    "typecheck": "pnpm exec tsrs --noEmit",
     "lint": "oxlint --format=agent ."
   },
   "dependencies": {
@@ -38,7 +38,6 @@
     "oxfmt": "^0.55.0",
     "oxlint": "^1.70.0",
     "tailwindcss": "^4.3.3",
-    "typescript": "^6.0.3",
     "vite": "^8.0.16"
   }
 }
