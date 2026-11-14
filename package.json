@@ -4,15 +4,15 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "kill-ports": "bash -lc 'for port in 8780 5180 8080; do lsof -ti :\"$port\"; done | xargs kill 2>/dev/null || true; echo \"Ports cleared\"'",
-    "dev": "pnpm run kill-ports && concurrently -n api,frontend,landing -c green,blue,magenta --kill-others-on-fail \"pnpm run -F=api dev\" \"pnpm run -F=frontend dev\" \"pnpm run -F=landing dev\"",
+    "kill-ports": "bash -lc 'for port in 8780 5180; do lsof -ti :\"$port\"; done | xargs kill 2>/dev/null || true; echo \"Ports cleared\"'",
+    "dev": "pnpm run kill-ports && concurrently -n api,frontend -c green,blue --kill-others-on-fail \"pnpm run -F=api dev\" \"pnpm run -F=frontend dev\"",
     "dev:telegram": "pnpm run kill-ports && concurrently -n api,frontend,tunnel -c green,blue,yellow --kill-others-on-fail \"pnpm run -F=api dev\" \"pnpm run -F=frontend dev\" \"pnpm run -F=api tunnel\"",
     "format": "oxfmt --write \"./packages/**/*.{ts,tsx,mts,json}\"",
     "lint": "pnpm run \"/^lint:.*/\"",
     "lint:packages": "pnpm --recursive --parallel --filter='./packages/*' run lint",
     "lint:translations": "node packages/frontend/check-missing-translations.js",
     "lint:slop-police": "slop-police",
-    "typecheck": "pnpm --recursive --parallel --filter='./packages/*' run typecheck",
+    "typecheck": "pnpm --recursive --workspace-concurrency=1 --no-bail --filter='./packages/*' run typecheck",
     "test": "pnpm run -F='./packages/*' test",
     "export-public-code": "git-filter git-filter.config.json",
     "postinstall": "patch-package"
