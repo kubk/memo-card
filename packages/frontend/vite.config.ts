@@ -44,6 +44,8 @@ export default defineConfig({
   test: {
     // The default of one fewer worker than CPUs leaves 2-CPU CI runners with a single worker
     maxWorkers: availableParallelism(),
+    // tsconfig.json only references other configs, so it gives the checker no files
+    typecheck: { checker: "tsrs", tsconfig: "./tsconfig.app.json" },
     alias: {
       "mobx-react-lite": resolve(
         __dirname,
