@@ -8,6 +8,7 @@ import {
   type BottomNavigationTab,
 } from "../store/bottom-navigation-store.ts";
 import { useDevMenuReveal } from "../screens/dev-menu/use-dev-menu-reveal.tsx";
+import { BrowserMainButton } from "../screens/shared/browser-platform/browser-main-button.tsx";
 import { t, type StringTranslationKey } from "../translations/t.ts";
 import { cn } from "./cn.ts";
 
@@ -92,7 +93,7 @@ export function BottomNavigationView({
 
 export function BottomNavigation({ children }: { children: ReactNode }) {
   const activeTab = bottomNavigationStore.activeTab;
-  const isVisible = bottomNavigationStore.isVisible && activeTab !== null;
+  const isVisible = activeTab !== null;
   const { handleMainTap, devMenu } = useDevMenuReveal();
 
   function handleSelect(tab: BottomNavigationTab) {
@@ -104,7 +105,13 @@ export function BottomNavigation({ children }: { children: ReactNode }) {
   }
 
   return (
-    <div className="absolute inset-0 flex flex-col">
+    <div
+      className={cn(
+        "absolute inset-0 flex flex-col",
+        isVisible &&
+          "[--bottom-navigation-inset:max(0px,calc(var(--app-bottom-inset)_-_1rem))] [[data-platform=telegram]_&]:[--bottom-navigation-inset:var(--app-bottom-inset)] [--app-bottom-control-offset:calc(4rem_+_var(--bottom-navigation-inset)_+_var(--app-bottom-control-gap))]",
+      )}
+    >
       <div
         className={cn(
           "relative min-h-0 flex-1",
@@ -114,10 +121,11 @@ export function BottomNavigation({ children }: { children: ReactNode }) {
         {children}
       </div>
       {isVisible ? (
-        <div className="pb-[max(0px,calc(var(--app-bottom-inset)_-_1rem))] z-30 shrink-0 border-t border-black/[0.12] bg-[#f2f2f2] dark:border-white/[0.12] dark:bg-bg [[data-platform=telegram]_&]:pb-[var(--app-bottom-inset)]">
+        <div className="pb-[var(--bottom-navigation-inset)] z-30 shrink-0 border-t border-black/[0.12] bg-[#f2f2f2] dark:border-white/[0.12] dark:bg-bg">
           <BottomNavigationView activeTab={activeTab} onSelect={handleSelect} />
         </div>
       ) : null}
+      <BrowserMainButton />
       {devMenu}
     </div>
   );

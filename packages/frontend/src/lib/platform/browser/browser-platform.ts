@@ -110,10 +110,6 @@ export class BrowserPlatform implements Platform {
     this.mainButtonInfo = undefined;
   }
 
-  get isMainButtonVisible() {
-    return this.mainButtonInfo !== undefined;
-  }
-
   showBackButton(onClick: () => void) {
     this.backButtonInfo = {
       onClick,

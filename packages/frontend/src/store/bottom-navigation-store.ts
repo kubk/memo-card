@@ -32,15 +32,6 @@ class BottomNavigationStore {
     return null;
   }
 
-  get isVisible() {
-    return (
-      (this.activeTab === "main" ||
-        this.activeTab === "leaderboard" ||
-        this.activeTab === "settings") &&
-      !platform.isMainButtonVisible
-    );
-  }
-
   navigate(tab: BottomNavigationTab) {
     if (tab === this.activeTab) {
       return;

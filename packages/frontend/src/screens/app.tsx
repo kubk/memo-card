@@ -34,7 +34,6 @@ import {
 import { PlansScreen } from "./pro/plans-screen.tsx";
 import { FreezeCardsScreenLazy } from "./freeze-cards/freeze-cards-screen-lazy.tsx";
 import { Toasts } from "./shared/snackbar/toasts.tsx";
-import { BrowserMainButton } from "./shared/browser-platform/browser-main-button.tsx";
 import { platform } from "../lib/platform/platform.ts";
 import { BrowserPlatform } from "../lib/platform/browser/browser-platform.ts";
 import { LoginScreen } from "./login/login-screen.tsx";
@@ -255,7 +254,6 @@ export function App() {
           )}
         </RouteScreenContainer>
       </BottomNavigation>
-      <BrowserMainButton />
 
       <DeleteItemModalContainer />
       <CopyItemModalContainer />

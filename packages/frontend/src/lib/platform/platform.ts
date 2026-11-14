@@ -15,7 +15,6 @@ export type HapticType =
 
 export type Platform = {
   readonly isMobile: boolean;
-  readonly isMainButtonVisible: boolean;
   initialize(): void;
   getInitData(): string | null;
   getUserAvatarUrl(): string | null;

@@ -2,7 +2,7 @@ import { webAppStartParamKey } from "api";
 import { Platform, HapticType } from "../platform.ts";
 import { cssVariablesDark, cssVariablesLight } from "../../../ui/theme.tsx";
 import { PlatformSchemaType } from "api";
-import { makeObservable, observable, action, computed, flow } from "mobx";
+import { makeObservable, observable, action, flow } from "mobx";
 import { LanguageShared } from "api";
 import { getWebApp } from "./telegram-web-app.ts";
 import { cloudStorageAdapter } from "./cloud-storage.ts";
@@ -16,17 +16,11 @@ const appBackgroundColorVariable = "--tg-theme-secondary-bg-color";
 export class TelegramPlatform implements Platform {
   isFullScreen = this.calcIsFullScreen();
   languageCached: LanguageShared | null = null;
-  isMainButtonRegistered = false;
-  mainButtonCondition?: () => boolean;
 
   constructor() {
     makeObservable<this, "loadCachedLanguage">(this, {
       isFullScreen: observable,
       languageCached: observable,
-      isMainButtonRegistered: observable,
-      isMainButtonVisible: computed,
-      registerMainButton: action,
-      unregisterMainButton: action,
       loadCachedLanguage: flow,
     });
 
@@ -45,23 +39,6 @@ export class TelegramPlatform implements Platform {
       return;
     }
     this.languageCached = normalizeLanguage(languageCached);
-  }
-
-  get isMainButtonVisible() {
-    return (
-      this.isMainButtonRegistered &&
-      (this.mainButtonCondition === undefined || this.mainButtonCondition())
-    );
-  }
-
-  registerMainButton(condition?: () => boolean) {
-    this.mainButtonCondition = condition;
-    this.isMainButtonRegistered = true;
-  }
-
-  unregisterMainButton() {
-    this.isMainButtonRegistered = false;
-    this.mainButtonCondition = undefined;
   }
 
   getInitData(): string {
