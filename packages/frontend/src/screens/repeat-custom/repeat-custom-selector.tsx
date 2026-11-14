@@ -1,5 +1,4 @@
 import { RepeatCustomSelectorStore } from "./repeat-custom-selector-store.ts";
-import { useMainButton } from "../../lib/platform/use-main-button.ts";
 import { Screen } from "../shared/screen.tsx";
 import { List } from "../../ui/list.tsx";
 import { CircleCheckbox } from "../../ui/circle-checkbox.tsx";
@@ -13,6 +12,10 @@ import { t } from "../../translations/t.ts";
 import { platform } from "../../lib/platform/platform.ts";
 import { SelectAllToggle } from "./select-all-toggle.tsx";
 import { usePullToRefresh } from "../../lib/react/use-pull-to-refresh.ts";
+import { Button } from "../../ui/button.tsx";
+import { useMount } from "../../lib/react/use-mount.ts";
+import { bottomNavigationStore } from "../../store/bottom-navigation-store.ts";
+import { TelegramPlatform } from "../../lib/platform/telegram/telegram-platform.ts";
 
 type Props = {
   onClick: () => void;
@@ -21,13 +24,10 @@ type Props = {
 
 export function RepeatCustomSelector({ onClick, store }: Props) {
   usePullToRefresh();
-  useMainButton(
-    () => t("review_cards_label", { count: store.customCardsToReviewCount }),
-    () => {
-      onClick();
-    },
-    () => store.isReviewButtonVisible,
-  );
+  useMount(() => {
+    bottomNavigationStore.setReviewSelectorOpen(true);
+    return () => bottomNavigationStore.setReviewSelectorOpen(false);
+  });
 
   return (
     <Screen title={t("review_custom")}>
@@ -155,6 +155,19 @@ export function RepeatCustomSelector({ onClick, store }: Props) {
           </div>
         </LabelGroup>
       </div>
+      {/* Telegram's own main button sits below the tab bar, so this screen draws its button above it */}
+      {store.isReviewButtonVisible && (
+        <>
+          {platform instanceof TelegramPlatform && <div className="h-16" />}
+          <div className="fixed bottom-safe-control inset-x-0 z-main-button mx-auto box-border w-full max-w-2xl px-4 md:px-0">
+            <Button large className="shadow-lg" onClick={onClick}>
+              {t("review_cards_label", {
+                count: store.customCardsToReviewCount,
+              })}
+            </Button>
+          </div>
+        </>
+      )}
     </Screen>
   );
 }

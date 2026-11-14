@@ -93,7 +93,7 @@ export function BottomNavigationView({
 
 export function BottomNavigation({ children }: { children: ReactNode }) {
   const activeTab = bottomNavigationStore.activeTab;
-  const isVisible = activeTab !== null;
+  const isVisible = bottomNavigationStore.isVisible && activeTab !== null;
   const { handleMainTap, devMenu } = useDevMenuReveal();
 
   function handleSelect(tab: BottomNavigationTab) {

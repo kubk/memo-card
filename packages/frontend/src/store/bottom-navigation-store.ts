@@ -9,6 +9,9 @@ export type BottomNavigationTab =
   | "review";
 
 class BottomNavigationStore {
+  // The Review tab also hosts the card review, which has no tab bar
+  isReviewSelectorOpen = false;
+
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
   }
@@ -30,6 +33,17 @@ class BottomNavigationStore {
     }
 
     return null;
+  }
+
+  get isVisible() {
+    return (
+      this.activeTab !== null &&
+      (this.activeTab !== "review" || this.isReviewSelectorOpen)
+    );
+  }
+
+  setReviewSelectorOpen(isOpen: boolean) {
+    this.isReviewSelectorOpen = isOpen;
   }
 
   navigate(tab: BottomNavigationTab) {
