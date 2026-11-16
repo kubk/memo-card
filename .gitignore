@@ -38,3 +38,4 @@ packages/api/src/data/
 docs/chatgpt-plugin/release/*.zip
 
 .amp/portals/
+*.amp-write-meta
