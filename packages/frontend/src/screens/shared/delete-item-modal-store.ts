@@ -40,7 +40,12 @@ export class DeleteItemModalStore {
     },
     { staleTime: 0 },
   );
-  deleteMutation = makeMutation(api.libraryItem.delete.mutate);
+  deleteMutation = makeMutation(
+    async (input: RouterInput["libraryItem"]["delete"]) => {
+      await api.libraryItem.delete.mutate(input);
+      await deckListStore.myInfoQuery.invalidate({ refetchInactive: true });
+    },
+  );
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
@@ -90,7 +95,6 @@ export class DeleteItemModalStore {
       return;
     }
 
-    await deckListStore.myInfoQuery.invalidate({ refetchInactive: true });
     this.form = null;
     screenStore.push({ type: "main" });
   }
