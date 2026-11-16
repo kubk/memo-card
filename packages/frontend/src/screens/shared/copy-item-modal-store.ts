@@ -12,7 +12,11 @@ type LibraryItemCopyTarget = RouterInput["libraryItem"]["copy"];
 
 class CopyItemModalStore {
   target: LibraryItemCopyTarget | null = null;
-  copyMutation = makeMutation(api.libraryItem.copy.mutate);
+  copyMutation = makeMutation(async (input: LibraryItemCopyTarget) => {
+    const copy = await api.libraryItem.copy.mutate(input);
+    await deckListStore.myInfoQuery.invalidate({ refetchInactive: true });
+    return copy;
+  });
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
@@ -47,7 +51,6 @@ class CopyItemModalStore {
       return;
     }
 
-    await deckListStore.myInfoQuery.invalidate({ refetchInactive: true });
     const copy = result.data;
     this.close();
     if (copy.type === "deck") {
