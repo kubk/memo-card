@@ -1,15 +1,13 @@
-import { ApiRouter } from "api";
+import { type ApiRouter, appApiPath } from "api";
 import {
   createTRPCClient,
   httpLink,
   retryLink,
   loggerLink,
 } from "@trpc/client";
-import { trimEnd } from "../lib/string/trim";
 import { getAuthHeaders } from "./get-auth-headers";
 import { env } from "../env";
 import { createApiProxy } from "./create-api-proxy.ts";
-import { apiUrl } from "../lib/urls/proxy-urls.ts";
 
 const idempotentMutations = [
   "cardsReview",
@@ -55,8 +53,11 @@ export const api = createTRPCClient<ApiRouter>({
         !("path" in opts && opts.path === "telegramSignin"),
     }),
     httpLink({
-      url: `${trimEnd(apiUrl, "/")}/`,
+      url: `${appApiPath}/`,
       headers: getAuthHeaders,
+      // The Google TTS player sets the page to no-referrer, and the API checks the referer
+      fetch: (input, init) =>
+        fetch(input, { ...init, referrerPolicy: "same-origin" }),
     }),
   ],
 });
