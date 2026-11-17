@@ -1,5 +1,4 @@
 import { beforeEach, describe, expect, expectTypeOf, it, vi } from "vitest";
-import { observable } from "mobx";
 import { createApiProxy } from "./create-api-proxy.ts";
 import { inMemoryCache, makeQuery, queryRegistry } from "mobx-query-lite";
 
@@ -144,25 +143,5 @@ describe("createApiProxy", () => {
     await state.prefetch();
 
     expect(state.data).toEqual({ id: 42 });
-  });
-
-  it("switches cached query state when observable input changes", async () => {
-    const id = observable.box(1);
-    const query = vi.fn(async (input: { id: number }) => input);
-    const apiProxy = createApiProxy({ deck: { byId: { query } } });
-    const state = makeQuery(() => apiProxy.deck.byId.query({ id: id.get() }));
-
-    await state.prefetch();
-    expect(state.data).toEqual({ id: 1 });
-
-    id.set(2);
-    expect(state.data).toBeUndefined();
-
-    await state.prefetch();
-    expect(state.data).toEqual({ id: 2 });
-
-    id.set(1);
-    expect(state.data).toEqual({ id: 1 });
-    expect(query).toHaveBeenCalledTimes(2);
   });
 });

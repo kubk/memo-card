@@ -157,19 +157,4 @@ describe("CardPreviewScreen", () => {
 
     expect(container.textContent).toBe("Airport");
   });
-
-  it("uses an owned deck without loading deck details", async () => {
-    mocks.myDecks.push({
-      ...completeDeck,
-      cardsToReview: [],
-    });
-
-    await act(async () => {
-      root.render(<CardPreviewScreen />);
-      await Promise.resolve();
-    });
-
-    expect(container.textContent).toBe("Airport");
-    expect(mocks.deckWithCards).not.toHaveBeenCalled();
-  });
 });

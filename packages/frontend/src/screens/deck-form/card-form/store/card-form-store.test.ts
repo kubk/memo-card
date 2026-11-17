@@ -4,6 +4,7 @@ import { CardFormStore } from "./card-form-store.ts";
 import { DeckCardDbType } from "api";
 import { type DeckWithCardsWithReviewType } from "../../../../store/deck-list-store.ts";
 import { isFormValid } from "mobx-form-lite";
+import { autorun } from "mobx";
 import { assert } from "api";
 import type { api } from "../../../../api/trpc-api.ts";
 
@@ -330,16 +331,16 @@ describe("card form store", () => {
     });
 
     const store = new CardFormStore();
+    const dispose = autorun(() => store.filteredCards);
     store.loadForm();
 
     assert(store.cardForm);
-
-    const originalCard = store.filteredCards.find((c) => c.id === 3);
-    const originalFront = originalCard?.front.value;
-
     store.cardForm.front.onChange("new value");
 
-    expect(originalCard?.front.value).toBe(originalFront);
+    expect(store.filteredCards.find((c) => c.id === 3)?.front.value).toBe(
+      "time",
+    );
     expect(store.cardForm.front.value).toBe("new value");
+    dispose();
   });
 });

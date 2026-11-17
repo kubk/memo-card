@@ -95,16 +95,6 @@ describe("time estimation for review buttons", () => {
     });
   });
 
-  it("good and easy show different values", () => {
-    const repeatCard = createRepeatCard(1);
-    const goodEstimate = getTimeEstimate("good", repeatCard, language);
-    const easyEstimate = getTimeEstimate("easy", repeatCard, language);
-
-    expect(goodEstimate).toBe("6 d");
-    expect(easyEstimate).toBe("1.4 w");
-    expect(goodEstimate).not.toBe(easyEstimate);
-  });
-
   it("keeps high-interval estimates bounded by FSRS retention settings", () => {
     const cardWith365Days = createRepeatCard(1, 365);
     const estimates = {

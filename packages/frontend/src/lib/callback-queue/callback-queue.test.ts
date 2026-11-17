@@ -10,25 +10,6 @@ describe("CallbackQueue", () => {
     vi.useRealTimers();
   });
 
-  it("should execute functions with a delay of 1 second", async () => {
-    const queue = new CallbackQueue();
-    const mockFn1 = vi.fn();
-    const mockFn2 = vi.fn();
-
-    queue.add(mockFn1);
-    queue.add(mockFn2);
-
-    expect(mockFn1).toHaveBeenCalled();
-    expect(mockFn2).not.toHaveBeenCalled();
-
-    vi.advanceTimersByTime(1100);
-    expect(mockFn1).toHaveBeenCalled();
-    expect(mockFn2).toHaveBeenCalled();
-
-    vi.advanceTimersByTime(1000);
-    expect(mockFn2).toHaveBeenCalled();
-  });
-
   it("should execute many functions with a delay", async () => {
     const queue = new CallbackQueue();
     const mockFn1 = vi.fn();

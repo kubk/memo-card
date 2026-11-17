@@ -146,47 +146,6 @@ describe("card form store", () => {
     vi.clearAllMocks();
   });
 
-  it("test silent progress send with hard cards", async () => {
-    reviewCardsReviewMock.mockResolvedValueOnce(() => Promise.resolve());
-    expect(reviewCardsReviewMock).toHaveBeenCalledTimes(0);
-    const reviewStore = new ReviewStore();
-    reviewStore.startDeckReview(
-      createDeckWithCards([
-        createMockCardWithReview(1, "card1", "card1", "repeat"),
-        createMockCardWithReview(2, "card2", "card2", "repeat"),
-        createMockCardWithReview(3, "card3", "card3", "repeat"),
-        createMockCardWithReview(4, "card4", "card4", "repeat"),
-        createMockCardWithReview(5, "card5", "card5", "repeat"),
-      ]),
-    );
-
-    // Progress sends after three reviewed cards.
-    reviewStore.open();
-    reviewStore.changeState("hard");
-    reviewStore.open();
-    reviewStore.changeState("hard");
-
-    expect(reviewStore.sentResult).toEqual({
-      hardIds: [],
-      neverIds: [],
-      goodIds: [],
-      easyIds: [],
-    });
-
-    reviewStore.open();
-    reviewStore.changeState("hard");
-    await when(() => !reviewStore.reviewCardsInProgressMutation.isPending);
-
-    expect(reviewCardsReviewMock).toHaveBeenCalledTimes(1);
-    expect(leaderboardInvalidateMock).toHaveBeenCalledTimes(1);
-    expect(reviewStore.sentResult).toEqual({
-      hardIds: [1, 2, 3],
-      neverIds: [],
-      goodIds: [],
-      easyIds: [],
-    });
-  });
-
   it("waits for in-flight silent progress before final submit", async () => {
     let resolveProgress: () => void = () => {};
     reviewCardsReviewMock
@@ -319,7 +278,6 @@ describe("card form store", () => {
 
   it("test silent progress send", async () => {
     reviewCardsReviewMock.mockResolvedValueOnce(() => Promise.resolve());
-    expect(reviewCardsReviewMock).toHaveBeenCalledTimes(0);
     const reviewStore = new ReviewStore();
     reviewStore.startDeckReview(
       createDeckWithCards([
@@ -339,12 +297,7 @@ describe("card form store", () => {
     reviewStore.open();
     reviewStore.changeState("good");
 
-    expect(reviewStore.sentResult).toEqual({
-      hardIds: [],
-      neverIds: [],
-      goodIds: [],
-      easyIds: [],
-    });
+    expect(reviewCardsReviewMock).not.toHaveBeenCalled();
     expect(reviewStore.cardsToSend).toEqual([
       { id: 3, outcome: "good" },
       { id: 4, outcome: "good" },
@@ -354,23 +307,16 @@ describe("card form store", () => {
     reviewStore.changeState("never");
     await when(() => !reviewStore.reviewCardsInProgressMutation.isPending);
 
-    expect(reviewStore.sentResult).toEqual({
-      hardIds: [],
-      neverIds: [5],
-      goodIds: [3, 4],
-      easyIds: [],
-    });
+    expect(reviewCardsReviewMock.mock.calls[0]?.[0].cards).toEqual([
+      { id: 3, outcome: "good" },
+      { id: 4, outcome: "good" },
+      { id: 5, outcome: "never" },
+    ]);
     expect(reviewStore.cardsToSend).toEqual([]);
 
     reviewStore.open();
     reviewStore.changeState("good");
 
-    expect(reviewStore.sentResult).toEqual({
-      hardIds: [],
-      neverIds: [5],
-      goodIds: [3, 4],
-      easyIds: [],
-    });
     expect(reviewStore.cardsToSend).toEqual([{ id: 6, outcome: "good" }]);
     expect(reviewCardsReviewMock).toHaveBeenCalledTimes(1);
     reviewCardsReviewMock.mockResolvedValueOnce(() => Promise.resolve());
@@ -382,12 +328,11 @@ describe("card form store", () => {
     await when(() => !reviewStore.reviewCardsInProgressMutation.isPending);
 
     expect(reviewCardsReviewMock).toHaveBeenCalledTimes(2);
-    expect(reviewStore.sentResult).toEqual({
-      hardIds: [],
-      neverIds: [5],
-      goodIds: [3, 4, 6, 7, 8],
-      easyIds: [],
-    });
+    expect(reviewCardsReviewMock.mock.calls[1]?.[0].cards).toEqual([
+      { id: 6, outcome: "good" },
+      { id: 7, outcome: "good" },
+      { id: 8, outcome: "good" },
+    ]);
     expect(reviewStore.cardsToSend).toEqual([]);
 
     reviewStore.open();

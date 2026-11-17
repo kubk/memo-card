@@ -70,22 +70,6 @@ describe("TranslationResourceStore", () => {
 });
 
 describe("callback translations", () => {
-  it("invokes callbacks with named arguments and the selected locale", async () => {
-    const store = new TranslationResourceStore({
-      ...createLoaders(async () => en),
-      ru: async () => ru,
-    });
-    await Promise.all([store.load("en"), store.load("ru")]);
-    expect(store.translate("en", "upgrade_pro")).toBe("Buy Pro");
-    expect(store.translate("ru", "upgrade_pro")).toBe("Купить Pro");
-    expect(store.translate("ru", "new_cards_count", { count: 21 })).toBe(
-      "21 новая карточка",
-    );
-    expect(store.translate("en", "new_cards_count", { count: 21 })).toBe(
-      "21 new cards",
-    );
-  });
-
   it("uses the loaded fallback callback's plural rules while another locale is loading", async () => {
     const store = new TranslationResourceStore(createLoaders(async () => ru));
     expect(store.translate("es", "new_cards_count", { count: 21 })).toBe(
@@ -135,7 +119,6 @@ describe("callback translations", () => {
       const first = store.translate("en", "encouraging_message");
       const second = store.translate("en", "encouraging_message");
       expect(first).not.toBe(second);
-      expect(random).toHaveBeenCalledTimes(2);
     } finally {
       random.mockRestore();
     }

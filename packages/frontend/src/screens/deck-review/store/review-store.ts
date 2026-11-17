@@ -41,11 +41,6 @@ export type ReviewedCard = {
   deckName?: string;
 };
 
-type SilentSendResult = Pick<
-  ReviewResult,
-  "hardIds" | "goodIds" | "easyIds" | "neverIds"
->;
-
 let pausedReview: { screenEntryId: number; store: ReviewStore } | null = null;
 
 export function resumeOrCreateReviewStore() {
@@ -70,12 +65,6 @@ export class ReviewStore {
 
   result: ReviewResult = {
     againIds: [],
-    hardIds: [],
-    goodIds: [],
-    easyIds: [],
-    neverIds: [],
-  };
-  sentResult: SilentSendResult = {
     hardIds: [],
     goodIds: [],
     easyIds: [],
@@ -494,25 +483,7 @@ export class ReviewStore {
       return;
     }
 
-    const cardCount = cardsToSendInProgress.length;
-    const { hardIds, goodIds, easyIds, neverIds } = this.sentResult;
-
-    for (let index = 0; index < cardCount; index += 1) {
-      const card = cardsToSendInProgress[index];
-      const outcome = card.outcome;
-
-      if (outcome === "hard") {
-        hardIds.push(card.id);
-      } else if (outcome === "good") {
-        goodIds.push(card.id);
-      } else if (outcome === "easy") {
-        easyIds.push(card.id);
-      } else if (outcome === "never") {
-        neverIds.push(card.id);
-      }
-    }
-
-    this.sentReviewEventCount += cardCount;
+    this.sentReviewEventCount += cardsToSendInProgress.length;
     leaderboardStore.leaderboardQuery.invalidate();
   }
 
