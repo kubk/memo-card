@@ -328,6 +328,7 @@ export const en = {
   freeze_notified: "You'll get notified on",
   freeze_hint: "Postpone studying cards",
   error_solving: "We're solving the issue",
+  error_network: "Check your internet connection and try again",
   error: "Error",
   user_settings_updated: "Settings have been updated",
   confirm_cancel: "Cancel",

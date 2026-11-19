@@ -4,7 +4,7 @@ import { BooleanField } from "mobx-form-lite";
 import { api } from "../../api/trpc-api.ts";
 import { makeMutation, makeQuery } from "mobx-query-lite";
 import { platform } from "../../lib/platform/platform.ts";
-import { reportHandledError } from "../../lib/rollbar/rollbar.tsx";
+import { notifyError } from "./snackbar/snackbar.tsx";
 import { deckListStore } from "../../store/deck-list-store.ts";
 import { screenStore } from "../../store/screen-store.ts";
 
@@ -88,10 +88,10 @@ export class DeleteItemModalStore {
     });
     if (!result.ok) {
       const targetId = getLibraryItemId(target);
-      reportHandledError(
-        `Unable to remove ${target.type} ${targetId}`,
-        result.error,
-      );
+      notifyError({
+        e: result.error,
+        info: `Unable to remove ${target.type} ${targetId}`,
+      });
       return;
     }
 

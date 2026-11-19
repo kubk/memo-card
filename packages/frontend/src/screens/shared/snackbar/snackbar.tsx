@@ -4,6 +4,7 @@ import { userStore } from "../../../store/user-store.ts";
 import { platform } from "../../../lib/platform/platform.ts";
 import { t } from "../../../translations/t.ts";
 import { toastStore } from "./toast-store.ts";
+import { isNetworkError } from "../../../api/is-network-error.ts";
 
 const defaultDuration = 3000;
 const loadingDuration = 10000;
@@ -38,16 +39,19 @@ export const notifyLoading = (message: string) => {
 };
 
 export const notifyError = (report?: any) => {
-  const message = t("error_solving");
+  const message = isNetworkError(report)
+    ? t("error_network")
+    : t("error_solving");
 
-  toastStore.show({
-    variant: "error",
-    title: t("error"),
-    message,
-    duration: defaultDuration,
-  });
-
-  platform.haptic("error");
+  if (!toastStore.toasts.some((toast) => toast.message === message)) {
+    toastStore.show({
+      variant: "error",
+      title: t("error"),
+      message,
+      duration: defaultDuration,
+    });
+    platform.haptic("error");
+  }
 
   if (report) {
     report.userId = userStore.user?.id;

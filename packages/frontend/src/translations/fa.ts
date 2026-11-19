@@ -339,6 +339,7 @@ export const fa = {
   freeze_notified: "به شما اطلاع داده خواهد شد در",
   freeze_hint: "به تعویق انداختن مطالعه کارت‌ها",
   error_solving: "ما در حال حل مشکل هستیم",
+  error_network: "اتصال اینترنت خود را بررسی کنید و دوباره تلاش کنید",
   error: "خطا",
   user_settings_updated: "تنظیمات به‌روز شد",
   confirm_cancel: "لغو",

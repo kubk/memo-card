@@ -103,6 +103,7 @@ export const ptBr = {
   error: "Erro",
   user_settings_updated: "Configurações atualizadas",
   error_solving: "Estamos resolvendo o problema",
+  error_network: "Verifique sua conexão com a internet e tente novamente",
   folder_form_no_decks: "Não há baralhos na pasta",
   card_next: "Próxima",
   card_previous: "Anterior",

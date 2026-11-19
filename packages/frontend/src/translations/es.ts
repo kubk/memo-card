@@ -347,6 +347,7 @@ export const es = {
   freeze_title: "Congelar tarjetas",
   freeze_hint: "Posponer el estudio de las tarjetas",
   error_solving: "Estamos resolviendo el problema",
+  error_network: "Comprueba tu conexión a internet e inténtalo de nuevo",
   quit_without_saving: "¿Salir sin guardar?",
   error: "Error",
 

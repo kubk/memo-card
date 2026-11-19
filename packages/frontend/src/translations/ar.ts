@@ -338,6 +338,7 @@ export const ar = {
   freeze_notified: "ستتلقى إشعارًا في",
   freeze_hint: "تأجيل دراسة البطاقات",
   error_solving: "نحن نحل المشكلة",
+  error_network: "تحقق من اتصالك بالإنترنت وحاول مرة أخرى",
   error: "خطأ",
   user_settings_updated: "تم تحديث الإعدادات",
   confirm_cancel: "إلغاء",

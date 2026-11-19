@@ -352,6 +352,7 @@ export const uk = {
   freeze_notified: "Ви отримаєте сповіщення",
   freeze_hint: "Відкласти вивчення карток",
   error_solving: "Ми вирішуємо проблему",
+  error_network: "Перевірте підключення до інтернету та спробуйте ще раз",
   error: "Помилка",
   add_card_short: "Додати картку",
 

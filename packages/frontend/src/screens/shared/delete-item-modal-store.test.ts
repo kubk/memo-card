@@ -23,8 +23,8 @@ vi.mock("../../lib/platform/platform.ts", () => ({
   platform: { haptic: mocks.haptic },
 }));
 
-vi.mock("../../lib/rollbar/rollbar.tsx", () => ({
-  reportHandledError: vi.fn(),
+vi.mock("./snackbar/snackbar.tsx", () => ({
+  notifyError: vi.fn(),
 }));
 
 vi.mock("../../store/deck-list-store.ts", () => ({

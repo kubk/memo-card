@@ -352,6 +352,7 @@ export const ru = {
   validate_under_100: "Пожалуйста, введите число меньше 100",
   freeze_hint: "Отложите изучение карточек",
   error_solving: "Мы решаем проблему",
+  error_network: "Проверьте подключение к интернету и попробуйте снова",
   quit_without_saving: "Выйти без сохранения?",
 
   // Global Search
