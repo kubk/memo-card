@@ -109,7 +109,7 @@ export function BottomNavigation({ children }: { children: ReactNode }) {
       className={cn(
         "absolute inset-0 flex flex-col",
         isVisible &&
-          "[--bottom-navigation-inset:max(0px,calc(var(--app-bottom-inset)_-_1rem))] [[data-platform=telegram]_&]:[--bottom-navigation-inset:var(--app-bottom-inset)] [--app-bottom-control-offset:calc(4rem_+_var(--bottom-navigation-inset)_+_var(--app-bottom-control-gap))]",
+          "[--bottom-navigation-inset:max(0px,calc(var(--app-bottom-inset)_-_1rem))] [[data-platform=telegram]_&]:[--bottom-navigation-inset:var(--app-bottom-inset)] [[data-platform=telegram][data-os=android]_&]:[--bottom-navigation-inset:max(var(--app-bottom-inset),0.75rem)] [--app-bottom-control-offset:calc(4rem_+_var(--bottom-navigation-inset)_+_var(--app-bottom-control-gap))]",
       )}
     >
       <div

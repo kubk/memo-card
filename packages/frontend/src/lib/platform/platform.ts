@@ -54,5 +54,8 @@ export const platform = createPlatform();
 export function initializePlatform() {
   document.documentElement.dataset.platform =
     platform instanceof TelegramPlatform ? "telegram" : "browser";
+  if (platform instanceof TelegramPlatform && platform.isAndroid()) {
+    document.documentElement.dataset.os = "android";
+  }
   platform.initialize();
 }
