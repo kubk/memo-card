@@ -95,8 +95,10 @@ function PositionCard({
 function LeaderboardRow({ entry }: { entry?: LeaderboardEntry }) {
   return (
     <div
+      data-current-user={entry?.isCurrentUser || undefined}
       className={cn(
-        "flex min-h-13 items-center gap-3 border-b border-secondary-bg px-3 last:border-b-0",
+        "flex min-h-13 items-center gap-3 border-b border-secondary-bg px-3 last:border-b-0 [&:has(+[data-current-user])]:border-b-transparent",
+        entry?.isCurrentUser && "border-b-transparent",
         entry?.isCurrentUser &&
           entry.rank === 1 &&
           "bg-[#fff5d6] text-[#6b4200] dark:bg-[#4a350f] dark:text-[#ffd76a]",
