@@ -13,7 +13,8 @@
   }
 
   :root[data-platform="telegram"] {
-    --app-viewport-height: var(--tg-viewport-height, 100dvh);
+    /* Telegram for Android can report a viewport taller than the WebView, which lets the whole page scroll */
+    --app-viewport-height: min(var(--tg-viewport-height, 100dvh), 100dvh);
     --app-safe-area-top: var(--tg-safe-area-inset-top, env(safe-area-inset-top));
     --app-content-safe-area-top: var(--tg-content-safe-area-inset-top, 0rem);
     --app-bottom-inset: calc(
